@@ -1,0 +1,102 @@
+[00:00:00] Hi, I'm Annie.
+[00:00:01] >> And I'm Io.
+[00:00:02] >> Hey builders, stop typing and start
+[00:00:05] interacting. We're moving beyond the
+[00:00:07] text box. The future isn't just about
+[00:00:09] chatting with AI. It's about immersive
+[00:00:12] realtime experience. And to celebrate
+[00:00:14] the power of multimodel AI, we are
+[00:00:17] launching the German live agent
+[00:00:19] challenge. We're challenging to build
+[00:00:21] the next generation of agents that can
+[00:00:24] help you see, hear, speak, and more.
+[00:00:27] We've got 80,000 in cash prizes and a
+[00:00:30] chance to head to Google Cloud Next in
+[00:00:31] 2026 in Las Vegas.
+[00:00:33] >> And your mission is to build and deploy
+[00:00:35] an AI agent on Google Cloud that utilize
+[00:00:38] multimodal inputs and outputs. We want
+[00:00:40] you to go beyond the traditional text in
+[00:00:43] text out approach.
+[00:00:44] >> You can build your solution in one of
+[00:00:46] three categories. Category one, the live
+[00:00:49] agent. This is all about real-time
+[00:00:51] interaction. Build an agent you can talk
+[00:00:53] to naturally, one that handles
+[00:00:54] interruptions gracefully. Think
+[00:00:56] real-time translators or vision enabled
+[00:00:58] tutors or crisis negotiators.
+[00:01:00] >> And category two, the creative
+[00:01:02] storyteller agent. This is all about
+[00:01:05] taking storytelling to the next level.
+[00:01:07] With Gemini's native interl
+[00:01:09] capabilities, your agent can blend text,
+[00:01:12] images, audio, and video into one
+[00:01:15] seamless experience. Imagine building an
+[00:01:18] interactive story book or a full
+[00:01:20] marketing asset generator all in a
+[00:01:22] single workflow. Category three, the UI
+[00:01:25] navigator. We want you to build an agent
+[00:01:27] that can be a helping hand. Your agent
+[00:01:29] should interpret visual screens like a
+[00:01:31] browser or device display and perform
+[00:01:33] actions based on user intent. Maybe you
+[00:01:35] want to create a universal web navigator
+[00:01:36] or even a visual QA tester. We're
+[00:01:39] excited to see it all. For any of these,
+[00:01:41] you must use a Gemini model like Gemini
+[00:01:43] 3 or Nano Banana and then Genai SDK or
+[00:01:46] agent development kit. Lastly, you must
+[00:01:48] use at least one Google cloud service.
+[00:01:50] For example, a data store like Fire
+[00:01:52] Store, Cloud SQL, Cloud Storage, or
+[00:01:55] platform services like Cloud Run or
+[00:01:57] Vert.x AI.
+[00:01:58] >> Now, you won't be building this alone.
+[00:02:00] We have everything you need to get
+[00:02:02] started. Check out the quick starts,
+[00:02:05] tutorials, and our upcoming webinars
+[00:02:07] hosted by Google Experts. You can find
+[00:02:09] all the links in the video description
+[00:02:12] and on the hackathon homepage.
+[00:02:14] >> Feel like you have a winning submission
+[00:02:15] ready to go along with the hosted
+[00:02:17] project URL and a text description? Make
+[00:02:19] sure to check if you have everything
+[00:02:20] [music] you need to qualify. Number one,
+[00:02:22] you need a public code repository so we
+[00:02:25] can see how you built your project.
+[00:02:27] Number two, an architecture diagram and
+[00:02:29] setup guide. You need to show us how
+[00:02:30] Gemini or ADK is integrated in your
+[00:02:32] solution. And number three, a demo video
+[00:02:36] that is less than 4 minutes long. This
+[00:02:38] is critical. We need to see your agent
+[00:02:39] working in real time, no mockups, and
+[00:02:42] you must show proof that your backend is
+[00:02:43] running on Google Cloud, like showing
+[00:02:45] the Cloud Run dashboard or a live URL.
+[00:02:48] Now that you have everything ready to
+[00:02:49] go, want to boost your score? Lucky for
+[00:02:52] you, we have bonus points. You can earn
+[00:02:54] extra points by firstly publishing a
+[00:02:57] blog post or video about your project.
+[00:03:00] Don't forget to use the hashtag Gemini
+[00:03:02] live agent challenge and secondly
+[00:03:05] including automation scripts or tools
+[00:03:07] used for cloud deployment in the Git
+[00:03:09] repository.
+[00:03:10] >> Okay, and now for the best part, the
+[00:03:12] prizes. We're talking cash, Google Cloud
+[00:03:15] credits, virtual coffee chats with the
+[00:03:17] Google Cloud team like me and Annie, and
+[00:03:19] for a grand prize winner, a trip to
+[00:03:20] Google Cloud Next 2026. That includes
+[00:03:23] tickets and a tribal stipen to meet the
+[00:03:25] team in person.
+[00:03:25] >> The Gemini Live Agent Challenge is open
+[00:03:28] for submission from February 16th to
+[00:03:31] March 16th. Head over to Gemini Live
+[00:03:34] Agent Challenge.
+[00:03:36] To register today,
+[00:03:37] >> let's build the future of a
