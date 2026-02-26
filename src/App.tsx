@@ -4,8 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
 
+Logger.info("[CORE]", "Application booted");
 const queryClient = new QueryClient();
 
 const App = () => (
