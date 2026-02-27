@@ -26,18 +26,23 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 2: Authentication, State, & Data Access
 *Focus: Secure access, distinguishing role authorities, and populating the educational matrix.*
 *   **[x] Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
-*   **[x] Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state).
+    *   **[x] Task 2.1a:** Persist auth state across refreshes (Zustand persist middleware with sessionStorage).
+*   **[x] Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state). *(Scaffolded/mocked — will fetch live data when Worker endpoints are wired.)*
+    *   **[ ] Task 2.2a:** Fetch family profiles from D1 (`GET /api/family/:id/profiles`).
 *   **[x] Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
 *   **[x] Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix (specifically the Language & Literacy "Narrative Sequencing" constraints for the MVP).
-*   **[x] Task 2.5:** Implement multi-learner profile switching on a shared device. The Blueprint emphasizes device sharing — parents and multiple children must seamlessly switch between their views on a single tablet/phone without full re-authentication (e.g., parent PIN unlock, learner profile tap).
+*   **[x] Task 2.5:** Implement multi-learner profile switching on a shared device.
 *   **[x] Task 2.6:** Build a role-based access guard — ensure learners cannot access parent dashboard routes, and parents see the correct dashboard for the active family. Log all role transitions.
+*   **[ ] Task 2.7:** Configure production API URL via `VITE_API_URL` environment variable.
 
 ## Phase 3: The Learner Interface & Task Selection
 *Focus: The "Spartan" environment where children execute tasks.*
-*   **Task 3.1:** Build the Learner UI Shell (Distraction-free, pure focus). Must be mobile-first / tablet-optimized — the Blueprint specifies families often use a single phone or tablet. Test at 768px, 414px, and 360px widths.
-*   **Task 3.2:** Display active/stalled tasks for the specific learner based on their current arc stage.
-*   **Task 3.3:** Build the "Witness Button" and task briefing component (pre-AI interaction screen).
-*   **Task 3.4:** Build a camera/microphone permissions flow with clear, child-friendly consent prompts. Handle denied permissions gracefully (explain what's needed and why, offer retry). This is critical since the app accesses camera/mic for minors.
+*   **[x] Task 3.1:** Build the Learner UI Shell (Distraction-free, pure focus). Must be mobile-first / tablet-optimized — the Blueprint specifies families often use a single phone or tablet. Test at 768px, 414px, and 360px widths.
+*   **[x] Task 3.2:** Display active/stalled tasks for the specific learner based on their current arc stage.
+*   **[x] Task 3.3:** Build the "Witness Button" and task briefing component (pre-AI interaction screen).
+*   **[x] Task 3.4:** Build a camera/microphone permissions flow with clear, child-friendly consent prompts. Handle denied permissions gracefully (explain what’s needed and why, offer retry). This is critical since the app accesses camera/mic for minors.
+*   **[ ] Task 3.5:** Add React Error Boundary wrapper for graceful crash handling.
+*   **[ ] Task 3.6:** Wire offline detection to `uiStore.isOffline` for low-bandwidth resilience.
 
 ## Phase 4: The Agent Engine & Gemini Live Integration
 *Focus: The heavy lifting for the Hackathon—bridging GCP and Gemini.*

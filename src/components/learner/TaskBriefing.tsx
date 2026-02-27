@@ -3,6 +3,7 @@ import { Camera, Mic } from 'lucide-react';
 import { WitnessButton } from './WitnessButton';
 import { MatrixTask } from './TaskCard';
 import { PermissionsFlow } from './PermissionsFlow';
+import { EvidenceWitness } from './EvidenceWitness';
 import { Button } from '@/components/ui/button';
 
 interface TaskBriefingProps {
@@ -13,10 +14,16 @@ interface TaskBriefingProps {
 export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
     const [requestingPermissions, setRequestingPermissions] = useState(false);
 
+    const [sessionStarted, setSessionStarted] = useState(false);
+
     // Parse required evidence from the JSON constraint
     const evidence = task.constraint_to_enforce.required_evidence || [];
     const needsCamera = evidence.includes('snapshot') || evidence.includes('video');
     const needsMic = evidence.includes('audio_transcript');
+
+    if (sessionStarted) {
+        return <EvidenceWitness task={task} onComplete={onClose} />;
+    }
 
     if (requestingPermissions) {
         return (
@@ -24,16 +31,13 @@ export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
                 needsCamera={needsCamera}
                 needsMic={needsMic}
                 onSuccess={() => {
-                    // Phase 5 will handle Gemini connection here.
-                    // For now, we just close the flow or show a success state.
                     setRequestingPermissions(false);
-                    onClose();
+                    setSessionStarted(true);
                 }}
                 onCancel={() => setRequestingPermissions(false)}
             />
         );
     }
-
     return (
         <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
             <Button

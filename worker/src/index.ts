@@ -124,6 +124,42 @@ export default {
             }
         }
 
+        const taskMatch = url.pathname.match(/^\/api\/task\/([^/]+)$/);
+        if (taskMatch && request.method === 'GET') {
+            const taskId = taskMatch[1];
+            try {
+                console.log(`[DB] Fetching task: ${taskId}`);
+                const task = await env.DB.prepare('SELECT * FROM Matrix_Tasks WHERE id = ?').bind(taskId).first();
+
+                if (!task) {
+                    return new Response(JSON.stringify({ error: 'Task not found' }), {
+                        status: 404,
+                        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    });
+                }
+
+                // Parse JSON fields to make them easy to use in frontend/agent
+                const parsedTask = {
+                    ...task,
+                    constraint_to_enforce: task.constraint_to_enforce ? JSON.parse(task.constraint_to_enforce as string) : null,
+                    failure_condition: task.failure_condition ? JSON.parse(task.failure_condition as string) : null,
+                    success_condition: task.success_condition ? JSON.parse(task.success_condition as string) : null,
+                    role_instruction: task.role_instruction ? JSON.parse(task.role_instruction as string) : null,
+                };
+
+                return new Response(JSON.stringify(parsedTask), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [Task Fetch Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch task', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,

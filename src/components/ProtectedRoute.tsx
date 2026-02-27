@@ -12,7 +12,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
     allowedRoles = ['parent', 'learner']
 }) => {
-    const { isAuthenticated, role } = useAuthStore();
+    const { isAuthenticated, role, userId } = useAuthStore();
     const location = useLocation();
 
     if (!isAuthenticated) {
@@ -20,11 +20,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     }
 
     if (role && !allowedRoles.includes(role)) {
-        Logger.warn('[SEC WARNING]', `Unauthorized access attempt by ${role} to ${location.pathname}`);
+        Logger.warn('[SEC]', `WARNING: Unauthorized access attempt by ${role} to ${location.pathname}`);
 
         // Redirect based on their actual role
         if (role === 'learner') {
-            const { userId } = useAuthStore.getState();
             return <Navigate to={userId ? `/learner/${userId}` : '/login'} replace />;
         } else if (role === 'parent') {
             return <Navigate to="/dashboard" replace />;

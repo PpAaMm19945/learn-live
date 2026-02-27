@@ -19,7 +19,7 @@ export default function Dashboard() {
                 <header className="flex justify-between items-center mb-8">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight">Parent Command Center</h1>
-                        <p className="text-muted-foreground mt-2">Welcome, Smith Family ({familyId})</p>
+                        <p className="text-muted-foreground mt-2">Welcome, {familyId ? familyId.replace('fam_', '').replace(/^\w/, c => c.toUpperCase()) : 'Family'} Family</p>
                     </div>
                     <div className="flex gap-3">
                         <Button variant="outline" onClick={() => navigate('/profiles')}>

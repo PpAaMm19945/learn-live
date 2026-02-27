@@ -1,0 +1,24 @@
+{
+    "name": "learnlive-agent",
+    "version": "1.0.0",
+    "description": "Agent Engine for Learn Live",
+    "main": "dist/server.js",
+    "scripts": {
+        "start": "node dist/server.js",
+        "build": "tsc",
+        "dev": "ts-node src/server.ts"
+    },
+    "dependencies": {
+        "@google/genai": "^0.1.1",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "ws": "^8.16.0"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.12.7",
+        "@types/ws": "^8.5.10",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5"
+    }
+}
