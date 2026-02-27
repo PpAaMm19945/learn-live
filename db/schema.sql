@@ -1,4 +1,4 @@
--- Core schema for Learn Live / SchoolOS
+-- Core schema for Learn Live / Learn Live
 
 DROP TABLE IF EXISTS Portfolios;
 DROP TABLE IF EXISTS Matrix_Tasks;
@@ -9,6 +9,7 @@ CREATE TABLE Families (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     parent_email TEXT UNIQUE NOT NULL,
+    secondary_email TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );

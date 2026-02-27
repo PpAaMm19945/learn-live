@@ -1,0 +1,18 @@
+# Learn Live Backend Secrets
+# Copy this file to .dev.vars for local development
+# Use `wrangler secret put <KEY>` for production
+
+# Note: D1 and R2 bindings are managed in wrangler.toml, not here.
+# These variables are for actual secrets (e.g. API keys).
+
+# If the worker needs to authenticate with Google Cloud Run (future phase)
+GCP_INVOKER_SERVICE_ACCOUNT_KEY=""
+
+# If the worker needs Gemini access directly
+GEMINI_API_KEY=""
+
+# Admin / Parent Passwords or JWT Secrets (Phase 2+)
+JWT_SECRET="changeme123"
+
+# Used as simple authorization for early /api endpoints
+API_AUTH_TOKEN="development_secret_token"

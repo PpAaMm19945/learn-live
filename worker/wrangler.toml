@@ -1,6 +1,7 @@
 name = "learn-live"
 main = "src/index.ts"
 compatibility_date = "2024-03-25"
+account_id = "4b9e1f0f3d5f50f35db086b8ae9431e1"
 
 # Binding to D1 Database
 [[d1_databases]]

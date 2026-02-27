@@ -1,4 +1,4 @@
-# **SchoolOS: Master Blueprint & Hackathon Strategy**
+# **Learn Live: Master Blueprint & Hackathon Strategy**
 
 **Version:** 1.0 (Draft) **Target:** Gemini Live Agent Challenge 2026 (Category: Live Agents)
 
@@ -71,17 +71,17 @@
 
 ### **The Core Mission**
 
-SchoolOS is not just an app; it is a generational infrastructure project. The core mission is to provide families—especially within the African homeschooling context—with absolute educational sovereignty, robust tools for discipleship, and platforms for economic growth. We believe that education is inherently moral, directional, and formative. Therefore, we are building a system that serves family-centered economies, starting at home and rippling outward to bless others.
+Learn Live is not just an app; it is a generational infrastructure project. The core mission is to provide families—especially within the African homeschooling context—with absolute educational sovereignty, robust tools for discipleship, and platforms for economic growth. We believe that education is inherently moral, directional, and formative. Therefore, we are building a system that serves family-centered economies, starting at home and rippling outward to bless others.
 
 ### **The Paradigm Shift: AI as "Steward of Structure"**
 
 Modern ed-tech is fundamentally misaligned with true human formation. It asks, *"How can AI teach students better?"* and builds gamified AI tutors that bypass parental authority, remove necessary friction, and confuse intelligence with maturity.
 
-SchoolOS introduces a paradigm shift: **AI is an instrument, not an agent.** It possesses no moral authority and cannot replace the parent. Instead, we utilize multimodal AI (vision and voice) as an **"Evidence Witness"** and a **"Steward of Structure."** The AI does not teach meaning; it enforces form, rhythm, constraints, and consequence. It watches a child complete a physical task, listens to their verbal reasoning, and logs the evidence for the parent to judge.
+Learn Live introduces a paradigm shift: **AI is an instrument, not an agent.** It possesses no moral authority and cannot replace the parent. Instead, we utilize multimodal AI (vision and voice) as an **"Evidence Witness"** and a **"Steward of Structure."** The AI does not teach meaning; it enforces form, rhythm, constraints, and consequence. It watches a child complete a physical task, listens to their verbal reasoning, and logs the evidence for the parent to judge.
 
 ### **The End Goal**
 
-Our end goal is not to produce children who can pass standardized tests, but to form faithful, capable, and responsible adults. Inspired by the need to raise godly children in our own homes (like Azie and Arie), SchoolOS is built to scale this reality for the global, faith-rooted homeschooling movement.
+Our end goal is not to produce children who can pass standardized tests, but to form faithful, capable, and responsible adults. Inspired by the need to raise godly children in our own homes (like Azie and Arie), Learn Live is built to scale this reality for the global, faith-rooted homeschooling movement.
 
 ## **II. THE PROBLEM & THE TARGET MARKET**
 
@@ -97,7 +97,7 @@ Our primary user is the **Intentional, Faith-Rooted Parent-Educator**. They are 
 
 ### **The Environmental Constraints**
 
-To serve the African context (and to remain lean and scalable globally), SchoolOS must operate within specific realities:
+To serve the African context (and to remain lean and scalable globally), Learn Live must operate within specific realities:
 
 * **Cost Sensitivity & Bandwidth:** Tools must be affordable and data-efficient. The architecture relies on edge-first simplicity (Cloudflare) for the heavy lifting, only invoking powerful Google Cloud multimodal AI calls during specific, intentional "Evidence Witness" moments to keep costs and data usage low.  
 * **Device Sharing:** Families often share a single tablet or phone. The system must support seamless switching between a Parent Dashboard and Spartan, distraction-free Learner Interfaces for multiple children of varying ages.
@@ -106,21 +106,21 @@ To serve the African context (and to remain lean and scalable globally), SchoolO
 
 ### **Authority & Jurisdiction**
 
-Education requires authority, but authority must be personal, accountable, and morally grounded. Parents hold the non-transferable responsibility for their child’s education. SchoolOS, and the AI within it, operates only by delegation. The system enforces structure, but only the human parent exercises judgment. AI is explicitly forbidden from generating grades, declaring mastery, or auto-advancing a student without parental review.
+Education requires authority, but authority must be personal, accountable, and morally grounded. Parents hold the non-transferable responsibility for their child’s education. Learn Live, and the AI within it, operates only by delegation. The system enforces structure, but only the human parent exercises judgment. AI is explicitly forbidden from generating grades, declaring mastery, or auto-advancing a student without parental review.
 
 ### **Tasks as the Unit of Curriculum**
 
-We are shifting the unit of education away from "lessons" (content consumption) to **"tasks" (responsibility execution)**. A task is defined as a bounded responsibility with explicit constraints, requiring sustained effort, and producing an observable outcome. SchoolOS does not exist to explain concepts endlessly; it exists to present a task, enforce the constraint, and witness the completion.
+We are shifting the unit of education away from "lessons" (content consumption) to **"tasks" (responsibility execution)**. A task is defined as a bounded responsibility with explicit constraints, requiring sustained effort, and producing an observable outcome. Learn Live does not exist to explain concepts endlessly; it exists to present a task, enforce the constraint, and witness the completion.
 
 ### **Habit Through Repetition & Constraint**
 
-Growth occurs through rightly ordered constraint, not unrestricted self-expression. Formation requires discipline, order, repetition, and accountability. Therefore, tasks within SchoolOS are not one-off events. They are built on an arc of volume: **Exposure (1x) → Execution (5x) → Endurance (3x) → Milestone (1x)**. The system intentionally retains friction to build resilience, time sensitivity, and work ethic.
+Growth occurs through rightly ordered constraint, not unrestricted self-expression. Formation requires discipline, order, repetition, and accountability. Therefore, tasks within Learn Live are not one-off events. They are built on an arc of volume: **Exposure (1x) → Execution (5x) → Endurance (3x) → Milestone (1x)**. The system intentionally retains friction to build resilience, time sensitivity, and work ethic.
 
 ## **IV. HACKATHON ALIGNMENT: THE GEMINI LIVE AGENT**
 
 ### **Category Selection: Live Agents**
 
-SchoolOS is targeting the **Live Agents (Real-time Interaction)** category. The challenge mandates breaking the "text box" paradigm and creating an immersive experience that can "see, hear, and speak."
+Learn Live is targeting the **Live Agents (Real-time Interaction)** category. The challenge mandates breaking the "text box" paradigm and creating an immersive experience that can "see, hear, and speak."
 
 ### **The "Evidence Witness" Feature**
 
@@ -137,7 +137,7 @@ We are using the Gemini Live API to create the "Evidence Witness." Instead of a 
 
 ## **V. SYSTEM ARCHITECTURE & TECH STACK**
 
-To maintain a lean, globally accessible, and highly scalable platform that respects African bandwidth constraints while delivering cutting-edge AI, SchoolOS utilizes a hybrid Cloudflare and Google Cloud architecture.
+To maintain a lean, globally accessible, and highly scalable platform that respects African bandwidth constraints while delivering cutting-edge AI, Learn Live utilizes a hybrid Cloudflare and Google Cloud architecture.
 
 ### **Frontend (The Interface)**
 
@@ -219,6 +219,6 @@ To build a winning Devpost submission within the timeframe, we will build a "Ver
 ## **IX. FUTURE ROADMAP (Post-Hackathon)**
 
 1. **Expanding the Domains:** Build out the full matrix for Quantitative Reasoning, The Physical World, and Moral & Social Formation.  
-2. **The Homeschool Marketplace:** Integrate an e-commerce layer (building on the HomeLine Academy vision) allowing other intentional families to create, share, and sell their own physical task kits and curriculum spines that plug into the SchoolOS matrix.  
+2. **The Homeschool Marketplace:** Integrate an e-commerce layer (building on the HomeLine Academy vision) allowing other intentional families to create, share, and sell their own physical task kits and curriculum spines that plug into the Learn Live matrix.  
 3. **Longitudinal Portfolios:** Enhance the R2 storage to generate beautiful, exportable "Years in Review" for children, documenting their character formation and intellectual growth over a decade, serving as a transcript of actual responsibility borne rather than arbitrary test scores.
 

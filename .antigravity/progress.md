@@ -5,7 +5,15 @@
 *   [x] **Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend.
 *   [x] **Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
 *   [x] **Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
-*   [ ] **Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions.
-*   [ ] **Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend.
-*   [ ] **Task 1.7:** Set up environment & secrets management.
-*   [ ] **Task 1.8:** Design the 3D Responsibility Matrix schema in detail.
+*   [x] **Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions.
+*   [x] **Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend.
+*   [x] **Task 1.7:** Set up environment & secrets management.
+*   [x] **Task 1.8:** Design the 3D Responsibility Matrix schema in detail.
+
+## Phase 2: Authentication, State, & Data Access
+*   [x] **Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
+*   [x] **Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state).
+*   [x] **Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
+*   [x] **Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix.
+*   [x] **Task 2.5:** Implement multi-learner profile switching on a shared device.
+*   [x] **Task 2.6:** Build a role-based access guard.

@@ -1,6 +1,6 @@
-# SchoolOS: Master Development Roadmap
+# Learn Live: Master Development Roadmap
 
-This roadmap outlines the phased development of the SchoolOS application. Our methodology ensures rigorous testing and verification before advancing to the next phase. All components will feature deeply embedded markers and robust console logging to track state, flow, and constraints transparently.
+This roadmap outlines the phased development of the Learn Live application. Our methodology ensures rigorous testing and verification before advancing to the next phase. All components will feature deeply embedded markers and robust console logging to track state, flow, and constraints transparently.
 
 ## Philosophical & Architecture Alignment
 *   **Goal:** Form faithful, responsible adults through structured friction and real-world task execution.
@@ -14,23 +14,23 @@ This roadmap outlines the phased development of the SchoolOS application. Our me
 
 ## Phase 1: Foundation, Infrastructure, & Core Utilities
 *Focus: Setting up the skeleton, routing, database schemas, and the robust logging infrastructure.*
-*   **Task 1.1:** Scaffold React/Vite frontend with Tailwind CSS (Dark Mode, Spartan design system).
-*   **Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend (capturing trace, debug, info, warn, error with timestamps and context markers).
-*   **Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
-*   **Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
-*   **Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions (for future evidence snapshots and transcripts).
-*   **Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend (request/response shapes, auth headers, WebSocket message protocol). Document in `docs/API_Contract.md`.
-*   **Task 1.7:** Set up environment & secrets management (Gemini API keys, GCP service account credentials, D1 bindings, R2 tokens). Document which secrets are needed and where they live.
-*   **Task 1.8:** Design the 3D Responsibility Matrix schema in detail — map the X (Arena), Y (Capacity/Level), and Z (Repetition Arc) axes to concrete D1 tables and relationships. Validate the JSON Cell Structure from the Blueprint against the schema. Document in `docs/Matrix_Schema.md`.
+*   **[x] Task 1.1:** Scaffold React/Vite frontend with Tailwind CSS (Dark Mode, Spartan design system).
+*   **[x] Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend (capturing trace, debug, info, warn, error with timestamps and context markers).
+*   **[x] Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
+*   **[x] Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
+*   **[ ] Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions (for future evidence snapshots and transcripts).
+*   **[ ] Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend (request/response shapes, auth headers, WebSocket message protocol). Document in `docs/API_Contract.md`.
+*   **[ ] Task 1.7:** Set up environment & secrets management (Gemini API keys, GCP service account credentials, D1 bindings, R2 tokens). Document which secrets are needed and where they live.
+*   **[ ] Task 1.8:** Design the 3D Responsibility Matrix schema in detail — map the X (Arena), Y (Capacity/Level), and Z (Repetition Arc) axes to concrete D1 tables and relationships. Validate the JSON Cell Structure from the Blueprint against the schema. Document in `docs/Matrix_Schema.md`.
 
 ## Phase 2: Authentication, State, & Data Access
 *Focus: Secure access, distinguishing role authorities, and populating the educational matrix.*
-*   **Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
-*   **Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state).
-*   **Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
-*   **Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix (specifically the Language & Literacy "Narrative Sequencing" constraints for the MVP).
-*   **Task 2.5:** Implement multi-learner profile switching on a shared device. The Blueprint emphasizes device sharing — parents and multiple children must seamlessly switch between their views on a single tablet/phone without full re-authentication (e.g., parent PIN unlock, learner profile tap).
-*   **Task 2.6:** Build a role-based access guard — ensure learners cannot access parent dashboard routes, and parents see the correct dashboard for the active family. Log all role transitions.
+*   **[x] Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
+*   **[x] Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state).
+*   **[x] Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
+*   **[x] Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix (specifically the Language & Literacy "Narrative Sequencing" constraints for the MVP).
+*   **[x] Task 2.5:** Implement multi-learner profile switching on a shared device. The Blueprint emphasizes device sharing — parents and multiple children must seamlessly switch between their views on a single tablet/phone without full re-authentication (e.g., parent PIN unlock, learner profile tap).
+*   **[x] Task 2.6:** Build a role-based access guard — ensure learners cannot access parent dashboard routes, and parents see the correct dashboard for the active family. Log all role transitions.
 
 ## Phase 3: The Learner Interface & Task Selection
 *Focus: The "Spartan" environment where children execute tasks.*
