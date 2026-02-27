@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, Palette, Brain, Activity, Code, Heart, DefaultIcon as HelpCircle } from 'lucide-react';
+import { BookOpen, Palette, Brain, Activity, HelpCircle } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 
 export interface MatrixTask {

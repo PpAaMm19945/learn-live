@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/lib/auth';
+import { Logger } from '@/lib/Logger';
 import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { MatrixTask, TaskCard } from '@/components/learner/TaskCard';
@@ -8,10 +9,11 @@ import { TaskBriefing } from '@/components/learner/TaskBriefing';
 import { Loader2 } from 'lucide-react';
 
 const fetchTasks = async (learnerId: string): Promise<MatrixTask[]> => {
-    // Assuming backend is at /api and proxied by vite in dev mode
+    Logger.info('[UI]', `Fetching tasks for learner: ${learnerId}`);
     const res = await fetch(`/api/learner/${learnerId}/tasks`);
     if (!res.ok) throw new Error('Failed to fetch tasks');
     const data = await res.json();
+    Logger.info('[UI]', `Loaded ${(data.tasks || []).length} tasks for ${learnerId}`);
     return data.tasks || [];
 };
 
@@ -20,6 +22,11 @@ export default function LearnerDashboard() {
     const { logout } = useAuthStore();
     const navigate = useNavigate();
     const [selectedTask, setSelectedTask] = useState<MatrixTask | null>(null);
+
+    const handleTaskSelect = (task: MatrixTask) => {
+        Logger.info('[UI]', `Task selected: ${task.id} — ${task.capacity} (${task.arc_stage})`);
+        setSelectedTask(task);
+    };
 
     const { data: tasks, isLoading, error } = useQuery({
         queryKey: ['learner-tasks', learnerId],
@@ -70,7 +77,7 @@ export default function LearnerDashboard() {
             {!isLoading && tasks && tasks.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center md:place-items-start">
                     {tasks.map((task: MatrixTask) => (
-                        <TaskCard key={task.id} task={task} onClick={(t) => setSelectedTask(t)} />
+                        <TaskCard key={task.id} task={task} onClick={handleTaskSelect} />
                     ))}
                 </div>
             )}

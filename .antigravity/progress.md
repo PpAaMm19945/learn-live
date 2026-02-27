@@ -17,3 +17,9 @@
 *   [x] **Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix.
 *   [x] **Task 2.5:** Implement multi-learner profile switching on a shared device.
 *   [x] **Task 2.6:** Build a role-based access guard.
+
+## Phase 3: Learner Interface, Task Display, & Witness Button
+*   [x] **Task 3.1:** Worker API endpoint `GET /api/learner/:id/tasks` — queries D1 for Matrix_Tasks by responsibility level.
+*   [x] **Task 3.2:** Learner Dashboard upgrade — task-fetching dashboard with child-friendly task cards, loading/error states, Logger integration.
+*   [x] **Task 3.3:** Task Card & Task Briefing components — reusable card with domain icon, capacity, arc stage; full-screen briefing with evidence requirement icons.
+*   [x] **Task 3.4:** Witness Button & Permissions Flow — animated summon button, child-friendly camera/mic permission handler with granted/denied states.
