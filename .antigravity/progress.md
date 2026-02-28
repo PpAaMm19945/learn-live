@@ -26,8 +26,8 @@
 *   [x] **Task 3.2:** Display active/stalled tasks for the specific learner.
 *   [x] **Task 3.3:** Build the "Witness Button" and task briefing component.
 *   [x] **Task 3.4:** Build camera/microphone permissions flow.
-*   [ ] **Task 3.5:** Add React Error Boundary wrapper.
-*   [ ] **Task 3.6:** Wire offline detection to `uiStore.isOffline`.
+*   [x] **Task 3.5:** Add React Error Boundary wrapper.
+*   [x] **Task 3.6:** Wire offline detection to `uiStore.isOffline`.
 
 ## Audit Fixes Applied (2026-02-27)
 *   [x] **Fix 1:** Added `[SEC]` to `LogContext` in `Logger.ts`.

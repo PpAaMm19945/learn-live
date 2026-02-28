@@ -25,11 +25,12 @@ export async function fetchAndAssembleInstruction(taskId: string): Promise<strin
 
     let systemInstruction = `Role: ${role_instruction.role}\n`;
     systemInstruction += `Instruction: ${role_instruction.instruction}\n`;
+    systemInstruction += `Personality: ${role_instruction.personality || 'Encouraging'}\n`;
     systemInstruction += `Greeting: ${role_instruction.greeting}\n\n`;
 
-    systemInstruction += "Constraints to Enforce:\n" + constraint_to_enforce.map((c: string) => `- ${c}`).join('\n') + "\n\n";
-    systemInstruction += "Failure Conditions:\n" + failure_condition.map((c: string) => `- ${c}`).join('\n') + "\n\n";
-    systemInstruction += "Success Conditions:\n" + success_condition.map((c: string) => `- ${c}`).join('\n') + "\n";
+    systemInstruction += "Constraints to Enforce:\n" + `- Type: ${constraint_to_enforce.type}\n- Description: ${constraint_to_enforce.description}\n- Timeout: ${constraint_to_enforce.timeout_seconds}s\n\n`;
+    systemInstruction += "Failure Conditions:\n" + `- ${failure_condition.condition} -> Action: ${failure_condition.action}\n\n`;
+    systemInstruction += "Success Conditions:\n" + `- ${success_condition.condition} -> Action: ${success_condition.action}\n`;
 
     // Log assembled instruction (truncated)
     console.log(`[AGENT] System instruction assembled for task: ${taskId} (${systemInstruction.substring(0, 100).replace(/\n/g, ' ')}...)`);

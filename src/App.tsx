@@ -11,53 +11,78 @@ import LearnerDashboard from "./pages/learner/LearnerDashboard";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { useUIStore } from "./lib/uiStore";
+import { useEffect } from "react";
 
 Logger.info("[CORE]", "Application booted");
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
+const App = () => {
+  const setOffline = useUIStore((state) => state.setOffline);
 
-          {/* Profile switcher — shared-device dispatch center */}
-          <Route
-            path="/profiles"
-            element={
-              <ProtectedRoute allowedRoles={['parent', 'learner']}>
-                <ProfileSelect />
-              </ProtectedRoute>
-            }
-          />
+  useEffect(() => {
+    const handleOnline = () => setOffline(false);
+    const handleOffline = () => setOffline(true);
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={['parent']}>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/learner/:learnerId"
-            element={
-              <ProtectedRoute allowedRoles={['learner']}>
-                <LearnerDashboard />
-              </ProtectedRoute>
-            }
-          />
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
 
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+    // Initial check
+    setOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [setOffline]);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ErrorBoundary>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/login" element={<Login />} />
+
+              {/* Profile switcher — shared-device dispatch center */}
+              <Route
+                path="/profiles"
+                element={
+                  <ProtectedRoute allowedRoles={['parent', 'learner']}>
+                    <ProfileSelect />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['parent']}>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/learner/:learnerId"
+                element={
+                  <ProtectedRoute allowedRoles={['learner']}>
+                    <LearnerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </ErrorBoundary>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

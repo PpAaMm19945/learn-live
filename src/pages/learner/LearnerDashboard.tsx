@@ -11,7 +11,8 @@ import { Loader2 } from 'lucide-react';
 
 const fetchTasks = async (learnerId: string): Promise<MatrixTask[]> => {
     Logger.info('[UI]', `Fetching tasks for learner: ${learnerId}`);
-    const res = await fetch(`/api/learner/${learnerId}/tasks`);
+    const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+    const res = await fetch(`${apiUrl}/api/learner/${learnerId}/tasks`);
     if (!res.ok) throw new Error('Failed to fetch tasks');
     const data = await res.json();
     Logger.info('[UI]', `Loaded ${(data.tasks || []).length} tasks for ${learnerId}`);

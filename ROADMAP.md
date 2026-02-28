@@ -18,22 +18,22 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend (capturing trace, debug, info, warn, error with timestamps and context markers).
 *   **[x] Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
 *   **[x] Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
-*   **[ ] Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions (for future evidence snapshots and transcripts).
-*   **[ ] Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend (request/response shapes, auth headers, WebSocket message protocol). Document in `docs/API_Contract.md`.
-*   **[ ] Task 1.7:** Set up environment & secrets management (Gemini API keys, GCP service account credentials, D1 bindings, R2 tokens). Document which secrets are needed and where they live.
-*   **[ ] Task 1.8:** Design the 3D Responsibility Matrix schema in detail — map the X (Arena), Y (Capacity/Level), and Z (Repetition Arc) axes to concrete D1 tables and relationships. Validate the JSON Cell Structure from the Blueprint against the schema. Document in `docs/Matrix_Schema.md`.
+*   **[x] Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions (for future evidence snapshots and transcripts).
+*   **[x] Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend (request/response shapes, auth headers, WebSocket message protocol). Document in `docs/API_Contract.md`.
+*   **[x] Task 1.7:** Set up environment & secrets management (Gemini API keys, GCP service account credentials, D1 bindings, R2 tokens). Document which secrets are needed and where they live.
+*   **[x] Task 1.8:** Design the 3D Responsibility Matrix schema in detail — map the X (Arena), Y (Capacity/Level), and Z (Repetition Arc) axes to concrete D1 tables and relationships. Validate the JSON Cell Structure from the Blueprint against the schema. Document in `docs/Matrix_Schema.md`.
 
 ## Phase 2: Authentication, State, & Data Access
 *Focus: Secure access, distinguishing role authorities, and populating the educational matrix.*
 *   **[x] Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
     *   **[x] Task 2.1a:** Persist auth state across refreshes (Zustand persist middleware with sessionStorage).
 *   **[x] Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state). *(Scaffolded/mocked — will fetch live data when Worker endpoints are wired.)*
-    *   **[ ] Task 2.2a:** Fetch family profiles from D1 (`GET /api/family/:id/profiles`).
+    *   **[x] Task 2.2a:** Fetch family profiles from D1 (`GET /api/family/:id/profiles`).
 *   **[x] Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
 *   **[x] Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix (specifically the Language & Literacy "Narrative Sequencing" constraints for the MVP).
 *   **[x] Task 2.5:** Implement multi-learner profile switching on a shared device.
 *   **[x] Task 2.6:** Build a role-based access guard — ensure learners cannot access parent dashboard routes, and parents see the correct dashboard for the active family. Log all role transitions.
-*   **[ ] Task 2.7:** Configure production API URL via `VITE_API_URL` environment variable.
+*   **[x] Task 2.7:** Configure production API URL via `VITE_API_URL` environment variable.
 
 ## Phase 3: The Learner Interface & Task Selection
 *Focus: The "Spartan" environment where children execute tasks.*
@@ -41,8 +41,8 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 3.2:** Display active/stalled tasks for the specific learner based on their current arc stage.
 *   **[x] Task 3.3:** Build the "Witness Button" and task briefing component (pre-AI interaction screen).
 *   **[x] Task 3.4:** Build a camera/microphone permissions flow with clear, child-friendly consent prompts. Handle denied permissions gracefully (explain what’s needed and why, offer retry). This is critical since the app accesses camera/mic for minors.
-*   **[ ] Task 3.5:** Add React Error Boundary wrapper for graceful crash handling.
-*   **[ ] Task 3.6:** Wire offline detection to `uiStore.isOffline` for low-bandwidth resilience.
+*   **[x] Task 3.5:** Add React Error Boundary wrapper for graceful crash handling.
+*   **[x] Task 3.6:** Wire offline detection to `uiStore.isOffline` for low-bandwidth resilience.
 
 ## Phase 4: The Agent Engine & Gemini Live Integration
 *Focus: The heavy lifting for the Hackathon—bridging GCP and Gemini.*
@@ -75,8 +75,8 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
 *   **[x] Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
 *   **[x] Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
-*   **[x] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
-*   **[x] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
+*   **[ ] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
+*   **[ ] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
 
 ## Phase 8: Hackathon Polish, Scripts, & Submission
 *Focus: Ensuring we ace the Devpost checklist.*

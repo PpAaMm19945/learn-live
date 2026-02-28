@@ -1,9 +1,21 @@
 export interface ConstraintJSON {
-    constraint_to_enforce?: string[];
-    failure_condition?: string[];
-    success_condition?: string[];
+    constraint_to_enforce?: {
+        type?: string;
+        description?: string;
+        required_evidence?: string[];
+        timeout_seconds?: number;
+    };
+    failure_condition?: {
+        condition?: string;
+        action?: string;
+    };
+    success_condition?: {
+        condition?: string;
+        action?: string;
+    };
     role_instruction?: {
         role?: string;
+        personality?: string;
         instruction?: string;
         greeting?: string;
     };
@@ -13,17 +25,17 @@ export function validateConstraint(constraint: any): constraint is ConstraintJSO
     if (!constraint) return false;
 
     // Validate constraint_to_enforce
-    if (!constraint.constraint_to_enforce || !Array.isArray(constraint.constraint_to_enforce)) {
+    if (!constraint.constraint_to_enforce || typeof constraint.constraint_to_enforce !== 'object') {
         return false;
     }
 
     // Validate failure_condition
-    if (!constraint.failure_condition || !Array.isArray(constraint.failure_condition)) {
+    if (!constraint.failure_condition || typeof constraint.failure_condition !== 'object') {
         return false;
     }
 
     // Validate success_condition
-    if (!constraint.success_condition || !Array.isArray(constraint.success_condition)) {
+    if (!constraint.success_condition || typeof constraint.success_condition !== 'object') {
         return false;
     }
 

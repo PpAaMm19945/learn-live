@@ -42,7 +42,7 @@ export function JudgmentModal({ isOpen, onClose, item, onSuccess }: JudgmentModa
             const res = await fetch(`${apiUrl}/api/portfolio/${item.id}/judge`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status })
+                body: JSON.stringify({ status, learnerId: item.learner_id })
             });
             if (res.ok) {
                 onSuccess();

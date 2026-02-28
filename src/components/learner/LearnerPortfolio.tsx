@@ -19,7 +19,8 @@ interface PortfolioItem {
 
 const fetchPortfolio = async (learnerId: string): Promise<PortfolioItem[]> => {
     Logger.info('[UI]', `Fetching portfolio for learner: ${learnerId}`);
-    const res = await fetch(`/api/learner/${learnerId}/portfolio`);
+    const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+    const res = await fetch(`${apiUrl}/api/learner/${learnerId}/portfolio`);
     if (!res.ok) throw new Error('Failed to fetch portfolio');
     const data = await res.json();
     return data.portfolios || [];
