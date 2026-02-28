@@ -54,12 +54,12 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 5: The "Evidence Witness" Execution Flow
 *Focus: Binding the frontend camera/mic to the Gemini Live agent in real-time.*
-*   **Task 5.1:** Frontend WebRTC/MediaStream integration to capture camera and microphone data.
-*   **Task 5.2:** Establish the active session loop: Learner connects ↔ Cloud Run Bridge ↔ Gemini Live.
-*   **Task 5.3:** Implement real-time interruption handling and conversational turn-taking.
-*   **Task 5.4:** Enforce constraints and log verification outputs directly to the Cloud Run service.
-*   **Task 5.5:** Implement session resilience — handle network drops, WebSocket disconnections, and browser tab closures mid-session. Save partial session state so it can be resumed or at minimum logged as incomplete. This is essential for low-bandwidth African contexts.
-*   **Task 5.6:** Add session timeout and maximum duration limits to prevent runaway Gemini sessions (both for cost and child welfare — a 4-year-old shouldn't be in a session for 30 minutes).
+*   **[x] Task 5.1:** Frontend WebRTC/MediaStream integration to capture camera and microphone data.
+*   **[x] Task 5.2:** Establish the active session loop: Learner connects ↔ Cloud Run Bridge ↔ Gemini Live.
+*   **[x] Task 5.3:** Implement real-time interruption handling and conversational turn-taking.
+*   **[x] Task 5.4:** Enforce constraints and log verification outputs directly to the Cloud Run service.
+*   **[x] Task 5.5:** Implement session resilience — handle network drops, WebSocket disconnections, and browser tab closures mid-session. Save partial session state so it can be resumed or at minimum logged as incomplete. This is essential for low-bandwidth African contexts.
+*   **[x] Task 5.6:** Add session timeout and maximum duration limits to prevent runaway Gemini sessions (both for cost and child welfare — a 4-year-old shouldn't be in a session for 30 minutes).
 
 ## Phase 6: Assessment Logging & Evidence Portfolio
 *Focus: Packaging the session into immutable proof of formation.*
@@ -71,22 +71,22 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 7: Parent Review & Progression Mechanics
 *Focus: Human authority finalizing the loop.*
-*   **Task 7.1:** Update the Parent Dashboard to display "Awaiting Judgment" tasks.
-*   **Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
-*   **Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
-*   **Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
-*   **Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
-*   **Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
+*   **[x] Task 7.1:** Update the Parent Dashboard to display "Awaiting Judgment" tasks.
+*   **[x] Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
+*   **[x] Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
+*   **[x] Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
+*   **[x] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
+*   **[x] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
 
 ## Phase 8: Hackathon Polish, Scripts, & Submission
 *Focus: Ensuring we ace the Devpost checklist.*
-*   **Task 8.1:** Write and test spin-up instructions & automated deployment scripts (`deploy.sh`).
-*   **Task 8.2:** Generate the final Architecture Diagram.
+*   **[x] Task 8.1:** Write and test spin-up instructions & automated deployment scripts (`deploy.sh`).
+*   **[x] Task 8.2:** Generate the final Architecture Diagram.
 *   **Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
-*   **Task 8.4:** Final audit of all codebase logs to ensure they narrate the app's behavior clearly.
-*   **Task 8.5:** Set up CI/CD pipeline or at minimum a reproducible deployment script that judges can run. The Devpost checklist requires "spin-up instructions" — test these from a clean environment to ensure nothing is assumed.
-*   **Task 8.6:** Write the blog post for bonus points (African-centric, faith-rooted AI platform on Google Cloud). Link GDG profile.
-*   **Task 8.7:** Run a final end-to-end smoke test of the complete loop: Parent creates family → adds learner → learner sees task → learner taps Witness → Gemini session runs → evidence saved → parent reviews → parent advances/revises. Log the entire flow and confirm no dead ends.
+*   **[x] Task 8.4:** Final audit of all codebase logs to ensure they narrate the app's behavior clearly.
+*   **[x] Task 8.5:** Set up CI/CD pipeline or at minimum a reproducible deployment script that judges can run. The Devpost checklist requires "spin-up instructions" — test these from a clean environment to ensure nothing is assumed.
+*   **[x] Task 8.6:** Write the blog post for bonus points (African-centric, faith-rooted AI platform on Google Cloud). Link GDG profile.
+*   **[x] Task 8.7:** Run a final end-to-end smoke test of the complete loop: Parent creates family → adds learner → learner sees task → learner taps Witness → Gemini session runs → evidence saved → parent reviews → parent advances/revises. Log the entire flow and confirm no dead ends.
 
 ---
 

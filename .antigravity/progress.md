@@ -48,3 +48,25 @@
 *   [x] **Task 5.2:** Build standalone fullscreen `<EvidenceWitness>` component holding active streams.
 *   [x] **Task 5.3:** Mock/Intercept constraint evaluation function calls in Agent (`gemini.ts` & `server.ts`).
 *   [x] **Task 5.4:** Handle `session_end` WebSocket message to terminate streams and show UI overlay gracefully before returning to Dashboard.
+
+## Phase 6: Assessment Logging & Evidence Pipeline
+*   [x] **Task 6.1:** Modify Worker API `(worker/src/index.ts)` to handle POST `/api/portfolio` insertions and execute `UPDATE Matrix_Tasks` query.
+*   [x] **Task 6.2:** Modify WebRTC frontend UI `(src/components/learner/EvidenceWitness.tsx)` to extract an Image frame using Canvas API before track destruction.
+*   [x] **Task 6.3:** Call `POST /api/upload` then `POST /api/portfolio` asynchronously handling loading UI.
+*   [x] **Task 6.4:** Map global Logger integrations locally across these API calls.
+*   [x] **Task 6.5:** Add Lightweight Learner Portfolio View (`LearnerPortfolio.tsx`).
+
+## Phase 7: Parent Review & Progression Mechanics
+*   [x] **Task 7.1:** Update the Parent Dashboard to display "Awaiting Judgment" tasks.
+*   [x] **Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
+*   [x] **Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
+*   [x] **Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment.
+
+## Phase 8: Hackathon Polish, Scripts, & Submission
+*   [x] **Task 8.1:** Write and test spin-up instructions & automated deployment scripts.
+*   [x] **Task 8.2:** Generate the final Architecture Diagram (`docs/Architecture.md` with Mermaid sequence diagram).
+*   [ ] **Task 8.3:** Record the 4-minute demo video.
+*   [ ] **Task 8.4:** Final audit of all codebase logs.
+*   [x] **Task 8.5:** Set up CI/CD pipeline or reproducible deployment script.
+*   [x] **Task 8.6:** Write README / blog post for hackathon submission (polished `README.md` with concept, tech stack, architecture, and run instructions).
+*   [ ] **Task 8.7:** Run final end-to-end smoke test.

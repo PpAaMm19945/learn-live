@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useQuery } from '@tanstack/react-query';
 import { MatrixTask, TaskCard } from '@/components/learner/TaskCard';
 import { TaskBriefing } from '@/components/learner/TaskBriefing';
+import { LearnerPortfolio } from '@/components/learner/LearnerPortfolio';
 import { Loader2 } from 'lucide-react';
 
 const fetchTasks = async (learnerId: string): Promise<MatrixTask[]> => {
@@ -75,12 +76,14 @@ export default function LearnerDashboard() {
             )}
 
             {!isLoading && tasks && tasks.length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center md:place-items-start">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 place-items-center md:place-items-start mb-12">
                     {tasks.map((task: MatrixTask) => (
                         <TaskCard key={task.id} task={task} onClick={handleTaskSelect} />
                     ))}
                 </div>
             )}
+
+            {learnerId && <LearnerPortfolio learnerId={learnerId} />}
         </div>
     );
 }

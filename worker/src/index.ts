@@ -6,6 +6,31 @@ export interface Env {
     API_AUTH_TOKEN?: string;
 }
 
+async function advanceLearner(db: D1Database, learnerId: string) {
+    try {
+        // Hackathon Simplification: Determine responsibility level
+        const responsibilityLevel = learnerId === 'learner_azie' ? 'L2' : 'L1';
+
+        // Find the next stalled task for this learner
+        const stalledTask: any = await db.prepare(`
+            SELECT id FROM Matrix_Tasks 
+            WHERE responsibility_level = ? AND status = 'stalled' 
+            LIMIT 1
+        `).bind(responsibilityLevel).first();
+
+        if (stalledTask && stalledTask.id) {
+            await db.prepare(`
+                UPDATE Matrix_Tasks SET status = 'active' WHERE id = ?
+            `).bind(stalledTask.id).run();
+            console.log(`[MATRIX] Learner ${learnerId} advanced to Task ${stalledTask.id}`);
+        } else {
+            console.log(`[MATRIX] Learner ${learnerId} has no further stalled tasks to advance to.`);
+        }
+    } catch (error) {
+        console.error(`[MATRIX] Error advancing learner ${learnerId}:`, error);
+    }
+}
+
 export default {
     async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
         const url = new URL(request.url);
@@ -154,6 +179,160 @@ export default {
             } catch (error: any) {
                 console.error('[DB] [Task Fetch Error]', error);
                 return new Response(JSON.stringify({ error: 'Failed to fetch task', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
+        const learnerPortfolioMatch = url.pathname.match(/^\/api\/learner\/([^/]+)\/portfolio$/);
+        if (learnerPortfolioMatch && request.method === 'GET') {
+            const learnerId = learnerPortfolioMatch[1];
+            try {
+                console.log(`[DB] Fetching portfolio for learner: ${learnerId}`);
+
+                const { results } = await env.DB.prepare(
+                    `SELECT p.*, t.domain, t.capacity 
+                     FROM Portfolios p 
+                     JOIN Matrix_Tasks t ON p.task_id = t.id 
+                     WHERE p.learner_id = ? AND p.status = 'pending' 
+                     ORDER BY p.created_at DESC`
+                ).bind(learnerId).all();
+
+                return new Response(JSON.stringify({ portfolios: results }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [LearnerPortfolio Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch portfolio', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
+        if (url.pathname === '/api/portfolio' && request.method === 'POST') {
+            try {
+                const body: any = await request.json();
+                const { learnerId, taskId, summary, status, evidenceUrl, aiConfidenceScore } = body;
+
+                if (!learnerId || !taskId || !status || !evidenceUrl) {
+                    return new Response(JSON.stringify({ error: 'Missing required fields' }), {
+                        status: 400,
+                        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    });
+                }
+
+                // Execute sequentially as transactions aren't fully robust across all D1 versions yet
+                const portfolioId = `port_${Date.now()}`;
+
+                // 1. Insert Portfolio record
+                await env.DB.prepare(`
+                    INSERT INTO Portfolios (id, learner_id, task_id, evidence_url, ai_confidence_score, transcript_summary, status)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
+                `).bind(
+                    portfolioId,
+                    learnerId,
+                    taskId,
+                    evidenceUrl,
+                    aiConfidenceScore || 0,
+                    summary || '',
+                    'pending'
+                ).run();
+
+                // 2. Update Task Status
+                const newTaskStatus = status === 'success' ? 'awaiting_judgment' : 'stalled';
+                await env.DB.prepare(`
+                    UPDATE Matrix_Tasks SET status = ? WHERE id = ?
+                `).bind(newTaskStatus, taskId).run();
+
+                console.log(`[CORE] Portfolio created: ${portfolioId} for Task: ${taskId}, Task Status -> ${newTaskStatus}`);
+
+                return new Response(JSON.stringify({ success: true, portfolioId }), {
+                    status: 201,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+
+            } catch (error: any) {
+                console.error('[DB] [Portfolio Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to process portfolio entry', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
+        const judgeMatch = url.pathname.match(/^\/api\/portfolio\/([^/]+)\/judge$/);
+        if (judgeMatch && request.method === 'POST') {
+            const portfolioId = judgeMatch[1];
+            try {
+                const body: any = await request.json();
+                const { status, learnerId } = body;
+
+                if (!['approved', 'rejected'].includes(status) || !learnerId) {
+                    return new Response(JSON.stringify({ error: 'Invalid status or missing learnerId' }), {
+                        status: 400,
+                        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                    });
+                }
+
+                console.log(`[CORE] Judging portfolio: ${portfolioId} as ${status} for learner: ${learnerId}`);
+
+                // 1. Update Portfolio status
+                await env.DB.prepare(`
+                    UPDATE Portfolios SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
+                `).bind(status, portfolioId).run();
+
+                // 2. Get the task_id from portfolio to update Matrix_Tasks
+                const portfolio = await env.DB.prepare('SELECT task_id FROM Portfolios WHERE id = ?').bind(portfolioId).first();
+                if (portfolio && portfolio.task_id) {
+                    const newTaskStatus = status === 'approved' ? 'Completed' : 'Requires Revision';
+                    await env.DB.prepare(`
+                        UPDATE Matrix_Tasks SET status = ? WHERE id = ?
+                    `).bind(newTaskStatus, portfolio.task_id).run();
+                    console.log(`[CORE] Task ${portfolio.task_id} status updated to ${newTaskStatus}`);
+                }
+
+                if (status === 'approved') {
+                    // 3. Trigger progression logic for MVP
+                    await advanceLearner(env.DB, learnerId);
+                }
+
+                return new Response(JSON.stringify({ success: true, status }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [Portfolio Judge Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to process judgment', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
+        const parentJudgmentsMatch = url.pathname.match(/^\/api\/parent\/([^/]+)\/judgments$/);
+        if (parentJudgmentsMatch && request.method === 'GET') {
+            const familyId = parentJudgmentsMatch[1];
+            try {
+                console.log(`[DB] Fetching pending judgments for family: ${familyId}`);
+                const { results } = await env.DB.prepare(
+                    `SELECT p.*, l.name as learner_name, t.domain, t.capacity 
+                     FROM Portfolios p 
+                     JOIN Learners l ON p.learner_id = l.id 
+                     JOIN Matrix_Tasks t ON p.task_id = t.id 
+                     WHERE l.family_id = ? AND p.status = 'pending' 
+                     ORDER BY p.created_at DESC`
+                ).bind(familyId).all();
+
+                return new Response(JSON.stringify({ judgments: results }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [ParentJudgments Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch judgments', details: error.message }), {
                     status: 500,
                     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 });

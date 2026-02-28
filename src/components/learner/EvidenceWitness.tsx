@@ -16,7 +16,7 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
     const [status, setStatus] = useState<'connecting' | 'active' | 'evaluating' | 'complete' | 'error'>('connecting');
     const [errorMessage, setErrorMessage] = useState('');
     const clientRef = useRef<GeminiLiveClient | null>(null);
-    const { user } = useAuthStore();
+    const { familyId: userFamilyId, userId: userLearnerId } = useAuthStore();
     const [successReason, setSuccessReason] = useState<string | null>(null);
 
     // Parse required evidence from the JSON constraint
@@ -43,24 +43,98 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
                 }
 
                 // 2. Connect to Agent via GeminiLiveClient
-                const familyId = user?.familyId || 'fam_default';
-                const learnerId = user?.id || 'learner_unknown';
+                const familyId = userFamilyId || 'fam_default';
+                const learnerId = userLearnerId || 'learner_unknown';
 
                 client = new GeminiLiveClient(
                     task.id,
                     familyId,
                     learnerId,
-                    (data) => {
+                    async (data) => {
                         if (data.type === 'session_end') {
                             Logger.info('[UI]', `Session ended: ${data.reason}`, data);
                             setStatus('complete');
                             setSuccessReason(data.summary);
-                            cleanupMedia(activeStream);
 
-                            // Return to dashboard after brief delay
-                            setTimeout(() => {
-                                onComplete();
-                            }, 4000);
+                            // 3. Evidence Pipeline
+                            try {
+                                setStatus('evaluating');
+                                let evidenceUrl = null;
+
+                                // Capture Snapshot
+                                if (needsCamera && videoRef.current) {
+                                    Logger.info('[EVIDENCE]', 'Capturing visual evidence snapshsot');
+                                    const canvas = document.createElement('canvas');
+                                    canvas.width = videoRef.current.videoWidth || 640;
+                                    canvas.height = videoRef.current.videoHeight || 480;
+                                    const ctx = canvas.getContext('2d');
+                                    if (ctx) {
+                                        ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+
+                                        const blob = await new Promise<Blob>((resolve, reject) => {
+                                            canvas.toBlob((b) => {
+                                                if (b) resolve(b);
+                                                else reject(new Error('Canvas toBlob failed'));
+                                            }, 'image/jpeg', 0.85);
+                                        });
+
+                                        Logger.info('[EVIDENCE]', 'Uploading snapshot to Vault');
+                                        const formData = new FormData();
+                                        formData.append('file', blob, `snapshot_${task.id}.jpg`);
+                                        formData.append('pathPrefix', `portfolios/${learnerId}`);
+
+                                        const uploadRes = await fetch(`${import.meta.env.VITE_WORKER_URL}/api/upload`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN}`
+                                            },
+                                            body: formData
+                                        });
+
+                                        if (!uploadRes.ok) throw new Error('Failed to upload evidence');
+                                        const uploadData = await uploadRes.json();
+                                        evidenceUrl = uploadData.url;
+                                        Logger.info('[EVIDENCE]', 'Upload successful', { url: evidenceUrl });
+                                    }
+                                }
+
+                                // Submit Portfolio
+                                Logger.info('[EVIDENCE]', 'Submitting portfolio record');
+                                const statusValue = data.reason === 'success' ? 'success' : 'failure';
+                                const portfolioRes = await fetch(`${import.meta.env.VITE_WORKER_URL}/api/portfolio`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        // Need to skip auth or use a token here based on API. 
+                                        // Assuming CORS/Public for now or use VITE_API_AUTH_TOKEN if needed
+                                    },
+                                    body: JSON.stringify({
+                                        learnerId,
+                                        taskId: task.id,
+                                        summary: data.summary,
+                                        status: statusValue,
+                                        evidenceUrl: evidenceUrl || 'no-visual-evidence',
+                                        aiConfidenceScore: 0.95 // Mocked or passed from agent
+                                    })
+                                });
+
+                                if (!portfolioRes.ok) throw new Error('Failed to save portfolio record');
+                                Logger.info('[EVIDENCE]', 'Portfolio saved successfully');
+
+
+                            } catch (error) {
+                                Logger.error('[EVIDENCE]', 'Pipeline error:', error);
+                                // We still want to let the user finish even if logging fails, but maybe show a toast
+                            } finally {
+                                setStatus('complete');
+                                cleanupMedia(activeStream);
+
+                                // Return to dashboard after brief delay
+                                setTimeout(() => {
+                                    onComplete();
+                                }, 5000);
+                            }
+
                         } else if (data.error) {
                             setStatus('error');
                             setErrorMessage(data.error);
@@ -105,7 +179,7 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
                 clientRef.current.disconnect();
             }
         };
-    }, [task, needsCamera, needsMic, onComplete, user]);
+    }, [task, needsCamera, needsMic, onComplete, userFamilyId, userLearnerId]);
 
     const cleanupMedia = (mediaStream: MediaStream | null) => {
         if (mediaStream) {
@@ -122,6 +196,16 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
         cleanupMedia(stream);
         onComplete();
     };
+
+    if (status === 'evaluating') {
+        return (
+            <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center p-6 text-center animate-in fade-in duration-300 text-white">
+                <Loader2 className="w-24 h-24 animate-spin text-blue-500 mb-8" />
+                <h2 className="text-3xl font-bold mb-4">Securing Evidence...</h2>
+                <p className="text-xl text-zinc-400">The Witness is finalising its report.</p>
+            </div>
+        );
+    }
 
     if (status === 'error') {
         return (

@@ -21,12 +21,12 @@ export class GeminiLiveClient {
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
             const wsUrl = `${protocol}//${window.location.host}/v1/agent/session?taskId=${this.taskId}&familyId=${this.familyId}&learnerId=${this.learnerId}`;
 
-            Logger.info('[UI] Connecting to Agent WebSocket', { context: '[UI]', details: { taskId: this.taskId, wsUrl } });
+            Logger.info('[UI]', 'Connecting to Agent WebSocket', { taskId: this.taskId, wsUrl });
 
             this.ws = new WebSocket(wsUrl);
 
             this.ws.onopen = () => {
-                Logger.info('[UI] Agent WebSocket connected', { context: '[UI]' });
+                Logger.info('[UI]', 'Agent WebSocket connected');
                 resolve();
             };
 
@@ -36,17 +36,17 @@ export class GeminiLiveClient {
                     this.handleIncomingMessage(data);
                     if (this.onMessage) this.onMessage(data);
                 } catch (error) {
-                    Logger.error('[UI] Error parsing WS message', { context: '[UI]', details: error });
+                    Logger.error('[UI]', 'Error parsing WS message', { error });
                 }
             };
 
             this.ws.onerror = (error) => {
-                Logger.error('[UI] Agent WebSocket error', { context: '[UI]', details: error });
+                Logger.error('[UI]', 'Agent WebSocket error', { error });
                 reject(error);
             };
 
             this.ws.onclose = () => {
-                Logger.info('[UI] Agent WebSocket closed', { context: '[UI]' });
+                Logger.info('[UI]', 'Agent WebSocket closed');
                 this.disconnect();
             };
         });
@@ -106,7 +106,7 @@ export class GeminiLiveClient {
 
         source.connect(this.scriptNode);
         this.scriptNode.connect(this.audioContext.destination);
-        Logger.info('[UI] Started recording audio', { context: '[UI]' });
+        Logger.info('[UI]', 'Started recording audio');
     }
 
     startVideo(videoElement: HTMLVideoElement) {
@@ -127,7 +127,7 @@ export class GeminiLiveClient {
                 this.ws.send(JSON.stringify({ type: 'image', data: base64 }));
             }
         }, 1000);
-        Logger.info('[UI] Started recording video', { context: '[UI]' });
+        Logger.info('[UI]', 'Started recording video');
     }
 
     private async playIncomingAudio(base64: string) {
@@ -174,7 +174,7 @@ export class GeminiLiveClient {
     }
 
     disconnect() {
-        Logger.info('[UI] Disconnecting GeminiLiveClient', { context: '[UI]' });
+        Logger.info('[UI]', 'Disconnecting GeminiLiveClient');
         if (this.videoInterval) {
             clearInterval(this.videoInterval);
             this.videoInterval = null;

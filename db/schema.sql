@@ -35,6 +35,7 @@ CREATE TABLE Matrix_Tasks (
     failure_condition TEXT NOT NULL,
     success_condition TEXT NOT NULL,
     role_instruction TEXT NOT NULL, -- Setup instructions for AI acting as Evidence Witness
+    status TEXT DEFAULT 'active',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -42,10 +43,10 @@ CREATE TABLE Portfolios (
     id TEXT PRIMARY KEY,
     learner_id TEXT NOT NULL,
     task_id TEXT NOT NULL,
-    status TEXT NOT NULL CHECK(status IN ('Awaiting Judgment', 'Completed', 'Requires Revision')),
-    transcript_url TEXT, -- Path in R2
-    snapshot_url TEXT, -- Path in R2
-    parent_notes TEXT,
+    evidence_url TEXT,
+    ai_confidence_score REAL,
+    transcript_summary TEXT,
+    status TEXT NOT NULL CHECK(status IN ('pending', 'approved', 'rejected')),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (learner_id) REFERENCES Learners(id) ON DELETE CASCADE,
