@@ -21,7 +21,7 @@ export default function Dashboard() {
         capacityName: ''
     });
 
-    const { data, isLoading } = useQuery({
+    const { data: judgmentsData, isLoading: isJudgmentsLoading } = useQuery({
         queryKey: ['pending-judgments', familyId],
         queryFn: async () => {
             if (!familyId) return { judgments: [] };
@@ -33,6 +33,21 @@ export default function Dashboard() {
         enabled: !!familyId,
     });
 
+    const { data: curriculumData, isLoading: isCurriculumLoading } = useQuery({
+        queryKey: ['active-curriculum', familyId],
+        queryFn: async () => {
+            if (!familyId) return { tasks: [] };
+            const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+            const res = await fetch(`${apiUrl}/api/family/${familyId}/curriculum-tasks`);
+            if (!res.ok) throw new Error('Network response was not ok');
+            return res.json();
+        },
+        enabled: !!familyId,
+    });
+
+    const judgments = judgmentsData?.judgments || [];
+    const activeTasks: LearnerRepetitionState[] = curriculumData?.tasks || [];
+
     const handleLogout = () => {
         logout();
         navigate('/login');
@@ -41,53 +56,6 @@ export default function Dashboard() {
     const handleJudgmentSuccess = () => {
         queryClient.invalidateQueries({ queryKey: ['pending-judgments', familyId] });
     };
-
-    const judgments = data?.judgments || [];
-
-    // Mock data based on the new Curriculum Spine for Hackathon UI evaluation
-    const mockState: LearnerRepetitionState[] = [
-        {
-            learner_id: 'learner_azie',
-            learner_name: 'Azie',
-            current_arc_stage: 'Exposure',
-            execution_count: 0,
-            template: {
-                id: 'D1_L1_A',
-                capacity_id: 'D1',
-                capacity_name: 'Place Value as Grouping',
-                strand_name: 'Number & Quantity',
-                cognitive_level: 1,
-                variation_id: 'A',
-                task_type: 'Physical manipulation',
-                materials: '30-50 small objects (beans, sticks), rubber bands or small cups',
-                parent_prompt: "Give your child 45 beans. Ask them: 'How can we count these quickly without losing track?' Let them try. If they don't group by 10s, suggest: 'What if we put them in groups of 10?'",
-                success_condition: "Child groups objects into 10s and counts the leftover ones.",
-                failure_condition: "Child insists on counting by 1s and loses track, or cannot form a group of 10.",
-                reasoning_check: "Why is grouping by 10 faster than counting by 1?",
-                context_variants: ""
-            }
-        },
-        {
-            learner_id: 'learner_arie',
-            learner_name: 'Arie',
-            current_arc_stage: 'Execution',
-            execution_count: 2,
-            template: {
-                id: 'G2a_L2_A',
-                capacity_id: 'G2a',
-                capacity_name: '2D Shape Classification',
-                strand_name: 'Spatial Reasoning & Geometry',
-                cognitive_level: 2,
-                variation_id: 'A',
-                task_type: 'Property identification',
-                materials: 'Paper and pencil',
-                parent_prompt: "Ask your child to draw a shape that has exactly 3 straight sides and 1 square corner. Ask: 'Does it have any curved lines?'",
-                success_condition: "Identifies and draws a right-angled triangle based solely on the verbal attribute list.",
-                reasoning_check: "How do you know the shape you drew follows the rule perfectly?",
-                context_variants: ""
-            }
-        }
-    ];
 
     return (
         <div className="min-h-screen bg-background text-foreground p-6 md:p-12">
@@ -119,19 +87,30 @@ export default function Dashboard() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="pt-6 space-y-4 max-h-[600px] overflow-y-auto pr-2">
-                            {mockState.map((state) => (
-                                <ParentTaskCard
-                                    key={state.template.id}
-                                    state={state}
-                                    onCaptureAsync={() => setAsyncModalState({
-                                        isOpen: true,
-                                        templateId: state.template.id,
-                                        learnerName: state.learner_name,
-                                        capacityName: state.template.capacity_name
-                                    })}
-                                    onInvokeLive={() => console.log('Live AI Triggered', state.template.id)}
-                                />
-                            ))}
+                            {isCurriculumLoading ? (
+                                <div className="flex justify-center py-12">
+                                    <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
+                                </div>
+                            ) : activeTasks.length > 0 ? (
+                                activeTasks.map((state) => (
+                                    <ParentTaskCard
+                                        key={state.template.id}
+                                        state={state}
+                                        onCaptureAsync={() => setAsyncModalState({
+                                            isOpen: true,
+                                            templateId: state.template.id,
+                                            learnerName: state.learner_name,
+                                            capacityName: state.template.capacity_name
+                                        })}
+                                        onInvokeLive={() => console.log('Live AI Triggered', state.template.id)}
+                                    />
+                                ))
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed rounded-lg border-muted">
+                                    <p className="text-muted-foreground">No active curriculum tasks available.</p>
+                                    <p className="text-xs text-muted-foreground mt-2">The AI content engineer may still be generating templates or the seed script has not been run.</p>
+                                </div>
+                            )}
                         </CardContent>
                     </Card>
 
@@ -144,7 +123,7 @@ export default function Dashboard() {
                             <CardDescription>Review and authorize learner evidence.</CardDescription>
                         </CardHeader>
                         <CardContent>
-                            {isLoading ? (
+                            {isJudgmentsLoading ? (
                                 <div className="flex justify-center py-12">
                                     <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
                                 </div>
