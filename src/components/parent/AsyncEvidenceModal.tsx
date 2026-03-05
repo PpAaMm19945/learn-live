@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Camera, Mic, Square, UploadCloud, RefreshCw, Activity, Image as ImageIcon } from 'lucide-react';
+import { Camera, Mic, Square, UploadCloud, RefreshCw, Activity, Image as ImageIcon, FileCheck2 } from 'lucide-react';
 import { useAuthStore } from '@/lib/auth';
 import { toast } from 'sonner';
 

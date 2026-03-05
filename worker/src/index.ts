@@ -339,6 +339,79 @@ export default {
             }
         }
 
+        const curriculumTasksMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/curriculum-tasks$/);
+        if (curriculumTasksMatch && request.method === 'GET') {
+            const familyId = curriculumTasksMatch[1];
+            try {
+                console.log(`[DB] Fetching active curriculum tasks for family: ${familyId}`);
+                const query = `
+                    SELECT 
+                        lrs.learner_id,
+                        l.name as learner_name,
+                        lrs.current_arc_stage,
+                        lrs.execution_count,
+                        ct.id as template_id,
+                        ct.capacity_id,
+                        c.name as capacity_name,
+                        s.name as strand_name,
+                        ct.cognitive_level,
+                        ct.variation_id,
+                        ct.task_type,
+                        ct.materials,
+                        ct.parent_prompt,
+                        ct.success_condition,
+                        ct.failure_condition,
+                        ct.reasoning_check,
+                        ct.context_variants,
+                        ct.requires_parent_primer
+                    FROM Learner_Repetition_State lrs
+                    JOIN Learners l ON lrs.learner_id = l.id
+                    JOIN Capacities c ON lrs.capacity_id = c.id
+                    JOIN Strands s ON c.strand_id = s.id
+                    JOIN Constraint_Templates ct ON ct.capacity_id = lrs.capacity_id AND ct.cognitive_level = lrs.current_cognitive_level
+                    WHERE l.family_id = ? AND lrs.status = 'active'
+                    GROUP BY lrs.id
+                `;
+
+                const { results } = await env.DB.prepare(query).bind(familyId).all();
+
+                // Format the output to match LearnerRepetitionState React type
+                const formattedTasks = results.map((row: any) => ({
+                    learner_id: row.learner_id,
+                    learner_name: row.learner_name,
+                    current_arc_stage: row.current_arc_stage,
+                    execution_count: row.execution_count,
+                    template: {
+                        id: row.template_id,
+                        capacity_id: row.capacity_id,
+                        capacity_name: row.capacity_name,
+                        strand_name: row.strand_name,
+                        cognitive_level: row.cognitive_level,
+                        variation_id: row.variation_id,
+                        task_type: row.task_type,
+                        materials: row.materials,
+                        parent_prompt: row.parent_prompt,
+                        success_condition: row.success_condition,
+                        failure_condition: row.failure_condition,
+                        reasoning_check: row.reasoning_check,
+                        context_variants: row.context_variants,
+                        requires_parent_primer: !!row.requires_parent_primer,
+                    }
+                }));
+
+                return new Response(JSON.stringify({ tasks: formattedTasks }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [CurriculumTasks Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch curriculum tasks', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,
