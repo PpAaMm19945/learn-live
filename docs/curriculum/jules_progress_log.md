@@ -23,11 +23,11 @@
 - [x] D9: Estimation & Reasonableness
 
 **Strand 2: Algebraic Thinking & Structure**
-- [ ] B1: Equivalence
-- [ ] B2: Unknown Quantities
-- [ ] B3: Function Machines
-- [ ] B4: Generalization from Arithmetic
-- [ ] B5: Growing Patterns
+- [ ] B1: Equivalence (Shared with D8)
+- [x] B2: Unknown Quantities
+- [x] B3: Function Machines
+- [x] B4: Generalization from Arithmetic
+- [x] B5: Growing Patterns
 
 **Strand 3: Spatial Reasoning & Geometry**
 - [ ] G2a: 2D Shape Classification
