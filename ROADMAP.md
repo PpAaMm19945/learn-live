@@ -92,25 +92,25 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *Focus: Parent-facing app with four witness modes. Async AI as the workhorse, Live AI as premium option.*
 
 *   **[ ] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
-*   **[ ] Task 9.2:** Build the **Parent Task View** — display constraint prompt as parent guidance (what to ask, what to look for, success/failure conditions). Two optional buttons: "Capture Evidence (Photo + Audio)" and "Invoke Live AI Witness."
+*   **[x] Task 9.2:** Build the **Parent Task View** — display constraint prompt as parent guidance (what to ask, what to look for, success/failure conditions). Two optional buttons: "Capture Evidence (Photo + Audio)" and "Invoke Live AI Witness." *(Done: `ParentTaskCard.tsx` wired into `Dashboard.tsx`)*
 *   **[ ] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path.
-*   **[ ] Task 9.4:** Build **Async AI Evidence Capture** — parent takes a photo of the child's work + records a 10-second audio clip of the child explaining. This is batched, sent to AI asynchronously, AI drafts a report. Parent reviews and edits before submission. This is the primary AI witness mode — lower cost, lower bandwidth, more reliable than live.
-*   **[ ] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional — parent taps "Invoke Live Witness" → camera/mic opens → real-time AI session → AI drafts report → parent reviews.
-*   **[ ] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow. Parent advances/revises from any type.
+*   **[x] Task 9.4:** Build **Async AI Evidence Capture** — parent takes a photo of the child's work + records a 10-second audio clip of the child explaining. This is batched, sent to AI asynchronously, AI drafts a report. Parent reviews and edits before submission. This is the primary AI witness mode — lower cost, lower bandwidth, more reliable than live. *(Done: `AsyncEvidenceModal.tsx` handles capture; mock submit wired)*
+*   **[ ] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
+*   **[ ] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
 *   **[ ] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
 
 ## Phase 10: Curriculum Spine Integration
 *Focus: Loading the Mathematics Curriculum Spine into the data model. Spine feeds constraint prompts to parents (and optionally AI). Includes DAG engine, repetition arc, and split judgment.*
 
-*   **[ ] Task 10.1:** Extend the D1 schema to support: Strands, Capacities (with DAG dependencies including shared cross-strand nodes), Cognitive Levels, Developmental Bands, Constraint Templates, and Repetition Arc state per learner per capacity.
-*   **[ ] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files.
+*   **[x] Task 10.1:** Extend the D1 schema to support: Strands, Capacities (with DAG dependencies including shared cross-strand nodes), Cognitive Levels, Developmental Bands, Constraint Templates, and Repetition Arc state per learner per capacity. *(Done in `db/schema.sql`)*
+*   **[ ] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files. *(Blocked: Script `scripts/seed_curriculum.ts` is ready, waiting for Jules to output JSON into `curriculum_data/`)*
 *   **[ ] Task 10.3:** Implement the **task generation engine** — reads a spine cell + constraint template, randomizes parameters, produces a task instance with parent-facing prompt and AI-facing systemInstruction.
 *   **[ ] Task 10.4:** Build the **DAG dependency resolver** with cross-strand support — a learner can't access a Capacity until prerequisites are met, but can advance in other strands (no deadlocks). Lateral movement suggested when blocked.
-*   **[ ] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled). Execution count is configurable per capacity.
-*   **[ ] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements. The child must filter.
-*   **[ ] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested. The child must recognize the situation.
-*   **[ ] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence (is the work correct?), parent evaluates formation (did the child persevere, revise, own?). Both reports feed into the parent's advancement decision.
-*   **[ ] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations (<200 words) explaining the math, common mistakes, and what to look for. Surfaced automatically when parent reviews tasks at Band 3+.
+*   **[ ] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled).
+*   **[ ] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements.
+*   **[ ] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested.
+*   **[ ] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation.
+*   **[ ] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math.
 *   **[ ] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access.
 
 ## Phase 11: Child Portal & Gradual Handoff
