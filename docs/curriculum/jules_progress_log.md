@@ -40,13 +40,13 @@
 - [x] G2h: Directions & Simple Maps
 
 **Strand 4: Data, Probability & Statistics**
-- [ ] P2a: Data Collection
-- [ ] P2b: Bar Graphs & Tally Charts
-- [ ] P2c: Asking Good Questions
-- [ ] P2d: Mode
-- [ ] P2e: Likely vs Unlikely
-- [ ] P2f: Simple Experiments
-- [ ] P2g: Comparing Data Sets
+- [x] P2a: Data Collection
+- [x] P2b: Bar Graphs & Tally Charts
+- [x] P2c: Asking Good Questions
+- [x] P2d: Mode
+- [x] P2e: Likely vs Unlikely
+- [x] P2f: Simple Experiments
+- [x] P2g: Comparing Data Sets
 
 **Strand 5: Mathematical Modeling & Systems**
 - [ ] Strand 5 integration templates
