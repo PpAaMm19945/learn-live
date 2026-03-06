@@ -8,6 +8,7 @@ import { Loader2, FileCheck2, BookOpen } from 'lucide-react';
 import { JudgmentModal, JudgmentItem } from '@/components/parent/JudgmentModal';
 import { ParentTaskCard, LearnerRepetitionState } from '@/components/parent/ParentTaskCard';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
+import { Logger } from '@/lib/Logger';
 
 export default function Dashboard() {
     const { familyId, logout } = useAuthStore();
@@ -102,7 +103,7 @@ export default function Dashboard() {
                                             learnerName: state.learner_name,
                                             capacityName: state.template.capacity_name
                                         })}
-                                        onInvokeLive={() => console.log('Live AI Triggered', state.template.id)}
+                                        onInvokeLive={() => Logger.info('[UI]', 'Live AI Triggered', { templateId: state.template.id })}
                                     />
                                 ))
                             ) : (
