@@ -6,6 +6,12 @@ export interface Env {
     API_AUTH_TOKEN?: string;
 }
 
+function isAuthorized(request: Request, env: Env): boolean {
+    const authHeader = request.headers.get('Authorization');
+    const expectedToken = env.API_AUTH_TOKEN || 'development_secret_token';
+    return authHeader === `Bearer ${expectedToken}`;
+}
+
 async function advanceLearner(db: D1Database, learnerId: string) {
     try {
         // Hackathon Simplification: Determine responsibility level
@@ -53,9 +59,7 @@ export default {
         }
 
         if (url.pathname === '/api/upload' && request.method === 'POST') {
-            const authHeader = request.headers.get('Authorization');
-            const expectedToken = env.API_AUTH_TOKEN || 'development_secret_token';
-            if (authHeader !== `Bearer ${expectedToken}`) {
+            if (!isAuthorized(request, env)) {
                 return new Response(JSON.stringify({ error: 'Unauthorized' }), {
                     status: 401,
                     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -213,6 +217,13 @@ export default {
         }
 
         if (url.pathname === '/api/portfolio' && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+
             try {
                 const body: any = await request.json();
                 const { learnerId, taskId, summary, status, evidenceUrl, aiConfidenceScore } = body;
@@ -265,6 +276,13 @@ export default {
 
         const judgeMatch = url.pathname.match(/^\/api\/portfolio\/([^/]+)\/judge$/);
         if (judgeMatch && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+
             const portfolioId = judgeMatch[1];
             try {
                 const body: any = await request.json();

@@ -41,7 +41,10 @@ export function JudgmentModal({ isOpen, onClose, item, onSuccess }: JudgmentModa
             const apiUrl = import.meta.env.VITE_WORKER_URL || '';
             const res = await fetch(`${apiUrl}/api/portfolio/${item.id}/judge`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN}`
+                },
                 body: JSON.stringify({ status, learnerId: item.learner_id })
             });
             if (res.ok) {
