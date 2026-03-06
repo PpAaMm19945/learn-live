@@ -30,14 +30,14 @@
 - [x] B5: Growing Patterns
 
 **Strand 3: Spatial Reasoning & Geometry**
-- [ ] G2a: 2D Shape Classification
-- [ ] G2b: 3D Shape Recognition
-- [ ] G2c: Standard Measurement - Length
-- [ ] G2d: Standard Measurement - Mass & Capacity
-- [ ] G2e: Perimeter
-- [ ] G2f: Area - Conceptual
-- [ ] G2g: Line Symmetry
-- [ ] G2h: Directions & Simple Maps
+- [x] G2a: 2D Shape Classification
+- [x] G2b: 3D Shape Recognition
+- [x] G2c: Standard Measurement - Length
+- [x] G2d: Standard Measurement - Mass & Capacity
+- [x] G2e: Perimeter
+- [x] G2f: Area - Conceptual
+- [x] G2g: Line Symmetry
+- [x] G2h: Directions & Simple Maps
 
 **Strand 4: Data, Probability & Statistics**
 - [ ] P2a: Data Collection
