@@ -1,5 +1,28 @@
 import { r2Helper } from './lib/r2';
 
+// Cache for parsed JSON fields to avoid redundant parsing overhead
+const jsonCache = new Map<string, any>();
+
+/**
+ * Parses a JSON string and caches the result.
+ * If the string has been parsed before, returns the cached object.
+ */
+function cachedJSONParse(jsonString: string | null): any {
+    if (!jsonString) return null;
+
+    const cached = jsonCache.get(jsonString);
+    if (cached !== undefined) return cached;
+
+    try {
+        const parsed = JSON.parse(jsonString);
+        jsonCache.set(jsonString, parsed);
+        return parsed;
+    } catch (error) {
+        console.error('[JSON Cache] Failed to parse JSON:', error);
+        return null;
+    }
+}
+
 export interface Env {
     DB: D1Database;
     EVIDENCE_VAULT: R2Bucket;
@@ -130,10 +153,10 @@ export default {
                 // Parse JSON fields to make them easy to use in frontend
                 const tasks = results.map((task: any) => ({
                     ...task,
-                    constraint_to_enforce: task.constraint_to_enforce ? JSON.parse(task.constraint_to_enforce) : null,
-                    failure_condition: task.failure_condition ? JSON.parse(task.failure_condition) : null,
-                    success_condition: task.success_condition ? JSON.parse(task.success_condition) : null,
-                    role_instruction: task.role_instruction ? JSON.parse(task.role_instruction) : null,
+                    constraint_to_enforce: cachedJSONParse(task.constraint_to_enforce),
+                    failure_condition: cachedJSONParse(task.failure_condition),
+                    success_condition: cachedJSONParse(task.success_condition),
+                    role_instruction: cachedJSONParse(task.role_instruction),
                 }));
 
                 return new Response(JSON.stringify({ tasks }), {
@@ -166,10 +189,10 @@ export default {
                 // Parse JSON fields to make them easy to use in frontend/agent
                 const parsedTask = {
                     ...task,
-                    constraint_to_enforce: task.constraint_to_enforce ? JSON.parse(task.constraint_to_enforce as string) : null,
-                    failure_condition: task.failure_condition ? JSON.parse(task.failure_condition as string) : null,
-                    success_condition: task.success_condition ? JSON.parse(task.success_condition as string) : null,
-                    role_instruction: task.role_instruction ? JSON.parse(task.role_instruction as string) : null,
+                    constraint_to_enforce: cachedJSONParse(task.constraint_to_enforce),
+                    failure_condition: cachedJSONParse(task.failure_condition),
+                    success_condition: cachedJSONParse(task.success_condition),
+                    role_instruction: cachedJSONParse(task.role_instruction),
                 };
 
                 return new Response(JSON.stringify(parsedTask), {
