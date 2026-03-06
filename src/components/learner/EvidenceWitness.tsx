@@ -105,8 +105,7 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
                                     method: 'POST',
                                     headers: {
                                         'Content-Type': 'application/json',
-                                        // Need to skip auth or use a token here based on API. 
-                                        // Assuming CORS/Public for now or use VITE_API_AUTH_TOKEN if needed
+                                        'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN}`
                                     },
                                     body: JSON.stringify({
                                         learnerId,
