@@ -10,16 +10,63 @@ const OUTPUT_SQL_FILE = path.join(process.cwd(), 'db', 'seed_curriculum.sql');
 
 interface Template {
     capacity_id: string;
-    cognitive_level: number;
+    strand?: number;
+    band?: number;
+    cognitive_level: number | string; // Jules may output string names or integers
     variation_id: string;
     task_type: string;
-    materials?: string | null;
+    materials?: string | string[] | null;
     parent_prompt: string;
     success_condition: string;
     failure_condition?: string | null;
     reasoning_check: string;
-    context_variants: string;
+    context_variants: string | Record<string, any>;
     requires_parent_primer?: boolean;
+}
+
+/**
+ * Converts cognitive level from string name to integer.
+ * Accepts both string names and raw integers.
+ */
+function normalizeCognitiveLevel(level: number | string): number {
+    if (typeof level === 'number') return level;
+    const map: Record<string, number> = {
+        'encounter': 1,
+        'execute': 2,
+        'discern': 3,
+        'own': 4,
+    };
+    const normalized = map[level.toLowerCase()];
+    if (!normalized) {
+        console.warn(`[SEED] Unknown cognitive level "${level}", defaulting to 1`);
+        return 1;
+    }
+    return normalized;
+}
+
+/**
+ * Normalizes the materials field — arrays are joined, objects are JSON-stringified,
+ * strings are passed through.
+ */
+function normalizeMaterials(materials: string | string[] | null | undefined): string | null {
+    if (!materials) return null;
+    if (Array.isArray(materials)) return materials.join(', ');
+    if (typeof materials === 'object') return JSON.stringify(materials);
+    return materials;
+}
+
+/**
+ * Normalizes context_variants — objects are JSON-stringified, strings are passed through.
+ */
+function normalizeContextVariants(cv: string | Record<string, any>): string {
+    if (typeof cv === 'string') return cv;
+    return JSON.stringify(cv);
+}
+
+/** Escapes single quotes for safe SQL insertion */
+function safeString(str?: string | null): string {
+    if (str === null || str === undefined) return 'NULL';
+    return `'${str.replace(/'/g, "''")}'`;
 }
 
 function generateSQL() {
@@ -70,44 +117,78 @@ function generateSQL() {
         console.log(`Created directory: ${CURRICULUM_DATA_DIR}`);
     }
 
-    // 3. Process Jules JSON Files
-    sql += `-- ── Constraint Templates ────────────────────────────────────────────────────\n`;
+    // 3. Process Jules JSON Files — first pass: extract unique capacities
     const files = fs.readdirSync(CURRICULUM_DATA_DIR).filter(f => f.endsWith('.json'));
 
-    if (files.length === 0) {
+    // Collect unique capacities from template data so we can seed the Capacities table
+    const capacityMap = new Map<string, { strand_id: string; band_id: string; name: string }>();
+
+    const allTemplates: { file: string; templates: Template[] }[] = [];
+
+    for (const file of files) {
+        console.log(`Processing file: ${file}`);
+        const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
+        try {
+            const templates: Template[] = JSON.parse(raw);
+            allTemplates.push({ file, templates });
+
+            for (const t of templates) {
+                if (!capacityMap.has(t.capacity_id)) {
+                    // Derive strand and band from the file name or template fields
+                    const strandMatch = file.match(/strand_(\d+)/);
+                    const strandNum = t.strand || (strandMatch ? parseInt(strandMatch[1]) : 1);
+                    const bandMatch = file.match(/band_(\d+)/);
+                    const bandNum = t.band || (bandMatch ? parseInt(bandMatch[1]) : 2);
+
+                    capacityMap.set(t.capacity_id, {
+                        strand_id: `Strand_${strandNum}`,
+                        band_id: `Band_${bandNum}`,
+                        name: t.capacity_id, // Will use capacity_id as name; can be enriched later
+                    });
+                }
+            }
+        } catch (e) {
+            console.error(`Error parsing ${file}:`, e);
+        }
+    }
+
+    // 3a. Seed Capacities
+    sql += `-- ── Capacities (auto-extracted from templates) ──────────────────────────────\n`;
+    for (const [id, cap] of capacityMap) {
+        sql += `INSERT INTO Capacities (id, strand_id, band_id, name) VALUES ('${id}', '${cap.strand_id}', '${cap.band_id}', '${cap.name}');\n`;
+    }
+    sql += `\n`;
+
+    // 3b. Seed Constraint Templates
+    sql += `-- ── Constraint Templates ────────────────────────────────────────────────────\n`;
+
+    if (allTemplates.length === 0) {
         console.log(`No JSON files found in ${CURRICULUM_DATA_DIR}. Skipping template SQL generation.`);
         sql += `-- (No JSON templates found during generation)\n`;
     } else {
-        for (const file of files) {
-            console.log(`Processing file: ${file}`);
-            const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
-            try {
-                const templates: Template[] = JSON.parse(raw);
-                for (const t of templates) {
-                    const id = \`\${t.capacity_id}_L\${t.cognitive_level}_\${t.variation_id}\`;
-          
-          // Escape single quotes for SQL
-          const safeString = (str?: string | null) => str ? \`'\${str.replace(/'/g, "''")}'\` : 'NULL';
-          
-          sql += `INSERT INTO Constraint_Templates(
-                        id, capacity_id, cognitive_level, variation_id, task_type,
-                        materials, parent_prompt, success_condition, failure_condition,
-                        reasoning_check, context_variants, requires_parent_primer
-                    ) VALUES(
-                        '${id}', '${t.capacity_id}', ${ t.cognitive_level }, '${t.variation_id}', ${ safeString(t.task_type)
-                },
-            ${ safeString(t.materials) }, ${ safeString(t.parent_prompt) }, ${ safeString(t.success_condition) }, ${ safeString(t.failure_condition) },
-            ${ safeString(t.reasoning_check) }, ${ safeString(t.context_variants) }, ${ t.requires_parent_primer ? 1 : 0 }
-          ); \n`;
-        }
-      } catch (e) {
-        console.error(`Error parsing ${ file }: `, e);
-      }
-    }
-  }
+        for (const { file, templates } of allTemplates) {
+            sql += `-- Source: ${file}\n`;
+            for (const t of templates) {
+                const cogLevel = normalizeCognitiveLevel(t.cognitive_level);
+                const id = `${t.capacity_id}_L${cogLevel}_${t.variation_id}`;
+                const materials = normalizeMaterials(t.materials);
+                const contextVariants = normalizeContextVariants(t.context_variants);
 
-  fs.writeFileSync(OUTPUT_SQL_FILE, sql, 'utf8');
-  console.log(`Successfully generated ${ OUTPUT_SQL_FILE } `);
+                sql += `INSERT INTO Constraint_Templates(
+    id, capacity_id, cognitive_level, variation_id, task_type,
+    materials, parent_prompt, success_condition, failure_condition,
+    reasoning_check, context_variants, requires_parent_primer
+) VALUES(
+    ${safeString(id)}, ${safeString(t.capacity_id)}, ${cogLevel}, ${safeString(t.variation_id)}, ${safeString(t.task_type)},
+    ${safeString(materials)}, ${safeString(t.parent_prompt)}, ${safeString(t.success_condition)}, ${safeString(t.failure_condition)},
+    ${safeString(t.reasoning_check)}, ${safeString(contextVariants)}, ${t.requires_parent_primer ? 1 : 0}
+);\n`;
+            }
+        }
+    }
+
+    fs.writeFileSync(OUTPUT_SQL_FILE, sql, 'utf8');
+    console.log(`Successfully generated ${OUTPUT_SQL_FILE}`);
 }
 
 generateSQL();
