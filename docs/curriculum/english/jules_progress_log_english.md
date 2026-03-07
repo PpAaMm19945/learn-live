@@ -28,17 +28,17 @@
 - [x] RC2j: Poetry & Rhythmic Text
 
 ## Strand 3: Grammar & Mechanics (11 nodes)
-- [ ] GM2a: Sentence Types
-- [ ] GM2b: Nouns — Common & Proper
-- [ ] GM2c: Verbs — Action Words
-- [ ] GM2d: Adjectives — Describing Words
-- [ ] GM2e: Subject-Verb Agreement
-- [ ] GM2f: Singular & Plural Nouns
-- [ ] GM2g: Verb Tenses — Simple
-- [ ] GM2h: Commas in Lists
-- [ ] GM2i: Apostrophes — Possession
-- [ ] GM2j: Conjunctions — Simple
-- [ ] GM2k: Sentence Expansion
+- [x] GM2a: Sentence Types
+- [x] GM2b: Nouns — Common & Proper
+- [x] GM2c: Verbs — Action Words
+- [x] GM2d: Adjectives — Describing Words
+- [x] GM2e: Subject-Verb Agreement
+- [x] GM2f: Singular & Plural Nouns
+- [x] GM2g: Verb Tenses — Simple
+- [x] GM2h: Commas in Lists
+- [x] GM2i: Apostrophes — Possession
+- [x] GM2j: Conjunctions — Simple
+- [x] GM2k: Sentence Expansion
 
 ## Strand 4: Composition & Writing (12 nodes)
 - [ ] CW2a: Sentence Writing
