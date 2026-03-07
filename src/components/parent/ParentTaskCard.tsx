@@ -29,101 +29,25 @@ export interface LearnerRepetitionState {
     template: ConstraintTemplate;
 }
 
-export function ParentTaskCard({ state, onCaptureAsync, onInvokeLive }: { state: LearnerRepetitionState, onCaptureAsync?: () => void, onInvokeLive?: () => void }) {
+export function ParentTaskCard({ state, isSelected, onClick }: { state: LearnerRepetitionState, isSelected?: boolean, onClick?: () => void }) {
     const { template, learner_name, current_arc_stage } = state;
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const levelNames = ['Encounter', 'Execute', 'Discern', 'Own'];
-    const levelName = levelNames[template.cognitive_level - 1] || `Level ${template.cognitive_level}`;
 
     return (
-        <Card className="bg-card w-full mb-4 border-2 border-primary/20 hover:border-primary/50 transition-colors">
-            <CardHeader className="pb-3">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <Badge variant="outline" className="mb-2 mr-2">
-                            {template.capacity_id}: {template.strand_name}
-                        </Badge>
-                        <Badge className="mb-2 bg-blue-600 hover:bg-blue-700">
-                            {current_arc_stage}
-                        </Badge>
-                        <CardTitle className="text-xl">{learner_name} • {template.capacity_name}</CardTitle>
-                        <CardDescription className="mt-1">
-                            {levelName} • {template.task_type}
-                        </CardDescription>
-                    </div>
+        <div
+            onClick={onClick}
+            className={`p-4 rounded-[8px] cursor-pointer transition-colors border ${isSelected ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-secondary/30'}`}
+        >
+            <div className="flex justify-between items-start mb-2">
+                <div className="flex items-center gap-2">
+                    <span className="font-semibold text-sm text-foreground">{learner_name}</span>
+                    <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{template.strand_name.split(' ')[0]}</span>
                 </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-                <div className="bg-secondary/30 p-4 rounded-lg border border-border">
-                    <h4 className="font-semibold flex items-center gap-2 mb-2 text-primary">
-                        <PlaySquare className="w-4 h-4" /> Parent Action
-                    </h4>
-                    <p className="text-sm">{template.parent_prompt}</p>
-
-                    {template.materials && (
-                        <p className="text-xs text-muted-foreground mt-3 italic">
-                            <strong>Materials needed:</strong> {template.materials}
-                        </p>
-                    )}
-                </div>
-
-                {isExpanded && (
-                    <div className="space-y-4 pt-2 animate-in fade-in slide-in-from-top-4 duration-300">
-                        <Separator />
-
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <div className="bg-green-500/10 border border-green-500/20 p-3 rounded-md">
-                                <h4 className="font-semibold flex items-center gap-2 text-green-700 dark:text-green-400 text-sm mb-1">
-                                    <FileCheck2 className="w-4 h-4" /> Success Looks Like
-                                </h4>
-                                <p className="text-sm">{template.success_condition}</p>
-                            </div>
-
-                            {template.failure_condition && (
-                                <div className="bg-orange-500/10 border border-orange-500/20 p-3 rounded-md">
-                                    <h4 className="font-semibold flex items-center gap-2 text-orange-700 dark:text-orange-400 text-sm mb-1">
-                                        <ShieldAlert className="w-4 h-4" /> What to Watch For
-                                    </h4>
-                                    <p className="text-sm">{template.failure_condition}</p>
-                                </div>
-                            )}
-                        </div>
-
-                        <div className="bg-blue-500/10 border border-blue-500/20 p-3 rounded-md">
-                            <h4 className="font-semibold flex items-center gap-2 text-blue-700 dark:text-blue-400 text-sm mb-1">
-                                <LightbulbIcon className="w-4 h-4" /> Reasoning Check
-                            </h4>
-                            <p className="text-sm italic">"{template.reasoning_check}"</p>
-                        </div>
-                    </div>
-                )}
-            </CardContent>
-            <CardFooter className="flex flex-col sm:flex-row justify-between gap-3 pt-2">
-                <Button
-                    variant="ghost"
-                    className="w-full sm:w-auto text-muted-foreground"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                >
-                    {isExpanded ? 'Hide Details' : 'Show Full Blueprint'}
-                </Button>
-
-                <div className="flex w-full sm:w-auto gap-2">
-                    <Button
-                        variant="secondary"
-                        className="w-full sm:w-auto gap-2"
-                        onClick={onInvokeLive}
-                    >
-                        <Mic className="w-4 h-4 text-orange-500" /> Live AI Guide
-                    </Button>
-                    <Button
-                        className="w-full sm:w-auto gap-2"
-                        onClick={onCaptureAsync}
-                    >
-                        <Camera className="w-4 h-4" /> Capture Evidence
-                    </Button>
-                </div>
-            </CardFooter>
-        </Card>
+                <Badge variant={current_arc_stage === 'Exposure' ? 'secondary' : 'default'} className={`text-[10px] px-1.5 py-0 h-5 ${isSelected && current_arc_stage !== 'Exposure' ? 'bg-primary' : ''}`}>
+                    {current_arc_stage}
+                </Badge>
+            </div>
+            <h3 className="text-[15px] font-medium leading-snug text-foreground mb-1.5">{template.capacity_name}</h3>
+            <p className="text-[13px] text-muted-foreground line-clamp-2">{template.parent_prompt}</p>
+        </div>
     );
 }

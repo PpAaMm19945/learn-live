@@ -103,7 +103,7 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *Focus: Loading the Mathematics Curriculum Spine into the data model. Spine feeds constraint prompts to parents (and optionally AI). Includes DAG engine, repetition arc, and split judgment.*
 
 *   **[x] Task 10.1:** Extend the D1 schema to support: Strands, Capacities (with DAG dependencies including shared cross-strand nodes), Cognitive Levels, Developmental Bands, Constraint Templates, and Repetition Arc state per learner per capacity. *(Done in `db/schema.sql`)*
-*   **[ ] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files. *(Blocked: Script `scripts/seed_curriculum.ts` is ready, waiting for Jules to output JSON into `curriculum_data/`)*
+*   **[x] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files. *(Done: 377 templates from 5 JSON files deployed to production D1)*
 *   **[ ] Task 10.3:** Implement the **task generation engine** — reads a spine cell + constraint template, randomizes parameters, produces a task instance with parent-facing prompt and AI-facing systemInstruction.
 *   **[ ] Task 10.4:** Build the **DAG dependency resolver** with cross-strand support — a learner can't access a Capacity until prerequisites are met, but can advance in other strands (no deadlocks). Lateral movement suggested when blocked.
 *   **[ ] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled).
