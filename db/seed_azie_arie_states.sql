@@ -21,11 +21,15 @@ INSERT INTO Learner_Repetition_State (id, learner_id, capacity_id, current_cogni
 ('state_azie_g2a', 'learner_azie', 'G2a', 1, 'Exposure', 0, 'active'),
 ('state_azie_p2a', 'learner_azie', 'P2a', 1, 'Exposure', 0, 'active'),
 -- Azie - English
-('state_azie_ps2a', 'learner_azie', 'PS2a', 1, 'Exposure', 0, 'active'),
-('state_azie_rc2a', 'learner_azie', 'RC2a', 1, 'Exposure', 0, 'active'),
-('state_azie_gm2a', 'learner_azie', 'GM2a', 1, 'Exposure', 0, 'active'),
-('state_azie_cw2a', 'learner_azie', 'CW2a', 1, 'Exposure', 0, 'active'),
-('state_azie_ol2a', 'learner_azie', 'OL2a', 1, 'Exposure', 0, 'active'),
+('state_azie_eng_ps2a', 'learner_azie', 'ENG_PS2a', 1, 'Exposure', 0, 'active'),
+('state_azie_eng_rc2a', 'learner_azie', 'ENG_RC2a', 1, 'Exposure', 0, 'active'),
+('state_azie_eng_gm2a', 'learner_azie', 'ENG_GM2a', 1, 'Exposure', 0, 'active'),
+('state_azie_eng_cw2a', 'learner_azie', 'ENG_CW2a', 1, 'Exposure', 0, 'active'),
+('state_azie_eng_ol2a', 'learner_azie', 'ENG_OL2a', 1, 'Exposure', 0, 'active'),
+-- Azie - Science
+('state_azie_sci_se2a', 'learner_azie', 'SCI_SE2a', 1, 'Exposure', 0, 'active'),
+('state_azie_sci_ls2a', 'learner_azie', 'SCI_LS2a', 1, 'Exposure', 0, 'active'),
+('state_azie_sci_ps2a', 'learner_azie', 'SCI_PS2a', 1, 'Exposure', 0, 'active'),
 
 -- Arie (learner_arie) - Math
 ('state_arie_d1', 'learner_arie', 'D1', 1, 'Exposure', 0, 'active'),
@@ -33,8 +37,12 @@ INSERT INTO Learner_Repetition_State (id, learner_id, capacity_id, current_cogni
 ('state_arie_g2a', 'learner_arie', 'G2a', 1, 'Exposure', 0, 'active'),
 ('state_arie_p2a', 'learner_arie', 'P2a', 1, 'Exposure', 0, 'active'),
 -- Arie - English
-('state_arie_ps2a', 'learner_arie', 'PS2a', 1, 'Exposure', 0, 'active'),
-('state_arie_rc2a', 'learner_arie', 'RC2a', 1, 'Exposure', 0, 'active'),
-('state_arie_gm2a', 'learner_arie', 'GM2a', 1, 'Exposure', 0, 'active'),
-('state_arie_cw2a', 'learner_arie', 'CW2a', 1, 'Exposure', 0, 'active'),
-('state_arie_ol2a', 'learner_arie', 'OL2a', 1, 'Exposure', 0, 'active');
+('state_arie_eng_ps2a', 'learner_arie', 'ENG_PS2a', 1, 'Exposure', 0, 'active'),
+('state_arie_eng_rc2a', 'learner_arie', 'ENG_RC2a', 1, 'Exposure', 0, 'active'),
+('state_arie_eng_gm2a', 'learner_arie', 'ENG_GM2a', 1, 'Exposure', 0, 'active'),
+('state_arie_eng_cw2a', 'learner_arie', 'ENG_CW2a', 1, 'Exposure', 0, 'active'),
+('state_arie_eng_ol2a', 'learner_arie', 'ENG_OL2a', 1, 'Exposure', 0, 'active'),
+-- Arie - Science
+('state_arie_sci_se2a', 'learner_arie', 'SCI_SE2a', 1, 'Exposure', 0, 'active'),
+('state_arie_sci_ls2a', 'learner_arie', 'SCI_LS2a', 1, 'Exposure', 0, 'active'),
+('state_arie_sci_ps2a', 'learner_arie', 'SCI_PS2a', 1, 'Exposure', 0, 'active');

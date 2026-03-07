@@ -1,8 +1,10 @@
 -- =============================================================================
 -- Learn Live — Curriculum Spine Seed Data
--- Auto-generated from Jules JSON template files on 2026-03-07T20:13:55.227Z
+-- Auto-generated from Jules JSON template files on 2026-03-07T22:17:36.894Z
 -- =============================================================================
 
+-- Clear existing data (in order of dependencies)
+DELETE FROM Learner_Repetition_State;
 DELETE FROM Constraint_Templates;
 DELETE FROM Capacity_Dependencies;
 DELETE FROM Capacities;
@@ -28,6 +30,9 @@ INSERT INTO Strands (id, name) VALUES ('ENG_S2', 'Reading Comprehension');
 INSERT INTO Strands (id, name) VALUES ('ENG_S3', 'Grammar & Mechanics');
 INSERT INTO Strands (id, name) VALUES ('ENG_S4', 'Composition & Writing');
 INSERT INTO Strands (id, name) VALUES ('ENG_S5', 'Oral Language & Listening');
+INSERT INTO Strands (id, name) VALUES ('SCI_S1', 'Life Sciences & Inquiry');
+INSERT INTO Strands (id, name) VALUES ('SCI_S2', 'Physical Sciences');
+INSERT INTO Strands (id, name) VALUES ('SCI_S3', 'Earth & Space Sciences');
 
 -- ── Capacities ──────────────────────────────────────────────────────────────
 INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('D1', 'MATH_S1', 'Band_2', 'Place Value as Grouping');
@@ -59,42 +64,37 @@ INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('P2e', '
 INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('P2f', 'MATH_S4', 'Band_2', 'Simple Experiments');
 INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('P2g', 'MATH_S4', 'Band_2', 'Comparing Data Sets');
 INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('M2', 'MATH_S5', 'Band_2', 'Physical modeling');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2a', 'ENG_S1', 'Band_2', 'Short Vowel Mastery');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2b', 'ENG_S1', 'Band_2', 'Consonant Blends');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2c', 'ENG_S1', 'Band_2', 'Consonant Digraphs');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2d', 'ENG_S1', 'Band_2', 'Long Vowel Patterns');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2e', 'ENG_S1', 'Band_2', 'R-Controlled Vowels');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2f', 'ENG_S1', 'Band_2', 'Syllable Types & Division');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2g', 'ENG_S1', 'Band_2', 'Common Spelling Patterns');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2h', 'ENG_S1', 'Band_2', 'Word Families & Morphemes');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2i', 'ENG_S1', 'Band_2', 'High-Frequency Sight Words — Extended');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('PS2j', 'ENG_S1', 'Band_2', 'Spelling as Encoding');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2a', 'ENG_S2', 'Band_2', 'Literal Comprehension');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2b', 'ENG_S2', 'Band_2', 'Retelling with Detail');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2c', 'ENG_S2', 'Band_2', 'Main Idea Identification');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2d', 'ENG_S2', 'Band_2', 'Supporting Details');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2e', 'ENG_S2', 'Band_2', 'Cause and Effect');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2f', 'ENG_S2', 'Band_2', 'Character Traits & Feelings');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2g', 'ENG_S2', 'Band_2', 'Making Inferences');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2h', 'ENG_S2', 'Band_2', 'Comparing Texts');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2i', 'ENG_S2', 'Band_2', 'Text Features');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RF2a', 'ENG_S2', 'Band_2', 'Phrase Chunking');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RF2b', 'ENG_S2', 'Band_2', 'Reading Rate');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RF2c', 'ENG_S2', 'Band_2', 'Prosody & Expression');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('RC2j', 'ENG_S2', 'Band_2', 'Poetry & Rhythmic Text');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2a', 'ENG_S3', 'Band_2', 'Sentence Types');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2b', 'ENG_S3', 'Band_2', 'Nouns — Common & Proper');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2c', 'ENG_S3', 'Band_2', 'Verbs — Action Words');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2d', 'ENG_S3', 'Band_2', 'Adjectives — Describing Words');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2e', 'ENG_S3', 'Band_2', 'Subject-Verb Agreement');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2f', 'ENG_S3', 'Band_2', 'Singular & Plural Nouns');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2g', 'ENG_S3', 'Band_2', 'Verb Tenses — Simple');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2h', 'ENG_S3', 'Band_2', 'Commas in Lists');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2i', 'ENG_S3', 'Band_2', 'Apostrophes — Possession');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2j', 'ENG_S3', 'Band_2', 'Conjunctions — Simple');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('GM2k', 'ENG_S3', 'Band_2', 'Sentence Expansion');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('CW2a', 'ENG_S4', 'Band_2', 'Sentence Writing');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('CW2b', 'ENG_S4', 'Band_2', 'Paragraph Writing — Guided');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('CW2c', 'ENG_S4', 'Band_2', 'Topic Sentences');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('CW2d', 'ENG_S4', 'Band_2', 'Sequenced Narrative');
-INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('CW2e', 'ENG_S4', 'Band_2', 'Descriptive Writing');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2a', 'ENG_S1', 'Band_2', 'Short Vowel Mastery');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2b', 'ENG_S1', 'Band_2', 'Consonant Blends');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2c', 'ENG_S1', 'Band_2', 'Consonant Digraphs');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2d', 'ENG_S1', 'Band_2', 'Long Vowel Patterns');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2e', 'ENG_S1', 'Band_2', 'R-Controlled Vowels');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2f', 'ENG_S1', 'Band_2', 'Syllable Types & Division');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2g', 'ENG_S1', 'Band_2', 'Common Spelling Patterns');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2h', 'ENG_S1', 'Band_2', 'Word Families & Morphemes');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2i', 'ENG_S1', 'Band_2', 'High-Frequency Sight Words — Extended');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_PS2j', 'ENG_S1', 'Band_2', 'Spelling as Encoding');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2a', 'ENG_S2', 'Band_2', 'Literal Comprehension');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2b', 'ENG_S2', 'Band_2', 'Retelling with Detail');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2c', 'ENG_S2', 'Band_2', 'Main Idea Identification');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2d', 'ENG_S2', 'Band_2', 'Supporting Details');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2e', 'ENG_S2', 'Band_2', 'Cause and Effect');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2f', 'ENG_S2', 'Band_2', 'Character Traits & Feelings');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2g', 'ENG_S2', 'Band_2', 'Making Inferences');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2h', 'ENG_S2', 'Band_2', 'Comparing Texts');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2i', 'ENG_S2', 'Band_2', 'Text Features');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RF2a', 'ENG_S2', 'Band_2', 'Phrase Chunking');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RF2b', 'ENG_S2', 'Band_2', 'Reading Rate');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RF2c', 'ENG_S2', 'Band_2', 'Prosody & Expression');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_RC2j', 'ENG_S2', 'Band_2', 'Poetry & Rhythmic Text');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2a', 'ENG_S3', 'Band_2', 'Sentence Types');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2b', 'ENG_S3', 'Band_2', 'Nouns — Common & Proper');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2c', 'ENG_S3', 'Band_2', 'Verbs — Action Words');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2d', 'ENG_S3', 'Band_2', 'Adjectives — Describing Words');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2e', 'ENG_S3', 'Band_2', 'Subject-Verb Agreement');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2f', 'ENG_S3', 'Band_2', 'Singular & Plural Nouns');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2g', 'ENG_S3', 'Band_2', 'Verb Tenses — Simple');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2h', 'ENG_S3', 'Band_2', 'Commas in Lists');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2i', 'ENG_S3', 'Band_2', 'Apostrophes — Possession');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2j', 'ENG_S3', 'Band_2', 'Conjunctions — Simple');
+INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('ENG_GM2k', 'ENG_S3', 'Band_2', 'Sentence Expansion');

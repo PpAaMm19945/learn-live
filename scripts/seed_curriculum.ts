@@ -72,17 +72,21 @@ const MATH_CAPACITIES: Record<string, string> = {
 
 // Load English capacity names from generated file
 const ENG_CAPACITIES_PATH = path.join(CURRICULUM_DATA_DIR, 'english_capacity_names.json');
-const ENG_CAPACITIES = fs.existsSync(ENG_CAPACITIES_PATH)
+const rawEngCapacities = fs.existsSync(ENG_CAPACITIES_PATH)
     ? JSON.parse(fs.readFileSync(ENG_CAPACITIES_PATH, 'utf8'))
     : {};
 
 // Load Science capacity names
 const SCI_CAPACITIES_PATH = path.join(CURRICULUM_DATA_DIR, 'science_capacity_names.json');
-const SCI_CAPACITIES = fs.existsSync(SCI_CAPACITIES_PATH)
+const rawSciCapacities = fs.existsSync(SCI_CAPACITIES_PATH)
     ? JSON.parse(fs.readFileSync(SCI_CAPACITIES_PATH, 'utf8'))
     : {};
 
+const ENG_CAPACITIES = Object.fromEntries(Object.entries(rawEngCapacities).map(([k, v]) => [`ENG_${k}`, v]));
+const SCI_CAPACITIES = Object.fromEntries(Object.entries(rawSciCapacities).map(([k, v]) => [`SCI_${k}`, v]));
+
 const CAPACITIES_NAME_MAP = { ...MATH_CAPACITIES, ...ENG_CAPACITIES, ...SCI_CAPACITIES };
+
 
 interface JulesTemplate {
     capacity_id: string;
@@ -192,9 +196,12 @@ function generateSQL() {
         const isEnglish = file.startsWith('english_');
         const isScience = file.startsWith('science_');
         const prefix = isEnglish ? 'ENG_S' : (isScience ? 'SCI_S' : 'MATH_S');
+        const capPrefix = isEnglish ? 'ENG_' : (isScience ? 'SCI_' : '');
 
         for (const t of templates) {
-            const capKey = t.capacity_id;
+            const originalCapKey = t.capacity_id;
+            const capKey = `${capPrefix}${originalCapKey}`;
+
             if (!seenCapacities.has(capKey)) {
                 seenCapacities.add(capKey);
                 const strandId = `${prefix}${t.strand}`;
@@ -216,16 +223,19 @@ function generateSQL() {
         const templates: JulesTemplate[] = JSON.parse(raw);
         const isEnglish = file.startsWith('english_');
         const isScience = file.startsWith('science_');
-        const prefix = isEnglish ? 'ENG_S' : (isScience ? 'SCI_S' : 'MATH_S');
+        const capPrefix = isEnglish ? 'ENG_' : (isScience ? 'SCI_' : '');
 
         for (const t of templates) {
+            const originalCapKey = t.capacity_id;
+            const capKey = `${capPrefix}${originalCapKey}`;
+
             const cogLevel = COGNITIVE_LEVEL_MAP[t.cognitive_level];
             if (!cogLevel) {
-                console.warn(`  WARN: Unknown cognitive_level '${t.cognitive_level}' in ${file}, capacity ${t.capacity_id}. Skipping.`);
+                console.warn(`  WARN: Unknown cognitive_level '${t.cognitive_level}' in ${file}, capacity ${capKey}. Skipping.`);
                 continue;
             }
 
-            const id = `${t.capacity_id}_L${cogLevel}_${t.variation_id}`;
+            const id = `${capKey}_L${cogLevel}_${t.variation_id}`;
 
             // Normalize materials: array → joined string
             let materialsStr: string | null = null;
@@ -249,7 +259,7 @@ function generateSQL() {
             const riskLevel = t.risk_level || null;
             const safetyWarning = t.safety_warning || null;
 
-            sql += `INSERT OR IGNORE INTO Constraint_Templates (id, capacity_id, cognitive_level, variation_id, task_type, materials, scientific_materials, acceptable_alternatives, risk_level, safety_warning, parent_prompt, success_condition, failure_condition, reasoning_check, context_variants, requires_parent_primer) VALUES (${escSQL(id)}, ${escSQL(t.capacity_id)}, ${cogLevel}, ${escSQL(t.variation_id)}, ${escSQL(t.task_type)}, ${escSQL(materialsStr)}, ${escSQL(scientificMaterials)}, ${escSQL(acceptableAlternatives)}, ${escSQL(riskLevel)}, ${escSQL(safetyWarning)}, ${escSQL(t.parent_prompt)}, ${escSQL(t.success_condition)}, ${escSQL(t.failure_condition)}, ${escSQL(t.reasoning_check)}, ${escSQL(contextStr)}, ${t.parent_primer ? 1 : 0});\n`;
+            sql += `INSERT OR IGNORE INTO Constraint_Templates (id, capacity_id, cognitive_level, variation_id, task_type, materials, scientific_materials, acceptable_alternatives, risk_level, safety_warning, parent_prompt, success_condition, failure_condition, reasoning_check, context_variants, requires_parent_primer) VALUES (${escSQL(id)}, ${escSQL(capKey)}, ${cogLevel}, ${escSQL(t.variation_id)}, ${escSQL(t.task_type)}, ${escSQL(materialsStr)}, ${escSQL(scientificMaterials)}, ${escSQL(acceptableAlternatives)}, ${escSQL(riskLevel)}, ${escSQL(safetyWarning)}, ${escSQL(t.parent_prompt)}, ${escSQL(t.success_condition)}, ${escSQL(t.failure_condition)}, ${escSQL(t.reasoning_check)}, ${escSQL(contextStr)}, ${t.parent_primer ? 1 : 0});\n`;
             totalTemplates++;
         }
         sql += `\n`;
