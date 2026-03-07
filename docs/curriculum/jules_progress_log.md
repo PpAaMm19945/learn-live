@@ -3,7 +3,7 @@
 ## Overall Progress
 - [ ] Band 0
 - [ ] Band 1
-- [ ] Band 2 (Variations) - Strand 1 Complete
+- [x] Band 2 (Variations) - All Strands Complete
 - [ ] Band 3
 - [ ] Band 4
 - [ ] Band 5
@@ -49,6 +49,6 @@
 - [x] P2g: Comparing Data Sets
 
 **Strand 5: Mathematical Modeling & Systems**
-- [ ] Strand 5 integration templates
+- [x] Strand 5 integration templates (M2)
 
 ---
