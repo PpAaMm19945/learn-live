@@ -41,18 +41,18 @@
 - [x] GM2k: Sentence Expansion
 
 ## Strand 4: Composition & Writing (12 nodes)
-- [ ] CW2a: Sentence Writing
-- [ ] CW2b: Paragraph Writing — Guided
-- [ ] CW2c: Topic Sentences
-- [ ] CW2d: Sequenced Narrative
-- [ ] CW2e: Descriptive Writing
-- [ ] CW2f: Personal Narrative
-- [ ] CW2g: Informational Writing — Simple
-- [ ] CW2h1: Letter Formation — Print
-- [ ] CW2h2: Spacing & Sizing
-- [ ] CW2h3: Handwriting Speed
-- [ ] CW2i: Revision — Guided
-- [ ] CW2j: Dictation
+- [x] CW2a: Sentence Writing
+- [x] CW2b: Paragraph Writing — Guided
+- [x] CW2c: Topic Sentences
+- [x] CW2d: Sequenced Narrative
+- [x] CW2e: Descriptive Writing
+- [x] CW2f: Personal Narrative
+- [x] CW2g: Informational Writing — Simple
+- [x] CW2h1: Letter Formation — Print
+- [x] CW2h2: Spacing & Sizing
+- [x] CW2h3: Handwriting Speed
+- [x] CW2i: Revision — Guided
+- [x] CW2j: Dictation
 
 ## Strand 5: Oral Language & Listening (8 nodes)
 - [ ] OL2a: Following Multi-Step Directions
