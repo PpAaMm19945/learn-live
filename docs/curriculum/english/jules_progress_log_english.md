@@ -55,11 +55,11 @@
 - [x] CW2j: Dictation
 
 ## Strand 5: Oral Language & Listening (8 nodes)
-- [ ] OL2a: Following Multi-Step Directions
-- [ ] OL2b: Oral Retelling — Detailed
-- [ ] OL2c: Oral Narration — Personal
-- [ ] OL2d: Oral Narration — Fictional
-- [ ] OL2e: Vocabulary Use in Speech
-- [ ] OL2f: Active Listening
-- [ ] OL2g: Speaking to an Audience
-- [ ] OL2h: Explaining Reasoning
+- [x] OL2a: Following Multi-Step Directions
+- [x] OL2b: Oral Retelling — Detailed
+- [x] OL2c: Oral Narration — Personal
+- [x] OL2d: Oral Narration — Fictional
+- [x] OL2e: Vocabulary Use in Speech
+- [x] OL2f: Active Listening
+- [x] OL2g: Speaking to an Audience
+- [x] OL2h: Explaining Reasoning
