@@ -1,0 +1,6387 @@
+# Band 2 English Templates — Strand 5: Oral Language & Listening
+
+*Note: Strand 5 focuses on Oral Language and Listening. By default, these tasks do not require written output unless a bypass or specific contextual application demands it. Tasks are heavily focused on auditory input and verbal/physical output. Writing-specific constraints (parent_rubric, grammar_integration, oral_component: true) are omitted in accordance with Strand 5 rules.*
+
+## OL2a: Following Multi-Step Directions
+
+### Encounter Level (Multisensory)
+
+**OL2a-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: I will give you two instructions at once: 'Touch your nose, then clap your hands.' Do it.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: Listen to these three instructions: 'Stand up, spin around, and sit back down.' Try it.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: I'm going to hide a toy. Listen to my directions to find it (e.g., 'Go to the door, turn left, look under the chair').",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2a-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Follow these 3 steps exactly: 1) Touch the wall, 2) Jump twice, 3) Say 'Done!'",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Follow these 4 steps: 1) Pick up a pencil, 2) Put it on the chair, 3) Clap once, 4) Sit on the floor.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Give *me* 3 instructions to follow, and watch to see if I do them in the right order.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2a-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I was supposed to: 1) get a cup, 2) pour water, 3) drink. I poured water first. What did I do wrong?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Give me 3 instructions. I am going to do them in the wrong order. You must catch my mistake.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: I need to put on my shoes and socks. I say, 'First I put on my shoes, then my socks.' Is that correct? Why not?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2a-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Give me 4 sequential instructions to draw a simple house on a piece of paper. Make sure they are clear.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Invent a new handshake with 4 steps. Teach it to me using clear verbal directions.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2a-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Create a short obstacle course in the room. Give me multi-step directions on how to navigate it.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2a-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2a",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2a: Ask your child to help make a simple snack or set the table using 3-4 unprompted sequential steps.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2b: Oral Retelling — Detailed
+
+### Encounter Level (Multisensory)
+
+**OL2b-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: I will read a short fable. When I finish, tell me what happened first.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: Listen to this story. Show me with these picture cards what happened in the middle.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: I will tell you a story. Act out the ending for me.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2b-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I will read a short story. Retell it to me, making sure you include the beginning, middle, and end.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: After we read this chapter, tell me who the main characters were and what problem they faced.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Retell the story of your favorite movie, making sure you tell the events in the order they happened.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2b-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: We just read 'Goldilocks'. If I retell it and say she met three pigs, what error did I make in my retelling?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I will retell a story but I will skip the ending completely. Tell me what part I missed.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to my retelling. I am going to tell the end of the story before the beginning. Tell me why this is confusing.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2b-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Retell a story we read a long time ago from memory. Focus on providing rich details.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Retell a story from the perspective of a different character (e.g., tell Goldilocks from the bear's point of view).",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2b-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to a new, complex story. Summarize and retell only the most important parts clearly.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2b-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2b",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2b: Have your child call a grandparent or family member and retell a recent event they attended in detail.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2c: Oral Narration — Personal
+
+### Encounter Level (Multisensory)
+
+**OL2c-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: Think of a time you were very surprised. Draw a quick picture of it and tell me what the picture shows.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: I will tell you a story about when I was little. Then, tell me if something similar ever happened to you.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: Look at this old family photo. Tell me one thing you remember from that day.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2c-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Tell me a story about something funny that happened to you at school or at home. Include a beginning, middle, and end.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Tell me about a time you were scared. Make sure to describe where you were and what happened.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Narrate the story of what we did yesterday morning, starting from when you woke up.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2c-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I am telling a story about my trip to the store, but suddenly I start talking about space aliens. Does this belong in a personal narrative?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Listen to my story: 'I went to the park. It was fun. The end.' How could I make this personal narrative better and more detailed?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: I'm telling a story about yesterday, but I say 'I will go to the market tomorrow.' What is wrong with my timeline?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2c-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Plan and tell a detailed personal narrative about a holiday or special event. Use descriptive language.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Tell a story about a time you made a mistake and what you learned from it. Speak clearly and sequence it well.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2c-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Narrate a typical day in your life, but make it sound as exciting as possible using great vocabulary.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2c-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2c",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2c: Ask your child to tell a friend about their favorite memory from this week, making sure it has a beginning, middle, and end.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2d: Oral Narration — Fictional
+
+### Encounter Level (Multisensory)
+
+**OL2d-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: Look at this picture of a flying dog. Tell me one sentence about where he is going.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: I am going to start a story: 'Once there was a tiny elephant...' You add the next sentence.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: Pick two random objects from the room. Make up a short story linking them together.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2d-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Invent a short story about a magical tree. Make sure it has characters, a problem, and a solution.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Tell me a fictional story about an animal that gets lost in the city. Use a clear beginning, middle, and end.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Make up a story about a brave knight or warrior. Include at least three events in the story.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2d-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I am telling a fictional story about a brave knight, but the story has no problem or challenge. What is missing?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I tell a story where a cat is in a tree, and then the story just stops. How would you fix this incomplete story?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to this story intro: 'Once upon a time...' and then I just list facts about real dogs. Is that a fictional story?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2d-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Make up a completely original fairy tale. Introduce a hero, a villain, and a magical item.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Tell a fictional story that explains why something is the way it is (e.g., 'Why the leopard has spots').",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2d-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Create an oral story combining three random things: a key, a mountain, and a talking bird.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2d-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2d",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2d: Ask your child to invent a bedtime story to tell a younger sibling or toy.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2e: Vocabulary Use in Speech
+
+### Encounter Level (Multisensory)
+
+**OL2e-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: Listen to the word 'enormous'. It means very big. Tell me something that is enormous.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: The word 'sprint' means to run very fast. Show me how you sprint, then say 'I am sprinting'.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: Look at this picture of a sad boy. Instead of 'sad', let's use the word 'miserable'. Why is he miserable?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2e-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Use the word 'exhausted' in a sentence to describe how you feel after running a lot.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: We learned the word 'courageous'. Tell me a short story about someone being courageous.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Describe your favorite meal without using the words 'good', 'yummy', or 'nice'. Use more specific words instead.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2e-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I will use the word 'gigantic' incorrectly: 'The ant was gigantic.' Why is that funny/wrong?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I want to say I am very hungry. I say 'I am starving'. Is that a good word choice? What if I said 'I am sleepy' instead?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to this sentence: 'The hot ice cream was melting.' What word doesn't make sense?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2e-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Choose 3 difficult words you learned recently. Tell me a short, coherent story that uses all 3 words correctly.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I will give you a boring word like 'good'. Give me 3 better, more descriptive words that mean the same thing, and use one in a sentence.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2e-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Invent a completely new machine. Describe what it does using precise, complex vocabulary.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2e-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2e",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2e: While at the market or store, ask your child to describe an item using three new vocabulary words they learned recently.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2f: Active Listening
+
+### Encounter Level (Multisensory)
+
+**OL2f-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: I am going to read a short poem. Close your eyes and listen. When I finish, tell me one animal you heard.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: Listen to this paragraph about elephants. I will ask you one question about what they eat.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: I'm going to describe a secret object. Listen carefully and guess what it is.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2f-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Listen to this paragraph. Without asking me to repeat it, answer these two questions about the details.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I will give you directions to an imaginary place. Listen carefully, and then tell me how to get there.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to this short dialogue between two people. Tell me what they decided to do at the end.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2f-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I am going to tell you a short fact. Then I will pretend I didn't hear it. Tell me why active listening is important.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: While you tell me a story, I am going to look away and play with a toy. Am I being an active listener? What should I do instead?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to these directions. If I ask you to repeat them but I was mumbling, whose fault is it that communication failed?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2f-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Have a 2-minute conversation with me. You must wait for me to finish, summarize what I said, and then reply.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I am going to talk about a topic for 1 minute. Take notes (mental or physical), and then tell me my 3 main points.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2f-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Listen to a short audio clip (podcast/story). Formulate and ask two thoughtful questions about what you heard.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2f-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2f",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2f: Listen to an announcement or short radio clip together. Ask your child to summarize what the speaker just said.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2g: Speaking to an Audience
+
+### Encounter Level (Multisensory)
+
+**OL2g-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: Stand up straight, look me in the eyes, and loudly say your full name and age.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: Pretend you are a teacher. Tell your stuffed animals to sit down and be quiet, using a strong, clear voice.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: Recite a short nursery rhyme or song for me while standing on this 'stage' (a rug or mat).",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2g-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Stand up and clearly explain to the family how to make a sandwich. Speak loudly enough for everyone to hear.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Recite a short poem from memory to an 'audience' (stuffed animals or family members). Use expressive intonation.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Introduce yourself to an imaginary crowd, stating your name, age, and favorite hobby clearly and with eye contact.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2g-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I am going to present a topic to you, but I will whisper and look at the floor. Give me feedback on my presentation skills.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: I will speak very, very fast so you can barely understand me. Tell me how I should change my speaking pace.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: I will stand in front of you and fidget wildly while talking. Why is this distracting for an audience?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2g-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Prepare a 1-minute 'speech' about your favorite animal. Deliver it standing up, with a loud voice and good posture.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Do a 'show and tell' presentation for the family. Explain what the object is, where you got it, and why it's special.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2g-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Pretend you are a news reporter. Give a 30-second news report on what happened in our house today.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2g-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2g",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2g: Have your child present a drawing or project they made to the whole family after dinner, speaking clearly.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
+
+## OL2h: Explaining Reasoning
+
+### Encounter Level (Multisensory)
+
+**OL2h-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation A: Do you prefer apples or bananas? Tell me which one, and say 'because...' to explain why.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation B: I think dogs make the best pets. I think this because they are friendly. Why do you think someone might want a cat instead?",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Auditory/Verbal Encounter",
+  "materials": [
+    "Everyday objects",
+    "Toys or blocks",
+    "Audio recordings"
+  ],
+  "parent_prompt": "Variation C: Look outside. Is it a good day to play outside? Give me one reason why.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "What did you hear or notice? How did you know what to do?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Execute Level (Verbal)
+
+**OL2h-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Explain why it is important to brush your teeth. Use the word 'because' in your explanation.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Tell me why you think it might rain today (or not rain). Give me two reasons.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Verbal Execution",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: Choose a rule we have in our house and explain the reasoning behind why we have that rule.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why did you sequence/say it that way? How do you know?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Discern Level (Error Detection)
+
+**OL2h-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: I say 'I like ice cream because it is a car.' Does my reasoning make sense? Fix it.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Someone asks why I am wearing a coat, and I say 'Because.' Is that a complete explanation? Give a better one.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Verbal Error Detection",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: I claim that the sky is green. When asked why, I say 'because I said so.' Is that good reasoning? Explain.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Why is that wrong? How would you fix it?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Own Level (Production)
+
+**OL2h-4A: Own Variation A**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation A: Argue for why you should be allowed to stay up 15 minutes later tonight. Provide clear, logical reasoning.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-4B: Own Variation B**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation B: Explain to a younger child why they shouldn't touch a hot stove, using clear cause-and-effect reasoning.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+**OL2h-4C: Own Variation C**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Creative Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Variation C: If you could change one rule in the house, what would it be? Defend your choice with solid reasons.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  }
+}
+```
+
+### Milestone Task
+
+**OL2h-M: Milestone Production**
+```json
+{
+  "capacity_id": "OL2h",
+  "strand": 5,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone Verbal Production",
+  "materials": [
+    "None (Verbal/Physical task)"
+  ],
+  "parent_prompt": "Real-world task for OL2h: Ask your child to choose which game to play today and explain exactly why they chose it using 'because'.",
+  "success_condition": "Child correctly performs the multi-step directions, verbalizes the narrative/reasoning, or identifies errors.",
+  "failure_condition": "Child misses steps, lacks sequence/detail, or does not clearly verbalize. Parent provides guidance and models correct output.",
+  "reasoning_check": "Explain the choices you made.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  }
+}
+```
