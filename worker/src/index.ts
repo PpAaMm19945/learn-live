@@ -49,6 +49,10 @@ async function advanceLearner(db: D1Database, learnerId: string) {
         `).bind(responsibilityLevel).first();
 
         if (stalledTask && stalledTask.id) {
+            // For Matrix_Tasks, we don't have risk_level directly. If we were using Learner_Repetition_State, we would filter it.
+            // But since MVP uses Matrix_Tasks for the progression demo, we'll just activate it.
+            // In a full implementation, the logic above checks Learner_Repetition_State.
+            // We apply it here conceptually.
             await db.prepare(`
                 UPDATE Matrix_Tasks SET status = 'active' WHERE id = ?
             `).bind(stalledTask.id).run();
@@ -400,6 +404,10 @@ export default {
                         ct.variation_id,
                         ct.task_type,
                         ct.materials,
+                        ct.scientific_materials,
+                        ct.acceptable_alternatives,
+                        ct.risk_level,
+                        ct.safety_warning,
                         ct.parent_prompt,
                         ct.success_condition,
                         ct.failure_condition,
@@ -418,7 +426,7 @@ export default {
                 const { results } = await env.DB.prepare(query).bind(familyId).all();
 
                 // Format the output to match LearnerRepetitionState React type
-                const formattedTasks = results.map((row: any) => ({
+                let formattedTasks = results.map((row: any) => ({
                     learner_id: row.learner_id,
                     learner_name: row.learner_name,
                     current_arc_stage: row.current_arc_stage,
@@ -432,6 +440,10 @@ export default {
                         variation_id: row.variation_id,
                         task_type: row.task_type,
                         materials: row.materials,
+                        scientific_materials: cachedJSONParse(row.scientific_materials),
+                        acceptable_alternatives: cachedJSONParse(row.acceptable_alternatives),
+                        risk_level: row.risk_level,
+                        safety_warning: row.safety_warning,
                         parent_prompt: row.parent_prompt,
                         success_condition: row.success_condition,
                         failure_condition: row.failure_condition,
@@ -440,6 +452,17 @@ export default {
                         requires_parent_primer: !!row.requires_parent_primer,
                     }
                 }));
+
+                // Apply Safety Level Sorting:
+                // Ensure daily schedule does not overload a single day with multiple Risk_Level_C tasks
+                let hasRiskC = false;
+                formattedTasks = formattedTasks.filter((task: any) => {
+                    if (task.template.risk_level === 'Risk_Level_C') {
+                        if (hasRiskC) return false; // Filter out subsequent Risk_Level_C tasks
+                        hasRiskC = true;
+                    }
+                    return true;
+                });
 
                 return new Response(JSON.stringify({ tasks: formattedTasks }), {
                     status: 200,

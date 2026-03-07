@@ -131,6 +131,7 @@ Focuses on the local environment, ground, agriculture, and sky.
 | `ES2i` | **Lunar Phases:** Observing and predicting basic moon appearance changes. | ES2g |
 | `ES2j` | **Natural Resources & Stewardship:** Water conservation, soil protection (erosion). | ES2b |
 | `ES2k` | **Ecosystem Disruption:** What happens when a habitat loses a resource (water/trees). | ES2j, LS2h |
+| `ES2l` | **Conservation & Recycling:** Reusing local materials to prevent waste. | ES2j |
 
 ---
 

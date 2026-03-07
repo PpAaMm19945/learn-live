@@ -104,6 +104,10 @@ CREATE TABLE Constraint_Templates (
     variation_id TEXT NOT NULL, -- 'A', 'B', etc.
     task_type TEXT NOT NULL,
     materials TEXT,
+    scientific_materials TEXT,
+    acceptable_alternatives TEXT,
+    risk_level TEXT,
+    safety_warning TEXT,
     parent_prompt TEXT NOT NULL,
     success_condition TEXT NOT NULL,
     failure_condition TEXT, -- relevant for Encounter/Discern

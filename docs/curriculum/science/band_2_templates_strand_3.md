@@ -757,7 +757,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -840,7 +840,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -923,7 +923,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -1958,7 +1958,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -2888,7 +2888,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -2970,7 +2970,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -3836,7 +3836,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -4004,7 +4004,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5028,7 +5028,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5875,7 +5875,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -6039,7 +6039,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -6895,7 +6895,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -7061,7 +7061,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -7928,7 +7928,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -8012,7 +8012,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -9964,7 +9964,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -10047,7 +10047,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -10130,7 +10130,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -10987,7 +10987,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -11070,7 +11070,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -11153,7 +11153,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -11250,5 +11250,1028 @@
     }
   ],
   "worldview_connection": "Mechanism: Real-world mechanics of Ecosystem Disruption. Stewardship: Applying earth science knowledge to serve the family's land/resources."
+}
+```
+
+## ES2l: Conservation & Recycling
+
+### Encounter Level (Physical Observation)
+
+**ES2l-1A: Encounter Variation A**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "A",
+  "task_type": "Encounter (Observation)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation A: Parent guides child to directly observe Conservation & Recycling outside. \"Look closely at this. What do you notice?\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What do you see, hear, or feel?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "observable_phenomenon": "Direct physical observation of conservation & recycling"
+}
+```
+
+**ES2l-1B: Encounter Variation B**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "B",
+  "task_type": "Encounter (Observation)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation B: Parent sets up an observation with used plastic bottle, scissors. \"Feel and listen to this. What is happening?\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What do you see, hear, or feel?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "observable_phenomenon": "Direct physical observation of conservation & recycling"
+}
+```
+
+**ES2l-1C: Encounter Variation C**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 1,
+  "variation_id": "C",
+  "task_type": "Encounter (Observation)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Conservation & Recycling and describe it to me.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What do you see, hear, or feel?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "observable_phenomenon": "Direct physical observation of conservation & recycling"
+}
+```
+
+### Execute Level (Experiment)
+
+**ES2l-2A: Execute Variation A**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "A",
+  "task_type": "Execute (Experiment/Sorting)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation A: \"Use the used plastic bottle to test Conservation & Recycling. Sort the rocks/soil into two piles.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "How did you record your data?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "parent_rubric": [
+    {
+      "criterion": "Did the child safely handle materials?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child accurately track or sort the natural items?",
+      "type": "yes_no"
+    }
+  ]
+}
+```
+
+**ES2l-2B: Execute Variation B**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "B",
+  "task_type": "Execute (Experiment/Sorting)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation B: \"Track the weather or Conservation & Recycling using old paper. Draw what happened today.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "How did you record your data?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "parent_rubric": [
+    {
+      "criterion": "Did the child safely handle materials?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child accurately track or sort the natural items?",
+      "type": "yes_no"
+    }
+  ]
+}
+```
+
+**ES2l-2C: Execute Variation C**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 2,
+  "variation_id": "C",
+  "task_type": "Execute (Experiment/Sorting)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation C: \"Measure or count the outcomes of our Conservation & Recycling observation. Create a simple tally chart over 3 days.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "How did you record your data?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "math_integration": {
+    "math_node": "P2a",
+    "bypass_instructions": "If child is below math band required for data/tally charts, parent should draw the chart and have the child only perform physical counting."
+  },
+  "parent_rubric": [
+    {
+      "criterion": "Did the child safely handle materials?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child accurately track or sort the natural items?",
+      "type": "yes_no"
+    }
+  ]
+}
+```
+
+### Discern Level (Anomaly Detection)
+
+**ES2l-3A: Discern Variation A**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "A",
+  "task_type": "Discern (Anomaly Detection)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Conservation & Recycling to him.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What was the mechanical error?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "worldview_connection": "Mechanism: Understanding how Conservation & Recycling works physically. Stewardship: We must know the true mechanism of the earth to farm or build properly."
+}
+```
+
+**ES2l-3B: Discern Variation B**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "B",
+  "task_type": "Discern (Anomaly Detection)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Conservation & Recycling experiment fail physically?\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What was the mechanical error?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "worldview_connection": "Mechanism: Understanding how Conservation & Recycling works physically. Stewardship: We must know the true mechanism of the earth to farm or build properly."
+}
+```
+
+**ES2l-3C: Discern Variation C**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 3,
+  "variation_id": "C",
+  "task_type": "Discern (Anomaly Detection)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "What was the mechanical error?",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "worldview_connection": "Mechanism: Understanding how Conservation & Recycling works physically. Stewardship: We must know the true mechanism of the earth to farm or build properly."
+}
+```
+
+### Own Level (Model Building & Stewardship)
+
+**ES2l-4A: Own Variation A**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "A",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Conservation & Recycling. Build a small physical model using used plastic bottle, scissors.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Physical",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Conservation & Recycling). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
+**ES2l-4B: Own Variation B**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Conservation & Recycling. Draw your predictive model and explain it.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Physical",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Conservation & Recycling). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
+**ES2l-4C: Own Variation C**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Conservation & Recycling). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "System",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Conservation & Recycling). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
+### Milestone Task
+
+**ES2l-M: Milestone Production**
+```json
+{
+  "capacity_id": "ES2l",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "M",
+  "task_type": "Milestone (Real-World Application)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Parent supervision required when using scissors.",
+  "scientific_materials": [
+    "used plastic bottle",
+    "scissors"
+  ],
+  "acceptable_alternatives": [
+    "old paper",
+    "cardboard box"
+  ],
+  "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Conservation & Recycling). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
+  "success_condition": "Child successfully completes the observation or explanation.",
+  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 1,
+    "endurance": "none",
+    "milestone": "M"
+  },
+  "model_type": "System",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Real-world mechanics of Conservation & Recycling. Stewardship: Applying earth science knowledge to serve the family's land/resources."
 }
 ```
