@@ -14,6 +14,10 @@ export interface ConstraintTemplate {
     variation_id: string;
     task_type: string;
     materials?: string;
+    scientific_materials?: string[];
+    acceptable_alternatives?: string[];
+    risk_level?: string;
+    safety_warning?: string;
     parent_prompt: string;
     success_condition: string;
     failure_condition?: string;

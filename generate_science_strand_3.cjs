@@ -12,7 +12,8 @@ const capacities = [
   { id: 'ES2h', name: 'Solar Energy', risk: 'Risk_Level_A', materials: ['sunlight', 'stone or metal object', 'water in shallow dish'], alternatives: ['cloth', 'leaf'], safety: 'Check that objects heated by sun are not too hot.' },
   { id: 'ES2i', name: 'Lunar Phases', risk: 'Risk_Level_B', materials: ['night sky observation'], alternatives: ['drawing of moon', 'ball and flashlight in dark room'], safety: 'Night observation requires parent supervision.' },
   { id: 'ES2j', name: 'Natural Resources & Stewardship', risk: 'Risk_Level_B', materials: ['water from tap/jerrycan', 'cup', 'soil patch'], alternatives: ['bucket of water'], safety: 'Do not waste essential household drinking water.' },
-  { id: 'ES2k', name: 'Ecosystem Disruption', risk: 'Risk_Level_A', materials: ['small patch of grass/weeds', 'heavy board or box to cover it'], alternatives: ['pot with weed', 'dark cloth'], safety: 'Wash hands after touching plants/soil.' }
+  { id: 'ES2k', name: 'Ecosystem Disruption', risk: 'Risk_Level_A', materials: ['small patch of grass/weeds', 'heavy board or box to cover it'], alternatives: ['pot with weed', 'dark cloth'], safety: 'Wash hands after touching plants/soil.' },
+  { id: 'ES2l', name: 'Conservation & Recycling', risk: 'Risk_Level_A', materials: ['used plastic bottle', 'scissors'], alternatives: ['old paper', 'cardboard box'], safety: 'Parent supervision required when using scissors.' }
 ];
 
 const contextVariants = {
