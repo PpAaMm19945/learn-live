@@ -13,19 +13,19 @@
 - [x] PS2j: Spelling as Encoding
 
 ## Strand 2: Reading Comprehension & Fluency (13 nodes)
-- [ ] RC2a: Literal Comprehension
-- [ ] RC2b: Retelling with Detail
-- [ ] RC2c: Main Idea Identification
-- [ ] RC2d: Supporting Details
-- [ ] RC2e: Cause and Effect
-- [ ] RC2f: Character Traits & Feelings
-- [ ] RC2g: Making Inferences
-- [ ] RC2h: Comparing Texts
-- [ ] RC2i: Text Features
-- [ ] RF2a: Phrase Chunking
-- [ ] RF2b: Reading Rate
-- [ ] RF2c: Prosody & Expression
-- [ ] RC2j: Poetry & Rhythmic Text
+- [x] RC2a: Literal Comprehension
+- [x] RC2b: Retelling with Detail
+- [x] RC2c: Main Idea Identification
+- [x] RC2d: Supporting Details
+- [x] RC2e: Cause and Effect
+- [x] RC2f: Character Traits & Feelings
+- [x] RC2g: Making Inferences
+- [x] RC2h: Comparing Texts
+- [x] RC2i: Text Features
+- [x] RF2a: Phrase Chunking
+- [x] RF2b: Reading Rate
+- [x] RF2c: Prosody & Expression
+- [x] RC2j: Poetry & Rhythmic Text
 
 ## Strand 3: Grammar & Mechanics (11 nodes)
 - [ ] GM2a: Sentence Types
