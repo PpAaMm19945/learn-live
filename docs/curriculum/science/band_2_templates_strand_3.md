@@ -24,8 +24,8 @@
     "clay"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Soil Composition outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil Composition.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -96,8 +96,8 @@
     "clay"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with handful of soil (garden/path), white paper. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil Composition.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -168,8 +168,8 @@
     "clay"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Soil Composition and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil Composition.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -242,8 +242,8 @@
     "clay"
   ],
   "parent_prompt": "Variation A: \"Use the handful of soil (garden/path) to test Soil Composition. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil Composition and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -323,8 +323,8 @@
     "clay"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Soil Composition using sand. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil Composition and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -404,8 +404,8 @@
     "clay"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Soil Composition observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil Composition and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -490,9 +490,9 @@
     "sand",
     "clay"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Soil Composition to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Soil Composition works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil Composition really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -562,9 +562,9 @@
     "sand",
     "clay"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Soil Composition experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Soil Composition but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil Composition really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -634,9 +634,9 @@
     "sand",
     "clay"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Soil Composition. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil Composition really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -709,8 +709,8 @@
     "clay"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Soil Composition. Build a small physical model using handful of soil (garden/path), white paper.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -757,7 +757,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -792,8 +792,8 @@
     "clay"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Soil Composition. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -875,8 +875,8 @@
     "clay"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Soil Composition). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -960,8 +960,8 @@
     "clay"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Soil Composition). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Soil Composition to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1048,8 +1048,8 @@
     "mud"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Soil & Water (Agriculture) outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil & Water (Agriculture).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1121,8 +1121,8 @@
     "mud"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with 2 types of soil (sand/clay), water, 2 clear cups. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil & Water (Agriculture).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1194,8 +1194,8 @@
     "mud"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Soil & Water (Agriculture) and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Soil & Water (Agriculture).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1269,8 +1269,8 @@
     "mud"
   ],
   "parent_prompt": "Variation A: \"Use the 2 types of soil (sand/clay) to test Soil & Water (Agriculture). Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil & Water (Agriculture) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1351,8 +1351,8 @@
     "mud"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Soil & Water (Agriculture) using cut plastic bottles. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil & Water (Agriculture) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1433,8 +1433,8 @@
     "mud"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Soil & Water (Agriculture) observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Soil & Water (Agriculture) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1520,9 +1520,9 @@
     "cut plastic bottles",
     "mud"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Soil & Water (Agriculture) to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Soil & Water (Agriculture) works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil & Water (Agriculture) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1593,9 +1593,9 @@
     "cut plastic bottles",
     "mud"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Soil & Water (Agriculture) experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Soil & Water (Agriculture) but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil & Water (Agriculture) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1666,9 +1666,9 @@
     "cut plastic bottles",
     "mud"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Soil & Water (Agriculture). Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Soil & Water (Agriculture) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1742,8 +1742,8 @@
     "mud"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Soil & Water (Agriculture). Build a small physical model using 2 types of soil (sand/clay), water, 2 clear cups.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1790,7 +1790,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -1826,92 +1826,8 @@
     "mud"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Soil & Water (Agriculture). Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland",
-        "shamba"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Physical",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Soil & Water (Agriculture)). Stewardship: Using this knowledge to protect our soil, water, or crops."
-}
-```
-
-**ES2b-4C: Own Variation C**
-```json
-{
-  "capacity_id": "ES2b",
-  "strand": 3,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Wash hands after handling soil.",
-  "scientific_materials": [
-    "2 types of soil (sand/clay)",
-    "water",
-    "2 clear cups"
-  ],
-  "acceptable_alternatives": [
-    "cut plastic bottles",
-    "mud"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Soil & Water (Agriculture)). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1973,6 +1889,90 @@
 }
 ```
 
+**ES2b-4C: Own Variation C**
+```json
+{
+  "capacity_id": "ES2b",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Wash hands after handling soil.",
+  "scientific_materials": [
+    "2 types of soil (sand/clay)",
+    "water",
+    "2 clear cups"
+  ],
+  "acceptable_alternatives": [
+    "cut plastic bottles",
+    "mud"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Soil & Water (Agriculture)). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Soil & Water (Agriculture)). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
 ### Milestone Task
 
 **ES2b-M: Milestone Production**
@@ -1996,8 +1996,8 @@
     "mud"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Soil & Water (Agriculture)). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Soil & Water (Agriculture) to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2082,8 +2082,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Rocks & Minerals outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Rocks & Minerals.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2153,8 +2153,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with 5 different rocks from outside. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Rocks & Minerals.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2224,8 +2224,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Rocks & Minerals and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Rocks & Minerals.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2297,8 +2297,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation A: \"Use the 5 different rocks from outside to test Rocks & Minerals. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Rocks & Minerals and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2377,8 +2377,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Rocks & Minerals using pebbles. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Rocks & Minerals and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2457,8 +2457,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Rocks & Minerals observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Rocks & Minerals and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2542,9 +2542,9 @@
     "pebbles",
     "stones from road"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Rocks & Minerals to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Rocks & Minerals works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Rocks & Minerals really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2613,9 +2613,9 @@
     "pebbles",
     "stones from road"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Rocks & Minerals experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Rocks & Minerals but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Rocks & Minerals really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2684,9 +2684,9 @@
     "pebbles",
     "stones from road"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Rocks & Minerals. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Rocks & Minerals really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2758,8 +2758,90 @@
     "stones from road"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Rocks & Minerals. Build a small physical model using 5 different rocks from outside.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Rocks & Minerals). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
+**ES2c-4B: Own Variation B**
+```json
+{
+  "capacity_id": "ES2c",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Do not throw rocks.",
+  "scientific_materials": [
+    "5 different rocks from outside"
+  ],
+  "acceptable_alternatives": [
+    "pebbles",
+    "stones from road"
+  ],
+  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Rocks & Minerals. Draw your predictive model and explain it.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2821,88 +2903,6 @@
 }
 ```
 
-**ES2c-4B: Own Variation B**
-```json
-{
-  "capacity_id": "ES2c",
-  "strand": 3,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Do not throw rocks.",
-  "scientific_materials": [
-    "5 different rocks from outside"
-  ],
-  "acceptable_alternatives": [
-    "pebbles",
-    "stones from road"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Rocks & Minerals. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland",
-        "shamba"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Rocks & Minerals). Stewardship: Using this knowledge to protect our soil, water, or crops."
-}
-```
-
 **ES2c-4C: Own Variation C**
 ```json
 {
@@ -2922,8 +2922,8 @@
     "stones from road"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Rocks & Minerals). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2970,7 +2970,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -3006,8 +3006,8 @@
     "stones from road"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Rocks & Minerals). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Rocks & Minerals to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3094,8 +3094,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Water Cycle & Local Context outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Water Cycle & Local Context.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3167,8 +3167,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with clear plastic bag or cup, water, sunlight. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Water Cycle & Local Context.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3240,8 +3240,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Water Cycle & Local Context and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Water Cycle & Local Context.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3315,8 +3315,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation A: \"Use the clear plastic bag or cup to test Water Cycle & Local Context. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Water Cycle & Local Context and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3397,8 +3397,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Water Cycle & Local Context using glass jar. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Water Cycle & Local Context and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3479,8 +3479,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Water Cycle & Local Context observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Water Cycle & Local Context and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3566,9 +3566,9 @@
     "glass jar",
     "puddle observation"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Water Cycle & Local Context to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Water Cycle & Local Context works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Water Cycle & Local Context really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3639,9 +3639,9 @@
     "glass jar",
     "puddle observation"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Water Cycle & Local Context experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Water Cycle & Local Context but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Water Cycle & Local Context really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3712,9 +3712,9 @@
     "glass jar",
     "puddle observation"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Water Cycle & Local Context. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Water Cycle & Local Context really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3788,92 +3788,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Water Cycle & Local Context. Build a small physical model using clear plastic bag or cup, water, sunlight.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland",
-        "shamba"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Water Cycle & Local Context). Stewardship: Using this knowledge to protect our soil, water, or crops."
-}
-```
-
-**ES2d-4B: Own Variation B**
-```json
-{
-  "capacity_id": "ES2d",
-  "strand": 3,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Safe for independent work.",
-  "scientific_materials": [
-    "clear plastic bag or cup",
-    "water",
-    "sunlight"
-  ],
-  "acceptable_alternatives": [
-    "glass jar",
-    "puddle observation"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Water Cycle & Local Context. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3935,14 +3851,14 @@
 }
 ```
 
-**ES2d-4C: Own Variation C**
+**ES2d-4B: Own Variation B**
 ```json
 {
   "capacity_id": "ES2d",
   "strand": 3,
   "band": 2,
   "cognitive_level": 4,
-  "variation_id": "C",
+  "variation_id": "B",
   "task_type": "Own (Model Building & Stewardship)",
   "risk_level": "Risk_Level_A",
   "safety_warning": "Safe for independent work.",
@@ -3955,9 +3871,9 @@
     "glass jar",
     "puddle observation"
   ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Water Cycle & Local Context). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Water Cycle & Local Context. Draw your predictive model and explain it.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4019,6 +3935,90 @@
 }
 ```
 
+**ES2d-4C: Own Variation C**
+```json
+{
+  "capacity_id": "ES2d",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Safe for independent work.",
+  "scientific_materials": [
+    "clear plastic bag or cup",
+    "water",
+    "sunlight"
+  ],
+  "acceptable_alternatives": [
+    "glass jar",
+    "puddle observation"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Water Cycle & Local Context). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Water Cycle & Local Context). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
 ### Milestone Task
 
 **ES2d-M: Milestone Production**
@@ -4042,8 +4042,8 @@
     "puddle observation"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Water Cycle & Local Context). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Water Cycle & Local Context to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4129,8 +4129,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Weather Tracking outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Weather Tracking.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4201,8 +4201,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with notebook, pencil, view of the sky. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Weather Tracking.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4273,8 +4273,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Weather Tracking and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Weather Tracking.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4347,8 +4347,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation A: \"Use the notebook to test Weather Tracking. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Weather Tracking and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4428,8 +4428,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Weather Tracking using chalk on wall. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Weather Tracking and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4509,8 +4509,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Weather Tracking observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Weather Tracking and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4595,9 +4595,9 @@
   "acceptable_alternatives": [
     "chalk on wall"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Weather Tracking to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Weather Tracking works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Weather Tracking really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4667,9 +4667,9 @@
   "acceptable_alternatives": [
     "chalk on wall"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Weather Tracking experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Weather Tracking but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Weather Tracking really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4739,9 +4739,9 @@
   "acceptable_alternatives": [
     "chalk on wall"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Weather Tracking. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Weather Tracking really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4814,8 +4814,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Weather Tracking. Build a small physical model using notebook, pencil, view of the sky.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4862,7 +4862,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -4897,8 +4897,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Weather Tracking. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4980,8 +4980,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Weather Tracking). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5028,7 +5028,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5065,8 +5065,8 @@
     "chalk on wall"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Weather Tracking). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Weather Tracking to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5151,8 +5151,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Seasons outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Seasons.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5222,8 +5222,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with observation of local plants/ground, calendar. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Seasons.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5293,8 +5293,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Seasons and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Seasons.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5366,8 +5366,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation A: \"Use the observation of local plants/ground to test Seasons. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Seasons and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5446,8 +5446,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Seasons using parent discussion of rain/dry. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Seasons and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5526,8 +5526,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Seasons observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Seasons and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5611,9 +5611,9 @@
   "acceptable_alternatives": [
     "parent discussion of rain/dry"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Seasons to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Seasons works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Seasons really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5682,9 +5682,9 @@
   "acceptable_alternatives": [
     "parent discussion of rain/dry"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Seasons experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Seasons but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Seasons really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5753,9 +5753,9 @@
   "acceptable_alternatives": [
     "parent discussion of rain/dry"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Seasons. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Seasons really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5827,8 +5827,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Seasons. Build a small physical model using observation of local plants/ground, calendar.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5875,7 +5875,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5909,8 +5909,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Seasons. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5957,7 +5957,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5991,8 +5991,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Seasons). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -6075,8 +6075,8 @@
     "parent discussion of rain/dry"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Seasons). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Seasons to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -6162,8 +6162,8 @@
     "stone"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Sun, Earth, Moon outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Sun, Earth, Moon.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6234,8 +6234,8 @@
     "stone"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with large ball (Earth), flashlight or smaller ball (Sun). \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Sun, Earth, Moon.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6306,8 +6306,8 @@
     "stone"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Sun, Earth, Moon and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Sun, Earth, Moon.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6380,8 +6380,8 @@
     "stone"
   ],
   "parent_prompt": "Variation A: \"Use the large ball (Earth) to test Sun, Earth, Moon. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Sun, Earth, Moon and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6461,8 +6461,8 @@
     "stone"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Sun, Earth, Moon using orange. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Sun, Earth, Moon and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6542,8 +6542,8 @@
     "stone"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Sun, Earth, Moon observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Sun, Earth, Moon and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6628,9 +6628,9 @@
     "orange",
     "stone"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Sun, Earth, Moon to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Sun, Earth, Moon works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Sun, Earth, Moon really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6700,9 +6700,9 @@
     "orange",
     "stone"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Sun, Earth, Moon experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Sun, Earth, Moon but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Sun, Earth, Moon really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6772,9 +6772,9 @@
     "orange",
     "stone"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Sun, Earth, Moon. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Sun, Earth, Moon really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6847,8 +6847,8 @@
     "stone"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Sun, Earth, Moon. Build a small physical model using large ball (Earth), flashlight or smaller ball (Sun).\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -6895,7 +6895,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -6930,8 +6930,8 @@
     "stone"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Sun, Earth, Moon. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7013,8 +7013,8 @@
     "stone"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Sun, Earth, Moon). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7061,7 +7061,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -7098,8 +7098,8 @@
     "stone"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Sun, Earth, Moon). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Sun, Earth, Moon to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7186,8 +7186,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Solar Energy outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Solar Energy.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7259,8 +7259,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with sunlight, stone or metal object, water in shallow dish. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Solar Energy.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7332,8 +7332,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Solar Energy and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Solar Energy.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7407,8 +7407,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation A: \"Use the sunlight to test Solar Energy. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Solar Energy and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7489,8 +7489,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Solar Energy using cloth. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Solar Energy and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7571,8 +7571,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Solar Energy observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Solar Energy and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7658,9 +7658,9 @@
     "cloth",
     "leaf"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Solar Energy to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Solar Energy works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Solar Energy really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7731,9 +7731,9 @@
     "cloth",
     "leaf"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Solar Energy experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Solar Energy but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Solar Energy really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7804,9 +7804,9 @@
     "cloth",
     "leaf"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Solar Energy. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Solar Energy really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7880,8 +7880,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Solar Energy. Build a small physical model using sunlight, stone or metal object, water in shallow dish.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7964,8 +7964,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Solar Energy. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8048,8 +8048,8 @@
     "leaf"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Solar Energy). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8096,7 +8096,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -8134,8 +8134,8 @@
     "leaf"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Solar Energy). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Solar Energy to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8220,8 +8220,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Lunar Phases outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Lunar Phases.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8291,8 +8291,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with night sky observation. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Lunar Phases.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8362,8 +8362,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Lunar Phases and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Lunar Phases.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8435,8 +8435,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation A: \"Use the night sky observation to test Lunar Phases. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Lunar Phases and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8515,8 +8515,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Lunar Phases using drawing of moon. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Lunar Phases and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8595,8 +8595,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Lunar Phases observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Lunar Phases and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8680,9 +8680,9 @@
     "drawing of moon",
     "ball and flashlight in dark room"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Lunar Phases to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Lunar Phases works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Lunar Phases really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8751,9 +8751,9 @@
     "drawing of moon",
     "ball and flashlight in dark room"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Lunar Phases experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Lunar Phases but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Lunar Phases really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8822,9 +8822,9 @@
     "drawing of moon",
     "ball and flashlight in dark room"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Lunar Phases. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Lunar Phases really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8896,8 +8896,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Lunar Phases. Build a small physical model using night sky observation.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8944,7 +8944,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -8978,8 +8978,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Lunar Phases. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9060,8 +9060,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Lunar Phases). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9144,8 +9144,8 @@
     "ball and flashlight in dark room"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Lunar Phases). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Lunar Phases to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9231,8 +9231,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Natural Resources & Stewardship outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Natural Resources & Stewardship.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9303,8 +9303,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with water from tap/jerrycan, cup, soil patch. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Natural Resources & Stewardship.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9375,8 +9375,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Natural Resources & Stewardship and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Natural Resources & Stewardship.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9449,8 +9449,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation A: \"Use the water from tap/jerrycan to test Natural Resources & Stewardship. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Natural Resources & Stewardship and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9530,8 +9530,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Natural Resources & Stewardship using bucket of water. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Natural Resources & Stewardship and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9611,8 +9611,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Natural Resources & Stewardship observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Natural Resources & Stewardship and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9697,9 +9697,9 @@
   "acceptable_alternatives": [
     "bucket of water"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Natural Resources & Stewardship to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Natural Resources & Stewardship works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Natural Resources & Stewardship really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9769,9 +9769,9 @@
   "acceptable_alternatives": [
     "bucket of water"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Natural Resources & Stewardship experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Natural Resources & Stewardship but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Natural Resources & Stewardship really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9841,9 +9841,9 @@
   "acceptable_alternatives": [
     "bucket of water"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Natural Resources & Stewardship. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Natural Resources & Stewardship really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9916,8 +9916,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Natural Resources & Stewardship. Build a small physical model using water from tap/jerrycan, cup, soil patch.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9964,7 +9964,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -9999,8 +9999,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Natural Resources & Stewardship. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10082,8 +10082,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Natural Resources & Stewardship). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10130,7 +10130,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -10167,8 +10167,8 @@
     "bucket of water"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Natural Resources & Stewardship). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Natural Resources & Stewardship to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10254,8 +10254,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Ecosystem Disruption outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Ecosystem Disruption.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10326,8 +10326,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with small patch of grass/weeds, heavy board or box to cover it. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Ecosystem Disruption.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10398,8 +10398,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Ecosystem Disruption and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Ecosystem Disruption.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10472,8 +10472,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation A: \"Use the small patch of grass/weeds to test Ecosystem Disruption. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Ecosystem Disruption and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10553,8 +10553,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Ecosystem Disruption using pot with weed. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Ecosystem Disruption and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10634,8 +10634,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Ecosystem Disruption observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Ecosystem Disruption and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10720,9 +10720,9 @@
     "pot with weed",
     "dark cloth"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Ecosystem Disruption to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Ecosystem Disruption works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Ecosystem Disruption really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10792,9 +10792,9 @@
     "pot with weed",
     "dark cloth"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Ecosystem Disruption experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Ecosystem Disruption but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Ecosystem Disruption really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10864,9 +10864,9 @@
     "pot with weed",
     "dark cloth"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Ecosystem Disruption. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Ecosystem Disruption really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10939,8 +10939,91 @@
     "dark cloth"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Ecosystem Disruption. Build a small physical model using small patch of grass/weeds, heavy board or box to cover it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland",
+        "shamba"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Predictive",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Ecosystem Disruption). Stewardship: Using this knowledge to protect our soil, water, or crops."
+}
+```
+
+**ES2k-4B: Own Variation B**
+```json
+{
+  "capacity_id": "ES2k",
+  "strand": 3,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Wash hands after touching plants/soil.",
+  "scientific_materials": [
+    "small patch of grass/weeds",
+    "heavy board or box to cover it"
+  ],
+  "acceptable_alternatives": [
+    "pot with weed",
+    "dark cloth"
+  ],
+  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Ecosystem Disruption. Draw your predictive model and explain it.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -11002,14 +11085,14 @@
 }
 ```
 
-**ES2k-4B: Own Variation B**
+**ES2k-4C: Own Variation C**
 ```json
 {
   "capacity_id": "ES2k",
   "strand": 3,
   "band": 2,
   "cognitive_level": 4,
-  "variation_id": "B",
+  "variation_id": "C",
   "task_type": "Own (Model Building & Stewardship)",
   "risk_level": "Risk_Level_A",
   "safety_warning": "Wash hands after touching plants/soil.",
@@ -11021,9 +11104,9 @@
     "pot with weed",
     "dark cloth"
   ],
-  "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Ecosystem Disruption. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Ecosystem Disruption). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -11085,89 +11168,6 @@
 }
 ```
 
-**ES2k-4C: Own Variation C**
-```json
-{
-  "capacity_id": "ES2k",
-  "strand": 3,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Wash hands after touching plants/soil.",
-  "scientific_materials": [
-    "small patch of grass/weeds",
-    "heavy board or box to cover it"
-  ],
-  "acceptable_alternatives": [
-    "pot with weed",
-    "dark cloth"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Ecosystem Disruption). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland",
-        "shamba"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Physical",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of earth science mechanics (Ecosystem Disruption). Stewardship: Using this knowledge to protect our soil, water, or crops."
-}
-```
-
 ### Milestone Task
 
 **ES2k-M: Milestone Production**
@@ -11190,8 +11190,8 @@
     "dark cloth"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Ecosystem Disruption). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Ecosystem Disruption to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -11277,8 +11277,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Conservation & Recycling outside. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Conservation & Recycling.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11349,8 +11349,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation B: Parent sets up an observation with used plastic bottle, scissors. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Conservation & Recycling.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11421,8 +11421,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation C: Go to the shamba or nearby dirt path. \"Point out an example of Conservation & Recycling and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Conservation & Recycling.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11495,8 +11495,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation A: \"Use the used plastic bottle to test Conservation & Recycling. Sort the rocks/soil into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Conservation & Recycling and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11576,8 +11576,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation B: \"Track the weather or Conservation & Recycling using old paper. Draw what happened today.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Conservation & Recycling and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11657,8 +11657,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Conservation & Recycling observation. Create a simple tally chart over 3 days.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Conservation & Recycling and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11743,9 +11743,9 @@
     "old paper",
     "cardboard box"
   ],
-  "parent_prompt": "Variation A: \"Tendo thinks the sun goes away because it is tired. Explain the real physical mechanism of Conservation & Recycling to him.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Conservation & Recycling works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Conservation & Recycling really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11815,9 +11815,9 @@
     "old paper",
     "cardboard box"
   ],
-  "parent_prompt": "Variation B: \"Amara planted seeds in pure sand and they died. Why did her Conservation & Recycling experiment fail physically?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Amara tried to do an experiment on Conservation & Recycling but it failed. Why did she fail physically?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Conservation & Recycling really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11887,9 +11887,9 @@
     "old paper",
     "cardboard box"
   ],
-  "parent_prompt": "Variation C: \"Look at this flawed reasoning about the rain/seasons. Spot the error and explain the real mechanism.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation C: \"Look at this flawed reasoning about Conservation & Recycling. Spot the error and explain the real mechanism.\"",
+  "success_condition": "Child identifies the mechanical error and explains how Conservation & Recycling really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11962,8 +11962,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation A: \"Design a plan to protect our home's soil or water using what you know about Conservation & Recycling. Build a small physical model using used plastic bottle, scissors.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12010,7 +12010,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -12045,8 +12045,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen to a local farm if we experience a disruption in Conservation & Recycling. Draw your predictive model and explain it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12093,7 +12093,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -12128,8 +12128,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding our water usage or garden (Conservation & Recycling). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12213,8 +12213,8 @@
     "cardboard box"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving the garden or weather (Conservation & Recycling). \"We have a problem with our crops / yard. Show me how to fix or prepare for it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Conservation & Recycling to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12275,3 +12275,4 @@
   "worldview_connection": "Mechanism: Real-world mechanics of Conservation & Recycling. Stewardship: Applying earth science knowledge to serve the family's land/resources."
 }
 ```
+

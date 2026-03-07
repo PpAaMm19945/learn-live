@@ -26,8 +26,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe States of Matter using stone. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of States of Matter.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -99,8 +99,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with stone, water, inflated balloon. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of States of Matter.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -172,8 +172,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of States of Matter and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of States of Matter.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -247,8 +247,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation A: \"Use the stone to test States of Matter. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test States of Matter and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -329,8 +329,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on States of Matter using wood. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test States of Matter and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -411,8 +411,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our States of Matter experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test States of Matter and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -498,9 +498,9 @@
     "juice",
     "plastic bag with air"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on States of Matter but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how States of Matter works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how States of Matter really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -572,8 +572,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation B: \"Amara claims that States of Matter works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how States of Matter really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -645,8 +645,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for States of Matter. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how States of Matter really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -720,176 +720,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about States of Matter. Build a model using stone, water, inflated balloon.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of States of Matter. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2a-4B: Own Variation B**
-```json
-{
-  "capacity_id": "PS2a",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Safe for independent observation.",
-  "scientific_materials": [
-    "stone",
-    "water",
-    "inflated balloon"
-  ],
-  "acceptable_alternatives": [
-    "wood",
-    "juice",
-    "plastic bag with air"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the States of Matter system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Physical",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of States of Matter. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2a-4C: Own Variation C**
-```json
-{
-  "capacity_id": "PS2a",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Safe for independent observation.",
-  "scientific_materials": [
-    "stone",
-    "water",
-    "inflated balloon"
-  ],
-  "acceptable_alternatives": [
-    "wood",
-    "juice",
-    "plastic bag with air"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding States of Matter. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -950,6 +782,174 @@
 }
 ```
 
+**PS2a-4B: Own Variation B**
+```json
+{
+  "capacity_id": "PS2a",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Safe for independent observation.",
+  "scientific_materials": [
+    "stone",
+    "water",
+    "inflated balloon"
+  ],
+  "acceptable_alternatives": [
+    "wood",
+    "juice",
+    "plastic bag with air"
+  ],
+  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the States of Matter system. Draw your prediction and explain it to me.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "System",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of States of Matter. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
+**PS2a-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2a",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Safe for independent observation.",
+  "scientific_materials": [
+    "stone",
+    "water",
+    "inflated balloon"
+  ],
+  "acceptable_alternatives": [
+    "wood",
+    "juice",
+    "plastic bag with air"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding States of Matter. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Predictive",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of States of Matter. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
 ### Milestone Task
 
 **PS2a-M: Milestone Production**
@@ -974,8 +974,8 @@
     "plastic bag with air"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving States of Matter. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies States of Matter to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1061,8 +1061,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Phase Changes using ice cubes. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Phase Changes.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1133,8 +1133,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with ice cubes, saucepan, stove or fire. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Phase Changes.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1205,8 +1205,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Phase Changes and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Phase Changes.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -1279,8 +1279,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation A: \"Use the ice cubes to test Phase Changes. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Phase Changes and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1360,8 +1360,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Phase Changes using frozen juice. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Phase Changes and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1441,8 +1441,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Phase Changes experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Phase Changes and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -1527,9 +1527,9 @@
     "frozen juice",
     "kettle"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Phase Changes but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Phase Changes works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Phase Changes really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1600,8 +1600,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Phase Changes works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Phase Changes really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1672,8 +1672,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Phase Changes. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Phase Changes really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -1746,8 +1746,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Phase Changes. Build a model using ice cubes, saucepan, stove or fire.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1793,7 +1793,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -1829,8 +1829,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Phase Changes system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1912,8 +1912,8 @@
     "kettle"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Phase Changes. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -1997,8 +1997,8 @@
     "kettle"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Phase Changes. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Phase Changes to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2086,8 +2086,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Mixtures & Solutions using salt or sugar. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Mixtures & Solutions.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2160,8 +2160,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with salt or sugar, sand or soil, water, 2 clear cups. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Mixtures & Solutions.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2234,8 +2234,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Mixtures & Solutions and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Mixtures & Solutions.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -2310,8 +2310,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation A: \"Use the salt or sugar to test Mixtures & Solutions. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Mixtures & Solutions and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2393,8 +2393,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Mixtures & Solutions using ash. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Mixtures & Solutions and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2476,8 +2476,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Mixtures & Solutions experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Mixtures & Solutions and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -2564,9 +2564,9 @@
     "maize flour",
     "bowls"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Mixtures & Solutions but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Mixtures & Solutions works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Mixtures & Solutions really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2639,8 +2639,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Mixtures & Solutions works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Mixtures & Solutions really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2713,8 +2713,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Mixtures & Solutions. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Mixtures & Solutions really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -2789,8 +2789,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Mixtures & Solutions. Build a model using salt or sugar, sand or soil, water, 2 clear cups.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2874,8 +2874,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Mixtures & Solutions system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -2959,8 +2959,8 @@
     "bowls"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Mixtures & Solutions. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3046,8 +3046,8 @@
     "bowls"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Mixtures & Solutions. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Mixtures & Solutions to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3132,8 +3132,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Push, Pull & Force using heavy box or chair. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Push, Pull & Force.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3203,8 +3203,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with heavy box or chair, rope. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Push, Pull & Force.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3274,8 +3274,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Push, Pull & Force and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Push, Pull & Force.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -3347,8 +3347,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation A: \"Use the heavy box or chair to test Push, Pull & Force. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Push, Pull & Force and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3427,8 +3427,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Push, Pull & Force using large stone. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Push, Pull & Force and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3507,8 +3507,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Push, Pull & Force experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Push, Pull & Force and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -3592,9 +3592,9 @@
     "large stone",
     "sturdy string"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Push, Pull & Force but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Push, Pull & Force works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Push, Pull & Force really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3664,8 +3664,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Push, Pull & Force works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Push, Pull & Force really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3735,8 +3735,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Push, Pull & Force. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Push, Pull & Force really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -3808,8 +3808,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Push, Pull & Force. Build a model using heavy box or chair, rope.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3855,7 +3855,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -3890,8 +3890,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Push, Pull & Force system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -3972,8 +3972,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Push, Pull & Force. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4019,7 +4019,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Diagrammatic",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -4056,8 +4056,8 @@
     "sturdy string"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Push, Pull & Force. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Push, Pull & Force to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4143,8 +4143,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Friction using smooth surface (floor). \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Friction.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4215,8 +4215,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with smooth surface (floor), rough surface (mat/grass), object to slide (block/book). \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Friction.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4287,8 +4287,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Friction and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Friction.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -4361,8 +4361,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation A: \"Use the smooth surface (floor) to test Friction. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Friction and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4442,8 +4442,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Friction using dirt patch. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Friction and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4523,8 +4523,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Friction experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Friction and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -4609,9 +4609,9 @@
     "dirt patch",
     "piece of wood"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Friction but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Friction works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Friction really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4682,8 +4682,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Friction works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Friction really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4754,8 +4754,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Friction. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Friction really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -4828,8 +4828,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Friction. Build a model using smooth surface (floor), rough surface (mat/grass), object to slide (block/book).\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4911,8 +4911,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Friction system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -4994,8 +4994,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Friction. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5041,7 +5041,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "System",
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -5079,8 +5079,8 @@
     "piece of wood"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Friction. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Friction to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5166,8 +5166,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Gravity Basics using feather or leaf. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Gravity Basics.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5238,8 +5238,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with feather or leaf, stone, crumpled paper. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Gravity Basics.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5310,8 +5310,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Gravity Basics and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Gravity Basics.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -5384,8 +5384,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: \"Use the feather or leaf to test Gravity Basics. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Gravity Basics and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5465,8 +5465,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Gravity Basics using cloth. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Gravity Basics and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5546,8 +5546,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Gravity Basics experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Gravity Basics and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -5632,9 +5632,9 @@
     "cloth",
     "stick"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Gravity Basics but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Gravity Basics works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Gravity Basics really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5705,8 +5705,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Gravity Basics works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Gravity Basics really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5777,8 +5777,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Gravity Basics. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Gravity Basics really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -5851,91 +5851,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Gravity Basics. Build a model using feather or leaf, stone, crumpled paper.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Diagrammatic",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Gravity Basics. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2f-4B: Own Variation B**
-```json
-{
-  "capacity_id": "PS2f",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Do not drop heavy objects on feet.",
-  "scientific_materials": [
-    "feather or leaf",
-    "stone",
-    "crumpled paper"
-  ],
-  "acceptable_alternatives": [
-    "cloth",
-    "stick"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Gravity Basics system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -5996,14 +5913,14 @@
 }
 ```
 
-**PS2f-4C: Own Variation C**
+**PS2f-4B: Own Variation B**
 ```json
 {
   "capacity_id": "PS2f",
   "strand": 2,
   "band": 2,
   "cognitive_level": 4,
-  "variation_id": "C",
+  "variation_id": "B",
   "task_type": "Own (Model Building & Stewardship)",
   "risk_level": "Risk_Level_A",
   "safety_warning": "Do not drop heavy objects on feet.",
@@ -6016,9 +5933,9 @@
     "cloth",
     "stick"
   ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Gravity Basics. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Gravity Basics system. Draw your prediction and explain it to me.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -6064,7 +5981,90 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "System",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Gravity Basics. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
+**PS2f-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2f",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Do not drop heavy objects on feet.",
+  "scientific_materials": [
+    "feather or leaf",
+    "stone",
+    "crumpled paper"
+  ],
+  "acceptable_alternatives": [
+    "cloth",
+    "stick"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Gravity Basics. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -6102,8 +6102,8 @@
     "stick"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Gravity Basics. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Gravity Basics to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -6191,8 +6191,8 @@
     "keys"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Magnetism using magnet. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Magnetism.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6265,8 +6265,8 @@
     "keys"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with magnet, coins, nails/screws, plastic toys. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Magnetism.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6339,8 +6339,8 @@
     "keys"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Magnetism and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Magnetism.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -6415,8 +6415,8 @@
     "keys"
   ],
   "parent_prompt": "Variation A: \"Use the magnet to test Magnetism. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Magnetism and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6498,8 +6498,8 @@
     "keys"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Magnetism using fridge magnet. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Magnetism and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6581,8 +6581,8 @@
     "keys"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Magnetism experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Magnetism and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -6669,9 +6669,9 @@
     "paperclips",
     "keys"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Magnetism but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Magnetism works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Magnetism really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6744,8 +6744,8 @@
     "keys"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Magnetism works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Magnetism really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6818,8 +6818,8 @@
     "keys"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Magnetism. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Magnetism really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -6894,93 +6894,8 @@
     "keys"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Magnetism. Build a model using magnet, coins, nails/screws, plastic toys.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Diagrammatic",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Magnetism. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2g-4B: Own Variation B**
-```json
-{
-  "capacity_id": "PS2g",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Do not swallow magnets.",
-  "scientific_materials": [
-    "magnet",
-    "coins",
-    "nails/screws",
-    "plastic toys"
-  ],
-  "acceptable_alternatives": [
-    "fridge magnet",
-    "paperclips",
-    "keys"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Magnetism system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7041,14 +6956,14 @@
 }
 ```
 
-**PS2g-4C: Own Variation C**
+**PS2g-4B: Own Variation B**
 ```json
 {
   "capacity_id": "PS2g",
   "strand": 2,
   "band": 2,
   "cognitive_level": 4,
-  "variation_id": "C",
+  "variation_id": "B",
   "task_type": "Own (Model Building & Stewardship)",
   "risk_level": "Risk_Level_A",
   "safety_warning": "Do not swallow magnets.",
@@ -7063,9 +6978,9 @@
     "paperclips",
     "keys"
   ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Magnetism. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Magnetism system. Draw your prediction and explain it to me.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7111,7 +7026,92 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Diagrammatic",
+  "model_type": "Physical",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Magnetism. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
+**PS2g-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2g",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Do not swallow magnets.",
+  "scientific_materials": [
+    "magnet",
+    "coins",
+    "nails/screws",
+    "plastic toys"
+  ],
+  "acceptable_alternatives": [
+    "fridge magnet",
+    "paperclips",
+    "keys"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Magnetism. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Physical",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -7151,8 +7151,8 @@
     "keys"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Magnetism. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Magnetism to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7237,8 +7237,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Energy Basics — Heat using hands to rub together. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Heat.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7308,8 +7308,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with hands to rub together, dark cloth left in sun, warm water. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Heat.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7379,8 +7379,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Energy Basics — Heat and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Heat.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -7452,8 +7452,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation A: \"Use the hands to rub together to test Energy Basics — Heat. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Heat and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7532,8 +7532,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Energy Basics — Heat using metal spoon left in sun. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Heat and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7612,8 +7612,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Energy Basics — Heat experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Heat and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -7697,9 +7697,9 @@
   "acceptable_alternatives": [
     "metal spoon left in sun"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Energy Basics — Heat but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Energy Basics — Heat works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Heat really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7769,8 +7769,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Energy Basics — Heat works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Heat really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7840,8 +7840,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Energy Basics — Heat. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Heat really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -7913,8 +7913,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Energy Basics — Heat. Build a model using hands to rub together, dark cloth left in sun, warm water.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -7960,7 +7960,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -7995,8 +7995,90 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Energy Basics — Heat system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Heat. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
+**PS2h-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2h",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_B",
+  "safety_warning": "Ensure water/sun-heated objects are not too hot to touch.",
+  "scientific_materials": [
+    "hands to rub together",
+    "dark cloth left in sun",
+    "warm water"
+  ],
+  "acceptable_alternatives": [
+    "metal spoon left in sun"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Energy Basics — Heat. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8057,88 +8139,6 @@
 }
 ```
 
-**PS2h-4C: Own Variation C**
-```json
-{
-  "capacity_id": "PS2h",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_B",
-  "safety_warning": "Ensure water/sun-heated objects are not too hot to touch.",
-  "scientific_materials": [
-    "hands to rub together",
-    "dark cloth left in sun",
-    "warm water"
-  ],
-  "acceptable_alternatives": [
-    "metal spoon left in sun"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Energy Basics — Heat. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Physical",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Heat. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
 ### Milestone Task
 
 **PS2h-M: Milestone Production**
@@ -8161,8 +8161,8 @@
     "metal spoon left in sun"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Energy Basics — Heat. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Energy Basics — Heat to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8249,8 +8249,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Energy Basics — Light using flashlight or sun. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Light.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8322,8 +8322,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with flashlight or sun, cardboard (opaque), clear plastic (transparent). \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Light.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8395,8 +8395,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Energy Basics — Light and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Light.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -8470,8 +8470,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation A: \"Use the flashlight or sun to test Energy Basics — Light. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Light and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8552,8 +8552,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Energy Basics — Light using candle. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Light and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8634,8 +8634,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Energy Basics — Light experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Light and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -8721,9 +8721,9 @@
     "wood",
     "glass jar"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Energy Basics — Light but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Energy Basics — Light works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Light really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8795,8 +8795,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Energy Basics — Light works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Light really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8868,8 +8868,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Energy Basics — Light. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Light really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -8943,8 +8943,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Energy Basics — Light. Build a model using flashlight or sun, cardboard (opaque), clear plastic (transparent).\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -8990,7 +8990,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -9027,8 +9027,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Energy Basics — Light system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9111,8 +9111,8 @@
     "glass jar"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Energy Basics — Light. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9158,7 +9158,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -9197,8 +9197,8 @@
     "glass jar"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Energy Basics — Light. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Energy Basics — Light to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -9283,8 +9283,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Shadows using flashlight. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Shadows.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9354,8 +9354,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with flashlight, toy or hand. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Shadows.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9425,8 +9425,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Shadows and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Shadows.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -9498,8 +9498,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: \"Use the flashlight to test Shadows. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Shadows and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9578,8 +9578,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Shadows using sunlight. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Shadows and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9658,8 +9658,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Shadows experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Shadows and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -9743,9 +9743,9 @@
     "sunlight",
     "stick"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Shadows but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Shadows works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Shadows really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9815,8 +9815,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Shadows works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Shadows really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9886,8 +9886,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Shadows. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Shadows really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -9959,8 +9959,8 @@
     "stick"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Shadows. Build a model using flashlight, toy or hand.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10006,7 +10006,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Physical",
+  "model_type": "Predictive",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -10041,8 +10041,8 @@
     "stick"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Shadows system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10123,8 +10123,8 @@
     "stick"
   ],
   "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Shadows. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10207,8 +10207,8 @@
     "stick"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Shadows. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Shadows to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -10294,8 +10294,8 @@
     "box"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Energy Basics — Sound using drum or pot. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Sound.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10366,8 +10366,8 @@
     "box"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with drum or pot, spoon, rice or small seeds. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Sound.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10438,8 +10438,8 @@
     "box"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Energy Basics — Sound and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Energy Basics — Sound.",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -10512,8 +10512,8 @@
     "box"
   ],
   "parent_prompt": "Variation A: \"Use the drum or pot to test Energy Basics — Sound. Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Sound and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10593,8 +10593,8 @@
     "box"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Energy Basics — Sound using rubber band. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Sound and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10674,8 +10674,8 @@
     "box"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Energy Basics — Sound experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Energy Basics — Sound and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -10760,9 +10760,9 @@
     "rubber band",
     "box"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Energy Basics — Sound but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Energy Basics — Sound works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Sound really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10833,8 +10833,8 @@
     "box"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Energy Basics — Sound works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Sound really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10905,8 +10905,8 @@
     "box"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Energy Basics — Sound. Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Energy Basics — Sound really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -10979,174 +10979,8 @@
     "box"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Energy Basics — Sound. Build a model using drum or pot, spoon, rice or small seeds.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Sound. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2k-4B: Own Variation B**
-```json
-{
-  "capacity_id": "PS2k",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "B",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Loud noises may bother siblings/pets.",
-  "scientific_materials": [
-    "drum or pot",
-    "spoon",
-    "rice or small seeds"
-  ],
-  "acceptable_alternatives": [
-    "rubber band",
-    "box"
-  ],
-  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Energy Basics — Sound system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Sound. Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2k-4C: Own Variation C**
-```json
-{
-  "capacity_id": "PS2k",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Loud noises may bother siblings/pets.",
-  "scientific_materials": [
-    "drum or pot",
-    "spoon",
-    "rice or small seeds"
-  ],
-  "acceptable_alternatives": [
-    "rubber band",
-    "box"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Energy Basics — Sound. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -11207,6 +11041,172 @@
 }
 ```
 
+**PS2k-4B: Own Variation B**
+```json
+{
+  "capacity_id": "PS2k",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "B",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Loud noises may bother siblings/pets.",
+  "scientific_materials": [
+    "drum or pot",
+    "spoon",
+    "rice or small seeds"
+  ],
+  "acceptable_alternatives": [
+    "rubber band",
+    "box"
+  ],
+  "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Energy Basics — Sound system. Draw your prediction and explain it to me.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Sound. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
+**PS2k-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2k",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Loud noises may bother siblings/pets.",
+  "scientific_materials": [
+    "drum or pot",
+    "spoon",
+    "rice or small seeds"
+  ],
+  "acceptable_alternatives": [
+    "rubber band",
+    "box"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Energy Basics — Sound. Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Predictive",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Energy Basics — Sound. Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
 ### Milestone Task
 
 **PS2k-M: Milestone Production**
@@ -11230,8 +11230,8 @@
     "box"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Energy Basics — Sound. \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Energy Basics — Sound to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -11315,8 +11315,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation A: Parent guides child to directly observe Introductory Systems (Causality) using dominoes or blocks. \"Look closely at this. What do you notice?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Introductory Systems (Causality).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11385,8 +11385,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation B: Parent sets up a sensory experience with dominoes or blocks, marble. \"Feel and listen to this. What is happening?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Introductory Systems (Causality).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11455,8 +11455,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation C: Explore the village or garden. \"Point out an example of Introductory Systems (Causality) and describe it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child completes the observation and describes the physical traits of Introductory Systems (Causality).",
+  "failure_condition": "Child struggles to engage. Parent asks guiding questions about what they see.",
   "reasoning_check": "What do you see, hear, or feel?",
   "context_variants": {
     "default": {
@@ -11527,8 +11527,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation A: \"Use the dominoes or blocks to test Introductory Systems (Causality). Sort the results into two piles.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Introductory Systems (Causality) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11606,8 +11606,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation B: \"Conduct a simple test on Introductory Systems (Causality) using row of small stones. Draw what happened.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Introductory Systems (Causality) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11685,8 +11685,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation C: \"Measure or count the outcomes of our Introductory Systems (Causality) experiment. Create a simple tally chart.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child successfully uses materials to test Introductory Systems (Causality) and records the data.",
+  "failure_condition": "Child plays with materials without testing. Parent must redirect.",
   "reasoning_check": "How did you record your data?",
   "context_variants": {
     "default": {
@@ -11769,9 +11769,9 @@
   "acceptable_alternatives": [
     "row of small stones"
   ],
-  "parent_prompt": "Variation A: \"Tendo tried to do an experiment on Introductory Systems (Causality) but did it backwards. Why did it fail?\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "parent_prompt": "Variation A: \"Show me how Introductory Systems (Causality) works physically. If I do [X], what should happen according to the rules of science?\"",
+  "success_condition": "Child identifies the mechanical error and explains how Introductory Systems (Causality) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11840,8 +11840,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation B: \"Amara claims that Introductory Systems (Causality) works because of magic. Explain the real physical mechanism to her.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Introductory Systems (Causality) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11910,8 +11910,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation C: \"Look at this flawed setup for Introductory Systems (Causality). Spot the error and explain how to fix it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child identifies the mechanical error and explains how Introductory Systems (Causality) really works.",
+  "failure_condition": "Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.",
   "reasoning_check": "What was the mechanical error?",
   "context_variants": {
     "default": {
@@ -11982,8 +11982,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation A: \"Design a solution for our home using what you know about Introductory Systems (Causality). Build a model using dominoes or blocks, marble.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12029,7 +12029,7 @@
     "endurance": "noise_injection",
     "milestone": "M"
   },
-  "model_type": "Predictive",
+  "model_type": "System",
   "parent_rubric": [
     {
       "criterion": "Did the child build a functional model or clear prediction?",
@@ -12063,89 +12063,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Variation B: \"Predict what will happen if we change a major part of the Introductory Systems (Causality) system. Draw your prediction and explain it to me.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
-  "reasoning_check": "Explain your model and stewardship choice.",
-  "context_variants": {
-    "default": {
-      "names": [
-        "Alex",
-        "Sam",
-        "Pat"
-      ],
-      "settings": [
-        "park",
-        "school",
-        "store"
-      ],
-      "food": [
-        "apples",
-        "bread",
-        "milk"
-      ]
-    },
-    "ug": {
-      "names": [
-        "Amara",
-        "Tendo",
-        "Azie"
-      ],
-      "settings": [
-        "Kampala market",
-        "village",
-        "garden",
-        "savanna",
-        "wetland"
-      ],
-      "food": [
-        "matooke",
-        "mangoes",
-        "chapati",
-        "jackfruit"
-      ]
-    }
-  },
-  "repetition_arc": {
-    "execution_count": 3,
-    "endurance": "noise_injection",
-    "milestone": "M"
-  },
-  "model_type": "Predictive",
-  "parent_rubric": [
-    {
-      "criterion": "Did the child build a functional model or clear prediction?",
-      "type": "yes_no"
-    },
-    {
-      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
-      "type": "yes_no"
-    }
-  ],
-  "worldview_connection": "Mechanism: Accurate application of Introductory Systems (Causality). Stewardship: Using this knowledge to improve or protect our local environment/home."
-}
-```
-
-**PS2l-4C: Own Variation C**
-```json
-{
-  "capacity_id": "PS2l",
-  "strand": 2,
-  "band": 2,
-  "cognitive_level": 4,
-  "variation_id": "C",
-  "task_type": "Own (Model Building & Stewardship)",
-  "risk_level": "Risk_Level_A",
-  "safety_warning": "Safe for independent work.",
-  "scientific_materials": [
-    "dominoes or blocks",
-    "marble"
-  ],
-  "acceptable_alternatives": [
-    "row of small stones"
-  ],
-  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Introductory Systems (Causality). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12206,6 +12125,87 @@
 }
 ```
 
+**PS2l-4C: Own Variation C**
+```json
+{
+  "capacity_id": "PS2l",
+  "strand": 2,
+  "band": 2,
+  "cognitive_level": 4,
+  "variation_id": "C",
+  "task_type": "Own (Model Building & Stewardship)",
+  "risk_level": "Risk_Level_A",
+  "safety_warning": "Safe for independent work.",
+  "scientific_materials": [
+    "dominoes or blocks",
+    "marble"
+  ],
+  "acceptable_alternatives": [
+    "row of small stones"
+  ],
+  "parent_prompt": "Variation C: \"We need to make a stewardship decision regarding Introductory Systems (Causality). Propose a plan and explain the physical mechanics behind why your plan will work.\"",
+  "success_condition": "Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.",
+  "failure_condition": "Child proposes a magic solution or cannot map the physical variables to a local problem.",
+  "reasoning_check": "Explain your model and stewardship choice.",
+  "context_variants": {
+    "default": {
+      "names": [
+        "Alex",
+        "Sam",
+        "Pat"
+      ],
+      "settings": [
+        "park",
+        "school",
+        "store"
+      ],
+      "food": [
+        "apples",
+        "bread",
+        "milk"
+      ]
+    },
+    "ug": {
+      "names": [
+        "Amara",
+        "Tendo",
+        "Azie"
+      ],
+      "settings": [
+        "Kampala market",
+        "village",
+        "garden",
+        "savanna",
+        "wetland"
+      ],
+      "food": [
+        "matooke",
+        "mangoes",
+        "chapati",
+        "jackfruit"
+      ]
+    }
+  },
+  "repetition_arc": {
+    "execution_count": 3,
+    "endurance": "noise_injection",
+    "milestone": "M"
+  },
+  "model_type": "Diagrammatic",
+  "parent_rubric": [
+    {
+      "criterion": "Did the child build a functional model or clear prediction?",
+      "type": "yes_no"
+    },
+    {
+      "criterion": "Did the child explain the physical mechanism before the stewardship meaning?",
+      "type": "yes_no"
+    }
+  ],
+  "worldview_connection": "Mechanism: Accurate application of Introductory Systems (Causality). Stewardship: Using this knowledge to improve or protect our local environment/home."
+}
+```
+
 ### Milestone Task
 
 **PS2l-M: Milestone Production**
@@ -12227,8 +12227,8 @@
     "row of small stones"
   ],
   "parent_prompt": "Milestone: Present the child with an unlabeled real-world problem involving Introductory Systems (Causality). \"We have a problem with moving this heavy object / heating this water. Show me how to solve it.\"",
-  "success_condition": "Child successfully completes the observation or explanation.",
-  "failure_condition": "Child needs guidance. Parent asks guiding questions.",
+  "success_condition": "Child independently applies Introductory Systems (Causality) to solve the real-world problem.",
+  "failure_condition": "Child cannot transfer knowledge to the unlabeled problem.",
   "reasoning_check": "Explain your model and stewardship choice.",
   "context_variants": {
     "default": {
@@ -12288,3 +12288,4 @@
   "worldview_connection": "Mechanism: Real-world mechanics of Introductory Systems (Causality). Stewardship: Applying physics knowledge to serve the family."
 }
 ```
+

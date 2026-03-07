@@ -76,7 +76,13 @@ const ENG_CAPACITIES = fs.existsSync(ENG_CAPACITIES_PATH)
     ? JSON.parse(fs.readFileSync(ENG_CAPACITIES_PATH, 'utf8'))
     : {};
 
-const CAPACITIES_NAME_MAP = { ...MATH_CAPACITIES, ...ENG_CAPACITIES };
+// Load Science capacity names
+const SCI_CAPACITIES_PATH = path.join(CURRICULUM_DATA_DIR, 'science_capacity_names.json');
+const SCI_CAPACITIES = fs.existsSync(SCI_CAPACITIES_PATH)
+    ? JSON.parse(fs.readFileSync(SCI_CAPACITIES_PATH, 'utf8'))
+    : {};
+
+const CAPACITIES_NAME_MAP = { ...MATH_CAPACITIES, ...ENG_CAPACITIES, ...SCI_CAPACITIES };
 
 interface JulesTemplate {
     capacity_id: string;
@@ -93,7 +99,12 @@ interface JulesTemplate {
     repetition_arc?: object;
     context_variants?: object | string;
     worksheet?: object;
+    scientific_materials?: string[] | string | null;
+    acceptable_alternatives?: string[] | string | null;
+    risk_level?: string | null;
+    safety_warning?: string | null;
     parent_primer?: string;
+    worldview_connection?: string | null;
 }
 
 function escSQL(str?: string | null): string {
@@ -145,7 +156,11 @@ function generateSQL() {
         { id: 'ENG_S2', name: 'Reading Comprehension' },
         { id: 'ENG_S3', name: 'Grammar & Mechanics' },
         { id: 'ENG_S4', name: 'Composition & Writing' },
-        { id: 'ENG_S5', name: 'Oral Language & Listening' }
+        { id: 'ENG_S5', name: 'Oral Language & Listening' },
+        // Science Strands
+        { id: 'SCI_S1', name: 'Life Sciences & Inquiry' },
+        { id: 'SCI_S2', name: 'Physical Sciences' },
+        { id: 'SCI_S3', name: 'Earth & Space Sciences' }
     ];
     for (const s of strands) {
         sql += `INSERT INTO Strands (id, name) VALUES ('${s.id}', ${escSQL(s.name)});\n`;
@@ -175,7 +190,8 @@ function generateSQL() {
         const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
         const templates: JulesTemplate[] = JSON.parse(raw);
         const isEnglish = file.startsWith('english_');
-        const prefix = isEnglish ? 'ENG_S' : 'MATH_S';
+        const isScience = file.startsWith('science_');
+        const prefix = isEnglish ? 'ENG_S' : (isScience ? 'SCI_S' : 'MATH_S');
 
         for (const t of templates) {
             const capKey = t.capacity_id;
@@ -199,7 +215,8 @@ function generateSQL() {
         const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
         const templates: JulesTemplate[] = JSON.parse(raw);
         const isEnglish = file.startsWith('english_');
-        const prefix = isEnglish ? 'ENG_S' : 'MATH_S';
+        const isScience = file.startsWith('science_');
+        const prefix = isEnglish ? 'ENG_S' : (isScience ? 'SCI_S' : 'MATH_S');
 
         for (const t of templates) {
             const cogLevel = COGNITIVE_LEVEL_MAP[t.cognitive_level];
@@ -226,7 +243,13 @@ function generateSQL() {
                 contextStr = t.context_variants;
             }
 
-            sql += `INSERT OR IGNORE INTO Constraint_Templates (id, capacity_id, cognitive_level, variation_id, task_type, materials, parent_prompt, success_condition, failure_condition, reasoning_check, context_variants, requires_parent_primer) VALUES (${escSQL(id)}, ${escSQL(t.capacity_id)}, ${cogLevel}, ${escSQL(t.variation_id)}, ${escSQL(t.task_type)}, ${escSQL(materialsStr)}, ${escSQL(t.parent_prompt)}, ${escSQL(t.success_condition)}, ${escSQL(t.failure_condition)}, ${escSQL(t.reasoning_check)}, ${escSQL(contextStr)}, ${t.parent_primer ? 1 : 0});\n`;
+            // Science specific fields
+            const scientificMaterials = Array.isArray(t.scientific_materials) ? t.scientific_materials.join(', ') : (t.scientific_materials || null);
+            const acceptableAlternatives = Array.isArray(t.acceptable_alternatives) ? t.acceptable_alternatives.join(', ') : (t.acceptable_alternatives || null);
+            const riskLevel = t.risk_level || null;
+            const safetyWarning = t.safety_warning || null;
+
+            sql += `INSERT OR IGNORE INTO Constraint_Templates (id, capacity_id, cognitive_level, variation_id, task_type, materials, scientific_materials, acceptable_alternatives, risk_level, safety_warning, parent_prompt, success_condition, failure_condition, reasoning_check, context_variants, requires_parent_primer) VALUES (${escSQL(id)}, ${escSQL(t.capacity_id)}, ${cogLevel}, ${escSQL(t.variation_id)}, ${escSQL(t.task_type)}, ${escSQL(materialsStr)}, ${escSQL(scientificMaterials)}, ${escSQL(acceptableAlternatives)}, ${escSQL(riskLevel)}, ${escSQL(safetyWarning)}, ${escSQL(t.parent_prompt)}, ${escSQL(t.success_condition)}, ${escSQL(t.failure_condition)}, ${escSQL(t.reasoning_check)}, ${escSQL(contextStr)}, ${t.parent_primer ? 1 : 0});\n`;
             totalTemplates++;
         }
         sql += `\n`;

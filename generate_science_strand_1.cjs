@@ -32,25 +32,28 @@ const contextVariants = {
 function generateTemplate(cap, level, variation, isMilestone) {
   let taskType = "Physical Observation";
   let promptStr = "";
-  let successStr = "Child successfully completes the observation or explanation.";
-  let failureStr = "Child needs guidance. Parent asks guiding questions.";
+  let successStr = "";
+  let failureStr = "";
   let reasonStr = "Why did you observe that?";
   let worldviewStr = "";
   let observablePhenomenon = "";
   let modelType = "";
   let rubric = [];
 
-  // Rules based on level
   if (level === 1) {
     taskType = "Encounter (Observation)";
     observablePhenomenon = `Direct physical observation of ${cap.name.toLowerCase()}`;
     reasonStr = "What do you see, hear, or feel?";
+    successStr = `Child completes the observation and describes the physical traits of ${cap.name}.`;
+    failureStr = `Child struggles to engage. Parent asks guiding questions about what they see.`;
     if (variation === 'A') promptStr = `Variation A: Parent guides child to directly observe ${cap.name} using ${cap.materials[0]}. "Look closely at this. What do you notice?"`;
     else if (variation === 'B') promptStr = `Variation B: Parent sets up a sensory experience with ${cap.materials.join(', ')}. "Feel and listen to this. What is happening?"`;
     else promptStr = `Variation C: Take the child to the ${contextVariants.ug.settings[2]}. "Point out an example of ${cap.name} and describe it to me."`;
   } else if (level === 2) {
     taskType = "Execute (Experiment/Sorting)";
     reasonStr = "How did you record your data?";
+    successStr = `Child successfully uses materials to test ${cap.name} and records the data.`;
+    failureStr = `Child plays with materials without testing. Parent must redirect.`;
     rubric = [
       { criterion: "Did the child safely handle materials?", type: "yes_no" },
       { criterion: "Did the child record their observations accurately?", type: "yes_no" }
@@ -63,14 +66,18 @@ function generateTemplate(cap, level, variation, isMilestone) {
   } else if (level === 3) {
     taskType = "Discern (Anomaly Detection)";
     reasonStr = "What was the mechanical error?";
+    successStr = `Child identifies the mechanical error and explains how ${cap.name} really works.`;
+    failureStr = `Child agrees with the flawed reasoning. Parent prompts them to think about physical variables.`;
     worldviewStr = `Mechanism: Understanding how ${cap.name} works physically. Stewardship: We must know the true mechanism to care for it properly, not just guess.`;
-    if (variation === 'A') promptStr = `Variation A: "Tendo tried to do an experiment on ${cap.name} but did it backwards. Why did it fail?"`;
+    if (variation === 'A') promptStr = `Variation A: "Show me how ${cap.name} works physically. If I do [X], what should happen according to the rules of science?"`;
     else if (variation === 'B') promptStr = `Variation B: "Amara claims that ${cap.name} works because of magic. Explain the real physical mechanism to her."`;
     else promptStr = `Variation C: "Look at this flawed setup for ${cap.name}. Spot the error and explain how to fix it."`;
   } else if (level === 4) {
     taskType = "Own (Model Building & Stewardship)";
     modelType = ["Physical", "Predictive", "System", "Diagrammatic"][Math.floor(Math.random() * 4)];
     reasonStr = "Explain your model and stewardship choice.";
+    successStr = `Child designs a working model or plan and explains the physical mechanism before the stewardship meaning.`;
+    failureStr = `Child proposes a magic solution or cannot map the physical variables to a local problem.`;
     worldviewStr = `Mechanism: Accurate application of ${cap.name}. Stewardship: Using this knowledge to improve or protect our local environment/home.`;
     rubric = [
       { criterion: "Did the child build a functional model or clear prediction?", type: "yes_no" },
@@ -85,6 +92,8 @@ function generateTemplate(cap, level, variation, isMilestone) {
     taskType = "Milestone (Real-World Application)";
     modelType = level === 4 ? "System" : undefined;
     promptStr = `Milestone: Present the child with an unlabeled real-world problem involving ${cap.name}. "We have a problem in the garden/house. Show me how to solve it."`;
+    successStr = `Child independently applies ${cap.name} to solve the real-world problem.`;
+    failureStr = `Child cannot transfer knowledge to the unlabeled problem.`;
     worldviewStr = `Mechanism: Real-world mechanics of ${cap.name}. Stewardship: Applying knowledge to serve the family.`;
   }
 
@@ -152,6 +161,21 @@ capacities.forEach(cap => {
   markdownContent += `### Milestone Task\n\n**${cap.id}-M: Milestone Production**\n\`\`\`json\n${JSON.stringify(milestoneTpl, null, 2)}\n\`\`\`\n\n`;
 });
 
-const outputPath = path.join(__dirname, 'docs', 'curriculum', 'science', 'band_2_templates_strand_1.md');
-fs.writeFileSync(outputPath, markdownContent);
-console.log(`Generated Strand 1 templates at ${outputPath}`);
+const markdownPath = path.join(__dirname, 'docs', 'curriculum', 'science', 'band_2_templates_strand_1.md');
+fs.writeFileSync(markdownPath, markdownContent);
+console.log(`Generated Strand 1 Markdown at ${markdownPath}`);
+
+// Also generate JSON for seeding
+const allTemplates = [];
+capacities.forEach(cap => {
+  [1, 2, 3, 4].forEach(level => {
+    ['A', 'B', 'C'].forEach(variation => {
+      allTemplates.push(generateTemplate(cap, level, variation, false));
+    });
+  });
+  allTemplates.push(generateTemplate(cap, 4, 'M', true));
+});
+
+const jsonPath = path.join(__dirname, 'curriculum_data', 'science_band_2_strand_1.json');
+fs.writeFileSync(jsonPath, JSON.stringify(allTemplates, null, 2));
+console.log(`Generated Strand 1 JSON at ${jsonPath}`);
