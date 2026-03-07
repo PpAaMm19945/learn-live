@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 
-export default function Login() {
+const Login = forwardRef<HTMLDivElement>((props, ref) => {
     const [email, setEmail] = useState('');
     const login = useAuthStore((state) => state.login);
     const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <div ref={ref} className="min-h-screen flex items-center justify-center bg-background p-4">
             <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
                 <CardHeader className="space-y-1">
                     <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
@@ -49,4 +49,7 @@ export default function Login() {
             </Card>
         </div>
     );
-}
+});
+
+Login.displayName = 'Login';
+export default Login;
