@@ -268,6 +268,37 @@ graph TD
 > [!NOTE]
 > **Spelling is a sub-capacity of this strand, not a separate strand.** Nodes PS2j (Spelling as Encoding) and PS3d (Spelling — Complex Patterns) are where spelling lives. Spelling is the *encoding* side of phonics — the same letter-sound knowledge used in reverse.
 
+### L1 Interference Annotations (Multilingual Awareness)
+
+The primary target learner speaks English at home, but many Ugandan families are bilingual or multilingual (Luganda, Runyankole, Acholi, etc.). English phonology contains sounds absent from Bantu language inventories. Rather than building a separate EFL DAG, we annotate interference points directly on the phonics nodes.
+
+> [!IMPORTANT]
+> **For L1-interference-flagged sounds, the parent's pronunciation is ground truth, not the AI.** The AI defers to parent judgment on flagged phonemes and provides a one-tap "Accent/Dialect Correct" override. Execution count increases from 3–5 to 5–7 on interference-flagged nodes.
+
+| Node | Interference Point | What Happens |
+|---|---|---|
+| PS2a (Short Vowels) | /æ/ as in "cat" does not exist in Luganda. Child may substitute /a/ or /ɛ/. | Extra Execution reps. Parent models the distinction. AI flags but allows parent override. |
+| PS2c (Digraphs) | /θ/ ("think") and /ð/ ("the") do not exist in most Bantu languages. Child will substitute /t/ or /d/. | 5–7 Execution reps instead of 3–5. Parent pronunciation is primary model. |
+| PS2e (R-Controlled) | English rhotic /r/ differs from Luganda /r/. Subtle distinction; rarely blocks comprehension. | Standard reps. Note for parent awareness only. |
+| PS2d (Long Vowels) | Vowel length distinctions in English differ from Luganda vowel length. | Extra Execution reps for vowel teams. |
+
+Each constraint template includes an `L1_interference` field:
+
+```json
+{
+  "L1_interference": {
+    "flagged": true,
+    "target_sounds": ["/θ/", "/ð/"],
+    "likely_substitution": "/t/, /d/",
+    "parent_note": "These sounds do not exist in Luganda. Your child may say 'da' instead of 'the'. Model the correct tongue position (tongue between teeth) and give extra practice.",
+    "execution_count_override": 7
+  }
+}
+```
+
+> [!TIP]
+> **For English-at-home families, L1 interference annotations are informational only.** The system does not force extra reps unless the parent or AI evidence shows the child is struggling with the flagged sounds.
+
 ---
 
 ## Part IVb: Concept DAG — Strand 2: Reading Comprehension
@@ -300,6 +331,10 @@ graph TD
         RC2g["Making Inferences<br/>(the text doesn't say directly — but what can you figure out?)"]
         RC2h["Comparing Texts<br/>(how are these two stories the same? different?)"]
         RC2i["Text Features<br/>(title, headings, pictures, captions — what do they tell us?)"]
+        RF2a["Phrase Chunking<br/>(reads in meaningful phrases, not word-by-word)"]
+        RF2b["Reading Rate<br/>(reads at age-appropriate words-per-minute)"]
+        RF2c["Prosody & Expression<br/>(reads with appropriate intonation, pauses at punctuation)"]
+        RC2j["Poetry & Rhythmic Text<br/>(reads poems, recognises rhyme and rhythm in text)"]
     end
 
     subgraph "Band 3 — Ages 9-12"
@@ -341,6 +376,11 @@ graph TD
     RC1e --> RC2g
     RC2a --> RC2h
     RC1a --> RC2i
+    RC2a --> RF2a
+    RF2a --> RF2b
+    RF2a --> RF2c
+    RF2c --> RC2c
+    RC0a --> RC2j
     RC2c --> RC3a
     RC2d --> RC3a
     RC2g --> RC3b
@@ -366,6 +406,8 @@ graph TD
 - RC2a (Literal Comprehension) requires Strand 1 PS2a (Short Vowel Mastery) — the child must be able to decode before they can independently comprehend written text
 - RC2b (Retelling with Detail) feeds into and shares with Strand 5 OL2b (Oral Retelling)
 - RC2c (Main Idea) feeds into Strand 4 CW2c (Topic Sentences)
+- RF2a–RF2c (Reading Fluency) form a sub-progression that gates comprehension: PS2a → RF2a → RF2c → RC2c. Fluency is assessed via 30-second audio clip (Async AI measures words correct per minute, error rate, prosodic contour)
+- RC2j (Poetry & Rhythmic Text) connects to Strand 1 PS0b (Rhythm & Rhyme Exposure) — poetry is where phonological awareness and reading comprehension converge
 
 ---
 
@@ -488,8 +530,11 @@ graph TD
         CW2e["Descriptive Writing<br/>(uses adjectives and sensory details)"]
         CW2f["Personal Narrative<br/>(writes about a real experience with detail)"]
         CW2g["Informational Writing — Simple<br/>(writes 3-5 facts about a topic in order)"]
-        CW2h["Handwriting Fluency<br/>(writes legibly at a reasonable speed)"]
+        CW2h1["Letter Formation — Print<br/>(correct formation of all 26 uppercase and lowercase letters)"]
+        CW2h2["Spacing & Sizing<br/>(consistent letter size, word spacing, baseline alignment)"]
+        CW2h3["Handwriting Speed<br/>(writes legibly at ≥10 words per minute by end of Band 2)"]
         CW2i["Revision — Guided<br/>(re-reads own work, fixes errors with adult guidance)"]
+        CW2j["Dictation<br/>(parent reads aloud, child writes what they hear — tests phonics, spelling, grammar, listening simultaneously)"]
     end
 
     subgraph "Band 3 — Ages 9-12"
@@ -499,6 +544,7 @@ graph TD
         CW3d["Persuasive Writing — Introduction<br/>(opinion + reasons + evidence)"]
         CW3e["Revision — Independent<br/>(self-editing for content, organisation, mechanics)"]
         CW3f["Writing Process<br/>(plan → draft → revise → edit → publish)"]
+        CW2h4["Cursive Introduction<br/>(learning joined-up letter forms, transitioning from print)"]
     end
 
     subgraph "Band 4 — Ages 12-15"
@@ -527,8 +573,12 @@ graph TD
     CW2a --> CW2e
     CW2d --> CW2f
     CW2c --> CW2g
-    CW1a --> CW2h
+    CW1a --> CW2h1
+    CW2h1 --> CW2h2
+    CW2h2 --> CW2h3
     CW2a --> CW2i
+    CW2a --> CW2j
+    CW2h3 --> CW2h4
     CW2d --> CW3a
     CW2f --> CW3b
     CW2g --> CW3c
@@ -547,7 +597,8 @@ graph TD
 **Cross-Strand Links from Strand 4:**
 - CW2a (Sentence Writing) requires Strand 3 GM2a (Sentence Types) AND Strand 1 PS2a (Short Vowel Mastery) — a child cannot write sentences without basic grammar knowledge and encoding ability
 - CW2d (Sequenced Narrative) requires Strand 2 RC2b (Retelling with Detail) — a child must be able to comprehend and retell story structure before producing it
-- CW2h (Handwriting Fluency) is an independent motor capacity within this strand — content quality is evaluated separately from legibility
+- CW2h1–CW2h3 (Handwriting — Print) are independent motor capacities within this strand — content quality is evaluated separately from legibility. **Band 2 = Print. Cursive (CW2h4) is introduced at Band 3.**
+- CW2j (Dictation) requires Strand 1 PS2a (Short Vowel Mastery) + Strand 5 OL2a (Following Multi-Step Directions) — a cross-strand synthesis task that exercises Phonics, Grammar, and Listening simultaneously
 
 ---
 
@@ -800,10 +851,28 @@ Worksheets follow activities — they are consolidation and fluency tools, not t
 
 | Step | What Happens |
 |---|---|
-| 1 | Parent photographs the handwritten work. |
-| 2 | AI attempts OCR. If confidence ≥ threshold, AI proceeds to evaluate content. |
-| 3 | If confidence < threshold, AI routes to parent: "I couldn't read this clearly. Please transcribe." |
-| 4 | Handwriting legibility is tracked as a sub-capacity within Composition (CW2h). Content quality is evaluated independently. |
+| 1 | Parent photographs the handwritten work AND records a 10-second audio clip of the child reading it aloud. |
+| 2 | **Multimodal Bridging:** AI uses the audio transcript as ground truth to interpret the handwriting photo. If the AI knows what the child *said*, it can parse messy handwriting with much higher accuracy. |
+| 3 | If OCR confidence ≥ threshold (boosted by audio), AI proceeds to evaluate content (spelling, grammar, structure). |
+| 4 | If confidence < threshold even with audio, AI routes to parent: "I couldn't read this clearly. Please transcribe." |
+| 5 | Handwriting legibility is tracked across three sub-capacities (CW2h1–CW2h3). Content quality is evaluated independently. |
+
+> [!TIP]
+> **Multimodal Bridging is the key to avoiding the OCR bottleneck.** When the parent uploads both photo AND audio, the AI uses the audio transcript to guide OCR interpretation. This dramatically reduces parent transcription requests.
+
+### Parent Pronunciation Override
+
+For all audio-based Phonics and Fluency tasks, the AI evaluates pronunciation but the parent has final authority:
+
+| Step | What Happens |
+|---|---|
+| 1 | AI evaluates the audio clip against expected phonemes. |
+| 2 | If AI detects a mismatch, the UI displays: "AI heard: 'cot' instead of 'cat'. Mark as Needs Practice?" |
+| 3 | Parent can tap **"Accent/Dialect Correct"** — this overrides the AI and logs the phonetic pattern as acceptable for this learner. |
+| 4 | The system learns: future instances of that specific substitution are auto-accepted for this child. |
+
+> [!IMPORTANT]
+> **This is critical for Ugandan families.** A child reading with a Luganda-influenced accent is not pronouncing incorrectly — they are pronouncing according to their phonological environment. The parent, not the AI, decides what constitutes correct pronunciation.
 
 ### Why Not Fully Automated Marking for English?
 
@@ -833,13 +902,15 @@ Writing quality, narrative coherence, and inferential reasoning require human ju
 >
 > **Phonics & Word Study:** 7 of 10 capacities owned. Working on: Long Vowel Patterns (at Execute, 3/5 repetitions) and R-Controlled Vowels (at Encounter).
 >
-> **Reading Comprehension:** 4 of 9 capacities owned. Working on: Cause and Effect (at Discern). Making Inferences (at Execute).
+> **Reading Comprehension & Fluency:** 5 of 13 capacities owned. Working on: Cause and Effect (at Discern). Reading Rate (at Execute, 2/4). Prosody (at Encounter).
 >
 > **Grammar & Mechanics:** 6 of 11 capacities owned. Working on: Verb Tenses (at Endurance). Conjunctions (at Execute).
 >
-> **Composition & Writing:** 3 of 9 capacities at Execute. Working on: Paragraph Writing (at Execute, 2/4 repetitions). Handwriting Fluency ★.
+> **Composition & Writing:** 3 of 12 capacities at Execute. Working on: Paragraph Writing (at Execute, 2/4 repetitions). Letter Formation ★. Spacing & Sizing ★.
 >
 > **Oral Language & Listening:** 5 of 8 capacities owned. Working on: Oral Narration — Fictional (at Discern).
+>
+> **Vocabulary Level:** Active vocabulary & word families (Band 2). Using 15+ new words from this month's reading in speech. Word family recognition: strong (un-, re-, -ful).
 
 ---
 
@@ -867,6 +938,43 @@ Every constraint template must conform to this standard (same schema as Math, wi
 | `parent_primer` | string | **Band 3+ only.** Concept orientation for the parent (<200 words). |
 | `text_passage` | string | **Reading Comprehension only.** The actual passage the child reads. Includes localised variants. |
 | `oral_component` | boolean | **Whether this task requires an oral step before the written step** (true for all Execute-level writing tasks at Band 2). |
+| `parent_rubric` | object[] | **Required for all writing tasks at Execute+.** Binary checklist for parent evaluation of writing quality. Converts subjective judgment into checkable yes/no criteria. |
+| `grammar_integration` | object | **Required for Strand 4 writing tasks.** References the Strand 3 grammar capacity that must be exercised in this writing task. Ensures grammar transfers to production. |
+| `L1_interference` | object | **Strand 1 only.** Flags sounds requiring extra attention for multilingual learners. Includes target sounds, likely substitutions, parent notes, and execution count override. |
+
+### The `parent_rubric` Field (Writing Evaluation Scaffolding)
+
+Every writing task at Execute level and above must include a binary checklist for the parent. This converts subjective quality judgment into checkable criteria without removing the parent's authority.
+
+```json
+{
+  "parent_rubric": [
+    { "criterion": "Does the story introduce a character by name?", "type": "yes_no" },
+    { "criterion": "Does something happen to the character (a problem or event)?", "type": "yes_no" },
+    { "criterion": "Does the story have an ending that resolves or concludes?", "type": "yes_no" },
+    { "criterion": "Are there at least 3 sentences?", "type": "yes_no" }
+  ],
+  "revision_trigger": "If any box is unchecked → child revises before advancing."
+}
+```
+
+> [!IMPORTANT]
+> **The parent rubric is the primary fix for writing evaluation quality.** Without it, parents default to vague approval ("It's good"). The rubric gives the parent specific things to look for AND teaches the child what "good writing" means structurally.
+
+### The Grammar-in-Writing Weaving Rule
+
+When a child completes a grammar capacity at Execute level in Strand 3, the **next** writing task in Strand 4 must include a constraint that requires using that grammar feature.
+
+```json
+{
+  "grammar_integration": {
+    "required_capacity": "GM2g",
+    "constraint": "At least one sentence must use past tense and one must use present tense."
+  }
+}
+```
+
+> This rule prevents children from acing grammar worksheets while still writing "he run fast" in their compositions. Grammar learned in isolation does not transfer to production unless it is explicitly exercised in writing tasks.
 
 ### Reasoning Check Standard (English-Specific)
 
@@ -900,31 +1008,53 @@ Every constraint template must conform to this standard (same schema as Math, wi
 
 ---
 
-## Part VIf: Cross-Strand Routing Rule (Hard Gate)
+## Part VIf: Cross-Strand Routing Rule (Tiered Gate System)
 
-> **A child may not begin a capacity that has a cross-strand prerequisite until that prerequisite capacity is at Execute level or above in the source strand.**
+English is a web, not a strict DAG like mathematics. A child can have brilliant oral storytelling and advanced comprehension while struggling with encoding (spelling/handwriting). Universal hard gates would stall verbally gifted children. Instead, English uses a **tiered gate system**.
 
-This is a **hard gate** identical to Math. Examples for English:
+### Gate Types
 
-- CW2a (Sentence Writing, Strand 4) requires GM2a (Sentence Types, Strand 3) at Execute or above.
+| Gate Type | When It Applies | Behavior |
+|---|---|---|
+| **Hard gate** | Decoding → Independent reading (PS2a → RC2a). Fundamentally impossible without the prerequisite. | **Fully blocked.** A child cannot independently comprehend written text without decoding ability. |
+| **Soft gate with oral bypass** | Encoding → Written composition (PS2j → CW2a). Motor/encoding lag should not block cognitive composition. | **Bypassed via oral dictation.** If encoding is lagging, writing tasks shift to oral mode: child composes orally, parent scribes. Composition skills continue advancing. Written production resumes when encoding catches up. |
+| **No gate** | Oral Language (Strand 5) → any other strand. | **Never gated.** Oral capacities are never blocked behind written capacities. A child can narrate, discuss, and reason orally regardless of reading/writing progress. |
+
+### Hard Gate Examples
+
 - RC2a (Literal Comprehension, Strand 2) requires PS2a (Short Vowel Mastery, Strand 1) at Execute or above — a child must decode to comprehend independently.
 - CW2d (Sequenced Narrative, Strand 4) requires RC2b (Retelling with Detail, Strand 2) at Execute or above — you must understand story structure before producing it.
+
+### Soft Gate Examples (With Oral Bypass)
+
+- CW2a (Sentence Writing, Strand 4) requires GM2a (Sentence Types, Strand 3) at Execute or above — **hard gate on grammar knowledge.** But if the child's *encoding* (spelling/handwriting) is lagging, the writing task shifts to oral dictation: child composes the sentence aloud, parent writes it down, child reads it back.
+- CW2j (Dictation, Strand 4) requires PS2a (Short Vowel Mastery, Strand 1) at Execute — **hard gate on decoding.** But difficulty level adapts: if encoding lags, dictation passages use only words the child can currently spell.
+
+### No Gate Examples
+
+- OL2d (Oral Narration — Fictional, Strand 5) has no cross-strand gate. A child can invent and tell stories orally even if they cannot write a single word.
+- OL2h (Explaining Reasoning, Strand 5) has no gate. A child can explain "why" verbally at any point.
+
+> [!IMPORTANT]
+> **The oral bypass is not a shortcut — it is a developmental bridge.** Children whose oral composition exceeds their encoding ability must not be held back intellectually. The bypass allows them to develop high-level thinking while their motor and encoding skills catch up. The parent decides when to remove the bypass and require full written production.
 
 ---
 
 ## Part VII: What the Full Spine Requires (Next Steps)
 
 ### 1. Concept DAGs
-- [x] **Strand 1**: Phonics & Word Study (23 nodes, Band 0–5)
-- [x] **Strand 2**: Reading Comprehension (22 nodes, Band 0–5)
+- [x] **Strand 1**: Phonics & Word Study (23 nodes, Band 0–5) + L1 interference annotations
+- [x] **Strand 2**: Reading Comprehension (26 nodes, Band 0–5) — includes 3 fluency nodes (RF2a–RF2c) + 1 poetry node (RC2j)
 - [x] **Strand 3**: Grammar & Mechanics (22 nodes, Band 1–5)
-- [x] **Strand 4**: Composition & Writing (20 nodes, Band 0–5)
+- [x] **Strand 4**: Composition & Writing (24 nodes, Band 0–5) — includes 3 handwriting sub-nodes (CW2h1–CW2h3) + cursive (CW2h4) + dictation (CW2j)
 - [x] **Strand 5**: Oral Language & Listening (20 nodes, Band 0–5)
 
 ### 2. Cross-Strand Infrastructure
 - [x] Shared nodes identified (Retelling, Vocabulary, Sentence Structure, Paragraph Structure)
-- [x] Cross-strand dependency rule defined (hard gate at Execute, same as Math)
+- [x] Cross-strand dependency rule defined (**tiered gate system**: hard/soft/none)
 - [x] No independent Strand 5 capstone at Band 2 (deferred to Band 3+)
+- [x] Grammar-in-Writing weaving rule defined
+- [x] L1 interference annotations and parent pronunciation override defined
 
 ### 3. Constraint Templates
 Each (Capacity × Cognitive Level) needs 3–5 templates. For Band 2 specifically:
@@ -932,18 +1062,27 @@ Each (Capacity × Cognitive Level) needs 3–5 templates. For Band 2 specificall
 | Strand | Band 2 Capacities | Cognitive Levels | Templates (at 3–5 each) |
 |---|---|---|---|
 | Phonics & Word Study | 10 | × 4 = 40 cells | 120–200 |
-| Reading Comprehension | 9 | × 4 = 36 cells | 108–180 |
+| Reading Comprehension & Fluency | 13 | × 4 = 52 cells | 156–260 |
 | Grammar & Mechanics | 11 | × 4 = 44 cells | 132–220 |
-| Composition & Writing | 9 | × 4 = 36 cells | 108–180 |
+| Composition & Writing | 12 | × 4 = 48 cells | 144–240 |
 | Oral Language & Listening | 8 | × 4 = 32 cells | 96–160 |
-| **Total** | **47 capacities** | **188 cells** | **564–940 templates** |
+| **Total** | **54 capacities** | **216 cells** | **648–1080 templates** |
 
 Strategy: build Band 2 first (pilot), validate with real children, then expand.
 
-### 4. Text Passages (Reading Comprehension)
-- [ ] Write 50+ graded passages for Band 2 (3–8 sentences each)
+### 4. Text Passages & Mentor Texts
+
+**Track A — AI-Generated Passages:**
+- [ ] Build passage generation prompt (inputs: `capacity_id`, `context_variant`, `vocabulary_level`, `difficulty_band`)
+- [ ] Cache generated passages in D1
+- [ ] Parent approves before child sees any AI-generated passage
+
+**Track B — Curated Seed Library:**
+- [ ] Commission 60 graded reading passages for Band 2 (12 per capacity cluster, 3–8 sentences each)
+- [ ] Commission 20 mentor texts for Composition (4 per writing capacity)
+- [ ] Commission 15 dictation passages (graded by phonics level)
 - [ ] Localise: Ugandan settings, characters, contexts
-- [ ] Vary genre: narrative, informational, letter, instruction
+- [ ] Vary genre: narrative, informational, letter, instruction, poetry
 - [ ] Ensure each passage maps to specific comprehension capacities
 
 ### 5. Parent Primers (Band 3+)
@@ -952,15 +1091,20 @@ Strategy: build Band 2 first (pilot), validate with real children, then expand.
 - [ ] Keep each primer under 200 words
 
 ### 6. Repetition Arc Calibration
-- [ ] Set Execution count per capacity (foundational capacities like phonemic awareness need more reps)
-- [ ] Design noise-injection rules for Endurance
+- [ ] Set Execution count per capacity (foundational capacities like phonemic awareness need more reps; L1-interference nodes get 5–7)
+- [ ] Design noise-injection rules for Endurance (define noise types: irrelevant detail, misleading title, mixed genre, conflicting evidence)
 - [ ] Design cross-strand Milestone tasks
 - [ ] Pilot the arc with real children at Band 2
 
 ### 7. Handwriting Legibility Rubric
-- [ ] Define legibility standards per band (Band 2: letter formation, spacing, size consistency)
-- [ ] Calibrate OCR confidence thresholds for children's handwriting
+- [ ] Define legibility standards per band (Band 2: print letter formation, spacing, sizing, speed ≥10 wpm)
+- [ ] Calibrate OCR confidence thresholds for children's handwriting (with multimodal bridging boost)
 - [ ] Define when legibility routes to parent vs. AI
+- [ ] Define cursive introduction criteria at Band 3
+
+### 8. Reading Volume Expectation
+- [ ] Define minimum daily independent reading time per band (Band 2: 15+ minutes daily beyond assigned tasks)
+- [ ] This is a guidance note in the parent prompt, not a formally assessed capacity
 
 ---
 
