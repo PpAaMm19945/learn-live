@@ -92,14 +92,59 @@ export function AsyncEvidenceModal({ isOpen, onClose, templateId, learnerName, c
         setStep('review');
     };
 
+    const fileToBase64 = (file: File | Blob): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result as string);
+            reader.onerror = error => reject(error);
+        });
+    };
+
     const handleSubmitToAI = async () => {
         setStep('uploading');
 
-        // Mocking the upload and AI processing delay
-        setTimeout(() => {
+        try {
+            let imageBase64 = '';
+            let audioBase64 = '';
+
+            if (imageFile) {
+                imageBase64 = await fileToBase64(imageFile);
+            }
+            if (audioBlob) {
+                audioBase64 = await fileToBase64(audioBlob);
+            }
+
+            const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8787'}/api/evaluate-evidence`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN || 'development_secret_token'}`
+                },
+                body: JSON.stringify({
+                    imageBase64,
+                    audioBase64,
+                    templateId
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to evaluate evidence');
+            }
+
+            const data = await response.json();
+
             setStep('done');
-            toast.success('Evidence submitted for AI review!');
-        }, 2500);
+            if (data.evaluation?.status === 'success') {
+                toast.success('Evidence approved by AI!');
+            } else {
+                toast.info('Evidence needs revision, parent attention required.');
+            }
+        } catch (error) {
+            console.error('Submission error:', error);
+            toast.error('Failed to analyze evidence. Please try again.');
+            setStep('review');
+        }
     };
 
     return (

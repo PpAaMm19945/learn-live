@@ -27,6 +27,7 @@ export interface Env {
     DB: D1Database;
     EVIDENCE_VAULT: R2Bucket;
     API_AUTH_TOKEN?: string;
+    GEMINI_API_KEY?: string;
 }
 
 function isAuthorized(request: Request, env: Env): boolean {
@@ -450,6 +451,139 @@ export default {
                     status: 500,
                     headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                 });
+            }
+        }
+
+        const generateTaskMatch = url.pathname === '/api/generate-task-variation';
+        if (generateTaskMatch && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+
+            try {
+                const body: any = await request.json();
+                const { seedTemplate, capacityName, cognitiveLevel } = body;
+
+                if (!env.GEMINI_API_KEY) {
+                    return new Response(JSON.stringify({ error: 'GEMINI_API_KEY not configured' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+
+                // Call Gemini using simple fetch to avoid SDK bundle issues in worker
+                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+
+                const prompt = `You are an expert curriculum designer. 
+Generate a new task variation for the capacity: ${capacityName}
+Cognitive Level: ${cognitiveLevel}
+Here is the seed template to base it on:
+${JSON.stringify(seedTemplate, null, 2)}
+
+Create a completely new, unique variation using different materials and a slightly different scenario, but keep the core pedagogical constraint and target the same skill.
+Return the result strictly as a JSON object matching the seed template's structure (include task_type, materials, parent_prompt, success_condition, failure_condition, reasoning_check). 
+Do NOT include markdown formatting or backticks around the JSON.`;
+
+                const aiResponse = await fetch(geminiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: prompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!aiResponse.ok) {
+                    throw new Error(`Gemini API Error: ${await aiResponse.text()}`);
+                }
+
+                const aiData: any = await aiResponse.json();
+                const generatedVariation = JSON.parse(aiData.candidates[0].content.parts[0].text);
+
+                return new Response(JSON.stringify({ variation: generatedVariation }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+
+            } catch (error: any) {
+                console.error('[API Generate Task Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to generate task variation', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        const evaluateEvidenceMatch = url.pathname === '/api/evaluate-evidence';
+        if (evaluateEvidenceMatch && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+            }
+            try {
+                const body: any = await request.json();
+                const { imageBase64, audioBase64, templateId } = body;
+
+                if (!env.GEMINI_API_KEY) {
+                    return new Response(JSON.stringify({ error: 'GEMINI_API_KEY missing' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+
+                // Fetch template from D1
+                const template = await env.DB.prepare('SELECT success_condition, failure_condition, reasoning_check FROM Constraint_Templates WHERE id = ?').bind(templateId).first();
+                if (!template) {
+                    return new Response(JSON.stringify({ error: 'Template not found' }), { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+
+                const prompt = `You are a strict, objective teacher's assistant evaluating a child's submitted work.
+Evaluate the following evidence against these constraints:
+Success Condition: ${template.success_condition}
+Failure Condition: ${template.failure_condition}
+Reasoning Check: ${template.reasoning_check}
+
+Based on the provided image of their physical work and the audio transcription of their reasoning, determine if they met the success condition.
+Return a structured JSON with two fields:
+- "status": exactly either "success" or "failure"
+- "summary": a short encouraging 1-sentence explanation of what you saw/heard and why it was successful or needs revision.
+Do not use markdown blocks.`;
+
+                const parts: any[] = [{ text: prompt }];
+                if (imageBase64) {
+                    const match = imageBase64.match(/^data:(.*?);base64,(.*)$/);
+                    if (match) {
+                        parts.push({ inlineData: { mimeType: match[1], data: match[2] } });
+                    } else {
+                        parts.push({ inlineData: { mimeType: "image/jpeg", data: imageBase64 } });
+                    }
+                }
+                if (audioBase64) {
+                    const match = audioBase64.match(/^data:(.*?);base64,(.*)$/);
+                    if (match) {
+                        parts.push({ inlineData: { mimeType: match[1], data: match[2] } });
+                    } else {
+                        parts.push({ inlineData: { mimeType: "audio/webm", data: audioBase64 } });
+                    }
+                }
+
+                const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+                const aiResponse = await fetch(geminiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!aiResponse.ok) {
+                    throw new Error(`Gemini API Error: ${await aiResponse.text()}`);
+                }
+
+                const aiData: any = await aiResponse.json();
+                const evalResult = JSON.parse(aiData.candidates[0].content.parts[0].text);
+
+                return new Response(JSON.stringify({ evaluation: evalResult }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+
+            } catch (error: any) {
+                console.error('[API Evaluate Evidence Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to evaluate evidence', details: error.message }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
             }
         }
 

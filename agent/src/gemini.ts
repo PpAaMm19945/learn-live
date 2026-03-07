@@ -1,9 +1,9 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, Type } from '@google/genai';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export class GeminiSession {
-    private bidiClient: any;
+    private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;
 
     constructor(private systemInstruction: string) { }
@@ -11,24 +11,62 @@ export class GeminiSession {
     async connect() {
         console.log('[AGENT] Connecting to Gemini Live API');
         try {
-            // Placeholder for Bidi client, assuming ai.clients.createBidiGenerateContent
-            // The exact API depends on @google/genai module versions
-            console.log('[AGENT] (Mocked) Started session with instruction: ', this.systemInstruction.substring(0, 50));
+            console.log('[AGENT] Started session with instruction: ', this.systemInstruction.substring(0, 50));
 
-            // Temporary mock to simulate Gemini evaluating a constraint successfully after 8 seconds
-            setTimeout(() => {
-                if (this.onResCallback) {
-                    console.log('[AGENT] (Mocked) Emitting mock evaluate_constraint function call');
-                    this.onResCallback({
-                        type: 'functionCall',
-                        name: 'evaluate_constraint',
-                        args: {
-                            status: 'success',
-                            summary: 'Great job! I saw you holding the toy car and sounding out the letter.'
+            this.session = await ai.live.connect({
+                model: "gemini-2.0-flash-exp",
+                config: {
+                    systemInstruction: {
+                        parts: [{ text: this.systemInstruction }]
+                    },
+                    tools: [{
+                        functionDeclarations: [{
+                            name: 'evaluate_constraint',
+                            description: 'Evaluate if the physical work meets the required constraint.',
+                            parameters: {
+                                type: Type.OBJECT,
+                                properties: {
+                                    status: { type: Type.STRING, enum: ['success', 'failure'] },
+                                    summary: { type: Type.STRING }
+                                },
+                                required: ['status', 'summary']
+                            }
+                        }]
+                    }]
+                },
+                callbacks: {
+                    onopen: () => {
+                        console.log('[AGENT] Gemini Live WebSocket opened.');
+                    },
+                    onmessage: (e) => {
+                        if (e.toolCall && e.toolCall.functionCalls) {
+                            for (const call of e.toolCall.functionCalls) {
+                                if (call.name === 'evaluate_constraint' && this.onResCallback) {
+                                    console.log('[AGENT] Received evaluate_constraint from model');
+                                    this.onResCallback({
+                                        type: 'functionCall',
+                                        name: call.name,
+                                        args: call.args
+                                    });
+                                }
+                            }
                         }
-                    });
+
+                        if (e.serverContent?.modelTurn && this.onResCallback) {
+                            this.onResCallback({
+                                type: 'modelTurn',
+                                parts: e.serverContent.modelTurn.parts
+                            });
+                        }
+                    },
+                    onclose: () => {
+                        console.log('[AGENT] Gemini Live WebSocket closed.');
+                    },
+                    onerror: (err) => {
+                        console.error('[AGENT] Gemini Live WebSocket error:', err);
+                    }
                 }
-            }, 8000);
+            });
 
         } catch (error) {
             console.error('[AGENT] Error connecting to Gemini', error);
@@ -40,13 +78,26 @@ export class GeminiSession {
     }
 
     sendAudio(chunk: Buffer) {
-        // Implement when actual protocol is ready
+        if (!this.session) return;
+
+        try {
+            // Send Base64 encoded audio chunk
+            this.session.sendRealtimeInput([
+                {
+                    mimeType: "audio/pcm;rate=16000",
+                    data: chunk.toString("base64")
+                }
+            ]);
+        } catch (e) {
+            console.error('[AGENT] Error sending audio chunk:', e);
+        }
     }
 
     close() {
         console.log('[AGENT] Closing Gemini session');
-        if (this.bidiClient) {
-            this.bidiClient.close();
+        if (this.session) {
+            this.session.close();
+            this.session = null;
         }
     }
 }
