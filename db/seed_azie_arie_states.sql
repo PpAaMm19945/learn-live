@@ -13,17 +13,28 @@ VALUES
 -- Clear any existing curriculum states for these two learners to prevent duplicates
 DELETE FROM Learner_Repetition_State WHERE learner_id IN ('learner_azie', 'learner_arie');
 
--- Initialize Learner_Repetition_State for D1, B1, G2a, P2a (First capacities of Band 2 Strands)
-
+-- Initialize Learner_Repetition_State for Math and English starter capacities
 INSERT INTO Learner_Repetition_State (id, learner_id, capacity_id, current_cognitive_level, current_arc_stage, execution_count, status) VALUES
--- Azie (learner_azie)
+-- Azie (learner_azie) - Math
 ('state_azie_d1', 'learner_azie', 'D1', 1, 'Exposure', 0, 'active'),
 ('state_azie_b2', 'learner_azie', 'B2', 1, 'Exposure', 0, 'active'),
 ('state_azie_g2a', 'learner_azie', 'G2a', 1, 'Exposure', 0, 'active'),
 ('state_azie_p2a', 'learner_azie', 'P2a', 1, 'Exposure', 0, 'active'),
+-- Azie - English
+('state_azie_ps2a', 'learner_azie', 'PS2a', 1, 'Exposure', 0, 'active'),
+('state_azie_rc2a', 'learner_azie', 'RC2a', 1, 'Exposure', 0, 'active'),
+('state_azie_gm2a', 'learner_azie', 'GM2a', 1, 'Exposure', 0, 'active'),
+('state_azie_cw2a', 'learner_azie', 'CW2a', 1, 'Exposure', 0, 'active'),
+('state_azie_ol2a', 'learner_azie', 'OL2a', 1, 'Exposure', 0, 'active'),
 
--- Arie (learner_arie) 
+-- Arie (learner_arie) - Math
 ('state_arie_d1', 'learner_arie', 'D1', 1, 'Exposure', 0, 'active'),
 ('state_arie_b2', 'learner_arie', 'B2', 1, 'Exposure', 0, 'active'),
 ('state_arie_g2a', 'learner_arie', 'G2a', 1, 'Exposure', 0, 'active'),
-('state_arie_p2a', 'learner_arie', 'P2a', 1, 'Exposure', 0, 'active');
+('state_arie_p2a', 'learner_arie', 'P2a', 1, 'Exposure', 0, 'active'),
+-- Arie - English
+('state_arie_ps2a', 'learner_arie', 'PS2a', 1, 'Exposure', 0, 'active'),
+('state_arie_rc2a', 'learner_arie', 'RC2a', 1, 'Exposure', 0, 'active'),
+('state_arie_gm2a', 'learner_arie', 'GM2a', 1, 'Exposure', 0, 'active'),
+('state_arie_cw2a', 'learner_arie', 'CW2a', 1, 'Exposure', 0, 'active'),
+('state_arie_ol2a', 'learner_arie', 'OL2a', 1, 'Exposure', 0, 'active');

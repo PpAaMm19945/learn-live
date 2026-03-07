@@ -11,12 +11,16 @@ const CURRICULUM_DATA_DIR = path.join(process.cwd(), 'curriculum_data');
 const OUTPUT_SQL_FILE = path.join(process.cwd(), 'db', 'seed_curriculum.sql');
 
 // Jules used string cognitive levels; our DB CHECK constraint expects integers
-const COGNITIVE_LEVEL_MAP: Record<string, number> = {
+const COGNITIVE_LEVEL_MAP: Record<string | number, number> = {
     'Encounter': 1,
     'Execute': 2,
     'Discern': 3,
     'Own': 4,
-    'Milestone': 4, // Milestone maps to Own (level 4) in our schema
+    'Milestone': 4,
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4
 };
 
 const STRAND_ID_MAP: Record<number, string> = {
@@ -27,7 +31,7 @@ const STRAND_ID_MAP: Record<number, string> = {
     5: 'Strand_5',
 };
 
-const CAPACITIES_NAME_MAP: Record<string, string> = {
+const MATH_CAPACITIES: Record<string, string> = {
     // Strand 1: Number & Quantity
     'D1': 'Place Value as Grouping',
     'D2': 'Addition as Combining',
@@ -66,6 +70,14 @@ const CAPACITIES_NAME_MAP: Record<string, string> = {
     'P2g': 'Comparing Data Sets',
 };
 
+// Load English capacity names from generated file
+const ENG_CAPACITIES_PATH = path.join(CURRICULUM_DATA_DIR, 'english_capacity_names.json');
+const ENG_CAPACITIES = fs.existsSync(ENG_CAPACITIES_PATH)
+    ? JSON.parse(fs.readFileSync(ENG_CAPACITIES_PATH, 'utf8'))
+    : {};
+
+const CAPACITIES_NAME_MAP = { ...MATH_CAPACITIES, ...ENG_CAPACITIES };
+
 interface JulesTemplate {
     capacity_id: string;
     strand: number;
@@ -96,6 +108,8 @@ function generateSQL() {
     sql += `-- =============================================================================\n\n`;
 
     // Idempotent: clear existing curriculum data
+    sql += `-- Clear existing data (in order of dependencies)\n`;
+    sql += `DELETE FROM Learner_Repetition_State;\n`;
     sql += `DELETE FROM Constraint_Templates;\n`;
     sql += `DELETE FROM Capacity_Dependencies;\n`;
     sql += `DELETE FROM Capacities;\n`;
@@ -120,11 +134,18 @@ function generateSQL() {
     // 2. Seed Strands
     sql += `-- ── Strands ─────────────────────────────────────────────────────────────────\n`;
     const strands = [
-        { id: 'Strand_1', name: 'Number & Quantity' },
-        { id: 'Strand_2', name: 'Algebraic Thinking & Structure' },
-        { id: 'Strand_3', name: 'Spatial Reasoning & Geometry' },
-        { id: 'Strand_4', name: 'Data, Probability & Statistics' },
-        { id: 'Strand_5', name: 'Mathematical Modeling & Systems' }
+        // Math Strands
+        { id: 'MATH_S1', name: 'Number & Quantity' },
+        { id: 'MATH_S2', name: 'Algebraic Thinking & Structure' },
+        { id: 'MATH_S3', name: 'Spatial Reasoning & Geometry' },
+        { id: 'MATH_S4', name: 'Data, Probability & Statistics' },
+        { id: 'MATH_S5', name: 'Mathematical Modeling & Systems' },
+        // English Strands
+        { id: 'ENG_S1', name: 'Phonics & Word Study' },
+        { id: 'ENG_S2', name: 'Reading Comprehension' },
+        { id: 'ENG_S3', name: 'Grammar & Mechanics' },
+        { id: 'ENG_S4', name: 'Composition & Writing' },
+        { id: 'ENG_S5', name: 'Oral Language & Listening' }
     ];
     for (const s of strands) {
         sql += `INSERT INTO Strands (id, name) VALUES ('${s.id}', ${escSQL(s.name)});\n`;
@@ -137,7 +158,7 @@ function generateSQL() {
         process.exit(1);
     }
 
-    const files = fs.readdirSync(CURRICULUM_DATA_DIR).filter(f => f.endsWith('.json'));
+    const files = fs.readdirSync(CURRICULUM_DATA_DIR).filter(f => f.endsWith('.json') && !f.includes('capacity_names'));
     if (files.length === 0) {
         console.error(`ERROR: No JSON files found in ${CURRICULUM_DATA_DIR}.`);
         process.exit(1);
@@ -153,14 +174,17 @@ function generateSQL() {
     for (const file of files) {
         const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
         const templates: JulesTemplate[] = JSON.parse(raw);
+        const isEnglish = file.startsWith('english_');
+        const prefix = isEnglish ? 'ENG_S' : 'MATH_S';
+
         for (const t of templates) {
             const capKey = t.capacity_id;
             if (!seenCapacities.has(capKey)) {
                 seenCapacities.add(capKey);
-                const strandId = STRAND_ID_MAP[t.strand] || `Strand_${t.strand}`;
+                const strandId = `${prefix}${t.strand}`;
                 const bandId = `Band_${t.band}`;
                 // Use lookup map, fallback to task_type
-                const capName = CAPACITIES_NAME_MAP[capKey] || t.task_type;
+                const capName = (CAPACITIES_NAME_MAP as any)[capKey] || t.task_type;
                 sql += `INSERT OR IGNORE INTO Capacities (id, strand_id, band_id, name) VALUES ('${capKey}', '${strandId}', '${bandId}', ${escSQL(capName)});\n`;
             }
         }
@@ -174,6 +198,8 @@ function generateSQL() {
         console.log(`Processing: ${file}`);
         const raw = fs.readFileSync(path.join(CURRICULUM_DATA_DIR, file), 'utf8');
         const templates: JulesTemplate[] = JSON.parse(raw);
+        const isEnglish = file.startsWith('english_');
+        const prefix = isEnglish ? 'ENG_S' : 'MATH_S';
 
         for (const t of templates) {
             const cogLevel = COGNITIVE_LEVEL_MAP[t.cognitive_level];
