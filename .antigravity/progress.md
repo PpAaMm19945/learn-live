@@ -70,3 +70,14 @@
 *   [x] **Task 8.5:** Set up CI/CD pipeline or reproducible deployment script.
 *   [x] **Task 8.6:** Write README / blog post for hackathon submission (polished `README.md` with concept, tech stack, architecture, and run instructions).
 *   [ ] **Task 8.7:** Run final end-to-end smoke test.
+
+## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
+*   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).
+*   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.
+*   [x] **Task 13.3:** Add `/v1/agent/explainer` Cloud Run endpoint — separate WebSocket from Evidence Witness, with canvas tool declarations (show_element, animate_element, remove_element, clear_canvas, generate_diagram).
+*   [x] **Task 13.4:** Build learner-context-rich system prompts — age/band/name-aware, pedagogically mature instructions.
+*   [ ] **Task 13.5:** Build Math counting/blocks demo flow with pre-built SVG primitives.
+*   [x] **Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
+*   [ ] **Task 13.7:** Audio-canvas sync (atomic payloads).
+*   [ ] **Task 13.8:** Demo mode (recorded WebSocket replay fallback).
+*   [ ] **Task 13.9:** Nano Banana image generation integration.
