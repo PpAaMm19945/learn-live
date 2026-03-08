@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Camera, Mic } from 'lucide-react';
+import { Camera, Mic, Lightbulb } from 'lucide-react';
 import { WitnessButton } from './WitnessButton';
 import { MatrixTask } from './TaskCard';
 import { PermissionsFlow } from './PermissionsFlow';
 import { EvidenceWitness } from './EvidenceWitness';
+import { ExplainerCanvas } from './ExplainerCanvas';
 import { Button } from '@/components/ui/button';
 
 interface TaskBriefingProps {
@@ -13,13 +14,18 @@ interface TaskBriefingProps {
 
 export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
     const [requestingPermissions, setRequestingPermissions] = useState(false);
-
     const [sessionStarted, setSessionStarted] = useState(false);
+    const [explainerStarted, setExplainerStarted] = useState(false);
+    const [targetMode, setTargetMode] = useState<'witness' | 'explainer'>('witness');
 
     // Parse required evidence from the JSON constraint
     const evidence = task.constraint_to_enforce.required_evidence || [];
     const needsCamera = evidence.includes('snapshot') || evidence.includes('video');
     const needsMic = evidence.includes('audio_transcript');
+
+    if (explainerStarted) {
+        return <ExplainerCanvas task={task} onClose={onClose} />;
+    }
 
     if (sessionStarted) {
         return <EvidenceWitness task={task} onComplete={onClose} />;
@@ -28,16 +34,21 @@ export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
     if (requestingPermissions) {
         return (
             <PermissionsFlow
-                needsCamera={needsCamera}
-                needsMic={needsMic}
+                needsCamera={targetMode === 'witness' ? needsCamera : false}
+                needsMic={true}
                 onSuccess={() => {
                     setRequestingPermissions(false);
-                    setSessionStarted(true);
+                    if (targetMode === 'explainer') {
+                        setExplainerStarted(true);
+                    } else {
+                        setSessionStarted(true);
+                    }
                 }}
                 onCancel={() => setRequestingPermissions(false)}
             />
         );
     }
+
     return (
         <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-6 animate-in fade-in zoom-in duration-300">
             <Button
@@ -78,8 +89,24 @@ export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
                     )}
                 </div>
 
-                <div className="pt-8">
-                    <WitnessButton onClick={() => setRequestingPermissions(true)} />
+                <div className="pt-8 flex flex-col items-center gap-4">
+                    <WitnessButton onClick={() => {
+                        setTargetMode('witness');
+                        setRequestingPermissions(true);
+                    }} />
+
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        className="gap-3 text-lg px-8 py-6 rounded-full border-2 border-primary/30 hover:bg-accent"
+                        onClick={() => {
+                            setTargetMode('explainer');
+                            setRequestingPermissions(true);
+                        }}
+                    >
+                        <Lightbulb className="w-6 h-6 text-primary" />
+                        Explain This to Me
+                    </Button>
                 </div>
             </div>
         </div>

@@ -5,12 +5,14 @@ import dotenv from 'dotenv';
 import { checkRateLimit } from './rateLimit';
 import { fetchAndAssembleInstruction } from './constraints';
 import { GeminiSession } from './gemini';
+import { handleExplainerSession } from './explainerSession';
 
 dotenv.config();
 
 const app = express();
 const server = createServer(app);
-const wss = new WebSocketServer({ noServer: true });
+const witnessWss = new WebSocketServer({ noServer: true });
+const explainerWss = new WebSocketServer({ noServer: true });
 
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', service: 'learnlive-agent' });
@@ -20,8 +22,12 @@ server.on('upgrade', (request, socket, head) => {
     const { pathname } = new URL(request.url || '', `http://${request.headers.host}`);
 
     if (pathname === '/v1/agent/session') {
-        wss.handleUpgrade(request, socket, head, (ws) => {
-            wss.emit('connection', ws, request);
+        witnessWss.handleUpgrade(request, socket, head, (ws) => {
+            witnessWss.emit('connection', ws, request);
+        });
+    } else if (pathname === '/v1/agent/explainer') {
+        explainerWss.handleUpgrade(request, socket, head, (ws) => {
+            explainerWss.emit('connection', ws, request);
         });
     } else {
         socket.destroy();
@@ -92,6 +98,28 @@ wss.on('connection', async (ws: WebSocket, request) => {
     ws.on('close', () => {
         geminiSession.close();
     });
+});
+
+// ─── Explainer Agent WebSocket ───
+explainerWss.on('connection', async (ws: WebSocket, request) => {
+    const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
+    const taskId = searchParams.get('taskId');
+    const familyId = searchParams.get('familyId');
+    const learnerId = searchParams.get('learnerId');
+
+    if (!taskId || !familyId) {
+        ws.send(JSON.stringify({ error: 'Missing taskId or familyId' }));
+        ws.close();
+        return;
+    }
+
+    if (!checkRateLimit(familyId)) {
+        ws.send(JSON.stringify({ error: 'Daily session limit reached' }));
+        ws.close();
+        return;
+    }
+
+    handleExplainerSession(ws, taskId, familyId, learnerId || 'unknown');
 });
 
 const PORT = process.env.PORT || 8080;
