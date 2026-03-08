@@ -100,6 +100,28 @@ wss.on('connection', async (ws: WebSocket, request) => {
     });
 });
 
+// ─── Explainer Agent WebSocket ───
+explainerWss.on('connection', async (ws: WebSocket, request) => {
+    const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
+    const taskId = searchParams.get('taskId');
+    const familyId = searchParams.get('familyId');
+    const learnerId = searchParams.get('learnerId');
+
+    if (!taskId || !familyId) {
+        ws.send(JSON.stringify({ error: 'Missing taskId or familyId' }));
+        ws.close();
+        return;
+    }
+
+    if (!checkRateLimit(familyId)) {
+        ws.send(JSON.stringify({ error: 'Daily session limit reached' }));
+        ws.close();
+        return;
+    }
+
+    handleExplainerSession(ws, taskId, familyId, learnerId || 'unknown');
+});
+
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
     console.log(`[AGENT] Server is running on port ${PORT}`);
