@@ -23,14 +23,6 @@ const COGNITIVE_LEVEL_MAP: Record<string | number, number> = {
     4: 4
 };
 
-const STRAND_ID_MAP: Record<number, string> = {
-    1: 'Strand_1',
-    2: 'Strand_2',
-    3: 'Strand_3',
-    4: 'Strand_4',
-    5: 'Strand_5',
-};
-
 const MATH_CAPACITIES: Record<string, string> = {
     // Strand 1: Number & Quantity
     'D1': 'Place Value as Grouping',
@@ -68,6 +60,9 @@ const MATH_CAPACITIES: Record<string, string> = {
     'P2e': 'Likely vs Unlikely',
     'P2f': 'Simple Experiments',
     'P2g': 'Comparing Data Sets',
+
+    // Strand 5: Mathematical Modeling
+    'M2': 'Mathematical Modeling',
 };
 
 // Load English capacity names from generated file
