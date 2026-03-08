@@ -51,7 +51,7 @@ export default function LearnerDashboard() {
         <div className="min-h-screen bg-background p-6 md:p-12 text-foreground">
             <div className="flex justify-between items-center mb-12">
                 <h1 className="text-4xl font-black capitalize">Welcome back, {displayName}!</h1>
-                <Button variant="outline" size="lg" onClick={() => navigate('/profiles')}>
+                <Button variant="outline" size="lg" onClick={() => { logout(); navigate('/login'); }}>
                     Switch Profile
                 </Button>
             </div>
