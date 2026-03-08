@@ -53,9 +53,17 @@ export default function ProfileSelect() {
     const [error, setError] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
 
-    const login = useAuthStore((s) => s.login);
+    const { login, isAuthenticated, role, userId } = useAuthStore();
     const setActiveProfile = useUIStore((s) => s.setActiveProfile);
     const navigate = useNavigate();
+
+    // If already authenticated, redirect to appropriate dashboard
+    React.useEffect(() => {
+        if (isAuthenticated && role && userId) {
+            if (role === 'parent') navigate('/dashboard', { replace: true });
+            else navigate(`/learner/${userId}`, { replace: true });
+        }
+    }, []);
 
     const handleSelect = (profile: Profile) => {
         setSelected(profile);
