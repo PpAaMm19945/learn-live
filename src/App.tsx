@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Login from "./pages/Login";
 import ProfileSelect from "./pages/ProfileSelect";
 import Dashboard from "./pages/parent/Dashboard";
 import LearnerDashboard from "./pages/learner/LearnerDashboard";
@@ -46,17 +45,8 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/login" element={<Login />} />
-
-              {/* Profile switcher — shared-device dispatch center */}
-              <Route
-                path="/profiles"
-                element={
-                  <ProtectedRoute allowedRoles={['parent', 'learner']}>
-                    <ProfileSelect />
-                  </ProtectedRoute>
-                }
-              />
+              <Route path="/login" element={<ProfileSelect />} />
+              <Route path="/profiles" element={<ProfileSelect />} />
 
               <Route
                 path="/dashboard"
