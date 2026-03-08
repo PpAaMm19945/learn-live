@@ -60,6 +60,9 @@ const MATH_CAPACITIES: Record<string, string> = {
     'P2e': 'Likely vs Unlikely',
     'P2f': 'Simple Experiments',
     'P2g': 'Comparing Data Sets',
+
+    // Strand 5: Mathematical Modeling
+    'M2': 'Mathematical Modeling',
 };
 
 // Load English capacity names from generated file
