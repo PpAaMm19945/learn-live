@@ -19,10 +19,9 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
     const { familyId: userFamilyId, userId: userLearnerId } = useAuthStore();
     const [successReason, setSuccessReason] = useState<string | null>(null);
 
-    // Parse required evidence from the JSON constraint
-    const evidence = task.constraint_to_enforce.required_evidence || [];
-    const needsCamera = evidence.includes('snapshot') || evidence.includes('video');
-    const needsMic = evidence.includes('audio_transcript');
+    // Default evidence needs for curriculum tasks
+    const needsCamera = true;
+    const needsMic = true;
 
     useEffect(() => {
         let activeStream: MediaStream | null = null;
