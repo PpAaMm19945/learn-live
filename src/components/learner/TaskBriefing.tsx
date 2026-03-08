@@ -69,7 +69,7 @@ export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
                 </h1>
 
                 <p className="text-2xl md:text-3xl font-medium text-muted-foreground leading-relaxed">
-                    {task.constraint_to_enforce.description}
+                    {task.task_type}
                 </p>
 
                 <div className="flex items-center justify-center gap-6 py-6 border-y border-border">

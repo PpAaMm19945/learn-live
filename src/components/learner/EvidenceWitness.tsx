@@ -300,7 +300,7 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
             {/* Task Prompt Area */}
             <div className="absolute bottom-10 left-10 right-10 bg-black/70 backdrop-blur-xl p-6 rounded-3xl border border-white/20 shadow-2xl z-20">
                 <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                    {task.constraint_to_enforce.description}
+                    {task.task_type}
                 </p>
                 <div className="mt-4 flex gap-2">
                     {needsCamera && <Camera className="w-5 h-5 text-zinc-400" />}
