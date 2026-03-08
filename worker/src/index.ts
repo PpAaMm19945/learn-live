@@ -139,8 +139,8 @@ export default {
         if (learnerTasksMatch && request.method === 'GET') {
             const learnerId = learnerTasksMatch[1];
             try {
-                console.log(`[DB] Fetching learner record for: ${learnerId}`);
-                const learner = await env.DB.prepare('SELECT id FROM Learners WHERE id = ?').bind(learnerId).first();
+                console.log(`[DB] Fetching curriculum tasks for learner: ${learnerId}`);
+                const learner = await env.DB.prepare('SELECT id, name FROM Learners WHERE id = ?').bind(learnerId).first();
 
                 if (!learner) {
                     return new Response(JSON.stringify({ error: 'Learner not found' }), {
@@ -149,23 +149,58 @@ export default {
                     });
                 }
 
-                // Temporary mapping as per prompt instructions
-                const responsibilityLevel = learnerId === 'learner_azie' ? 'L2' : 'L1';
+                const query = `
+                    SELECT 
+                        lrs.learner_id,
+                        lrs.current_arc_stage,
+                        lrs.execution_count,
+                        ct.id as template_id,
+                        ct.capacity_id,
+                        c.name as capacity_name,
+                        s.name as strand_name,
+                        ct.cognitive_level,
+                        ct.variation_id,
+                        ct.task_type,
+                        ct.materials,
+                        ct.scientific_materials,
+                        ct.acceptable_alternatives,
+                        ct.risk_level,
+                        ct.safety_warning,
+                        ct.parent_prompt,
+                        ct.success_condition,
+                        ct.failure_condition,
+                        ct.reasoning_check,
+                        ct.context_variants,
+                        ct.requires_parent_primer
+                    FROM Learner_Repetition_State lrs
+                    JOIN Capacities c ON lrs.capacity_id = c.id
+                    JOIN Strands s ON c.strand_id = s.id
+                    JOIN Constraint_Templates ct ON ct.capacity_id = lrs.capacity_id AND ct.cognitive_level = lrs.current_cognitive_level
+                    WHERE lrs.learner_id = ? AND lrs.status = 'active'
+                    GROUP BY lrs.id
+                `;
 
-                console.log(`[DB] Fetching Matrix_Tasks for responsibility_level: ${responsibilityLevel}`);
-                const { results } = await env.DB.prepare(
-                    'SELECT * FROM Matrix_Tasks WHERE responsibility_level = ?'
-                )
-                    .bind(responsibilityLevel)
-                    .all();
+                const { results } = await env.DB.prepare(query).bind(learnerId).all();
 
-                // Parse JSON fields to make them easy to use in frontend
-                const tasks = results.map((task: any) => ({
-                    ...task,
-                    constraint_to_enforce: cachedJSONParse(task.constraint_to_enforce),
-                    failure_condition: cachedJSONParse(task.failure_condition),
-                    success_condition: cachedJSONParse(task.success_condition),
-                    role_instruction: cachedJSONParse(task.role_instruction),
+                const tasks = results.map((row: any) => ({
+                    id: row.template_id,
+                    capacity: row.capacity_name,
+                    capacity_id: row.capacity_id,
+                    strand_name: row.strand_name,
+                    arc_stage: row.current_arc_stage,
+                    cognitive_level: row.cognitive_level,
+                    task_type: row.task_type,
+                    materials: row.materials,
+                    scientific_materials: cachedJSONParse(row.scientific_materials),
+                    acceptable_alternatives: cachedJSONParse(row.acceptable_alternatives),
+                    risk_level: row.risk_level,
+                    safety_warning: row.safety_warning,
+                    parent_prompt: row.parent_prompt,
+                    success_condition: row.success_condition,
+                    failure_condition: row.failure_condition,
+                    reasoning_check: row.reasoning_check,
+                    context_variants: row.context_variants,
+                    execution_count: row.execution_count,
                 }));
 
                 return new Response(JSON.stringify({ tasks }), {
