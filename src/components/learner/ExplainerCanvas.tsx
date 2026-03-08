@@ -279,7 +279,7 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                         )}
                         {status === 'active' && (
                             <>
-                                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                                <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                                 <Mic className="w-4 h-4" />
                                 Listening
                             </>
