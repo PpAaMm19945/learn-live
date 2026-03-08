@@ -6,7 +6,7 @@ export class GeminiSession {
     private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;
 
-    constructor(private systemInstruction: string) { }
+    constructor(private systemInstruction: string, private extraTools?: any[]) { }
 
     async connect() {
         console.log('[AGENT] Connecting to Gemini Live API');
