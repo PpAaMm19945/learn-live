@@ -20,18 +20,25 @@ export class GeminiSession {
                         parts: [{ text: this.systemInstruction }]
                     },
                     tools: [{
-                        functionDeclarations: [{
-                            name: 'evaluate_constraint',
-                            description: 'Evaluate if the physical work meets the required constraint.',
-                            parameters: {
-                                type: Type.OBJECT,
-                                properties: {
-                                    status: { type: Type.STRING, enum: ['success', 'failure'] },
-                                    summary: { type: Type.STRING }
-                                },
-                                required: ['status', 'summary']
-                            }
-                        }]
+                        functionDeclarations: [
+                            {
+                                name: 'evaluate_constraint',
+                                description: 'Evaluate if the physical work meets the required constraint.',
+                                parameters: {
+                                    type: Type.OBJECT,
+                                    properties: {
+                                        status: { type: Type.STRING, enum: ['success', 'failure'] },
+                                        summary: { type: Type.STRING }
+                                    },
+                                    required: ['status', 'summary']
+                                }
+                            },
+                            ...(this.extraTools || []).map(t => ({
+                                name: t.name,
+                                description: t.description,
+                                parameters: t.parameters,
+                            })),
+                        ]
                     }]
                 },
                 callbacks: {
