@@ -18,10 +18,9 @@ export function TaskBriefing({ task, onClose }: TaskBriefingProps) {
     const [explainerStarted, setExplainerStarted] = useState(false);
     const [targetMode, setTargetMode] = useState<'witness' | 'explainer'>('witness');
 
-    // Parse required evidence from the JSON constraint
-    const evidence = task.constraint_to_enforce.required_evidence || [];
-    const needsCamera = evidence.includes('snapshot') || evidence.includes('video');
-    const needsMic = evidence.includes('audio_transcript');
+    // Determine required evidence based on task type
+    const needsCamera = true; // Default: most tasks benefit from visual evidence
+    const needsMic = true;    // Default: voice explanation is always valuable
 
     if (explainerStarted) {
         return <ExplainerCanvas task={task} onClose={onClose} />;
