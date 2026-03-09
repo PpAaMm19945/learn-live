@@ -7,20 +7,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Label } from '@/components/ui/label';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { Logger } from '@/lib/Logger';
-import { Plus, X, ArrowRight, ArrowLeft, CheckCircle2, Users, KeyRound, Baby } from 'lucide-react';
+import { Plus, X, ArrowRight, ArrowLeft, CheckCircle2, Users, KeyRound, Baby, Ticket } from 'lucide-react';
 
 interface ChildEntry {
   name: string;
   age: number | '';
 }
 
-type Step = 'family' | 'children' | 'pin' | 'success';
+type Step = 'invite' | 'family' | 'children' | 'pin' | 'success';
 
 export default function Onboarding() {
   const navigate = useNavigate();
   const login = useAuthStore((s) => s.login);
 
-  const [step, setStep] = useState<Step>('family');
+  const [step, setStep] = useState<Step>('invite');
+  const [inviteCode, setInviteCode] = useState('');
   const [familyName, setFamilyName] = useState('');
   const [children, setChildren] = useState<ChildEntry[]>([{ name: '', age: '' }]);
   const [pin, setPin] = useState('');
@@ -49,6 +50,7 @@ export default function Onboarding() {
     setChildren(updated);
   };
 
+  const canProceedToFamily = inviteCode.trim().length >= 4;
   const canProceedToChildren = familyName.trim().length >= 2;
   const canProceedToPin = children.every(c => c.name.trim().length >= 1 && typeof c.age === 'number' && c.age >= 6 && c.age <= 9);
 
@@ -66,6 +68,7 @@ export default function Onboarding() {
           familyName: familyName.trim(),
           children: children.map(c => ({ name: c.name.trim(), age: c.age })),
           familyPin: pinValue,
+          inviteCode: inviteCode.trim().toUpperCase(),
         }),
       });
 
@@ -87,20 +90,21 @@ export default function Onboarding() {
   };
 
   const stepIcons: Record<Step, React.ReactNode> = {
+    invite: <Ticket className="h-6 w-6" />,
     family: <Users className="h-6 w-6" />,
     children: <Baby className="h-6 w-6" />,
     pin: <KeyRound className="h-6 w-6" />,
     success: <CheckCircle2 className="h-6 w-6" />,
   };
 
-  const stepNumber = { family: 1, children: 2, pin: 3, success: 4 };
+  const stepNumber = { invite: 1, family: 2, children: 3, pin: 4, success: 5 };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-lg space-y-6">
         {/* Progress */}
         <div className="flex items-center justify-center gap-2">
-          {(['family', 'children', 'pin'] as Step[]).map((s, i) => (
+          {(['invite', 'family', 'children', 'pin'] as Step[]).map((s, i) => (
             <React.Fragment key={s}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
                 stepNumber[step] > stepNumber[s]
@@ -111,12 +115,51 @@ export default function Onboarding() {
               }`}>
                 {stepNumber[step] > stepNumber[s] ? '✓' : i + 1}
               </div>
-              {i < 2 && <div className={`h-0.5 w-8 ${stepNumber[step] > stepNumber[s] ? 'bg-primary' : 'bg-muted'}`} />}
+              {i < 3 && <div className={`h-0.5 w-6 ${stepNumber[step] > stepNumber[s] ? 'bg-primary' : 'bg-muted'}`} />}
             </React.Fragment>
           ))}
         </div>
 
         <Card className="border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
+          {/* ── Step 0: Invite Code ── */}
+          {step === 'invite' && (
+            <>
+              <CardHeader className="text-center space-y-2">
+                <div className="mx-auto w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                  {stepIcons.invite}
+                </div>
+                <CardTitle className="text-2xl font-bold">Welcome to Learn Live</CardTitle>
+                <CardDescription>Enter your pilot invite code to get started</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="inviteCode">Invite Code</Label>
+                  <Input
+                    id="inviteCode"
+                    placeholder="e.g. LEARNLIVE2026"
+                    value={inviteCode}
+                    onChange={(e) => { setInviteCode(e.target.value.toUpperCase()); setError(''); }}
+                    className="text-center text-lg font-mono tracking-widest"
+                    autoFocus
+                    maxLength={20}
+                  />
+                  <p className="text-xs text-muted-foreground text-center">
+                    Contact the Learn Live team if you don't have one
+                  </p>
+                </div>
+                {error && <p className="text-sm text-destructive text-center">{error}</p>}
+              </CardContent>
+              <CardFooter className="flex justify-between">
+                <Button variant="ghost" onClick={() => navigate('/login')}>
+                  <ArrowLeft className="h-4 w-4 mr-1" /> I have a code
+                </Button>
+                <Button onClick={() => setStep('family')} disabled={!canProceedToFamily}>
+                  Next <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </CardFooter>
+            </>
+          )}
+
           {/* ── Step 1: Family Name ── */}
           {step === 'family' && (
             <>
@@ -124,8 +167,8 @@ export default function Onboarding() {
                 <div className="mx-auto w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
                   {stepIcons.family}
                 </div>
-                <CardTitle className="text-2xl font-bold">Welcome to Learn Live</CardTitle>
-                <CardDescription>Let's set up your family. What should we call you?</CardDescription>
+                <CardTitle className="text-2xl font-bold">Your Family</CardTitle>
+                <CardDescription>What should we call your family?</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
@@ -140,8 +183,8 @@ export default function Onboarding() {
                 </div>
               </CardContent>
               <CardFooter className="flex justify-between">
-                <Button variant="ghost" onClick={() => navigate('/login')}>
-                  <ArrowLeft className="h-4 w-4 mr-1" /> I have a code
+                <Button variant="ghost" onClick={() => setStep('invite')}>
+                  <ArrowLeft className="h-4 w-4 mr-1" /> Back
                 </Button>
                 <Button onClick={() => setStep('children')} disabled={!canProceedToChildren}>
                   Next <ArrowRight className="h-4 w-4 ml-1" />
@@ -270,9 +313,9 @@ export default function Onboarding() {
           )}
         </Card>
 
-        {step === 'family' && (
+        {step === 'invite' && (
           <p className="text-center text-xs text-muted-foreground">
-            Already have a code?{' '}
+            Already have a family code?{' '}
             <button onClick={() => navigate('/login')} className="underline text-primary hover:text-primary/80">
               Sign in here
             </button>

@@ -34,13 +34,14 @@ server.on('upgrade', (request, socket, head) => {
     }
 });
 
-wss.on('connection', async (ws: WebSocket, request) => {
+// ─── Evidence Witness WebSocket ───
+witnessWss.on('connection', async (ws: WebSocket, request) => {
     const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
     const taskId = searchParams.get('taskId');
     const familyId = searchParams.get('familyId');
     const learnerId = searchParams.get('learnerId');
 
-    console.log(`[AGENT] Session initiated for learner: ${learnerId}, task: ${taskId}`);
+    console.log(`[AGENT] Witness session initiated — learner: ${learnerId}, task: ${taskId}`);
 
     if (!taskId || !familyId) {
         ws.send(JSON.stringify({ error: 'Missing taskId or familyId' }));
@@ -56,10 +57,12 @@ wss.on('connection', async (ws: WebSocket, request) => {
 
     let systemInstruction = '';
     try {
-        systemInstruction = await fetchAndAssembleInstruction(taskId);
+        // Fetch task constraint + inject learner context if available
+        const baseInstruction = await fetchAndAssembleInstruction(taskId);
+        systemInstruction = buildWitnessInstruction(baseInstruction, learnerId);
     } catch (e: any) {
         if (e.message === 'INVALID_CONSTRAINT') {
-            console.error(`[AGENT] ⛔ INVALID CONSTRAINT — blocking session`);
+            console.error(`[AGENT] ⛔ INVALID CONSTRAINT — blocking session for task: ${taskId}`);
             ws.send(JSON.stringify({ error: 'Invalid constraint' }));
         } else {
             console.error(`[AGENT] Error fetching constraints: ${e.message}`);
@@ -74,16 +77,13 @@ wss.on('connection', async (ws: WebSocket, request) => {
 
     geminiSession.onResponse((data: any) => {
         if (ws.readyState === WebSocket.OPEN) {
-            // Intercept special function calls for constraint evaluation
             if (data.type === 'functionCall' && data.name === 'evaluate_constraint') {
-                console.log(`[AGENT] Intercepted evaluate_constraint for task: ${taskId}`);
+                console.log(`[AGENT] evaluate_constraint received for task: ${taskId} — status: ${data.args.status}`);
                 ws.send(JSON.stringify({
                     type: 'session_end',
                     reason: data.args.status === 'success' ? 'success' : 'failure',
-                    summary: data.args.summary || 'Session completed.'
+                    summary: data.args.summary || 'Session completed.',
                 }));
-
-                // Safely close connection shortly after
                 setTimeout(() => ws.close(), 1000);
             } else {
                 ws.send(JSON.stringify(data));
@@ -91,11 +91,24 @@ wss.on('connection', async (ws: WebSocket, request) => {
         }
     });
 
-    ws.on('message', (message: string) => {
-        // Handle incoming message from frontend
+    ws.on('message', (message: Buffer) => {
+        try {
+            const msg = JSON.parse(message.toString());
+            if (msg.type === 'audio' && msg.data) {
+                geminiSession.sendAudio(Buffer.from(msg.data, 'base64'));
+            }
+        } catch (e) {
+            console.error('[AGENT] Bad message from client:', e);
+        }
     });
 
     ws.on('close', () => {
+        console.log(`[AGENT] Witness session closed — learner: ${learnerId}, task: ${taskId}`);
+        geminiSession.close();
+    });
+
+    ws.on('error', (err) => {
+        console.error(`[AGENT] Witness WebSocket error:`, err);
         geminiSession.close();
     });
 });
@@ -106,6 +119,8 @@ explainerWss.on('connection', async (ws: WebSocket, request) => {
     const taskId = searchParams.get('taskId');
     const familyId = searchParams.get('familyId');
     const learnerId = searchParams.get('learnerId');
+
+    console.log(`[AGENT] Explainer session initiated — learner: ${learnerId}, task: ${taskId}`);
 
     if (!taskId || !familyId) {
         ws.send(JSON.stringify({ error: 'Missing taskId or familyId' }));
@@ -122,7 +137,35 @@ explainerWss.on('connection', async (ws: WebSocket, request) => {
     handleExplainerSession(ws, taskId, familyId, learnerId || 'unknown');
 });
 
+/**
+ * Wraps the raw task constraint in a full Evidence Witness system instruction.
+ * Injects learner ID for traceability. Expand this to include
+ * learner history once D1 is queryable from the agent (via Worker API).
+ */
+function buildWitnessInstruction(baseConstraint: string, learnerId: string | null): string {
+    return `You are a calm, patient Evidence Witness observing a child complete a physical task.
+
+YOUR ROLE:
+- You OBSERVE and DOCUMENT — you do NOT teach, correct, or grade
+- You speak minimally and encouragingly
+- You prompt the child ONCE to explain their reasoning after they finish
+- You call evaluate_constraint when you have sufficient evidence
+
+LEARNER: ${learnerId || 'unknown'}
+
+TASK CONSTRAINT:
+${baseConstraint}
+
+RULES:
+- NEVER reveal the success/failure criteria to the child
+- NEVER teach the concept during observation
+- Wait for the child to complete the physical task BEFORE asking for explanation
+- Ask only: "Can you tell me how you figured that out?"
+- Call evaluate_constraint exactly ONCE with status ('success' or 'failure') and a brief summary
+- If the child struggles for more than 2 minutes, gently end the session with failure status`;
+}
+
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
-    console.log(`[AGENT] Server is running on port ${PORT}`);
+    console.log(`[AGENT] Server running on port ${PORT}`);
 });

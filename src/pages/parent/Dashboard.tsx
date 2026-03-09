@@ -94,9 +94,9 @@ function getSubjectGroup(strandName: string): string {
 
 function getSubjectColor(subject: string): string {
     switch (subject) {
-        case 'Mathematics': return 'text-blue-600 bg-blue-50 border-blue-200';
-        case 'English': return 'text-purple-600 bg-purple-50 border-purple-200';
-        case 'Science': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
+        case 'Mathematics': return 'text-primary bg-primary/10 border-primary/20';
+        case 'English': return 'text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/20';
+        case 'Science': return 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
         default: return 'text-muted-foreground bg-secondary border-border';
     }
 }
@@ -125,7 +125,7 @@ export default function Dashboard() {
         failureCondition: '',
     });
 
-    const { data: judgmentsData } = useQuery({
+    const { data: judgmentsData, isError: isJudgmentsError } = useQuery({
         queryKey: ['pending-judgments', familyId],
         queryFn: async () => {
             if (!familyId) return { judgments: [] };
@@ -135,10 +135,11 @@ export default function Dashboard() {
             return res.json();
         },
         enabled: !!familyId,
+        retry: 2,
     });
 
     // Fetch weekly plan (replaces flat curriculum-tasks)
-    const { data: weeklyData, isLoading: isWeeklyLoading } = useQuery({
+    const { data: weeklyData, isLoading: isWeeklyLoading, isError: isWeeklyError, refetch: refetchWeekly } = useQuery({
         queryKey: ['weekly-plan', familyId],
         queryFn: async () => {
             if (!familyId) return { plans: [] };
@@ -148,6 +149,7 @@ export default function Dashboard() {
             return res.json();
         },
         enabled: !!familyId,
+        retry: 2,
     });
 
     // Also keep legacy fetch for pantry list compatibility
@@ -335,8 +337,22 @@ export default function Dashboard() {
                             )}
                         </div>
 
-                        {isWeeklyLoading ? (
-                            <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
+                        {isWeeklyError ? (
+                            <div className="p-8 text-center space-y-3">
+                                <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <ShieldAlert className="w-6 h-6 text-destructive" />
+                                </div>
+                                <p className="text-destructive font-medium">Failed to load weekly plan</p>
+                                <p className="text-sm text-muted-foreground">The server might be experiencing issues. Please try again.</p>
+                                <Button variant="outline" onClick={() => refetchWeekly()} className="mt-2">
+                                    Try Again
+                                </Button>
+                            </div>
+                        ) : isWeeklyLoading ? (
+                            <div className="flex flex-col items-center justify-center p-8 space-y-3">
+                                <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                                <p className="text-sm text-muted-foreground">Loading this week's plan...</p>
+                            </div>
                         ) : (
                             <Tabs defaultValue="subjects" className="px-4">
                                 <TabsList className="w-full mb-3">
