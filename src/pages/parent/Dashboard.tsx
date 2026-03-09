@@ -63,6 +63,7 @@ export default function Dashboard() {
     };
 
     const [isPantryOpen, setIsPantryOpen] = useState(false);
+    const [isPatternOpen, setIsPatternOpen] = useState(false);
 
     return (
         <div className="flex flex-col sm:flex-row h-screen bg-background text-foreground overflow-hidden">
