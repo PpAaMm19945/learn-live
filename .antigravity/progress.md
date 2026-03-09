@@ -103,6 +103,13 @@
 *   [x] **Task 10.9:** Parent Primers for Band 3+. *(Done: `worker/src/lib/parentPrimer.ts` + `/api/primer/:templateId` endpoint)*
 *   [x] **Task 10.10:** AI Permission Rule enforcement. *(Done: `worker/src/lib/aiPermissions.ts` + `/api/learner/:id/ai-permission/:capacityId` endpoint)*
 
+## Phase 11: Child Portal & Gradual Handoff
+*   [x] **Task 11.1:** Child Portal shell (`src/pages/learner/ChildPortal.tsx`) — simplified task view with access-level-aware UI.
+*   [x] **Task 11.2:** Parent-controlled access levels (None → Read-Only → Task Execution → Child-Led) via `AccessControlModal.tsx` and `/api/learner/:id/access-level` endpoint.
+*   [x] **Task 11.3:** Child evidence submission in Task Execution mode — photo + audio routed to parent review.
+*   [x] **Task 11.4:** Child-Led mode — AI permission check gates AI tool access, parent still judges formation.
+*   [x] **Task 11.5:** Portfolio view accessible from Child Portal header.
+
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).
 *   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.

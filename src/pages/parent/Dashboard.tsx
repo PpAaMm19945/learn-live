@@ -3,13 +3,14 @@ import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3, FileText, Crown } from 'lucide-react';
+import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3, FileText, Crown, Shield } from 'lucide-react';
 import { JudgmentModal, JudgmentItem } from '@/components/parent/JudgmentModal';
 import { ParentTaskCard, LearnerRepetitionState } from '@/components/parent/ParentTaskCard';
 import { WeeklyPantryList } from '@/components/parent/WeeklyPantryList';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
 import { PatternDashboard } from '@/components/parent/PatternDashboard';
 import { ParentReportModal } from '@/components/parent/ParentReportModal';
+import { AccessControlModal } from '@/components/parent/AccessControlModal';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 
@@ -73,6 +74,7 @@ export default function Dashboard() {
 
     const [isPantryOpen, setIsPantryOpen] = useState(false);
     const [isPatternOpen, setIsPatternOpen] = useState(false);
+    const [accessControlState, setAccessControlState] = useState({ isOpen: false, learnerId: '', learnerName: '' });
 
     return (
         <div className="flex flex-col sm:flex-row h-screen bg-background text-foreground overflow-hidden">
@@ -93,6 +95,16 @@ export default function Dashboard() {
                     </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPatternOpen(true)} title="Learner Patterns">
                         <BarChart3 className="w-5 h-5" />
+                    </button>
+                    <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" title="Portal Access Control"
+                        onClick={() => {
+                            // Open access control for first learner task (or show selector)
+                            const firstTask = activeTasks[0];
+                            if (firstTask) {
+                                setAccessControlState({ isOpen: true, learnerId: firstTask.learner_id, learnerName: firstTask.learner_name });
+                            }
+                        }}>
+                        <Shield className="w-5 h-5" />
                     </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors">
                         <Settings className="w-5 h-5" />
@@ -331,6 +343,13 @@ export default function Dashboard() {
                 {...reportModalState}
                 onClose={() => setReportModalState(prev => ({ ...prev, isOpen: false }))}
                 onSuccess={() => queryClient.invalidateQueries({ queryKey: ['active-curriculum', familyId] })}
+            />
+
+            <AccessControlModal
+                isOpen={accessControlState.isOpen}
+                onClose={() => setAccessControlState(prev => ({ ...prev, isOpen: false }))}
+                learnerId={accessControlState.learnerId}
+                learnerName={accessControlState.learnerName}
             />
         </div>
     );

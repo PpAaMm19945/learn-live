@@ -1010,6 +1010,58 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== CHILD PORTAL ACCESS LEVEL (Task 11.2) ==========
+        const accessLevelGetMatch = url.pathname.match(/^\/api\/learner\/([^/]+)\/access-level$/);
+        if (accessLevelGetMatch && request.method === 'GET') {
+            const learnerId = accessLevelGetMatch[1];
+            try {
+                const learner: any = await env.DB.prepare(
+                    'SELECT portal_access_level FROM Learners WHERE id = ?'
+                ).bind(learnerId).first();
+
+                return new Response(JSON.stringify({
+                    accessLevel: learner?.portal_access_level || 'read_only'
+                }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ accessLevel: 'read_only' }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        if (accessLevelGetMatch && request.method === 'PUT') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+            const learnerId = accessLevelGetMatch[1];
+            try {
+                const body: any = await request.json();
+                const { accessLevel } = body;
+                const valid = ['none', 'read_only', 'task_execution', 'child_led'];
+                if (!valid.includes(accessLevel)) {
+                    return new Response(JSON.stringify({ error: 'Invalid access level' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                await env.DB.prepare(
+                    'UPDATE Learners SET portal_access_level = ? WHERE id = ?'
+                ).bind(accessLevel, learnerId).run();
+
+                console.log(`[PORTAL] Access level for ${learnerId} set to ${accessLevel}`);
+                return new Response(JSON.stringify({ success: true, accessLevel }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[API AccessLevel Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to update access level', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,

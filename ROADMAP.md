@@ -116,11 +116,11 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 11: Child Portal & Gradual Handoff
 *Focus: Building the optional child-facing portal with parent-controlled access levels and split judgment integration.*
 
-*   **[ ] Task 11.1:** Build the Child Portal shell — simplified view of active tasks. Initially read-only.
-*   **[ ] Task 11.2:** Implement parent-controlled portal access levels: None → Read-Only → Task Execution → Child-Led Mode. Parent toggles per-child.
-*   **[ ] Task 11.3:** In Task Execution mode, child can submit evidence (photos, audio). All submissions route to parent review.
-*   **[ ] Task 11.4:** In Child-Led mode (Band 4+), child can invoke AI Witness and Async AI independently. Reports still route to parent for formation judgment (split judgment active).
-*   **[ ] Task 11.5:** Build portfolio view — expands from parent-curated to self-viewable as child gains independence (read-only, no scores/grades).
+*   **[x] Task 11.1:** Build the Child Portal shell — simplified view of active tasks. Initially read-only. *(Done: `src/pages/learner/ChildPortal.tsx`)*
+*   **[x] Task 11.2:** Implement parent-controlled portal access levels: None → Read-Only → Task Execution → Child-Led Mode. Parent toggles per-child. *(Done: `AccessControlModal.tsx` + API endpoint)*
+*   **[x] Task 11.3:** In Task Execution mode, child can submit evidence (photos, audio). All submissions route to parent review.
+*   **[x] Task 11.4:** In Child-Led mode (Band 4+), child can invoke AI Witness and Async AI independently. Reports still route to parent for formation judgment (split judgment active).
+*   **[x] Task 11.5:** Build portfolio view — expands from parent-curated to self-viewable as child gains independence (read-only, no scores/grades).
 
 ## Phase 12: Field Testing & Calibration
 *Focus: Pilot one band with real families. Validate the repetition arc, parent competence model, and task generation quality.*
