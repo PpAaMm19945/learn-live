@@ -4,11 +4,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket } from 'lucide-react';
+import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3 } from 'lucide-react';
 import { JudgmentModal, JudgmentItem } from '@/components/parent/JudgmentModal';
 import { ParentTaskCard, LearnerRepetitionState } from '@/components/parent/ParentTaskCard';
 import { WeeklyPantryList } from '@/components/parent/WeeklyPantryList';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
+import { PatternDashboard } from '@/components/parent/PatternDashboard';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 
@@ -62,6 +63,7 @@ export default function Dashboard() {
     };
 
     const [isPantryOpen, setIsPantryOpen] = useState(false);
+    const [isPatternOpen, setIsPatternOpen] = useState(false);
 
     return (
         <div className="flex flex-col sm:flex-row h-screen bg-background text-foreground overflow-hidden">
@@ -79,6 +81,9 @@ export default function Dashboard() {
                     </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPantryOpen(true)} title="Weekly Pantry List">
                         <ShoppingBasket className="w-5 h-5" />
+                    </button>
+                    <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPatternOpen(true)} title="Learner Patterns">
+                        <BarChart3 className="w-5 h-5" />
                     </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors">
                         <Settings className="w-5 h-5" />
@@ -277,6 +282,11 @@ export default function Dashboard() {
                 isOpen={isPantryOpen}
                 onClose={() => setIsPantryOpen(false)}
                 tasks={activeTasks}
+            />
+
+            <PatternDashboard
+                isOpen={isPatternOpen}
+                onClose={() => setIsPatternOpen(false)}
             />
         </div>
     );
