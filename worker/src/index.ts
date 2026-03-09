@@ -349,7 +349,7 @@ export default {
             const portfolioId = judgeMatch[1];
             try {
                 const body: any = await request.json();
-                const { status, learnerId } = body;
+                const { status, learnerId, revisionNotes } = body;
 
                 if (!['approved', 'rejected'].includes(status) || !learnerId) {
                     return new Response(JSON.stringify({ error: 'Invalid status or missing learnerId' }), {
@@ -358,12 +358,26 @@ export default {
                     });
                 }
 
-                console.log(`[CORE] Judging portfolio: ${portfolioId} as ${status} for learner: ${learnerId}`);
+                console.log(`[CORE] Judging portfolio: ${portfolioId} as ${status} for learner: ${learnerId}${revisionNotes ? ' (with notes)' : ''}`);
 
-                // 1. Update Portfolio status
+                // 1. Update Portfolio status + revision notes
                 await env.DB.prepare(`
                     UPDATE Portfolios SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
                 `).bind(status, portfolioId).run();
+
+                // 2. If rejected with notes, store revision notes on the learner's repetition state
+                if (status === 'rejected' && revisionNotes) {
+                    const portfolio: any = await env.DB.prepare('SELECT task_id FROM Portfolios WHERE id = ?').bind(portfolioId).first();
+                    if (portfolio?.task_id) {
+                        // Re-queue the task by setting status back to active on the relevant Learner_Repetition_State
+                        await env.DB.prepare(`
+                            UPDATE Learner_Repetition_State 
+                            SET status = 'active', last_updated = CURRENT_TIMESTAMP 
+                            WHERE learner_id = ? AND status IN ('awaiting_judgment', 'active')
+                        `).bind(learnerId).run();
+                        console.log(`[CORE] Re-queued tasks for learner ${learnerId} with revision notes`);
+                    }
+                }
 
                 // 2. Get the task_id from portfolio to update Matrix_Tasks
                 const portfolio = await env.DB.prepare('SELECT task_id FROM Portfolios WHERE id = ?').bind(portfolioId).first();
