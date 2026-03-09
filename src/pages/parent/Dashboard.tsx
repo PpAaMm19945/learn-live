@@ -82,6 +82,9 @@ export default function Dashboard() {
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPantryOpen(true)} title="Weekly Pantry List">
                         <ShoppingBasket className="w-5 h-5" />
                     </button>
+                    <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPatternOpen(true)} title="Learner Patterns">
+                        <BarChart3 className="w-5 h-5" />
+                    </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors">
                         <Settings className="w-5 h-5" />
                     </button>
