@@ -145,7 +145,9 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
     const [status, setStatus] = useState<ExplainerStatus>('idle');
     const [transcript, setTranscript] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isDemoMode, setIsDemoMode] = useState(false);
     const clientRef = useRef<ExplainerClient | null>(null);
+    const demoRef = useRef<DemoPlayer | null>(null);
     const { familyId, userId } = useAuthStore();
 
     const applyOps = useCallback((ops: CanvasOperation[]) => {
