@@ -512,6 +512,92 @@ export default {
             }
         }
 
+        // ========== PATTERN TRACKING (Task 7.5) ==========
+        const patternMatch = url.pathname.match(/^\/api\/parent\/([^/]+)\/patterns$/);
+        if (patternMatch && request.method === 'GET') {
+            const familyId = patternMatch[1];
+            const learnerId = url.searchParams.get('learnerId');
+            try {
+                console.log(`[DB] Fetching patterns for family: ${familyId}`);
+
+                // Get learners for this family
+                let learnerQuery = 'SELECT id, name FROM Learners WHERE family_id = ?';
+                const params: any[] = [familyId];
+                if (learnerId) {
+                    learnerQuery += ' AND id = ?';
+                    params.push(learnerId);
+                }
+                const { results: learners } = await env.DB.prepare(learnerQuery).bind(...params).all();
+
+                const patterns = [];
+                for (const learner of learners) {
+                    // Portfolio stats
+                    const stats: any = await env.DB.prepare(`
+                        SELECT 
+                            COUNT(*) as total,
+                            SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) as approved,
+                            SUM(CASE WHEN status = 'rejected' THEN 1 ELSE 0 END) as rejected,
+                            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
+                            AVG(ai_confidence_score) as avg_confidence
+                        FROM Portfolios WHERE learner_id = ?
+                    `).bind(learner.id).first();
+
+                    // Capacity stats from Learner_Repetition_State
+                    const capStats: any = await env.DB.prepare(`
+                        SELECT 
+                            SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
+                            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed
+                        FROM Learner_Repetition_State WHERE learner_id = ?
+                    `).bind(learner.id).first();
+
+                    // Recent history (last 10)
+                    const { results: history } = await env.DB.prepare(`
+                        SELECT p.status, p.created_at, 
+                            COALESCE(t.capacity, c.name, 'Unknown') as capacity_name
+                        FROM Portfolios p
+                        LEFT JOIN Matrix_Tasks t ON p.task_id = t.id
+                        LEFT JOIN Learner_Repetition_State lrs ON p.learner_id = lrs.learner_id
+                        LEFT JOIN Capacities c ON lrs.capacity_id = c.id
+                        WHERE p.learner_id = ?
+                        ORDER BY p.created_at DESC
+                        LIMIT 10
+                    `).bind(learner.id).all();
+
+                    const total = stats?.total || 0;
+                    const rejected = stats?.rejected || 0;
+
+                    patterns.push({
+                        learner_id: learner.id,
+                        learner_name: learner.name,
+                        total_sessions: total,
+                        approved_count: stats?.approved || 0,
+                        rejected_count: rejected,
+                        pending_count: stats?.pending || 0,
+                        avg_confidence: stats?.avg_confidence || 0,
+                        active_capacities: capStats?.active || 0,
+                        completed_capacities: capStats?.completed || 0,
+                        revision_rate: total > 0 ? rejected / total : 0,
+                        recent_history: history.map((h: any) => ({
+                            capacity_name: h.capacity_name,
+                            status: h.status,
+                            created_at: h.created_at,
+                        })),
+                    });
+                }
+
+                return new Response(JSON.stringify({ patterns }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [Patterns Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch patterns', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
         const generateTaskMatch = url.pathname === '/api/generate-task-variation';
         if (generateTaskMatch && request.method === 'POST') {
             if (!isAuthorized(request, env)) {
