@@ -3,13 +3,14 @@ import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3, FileText, Crown } from 'lucide-react';
+import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3, FileText, Crown, Shield } from 'lucide-react';
 import { JudgmentModal, JudgmentItem } from '@/components/parent/JudgmentModal';
 import { ParentTaskCard, LearnerRepetitionState } from '@/components/parent/ParentTaskCard';
 import { WeeklyPantryList } from '@/components/parent/WeeklyPantryList';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
 import { PatternDashboard } from '@/components/parent/PatternDashboard';
 import { ParentReportModal } from '@/components/parent/ParentReportModal';
+import { AccessControlModal } from '@/components/parent/AccessControlModal';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 
