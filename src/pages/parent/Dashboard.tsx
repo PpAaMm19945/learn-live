@@ -224,21 +224,50 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            <div className="pt-6 flex gap-4">
-                                <Button
-                                    className="flex-1 gap-2 shadow-sm font-medium h-12"
-                                    onClick={() => setAsyncModalState({
-                                        isOpen: true,
-                                        templateId: selectedTask.template.id,
-                                        learnerName: selectedTask.learner_name,
-                                        capacityName: selectedTask.template.capacity_name
-                                    })}
-                                >
-                                    <Camera className="w-4 h-4" /> Capture Evidence
-                                </Button>
-                                <Button variant="outline" className="flex-1 gap-2 border-border bg-background hover:bg-secondary/50 font-medium h-12">
-                                    <Mic className="w-4 h-4 text-primary" /> Live AI Guide
-                                </Button>
+                            <div className="pt-6 space-y-3">
+                                <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Record Evidence</p>
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                    {/* Default: Parent Report */}
+                                    <Button
+                                        className="gap-2 shadow-sm font-medium h-12"
+                                        onClick={() => setReportModalState({
+                                            isOpen: true,
+                                            templateId: selectedTask.template.id,
+                                            learnerId: selectedTask.learner_id,
+                                            learnerName: selectedTask.learner_name,
+                                            capacityName: selectedTask.template.capacity_name,
+                                            successCondition: selectedTask.template.success_condition,
+                                            failureCondition: selectedTask.template.failure_condition || '',
+                                        })}
+                                    >
+                                        <FileText className="w-4 h-4" /> Parent Report
+                                    </Button>
+
+                                    {/* Async AI */}
+                                    <Button
+                                        variant="outline"
+                                        className="gap-2 border-border bg-background hover:bg-secondary/50 font-medium h-12"
+                                        onClick={() => setAsyncModalState({
+                                            isOpen: true,
+                                            templateId: selectedTask.template.id,
+                                            learnerName: selectedTask.learner_name,
+                                            capacityName: selectedTask.template.capacity_name
+                                        })}
+                                    >
+                                        <Camera className="w-4 h-4" /> Photo + Audio
+                                    </Button>
+
+                                    {/* Live AI — Premium */}
+                                    <Button
+                                        variant="outline"
+                                        className="gap-2 border-border bg-background hover:bg-secondary/50 font-medium h-12 relative"
+                                    >
+                                        <Mic className="w-4 h-4 text-primary" /> Live AI
+                                        <Badge variant="secondary" className="absolute -top-2 -right-2 text-[9px] px-1.5 py-0 h-4 bg-amber-100 text-amber-700 border-amber-200">
+                                            <Crown className="w-2.5 h-2.5 mr-0.5" />Premium
+                                        </Badge>
+                                    </Button>
+                                </div>
                             </div>
                         </div>
                     ) : (
