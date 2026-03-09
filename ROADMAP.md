@@ -137,12 +137,12 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *Focus: A separate Live Agent mode that explains tasks and teaches concepts via a real-time digital whiteboard. Targets the "Creative Storyteller" hackathon category alongside the "Live Agents" Evidence Witness.*
 
-*   **[ ] Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard component with framer-motion animations, scene/layer management, and a pluggable element registry (CountingBlock, StoryCard, DiagramNode).
-*   **[ ] Task 13.2:** Build `ExplainerClient.ts` — frontend WebSocket bridge for the Explainer Agent. Handles voice playback (PCM audio queue) + canvas tool call parsing + audio-canvas sync via atomic payloads.
-*   **[ ] Task 13.3:** Add `/v1/agent/explainer` endpoint to Cloud Run agent — separate from Evidence Witness. Gemini Live bidi-streaming with canvas tool declarations: `show_element`, `animate_element`, `remove_element`, `clear_canvas`, `generate_diagram`.
-*   **[ ] Task 13.4:** Build learner-context-rich system prompts — inject learner name, age, band, strand, known capacities, prior struggles from D1. The agent must adapt vocabulary and examples to the child.
+*   **[x] Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard component with framer-motion animations, scene/layer management, and a pluggable element registry (CountingBlock, StoryCard, DiagramNode).
+*   **[x] Task 13.2:** Build `ExplainerClient.ts` — frontend WebSocket bridge for the Explainer Agent. Handles voice playback (PCM audio queue) + canvas tool call parsing + audio-canvas sync via atomic payloads.
+*   **[x] Task 13.3:** Add `/v1/agent/explainer` endpoint to Cloud Run agent — separate from Evidence Witness. Gemini Live bidi-streaming with canvas tool declarations: `show_element`, `animate_element`, `remove_element`, `clear_canvas`, `generate_diagram`.
+*   **[x] Task 13.4:** Build learner-context-rich system prompts — inject learner name, age, band, strand, known capacities, prior struggles from D1. The agent must adapt vocabulary and examples to the child.
 *   **[ ] Task 13.5:** Build Math counting/blocks demo — SVG blocks that appear, animate, group, and count as the agent narrates. Pre-built visual primitives for speed, with Nano Banana (`gemini-2.5-flash-image`) fallback for novel diagrams.
-*   **[ ] Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
+*   **[x] Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
 *   **[ ] Task 13.7:** Build audio-canvas sync — agent emits `{ narration, canvas_ops }` atomically. Frontend holds canvas ops until corresponding audio chunk plays.
 *   **[ ] Task 13.8:** Build demo mode — recorded WebSocket playback as fallback if live API is unavailable during judging.
 *   **[ ] Task 13.9:** Integrate Nano Banana image generation for on-demand diagrams (lower priority than voice + canvas).
