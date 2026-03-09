@@ -8,9 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Loader2, BookOpen, Camera, Mic, Lock, Eye, CheckCircle2, ArrowLeft, Sparkles, Star } from 'lucide-react';
 import { LearnerPortfolio } from '@/components/learner/LearnerPortfolio';
-import { TaskBriefing } from '@/components/learner/TaskBriefing';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
-import { Logger } from '@/lib/Logger';
 
 /**
  * Child Portal — Phase 11

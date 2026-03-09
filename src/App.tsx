@@ -65,6 +65,14 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/child/:learnerId"
+                element={
+                  <ProtectedRoute allowedRoles={['learner']}>
+                    <ChildPortal />
+                  </ProtectedRoute>
+                }
+              />
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
