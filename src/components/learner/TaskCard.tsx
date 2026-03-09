@@ -29,10 +29,18 @@ interface TaskCardProps {
     onClick: (task: MatrixTask) => void;
 }
 
-const getStrandIcon = (strandName: string) => {
-    if (strandName.includes('Number') || strandName.includes('Algebra') || strandName.includes('Data') || strandName.includes('Modeling') || strandName.includes('Spatial')) return <Brain className="w-10 h-10 text-blue-500" />;
-    if (strandName.includes('Phonics') || strandName.includes('Reading') || strandName.includes('Grammar') || strandName.includes('Composition') || strandName.includes('Oral')) return <BookOpen className="w-10 h-10 text-primary" />;
-    if (strandName.includes('Life') || strandName.includes('Physical') || strandName.includes('Earth')) return <Beaker className="w-10 h-10 text-green-500" />;
+const getStrandIcon = (strandName?: string | null) => {
+    const normalized = (strandName || '').toLowerCase();
+
+    if (normalized.includes('number') || normalized.includes('algebra') || normalized.includes('data') || normalized.includes('modeling') || normalized.includes('spatial')) {
+        return <Brain className="w-10 h-10 text-blue-500" />;
+    }
+    if (normalized.includes('phonics') || normalized.includes('reading') || normalized.includes('grammar') || normalized.includes('composition') || normalized.includes('oral')) {
+        return <BookOpen className="w-10 h-10 text-primary" />;
+    }
+    if (normalized.includes('life') || normalized.includes('physical') || normalized.includes('earth')) {
+        return <Beaker className="w-10 h-10 text-green-500" />;
+    }
     return <HelpCircle className="w-10 h-10 text-muted-foreground" />;
 };
 
