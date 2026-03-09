@@ -46,11 +46,11 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 4: The Agent Engine & Gemini Live Integration
 *Focus: The heavy lifting for the Hackathon—bridging GCP and Gemini.*
-*   **Task 4.1:** Scaffold Google Cloud Run microservice (Node.js/Python) with WebSocket support.
-*   **Task 4.2:** Integrate Google GenAI SDK / ADK to handle bidirectional audio and video streaming.
-*   **Task 4.3:** Create the dynamic Prompt Injection pipeline (fetching the strict JSON constraints from D1 and feeding them as `systemInstruction` to Gemini).
-*   **Task 4.4:** Validate constraint JSON before sending to Gemini — ensure the cell structure from D1 is well-formed (has required fields: `constraint_to_enforce`, `failure_condition`, `success_condition`, `role`). Log malformed constraints and block the session from starting with a clear error.
-*   **Task 4.5:** Implement Gemini API rate limiting and cost controls. The Blueprint emphasizes cost sensitivity — add per-family daily session limits, track API token usage, and alert when approaching budget thresholds. Log all API costs.
+*   **[x] Task 4.1:** Scaffold Google Cloud Run microservice (Node.js/Python) with WebSocket support.
+*   **[x] Task 4.2:** Integrate Google GenAI SDK / ADK to handle bidirectional audio and video streaming.
+*   **[x] Task 4.3:** Create the dynamic Prompt Injection pipeline (fetching the strict JSON constraints from D1 and feeding them as `systemInstruction` to Gemini).
+*   **[x] Task 4.4:** Validate constraint JSON before sending to Gemini — ensure the cell structure from D1 is well-formed (has required fields: `constraint_to_enforce`, `failure_condition`, `success_condition`, `role`). Log malformed constraints and block the session from starting with a clear error.
+*   **[x] Task 4.5:** Implement Gemini API rate limiting and cost controls. The Blueprint emphasizes cost sensitivity — add per-family daily session limits, track API token usage, and alert when approaching budget thresholds. Log all API costs.
 
 ## Phase 5: The "Evidence Witness" Execution Flow
 *Focus: Binding the frontend camera/mic to the Gemini Live agent in real-time.*
