@@ -32,7 +32,7 @@ export default function ProfileSelect() {
   const [error, setError] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
-  const { login, isAuthenticated, role, userId, familyId, logout } = useAuthStore();
+  const { login, familyId, logout } = useAuthStore();
   const setActiveProfile = useUIStore((s) => s.setActiveProfile);
   const navigate = useNavigate();
 

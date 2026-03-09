@@ -1193,6 +1193,140 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== FAMILY REGISTRATION (Pilot) ==========
+        if (url.pathname === '/api/family/register' && request.method === 'POST') {
+            try {
+                const body: any = await request.json();
+                const { familyName, children, familyPin } = body;
+
+                if (!familyName || !Array.isArray(children) || children.length === 0 || !familyPin) {
+                    return new Response(JSON.stringify({ error: 'familyName, children[], and familyPin are required' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                if (familyPin.length !== 4 || !/^\d{4}$/.test(familyPin)) {
+                    return new Response(JSON.stringify({ error: 'PIN must be exactly 4 digits' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                for (const child of children) {
+                    if (!child.name || typeof child.age !== 'number' || child.age < 6 || child.age > 9) {
+                        return new Response(JSON.stringify({ error: 'Each child needs a name and age between 6-9' }), {
+                            status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                        });
+                    }
+                }
+
+                const familyCode = 'LL-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+                const familyId = `family_${familyCode.toLowerCase().replace('-', '_')}`;
+                const placeholderEmail = `${familyId}@pilot.learnlive.app`;
+
+                await env.DB.prepare(
+                    'INSERT INTO Families (id, name, parent_email) VALUES (?, ?, ?)'
+                ).bind(familyId, familyName, placeholderEmail).run();
+
+                const learnerIds: string[] = [];
+                for (let i = 0; i < children.length; i++) {
+                    const child = children[i];
+                    const learnerId = `${familyId}_child_${i + 1}`;
+                    const childPin = child.pin || familyPin;
+                    learnerIds.push(learnerId);
+
+                    await env.DB.prepare(
+                        'INSERT INTO Learners (id, family_id, name, pin_code) VALUES (?, ?, ?, ?)'
+                    ).bind(learnerId, familyId, child.name, childPin).run();
+
+                    const initialCapacities = ['D1', 'B2', 'G2a'];
+                    for (const capId of initialCapacities) {
+                        const stateId = `state_${learnerId}_${capId}`;
+                        await env.DB.prepare(
+                            `INSERT INTO Learner_Repetition_State (id, learner_id, capacity_id, current_cognitive_level, current_arc_stage, execution_count, status)
+                             VALUES (?, ?, ?, 1, 'Exposure', 0, 'active')`
+                        ).bind(stateId, learnerId, capId).run();
+                    }
+                }
+
+                console.log(`[PILOT] Registered family ${familyName} with code ${familyCode}`);
+
+                return new Response(JSON.stringify({
+                    success: true, familyCode, familyId, familyName, learnerIds,
+                    message: `Your family code is ${familyCode}. Use it to sign in!`
+                }), {
+                    status: 201, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[API Register Error]', error);
+                return new Response(JSON.stringify({ error: 'Registration failed', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== FAMILY LOOKUP BY CODE ==========
+        const familyCodeMatch = url.pathname.match(/^\/api\/family\/code\/([^/]+)\/profiles$/);
+        if (familyCodeMatch && request.method === 'GET') {
+            const code = familyCodeMatch[1].toUpperCase();
+            const familyId = `family_${code.toLowerCase().replace(/-/g, '_')}`;
+            try {
+                const family = await env.DB.prepare('SELECT id, name FROM Families WHERE id = ?').bind(familyId).first();
+                if (!family) {
+                    return new Response(JSON.stringify({ error: 'Family not found. Check your code.' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+                const { results: learners } = await env.DB.prepare(
+                    'SELECT id, name, pin_code FROM Learners WHERE family_id = ?'
+                ).bind(familyId).all();
+
+                return new Response(JSON.stringify({
+                    familyId: family.id, familyName: family.name,
+                    profiles: [
+                        { id: `parent_${familyId}`, name: 'Parent', role: 'parent', pin: null },
+                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: l.pin_code }))
+                    ]
+                }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ error: 'Lookup failed', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== FAMILY LOOKUP BY ID ==========
+        const familyIdMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/profiles$/);
+        if (familyIdMatch && request.method === 'GET') {
+            const fId = familyIdMatch[1];
+            try {
+                const family = await env.DB.prepare('SELECT id, name FROM Families WHERE id = ?').bind(fId).first();
+                if (!family) {
+                    return new Response(JSON.stringify({ error: 'Family not found' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+                const { results: learners } = await env.DB.prepare(
+                    'SELECT id, name, pin_code FROM Learners WHERE family_id = ?'
+                ).bind(fId).all();
+
+                return new Response(JSON.stringify({
+                    familyId: family.id, familyName: family.name,
+                    profiles: [
+                        { id: `parent_${fId}`, name: 'Parent', role: 'parent', pin: null },
+                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: l.pin_code }))
+                    ]
+                }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ error: 'Lookup failed', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,
