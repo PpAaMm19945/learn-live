@@ -125,7 +125,7 @@ export default function Dashboard() {
         failureCondition: '',
     });
 
-    const { data: judgmentsData } = useQuery({
+    const { data: judgmentsData, isError: isJudgmentsError } = useQuery({
         queryKey: ['pending-judgments', familyId],
         queryFn: async () => {
             if (!familyId) return { judgments: [] };
@@ -135,10 +135,11 @@ export default function Dashboard() {
             return res.json();
         },
         enabled: !!familyId,
+        retry: 2,
     });
 
     // Fetch weekly plan (replaces flat curriculum-tasks)
-    const { data: weeklyData, isLoading: isWeeklyLoading } = useQuery({
+    const { data: weeklyData, isLoading: isWeeklyLoading, isError: isWeeklyError, refetch: refetchWeekly } = useQuery({
         queryKey: ['weekly-plan', familyId],
         queryFn: async () => {
             if (!familyId) return { plans: [] };
@@ -148,6 +149,7 @@ export default function Dashboard() {
             return res.json();
         },
         enabled: !!familyId,
+        retry: 2,
     });
 
     // Also keep legacy fetch for pantry list compatibility
