@@ -815,6 +815,108 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== WEEKLY PLAN ENGINE ==========
+        const weeklyPlanMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/weekly-plan$/);
+        if (weeklyPlanMatch && request.method === 'GET') {
+            const familyId = weeklyPlanMatch[1];
+            const weekStart = url.searchParams.get('week') || undefined;
+            try {
+                console.log(`[DB] Fetching weekly plan for family: ${familyId}`);
+
+                // Get all learners in this family
+                const { results: learners } = await env.DB.prepare(
+                    'SELECT id, name FROM Learners WHERE family_id = ?'
+                ).bind(familyId).all();
+
+                const plans = await Promise.all(learners.map(async (learner: any) => {
+                    const plan = await getOrCreateWeeklyPlan(env.DB, learner.id, familyId, weekStart);
+
+                    // Enrich each task with template details + AI enrichment
+                    const enrichedTasks = await Promise.all(plan.tasks.map(async (task: any) => {
+                        // Get template details
+                        const template: any = await env.DB.prepare(`
+                            SELECT ct.*, c.name as capacity_name, s.name as strand_name,
+                                   lrs.current_arc_stage, lrs.current_cognitive_level
+                            FROM Constraint_Templates ct
+                            JOIN Capacities c ON ct.capacity_id = c.id
+                            JOIN Strands s ON c.strand_id = s.id
+                            LEFT JOIN Learner_Repetition_State lrs ON lrs.capacity_id = c.id AND lrs.learner_id = ?
+                            WHERE ct.id = ?
+                        `).bind(learner.id, task.template_id).first();
+
+                        if (!template) return { ...task, template: null, enrichment: null };
+
+                        // Get AI enrichment (cached)
+                        const enrichment = await getEnrichedTask(
+                            env.DB,
+                            env.GEMINI_API_KEY,
+                            task.template_id,
+                            template.capacity_name,
+                            template.strand_name || task.strand_name,
+                            template.parent_prompt,
+                            template.success_condition,
+                            template.failure_condition || '',
+                            template.reasoning_check,
+                            template.task_type,
+                            template.current_cognitive_level || template.cognitive_level,
+                            template.current_arc_stage || 'Exposure',
+                        );
+
+                        return {
+                            ...task,
+                            template: {
+                                id: template.id,
+                                capacity_id: template.capacity_id,
+                                capacity_name: template.capacity_name,
+                                strand_name: template.strand_name || task.strand_name,
+                                cognitive_level: template.cognitive_level,
+                                task_type: template.task_type,
+                                materials: template.materials,
+                                parent_prompt: template.parent_prompt,
+                                success_condition: template.success_condition,
+                                failure_condition: template.failure_condition,
+                                reasoning_check: template.reasoning_check,
+                                arc_stage: template.current_arc_stage || 'Exposure',
+                            },
+                            enrichment,
+                        };
+                    }));
+
+                    return {
+                        ...plan,
+                        tasks: enrichedTasks,
+                    };
+                }));
+
+                return new Response(JSON.stringify({ plans }), {
+                    status: 200,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            } catch (error: any) {
+                console.error('[DB] [WeeklyPlan Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch weekly plan', details: error.message }), {
+                    status: 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+                });
+            }
+        }
+
+        // Mark weekly task complete
+        const completeTaskMatch = url.pathname.match(/^\/api\/weekly-task\/([^/]+)\/complete$/);
+        if (completeTaskMatch && request.method === 'POST') {
+            const taskId = completeTaskMatch[1];
+            try {
+                await completeWeeklyTask(env.DB, taskId);
+                return new Response(JSON.stringify({ success: true }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ error: 'Failed to complete task', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // ========== FAMILY PROFILES (Task 2.2a) ==========
         const familyProfilesMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/profiles$/);
         if (familyProfilesMatch && request.method === 'GET') {
