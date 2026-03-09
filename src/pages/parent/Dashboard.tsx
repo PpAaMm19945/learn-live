@@ -337,8 +337,22 @@ export default function Dashboard() {
                             )}
                         </div>
 
-                        {isWeeklyLoading ? (
-                            <div className="flex justify-center p-8"><Loader2 className="w-6 h-6 animate-spin text-muted-foreground" /></div>
+                        {isWeeklyError ? (
+                            <div className="p-8 text-center space-y-3">
+                                <div className="w-12 h-12 bg-destructive/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <ShieldAlert className="w-6 h-6 text-destructive" />
+                                </div>
+                                <p className="text-destructive font-medium">Failed to load weekly plan</p>
+                                <p className="text-sm text-muted-foreground">The server might be experiencing issues. Please try again.</p>
+                                <Button variant="outline" onClick={() => refetchWeekly()} className="mt-2">
+                                    Try Again
+                                </Button>
+                            </div>
+                        ) : isWeeklyLoading ? (
+                            <div className="flex flex-col items-center justify-center p-8 space-y-3">
+                                <Loader2 className="w-6 h-6 animate-spin text-primary" />
+                                <p className="text-sm text-muted-foreground">Loading this week's plan...</p>
+                            </div>
                         ) : (
                             <Tabs defaultValue="subjects" className="px-4">
                                 <TabsList className="w-full mb-3">
