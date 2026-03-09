@@ -63,11 +63,11 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 6: Assessment Logging & Evidence Portfolio
 *Focus: Packaging the session into immutable proof of formation.*
-*   **Task 6.1:** Generate session transcripts and AI confidence summaries.
-*   **Task 6.2:** Capture visual snapshots of the submitted work during the session.
-*   **Task 6.3:** Transmit and save all artifacts to Cloudflare R2.
-*   **Task 6.4:** Update D1 to flag the current task milestone as "Awaiting Judgment."
-*   **Task 6.5:** Build a lightweight learner-facing portfolio view — while the parent holds judgment authority, the Philosophy doc (Section 36-37) affirms portfolios as a "testimony of formation." Learners should see their own completed work history (read-only, no scores/grades).
+*   **[x] Task 6.1:** Generate session transcripts and AI confidence summaries.
+*   **[x] Task 6.2:** Capture visual snapshots of the submitted work during the session.
+*   **[x] Task 6.3:** Transmit and save all artifacts to Cloudflare R2.
+*   **[x] Task 6.4:** Update D1 to flag the current task milestone as "Awaiting Judgment."
+*   **[x] Task 6.5:** Build a lightweight learner-facing portfolio view — while the parent holds judgment authority, the Philosophy doc (Section 36-37) affirms portfolios as a "testimony of formation." Learners should see their own completed work history (read-only, no scores/grades).
 
 ## Phase 7: Parent Review & Progression Mechanics
 *Focus: Human authority finalizing the loop.*
