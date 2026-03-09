@@ -2,6 +2,7 @@ import { r2Helper } from './lib/r2';
 import { advanceArc } from './lib/arc';
 import { resolveDependencies } from './lib/dag';
 import { generateTask, generateSystemInstruction } from './lib/taskGen';
+import { generateDiagram } from './lib/nanoBanana';
 import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
 import { generateParentPrimer } from './lib/parentPrimer';
 import { checkAIPermission, enforceAIPermission } from './lib/aiPermissions';
