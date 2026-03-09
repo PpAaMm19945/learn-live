@@ -809,6 +809,53 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== FAMILY PROFILES (Task 2.2a) ==========
+        const familyProfilesMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/profiles$/);
+        if (familyProfilesMatch && request.method === 'GET') {
+            const familyId = familyProfilesMatch[1];
+            try {
+                console.log(`[DB] Fetching profiles for family: ${familyId}`);
+
+                const family: any = await env.DB.prepare('SELECT id, name, parent_email FROM Families WHERE id = ?').bind(familyId).first();
+                if (!family) {
+                    return new Response(JSON.stringify({ error: 'Family not found' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                const { results: learners } = await env.DB.prepare(
+                    'SELECT id, name, birth_date, created_at FROM Learners WHERE family_id = ? ORDER BY created_at ASC'
+                ).bind(familyId).all();
+
+                // Get active capacity counts per learner
+                const profiles = await Promise.all(learners.map(async (learner: any) => {
+                    const capStats: any = await env.DB.prepare(`
+                        SELECT 
+                            COUNT(*) as total_capacities,
+                            SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
+                            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed
+                        FROM Learner_Repetition_State WHERE learner_id = ?
+                    `).bind(learner.id).first();
+
+                    return {
+                        ...learner,
+                        active_capacities: capStats?.active || 0,
+                        completed_capacities: capStats?.completed || 0,
+                        total_capacities: capStats?.total_capacities || 0,
+                    };
+                }));
+
+                return new Response(JSON.stringify({ family, profiles }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[DB] [FamilyProfiles Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch profiles', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,
