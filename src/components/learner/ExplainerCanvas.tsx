@@ -1,7 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Loader2, X, Lightbulb } from 'lucide-react';
+import { Mic, Loader2, X, Lightbulb, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { MatrixTask } from './TaskCard';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
@@ -11,6 +12,7 @@ import {
     CanvasOperation,
     CanvasElement,
 } from '@/lib/explainerClient';
+import { DemoPlayer } from '@/lib/demoPlayer';
 
 interface ExplainerCanvasProps {
     task: MatrixTask;
@@ -143,7 +145,9 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
     const [status, setStatus] = useState<ExplainerStatus>('idle');
     const [transcript, setTranscript] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isDemoMode, setIsDemoMode] = useState(false);
     const clientRef = useRef<ExplainerClient | null>(null);
+    const demoRef = useRef<DemoPlayer | null>(null);
     const { familyId, userId } = useAuthStore();
 
     const applyOps = useCallback((ops: CanvasOperation[]) => {
@@ -195,14 +199,56 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                         }
                         break;
                     case 'generate_diagram':
-                        // TODO: Phase 13.9 — call Nano Banana via edge function
+                        // Task 13.9 — call Nano Banana via worker endpoint
                         Logger.info('[EXPLAINER]', 'Diagram generation requested', { prompt: op.diagramPrompt });
+                        if (op.diagramPrompt) {
+                            const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+                            fetch(`${apiUrl}/api/generate-diagram`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer development_secret_token' },
+                                body: JSON.stringify({ prompt: op.diagramPrompt }),
+                            })
+                                .then(r => r.json())
+                                .then(data => {
+                                    if (data.imageUrl) {
+                                        setElements(prev2 => {
+                                            const n = new Map(prev2);
+                                            n.set(`diagram_${Date.now()}`, {
+                                                id: `diagram_${Date.now()}`,
+                                                type: 'image',
+                                                x: op.element?.x ?? 200,
+                                                y: op.element?.y ?? 200,
+                                                width: 250,
+                                                height: 250,
+                                                content: data.imageUrl,
+                                                opacity: 1,
+                                                scale: 1,
+                                            } as CanvasElement);
+                                            return n;
+                                        });
+                                    }
+                                })
+                                .catch(err => Logger.error('[EXPLAINER]', 'Diagram gen failed', { err }));
+                        }
                         break;
                 }
             }
             return next;
         });
     }, []);
+
+    const startDemoMode = useCallback(() => {
+        setIsDemoMode(true);
+        setElements(new Map());
+        setTranscript('');
+        const player = new DemoPlayer({
+            onStatusChange: setStatus,
+            onCanvasOps: applyOps,
+            onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
+        });
+        demoRef.current = player;
+        player.play('addition');
+    }, [applyOps]);
 
     useEffect(() => {
         const startSession = async () => {
@@ -217,7 +263,11 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                         onStatusChange: setStatus,
                         onCanvasOps: applyOps,
                         onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
-                        onError: setErrorMessage,
+                        onError: (msg) => {
+                            setErrorMessage(msg);
+                            // Auto-fallback to demo mode if live fails
+                            Logger.warn('[EXPLAINER]', 'Live session failed, offering demo mode');
+                        },
                     }
                 );
 
@@ -226,9 +276,9 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                 await client.startAudio(stream);
 
             } catch (err: any) {
-                Logger.error('[EXPLAINER]', 'Session start failed', { err });
+                Logger.error('[EXPLAINER]', 'Session start failed, falling back to demo mode', { err });
                 setStatus('error');
-                setErrorMessage(err.message || 'Failed to start explainer');
+                setErrorMessage(err.message || 'Failed to start explainer. Try demo mode!');
             }
         };
 
@@ -236,20 +286,27 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
 
         return () => {
             clientRef.current?.disconnect();
+            demoRef.current?.stop();
         };
     }, [task.id, familyId, userId, applyOps]);
 
     const handleClose = () => {
         clientRef.current?.disconnect();
+        demoRef.current?.stop();
         onClose();
     };
 
-    if (status === 'error') {
+    if (status === 'error' && !isDemoMode) {
         return (
             <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-6 text-center">
                 <h2 className="text-3xl font-bold text-destructive mb-4">Explainer Disconnected</h2>
-                <p className="text-xl text-muted-foreground mb-8">{errorMessage}</p>
-                <Button onClick={onClose} size="lg">Return to Tasks</Button>
+                <p className="text-xl text-muted-foreground mb-6">{errorMessage}</p>
+                <div className="flex gap-3">
+                    <Button onClick={startDemoMode} size="lg" className="gap-2">
+                        <Play className="w-5 h-5" /> Try Demo Mode
+                    </Button>
+                    <Button onClick={onClose} size="lg" variant="outline">Return to Tasks</Button>
+                </div>
             </div>
         );
     }
@@ -268,7 +325,12 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                    {isDemoMode && (
+                        <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-amber-200 text-[10px] uppercase tracking-wider">
+                            <Play className="w-3 h-3 mr-1" /> Demo
+                        </Badge>
+                    )}
                     {/* Status indicator */}
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
                         {status === 'connecting' && (
@@ -281,7 +343,7 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                             <>
                                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                                 <Mic className="w-4 h-4" />
-                                Listening
+                                {isDemoMode ? 'Playing' : 'Listening'}
                             </>
                         )}
                         {status === 'ended' && 'Session Ended'}

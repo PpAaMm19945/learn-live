@@ -1,8 +1,5 @@
 import { Logger } from '@/lib/Logger';
-
-/**
- * Canvas element types the Explainer Agent can create/manipulate.
- */
+import { AudioCanvasSync } from '@/lib/audioCanvasSync';
 export interface CanvasElement {
     id: string;
     type: 'block' | 'text' | 'image' | 'shape' | 'group' | 'diagram';
@@ -52,13 +49,20 @@ export class ExplainerClient {
     private scriptNode: ScriptProcessorNode | null = null;
     private audioQueue: AudioBuffer[] = [];
     private isProcessingAudio = false;
+    private syncEngine: AudioCanvasSync;
 
     constructor(
         private taskId: string,
         private familyId: string,
         private learnerId: string,
         private callbacks: ExplainerCallbacks
-    ) { }
+    ) {
+        // Initialize audio-canvas sync engine (Task 13.7)
+        this.syncEngine = new AudioCanvasSync(
+            (ops) => this.callbacks.onCanvasOps(ops),
+            (base64) => this.playAudioAsync(base64),
+        );
+    }
 
     connect(): Promise<void> {
         return new Promise((resolve, reject) => {
@@ -99,6 +103,17 @@ export class ExplainerClient {
     }
 
     private handleMessage(data: any) {
+        // Atomic audio+canvas payloads (Task 13.7)
+        if (data.type === 'atomic') {
+            this.syncEngine.enqueue({
+                seqId: data.seqId ?? 0,
+                audio: data.audio ?? null,
+                ops: data.ops ?? [],
+                timestamp: Date.now(),
+            });
+            return;
+        }
+
         // Canvas tool calls from agent
         if (data.type === 'canvas_ops') {
             this.callbacks.onCanvasOps(data.ops as CanvasOperation[]);
@@ -195,6 +210,28 @@ export class ExplainerClient {
         audioBuffer.copyToChannel(float32, 0);
         this.audioQueue.push(audioBuffer);
         this.processQueue();
+    }
+
+    /** Promise-based audio play for sync engine (Task 13.7) */
+    private playAudioAsync(base64: string): Promise<void> {
+        return new Promise(async (resolve) => {
+            if (!this.audioContext) {
+                this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+            }
+            const binaryString = atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
+            const int16 = new Int16Array(bytes.buffer);
+            const float32 = new Float32Array(int16.length);
+            for (let i = 0; i < int16.length; i++) float32[i] = int16[i] / 32768.0;
+            const audioBuffer = this.audioContext.createBuffer(1, float32.length, 16000);
+            audioBuffer.copyToChannel(float32, 0);
+            const source = this.audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(this.audioContext.destination);
+            source.onended = () => resolve();
+            source.start();
+        });
     }
 
     private processQueue() {

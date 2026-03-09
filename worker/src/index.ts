@@ -2,6 +2,7 @@ import { r2Helper } from './lib/r2';
 import { advanceArc } from './lib/arc';
 import { resolveDependencies } from './lib/dag';
 import { generateTask, generateSystemInstruction } from './lib/taskGen';
+import { generateDiagram } from './lib/nanoBanana';
 import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
 import { generateParentPrimer } from './lib/parentPrimer';
 import { checkAIPermission, enforceAIPermission } from './lib/aiPermissions';
@@ -1057,6 +1058,32 @@ Do not use markdown blocks.`;
             } catch (error: any) {
                 console.error('[API AccessLevel Error]', error);
                 return new Response(JSON.stringify({ error: 'Failed to update access level', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== DIAGRAM GENERATION (Task 13.9) ==========
+        if (url.pathname === '/api/generate-diagram' && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+            try {
+                const body: any = await request.json();
+                if (!env.GEMINI_API_KEY) {
+                    return new Response(JSON.stringify({ error: 'GEMINI_API_KEY not configured' }), {
+                        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+                const result = await generateDiagram(env.GEMINI_API_KEY, body.prompt || '');
+                return new Response(JSON.stringify(result), {
+                    status: result.imageUrl ? 200 : 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ error: 'Diagram generation failed', details: error.message }), {
                     status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                 });
             }
