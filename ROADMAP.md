@@ -82,7 +82,7 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *Focus: Ensuring we ace the Devpost checklist.*
 *   **[x] Task 8.1:** Write and test spin-up instructions & automated deployment scripts (`deploy.sh`).
 *   **[x] Task 8.2:** Generate the final Architecture Diagram.
-*   **Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
+*   **[ ] Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
 *   **[x] Task 8.4:** Final audit of all codebase logs to ensure they narrate the app's behavior clearly.
 *   **[x] Task 8.5:** Set up CI/CD pipeline or at minimum a reproducible deployment script that judges can run. The Devpost checklist requires "spin-up instructions" — test these from a clean environment to ensure nothing is assumed.
 *   **[x] Task 8.6:** Write the blog post for bonus points (African-centric, faith-rooted AI platform on Google Cloud). Link GDG profile.
