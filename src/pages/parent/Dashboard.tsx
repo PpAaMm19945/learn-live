@@ -25,6 +25,15 @@ export default function Dashboard() {
         learnerName: '',
         capacityName: ''
     });
+    const [reportModalState, setReportModalState] = useState({
+        isOpen: false,
+        templateId: '',
+        learnerId: '',
+        learnerName: '',
+        capacityName: '',
+        successCondition: '',
+        failureCondition: '',
+    });
 
     const { data: judgmentsData, isLoading: isJudgmentsLoading } = useQuery({
         queryKey: ['pending-judgments', familyId],
