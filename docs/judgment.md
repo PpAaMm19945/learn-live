@@ -171,17 +171,16 @@ cd worker && npx wrangler d1 execute learnlive-db-prod --remote --file=../db/add
 | Area | Rating | Notes |
 |------|--------|-------|
 | TypeScript usage | 7/10 | Mostly typed, some `any` in Worker responses |
-| Error handling | 5/10 | Try/catch exists but errors are logged not surfaced |
-| Security | 5/10 | No CSRF, no rate limiting on registration, parent PIN not verified, API auth token is `development_secret_token` |
+| Error handling | 6/10 | Try/catch with structured logging; WebSocket error handlers added |
+| Security | 7/10 | Server-side PIN verification, auth token from env, invite code on registration, 8-char family codes |
 | Testing | 3/10 | Only `example.test.ts` exists — no real tests |
 | Accessibility | 4/10 | No ARIA labels, limited keyboard navigation |
 | Performance | 7/10 | Edge-cached, lazy loading, minimal bundle |
 
-### Security Concerns for Pilot
-1. **Registration is unauthenticated.** Anyone can hit `POST /api/family/register` and create families. Add a pilot invite code or rate limit.
-2. **Family codes are 4 random chars.** With only ~1.6M possible codes, brute-forcing to find other families is trivial. Lengthen to 8+ chars.
-3. **PINs are stored in plaintext** in D1. For a pilot with children's data, this should be hashed.
-4. **No HTTPS enforcement** in the Worker. Cloudflare handles this at the edge, but the code doesn't verify.
+### Remaining Security Notes
+1. **PINs stored in plaintext** in D1. Low risk for 4-digit PINs but should be hashed post-pilot.
+2. **No per-endpoint auth** on data read endpoints. Acceptable for pilot with unguessable 8-char codes.
+3. **No rate limiting** on registration. Invite code provides basic protection.
 
 ---
 
