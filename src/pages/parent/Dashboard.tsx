@@ -3,7 +3,7 @@ import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ChevronRight, ShoppingBasket, BarChart3, FileText, Crown, Shield, Calendar, Hash, Sparkles, HelpCircle, Lightbulb, GraduationCap } from 'lucide-react';
+import { Loader2, FileCheck2, BookOpen, LayoutDashboard, Users, LogOut, Settings, PlaySquare, ShieldAlert, LightbulbIcon, Mic, Camera, ChevronLeft, ShoppingBasket, BarChart3, FileText, Crown, Shield, Calendar, HelpCircle, Lightbulb, GraduationCap } from 'lucide-react';
 import { JudgmentModal, JudgmentItem } from '@/components/parent/JudgmentModal';
 import { WeeklyPantryList } from '@/components/parent/WeeklyPantryList';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
