@@ -9,6 +9,7 @@ import { ParentTaskCard, LearnerRepetitionState } from '@/components/parent/Pare
 import { WeeklyPantryList } from '@/components/parent/WeeklyPantryList';
 import { AsyncEvidenceModal } from '@/components/parent/AsyncEvidenceModal';
 import { PatternDashboard } from '@/components/parent/PatternDashboard';
+import { ParentReportModal } from '@/components/parent/ParentReportModal';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 
