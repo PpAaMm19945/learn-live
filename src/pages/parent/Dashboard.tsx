@@ -326,6 +326,12 @@ export default function Dashboard() {
                 isOpen={isPatternOpen}
                 onClose={() => setIsPatternOpen(false)}
             />
+
+            <ParentReportModal
+                {...reportModalState}
+                onClose={() => setReportModalState(prev => ({ ...prev, isOpen: false }))}
+                onSuccess={() => queryClient.invalidateQueries({ queryKey: ['active-curriculum', familyId] })}
+            />
         </div>
     );
 }
