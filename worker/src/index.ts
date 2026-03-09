@@ -1063,6 +1063,32 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== DIAGRAM GENERATION (Task 13.9) ==========
+        if (url.pathname === '/api/generate-diagram' && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+            try {
+                const body: any = await request.json();
+                if (!env.GEMINI_API_KEY) {
+                    return new Response(JSON.stringify({ error: 'GEMINI_API_KEY not configured' }), {
+                        status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+                const result = await generateDiagram(env.GEMINI_API_KEY, body.prompt || '');
+                return new Response(JSON.stringify(result), {
+                    status: result.imageUrl ? 200 : 500,
+                    headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                return new Response(JSON.stringify({ error: 'Diagram generation failed', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,

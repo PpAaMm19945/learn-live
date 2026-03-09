@@ -325,7 +325,12 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
+                    {isDemoMode && (
+                        <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-amber-200 text-[10px] uppercase tracking-wider">
+                            <Play className="w-3 h-3 mr-1" /> Demo
+                        </Badge>
+                    )}
                     {/* Status indicator */}
                     <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground text-sm font-medium">
                         {status === 'connecting' && (
@@ -338,7 +343,7 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                             <>
                                 <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                                 <Mic className="w-4 h-4" />
-                                Listening
+                                {isDemoMode ? 'Playing' : 'Listening'}
                             </>
                         )}
                         {status === 'ended' && 'Session Ended'}
