@@ -292,6 +292,27 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
         });
     }, []);
 
+    /** Detect the best demo based on task type / domain */
+    const detectDemoId = useCallback((): string => {
+        const taskType = (task as any).task_type?.toLowerCase() || '';
+        const domain = (task as any).domain?.toLowerCase() || '';
+        const capacity = (task.capacity || '').toLowerCase();
+        
+        // English demos
+        if (taskType.includes('phonics') || taskType.includes('auditory') || taskType.includes('discrimination')) return 'phonics';
+        if (taskType.includes('composition') || taskType.includes('sentence') || taskType.includes('writing')) return 'sentence';
+        if (domain.includes('english') || domain.includes('language') || domain.includes('literacy')) return 'phonics';
+        
+        // Science demos
+        if (taskType.includes('observation') || taskType.includes('sensory')) return 'observation';
+        if (taskType.includes('life cycle') || capacity.includes('life cycle')) return 'life_cycle';
+        if (taskType.includes('classification') || taskType.includes('sorting')) return 'classification';
+        if (domain.includes('science') || domain.includes('living') || domain.includes('matter')) return 'observation';
+        
+        // Math fallback
+        return 'addition';
+    }, [task]);
+
     const startDemoMode = useCallback(() => {
         setIsDemoMode(true);
         setElements(new Map());
@@ -302,8 +323,8 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
             onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
         });
         demoRef.current = player;
-        player.play('addition');
-    }, [applyOps]);
+        player.play(detectDemoId());
+    }, [applyOps, detectDemoId]);
 
     useEffect(() => {
         const startSession = async () => {
