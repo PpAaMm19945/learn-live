@@ -35,23 +35,19 @@ The vision is exceptional and the curriculum engine is surprisingly deep for a h
 ### What's Built
 | Component | Status | Notes |
 |-----------|--------|-------|
-| **Evidence Witness (Live)** | ⚠️ Partial | Gemini Live bidi-streaming is wired (`gemini.ts`, `server.ts`), but `server.ts` line 37 references `wss` instead of `witnessWss` — **this is a runtime crash bug**. The Evidence Witness cannot function. |
-| **Explainer Canvas (Live)** | ✅ Well-built | Full tool-call pipeline: system prompt → Gemini → canvas ops → framer-motion SVG. Demo fallback mode is a smart safety net. |
-| **Async AI Evidence** | ⚠️ Mock only | `AsyncEvidenceModal.tsx` captures photo+audio but the actual AI analysis (sending to Gemini for evaluation) is mocked with `setTimeout`. No Worker endpoint processes the evidence. |
-| **AI Task Enrichment** | ✅ Good | `enrichTask.ts` calls Gemini 2.5 Flash with a well-crafted prompt, caches in D1. Graceful fallback to static enrichment when API key is missing. |
-| **Quiz Generation** | ⚠️ Passive | Quiz questions come from the enrichment cache, not generated on-demand. No adaptive difficulty. |
+| **Evidence Witness (Live)** | ✅ Fixed | `sendImage` + `sendToolResponse` added. Video frames forwarded. Tool call loop closed. Graceful 5s farewell. |
+| **Explainer Canvas (Live)** | ✅ Well-built | Full tool-call pipeline with tool response loop. Demo fallback. WebSocket error handler added. |
+| **Async AI Evidence** | ✅ Wired | `evaluateEvidence()` now calls Gemini Flash via `/api/portfolio`. Session summaries stored in D1. |
+| **AI Task Enrichment** | ✅ Good | `enrichTask.ts` calls Gemini 2.5 Flash, caches in D1. Graceful fallback. |
+| **Quiz Generation** | ⚠️ Passive | Quiz questions come from enrichment cache, not generated on-demand. |
 | **Parent Primers** | ✅ Exists | `parentPrimer.ts` generates concept orientations for Band 3+. |
 
-### Critical Bug
-**`agent/src/server.ts` line 37:** `wss.on('connection', ...)` — `wss` is never defined. The code defines `witnessWss` and `explainerWss` but the Evidence Witness connection handler references a non-existent variable. This means **the core Evidence Witness feature crashes on startup**.
-
 ### AI Context Awareness
-The AI is moderately context-aware:
-- ✅ Constraint templates are injected as system instructions (task-specific)
-- ✅ Explainer session builds learner-aware prompts (name, age, band)
-- ⚠️ Evidence Witness does NOT inject learner context — it only gets the task constraint
-- ❌ No session history. Each AI session is stateless. The AI doesn't know what the child struggled with last time, what approach worked, or how many attempts they've made.
-- ❌ No cross-session learning. The enrichment cache is per-template, not per-learner. Two children at the same capacity get identical AI output regardless of their journey.
+- ✅ Constraint templates injected as system instructions (task-specific)
+- ✅ Explainer session builds learner-aware prompts (name, age, band) — fetched dynamically from Worker API
+- ✅ Evidence Witness now receives video frames via `sendImage`
+- ✅ Session summaries stored in `Session_Summaries` table for long-term memory
+- ⚠️ Session history not yet fed back into AI prompts (next iteration)
 
 ### Recommendations for Deeper AI Context
 1. **Inject learner history into system instructions.** Before each session, query the last 3-5 portfolio entries for this learner+capacity. Include: prior arc stages attempted, parent notes from revisions, execution count. This is ~5 lines of SQL + prompt concatenation.
