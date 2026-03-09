@@ -73,6 +73,15 @@
 *   [x] **Task 8.6:** Write README / blog post for hackathon submission (polished `README.md` with concept, tech stack, architecture, and run instructions).
 *   [ ] **Task 8.7:** Run final end-to-end smoke test.
 
+## Phase 9: Parent-Primary UI & Evidence Capture
+*   [x] **Task 9.1:** Redesign entry flow — parent opens app, sees today's tasks. Three evidence paths unified.
+*   [x] **Task 9.2:** Build Parent Task View with constraint prompts. *(Done: `ParentTaskCard.tsx`)*
+*   [x] **Task 9.3:** Build Parent Report Flow — guided two-step observation + assessment form (`ParentReportModal.tsx`).
+*   [x] **Task 9.4:** Build Async AI Evidence Capture. *(Done: `AsyncEvidenceModal.tsx`)*
+*   [x] **Task 9.5:** Refactored Live AI Witness — parent-initiated, clearly marked as premium with Crown badge.
+*   [x] **Task 9.6:** Unified all evidence types (parent reports, async AI, live AI) in single dashboard with three action buttons.
+*   [x] **Task 9.7:** Progression logic accepts all evidence sources via shared `/api/portfolio` endpoint.
+
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).
 *   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.
