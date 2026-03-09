@@ -1,7 +1,8 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mic, Loader2, X, Lightbulb } from 'lucide-react';
+import { Mic, Loader2, X, Lightbulb, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { MatrixTask } from './TaskCard';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
@@ -11,6 +12,7 @@ import {
     CanvasOperation,
     CanvasElement,
 } from '@/lib/explainerClient';
+import { DemoPlayer } from '@/lib/demoPlayer';
 
 interface ExplainerCanvasProps {
     task: MatrixTask;
