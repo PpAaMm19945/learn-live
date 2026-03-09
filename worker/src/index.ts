@@ -365,8 +365,18 @@ export default {
                 }
 
                 if (status === 'approved') {
-                    // 3. Trigger progression logic for MVP
-                    await advanceLearner(env.DB, learnerId);
+                    // 3. Determine the capacity from the portfolio's task context
+                    // Try to find the capacity from Learner_Repetition_State
+                    const activeState: any = await env.DB.prepare(`
+                        SELECT capacity_id FROM Learner_Repetition_State
+                        WHERE learner_id = ? AND status IN ('active', 'awaiting_judgment')
+                        LIMIT 1
+                    `).bind(learnerId).first();
+
+                    if (activeState?.capacity_id) {
+                        const arcResult = await advanceArc(env.DB, learnerId, activeState.capacity_id);
+                        console.log(`[ARC] ${arcResult.message}`);
+                    }
                 }
 
                 return new Response(JSON.stringify({ success: true, status }), {
