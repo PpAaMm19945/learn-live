@@ -168,7 +168,7 @@ export default function Dashboard() {
     const activeTasks: LearnerRepetitionState[] = curriculumData?.tasks || [];
 
     // Determine selected learner
-    const learnerNames = [...new Set(plans.map(p => p.learner_name))];
+    
     const activeLearner = selectedLearner || (plans.length > 0 ? plans[0].learner_id : null);
     const activePlan = plans.find(p => p.learner_id === activeLearner) || plans[0];
 
