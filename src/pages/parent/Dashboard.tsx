@@ -96,6 +96,16 @@ export default function Dashboard() {
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" onClick={() => setIsPatternOpen(true)} title="Learner Patterns">
                         <BarChart3 className="w-5 h-5" />
                     </button>
+                    <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors" title="Portal Access Control"
+                        onClick={() => {
+                            // Open access control for first learner task (or show selector)
+                            const firstTask = activeTasks[0];
+                            if (firstTask) {
+                                setAccessControlState({ isOpen: true, learnerId: firstTask.learner_id, learnerName: firstTask.learner_name });
+                            }
+                        }}>
+                        <Shield className="w-5 h-5" />
+                    </button>
                     <button className="p-3 rounded-xl text-muted-foreground hover:bg-secondary transition-colors">
                         <Settings className="w-5 h-5" />
                     </button>
