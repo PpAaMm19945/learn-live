@@ -82,6 +82,27 @@
 *   [x] **Task 9.6:** Unified all evidence types (parent reports, async AI, live AI) in single dashboard with three action buttons.
 *   [x] **Task 9.7:** Progression logic accepts all evidence sources via shared `/api/portfolio` endpoint.
 
+## Phase 9: Parent-Primary UI & Evidence Capture
+*   [x] **Task 9.1:** Redesign entry flow — parent-primary with unified evidence buttons.
+*   [x] **Task 9.2:** Build Parent Task View. *(Done: `ParentTaskCard.tsx`)*
+*   [x] **Task 9.3:** Build Parent Report Flow (`ParentReportModal.tsx`).
+*   [x] **Task 9.4:** Build Async AI Evidence Capture (`AsyncEvidenceModal.tsx`).
+*   [x] **Task 9.5:** Refactored Live AI as premium/optional with Crown badge.
+*   [x] **Task 9.6:** Unified evidence types in dashboard.
+*   [x] **Task 9.7:** Progression logic works for all evidence sources.
+
+## Phase 10: Curriculum Spine Integration
+*   [x] **Task 10.1:** Schema for Strands, Capacities, DAG, Templates, Repetition State.
+*   [x] **Task 10.2:** Seeding pipeline — 377+ templates deployed to D1.
+*   [x] **Task 10.3:** Task generation engine (`worker/src/lib/taskGen.ts`) — template randomization, context injection, system instruction generation.
+*   [x] **Task 10.4:** DAG dependency resolver (`worker/src/lib/dag.ts`) — cross-strand prerequisite gates, lateral movement suggestions, dependent unlocking.
+*   [x] **Task 10.5:** Repetition Arc engine (`worker/src/lib/arc.ts`) — Exposure→Execution→Endurance→Milestone with cognitive level progression.
+*   [x] **Task 10.6:** Noise injection for Endurance tasks — distractor elements injected into parent prompts.
+*   [x] **Task 10.7:** Cross-strand Milestone tasks — unlabeled combined challenges.
+*   [ ] **Task 10.8:** Split Judgment model for Band 4–5.
+*   [ ] **Task 10.9:** Parent Primers for Band 3+.
+*   [ ] **Task 10.10:** AI Permission Rule enforcement.
+
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).
 *   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.
