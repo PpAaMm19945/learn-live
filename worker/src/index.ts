@@ -38,34 +38,7 @@ function isAuthorized(request: Request, env: Env): boolean {
     return authHeader === `Bearer ${expectedToken}`;
 }
 
-async function advanceLearner(db: D1Database, learnerId: string) {
-    try {
-        // Hackathon Simplification: Determine responsibility level
-        const responsibilityLevel = learnerId === 'learner_azie' ? 'L2' : 'L1';
-
-        // Find the next stalled task for this learner
-        const stalledTask: any = await db.prepare(`
-            SELECT id FROM Matrix_Tasks 
-            WHERE responsibility_level = ? AND status = 'stalled' 
-            LIMIT 1
-        `).bind(responsibilityLevel).first();
-
-        if (stalledTask && stalledTask.id) {
-            // For Matrix_Tasks, we don't have risk_level directly. If we were using Learner_Repetition_State, we would filter it.
-            // But since MVP uses Matrix_Tasks for the progression demo, we'll just activate it.
-            // In a full implementation, the logic above checks Learner_Repetition_State.
-            // We apply it here conceptually.
-            await db.prepare(`
-                UPDATE Matrix_Tasks SET status = 'active' WHERE id = ?
-            `).bind(stalledTask.id).run();
-            console.log(`[MATRIX] Learner ${learnerId} advanced to Task ${stalledTask.id}`);
-        } else {
-            console.log(`[MATRIX] Learner ${learnerId} has no further stalled tasks to advance to.`);
-        }
-    } catch (error) {
-        console.error(`[MATRIX] Error advancing learner ${learnerId}:`, error);
-    }
-}
+// Legacy advanceLearner replaced by arc.ts + dag.ts engine
 
 export default {
     async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
