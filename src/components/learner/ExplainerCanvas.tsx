@@ -237,6 +237,19 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
         });
     }, []);
 
+    const startDemoMode = useCallback(() => {
+        setIsDemoMode(true);
+        setElements(new Map());
+        setTranscript('');
+        const player = new DemoPlayer({
+            onStatusChange: setStatus,
+            onCanvasOps: applyOps,
+            onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
+        });
+        demoRef.current = player;
+        player.play('addition');
+    }, [applyOps]);
+
     useEffect(() => {
         const startSession = async () => {
             try {
@@ -250,7 +263,11 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                         onStatusChange: setStatus,
                         onCanvasOps: applyOps,
                         onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
-                        onError: setErrorMessage,
+                        onError: (msg) => {
+                            setErrorMessage(msg);
+                            // Auto-fallback to demo mode if live fails
+                            Logger.warn('[EXPLAINER]', 'Live session failed, offering demo mode');
+                        },
                     }
                 );
 
@@ -259,9 +276,9 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                 await client.startAudio(stream);
 
             } catch (err: any) {
-                Logger.error('[EXPLAINER]', 'Session start failed', { err });
+                Logger.error('[EXPLAINER]', 'Session start failed, falling back to demo mode', { err });
                 setStatus('error');
-                setErrorMessage(err.message || 'Failed to start explainer');
+                setErrorMessage(err.message || 'Failed to start explainer. Try demo mode!');
             }
         };
 
@@ -269,11 +286,13 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
 
         return () => {
             clientRef.current?.disconnect();
+            demoRef.current?.stop();
         };
     }, [task.id, familyId, userId, applyOps]);
 
     const handleClose = () => {
         clientRef.current?.disconnect();
+        demoRef.current?.stop();
         onClose();
     };
 
