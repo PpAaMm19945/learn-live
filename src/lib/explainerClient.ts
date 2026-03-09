@@ -2,7 +2,13 @@ import { Logger } from '@/lib/Logger';
 import { AudioCanvasSync } from '@/lib/audioCanvasSync';
 export interface CanvasElement {
     id: string;
-    type: 'block' | 'text' | 'image' | 'shape' | 'group' | 'diagram';
+    type: 
+        // Math primitives
+        | 'block' | 'text' | 'image' | 'shape' | 'group' | 'diagram'
+        // English primitives
+        | 'word_card' | 'letter_tile' | 'sentence_strip' | 'story_panel' | 'speech_bubble' | 'phonics_highlight' | 'connector_arrow'
+        // Science primitives
+        | 'observation_card' | 'classification_bin' | 'life_cycle_node' | 'curved_arrow' | 'experiment_step' | 'comparison_table' | 'safety_badge';
     x: number;
     y: number;
     width?: number;
@@ -13,6 +19,7 @@ export interface CanvasElement {
     scale?: number;
     rotation?: number;
     children?: string[];    // IDs for group type
+    count?: number;         // for numbered elements (steps, panels)
     meta?: Record<string, any>;
 }
 

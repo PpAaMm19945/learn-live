@@ -13,6 +13,10 @@ import {
     CanvasElement,
 } from '@/lib/explainerClient';
 import { DemoPlayer } from '@/lib/demoPlayer';
+// English primitives
+import { WordCard, LetterTile, SentenceStrip, StoryPanel, SpeechBubble, PhonicsHighlight, ConnectorArrow } from './EnglishPrimitives';
+// Science primitives
+import { ObservationCard, ClassificationBin, LifeCycleNode, CurvedArrow, ExperimentStep, ComparisonTable, SafetyBadge } from './SciencePrimitives';
 
 interface ExplainerCanvasProps {
     task: MatrixTask;
@@ -21,7 +25,6 @@ interface ExplainerCanvasProps {
 
 /**
  * CountingBlock — a visual primitive for math explanations.
- * Renders as a colored rounded square with optional label.
  */
 function CountingBlock({ element }: { element: CanvasElement }) {
     return (
@@ -127,15 +130,67 @@ function ImageElement({ element }: { element: CanvasElement }) {
 }
 
 /**
- * Element renderer — dispatches to the correct visual primitive.
+ * SVG Primitive wrapper — wraps SVG primitives that use x/y props directly.
+ */
+function SVGPrimitiveWrapper({ element, children }: { element: CanvasElement; children: React.ReactNode }) {
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: element.opacity ?? 1, scale: element.scale ?? 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute"
+            style={{ left: 0, top: 0, pointerEvents: 'none' }}
+        >
+            {children}
+        </motion.div>
+    );
+}
+
+/**
+ * Element renderer — dispatches to the correct visual primitive based on type.
  */
 function CanvasElementRenderer({ element }: { element: CanvasElement }) {
     switch (element.type) {
+        // Math
         case 'block': return <CountingBlock element={element} />;
         case 'text': return <TextElement element={element} />;
         case 'shape': return <ShapeElement element={element} />;
         case 'image':
         case 'diagram': return <ImageElement element={element} />;
+        
+        // English
+        case 'word_card':
+            return <SVGPrimitiveWrapper element={element}><WordCard x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'letter_tile':
+            return <SVGPrimitiveWrapper element={element}><LetterTile x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'sentence_strip':
+            return <SVGPrimitiveWrapper element={element}><SentenceStrip x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'story_panel':
+            return <SVGPrimitiveWrapper element={element}><StoryPanel x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} count={element.count} /></SVGPrimitiveWrapper>;
+        case 'speech_bubble':
+            return <SVGPrimitiveWrapper element={element}><SpeechBubble x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'phonics_highlight':
+            return <SVGPrimitiveWrapper element={element}><PhonicsHighlight x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'connector_arrow':
+            return <SVGPrimitiveWrapper element={element}><ConnectorArrow x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} /></SVGPrimitiveWrapper>;
+        
+        // Science
+        case 'observation_card':
+            return <SVGPrimitiveWrapper element={element}><ObservationCard x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'classification_bin':
+            return <SVGPrimitiveWrapper element={element}><ClassificationBin x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'life_cycle_node':
+            return <SVGPrimitiveWrapper element={element}><LifeCycleNode x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} count={element.count} /></SVGPrimitiveWrapper>;
+        case 'curved_arrow':
+            return <SVGPrimitiveWrapper element={element}><CurvedArrow x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} /></SVGPrimitiveWrapper>;
+        case 'experiment_step':
+            return <SVGPrimitiveWrapper element={element}><ExperimentStep x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} count={element.count} /></SVGPrimitiveWrapper>;
+        case 'comparison_table':
+            return <SVGPrimitiveWrapper element={element}><ComparisonTable x={element.x} y={element.y} width={element.width} height={element.height} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        case 'safety_badge':
+            return <SVGPrimitiveWrapper element={element}><SafetyBadge x={element.x} y={element.y} color={element.color} label={element.content} /></SVGPrimitiveWrapper>;
+        
         default: return null;
     }
 }
@@ -237,6 +292,27 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
         });
     }, []);
 
+    /** Detect the best demo based on task type / domain */
+    const detectDemoId = useCallback((): string => {
+        const taskType = (task as any).task_type?.toLowerCase() || '';
+        const domain = (task as any).domain?.toLowerCase() || '';
+        const capacity = (task.capacity || '').toLowerCase();
+        
+        // English demos
+        if (taskType.includes('phonics') || taskType.includes('auditory') || taskType.includes('discrimination')) return 'phonics';
+        if (taskType.includes('composition') || taskType.includes('sentence') || taskType.includes('writing')) return 'sentence';
+        if (domain.includes('english') || domain.includes('language') || domain.includes('literacy')) return 'phonics';
+        
+        // Science demos
+        if (taskType.includes('observation') || taskType.includes('sensory')) return 'observation';
+        if (taskType.includes('life cycle') || capacity.includes('life cycle')) return 'life_cycle';
+        if (taskType.includes('classification') || taskType.includes('sorting')) return 'classification';
+        if (domain.includes('science') || domain.includes('living') || domain.includes('matter')) return 'observation';
+        
+        // Math fallback
+        return 'addition';
+    }, [task]);
+
     const startDemoMode = useCallback(() => {
         setIsDemoMode(true);
         setElements(new Map());
@@ -247,8 +323,8 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
             onTranscript: (text) => setTranscript(prev => prev + ' ' + text),
         });
         demoRef.current = player;
-        player.play('addition');
-    }, [applyOps]);
+        player.play(detectDemoId());
+    }, [applyOps, detectDemoId]);
 
     useEffect(() => {
         const startSession = async () => {
