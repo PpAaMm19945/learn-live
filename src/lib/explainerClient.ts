@@ -212,6 +212,28 @@ export class ExplainerClient {
         this.processQueue();
     }
 
+    /** Promise-based audio play for sync engine (Task 13.7) */
+    private playAudioAsync(base64: string): Promise<void> {
+        return new Promise(async (resolve) => {
+            if (!this.audioContext) {
+                this.audioContext = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
+            }
+            const binaryString = atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) bytes[i] = binaryString.charCodeAt(i);
+            const int16 = new Int16Array(bytes.buffer);
+            const float32 = new Float32Array(int16.length);
+            for (let i = 0; i < int16.length; i++) float32[i] = int16[i] / 32768.0;
+            const audioBuffer = this.audioContext.createBuffer(1, float32.length, 16000);
+            audioBuffer.copyToChannel(float32, 0);
+            const source = this.audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(this.audioContext.destination);
+            source.onended = () => resolve();
+            source.start();
+        });
+    }
+
     private processQueue() {
         if (this.isProcessingAudio || this.audioQueue.length === 0 || !this.audioContext) return;
         this.isProcessingAudio = true;
