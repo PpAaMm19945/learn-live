@@ -75,8 +75,8 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
 *   **[x] Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
 *   **[x] Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
-*   **[ ] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
-*   **[ ] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
+*   **[x] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
+*   **[x] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
 
 ## Phase 8: Hackathon Polish, Scripts, & Submission
 *Focus: Ensuring we ace the Devpost checklist.*
