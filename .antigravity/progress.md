@@ -115,8 +115,8 @@
 *   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.
 *   [x] **Task 13.3:** Add `/v1/agent/explainer` Cloud Run endpoint — separate WebSocket from Evidence Witness, with canvas tool declarations (show_element, animate_element, remove_element, clear_canvas, generate_diagram).
 *   [x] **Task 13.4:** Build learner-context-rich system prompts — age/band/name-aware, pedagogically mature instructions.
-*   [ ] **Task 13.5:** Build Math counting/blocks demo flow with pre-built SVG primitives.
+*   [x] **Task 13.5:** Build Math counting/blocks demo flow with pre-built SVG primitives. *(Done: `MathPrimitives.tsx` — CountingCube, CountingRow, NumberLine, GroupCircle, OperatorSign, FractionBar)*
 *   [x] **Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
-*   [ ] **Task 13.7:** Audio-canvas sync (atomic payloads).
-*   [ ] **Task 13.8:** Demo mode (recorded WebSocket replay fallback).
-*   [ ] **Task 13.9:** Nano Banana image generation integration.
+*   [x] **Task 13.7:** Audio-canvas sync (atomic payloads). *(Done: `audioCanvasSync.ts` — sequence-ordered queue with audio-visual sync)*
+*   [x] **Task 13.8:** Demo mode (recorded WebSocket replay fallback). *(Done: `demoPlayer.ts` — addition demo, auto-fallback on live failure)*
+*   [x] **Task 13.9:** Nano Banana image generation integration. *(Done: `worker/src/lib/nanoBanana.ts` + `/api/generate-diagram` endpoint + ExplainerCanvas wiring)*
