@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import Login from "./pages/Login";
+import Onboarding from "./pages/Onboarding";
 import ProfileSelect from "./pages/ProfileSelect";
 import Dashboard from "./pages/parent/Dashboard";
 import LearnerDashboard from "./pages/learner/LearnerDashboard";
@@ -27,8 +29,6 @@ const App = () => {
 
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-
-    // Initial check
     setOffline(!navigator.onLine);
 
     return () => {
@@ -46,7 +46,8 @@ const App = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
-              <Route path="/login" element={<ProfileSelect />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/join" element={<Onboarding />} />
               <Route path="/profiles" element={<ProfileSelect />} />
 
               <Route
@@ -74,7 +75,6 @@ const App = () => {
                 }
               />
 
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
