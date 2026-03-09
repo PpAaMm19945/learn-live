@@ -1,5 +1,7 @@
 import { r2Helper } from './lib/r2';
-
+import { advanceArc } from './lib/arc';
+import { resolveDependencies } from './lib/dag';
+import { generateTask, generateSystemInstruction } from './lib/taskGen';
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
 
@@ -36,34 +38,7 @@ function isAuthorized(request: Request, env: Env): boolean {
     return authHeader === `Bearer ${expectedToken}`;
 }
 
-async function advanceLearner(db: D1Database, learnerId: string) {
-    try {
-        // Hackathon Simplification: Determine responsibility level
-        const responsibilityLevel = learnerId === 'learner_azie' ? 'L2' : 'L1';
-
-        // Find the next stalled task for this learner
-        const stalledTask: any = await db.prepare(`
-            SELECT id FROM Matrix_Tasks 
-            WHERE responsibility_level = ? AND status = 'stalled' 
-            LIMIT 1
-        `).bind(responsibilityLevel).first();
-
-        if (stalledTask && stalledTask.id) {
-            // For Matrix_Tasks, we don't have risk_level directly. If we were using Learner_Repetition_State, we would filter it.
-            // But since MVP uses Matrix_Tasks for the progression demo, we'll just activate it.
-            // In a full implementation, the logic above checks Learner_Repetition_State.
-            // We apply it here conceptually.
-            await db.prepare(`
-                UPDATE Matrix_Tasks SET status = 'active' WHERE id = ?
-            `).bind(stalledTask.id).run();
-            console.log(`[MATRIX] Learner ${learnerId} advanced to Task ${stalledTask.id}`);
-        } else {
-            console.log(`[MATRIX] Learner ${learnerId} has no further stalled tasks to advance to.`);
-        }
-    } catch (error) {
-        console.error(`[MATRIX] Error advancing learner ${learnerId}:`, error);
-    }
-}
+// Legacy advanceLearner replaced by arc.ts + dag.ts engine
 
 export default {
     async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
@@ -390,8 +365,18 @@ export default {
                 }
 
                 if (status === 'approved') {
-                    // 3. Trigger progression logic for MVP
-                    await advanceLearner(env.DB, learnerId);
+                    // 3. Determine the capacity from the portfolio's task context
+                    // Try to find the capacity from Learner_Repetition_State
+                    const activeState: any = await env.DB.prepare(`
+                        SELECT capacity_id FROM Learner_Repetition_State
+                        WHERE learner_id = ? AND status IN ('active', 'awaiting_judgment')
+                        LIMIT 1
+                    `).bind(learnerId).first();
+
+                    if (activeState?.capacity_id) {
+                        const arcResult = await advanceArc(env.DB, learnerId, activeState.capacity_id);
+                        console.log(`[ARC] ${arcResult.message}`);
+                    }
                 }
 
                 return new Response(JSON.stringify({ success: true, status }), {
@@ -742,6 +727,85 @@ Do not use markdown blocks.`;
             } catch (error: any) {
                 console.error('[API Evaluate Evidence Error]', error);
                 return new Response(JSON.stringify({ error: 'Failed to evaluate evidence', details: error.message }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+            }
+        }
+
+        // ========== TASK GENERATION ENGINE (10.3) ==========
+        const genTaskMatch = url.pathname.match(/^\/api\/learner\/([^/]+)\/generate-task$/);
+        if (genTaskMatch && request.method === 'POST') {
+            const learnerId = genTaskMatch[1];
+            try {
+                const body: any = await request.json();
+                const { capacityId } = body;
+
+                if (!capacityId) {
+                    return new Response(JSON.stringify({ error: 'capacityId required' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Check DAG access
+                const dagResult = await resolveDependencies(env.DB, learnerId, capacityId);
+                if (!dagResult.canAccess) {
+                    return new Response(JSON.stringify({
+                        error: 'Prerequisites not met',
+                        blockedBy: dagResult.blockedBy,
+                        suggestedAlternatives: dagResult.suggestedAlternatives,
+                    }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+
+                // Get learner's arc state
+                const state: any = await env.DB.prepare(`
+                    SELECT * FROM Learner_Repetition_State
+                    WHERE learner_id = ? AND capacity_id = ?
+                `).bind(learnerId, capacityId).first();
+
+                if (!state) {
+                    return new Response(JSON.stringify({ error: 'No state for this capacity' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Get capacity name
+                const capacity: any = await env.DB.prepare('SELECT name FROM Capacities WHERE id = ?').bind(capacityId).first();
+
+                // Get a template at the right cognitive level
+                const template: any = await env.DB.prepare(`
+                    SELECT * FROM Constraint_Templates
+                    WHERE capacity_id = ? AND cognitive_level = ?
+                    ORDER BY RANDOM() LIMIT 1
+                `).bind(capacityId, state.current_cognitive_level).first();
+
+                if (!template) {
+                    return new Response(JSON.stringify({ error: 'No template found for this level' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                const task = generateTask(
+                    template,
+                    capacity?.name || capacityId,
+                    state.current_arc_stage,
+                    state.current_cognitive_level
+                );
+
+                // Get learner info for AI system instruction
+                const learner: any = await env.DB.prepare('SELECT name, birth_date FROM Learners WHERE id = ?').bind(learnerId).first();
+                const age = learner?.birth_date
+                    ? Math.floor((Date.now() - new Date(learner.birth_date).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+                    : 7;
+
+                const systemInstruction = generateSystemInstruction(task, learner?.name || 'Learner', age);
+
+                return new Response(JSON.stringify({ task, systemInstruction }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+
+            } catch (error: any) {
+                console.error('[API GenTask Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to generate task', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
             }
         }
 
