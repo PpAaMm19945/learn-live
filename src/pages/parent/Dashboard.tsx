@@ -94,9 +94,9 @@ function getSubjectGroup(strandName: string): string {
 
 function getSubjectColor(subject: string): string {
     switch (subject) {
-        case 'Mathematics': return 'text-blue-600 bg-blue-50 border-blue-200';
-        case 'English': return 'text-purple-600 bg-purple-50 border-purple-200';
-        case 'Science': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
+        case 'Mathematics': return 'text-primary bg-primary/10 border-primary/20';
+        case 'English': return 'text-purple-600 dark:text-purple-400 bg-purple-500/10 border-purple-500/20';
+        case 'Science': return 'text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 border-emerald-500/20';
         default: return 'text-muted-foreground bg-secondary border-border';
     }
 }
