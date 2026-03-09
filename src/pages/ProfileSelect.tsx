@@ -167,7 +167,7 @@ export default function ProfileSelect() {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {profiles.map((profile, idx) => {
+            {profiles.map((profile) => {
               const learnerIdx = profiles.filter(p => p.role === 'learner').indexOf(profile);
               const emoji = profile.role === 'parent' ? '👨‍👩‍👧‍👦' : (LEARNER_EMOJIS[learnerIdx] || '🧒');
               const gradient = profile.role === 'parent'
