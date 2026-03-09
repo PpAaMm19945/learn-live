@@ -75,19 +75,33 @@ export default function ProfileSelect() {
     if (!selected) return;
     setIsVerifying(true);
 
-    setTimeout(() => {
-      if (value === selected.pin) {
-        Logger.info('[PROFILE]', `Profile unlocked: ${selected.name}`);
-        login(selected.role, familyId!, selected.id);
-        setActiveProfile(selected.id, selected.name);
-        navigate(`/learner/${selected.id}`);
-      } else {
-        Logger.warn('[PROFILE]', `Bad PIN attempt for ${selected.name}`);
-        setError('Incorrect PIN — try again');
+    const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+
+    fetch(`${apiUrl}/api/family/verify-pin`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ learnerId: selected.id, pin: value }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.valid) {
+          Logger.info('[PROFILE]', `Profile unlocked: ${selected.name}`);
+          login(selected.role, familyId!, selected.id);
+          setActiveProfile(selected.id, selected.name);
+          navigate(`/learner/${selected.id}`);
+        } else {
+          Logger.warn('[PROFILE]', `Bad PIN attempt for ${selected.name}`);
+          setError('Incorrect PIN — try again');
+          setPin('');
+          setIsVerifying(false);
+        }
+      })
+      .catch(err => {
+        Logger.error('[PROFILE]', `Verification failed: ${err.message}`);
+        setError('Verification failed — try again');
         setPin('');
         setIsVerifying(false);
-      }
-    }, 400);
+      });
   };
 
   const handleLogout = () => {

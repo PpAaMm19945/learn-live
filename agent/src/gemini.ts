@@ -48,10 +48,10 @@ export class GeminiSession {
                     onmessage: (e) => {
                         if (e.toolCall && e.toolCall.functionCalls) {
                             for (const call of e.toolCall.functionCalls) {
-                                if (call.name === 'evaluate_constraint' && this.onResCallback) {
-                                    console.log('[AGENT] Received evaluate_constraint from model');
+                                if (this.onResCallback) {
                                     this.onResCallback({
                                         type: 'functionCall',
+                                        id: call.id,
                                         name: call.name,
                                         args: call.args
                                     });
@@ -97,6 +97,34 @@ export class GeminiSession {
             ]);
         } catch (e) {
             console.error('[AGENT] Error sending audio chunk:', e);
+        }
+    }
+
+    sendImage(base64Frame: string) {
+        if (!this.session) return;
+
+        try {
+            this.session.sendRealtimeInput([{
+                mimeType: "image/jpeg",
+                data: base64Frame
+            }]);
+        } catch (e) {
+            console.error('[AGENT] Error sending image frame:', e);
+        }
+    }
+
+    sendToolResponse(functionResponses: Array<{ id: string; name: string; response: any }>) {
+        if (!this.session) return;
+
+        try {
+            this.session.sendToolResponse({
+                functionResponses: functionResponses.map(r => ({
+                    ...r,
+                    scheduling: "SILENT"
+                }))
+            });
+        } catch (e) {
+            console.error('[AGENT] Error sending tool response:', e);
         }
     }
 

@@ -84,7 +84,13 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
                     reason: data.args.status === 'success' ? 'success' : 'failure',
                     summary: data.args.summary || 'Session completed.',
                 }));
-                setTimeout(() => ws.close(), 1000);
+                // Complete tool call loop and give AI time to say goodbye
+                geminiSession.sendToolResponse([{
+                    id: data.id,
+                    name: 'evaluate_constraint',
+                    response: { acknowledged: true }
+                }]);
+                setTimeout(() => ws.close(), 5000);
             } else {
                 ws.send(JSON.stringify(data));
             }
@@ -96,6 +102,8 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
             const msg = JSON.parse(message.toString());
             if (msg.type === 'audio' && msg.data) {
                 geminiSession.sendAudio(Buffer.from(msg.data, 'base64'));
+            } else if (msg.type === 'image' && msg.data) {
+                geminiSession.sendImage(msg.data);
             }
         } catch (e) {
             console.error('[AGENT] Bad message from client:', e);

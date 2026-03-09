@@ -71,7 +71,7 @@ export function AccessControlModal({ isOpen, onClose, learnerId, learnerName }: 
   const mutation = useMutation({
     mutationFn: async (level: string) => {
       const apiUrl = import.meta.env.VITE_WORKER_URL || '';
-      const token = 'development_secret_token';
+      const token = import.meta.env.VITE_API_AUTH_TOKEN || '';
       const res = await fetch(`${apiUrl}/api/learner/${learnerId}/access-level`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -99,9 +99,8 @@ export function AccessControlModal({ isOpen, onClose, learnerId, learnerName }: 
           <div className="space-y-4">
             <RadioGroup value={currentLevel} onValueChange={setSelected}>
               {ACCESS_LEVELS.map((level) => (
-                <div key={level.value} className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${
-                  currentLevel === level.value ? 'border-primary bg-primary/5' : 'border-border'
-                }`}>
+                <div key={level.value} className={`flex items-start gap-3 p-3 rounded-lg border transition-colors ${currentLevel === level.value ? 'border-primary bg-primary/5' : 'border-border'
+                  }`}>
                   <RadioGroupItem value={level.value} id={level.value} className="mt-1" />
                   <Label htmlFor={level.value} className="flex-1 cursor-pointer">
                     <div className="flex items-center gap-2">

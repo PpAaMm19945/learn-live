@@ -63,7 +63,7 @@ export default function Login() {
                   onChange={(e) => { setCode(e.target.value.toUpperCase()); setError(''); }}
                   className="text-center text-lg font-mono tracking-widest"
                   autoFocus
-                  maxLength={7}
+                  maxLength={10}
                 />
               </div>
               {error && <p className="text-sm text-destructive font-medium text-center">{error}</p>}

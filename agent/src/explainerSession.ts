@@ -140,9 +140,25 @@ export async function handleExplainerSession(
         return;
     }
 
-    // 2. TODO: Fetch learner context from D1 (name, age, band)
-    // For now, use defaults — Task 13.4 will wire this up
-    const learnerContext = { name: 'Learner', age: 7, band: 2 };
+    // 2. Fetch learner context dynamically from D1
+    const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
+    let learnerContext = { name: 'Learner', age: 7, band: 2 };
+    try {
+        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`);
+        if (profileRes.ok) {
+            const profileData = await profileRes.json();
+            const learner = profileData.profiles?.find((p: any) => p.id === learnerId);
+            if (learner) {
+                learnerContext = {
+                    name: learner.name || 'Learner',
+                    age: learner.age || 7,
+                    band: learner.band || 2,
+                };
+            }
+        }
+    } catch (e: any) {
+        console.warn(`[EXPLAINER] Failed to fetch learner profile, using defaults: ${e.message}`);
+    }
 
     // 3. Build rich system prompt
     const systemPrompt = buildExplainerSystemPrompt(baseInstruction, learnerContext);
@@ -161,6 +177,12 @@ export async function handleExplainerSession(
             if (op) {
                 ws.send(JSON.stringify({ type: 'canvas_ops', ops: [op] }));
             }
+            // Complete the tool call loop
+            gemini.sendToolResponse([{
+                id: data.id,
+                name: data.name,
+                response: { success: true }
+            }]);
         } else if (data.type === 'modelTurn') {
             // Forward voice/text to client
             ws.send(JSON.stringify(data));
@@ -173,6 +195,8 @@ export async function handleExplainerSession(
             const msg = JSON.parse(raw.toString());
             if (msg.type === 'audio' && msg.data) {
                 gemini.sendAudio(Buffer.from(msg.data, 'base64'));
+            } else if (msg.type === 'image' && msg.data) {
+                gemini.sendImage(msg.data);
             }
         } catch (e) {
             console.error('[EXPLAINER] Bad message from client:', e);

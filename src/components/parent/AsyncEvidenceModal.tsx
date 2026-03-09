@@ -119,7 +119,7 @@ export function AsyncEvidenceModal({ isOpen, onClose, templateId, learnerName, c
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN || 'development_secret_token'}`
+                    'Authorization': `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN || ''}`
                 },
                 body: JSON.stringify({
                     imageBase64,

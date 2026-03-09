@@ -271,17 +271,58 @@ export default {
 
             try {
                 const body: any = await request.json();
-                const { learnerId, taskId, summary, status, evidenceUrl, aiConfidenceScore } = body;
+                const {
+                    learnerId, taskId, summary: clientSummary, status: clientStatus,
+                    evidenceUrl, aiConfidenceScore: clientConfidence,
+                    imageBase64, audioTranscriptHint, sessionType = 'witness'
+                } = body;
 
-                if (!learnerId || !taskId || !status || !evidenceUrl) {
+                if (!learnerId || !taskId || (!clientStatus && !imageBase64 && !audioTranscriptHint) || !evidenceUrl) {
                     return new Response(JSON.stringify({ error: 'Missing required fields' }), {
                         status: 400,
                         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
                     });
                 }
 
-                // Execute sequentially as transactions aren't fully robust across all D1 versions yet
-                const portfolioId = `port_${Date.now()}`;
+                let finalStatus = clientStatus;
+                let finalSummary = clientSummary || '';
+                let finalConfidence = clientConfidence || 0;
+
+                // 0. If this is an async submission with evidence to evaluate, call the evaluation engine
+                if (imageBase64 || audioTranscriptHint) {
+                    // We need template/capacity details for the AI evaluator
+                    // In a perfect system, Matrix_Tasks would have a template_id link. 
+                    // For now, we'll try to find the template by capacity and responsibility_level if taskId isn't enough
+                    const task: any = await env.DB.prepare('SELECT domain, capacity, responsibility_level FROM Matrix_Tasks WHERE id = ?').bind(taskId).first();
+
+                    if (task && env.GEMINI_API_KEY) {
+                        const template: any = await env.DB.prepare(`
+                            SELECT id, parent_prompt, success_condition, failure_condition, reasoning_check 
+                            FROM Constraint_Templates 
+                            WHERE capacity_id = (SELECT id FROM Capacities WHERE name = ? LIMIT 1)
+                            AND cognitive_level = ?
+                            LIMIT 1
+                        `).bind(task.capacity, task.responsibility_level.replace('L', '')).first();
+
+                        if (template) {
+                            const evalResult = await evaluateEvidence(
+                                env.GEMINI_API_KEY,
+                                template.id,
+                                template.parent_prompt,
+                                template.success_condition,
+                                template.failure_condition || '',
+                                template.reasoning_check,
+                                task.capacity,
+                                imageBase64 || null,
+                                audioTranscriptHint || null
+                            );
+
+                            finalStatus = evalResult.status === 'success' ? 'success' : 'failure';
+                            finalSummary = evalResult.evidence_summary;
+                            finalConfidence = evalResult.confidence;
+                        }
+                    }
+                }
 
                 // 1. Insert Portfolio record
                 await env.DB.prepare(`
@@ -292,13 +333,36 @@ export default {
                     learnerId,
                     taskId,
                     evidenceUrl,
-                    aiConfidenceScore || 0,
-                    summary || '',
+                    finalConfidence,
+                    finalSummary,
                     'pending'
                 ).run();
 
-                // 2. Update Task Status
-                const newTaskStatus = status === 'success' ? 'awaiting_judgment' : 'stalled';
+                // 2. Insert Session Summary for AI history
+                // Find capacity_id for the learner's active capacity
+                const activeCapacity: any = await env.DB.prepare(`
+                    SELECT capacity_id FROM Learner_Repetition_State 
+                    WHERE learner_id = ? AND status IN ('active', 'awaiting_judgment')
+                    LIMIT 1
+                `).bind(learnerId).first();
+
+                if (activeCapacity) {
+                    const summaryId = `sum_${Date.now()}`;
+                    await env.DB.prepare(`
+                        INSERT INTO Session_Summaries (id, learner_id, capacity_id, session_type, summary, ai_status)
+                        VALUES (?, ?, ?, ?, ?, ?)
+                    `).bind(
+                        summaryId,
+                        learnerId,
+                        activeCapacity.capacity_id,
+                        sessionType,
+                        finalSummary,
+                        finalStatus === 'success' ? 'success' : 'needs_revision'
+                    ).run();
+                }
+
+                // 3. Update Task Status
+                const newTaskStatus = finalStatus === 'success' ? 'awaiting_judgment' : 'stalled';
                 await env.DB.prepare(`
                     UPDATE Matrix_Tasks SET status = ? WHERE id = ?
                 `).bind(newTaskStatus, taskId).run();
@@ -1242,7 +1306,7 @@ Do not use markdown blocks.`;
 
                 // P1: Generate 8-character family code (increased from 4 for security)
                 const familyCode = 'LL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-                const familyId = `family_${familyCode.toLowerCase().replace('-', '_')}`;
+                const familyId = `family_${familyCode.toLowerCase().replace(/-/g, '_')}`;
                 const placeholderEmail = `${familyId}@pilot.learnlive.app`;
 
                 await env.DB.prepare(
@@ -1299,14 +1363,14 @@ Do not use markdown blocks.`;
                     });
                 }
                 const { results: learners } = await env.DB.prepare(
-                    'SELECT id, name, pin_code FROM Learners WHERE family_id = ?'
+                    'SELECT id, name FROM Learners WHERE family_id = ?'
                 ).bind(familyId).all();
 
                 return new Response(JSON.stringify({
                     familyId: family.id, familyName: family.name,
                     profiles: [
                         { id: `parent_${familyId}`, name: 'Parent', role: 'parent', pin: null },
-                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: l.pin_code }))
+                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: null }))
                     ]
                 }), {
                     status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -1330,14 +1394,14 @@ Do not use markdown blocks.`;
                     });
                 }
                 const { results: learners } = await env.DB.prepare(
-                    'SELECT id, name, pin_code FROM Learners WHERE family_id = ?'
+                    'SELECT id, name FROM Learners WHERE family_id = ?'
                 ).bind(fId).all();
 
                 return new Response(JSON.stringify({
                     familyId: family.id, familyName: family.name,
                     profiles: [
                         { id: `parent_${fId}`, name: 'Parent', role: 'parent', pin: null },
-                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: l.pin_code }))
+                        ...learners.map((l: any) => ({ id: l.id, name: l.name, role: 'learner', pin: null }))
                     ]
                 }), {
                     status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
@@ -1346,6 +1410,28 @@ Do not use markdown blocks.`;
                 return new Response(JSON.stringify({ error: 'Lookup failed', details: error.message }), {
                     status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                 });
+            }
+        }
+
+        // ========== VERIFY PIN ==========
+        if (url.pathname === '/api/family/verify-pin' && request.method === 'POST') {
+            try {
+                const body: any = await request.json();
+                const { learnerId, pin } = body;
+                if (!learnerId || !pin) {
+                    return new Response(JSON.stringify({ error: 'Missing learnerId or pin' }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+                const learner: any = await env.DB.prepare('SELECT pin_code FROM Learners WHERE id = ?').bind(learnerId).first();
+                if (!learner) {
+                    return new Response(JSON.stringify({ error: 'Learner not found' }), { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+                if (learner.pin_code === pin) {
+                    return new Response(JSON.stringify({ valid: true }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                } else {
+                    return new Response(JSON.stringify({ valid: false }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+            } catch (err: any) {
+                return new Response(JSON.stringify({ error: 'Verification failed' }), { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
             }
         }
 
