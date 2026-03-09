@@ -283,6 +283,11 @@ export default function Dashboard() {
                 onClose={() => setIsPantryOpen(false)}
                 tasks={activeTasks}
             />
+
+            <PatternDashboard
+                isOpen={isPatternOpen}
+                onClose={() => setIsPatternOpen(false)}
+            />
         </div>
     );
 }
