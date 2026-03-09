@@ -15,8 +15,21 @@ const fetchTasks = async (learnerId: string): Promise<MatrixTask[]> => {
     const res = await fetch(`${apiUrl}/api/learner/${learnerId}/tasks`);
     if (!res.ok) throw new Error('Failed to fetch tasks');
     const data = await res.json();
-    Logger.info('[UI]', `Loaded ${(data.tasks || []).length} tasks for ${learnerId}`);
-    return data.tasks || [];
+    const rawTasks = Array.isArray(data.tasks) ? data.tasks : [];
+    const normalizedTasks: MatrixTask[] = rawTasks.map((task: any) => ({
+        ...task,
+        capacity: typeof task.capacity === 'string' && task.capacity.trim().length > 0
+            ? task.capacity
+            : (typeof task.capacity_name === 'string' ? task.capacity_name : 'Learning Task'),
+        strand_name: typeof task.strand_name === 'string' && task.strand_name.trim().length > 0
+            ? task.strand_name
+            : (typeof task.domain === 'string' ? task.domain : 'General'),
+        arc_stage: task.arc_stage ?? task.current_arc_stage ?? 'Exposure',
+        cognitive_level: Number(task.cognitive_level ?? 1),
+    }));
+
+    Logger.info('[UI]', `Loaded ${normalizedTasks.length} tasks for ${learnerId}`);
+    return normalizedTasks;
 };
 
 export default function LearnerDashboard() {
