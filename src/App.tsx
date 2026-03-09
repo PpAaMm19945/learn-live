@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import ProfileSelect from "./pages/ProfileSelect";
 import Dashboard from "./pages/parent/Dashboard";
 import LearnerDashboard from "./pages/learner/LearnerDashboard";
+import ChildPortal from "./pages/learner/ChildPortal";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
