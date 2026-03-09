@@ -1198,10 +1198,25 @@ Do not use markdown blocks.`;
         if (url.pathname === '/api/family/register' && request.method === 'POST') {
             try {
                 const body: any = await request.json();
-                const { familyName, children, familyPin } = body;
+                const { familyName, children, familyPin, inviteCode } = body;
+
+                // P1: Require invite code for pilot registration
+                const PILOT_INVITE_CODE = env.PILOT_INVITE_CODE || 'LEARNLIVE2026';
+                if (!inviteCode || inviteCode !== PILOT_INVITE_CODE) {
+                    return new Response(JSON.stringify({ error: 'Valid invite code required for pilot access' }), {
+                        status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
 
                 if (!familyName || !Array.isArray(children) || children.length === 0 || !familyPin) {
-                    return new Response(JSON.stringify({ error: 'familyName, children[], and familyPin are required' }), {
+                    return new Response(JSON.stringify({ error: 'familyName, children[], familyPin, and inviteCode are required' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Validate family name length
+                if (familyName.trim().length < 2 || familyName.trim().length > 100) {
+                    return new Response(JSON.stringify({ error: 'Family name must be 2-100 characters' }), {
                         status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                     });
                 }
