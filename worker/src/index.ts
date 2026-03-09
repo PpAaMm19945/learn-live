@@ -41,7 +41,8 @@ export interface Env {
 
 function isAuthorized(request: Request, env: Env): boolean {
     const authHeader = request.headers.get('Authorization');
-    const expectedToken = env.API_AUTH_TOKEN || 'development_secret_token';
+    const expectedToken = env.API_AUTH_TOKEN;
+    if (!expectedToken) return false;
     return authHeader === `Bearer ${expectedToken}`;
 }
 

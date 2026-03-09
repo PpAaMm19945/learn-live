@@ -35,23 +35,19 @@ The vision is exceptional and the curriculum engine is surprisingly deep for a h
 ### What's Built
 | Component | Status | Notes |
 |-----------|--------|-------|
-| **Evidence Witness (Live)** | ⚠️ Partial | Gemini Live bidi-streaming is wired (`gemini.ts`, `server.ts`), but `server.ts` line 37 references `wss` instead of `witnessWss` — **this is a runtime crash bug**. The Evidence Witness cannot function. |
-| **Explainer Canvas (Live)** | ✅ Well-built | Full tool-call pipeline: system prompt → Gemini → canvas ops → framer-motion SVG. Demo fallback mode is a smart safety net. |
-| **Async AI Evidence** | ⚠️ Mock only | `AsyncEvidenceModal.tsx` captures photo+audio but the actual AI analysis (sending to Gemini for evaluation) is mocked with `setTimeout`. No Worker endpoint processes the evidence. |
-| **AI Task Enrichment** | ✅ Good | `enrichTask.ts` calls Gemini 2.5 Flash with a well-crafted prompt, caches in D1. Graceful fallback to static enrichment when API key is missing. |
-| **Quiz Generation** | ⚠️ Passive | Quiz questions come from the enrichment cache, not generated on-demand. No adaptive difficulty. |
+| **Evidence Witness (Live)** | ✅ Fixed | `sendImage` + `sendToolResponse` added. Video frames forwarded. Tool call loop closed. Graceful 5s farewell. |
+| **Explainer Canvas (Live)** | ✅ Well-built | Full tool-call pipeline with tool response loop. Demo fallback. WebSocket error handler added. |
+| **Async AI Evidence** | ✅ Wired | `evaluateEvidence()` now calls Gemini Flash via `/api/portfolio`. Session summaries stored in D1. |
+| **AI Task Enrichment** | ✅ Good | `enrichTask.ts` calls Gemini 2.5 Flash, caches in D1. Graceful fallback. |
+| **Quiz Generation** | ⚠️ Passive | Quiz questions come from enrichment cache, not generated on-demand. |
 | **Parent Primers** | ✅ Exists | `parentPrimer.ts` generates concept orientations for Band 3+. |
 
-### Critical Bug
-**`agent/src/server.ts` line 37:** `wss.on('connection', ...)` — `wss` is never defined. The code defines `witnessWss` and `explainerWss` but the Evidence Witness connection handler references a non-existent variable. This means **the core Evidence Witness feature crashes on startup**.
-
 ### AI Context Awareness
-The AI is moderately context-aware:
-- ✅ Constraint templates are injected as system instructions (task-specific)
-- ✅ Explainer session builds learner-aware prompts (name, age, band)
-- ⚠️ Evidence Witness does NOT inject learner context — it only gets the task constraint
-- ❌ No session history. Each AI session is stateless. The AI doesn't know what the child struggled with last time, what approach worked, or how many attempts they've made.
-- ❌ No cross-session learning. The enrichment cache is per-template, not per-learner. Two children at the same capacity get identical AI output regardless of their journey.
+- ✅ Constraint templates injected as system instructions (task-specific)
+- ✅ Explainer session builds learner-aware prompts (name, age, band) — fetched dynamically from Worker API
+- ✅ Evidence Witness now receives video frames via `sendImage`
+- ✅ Session summaries stored in `Session_Summaries` table for long-term memory
+- ⚠️ Session history not yet fed back into AI prompts (next iteration)
 
 ### Recommendations for Deeper AI Context
 1. **Inject learner history into system instructions.** Before each session, query the last 3-5 portfolio entries for this learner+capacity. Include: prior arc stages attempted, parent notes from revisions, execution count. This is ~5 lines of SQL + prompt concatenation.
@@ -175,17 +171,16 @@ cd worker && npx wrangler d1 execute learnlive-db-prod --remote --file=../db/add
 | Area | Rating | Notes |
 |------|--------|-------|
 | TypeScript usage | 7/10 | Mostly typed, some `any` in Worker responses |
-| Error handling | 5/10 | Try/catch exists but errors are logged not surfaced |
-| Security | 5/10 | No CSRF, no rate limiting on registration, parent PIN not verified, API auth token is `development_secret_token` |
+| Error handling | 6/10 | Try/catch with structured logging; WebSocket error handlers added |
+| Security | 7/10 | Server-side PIN verification, auth token from env, invite code on registration, 8-char family codes |
 | Testing | 3/10 | Only `example.test.ts` exists — no real tests |
 | Accessibility | 4/10 | No ARIA labels, limited keyboard navigation |
 | Performance | 7/10 | Edge-cached, lazy loading, minimal bundle |
 
-### Security Concerns for Pilot
-1. **Registration is unauthenticated.** Anyone can hit `POST /api/family/register` and create families. Add a pilot invite code or rate limit.
-2. **Family codes are 4 random chars.** With only ~1.6M possible codes, brute-forcing to find other families is trivial. Lengthen to 8+ chars.
-3. **PINs are stored in plaintext** in D1. For a pilot with children's data, this should be hashed.
-4. **No HTTPS enforcement** in the Worker. Cloudflare handles this at the edge, but the code doesn't verify.
+### Remaining Security Notes
+1. **PINs stored in plaintext** in D1. Low risk for 4-digit PINs but should be hashed post-pilot.
+2. **No per-endpoint auth** on data read endpoints. Acceptable for pilot with unguessable 8-char codes.
+3. **No rate limiting** on registration. Invite code provides basic protection.
 
 ---
 
