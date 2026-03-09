@@ -344,6 +344,13 @@ export default function Dashboard() {
                 onClose={() => setReportModalState(prev => ({ ...prev, isOpen: false }))}
                 onSuccess={() => queryClient.invalidateQueries({ queryKey: ['active-curriculum', familyId] })}
             />
+
+            <AccessControlModal
+                isOpen={accessControlState.isOpen}
+                onClose={() => setAccessControlState(prev => ({ ...prev, isOpen: false }))}
+                learnerId={accessControlState.learnerId}
+                learnerName={accessControlState.learnerName}
+            />
         </div>
     );
 }
