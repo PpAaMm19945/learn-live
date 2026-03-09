@@ -103,6 +103,17 @@ export class ExplainerClient {
     }
 
     private handleMessage(data: any) {
+        // Atomic audio+canvas payloads (Task 13.7)
+        if (data.type === 'atomic') {
+            this.syncEngine.enqueue({
+                seqId: data.seqId ?? 0,
+                audio: data.audio ?? null,
+                ops: data.ops ?? [],
+                timestamp: Date.now(),
+            });
+            return;
+        }
+
         // Canvas tool calls from agent
         if (data.type === 'canvas_ops') {
             this.callbacks.onCanvasOps(data.ops as CanvasOperation[]);
