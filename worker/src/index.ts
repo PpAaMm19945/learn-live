@@ -5,9 +5,10 @@ import { generateTask, generateSystemInstruction } from './lib/taskGen';
 import { generateDiagram } from './lib/nanoBanana';
 import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
 import { generateParentPrimer } from './lib/parentPrimer';
-import { checkAIPermission, enforceAIPermission } from './lib/aiPermissions';
+import { checkAIPermission } from './lib/aiPermissions';
 import { getOrCreateWeeklyPlan, completeWeeklyTask } from './lib/weeklyPlan';
 import { getEnrichedTask } from './lib/enrichTask';
+import { evaluateEvidence } from './lib/evaluateEvidence';
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
 
