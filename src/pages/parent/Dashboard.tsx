@@ -215,7 +215,7 @@ export default function Dashboard() {
     const [isPatternOpen, setIsPatternOpen] = useState(false);
     const [accessControlState, setAccessControlState] = useState({ isOpen: false, learnerId: '', learnerName: '' });
 
-    const selectedPlanForLearner = plans.find(p => p.learner_id === activeLearner);
+    
 
     return (
         <div className="flex flex-col sm:flex-row h-screen bg-background text-foreground overflow-hidden">
