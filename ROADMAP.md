@@ -91,13 +91,13 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 9: Parent-Primary UI & Evidence Capture
 *Focus: Parent-facing app with four witness modes. Async AI as the workhorse, Live AI as premium option.*
 
-*   **[ ] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
+*   **[x] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
 *   **[x] Task 9.2:** Build the **Parent Task View** — display constraint prompt as parent guidance (what to ask, what to look for, success/failure conditions). Two optional buttons: "Capture Evidence (Photo + Audio)" and "Invoke Live AI Witness." *(Done: `ParentTaskCard.tsx` wired into `Dashboard.tsx`)*
-*   **[ ] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path.
+*   **[x] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path. *(Done: `ParentReportModal.tsx`)*
 *   **[x] Task 9.4:** Build **Async AI Evidence Capture** — parent takes a photo of the child's work + records a 10-second audio clip of the child explaining. This is batched, sent to AI asynchronously, AI drafts a report. Parent reviews and edits before submission. This is the primary AI witness mode — lower cost, lower bandwidth, more reliable than live. *(Done: `AsyncEvidenceModal.tsx` handles capture; mock submit wired)*
-*   **[ ] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
-*   **[ ] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
-*   **[ ] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
+*   **[x] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
+*   **[x] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
+*   **[x] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
 
 ## Phase 10: Curriculum Spine Integration
 *Focus: Loading the Mathematics Curriculum Spine into the data model. Spine feeds constraint prompts to parents (and optionally AI). Includes DAG engine, repetition arc, and split judgment.*
