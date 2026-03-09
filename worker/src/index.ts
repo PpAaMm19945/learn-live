@@ -730,6 +730,85 @@ Do not use markdown blocks.`;
             }
         }
 
+        // ========== TASK GENERATION ENGINE (10.3) ==========
+        const genTaskMatch = url.pathname.match(/^\/api\/learner\/([^/]+)\/generate-task$/);
+        if (genTaskMatch && request.method === 'POST') {
+            const learnerId = genTaskMatch[1];
+            try {
+                const body: any = await request.json();
+                const { capacityId } = body;
+
+                if (!capacityId) {
+                    return new Response(JSON.stringify({ error: 'capacityId required' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Check DAG access
+                const dagResult = await resolveDependencies(env.DB, learnerId, capacityId);
+                if (!dagResult.canAccess) {
+                    return new Response(JSON.stringify({
+                        error: 'Prerequisites not met',
+                        blockedBy: dagResult.blockedBy,
+                        suggestedAlternatives: dagResult.suggestedAlternatives,
+                    }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+                }
+
+                // Get learner's arc state
+                const state: any = await env.DB.prepare(`
+                    SELECT * FROM Learner_Repetition_State
+                    WHERE learner_id = ? AND capacity_id = ?
+                `).bind(learnerId, capacityId).first();
+
+                if (!state) {
+                    return new Response(JSON.stringify({ error: 'No state for this capacity' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Get capacity name
+                const capacity: any = await env.DB.prepare('SELECT name FROM Capacities WHERE id = ?').bind(capacityId).first();
+
+                // Get a template at the right cognitive level
+                const template: any = await env.DB.prepare(`
+                    SELECT * FROM Constraint_Templates
+                    WHERE capacity_id = ? AND cognitive_level = ?
+                    ORDER BY RANDOM() LIMIT 1
+                `).bind(capacityId, state.current_cognitive_level).first();
+
+                if (!template) {
+                    return new Response(JSON.stringify({ error: 'No template found for this level' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                const task = generateTask(
+                    template,
+                    capacity?.name || capacityId,
+                    state.current_arc_stage,
+                    state.current_cognitive_level
+                );
+
+                // Get learner info for AI system instruction
+                const learner: any = await env.DB.prepare('SELECT name, birth_date FROM Learners WHERE id = ?').bind(learnerId).first();
+                const age = learner?.birth_date
+                    ? Math.floor((Date.now() - new Date(learner.birth_date).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+                    : 7;
+
+                const systemInstruction = generateSystemInstruction(task, learner?.name || 'Learner', age);
+
+                return new Response(JSON.stringify({ task, systemInstruction }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+
+            } catch (error: any) {
+                console.error('[API GenTask Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to generate task', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
         // Default 404
         return new Response(JSON.stringify({ error: 'Not found' }), {
             status: 404,
