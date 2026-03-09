@@ -125,7 +125,7 @@ export default function Dashboard() {
         failureCondition: '',
     });
 
-    const { data: judgmentsData, isLoading: isJudgmentsLoading } = useQuery({
+    const { data: judgmentsData } = useQuery({
         queryKey: ['pending-judgments', familyId],
         queryFn: async () => {
             if (!familyId) return { judgments: [] };
