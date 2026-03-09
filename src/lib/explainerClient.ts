@@ -1,8 +1,5 @@
 import { Logger } from '@/lib/Logger';
-
-/**
- * Canvas element types the Explainer Agent can create/manipulate.
- */
+import { AudioCanvasSync } from '@/lib/audioCanvasSync';
 export interface CanvasElement {
     id: string;
     type: 'block' | 'text' | 'image' | 'shape' | 'group' | 'diagram';
