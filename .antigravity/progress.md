@@ -99,9 +99,9 @@
 *   [x] **Task 10.5:** Repetition Arc engine (`worker/src/lib/arc.ts`) — Exposure→Execution→Endurance→Milestone with cognitive level progression.
 *   [x] **Task 10.6:** Noise injection for Endurance tasks — distractor elements injected into parent prompts.
 *   [x] **Task 10.7:** Cross-strand Milestone tasks — unlabeled combined challenges.
-*   [ ] **Task 10.8:** Split Judgment model for Band 4–5.
-*   [ ] **Task 10.9:** Parent Primers for Band 3+.
-*   [ ] **Task 10.10:** AI Permission Rule enforcement.
+*   [x] **Task 10.8:** Split Judgment model for Band 4–5. *(Done: `worker/src/lib/splitJudgment.ts` + `/api/portfolio/:id/split-judge` endpoint)*
+*   [x] **Task 10.9:** Parent Primers for Band 3+. *(Done: `worker/src/lib/parentPrimer.ts` + `/api/primer/:templateId` endpoint)*
+*   [x] **Task 10.10:** AI Permission Rule enforcement. *(Done: `worker/src/lib/aiPermissions.ts` + `/api/learner/:id/ai-permission/:capacityId` endpoint)*
 
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).

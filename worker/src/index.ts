@@ -2,6 +2,9 @@ import { r2Helper } from './lib/r2';
 import { advanceArc } from './lib/arc';
 import { resolveDependencies } from './lib/dag';
 import { generateTask, generateSystemInstruction } from './lib/taskGen';
+import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
+import { generateParentPrimer } from './lib/parentPrimer';
+import { checkAIPermission, enforceAIPermission } from './lib/aiPermissions';
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
 
@@ -804,6 +807,204 @@ Do not use markdown blocks.`;
             } catch (error: any) {
                 console.error('[API GenTask Error]', error);
                 return new Response(JSON.stringify({ error: 'Failed to generate task', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== FAMILY PROFILES (Task 2.2a) ==========
+        const familyProfilesMatch = url.pathname.match(/^\/api\/family\/([^/]+)\/profiles$/);
+        if (familyProfilesMatch && request.method === 'GET') {
+            const familyId = familyProfilesMatch[1];
+            try {
+                console.log(`[DB] Fetching profiles for family: ${familyId}`);
+
+                const family: any = await env.DB.prepare('SELECT id, name, parent_email FROM Families WHERE id = ?').bind(familyId).first();
+                if (!family) {
+                    return new Response(JSON.stringify({ error: 'Family not found' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                const { results: learners } = await env.DB.prepare(
+                    'SELECT id, name, birth_date, created_at FROM Learners WHERE family_id = ? ORDER BY created_at ASC'
+                ).bind(familyId).all();
+
+                // Get active capacity counts per learner
+                const profiles = await Promise.all(learners.map(async (learner: any) => {
+                    const capStats: any = await env.DB.prepare(`
+                        SELECT 
+                            COUNT(*) as total_capacities,
+                            SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) as active,
+                            SUM(CASE WHEN status = 'completed' THEN 1 ELSE 0 END) as completed
+                        FROM Learner_Repetition_State WHERE learner_id = ?
+                    `).bind(learner.id).first();
+
+                    return {
+                        ...learner,
+                        active_capacities: capStats?.active || 0,
+                        completed_capacities: capStats?.completed || 0,
+                        total_capacities: capStats?.total_capacities || 0,
+                    };
+                }));
+
+                return new Response(JSON.stringify({ family, profiles }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[DB] [FamilyProfiles Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to fetch profiles', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== PARENT PRIMER (Task 10.9) ==========
+        const primerMatch = url.pathname.match(/^\/api\/primer\/([^/]+)$/);
+        if (primerMatch && request.method === 'GET') {
+            const templateId = primerMatch[1];
+            try {
+                const template: any = await env.DB.prepare(`
+                    SELECT ct.*, c.name as capacity_name, c.band_id
+                    FROM Constraint_Templates ct
+                    JOIN Capacities c ON ct.capacity_id = c.id
+                    WHERE ct.id = ?
+                `).bind(templateId).first();
+
+                if (!template) {
+                    return new Response(JSON.stringify({ error: 'Template not found' }), {
+                        status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                const primer = await generateParentPrimer(
+                    env.GEMINI_API_KEY,
+                    template.capacity_name,
+                    template.task_type,
+                    template.success_condition,
+                    template.cognitive_level,
+                    template.band_id,
+                );
+
+                return new Response(JSON.stringify({ primer, bandId: template.band_id }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[API Primer Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to generate primer', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== AI PERMISSION CHECK (Task 10.10) ==========
+        const aiPermMatch = url.pathname.match(/^\/api\/learner\/([^/]+)\/ai-permission\/([^/]+)$/);
+        if (aiPermMatch && request.method === 'GET') {
+            const learnerId = aiPermMatch[1];
+            const capacityId = aiPermMatch[2];
+            try {
+                const permission = await checkAIPermission(env.DB, learnerId, capacityId);
+                return new Response(JSON.stringify({ permission }), {
+                    status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            } catch (error: any) {
+                console.error('[API AIPermission Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to check AI permission', details: error.message }), {
+                    status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+        }
+
+        // ========== SPLIT JUDGMENT (Task 10.8) ==========
+        const splitJudgeMatch = url.pathname.match(/^\/api\/portfolio\/([^/]+)\/split-judge$/);
+        if (splitJudgeMatch && request.method === 'POST') {
+            if (!isAuthorized(request, env)) {
+                return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                });
+            }
+
+            const portfolioId = splitJudgeMatch[1];
+            try {
+                const body: any = await request.json();
+                const { learnerId, formationVerdict, formationNotes, evidenceDescription, imageBase64 } = body;
+
+                if (!learnerId || !formationVerdict) {
+                    return new Response(JSON.stringify({ error: 'Missing learnerId or formationVerdict' }), {
+                        status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                    });
+                }
+
+                // Get learner's band to determine judgment mode
+                const learner: any = await env.DB.prepare(`
+                    SELECT l.id, l.birth_date FROM Learners l WHERE l.id = ?
+                `).bind(learnerId).first();
+
+                // Determine band from active capacity
+                const activeState: any = await env.DB.prepare(`
+                    SELECT lrs.capacity_id, c.band_id FROM Learner_Repetition_State lrs
+                    JOIN Capacities c ON lrs.capacity_id = c.id
+                    WHERE lrs.learner_id = ? AND lrs.status IN ('active', 'awaiting_judgment')
+                    LIMIT 1
+                `).bind(learnerId).first();
+
+                const bandId = activeState?.band_id || 'Band_2';
+                const mode = getSplitJudgmentMode(bandId);
+
+                let aiVerdict: any = null;
+                if (mode === 'split' && env.GEMINI_API_KEY) {
+                    // Get template for competence evaluation
+                    const portfolio: any = await env.DB.prepare('SELECT task_id FROM Portfolios WHERE id = ?').bind(portfolioId).first();
+                    const template: any = portfolio?.task_id
+                        ? await env.DB.prepare(`
+                            SELECT ct.success_condition, ct.failure_condition, ct.reasoning_check
+                            FROM Constraint_Templates ct
+                            JOIN Learner_Repetition_State lrs ON ct.capacity_id = lrs.capacity_id AND ct.cognitive_level = lrs.current_cognitive_level
+                            WHERE lrs.learner_id = ? AND lrs.status IN ('active', 'awaiting_judgment')
+                            LIMIT 1
+                          `).bind(learnerId).first()
+                        : null;
+
+                    if (template) {
+                        aiVerdict = await evaluateCompetence(
+                            env.GEMINI_API_KEY,
+                            template.success_condition,
+                            template.failure_condition || '',
+                            template.reasoning_check,
+                            evidenceDescription || '',
+                            imageBase64,
+                        );
+                    }
+                }
+
+                // Final verdict: in split mode, both must pass
+                const competencePassed = mode === 'full_parent' || (aiVerdict?.verdict === 'pass');
+                const formationPassed = formationVerdict === 'approved';
+                const finalStatus = competencePassed && formationPassed ? 'approved' : 'rejected';
+
+                // Update portfolio
+                await env.DB.prepare(`
+                    UPDATE Portfolios SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?
+                `).bind(finalStatus, portfolioId).run();
+
+                // Progress arc if approved
+                if (finalStatus === 'approved' && activeState?.capacity_id) {
+                    const arcResult = await advanceArc(env.DB, learnerId, activeState.capacity_id);
+                    console.log(`[SplitJudge] ${arcResult.message}`);
+                }
+
+                return new Response(JSON.stringify({
+                    success: true,
+                    mode,
+                    finalStatus,
+                    aiCompetence: aiVerdict,
+                    formationVerdict,
+                    formationNotes,
+                }), { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } });
+
+            } catch (error: any) {
+                console.error('[API SplitJudge Error]', error);
+                return new Response(JSON.stringify({ error: 'Failed to process split judgment', details: error.message }), {
                     status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                 });
             }

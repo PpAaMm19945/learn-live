@@ -46,11 +46,11 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 4: The Agent Engine & Gemini Live Integration
 *Focus: The heavy lifting for the Hackathon—bridging GCP and Gemini.*
-*   **Task 4.1:** Scaffold Google Cloud Run microservice (Node.js/Python) with WebSocket support.
-*   **Task 4.2:** Integrate Google GenAI SDK / ADK to handle bidirectional audio and video streaming.
-*   **Task 4.3:** Create the dynamic Prompt Injection pipeline (fetching the strict JSON constraints from D1 and feeding them as `systemInstruction` to Gemini).
-*   **Task 4.4:** Validate constraint JSON before sending to Gemini — ensure the cell structure from D1 is well-formed (has required fields: `constraint_to_enforce`, `failure_condition`, `success_condition`, `role`). Log malformed constraints and block the session from starting with a clear error.
-*   **Task 4.5:** Implement Gemini API rate limiting and cost controls. The Blueprint emphasizes cost sensitivity — add per-family daily session limits, track API token usage, and alert when approaching budget thresholds. Log all API costs.
+*   **[x] Task 4.1:** Scaffold Google Cloud Run microservice (Node.js/Python) with WebSocket support.
+*   **[x] Task 4.2:** Integrate Google GenAI SDK / ADK to handle bidirectional audio and video streaming.
+*   **[x] Task 4.3:** Create the dynamic Prompt Injection pipeline (fetching the strict JSON constraints from D1 and feeding them as `systemInstruction` to Gemini).
+*   **[x] Task 4.4:** Validate constraint JSON before sending to Gemini — ensure the cell structure from D1 is well-formed (has required fields: `constraint_to_enforce`, `failure_condition`, `success_condition`, `role`). Log malformed constraints and block the session from starting with a clear error.
+*   **[x] Task 4.5:** Implement Gemini API rate limiting and cost controls. The Blueprint emphasizes cost sensitivity — add per-family daily session limits, track API token usage, and alert when approaching budget thresholds. Log all API costs.
 
 ## Phase 5: The "Evidence Witness" Execution Flow
 *Focus: Binding the frontend camera/mic to the Gemini Live agent in real-time.*
@@ -63,11 +63,11 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 
 ## Phase 6: Assessment Logging & Evidence Portfolio
 *Focus: Packaging the session into immutable proof of formation.*
-*   **Task 6.1:** Generate session transcripts and AI confidence summaries.
-*   **Task 6.2:** Capture visual snapshots of the submitted work during the session.
-*   **Task 6.3:** Transmit and save all artifacts to Cloudflare R2.
-*   **Task 6.4:** Update D1 to flag the current task milestone as "Awaiting Judgment."
-*   **Task 6.5:** Build a lightweight learner-facing portfolio view — while the parent holds judgment authority, the Philosophy doc (Section 36-37) affirms portfolios as a "testimony of formation." Learners should see their own completed work history (read-only, no scores/grades).
+*   **[x] Task 6.1:** Generate session transcripts and AI confidence summaries.
+*   **[x] Task 6.2:** Capture visual snapshots of the submitted work during the session.
+*   **[x] Task 6.3:** Transmit and save all artifacts to Cloudflare R2.
+*   **[x] Task 6.4:** Update D1 to flag the current task milestone as "Awaiting Judgment."
+*   **[x] Task 6.5:** Build a lightweight learner-facing portfolio view — while the parent holds judgment authority, the Philosophy doc (Section 36-37) affirms portfolios as a "testimony of formation." Learners should see their own completed work history (read-only, no scores/grades).
 
 ## Phase 7: Parent Review & Progression Mechanics
 *Focus: Human authority finalizing the loop.*
@@ -75,14 +75,14 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
 *   **[x] Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
 *   **[x] Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
-*   **[ ] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
-*   **[ ] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
+*   **[x] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
+*   **[x] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
 
 ## Phase 8: Hackathon Polish, Scripts, & Submission
 *Focus: Ensuring we ace the Devpost checklist.*
 *   **[x] Task 8.1:** Write and test spin-up instructions & automated deployment scripts (`deploy.sh`).
 *   **[x] Task 8.2:** Generate the final Architecture Diagram.
-*   **Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
+*   **[ ] Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
 *   **[x] Task 8.4:** Final audit of all codebase logs to ensure they narrate the app's behavior clearly.
 *   **[x] Task 8.5:** Set up CI/CD pipeline or at minimum a reproducible deployment script that judges can run. The Devpost checklist requires "spin-up instructions" — test these from a clean environment to ensure nothing is assumed.
 *   **[x] Task 8.6:** Write the blog post for bonus points (African-centric, faith-rooted AI platform on Google Cloud). Link GDG profile.
@@ -91,27 +91,27 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 9: Parent-Primary UI & Evidence Capture
 *Focus: Parent-facing app with four witness modes. Async AI as the workhorse, Live AI as premium option.*
 
-*   **[ ] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
+*   **[x] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
 *   **[x] Task 9.2:** Build the **Parent Task View** — display constraint prompt as parent guidance (what to ask, what to look for, success/failure conditions). Two optional buttons: "Capture Evidence (Photo + Audio)" and "Invoke Live AI Witness." *(Done: `ParentTaskCard.tsx` wired into `Dashboard.tsx`)*
-*   **[ ] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path.
+*   **[x] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path. *(Done: `ParentReportModal.tsx`)*
 *   **[x] Task 9.4:** Build **Async AI Evidence Capture** — parent takes a photo of the child's work + records a 10-second audio clip of the child explaining. This is batched, sent to AI asynchronously, AI drafts a report. Parent reviews and edits before submission. This is the primary AI witness mode — lower cost, lower bandwidth, more reliable than live. *(Done: `AsyncEvidenceModal.tsx` handles capture; mock submit wired)*
-*   **[ ] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
-*   **[ ] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
-*   **[ ] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
+*   **[x] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
+*   **[x] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
+*   **[x] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
 
 ## Phase 10: Curriculum Spine Integration
 *Focus: Loading the Mathematics Curriculum Spine into the data model. Spine feeds constraint prompts to parents (and optionally AI). Includes DAG engine, repetition arc, and split judgment.*
 
 *   **[x] Task 10.1:** Extend the D1 schema to support: Strands, Capacities (with DAG dependencies including shared cross-strand nodes), Cognitive Levels, Developmental Bands, Constraint Templates, and Repetition Arc state per learner per capacity. *(Done in `db/schema.sql`)*
 *   **[x] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files. *(Done: 377 templates from 5 JSON files deployed to production D1)*
-*   **[ ] Task 10.3:** Implement the **task generation engine** — reads a spine cell + constraint template, randomizes parameters, produces a task instance with parent-facing prompt and AI-facing systemInstruction.
-*   **[ ] Task 10.4:** Build the **DAG dependency resolver** with cross-strand support — a learner can't access a Capacity until prerequisites are met, but can advance in other strands (no deadlocks). Lateral movement suggested when blocked.
-*   **[ ] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled).
-*   **[ ] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements.
-*   **[ ] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested.
-*   **[ ] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation.
-*   **[ ] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math.
-*   **[ ] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access.
+*   **[x] Task 10.3:** Implement the **task generation engine** — reads a spine cell + constraint template, randomizes parameters, produces a task instance with parent-facing prompt and AI-facing systemInstruction. *(Done: `worker/src/lib/taskGen.ts`)*
+*   **[x] Task 10.4:** Build the **DAG dependency resolver** with cross-strand support — a learner can't access a Capacity until prerequisites are met, but can advance in other strands (no deadlocks). Lateral movement suggested when blocked. *(Done: `worker/src/lib/dag.ts`)*
+*   **[x] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled). *(Done: `worker/src/lib/arc.ts`)*
+*   **[x] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements.
+*   **[x] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested.
+*   **[x] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation. *(Done: `worker/src/lib/splitJudgment.ts`)*
+*   **[x] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math. *(Done: `worker/src/lib/parentPrimer.ts`)*
+*   **[x] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access. *(Done: `worker/src/lib/aiPermissions.ts`)*
 
 ## Phase 11: Child Portal & Gradual Handoff
 *Focus: Building the optional child-facing portal with parent-controlled access levels and split judgment integration.*
@@ -137,12 +137,12 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 ## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
 *Focus: A separate Live Agent mode that explains tasks and teaches concepts via a real-time digital whiteboard. Targets the "Creative Storyteller" hackathon category alongside the "Live Agents" Evidence Witness.*
 
-*   **[ ] Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard component with framer-motion animations, scene/layer management, and a pluggable element registry (CountingBlock, StoryCard, DiagramNode).
-*   **[ ] Task 13.2:** Build `ExplainerClient.ts` — frontend WebSocket bridge for the Explainer Agent. Handles voice playback (PCM audio queue) + canvas tool call parsing + audio-canvas sync via atomic payloads.
-*   **[ ] Task 13.3:** Add `/v1/agent/explainer` endpoint to Cloud Run agent — separate from Evidence Witness. Gemini Live bidi-streaming with canvas tool declarations: `show_element`, `animate_element`, `remove_element`, `clear_canvas`, `generate_diagram`.
-*   **[ ] Task 13.4:** Build learner-context-rich system prompts — inject learner name, age, band, strand, known capacities, prior struggles from D1. The agent must adapt vocabulary and examples to the child.
+*   **[x] Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard component with framer-motion animations, scene/layer management, and a pluggable element registry (CountingBlock, StoryCard, DiagramNode).
+*   **[x] Task 13.2:** Build `ExplainerClient.ts` — frontend WebSocket bridge for the Explainer Agent. Handles voice playback (PCM audio queue) + canvas tool call parsing + audio-canvas sync via atomic payloads.
+*   **[x] Task 13.3:** Add `/v1/agent/explainer` endpoint to Cloud Run agent — separate from Evidence Witness. Gemini Live bidi-streaming with canvas tool declarations: `show_element`, `animate_element`, `remove_element`, `clear_canvas`, `generate_diagram`.
+*   **[x] Task 13.4:** Build learner-context-rich system prompts — inject learner name, age, band, strand, known capacities, prior struggles from D1. The agent must adapt vocabulary and examples to the child.
 *   **[ ] Task 13.5:** Build Math counting/blocks demo — SVG blocks that appear, animate, group, and count as the agent narrates. Pre-built visual primitives for speed, with Nano Banana (`gemini-2.5-flash-image`) fallback for novel diagrams.
-*   **[ ] Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
+*   **[x] Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
 *   **[ ] Task 13.7:** Build audio-canvas sync — agent emits `{ narration, canvas_ops }` atomically. Frontend holds canvas ops until corresponding audio chunk plays.
 *   **[ ] Task 13.8:** Build demo mode — recorded WebSocket playback as fallback if live API is unavailable during judging.
 *   **[ ] Task 13.9:** Integrate Nano Banana image generation for on-demand diagrams (lower priority than voice + canvas).
