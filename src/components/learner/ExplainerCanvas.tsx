@@ -296,12 +296,17 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
         onClose();
     };
 
-    if (status === 'error') {
+    if (status === 'error' && !isDemoMode) {
         return (
             <div className="fixed inset-0 z-50 bg-background flex flex-col items-center justify-center p-6 text-center">
                 <h2 className="text-3xl font-bold text-destructive mb-4">Explainer Disconnected</h2>
-                <p className="text-xl text-muted-foreground mb-8">{errorMessage}</p>
-                <Button onClick={onClose} size="lg">Return to Tasks</Button>
+                <p className="text-xl text-muted-foreground mb-6">{errorMessage}</p>
+                <div className="flex gap-3">
+                    <Button onClick={startDemoMode} size="lg" className="gap-2">
+                        <Play className="w-5 h-5" /> Try Demo Mode
+                    </Button>
+                    <Button onClick={onClose} size="lg" variant="outline">Return to Tasks</Button>
+                </div>
             </div>
         );
     }
