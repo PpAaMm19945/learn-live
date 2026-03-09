@@ -1228,14 +1228,20 @@ Do not use markdown blocks.`;
                 }
 
                 for (const child of children) {
-                    if (!child.name || typeof child.age !== 'number' || child.age < 6 || child.age > 9) {
-                        return new Response(JSON.stringify({ error: 'Each child needs a name and age between 6-9' }), {
+                    if (!child.name || typeof child.name !== 'string' || child.name.trim().length < 1 || child.name.trim().length > 50) {
+                        return new Response(JSON.stringify({ error: 'Each child needs a name (1-50 chars)' }), {
+                            status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+                        });
+                    }
+                    if (typeof child.age !== 'number' || child.age < 6 || child.age > 9) {
+                        return new Response(JSON.stringify({ error: 'Each child must be 6-9 years old for Band 2 pilot' }), {
                             status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' }
                         });
                     }
                 }
 
-                const familyCode = 'LL-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+                // P1: Generate 8-character family code (increased from 4 for security)
+                const familyCode = 'LL-' + Math.random().toString(36).substring(2, 8).toUpperCase();
                 const familyId = `family_${familyCode.toLowerCase().replace('-', '_')}`;
                 const placeholderEmail = `${familyId}@pilot.learnlive.app`;
 
