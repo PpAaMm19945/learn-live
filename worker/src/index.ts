@@ -2,6 +2,9 @@ import { r2Helper } from './lib/r2';
 import { advanceArc } from './lib/arc';
 import { resolveDependencies } from './lib/dag';
 import { generateTask, generateSystemInstruction } from './lib/taskGen';
+import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
+import { generateParentPrimer } from './lib/parentPrimer';
+import { checkAIPermission, enforceAIPermission } from './lib/aiPermissions';
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
 
