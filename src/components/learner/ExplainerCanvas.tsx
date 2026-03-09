@@ -260,7 +260,7 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                             const apiUrl = import.meta.env.VITE_WORKER_URL || '';
                             fetch(`${apiUrl}/api/generate-diagram`, {
                                 method: 'POST',
-                                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer development_secret_token' },
+                                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${import.meta.env.VITE_API_AUTH_TOKEN || ''}` },
                                 body: JSON.stringify({ prompt: op.diagramPrompt }),
                             })
                                 .then(r => r.json())

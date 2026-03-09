@@ -207,6 +207,11 @@ export async function handleExplainerSession(
         console.log(`[EXPLAINER] Session closed — learner: ${learnerId}`);
         gemini.close();
     });
+
+    ws.on('error', (err: Error) => {
+        console.error(`[EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
+        gemini.close();
+    });
 }
 
 function mapToolCallToCanvasOp(name: string, args: any): any | null {
