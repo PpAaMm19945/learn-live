@@ -49,6 +49,7 @@ export class ExplainerClient {
     private scriptNode: ScriptProcessorNode | null = null;
     private audioQueue: AudioBuffer[] = [];
     private isProcessingAudio = false;
+    private syncEngine: AudioCanvasSync;
 
     constructor(
         private taskId: string,
