@@ -56,7 +56,13 @@ export class ExplainerClient {
         private familyId: string,
         private learnerId: string,
         private callbacks: ExplainerCallbacks
-    ) { }
+    ) {
+        // Initialize audio-canvas sync engine (Task 13.7)
+        this.syncEngine = new AudioCanvasSync(
+            (ops) => this.callbacks.onCanvasOps(ops),
+            (base64) => this.playAudioAsync(base64),
+        );
+    }
 
     connect(): Promise<void> {
         return new Promise((resolve, reject) => {
