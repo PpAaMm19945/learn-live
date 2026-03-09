@@ -64,7 +64,7 @@ interface WeeklyPlan {
 }
 
 const DAY_NAMES = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-const DAY_SHORT = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
 
 const SUBJECT_ICONS: Record<string, string> = {
     'Number & Quantity': '📐',
