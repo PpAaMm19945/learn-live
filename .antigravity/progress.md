@@ -61,6 +61,8 @@
 *   [x] **Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
 *   [x] **Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
 *   [x] **Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment.
+*   [x] **Task 7.5:** Build pattern tracking dashboard — learner stats, approval rate, revision rate, AI confidence, recent activity history.
+*   [x] **Task 7.6:** Build revision flow — RevisionModal with parent notes, worker re-queues tasks, revision context stored.
 
 ## Phase 8: Hackathon Polish, Scripts, & Submission
 *   [x] **Task 8.1:** Write and test spin-up instructions & automated deployment scripts.
