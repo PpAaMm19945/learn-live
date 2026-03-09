@@ -199,8 +199,37 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
                         }
                         break;
                     case 'generate_diagram':
-                        // TODO: Phase 13.9 — call Nano Banana via edge function
+                        // Task 13.9 — call Nano Banana via worker endpoint
                         Logger.info('[EXPLAINER]', 'Diagram generation requested', { prompt: op.diagramPrompt });
+                        if (op.diagramPrompt) {
+                            const apiUrl = import.meta.env.VITE_WORKER_URL || '';
+                            fetch(`${apiUrl}/api/generate-diagram`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json', Authorization: 'Bearer development_secret_token' },
+                                body: JSON.stringify({ prompt: op.diagramPrompt }),
+                            })
+                                .then(r => r.json())
+                                .then(data => {
+                                    if (data.imageUrl) {
+                                        setElements(prev2 => {
+                                            const n = new Map(prev2);
+                                            n.set(`diagram_${Date.now()}`, {
+                                                id: `diagram_${Date.now()}`,
+                                                type: 'image',
+                                                x: op.element?.x ?? 200,
+                                                y: op.element?.y ?? 200,
+                                                width: 250,
+                                                height: 250,
+                                                content: data.imageUrl,
+                                                opacity: 1,
+                                                scale: 1,
+                                            } as CanvasElement);
+                                            return n;
+                                        });
+                                    }
+                                })
+                                .catch(err => Logger.error('[EXPLAINER]', 'Diagram gen failed', { err }));
+                        }
                         break;
                 }
             }
