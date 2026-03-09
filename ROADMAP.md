@@ -109,9 +109,9 @@ This roadmap outlines the phased development of the Learn Live application. Our 
 *   **[x] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled). *(Done: `worker/src/lib/arc.ts`)*
 *   **[x] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements.
 *   **[x] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested.
-*   **[ ] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation.
-*   **[ ] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math.
-*   **[ ] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access.
+*   **[x] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation. *(Done: `worker/src/lib/splitJudgment.ts`)*
+*   **[x] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math. *(Done: `worker/src/lib/parentPrimer.ts`)*
+*   **[x] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access. *(Done: `worker/src/lib/aiPermissions.ts`)*
 
 ## Phase 11: Child Portal & Gradual Handoff
 *Focus: Building the optional child-facing portal with parent-controlled access levels and split judgment integration.*
