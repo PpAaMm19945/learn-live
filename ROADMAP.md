@@ -1,171 +1,206 @@
-# Learn Live: Master Development Roadmap
+# Learn Live: African History Curriculum — Development Roadmap
 
-This roadmap outlines the phased development of the Learn Live application. Our methodology ensures rigorous testing and verification before advancing to the next phase. All components will feature deeply embedded markers and robust console logging to track state, flow, and constraints transparently.
-
-## Philosophical & Architecture Alignment
-*   **Goal:** Form faithful, responsible adults through structured friction and real-world task execution.
-*   **Role of AI:** "Evidence Witness" & "Steward of Structure" — it enforces constraints and logs evidence, but possesses no moral authority.
-*   **Tech Stack:** 
-    *   **Frontend:** React, Vite, Tailwind CSS (Cloudflare Pages)
-    *   **Backend / AI Bridge:** Google Cloud Run (Node.js/Python) bridging Gemini Live API
-    *   **Data & Storage:** Cloudflare D1 (Relational) & R2 (Evidence/Portfolio)
+> **Pivot Note (March 2026):** Learn Live is pivoting from a general-purpose math curriculum platform to a focused **African History curriculum** adapted for all ages. The core philosophy remains: *AI as Witness, not Authority — Parents hold sovereignty.* The math curriculum engine, DAG system, and constraint templates are archived (not deleted) for future reuse. The previous roadmap is preserved in `docs/archive/ROADMAP_v1.md`.
 
 ---
 
-## Phase 1: Foundation, Infrastructure, & Core Utilities
-*Focus: Setting up the skeleton, routing, database schemas, and the robust logging infrastructure.*
-*   **[x] Task 1.1:** Scaffold React/Vite frontend with Tailwind CSS (Dark Mode, Spartan design system).
-*   **[x] Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend (capturing trace, debug, info, warn, error with timestamps and context markers).
-*   **[x] Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
-*   **[x] Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
-*   **[x] Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions (for future evidence snapshots and transcripts).
-*   **[x] Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend (request/response shapes, auth headers, WebSocket message protocol). Document in `docs/API_Contract.md`.
-*   **[x] Task 1.7:** Set up environment & secrets management (Gemini API keys, GCP service account credentials, D1 bindings, R2 tokens). Document which secrets are needed and where they live.
-*   **[x] Task 1.8:** Design the 3D Responsibility Matrix schema in detail — map the X (Arena), Y (Capacity/Level), and Z (Repetition Arc) axes to concrete D1 tables and relationships. Validate the JSON Cell Structure from the Blueprint against the schema. Document in `docs/Matrix_Schema.md`.
+## Vision
 
-## Phase 2: Authentication, State, & Data Access
-*Focus: Secure access, distinguishing role authorities, and populating the educational matrix.*
-*   **[x] Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
-    *   **[x] Task 2.1a:** Persist auth state across refreshes (Zustand persist middleware with sessionStorage).
-*   **[x] Task 2.2:** Build out the Parent Command Center (Dashboard shell, fetching family state). *(Scaffolded/mocked — will fetch live data when Worker endpoints are wired.)*
-    *   **[x] Task 2.2a:** Fetch family profiles from D1 (`GET /api/family/:id/profiles`).
-*   **[x] Task 2.3:** Implement Global State Management (e.g., Zustand or Context) with embedded state-change logging.
-*   **[x] Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix (specifically the Language & Literacy "Narrative Sequencing" constraints for the MVP).
-*   **[x] Task 2.5:** Implement multi-learner profile switching on a shared device.
-*   **[x] Task 2.6:** Build a role-based access guard — ensure learners cannot access parent dashboard routes, and parents see the correct dashboard for the active family. Log all role transitions.
-*   **[x] Task 2.7:** Configure production API URL via `VITE_API_URL` environment variable.
+**One deeply researched African History source, AI-adapted for any age — from picture books to university prep.**
 
-## Phase 3: The Learner Interface & Task Selection
-*Focus: The "Spartan" environment where children execute tasks.*
-*   **[x] Task 3.1:** Build the Learner UI Shell (Distraction-free, pure focus). Must be mobile-first / tablet-optimized — the Blueprint specifies families often use a single phone or tablet. Test at 768px, 414px, and 360px widths.
-*   **[x] Task 3.2:** Display active/stalled tasks for the specific learner based on their current arc stage.
-*   **[x] Task 3.3:** Build the "Witness Button" and task briefing component (pre-AI interaction screen).
-*   **[x] Task 3.4:** Build a camera/microphone permissions flow with clear, child-friendly consent prompts. Handle denied permissions gracefully (explain what’s needed and why, offer retry). This is critical since the app accesses camera/mic for minors.
-*   **[x] Task 3.5:** Add React Error Boundary wrapper for graceful crash handling.
-*   **[x] Task 3.6:** Wire offline detection to `uiStore.isOffline` for low-bandwidth resilience.
-
-## Phase 4: The Agent Engine & Gemini Live Integration
-*Focus: The heavy lifting for the Hackathon—bridging GCP and Gemini.*
-*   **[x] Task 4.1:** Scaffold Google Cloud Run microservice (Node.js/Python) with WebSocket support.
-*   **[x] Task 4.2:** Integrate Google GenAI SDK / ADK to handle bidirectional audio and video streaming.
-*   **[x] Task 4.3:** Create the dynamic Prompt Injection pipeline (fetching the strict JSON constraints from D1 and feeding them as `systemInstruction` to Gemini).
-*   **[x] Task 4.4:** Validate constraint JSON before sending to Gemini — ensure the cell structure from D1 is well-formed (has required fields: `constraint_to_enforce`, `failure_condition`, `success_condition`, `role`). Log malformed constraints and block the session from starting with a clear error.
-*   **[x] Task 4.5:** Implement Gemini API rate limiting and cost controls. The Blueprint emphasizes cost sensitivity — add per-family daily session limits, track API token usage, and alert when approaching budget thresholds. Log all API costs.
-
-## Phase 5: The "Evidence Witness" Execution Flow
-*Focus: Binding the frontend camera/mic to the Gemini Live agent in real-time.*
-*   **[x] Task 5.1:** Frontend WebRTC/MediaStream integration to capture camera and microphone data.
-*   **[x] Task 5.2:** Establish the active session loop: Learner connects ↔ Cloud Run Bridge ↔ Gemini Live.
-*   **[x] Task 5.3:** Implement real-time interruption handling and conversational turn-taking.
-*   **[x] Task 5.4:** Enforce constraints and log verification outputs directly to the Cloud Run service.
-*   **[x] Task 5.5:** Implement session resilience — handle network drops, WebSocket disconnections, and browser tab closures mid-session. Save partial session state so it can be resumed or at minimum logged as incomplete. This is essential for low-bandwidth African contexts.
-*   **[x] Task 5.6:** Add session timeout and maximum duration limits to prevent runaway Gemini sessions (both for cost and child welfare — a 4-year-old shouldn't be in a session for 30 minutes).
-
-## Phase 6: Assessment Logging & Evidence Portfolio
-*Focus: Packaging the session into immutable proof of formation.*
-*   **[x] Task 6.1:** Generate session transcripts and AI confidence summaries.
-*   **[x] Task 6.2:** Capture visual snapshots of the submitted work during the session.
-*   **[x] Task 6.3:** Transmit and save all artifacts to Cloudflare R2.
-*   **[x] Task 6.4:** Update D1 to flag the current task milestone as "Awaiting Judgment."
-*   **[x] Task 6.5:** Build a lightweight learner-facing portfolio view — while the parent holds judgment authority, the Philosophy doc (Section 36-37) affirms portfolios as a "testimony of formation." Learners should see their own completed work history (read-only, no scores/grades).
-
-## Phase 7: Parent Review & Progression Mechanics
-*Focus: Human authority finalizing the loop.*
-*   **[x] Task 7.1:** Update the Parent Dashboard to display "Awaiting Judgment" tasks.
-*   **[x] Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
-*   **[x] Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
-*   **[x] Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment (adjusting the Repetition Arc).
-*   **[x] Task 7.5:** Build pattern tracking dashboard for parents — the Philosophy (Section 39) emphasizes observing patterns of behavior (consistency of effort, willingness to revise, response to correction). Surface these patterns visually over time so parents can make informed advancement decisions rather than judging single sessions in isolation.
-*   **[x] Task 7.6:** Implement revision flow — when a parent clicks "Require Revision," the task must re-appear in the learner's active queue with the parent's notes attached. The AI's next Evidence Witness session for that task should reference the revision requirement in its system instructions.
-
-## Phase 8: Hackathon Polish, Scripts, & Submission
-*Focus: Ensuring we ace the Devpost checklist.*
-*   **[x] Task 8.1:** Write and test spin-up instructions & automated deployment scripts (`deploy.sh`).
-*   **[x] Task 8.2:** Generate the final Architecture Diagram.
-*   **[ ] Task 8.3:** Record the 4-minute demo video featuring the "Evidence Witness" in action with Learner A and Learner B.
-*   **[x] Task 8.4:** Final audit of all codebase logs to ensure they narrate the app's behavior clearly.
-*   **[x] Task 8.5:** Set up CI/CD pipeline or at minimum a reproducible deployment script that judges can run. The Devpost checklist requires "spin-up instructions" — test these from a clean environment to ensure nothing is assumed.
-*   **[x] Task 8.6:** Write the blog post for bonus points (African-centric, faith-rooted AI platform on Google Cloud). Link GDG profile.
-*   **[x] Task 8.7:** Run a final end-to-end smoke test of the complete loop: Parent creates family → adds learner → learner sees task → learner taps Witness → Gemini session runs → evidence saved → parent reviews → parent advances/revises. Log the entire flow and confirm no dead ends.
-
-## Phase 9: Parent-Primary UI & Evidence Capture
-*Focus: Parent-facing app with four witness modes. Async AI as the workhorse, Live AI as premium option.*
-
-*   **[x] Task 9.1:** Redesign the main app entry flow — parent opens app, sees today's tasks with constraint prompts. Current Learner Dashboard becomes the secondary "Child Portal" (parent optionally enables).
-*   **[x] Task 9.2:** Build the **Parent Task View** — display constraint prompt as parent guidance (what to ask, what to look for, success/failure conditions). Two optional buttons: "Capture Evidence (Photo + Audio)" and "Invoke Live AI Witness." *(Done: `ParentTaskCard.tsx` wired into `Dashboard.tsx`)*
-*   **[x] Task 9.3:** Build the **Parent Report Flow** — parent writes a brief guided report (what happened, success/failure, notes). This is the default evidence path. *(Done: `ParentReportModal.tsx`)*
-*   **[x] Task 9.4:** Build **Async AI Evidence Capture** — parent takes a photo of the child's work + records a 10-second audio clip of the child explaining. This is batched, sent to AI asynchronously, AI drafts a report. Parent reviews and edits before submission. This is the primary AI witness mode — lower cost, lower bandwidth, more reliable than live. *(Done: `AsyncEvidenceModal.tsx` handles capture; mock submit wired)*
-*   **[x] Task 9.5:** Refactor the **Live AI Witness** to be parent-initiated and clearly marked as premium/optional.
-*   **[x] Task 9.6:** Update the Parent Dashboard to unify all evidence types (parent reports, async AI reports, live AI reports) in a single review flow.
-*   **[x] Task 9.7:** Update progression logic — advancement triggered by parent judgment, regardless of evidence source.
-
-## Phase 10: Curriculum Spine Integration
-*Focus: Loading the Mathematics Curriculum Spine into the data model. Spine feeds constraint prompts to parents (and optionally AI). Includes DAG engine, repetition arc, and split judgment.*
-
-*   **[x] Task 10.1:** Extend the D1 schema to support: Strands, Capacities (with DAG dependencies including shared cross-strand nodes), Cognitive Levels, Developmental Bands, Constraint Templates, and Repetition Arc state per learner per capacity. *(Done in `db/schema.sql`)*
-*   **[x] Task 10.2:** Build a seeding pipeline — loads the Math Spine (Strand 1 + Strand 2 first) into D1 from structured JSON/YAML source files. *(Done: 377 templates from 5 JSON files deployed to production D1)*
-*   **[x] Task 10.3:** Implement the **task generation engine** — reads a spine cell + constraint template, randomizes parameters, produces a task instance with parent-facing prompt and AI-facing systemInstruction. *(Done: `worker/src/lib/taskGen.ts`)*
-*   **[x] Task 10.4:** Build the **DAG dependency resolver** with cross-strand support — a learner can't access a Capacity until prerequisites are met, but can advance in other strands (no deadlocks). Lateral movement suggested when blocked. *(Done: `worker/src/lib/dag.ts`)*
-*   **[x] Task 10.5:** Implement the **Repetition Arc engine** — tracks per-capacity: Exposure (1x) → Execution (N, capacity-dependent) → Endurance (noise-injected tasks) → Milestone (cross-strand, unlabeled). *(Done: `worker/src/lib/arc.ts`)*
-*   **[x] Task 10.6:** Build **noise injection for Endurance tasks** — the task generation engine adds irrelevant data, distracting context, or mixed-domain elements.
-*   **[x] Task 10.7:** Build **cross-strand Milestone tasks** — the engine generates tasks that don't label which capacity is being tested.
-*   **[x] Task 10.8:** Implement the **Split Judgment model** for Band 4–5 — AI evaluates mathematical competence, parent evaluates formation. *(Done: `worker/src/lib/splitJudgment.ts`)*
-*   **[x] Task 10.9:** Build **Parent Primers** for Band 3+ — brief concept orientations explaining the math. *(Done: `worker/src/lib/parentPrimer.ts`)*
-*   **[x] Task 10.10:** Build the AI Permission Rule enforcement — tracks predict/diagnose/specify demonstration per learner per capacity, gating AI tool access. *(Done: `worker/src/lib/aiPermissions.ts`)*
-
-## Phase 11: Child Portal & Gradual Handoff
-*Focus: Building the optional child-facing portal with parent-controlled access levels and split judgment integration.*
-
-*   **[x] Task 11.1:** Build the Child Portal shell — simplified view of active tasks. Initially read-only. *(Done: `src/pages/learner/ChildPortal.tsx`)*
-*   **[x] Task 11.2:** Implement parent-controlled portal access levels: None → Read-Only → Task Execution → Child-Led Mode. Parent toggles per-child. *(Done: `AccessControlModal.tsx` + API endpoint)*
-*   **[x] Task 11.3:** In Task Execution mode, child can submit evidence (photos, audio). All submissions route to parent review.
-*   **[x] Task 11.4:** In Child-Led mode (Band 4+), child can invoke AI Witness and Async AI independently. Reports still route to parent for formation judgment (split judgment active).
-*   **[x] Task 11.5:** Build portfolio view — expands from parent-curated to self-viewable as child gains independence (read-only, no scores/grades).
-
-## Phase 12: Field Testing & Calibration
-*Focus: Pilot one band with real families. Validate the repetition arc, parent competence model, and task generation quality.*
-
-*   **[ ] Task 12.1:** Recruit 5–10 families with children in Band 2 (ages 6–9) for pilot testing.
-*   **[ ] Task 12.2:** Run the full loop for Number & Quantity, Band 2 capacities. Measure: time per task, parent completion rate, evidence quality, advancement accuracy.
-*   **[ ] Task 12.3:** Calibrate the Repetition Arc — are Execution counts right? Is Endurance noise appropriate? Do Milestone tasks genuinely test transfer?
-*   **[ ] Task 12.4:** Validate parent competence — can parents at Band 2 effectively use constraint prompts without math anxiety? Identify friction points.
-*   **[ ] Task 12.5:** Test Async AI evidence capture reliability — photo+audio quality in real home environments (kitchen tables, outdoor spaces). Measure AI report accuracy.
-*   **[ ] Task 12.6:** Collect parent feedback on Parent Primers (Band 3 preview). Are they too long? Too short? Confusing? Adjust.
+Parents already committed to established curricula (Saxon, Classical Conversations, etc.) unanimously report one gap: **African History.** Learn Live fills that gap as a standalone, supplementary course families plug into whatever else they're doing.
 
 ---
 
-## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
-*Focus: A separate Live Agent mode that explains tasks and teaches concepts via a real-time digital whiteboard. Targets the "Creative Storyteller" hackathon category alongside the "Live Agents" Evidence Witness.*
+## Philosophy (Unchanged)
 
-*   **[x] Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard component with framer-motion animations, scene/layer management, and a pluggable element registry (CountingBlock, StoryCard, DiagramNode).
-*   **[x] Task 13.2:** Build `ExplainerClient.ts` — frontend WebSocket bridge for the Explainer Agent. Handles voice playback (PCM audio queue) + canvas tool call parsing + audio-canvas sync via atomic payloads.
-*   **[x] Task 13.3:** Add `/v1/agent/explainer` endpoint to Cloud Run agent — separate from Evidence Witness. Gemini Live bidi-streaming with canvas tool declarations: `show_element`, `animate_element`, `remove_element`, `clear_canvas`, `generate_diagram`.
-*   **[x] Task 13.4:** Build learner-context-rich system prompts — inject learner name, age, band, strand, known capacities, prior struggles from D1. The agent must adapt vocabulary and examples to the child.
-*   **[x] Task 13.5:** Build Math counting/blocks demo — SVG blocks that appear, animate, group, and count as the agent narrates. *(Done: `MathPrimitives.tsx`)*
-*   **[x] Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
-*   **[x] Task 13.7:** Build audio-canvas sync — agent emits `{ narration, canvas_ops }` atomically. Frontend holds canvas ops until corresponding audio chunk plays. *(Done: `audioCanvasSync.ts`)*
-*   **[x] Task 13.8:** Build demo mode — recorded WebSocket playback as fallback if live API is unavailable during judging. *(Done: `demoPlayer.ts`)*
-*   **[x] Task 13.9:** Integrate Nano Banana image generation for on-demand diagrams. *(Done: `nanoBanana.ts` + `/api/generate-diagram`)*
-
-### Known Risks & Mitigations (Phase 13)
-| Risk | Mitigation |
-|------|-----------|
-| Gemini Live tool call latency (1-3s) | Batch canvas ops, pre-render skeletons with fade-in |
-| Audio-canvas sync drift | Atomic payloads, timestamp-driven queue |
-| Generic explanations ("toying with AI") | Rich learner context injection, name/age/band-aware prompts |
-| Canvas element overflow | Max 5-7 visible elements, enforced in prompt + client |
-| Image gen latency mid-explanation | SVG templates first, image gen only for novel concepts |
-| Live API failure during demo | Demo mode with recorded WebSocket replay |
+- **Parent as Authority.** The parent chooses the band, reviews AI-generated content, and holds judgment over progression.
+- **AI as Steward.** AI adapts content to reading levels, narrates interactive maps, conducts oral examinations — but never grades or advances a child without parental consent.
+- **Physical-First.** AI supplements; it doesn't replace books, maps, narration, and discussion at the kitchen table.
+- **Confessional Framework.** The source text is written from a 1689 Reformed Baptist perspective with YEC chronology. Conventional dates are provided transparently for reference.
 
 ---
 
-## Cross-Cutting Concerns (Apply to ALL Phases)
+## The Master Text
 
-These are not phase-specific but must be addressed continuously:
+The source material is a 10-chapter, university-level African History textbook located in `docs/curriculum/history/my-first-textbook/`. This is the **single source of truth** that all band-level content is derived from.
 
-*   **CC.1: Mobile-First / Tablet-Optimized Design.** Every UI component must be tested at phone (360px) and tablet (768px) widths. The Blueprint explicitly states families share a single device.
-*   **CC.2: Low-Bandwidth Resilience.** Minimize payload sizes. Lazy-load non-critical assets. The Evidence Witness session is the only "heavy" network operation — everything else should be edge-cached and lightweight.
-*   **CC.3: Testing Strategy.** Each phase must include unit tests for critical logic (matrix progression, constraint validation, role guards) and at least one integration test for the phase's primary user flow. Don't leave testing to Phase 8.
-*   **CC.4: Accessibility.** The Learner UI serves children ages 3-7+. Use large touch targets (min 48px), high contrast, clear iconography, and minimal text. Screen reader support is secondary but semantic HTML is required.
-*   **CC.5: Data Privacy & Consent.** Camera/mic recordings of minors are stored. Ensure R2 storage is access-controlled per family. No cross-family data leakage. Parents must explicitly consent to recording before the first Evidence Witness session.
-*   **CC.6: No AI Authority Violations.** At every integration point, verify the AI cannot: auto-advance a learner, generate grades/scores, bypass parental judgment, or lower task difficulty. These are hard prohibitions from the Philosophy doc (Section 48).
+| Chapter | Title | Period |
+|---------|-------|--------|
+| 1 | Creation, Babel, & the Table of Nations | Origins – c. 2250 BC |
+| 2 | Ancient Egypt | c. 2100–1000 BC |
+| 3 | The Kingdom of Kush & Nubia | c. 1900–300 BC |
+| 4 | The Phoenicians & Carthage in Africa | c. 1100–146 BC |
+| 5 | The Church in Roman Africa | 30 AD – 700 AD |
+| 6 | The Kingdom of Aksum & Ethiopian Christianity | c. 100–940 AD |
+| 7 | The Rise of Islam in Africa | 632–1100 AD |
+| 8 | The Bantu Migrations | c. 1000 BC – 1500 AD |
+| 9 | Medieval African Kingdoms (Ghana, Mali, Songhai, Zimbabwe) | c. 300–1600 AD |
+| 10 | *(In progress)* | TBD |
+
+**Supporting Assets:** 34 detailed maps in `docs/curriculum/history/Maps/`, chapter images, and `metadata.json`.
+
+---
+
+## Band Model (Content Adaptation, Not Skill Progression)
+
+Unlike math, history doesn't follow a skill-repetition arc. Instead, **every band covers the same chapters** but the AI adapts delivery to the reading/comprehension level:
+
+| Band | Ages | Label | Delivery Style |
+|------|------|-------|---------------|
+| 0 | 3–5 | Picture Book | AI generates simple narration + illustrated scenes. 2-3 key facts per chapter. Parents read aloud. |
+| 1 | 6–8 | Story Mode | Short narrative retellings with vocabulary scaffolding. Interactive map exploration. Simple narration questions. |
+| 2 | 9–11 | Explorer | Condensed chapter text with primary source excerpts. Map-based activities. Guided discussion questions. |
+| 3 | 12–14 | Scholar | Near-full chapter text with critical thinking prompts. Timeline construction. Compare/contrast exercises. |
+| 4 | 15–17 | Apprentice Historian | Full academic text. Primary source analysis. Essay prompts. Historiographical awareness (why sources disagree). |
+| 5 | 18+ | University Prep | Master text as-is + supplementary reading lists. Research methodology. Thesis-level discussion. |
+
+**Key Insight:** We don't write 6 versions of the textbook. The master text lives in R2. The AI reads it via RAG and adapts output dynamically per band. One source, infinite adaptations.
+
+---
+
+## Geography Integration
+
+Rather than a separate geography curriculum, geographic concepts are embedded into the history timeline:
+
+- Every map in `Maps/` is tagged with geographic metadata (climate zones, physical features, trade routes, vegetation).
+- The Explainer Canvas renders these maps interactively — overlaying terrain, trade routes, migration arrows.
+- Assessment includes geographic reasoning: "Why did Aksum control Red Sea trade?" requires understanding of physical geography.
+- This gives parents a **two-for-one**: African History + African Geography in a single course.
+
+---
+
+## Repurposed AI Integrations
+
+### 1. Explainer Canvas → Interactive Narrator & Map Explorer
+The existing tool-calling architecture (`show_element`, `animate_element`, `generate_diagram`) is repurposed:
+- AI narrates a chapter segment while animating trade routes, migration paths, and kingdom boundaries on the canvas.
+- Band-aware: Band 0 gets slow, simple narration with big illustrations. Band 4 gets detailed analysis with primary source overlays.
+- Maps from R2 are the base layer; AI overlays dynamic annotations.
+- **Parent value:** A self-running lesson. Parent starts it, child watches and listens, parent reviews comprehension afterward.
+
+### 2. Evidence Witness → Oral Examiner
+The existing Gemini Live bidi-streaming agent is repurposed:
+- Instead of watching a child do math, it **asks questions** about what they learned.
+- Uses RAG context from the chapter to ask age-appropriate questions.
+- Band 0–1: "Can you tell me who built the pyramids?" (conversational, encouraging).
+- Band 3–4: "Compare Augustine's City of God with the Donatist position on church purity." (Socratic).
+- Records the conversation. AI drafts an assessment. Parent reviews and judges.
+- **This is the "Evidence Witness" reframed:** it witnesses the child's understanding, not their task execution.
+
+### 3. Async Evidence → Artifact Verification
+The existing photo+audio capture pipeline is repurposed:
+- Child draws a map of Bantu migration routes → takes a photo → AI compares against reference maps in R2.
+- Child builds a timeline on paper → photographs it → AI checks accuracy against chapter content.
+- Parent reviews AI assessment before it counts.
+
+---
+
+## Tech Stack (Mostly Unchanged)
+
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| Frontend | React, Vite, Tailwind CSS | Deployed to Cloudflare Pages |
+| Data | Cloudflare D1 | Families, learners, progress, session summaries |
+| Content Storage | Cloudflare R2 | Master text (markdown), maps (images), generated assets |
+| AI Bridge | Google Cloud Run | Gemini Live for Explainer & Oral Examiner |
+| Content Adaptation | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation, assessment |
+| Image Generation | Flux (via existing pipeline) | Band 0–1 picture book illustrations |
+
+---
+
+## Phase 1: Content Pipeline & R2 Setup
+*Focus: Clean up the history dump, structure it for RAG, upload to R2.*
+
+- [ ] **Task 1.1:** Clean and standardize all 10 chapters — consistent markdown structure, frontmatter with metadata (period, regions, key figures, geographic concepts).
+- [ ] **Task 1.2:** Process all 34 maps — convert map description files to actionable metadata (regions covered, geographic concepts, related chapters). Ensure all referenced images exist.
+- [ ] **Task 1.3:** Design the R2 content structure: `curriculum/history/chapters/{ch}/master.md`, `curriculum/history/chapters/{ch}/images/*`, `curriculum/history/maps/{map_id}.md`, `curriculum/history/maps/{map_id}.png`.
+- [ ] **Task 1.4:** Build an upload script to push all content to R2 with proper content types and metadata.
+- [ ] **Task 1.5:** Design and implement the RAG retrieval layer — given a chapter + band, fetch the master text and return relevant chunks for AI adaptation.
+
+## Phase 2: Frontend Pivot
+*Focus: Strip the math-specific UI, build the history course experience.*
+
+- [ ] **Task 2.1:** Archive math-specific components and pages (move to `src/archive/`). Keep shared infrastructure (auth, family management, state, design system).
+- [ ] **Task 2.2:** Build the **Course Home** page — chapter list with progress indicators, band selector, family context.
+- [ ] **Task 2.3:** Build the **Chapter View** — displays AI-adapted content for the selected band. Includes embedded maps, "Think It Through" prompts, and vocabulary highlights.
+- [ ] **Task 2.4:** Build the **Map Explorer** component — interactive map viewer that overlays geographic annotations. Reuses Explainer Canvas architecture.
+- [ ] **Task 2.5:** Build the **Band Selector** — parent chooses the reading level. Stored per-learner in D1. Can be changed anytime.
+
+## Phase 3: AI Content Adaptation Engine
+*Focus: The core differentiator — one source text, adapted per band via AI.*
+
+- [ ] **Task 3.1:** Build the **band adaptation prompt pipeline** — given master text chunks + band level, generate age-appropriate content. Cache aggressively in D1 (like existing `Enriched_Task_Cache`).
+- [ ] **Task 3.2:** Band 0 (Picture Book) — AI generates 2-3 sentence summaries per chapter section + image generation prompts. Flux generates illustrations. Cache results.
+- [ ] **Task 3.3:** Band 1–2 (Story/Explorer) — AI condenses and simplifies text, adds vocabulary scaffolding, generates discussion questions.
+- [ ] **Task 3.4:** Band 3–4 (Scholar/Apprentice) — AI preserves most of the master text, adds critical thinking prompts, primary source analysis guides, and essay topics.
+- [ ] **Task 3.5:** Band 5 (University Prep) — Master text served directly from R2 with supplementary reading lists and research prompts.
+
+## Phase 4: Assessment & Oral Examiner
+*Focus: Repurpose the Evidence Witness for history-specific oral examination.*
+
+- [ ] **Task 4.1:** Adapt the Evidence Witness agent prompt — from math constraint enforcement to Socratic questioning based on chapter RAG context.
+- [ ] **Task 4.2:** Build band-aware question generation — AI generates questions appropriate to the reading level from chapter content.
+- [ ] **Task 4.3:** Build the **Oral Exam flow** — parent initiates, child converses with AI, session recorded, AI drafts assessment, parent reviews.
+- [ ] **Task 4.4:** Build the **Artifact Check flow** — child photographs drawn maps/timelines, AI compares against reference material from R2.
+- [ ] **Task 4.5:** Adapt the parent judgment flow — parent reviews AI assessment, approves or requests revision. Progression is chapter-based, not capacity-based.
+
+## Phase 5: Explainer Canvas for History
+*Focus: Repurpose the interactive whiteboard for animated history narration.*
+
+- [ ] **Task 5.1:** Build history-specific canvas elements — map overlays, timeline bars, kingdom boundaries, trade route animations, portrait cards for key figures.
+- [ ] **Task 5.2:** Adapt the Explainer agent prompt — from math counting blocks to historical narration with map manipulation.
+- [ ] **Task 5.3:** Build the **Narrated Lesson flow** — parent taps "Start Lesson" on a chapter section, AI narrates while animating the canvas. Band-aware pacing and vocabulary.
+- [ ] **Task 5.4:** Wire map assets from R2 into the canvas as base layers.
+
+## Phase 6: Worker & Schema Updates
+*Focus: Adapt the backend for chapter-based progression instead of capacity-based.*
+
+- [ ] **Task 6.1:** Design new D1 schema: `Chapters`, `Learner_Chapter_Progress`, `Band_Adapted_Content_Cache`, `Oral_Exam_Sessions`. Migrate from capacity-based tables.
+- [ ] **Task 6.2:** Build chapter progression API — track per-learner: which chapters completed, which band, oral exam results, parent judgments.
+- [ ] **Task 6.3:** Build content serving API — `GET /api/chapter/:id/content?band=2` returns cached adapted content or triggers generation.
+- [ ] **Task 6.4:** Adapt the weekly plan engine (optional) — instead of daily math tasks, suggest a weekly chapter reading pace based on the family's chosen schedule.
+
+## Phase 7: Pilot with Families
+*Focus: Ship to the families who asked for this.*
+
+- [ ] **Task 7.1:** Onboard 5–10 pilot families. Parent creates account, selects band per child, begins Chapter 1.
+- [ ] **Task 7.2:** Measure: time per chapter, engagement with maps, oral exam completion rate, parent satisfaction.
+- [ ] **Task 7.3:** Calibrate band adaptation quality — is Band 0 actually suitable for a 4-year-old? Is Band 4 challenging enough for a 16-year-old?
+- [ ] **Task 7.4:** Collect feedback on the Explainer Canvas narration — is it helpful or distracting?
+- [ ] **Task 7.5:** Identify content gaps — which chapters need more maps, more primary sources, more illustrations?
+
+## Phase 8: Content Expansion
+*Focus: Complete the textbook and expand geographic coverage.*
+
+- [ ] **Task 8.1:** Complete Chapter 10 and beyond — East African city-states, Great Zimbabwe, pre-colonial Southern Africa.
+- [ ] **Task 8.2:** Add world history context sidebars — "While Aksum was trading with Rome, what was happening in China?" These are short, AI-generatable inserts that place Africa in global context without requiring a full world history curriculum.
+- [ ] **Task 8.3:** Expand the map library — commission or generate maps for chapters currently lacking visual assets.
+- [ ] **Task 8.4:** Build a glossary and index system — searchable, cross-referenced, band-aware definitions.
+
+---
+
+## Archived (For Future Reactivation)
+
+The following systems are built, tested, and preserved in the codebase but not active in the history curriculum:
+
+| System | Location | Reactivation Path |
+|--------|----------|-------------------|
+| Math Curriculum Spine (377 templates, 5 strands) | `worker/src/lib/`, `db/` | Load JSON seeds, re-enable math strand in curriculum selector |
+| DAG Dependency Resolver | `worker/src/lib/dag.ts` | Applicable if history adds prerequisite chapters |
+| Repetition Arc Engine | `worker/src/lib/arc.ts` | Applicable for skill-based subjects (math, language) |
+| Split Judgment Model | `worker/src/lib/splitJudgment.ts` | Applicable when AI and parent assess different dimensions |
+| AI Permission Rules | `worker/src/lib/aiPermissions.ts` | Applicable for gradual child autonomy |
+| Noise Injection / Endurance Tasks | `worker/src/lib/taskGen.ts` | Math-specific, not applicable to history |
+| Child Portal Access Levels | `src/pages/learner/ChildPortal.tsx` | Re-enable when child-led history exploration is desired |
+
+---
+
+## Cross-Cutting Concerns (Unchanged)
+
+- **CC.1: Mobile-First.** Every component tested at 360px and 768px. Families share a single device.
+- **CC.2: Low-Bandwidth Resilience.** Cache adapted content aggressively. Only the Oral Examiner and Explainer Canvas need live connections.
+- **CC.3: Cultural Authenticity.** Ugandan names, East African contexts, local references in AI-generated content.
+- **CC.4: Cost Control.** RAG + caching means most content is served from D1/R2, not generated per-request. Live AI sessions are optional/premium.
+- **CC.5: Accessibility.** ARIA labels, keyboard navigation, screen reader support for all new components.
+- **CC.6: Offline-First Content.** Adapted chapter text should be cacheable for offline reading. Only AI interactions require connectivity.
