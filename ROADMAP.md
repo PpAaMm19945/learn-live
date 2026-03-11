@@ -122,7 +122,7 @@ The existing photo+audio capture pipeline is repurposed:
 *Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password. No third-party auth providers.*
 
 **External Setup (Complete):**
-- Resend account configured — secret stored as `resend-api` in Worker (note: hyphen requires `env['resend-api']` bracket notation in code)
+- Resend account configured — secret stored as `Resend_API_Key` in Worker (accessed as `env.Resend_API_Key`)
 - Google OAuth app configured — secrets stored as `Google_Client_ID` and `Google_Client_Secret` in Worker
 - `JWT_SECRET` in Worker for signing session tokens
 
