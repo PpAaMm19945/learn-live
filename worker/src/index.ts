@@ -1,4 +1,5 @@
 import { r2Helper } from './lib/r2';
+// LEGACY: Remove when math curriculum is fully replaced
 import { advanceArc } from './lib/arc';
 import { resolveDependencies } from './lib/dag';
 import { generateTask, generateSystemInstruction } from './lib/taskGen';
@@ -9,19 +10,24 @@ import { checkAIPermission } from './lib/aiPermissions';
 import { getOrCreateWeeklyPlan, completeWeeklyTask } from './lib/weeklyPlan';
 import { getEnrichedTask } from './lib/enrichTask';
 import { evaluateEvidence } from './lib/evaluateEvidence';
+
+// Auth imports
+import { authenticateRequest, requireAuth } from './lib/auth/middleware';
+import { handleMagicLinkRequest, handleMagicLinkVerify } from './lib/auth/magicLink';
+import { handleGoogleAuth, handleGoogleCallback } from './lib/auth/google';
+import { handleRegister, handleLogin, handleForgotPassword, handleResetPassword, handleVerifyEmail, hashPassword } from './lib/auth/password';
+import { clearSessionCookie } from './lib/auth/cookies';
+
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
 
 /**
  * Parses a JSON string and caches the result.
- * If the string has been parsed before, returns the cached object.
  */
 function cachedJSONParse(jsonString: string | null): any {
     if (!jsonString) return null;
-
     const cached = jsonCache.get(jsonString);
     if (cached !== undefined) return cached;
-
     try {
         const parsed = JSON.parse(jsonString);
         jsonCache.set(jsonString, parsed);
@@ -39,11 +45,12 @@ export interface Env {
     Google_Client_ID: string;
     Google_Client_Secret: string;
     Resend_API_Key: string;
-    // Legacy — keep for backward compat during migration
+    // LEGACY: Remove when all clients migrate to cookie auth
     API_AUTH_TOKEN?: string;
     GEMINI_API_KEY?: string;
 }
 
+// LEGACY: Remove when all clients migrate to cookie auth
 function isAuthorized(request: Request, env: Env): boolean {
     const authHeader = request.headers.get('Authorization');
     const expectedToken = env.API_AUTH_TOKEN;
@@ -51,22 +58,127 @@ function isAuthorized(request: Request, env: Env): boolean {
     return authHeader === `Bearer ${expectedToken}`;
 }
 
-// Legacy advanceLearner replaced by arc.ts + dag.ts engine
+const ALLOWED_ORIGINS = [
+    'https://learn-live-4az.pages.dev',
+    'http://localhost:5173',
+    'http://localhost:3000',
+];
+
+function getCorsHeaders(request: Request): Record<string, string> {
+    const origin = request.headers.get('Origin') || '';
+    // Allow any *.lovable.app or *.lovableproject.com preview origin
+    const isAllowed = ALLOWED_ORIGINS.includes(origin)
+        || origin.endsWith('.lovable.app')
+        || origin.endsWith('.lovableproject.com');
+
+    return {
+        'Access-Control-Allow-Origin': isAllowed ? origin : ALLOWED_ORIGINS[0],
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
+    };
+}
+
+function addCors(response: Response, corsHeaders: Record<string, string>): Response {
+    const newResponse = new Response(response.body, response);
+    for (const [key, value] of Object.entries(corsHeaders)) {
+        newResponse.headers.set(key, value);
+    }
+    return newResponse;
+}
 
 export default {
     async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
         const url = new URL(request.url);
-
-        // Basic CORS setup
-        const corsHeaders = {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        };
+        const corsHeaders = getCorsHeaders(request);
 
         if (request.method === 'OPTIONS') {
             return new Response(null, { headers: corsHeaders });
         }
+
+        // ==================== AUTH ROUTES ====================
+
+        if (url.pathname === '/api/auth/me' && request.method === 'GET') {
+            const user = await authenticateRequest(request, env);
+            if (!user) {
+                return addCors(new Response(JSON.stringify({ error: 'Unauthorized' }), {
+                    status: 401, headers: { 'Content-Type': 'application/json' },
+                }), corsHeaders);
+            }
+            // Fetch roles and user info
+            const dbUser = await env.DB.prepare('SELECT id, email, name, email_verified FROM Users WHERE id = ?')
+                .bind(user.userId).first<{ id: string; email: string; name: string | null; email_verified: number }>();
+            const { results: roleRows } = await env.DB.prepare('SELECT role FROM User_Roles WHERE user_id = ?')
+                .bind(user.userId).all<{ role: string }>();
+            const roles = roleRows.map((r: any) => r.role);
+
+            return addCors(new Response(JSON.stringify({
+                userId: dbUser?.id || user.userId,
+                email: dbUser?.email || user.email,
+                name: dbUser?.name || null,
+                roles,
+                emailVerified: dbUser?.email_verified === 1,
+            }), {
+                status: 200, headers: { 'Content-Type': 'application/json' },
+            }), corsHeaders);
+        }
+
+        if (url.pathname === '/api/auth/logout' && request.method === 'POST') {
+            const response = clearSessionCookie(
+                new Response(JSON.stringify({ success: true }), {
+                    status: 200, headers: { 'Content-Type': 'application/json' },
+                })
+            );
+            return addCors(response, corsHeaders);
+        }
+
+        if (url.pathname === '/api/auth/login' && request.method === 'POST') {
+            return addCors(await handleLogin(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/register' && request.method === 'POST') {
+            return addCors(await handleRegister(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/forgot-password' && request.method === 'POST') {
+            return addCors(await handleForgotPassword(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/reset-password' && request.method === 'POST') {
+            return addCors(await handleResetPassword(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/verify-email' && request.method === 'GET') {
+            return addCors(await handleVerifyEmail(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/magic-link' && request.method === 'POST') {
+            return addCors(await handleMagicLinkRequest(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/magic-link/verify' && request.method === 'GET') {
+            return addCors(await handleMagicLinkVerify(request, env), corsHeaders);
+        }
+        if (url.pathname === '/api/auth/google' && request.method === 'GET') {
+            return await handleGoogleAuth(request, env);
+        }
+        if (url.pathname === '/api/auth/google/callback' && request.method === 'GET') {
+            return await handleGoogleCallback(request, env);
+        }
+
+        // POST /api/auth/set-password — add password to OAuth/magic-link account
+        if (url.pathname === '/api/auth/set-password' && request.method === 'POST') {
+            const authResult = await requireAuth(request, env);
+            if (authResult instanceof Response) return addCors(authResult, corsHeaders);
+            try {
+                const body: any = await request.json();
+                if (!body.password || body.password.length < 8) {
+                    return addCors(new Response(JSON.stringify({ error: 'Password must be at least 8 characters' }), { status: 400 }), corsHeaders);
+                }
+                const hash = await hashPassword(body.password);
+                await env.DB.prepare('UPDATE Users SET password_hash = ? WHERE id = ?')
+                    .bind(hash, authResult.userId).run();
+                return addCors(new Response(JSON.stringify({ success: true }), { status: 200 }), corsHeaders);
+            } catch (e: any) {
+                return addCors(new Response(JSON.stringify({ error: e.message }), { status: 500 }), corsHeaders);
+            }
+        }
+
+        // ==================== EXISTING ROUTES ====================
 
         if (url.pathname === '/api/health') {
             return new Response(JSON.stringify({ status: 'ok', service: 'learnlive-api' }), {
