@@ -96,13 +96,19 @@ export async function handleRegister(request: Request, env: Env): Promise<Respon
         }
 
         const passwordHash = await hashPassword(password);
-        const userId = crypto.randomUUID();
+        const { id: userId, isNew } = await findOrCreateUser(env.DB, email, {
+            name,
+            passwordHash,
+            emailVerified: false,
+        });
+
+        if (!isNew) {
+            // Account already exists — password was linked if missing
+            return new Response(JSON.stringify({ success: true, message: 'Account already exists. Password linked if applicable.' }), { status: 200 });
+        }
+
+        // Send verification email for new accounts
         const token = crypto.randomUUID();
-
-        await env.DB.prepare(
-            `INSERT INTO Users (id, email, name, password_hash, email_verified) VALUES (?, ?, ?, ?, 0)`
-        ).bind(userId, email, name, passwordHash).run();
-
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
         await env.DB.prepare(
             `INSERT INTO Auth_Tokens (id, user_id, token, type, expires_at) VALUES (?, ?, ?, 'email_verify', ?)`
@@ -110,7 +116,7 @@ export async function handleRegister(request: Request, env: Env): Promise<Respon
 
         await sendVerificationEmail(email, token, env);
 
-        return new Response(JSON.stringify({ success: true, message: "Check your email" }), { status: 201 });
+        return new Response(JSON.stringify({ success: true, message: 'Check your email' }), { status: 201 });
     } catch (e: any) {
         return new Response(JSON.stringify({ error: e.message }), { status: 500 });
     }

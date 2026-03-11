@@ -78,28 +78,11 @@ export async function getGoogleUserInfo(accessToken: string): Promise<GoogleUser
 }
 
 export async function upsertGoogleUser(db: D1Database, userInfo: { email: string; name: string }): Promise<string> {
-    // Check if user exists
-    const existingUser = await db.prepare('SELECT id FROM Users WHERE email = ?').bind(userInfo.email).first();
-
-    if (existingUser) {
-        // User exists - update name if missing or needed? For now just return ID
-        return existingUser.id as string;
-    }
-
-    // Create new user
-    const userId = `user_${crypto.randomUUID().replace(/-/g, '')}`;
-
-    await db.prepare(
-        'INSERT INTO Users (id, email, name, email_verified) VALUES (?, ?, ?, 1)'
-    ).bind(userId, userInfo.email, userInfo.name).run();
-
-    // Assign parent role by default for new Google signups
-    const roleId = `role_${crypto.randomUUID().replace(/-/g, '')}`;
-    await db.prepare(
-        'INSERT INTO User_Roles (id, user_id, role) VALUES (?, ?, ?)'
-    ).bind(roleId, userId, 'parent').run();
-
-    return userId;
+    const { id } = await findOrCreateUser(db, userInfo.email, {
+        name: userInfo.name,
+        emailVerified: true,
+    });
+    return id;
 }
 
 export async function handleGoogleAuth(request: Request, env: Env): Promise<Response> {
