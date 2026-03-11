@@ -109,150 +109,127 @@ The existing photo+audio capture pipeline is repurposed:
 
 ---
 
-## Phase 1: Content Pipeline & R2 Setup
+## Phase 1: Content Pipeline & R2 Setup — 🔲 NOT STARTED
 *Focus: Clean up the history dump, structure it for RAG, upload to R2.*
 
-- [ ] **Task 1.1:** Clean and standardize all 10 chapters — consistent markdown structure, frontmatter with metadata (period, regions, key figures, geographic concepts).
-- [ ] **Task 1.2:** Process all 34 maps — convert map description files to actionable metadata (regions covered, geographic concepts, related chapters). Ensure all referenced images exist.
-- [ ] **Task 1.3:** Design the R2 content structure: `curriculum/history/chapters/{ch}/master.md`, `curriculum/history/chapters/{ch}/images/*`, `curriculum/history/maps/{map_id}.md`, `curriculum/history/maps/{map_id}.png`.
-- [ ] **Task 1.4:** Build an upload script to push all content to R2 with proper content types and metadata.
-- [ ] **Task 1.5:** Design and implement the RAG retrieval layer — given a chapter + band, fetch the master text and return relevant chunks for AI adaptation.
+- [ ] **Task 1.1:** Clean and standardize all 10 chapters — consistent markdown structure, frontmatter with metadata.
+- [ ] **Task 1.2:** Process all 34 maps — convert description files to actionable metadata.
+- [ ] **Task 1.3:** Design the R2 content structure and upload all content.
+- [ ] **Task 1.4:** Build upload script to push content to R2 with proper content types.
+- [ ] **Task 1.5:** Design and implement the RAG retrieval layer.
 
-## Phase 2: Authentication & Account System
-*Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password. No third-party auth providers.*
+> **Note:** R2 content pipeline utilities already built in Phase 3B (`worker/src/lib/content/ingest.ts`, `retrieve.ts`). This phase focuses on preparing and uploading actual content.
 
-**External Setup (Complete):**
-- Resend account configured — secret stored as `Resend_API_Key` in Worker (accessed as `env.Resend_API_Key`)
-- Google OAuth app configured — secrets stored as `Google_Client_ID` and `Google_Client_Secret` in Worker
-- `JWT_SECRET` in Worker for signing session tokens
+## Phase 2: Authentication & Account System — ✅ COMPLETE
+*Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password.*
 
-**D1 Schema:**
-- `Users` — `id`, `email`, `name`, `password_hash` (nullable, null for OAuth-only users), `created_at`
-- `Auth_Tokens` — `id`, `user_id`, `token`, `type` (magic_link | email_verify | password_reset), `expires_at`, `used_at`
-- `Sessions` — `id`, `user_id`, `token_hash`, `expires_at` (optional — JWT cookies are stateless, but enables revocation)
-- `Families` — links users to families (existing table, adapted)
-- `User_Roles` — `user_id`, `role` (parent | learner) — separate table per security best practice
+- [x] **Task 2.1:** D1 Auth Schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
+- [x] **Task 2.2:** JWT session utilities & cookie helpers.
+- [x] **Task 2.3:** Magic link flow — token generation, Resend email, verification, session creation.
+- [x] **Task 2.4:** Google OAuth flow — redirect, callback, user upsert, session creation.
+- [x] **Task 2.5:** Email + password flow — registration, email verification, login, PBKDF2 hashing.
+- [x] **Task 2.6:** Password reset flow — forgot-password email, reset token validation.
+- [x] **Task 2.7:** Account linking — merge by email across all 3 auth methods.
+- [x] **Task 2.8:** Auth middleware & `/api/auth/me` endpoint.
+- [x] **Task 2.9:** Frontend auth store — Zustand cookie-based sessions, `checkSession()`, `logout()`.
+- [x] **Task 2.10:** Login/Register UI polish, route guards, loading states, toasts.
 
-**Auth Methods (all three supported):**
-1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env.Resend_API_Key`) → User clicks link → Worker validates, sets HttpOnly session cookie
-2. **Google OAuth** — `/api/auth/google` redirects to Google (`env.Google_Client_ID`) → callback exchanges code using `env.Google_Client_Secret` → creates/finds user → sets session cookie
-3. **Email + Password** — User signs up with email + password → Worker hashes password (bcrypt/scrypt via Web Crypto), stores in `Users`, sends verification email via Resend → Login validates password, sets session cookie
+## Phase 3: Frontend & Schema Pivot — ✅ COMPLETE
+*Focus: Strip math UI, build history course experience, create curriculum schema.*
 
-**Worker Endpoints:**
-- `POST /api/auth/magic-link` — send magic link email
-- `GET /api/auth/magic-link/verify?token=` — validate token, set cookie
-- `GET /api/auth/google` — initiate OAuth redirect
-- `GET /api/auth/google/callback` — handle OAuth callback
-- `POST /api/auth/register` — email + password signup
-- `POST /api/auth/login` — email + password login
-- `POST /api/auth/forgot-password` — send password reset email
-- `POST /api/auth/reset-password` — validate token + set new password
-- `GET /api/auth/me` — return current user from session cookie
-- `POST /api/auth/logout` — clear session cookie
+- [x] **Task 3.1:** Archive math-specific components and pages to `src/archive/`.
+- [x] **Task 3.2:** D1 schema for curriculum — Topics, Lessons, Sources, RAG_Chunks, Learner_Progress, Quiz_Questions.
+- [x] **Task 3.3:** R2 content ingestion utilities — upload, chunk, index, retrieve.
+- [x] **Task 3.4:** Course Home (Dashboard) — topic grid with era/region badges, lesson counts.
+- [x] **Task 3.5:** Topic Detail page — lesson list with progress indicators and difficulty bands.
+- [x] **Task 3.6:** Lesson View page — narrative, key dates sidebar, key figures, source citations, mark complete.
+- [x] **Task 3.7:** Quiz components — QuizCard, QuizSession with scoring and API submission.
+- [x] **Task 3.8:** Progress components — ProgressOverview with recharts, LessonProgress badge.
+- [x] **Task 3.9:** API routes — topics, lessons, progress, quiz wired into worker.
 
-**Account Syncing / Linking:**
-- Users are identified by email. If a user signs up with magic link, then later uses Google OAuth with the same email, the accounts merge (same `Users` row).
-- If a magic-link-only user later sets a password, `password_hash` is populated — they can now use either method.
-- Google OAuth users can add a password via a "Set Password" flow.
-- All three auth methods resolve to the same session cookie format.
-
-**Tasks:**
-- [ ] **Task 2.1:** Design and migrate D1 schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
-- [ ] **Task 2.2:** Build JWT session utilities — sign/verify with `JWT_SECRET`, cookie helpers (HttpOnly, Secure, SameSite=Lax).
-- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env.Resend_API_Key`), verification endpoint, session creation.
-- [ ] **Task 2.4:** Build Google OAuth flow — redirect, callback, user upsert by email, session creation. Uses `env.Google_Client_ID` and `env.Google_Client_Secret`.
-- [ ] **Task 2.5:** Build email + password flow — registration with email verification, login, password hashing via Web Crypto API.
-- [ ] **Task 2.6:** Build password reset flow — forgot-password email via Resend, reset-password token validation.
-- [ ] **Task 2.7:** Build account linking logic — merge by email across auth methods, allow adding password to OAuth-only accounts.
-- [ ] **Task 2.8:** Build `/api/auth/me` and session middleware — protect all other API routes.
-- [ ] **Task 2.9:** Update frontend auth store — replace client-side-only `useAuthStore` with cookie-based session that calls `/api/auth/me`.
-- [ ] **Task 2.10:** Build login/register UI — magic link form, Google sign-in button, email+password form, password reset pages.
-
----
-
-## Phase 3: Frontend Pivot
-*Focus: Strip the math-specific UI, build the history course experience.*
-
-- [ ] **Task 3.1:** Archive math-specific components and pages (move to `src/archive/`). Keep shared infrastructure (auth, family management, state, design system).
-- [ ] **Task 3.2:** Build the **Course Home** page — chapter list with progress indicators, band selector, family context.
-- [ ] **Task 3.3:** Build the **Chapter View** — displays AI-adapted content for the selected band. Includes embedded maps, "Think It Through" prompts, and vocabulary highlights.
-- [ ] **Task 3.4:** Build the **Map Explorer** component — interactive map viewer that overlays geographic annotations. Reuses Explainer Canvas architecture.
-- [ ] **Task 3.5:** Build the **Band Selector** — parent chooses the reading level. Stored per-learner in D1. Can be changed anytime.
-
-## Phase 4: AI Content Adaptation Engine
+## Phase 4: AI Content Adaptation Engine — 🔲 NOT STARTED
 *Focus: The core differentiator — one source text, adapted per band via AI.*
 
-- [ ] **Task 4.1:** Build the **band adaptation prompt pipeline** — given master text chunks + band level, generate age-appropriate content. Cache aggressively in D1 (like existing `Enriched_Task_Cache`).
-- [ ] **Task 4.2:** Band 0 (Picture Book) — AI generates 2-3 sentence summaries per chapter section + image generation prompts. Flux generates illustrations. Cache results.
-- [ ] **Task 4.3:** Band 1–2 (Story/Explorer) — AI condenses and simplifies text, adds vocabulary scaffolding, generates discussion questions.
-- [ ] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — AI preserves most of the master text, adds critical thinking prompts, primary source analysis guides, and essay topics.
-- [ ] **Task 4.5:** Band 5 (University Prep) — Master text served directly from R2 with supplementary reading lists and research prompts.
+- [ ] **Task 4.1:** Build band adaptation prompt pipeline — master text chunks + band → age-appropriate content.
+- [ ] **Task 4.2:** Band 0 (Picture Book) — 2-3 sentence summaries + Flux illustrations.
+- [ ] **Task 4.3:** Band 1–2 (Story/Explorer) — condensed text, vocabulary scaffolding, discussion questions.
+- [ ] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — critical thinking prompts, primary source analysis.
+- [ ] **Task 4.5:** Band 5 (University Prep) — master text from R2 + supplementary reading lists.
 
-## Phase 5: Assessment & Oral Examiner
-*Focus: Repurpose the Evidence Witness for history-specific oral examination.*
+## Phase 5: Assessment & Oral Examiner — 🔲 NOT STARTED
+*Focus: Repurpose Evidence Witness for history-specific oral examination.*
 
-- [ ] **Task 5.1:** Adapt the Evidence Witness agent prompt — from math constraint enforcement to Socratic questioning based on chapter RAG context.
-- [ ] **Task 5.2:** Build band-aware question generation — AI generates questions appropriate to the reading level from chapter content.
-- [ ] **Task 5.3:** Build the **Oral Exam flow** — parent initiates, child converses with AI, session recorded, AI drafts assessment, parent reviews.
-- [ ] **Task 5.4:** Build the **Artifact Check flow** — child photographs drawn maps/timelines, AI compares against reference material from R2.
-- [ ] **Task 5.5:** Adapt the parent judgment flow — parent reviews AI assessment, approves or requests revision. Progression is chapter-based, not capacity-based.
+- [ ] **Task 5.1:** Adapt Evidence Witness agent prompt for Socratic questioning.
+- [ ] **Task 5.2:** Band-aware question generation from chapter RAG context.
+- [ ] **Task 5.3:** Oral Exam flow — parent initiates, child converses, AI drafts assessment.
+- [ ] **Task 5.4:** Artifact Check flow — photo of drawn maps/timelines, AI comparison.
+- [ ] **Task 5.5:** Parent judgment flow adapted for chapter-based progression.
 
-## Phase 6: Explainer Canvas for History
-*Focus: Repurpose the interactive whiteboard for animated history narration.*
+## Phase 6: Explainer Canvas for History — 🔲 NOT STARTED
+*Focus: Repurpose interactive whiteboard for animated history narration.*
 
-- [ ] **Task 6.1:** Build history-specific canvas elements — map overlays, timeline bars, kingdom boundaries, trade route animations, portrait cards for key figures.
-- [ ] **Task 6.2:** Adapt the Explainer agent prompt — from math counting blocks to historical narration with map manipulation.
-- [ ] **Task 6.3:** Build the **Narrated Lesson flow** — parent taps "Start Lesson" on a chapter section, AI narrates while animating the canvas. Band-aware pacing and vocabulary.
-- [ ] **Task 6.4:** Wire map assets from R2 into the canvas as base layers.
+- [ ] **Task 6.1:** History canvas elements — map overlays, timelines, trade routes, key figure cards.
+- [ ] **Task 6.2:** Adapt Explainer agent prompt for historical narration.
+- [ ] **Task 6.3:** Narrated Lesson flow — band-aware pacing and vocabulary.
+- [ ] **Task 6.4:** Wire map assets from R2 into canvas as base layers.
 
-## Phase 7: Worker & Schema Updates
-*Focus: Adapt the backend for chapter-based progression instead of capacity-based.*
+## Phase 7: Worker & Schema Updates — 🔲 PARTIALLY DONE
+*Focus: Adapt backend for chapter-based progression.*
 
-- [ ] **Task 7.1:** Design new D1 schema: `Chapters`, `Learner_Chapter_Progress`, `Band_Adapted_Content_Cache`, `Oral_Exam_Sessions`. Migrate from capacity-based tables.
-- [ ] **Task 7.2:** Build chapter progression API — track per-learner: which chapters completed, which band, oral exam results, parent judgments.
-- [ ] **Task 7.3:** Build content serving API — `GET /api/chapter/:id/content?band=2` returns cached adapted content or triggers generation.
-- [ ] **Task 7.4:** Adapt the weekly plan engine (optional) — instead of daily math tasks, suggest a weekly chapter reading pace based on the family's chosen schedule.
+- [x] **Task 7.1:** D1 schema for curriculum (done in Phase 3).
+- [x] **Task 7.2:** Chapter/lesson progress API (done in Phase 3).
+- [ ] **Task 7.3:** Content serving API — `GET /api/chapter/:id/content?band=2` with cached adapted content.
+- [ ] **Task 7.4:** Weekly plan engine adaptation (optional).
 
-## Phase 8: Pilot with Families
-*Focus: Ship to the families who asked for this.*
+## Phase 8: Pilot with Families — 🔲 NOT STARTED
+*Focus: Ship to families.*
 
-- [ ] **Task 8.1:** Onboard 5–10 pilot families. Parent creates account, selects band per child, begins Chapter 1.
-- [ ] **Task 8.2:** Measure: time per chapter, engagement with maps, oral exam completion rate, parent satisfaction.
-- [ ] **Task 8.3:** Calibrate band adaptation quality — is Band 0 actually suitable for a 4-year-old? Is Band 4 challenging enough for a 16-year-old?
-- [ ] **Task 8.4:** Collect feedback on the Explainer Canvas narration — is it helpful or distracting?
-- [ ] **Task 8.5:** Identify content gaps — which chapters need more maps, more primary sources, more illustrations?
+- [ ] **Task 8.1:** Onboard 5–10 pilot families.
+- [ ] **Task 8.2:** Measure engagement and completion rates.
+- [ ] **Task 8.3:** Calibrate band adaptation quality.
+- [ ] **Task 8.4:** Collect feedback on Explainer Canvas.
+- [ ] **Task 8.5:** Identify content gaps.
 
-## Phase 9: Content Expansion
-*Focus: Complete the textbook and expand geographic coverage.*
+## Phase 9: Content Expansion — 🔲 NOT STARTED
+*Focus: Complete textbook and expand coverage.*
 
-- [ ] **Task 9.1:** Complete Chapter 10 and beyond — East African city-states, Great Zimbabwe, pre-colonial Southern Africa.
-- [ ] **Task 9.2:** Add world history context sidebars — "While Aksum was trading with Rome, what was happening in China?" These are short, AI-generatable inserts that place Africa in global context without requiring a full world history curriculum.
-- [ ] **Task 9.3:** Expand the map library — commission or generate maps for chapters currently lacking visual assets.
-- [ ] **Task 9.4:** Build a glossary and index system — searchable, cross-referenced, band-aware definitions.
+- [ ] **Task 9.1:** Complete Chapter 10+.
+- [ ] **Task 9.2:** World history context sidebars.
+- [ ] **Task 9.3:** Expand map library.
+- [ ] **Task 9.4:** Glossary and index system.
 
 ---
 
 ## Archived (For Future Reactivation)
 
-The following systems are built, tested, and preserved in the codebase but not active in the history curriculum:
-
 | System | Location | Reactivation Path |
 |--------|----------|-------------------|
-| Math Curriculum Spine (377 templates, 5 strands) | `worker/src/lib/`, `db/` | Load JSON seeds, re-enable math strand in curriculum selector |
-| DAG Dependency Resolver | `worker/src/lib/dag.ts` | Applicable if history adds prerequisite chapters |
-| Repetition Arc Engine | `worker/src/lib/arc.ts` | Applicable for skill-based subjects (math, language) |
-| Split Judgment Model | `worker/src/lib/splitJudgment.ts` | Applicable when AI and parent assess different dimensions |
+| Math Curriculum Spine (377 templates, 5 strands) | `worker/src/lib/`, `db/` | Load JSON seeds, re-enable math strand |
+| DAG Dependency Resolver | `worker/src/lib/dag.ts` | Applicable if history adds prerequisites |
+| Repetition Arc Engine | `worker/src/lib/arc.ts` | Applicable for skill-based subjects |
+| Split Judgment Model | `worker/src/lib/splitJudgment.ts` | Applicable for multi-dimension assessment |
 | AI Permission Rules | `worker/src/lib/aiPermissions.ts` | Applicable for gradual child autonomy |
-| Noise Injection / Endurance Tasks | `worker/src/lib/taskGen.ts` | Math-specific, not applicable to history |
-| Child Portal Access Levels | `src/pages/learner/ChildPortal.tsx` | Re-enable when child-led history exploration is desired |
+| Noise Injection / Endurance Tasks | `worker/src/lib/taskGen.ts` | Math-specific |
+| Child Portal Access Levels | `src/archive/pages/ChildPortal.tsx` | Re-enable for child-led exploration |
+| Legacy Learner Components (10) | `src/archive/` | Various math/science primitives |
+| Legacy Parent Components (9) | `src/archive/` | Judgment, quiz, revision modals |
 
 ---
 
 ## Cross-Cutting Concerns (Unchanged)
 
-- **CC.1: Mobile-First.** Every component tested at 360px and 768px. Families share a single device.
-- **CC.2: Low-Bandwidth Resilience.** Cache adapted content aggressively. Only the Oral Examiner and Explainer Canvas need live connections.
-- **CC.3: Cultural Authenticity.** Ugandan names, East African contexts, local references in AI-generated content.
-- **CC.4: Cost Control.** RAG + caching means most content is served from D1/R2, not generated per-request. Live AI sessions are optional/premium.
-- **CC.5: Accessibility.** ARIA labels, keyboard navigation, screen reader support for all new components.
-- **CC.6: Offline-First Content.** Adapted chapter text should be cacheable for offline reading. Only AI interactions require connectivity.
+- **CC.1: Mobile-First.** Every component tested at 360px and 768px.
+- **CC.2: Low-Bandwidth Resilience.** Cache adapted content aggressively.
+- **CC.3: Parental Sovereignty.** No progression without parent approval.
+- **CC.4: Offline-Safe Content.** Adapted text cached in D1 for offline reading.
+- **CC.5: Confessional Integrity.** AI may not contradict the master text's theological framework.
+
+---
+
+## Current Blockers
+
+| # | Issue | Status | Fix |
+|---|-------|--------|-----|
+| 7 | `package-lock.json` out of sync | BLOCKER | Run `npm install` locally, commit lockfile |
+| 8 | D1 migration `003_history_curriculum.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql` |
+| 14 | ~1300 lines legacy math routes in worker | LOW | Cleanup deferred — not blocking |
