@@ -9,8 +9,6 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
-import LearnerDashboard from "./pages/learner/LearnerDashboard";
-import ChildPortal from "./pages/learner/ChildPortal";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -33,11 +31,9 @@ const App = () => {
   useEffect(() => {
     const handleOnline = () => setOffline(false);
     const handleOffline = () => setOffline(true);
-
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
     setOffline(!navigator.onLine);
-
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
@@ -69,24 +65,8 @@ const App = () => {
               <Route
                 path="/dashboard"
                 element={
-                  <ProtectedRoute allowedRoles={['parent']}>
+                  <ProtectedRoute>
                     <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/learner/:learnerId"
-                element={
-                  <ProtectedRoute allowedRoles={['learner']}>
-                    <LearnerDashboard />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/child/:learnerId"
-                element={
-                  <ProtectedRoute allowedRoles={['learner']}>
-                    <ChildPortal />
                   </ProtectedRoute>
                 }
               />
