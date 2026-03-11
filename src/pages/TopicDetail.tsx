@@ -1,0 +1,142 @@
+import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { ChevronLeft, Loader2, Clock, MapPin, AlertCircle, BookOpen } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
+interface Lesson {
+  id: string;
+  title: string;
+  difficulty_band: string;
+  estimated_time: string;
+  status: 'not_started' | 'in_progress' | 'completed';
+}
+
+interface TopicDetailData {
+  id: string;
+  title: string;
+  description: string;
+  era: string;
+  region: string;
+  lessons: Lesson[];
+}
+
+export default function TopicDetail() {
+  const { topicId } = useParams<{ topicId: string }>();
+  const navigate = useNavigate();
+
+  const { data: topic, isLoading, isError } = useQuery<TopicDetailData>({
+    queryKey: ['topic', topicId],
+    queryFn: async () => {
+      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+      const res = await fetch(`${apiUrl}/api/topics/${topicId}`, {
+        credentials: 'include',
+      });
+      if (!res.ok) throw new Error('Failed to fetch topic details');
+      return res.json();
+    },
+    enabled: !!topicId,
+  });
+
+  const getStatusBadge = (status: Lesson['status']) => {
+    switch (status) {
+      case 'completed':
+        return <Badge variant="default" className="bg-green-600 hover:bg-green-700">Completed</Badge>;
+      case 'in_progress':
+        return <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">In Progress</Badge>;
+      case 'not_started':
+      default:
+        return <Badge variant="outline" className="text-muted-foreground">Not Started</Badge>;
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (isError || !topic) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
+        <AlertCircle className="h-12 w-12 text-destructive" />
+        <h2 className="text-xl font-semibold">Failed to load topic details</h2>
+        <Button onClick={() => navigate('/dashboard')} variant="outline">
+          Back to Dashboard
+        </Button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="mr-4">
+            <ChevronLeft className="h-4 w-4 mr-1" /> Back
+          </Button>
+          <h1 className="text-sm font-medium truncate">{topic.title}</h1>
+        </div>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-4 py-10 space-y-8">
+        <div className="space-y-4">
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="secondary" className="flex items-center gap-1 text-sm py-1">
+              <Clock className="w-4 h-4" /> {topic.era}
+            </Badge>
+            <Badge variant="outline" className="flex items-center gap-1 text-sm py-1">
+              <MapPin className="w-4 h-4" /> {topic.region}
+            </Badge>
+          </div>
+          <h2 className="text-4xl font-bold tracking-tight">{topic.title}</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            {topic.description}
+          </p>
+        </div>
+
+        <div className="space-y-4 pt-6 border-t border-border/50">
+          <h3 className="text-2xl font-semibold flex items-center gap-2">
+            <BookOpen className="h-6 w-6 text-primary" /> Lessons
+          </h3>
+
+          {topic.lessons.length === 0 ? (
+             <div className="text-center py-12 border rounded-xl border-dashed bg-card">
+              <p className="text-muted-foreground">No lessons are currently available for this topic.</p>
+            </div>
+          ) : (
+            <div className="grid gap-4">
+              {topic.lessons.map((lesson) => (
+                <Card
+                  key={lesson.id}
+                  className="hover:shadow-md transition-shadow cursor-pointer"
+                  onClick={() => navigate(`/lessons/${lesson.id}`)}
+                >
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between gap-4">
+                      <CardTitle className="text-xl leading-tight">{lesson.title}</CardTitle>
+                      {getStatusBadge(lesson.status)}
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <span className="font-medium text-foreground">Band:</span> {lesson.difficulty_band}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" /> {lesson.estimated_time}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
