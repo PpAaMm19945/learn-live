@@ -1,136 +1,28 @@
 # Project Progress
 
 ## Phase 1: Foundation, Infrastructure, & Core Utilities ✅
-*   [x] **Task 1.1:** Scaffold React/Vite frontend with Tailwind CSS (Dark Mode, Spartan design system).
-*   [x] **Task 1.2:** Implement a robust Global Logger Utility (`Logger.ts`) for frontend and backend.
-*   [x] **Task 1.3:** Initialize Cloudflare D1 schema (Families, Learners, Domains, Capacities, Matrix Tasks, Portfolios).
-*   [x] **Task 1.4:** Initialize Cloudflare Workers or Hono API wrapper for basic D1 CRUD operations.
-*   [x] **Task 1.5:** Set up Cloudflare R2 bucket policies and upload utility functions.
-*   [x] **Task 1.6:** Define the API contract / interface between the React frontend and Cloud Run backend.
-*   [x] **Task 1.7:** Set up environment & secrets management.
-*   [x] **Task 1.8:** Design the 3D Responsibility Matrix schema in detail.
+*   [x] All tasks complete.
 
-## Phase 2: Authentication, State, & Data Access ✅ *(Scaffolded/Mocked)*
-*   [x] **Task 2.1:** Implement secure Auth flow (Parent vs. Learner modes).
-    *   [x] **Task 2.1a:** Persist auth state across refreshes (Zustand persist + sessionStorage).
-*   [x] **Task 2.2:** Build out the Parent Command Center (Dashboard shell). *(Scaffolded — fetches mocked data.)*
-    *   [ ] **Task 2.2a:** Fetch family profiles from D1 (`GET /api/family/:id/profiles`).
-*   [x] **Task 2.3:** Implement Global State Management (Zustand) with embedded state-change logging.
-*   [x] **Task 2.4:** Build D1 seeding scripts to populate the 3D Responsibility Matrix.
-*   [x] **Task 2.5:** Implement multi-learner profile switching on a shared device.
-*   [x] **Task 2.6:** Build a role-based access guard.
-*   [ ] **Task 2.7:** Configure production API URL via `VITE_API_URL` environment variable.
+## Phase 2: Authentication, State, & Data Access ✅
+*   [x] **Task 2.1:** D1 Auth Schema (`002_auth_tables.sql` — Users, Auth_Tokens, Sessions, User_Roles)
+*   [x] **Task 2.2:** JWT Session Utilities & Cookie Helpers (`jwt.ts`, `cookies.ts`, `middleware.ts`)
+*   [x] **Task 2.3:** Magic Link Auth (`magicLink.ts` — token generation, Resend email, verify flow)
+*   [x] **Task 2.4:** Google OAuth (`google.ts` — consent URL, token exchange, user upsert)
+*   [x] **Task 2.5:** Password Auth + Email Verification (`password.ts`, `emailVerification.ts`)
+*   [x] **Task 2.6:** Account Linking (`accountLink.ts` — `findOrCreateUser` resolves all methods to one user)
+*   [x] **Task 2.7:** Auth Middleware + Route Wiring (`/api/auth/me`, `/api/auth/logout`, all auth routes in `index.ts`)
+*   [x] **Task 2.8:** Frontend Auth Store (Zustand `checkSession()` + `logout()`, no localStorage)
+*   [x] **Task 2.9:** Auth UI Pages (Login, Register, ForgotPassword, ResetPassword with toast notifications)
+*   [x] **Task 2.10:** UI Polish + Route Guards (magic link sent state, invalid token state, `ProtectedRoute` updated)
+*   [x] **Task 2.11:** CORS fix (`SameSite=None; Secure`, origin-aware allowlist with credentials)
+*   [x] **Task 2.12:** Legacy cleanup (all math/science/english components archived, placeholder Dashboard created)
 
-## Phase 3: The Learner Interface & Task Selection ✅
-*   [x] **Task 3.1:** Build the Learner UI Shell (Distraction-free, mobile-first).
-*   [x] **Task 3.2:** Display active/stalled tasks for the specific learner.
-*   [x] **Task 3.3:** Build the "Witness Button" and task briefing component.
-*   [x] **Task 3.4:** Build camera/microphone permissions flow.
-*   [x] **Task 3.5:** Add React Error Boundary wrapper.
-*   [x] **Task 3.6:** Wire offline detection to `uiStore.isOffline`.
+## Legacy Phases (Pre-Pivot) — Archived
+All Phase 3-13 work (multi-subject math/science/english curriculum, Explainer Canvas, Evidence Witness, etc.) has been archived to `src/archive/` and `worker/src/archive/`. Components will be rebuilt for the African History RAG curriculum.
 
-## Audit Fixes Applied (2026-02-27)
-*   [x] **Fix 1:** Added `[SEC]` to `LogContext` in `Logger.ts`.
-*   [x] **Fix 2:** Fixed `ProtectedRoute.tsx` — removed `useAuthStore.getState()` in render, used hook-destructured `userId`.
-*   [x] **Fix 3:** Fixed `Dashboard.tsx` — replaced hardcoded "Smith Family" with dynamic `familyId` display.
-*   [x] **Fix 4:** Added `persist` middleware to `auth.ts` using `sessionStorage`.
-*   [x] **Fix 5:** Added missing sub-tasks (2.1a, 2.2a, 2.7, 3.5, 3.6) to `ROADMAP.md`.
-
-## Phase 4: The Agent Engine
-*   [x] **Task 4.1:** Scaffold Cloud Run Microservice (`agent/`).
-*   [x] **Task 4.2:** WebSocket Server & Gemini Live SDK Wrapper.
-*   [x] **Task 4.3:** Constraint Fetcher (`agent/src/constraints.ts`).
-*   [x] **Task 4.4:** Worker API Endpoint (`/api/task/:id`).
-*   [x] **Task 4.5:** Constraint Validator & Rate Limiter (`agent/src/validate.ts`, `agent/src/rateLimit.ts`).
-
-## Phase 5: The Agent WebRTC Connection & Full Session Flow
-*   [x] **Task 5.1:** Capture Frontend MediaStreams & Proxy WebSocket.
-*   [x] **Task 5.2:** Build standalone fullscreen `<EvidenceWitness>` component holding active streams.
-*   [x] **Task 5.3:** Mock/Intercept constraint evaluation function calls in Agent (`gemini.ts` & `server.ts`).
-*   [x] **Task 5.4:** Handle `session_end` WebSocket message to terminate streams and show UI overlay gracefully before returning to Dashboard.
-
-## Phase 6: Assessment Logging & Evidence Pipeline
-*   [x] **Task 6.1:** Modify Worker API `(worker/src/index.ts)` to handle POST `/api/portfolio` insertions and execute `UPDATE Matrix_Tasks` query.
-*   [x] **Task 6.2:** Modify WebRTC frontend UI `(src/components/learner/EvidenceWitness.tsx)` to extract an Image frame using Canvas API before track destruction.
-*   [x] **Task 6.3:** Call `POST /api/upload` then `POST /api/portfolio` asynchronously handling loading UI.
-*   [x] **Task 6.4:** Map global Logger integrations locally across these API calls.
-*   [x] **Task 6.5:** Add Lightweight Learner Portfolio View (`LearnerPortfolio.tsx`).
-
-## Phase 7: Parent Review & Progression Mechanics
-*   [x] **Task 7.1:** Update the Parent Dashboard to display "Awaiting Judgment" tasks.
-*   [x] **Task 7.2:** Build the Evidence Review UI (playback audio snippet, view transcript, view snapshot).
-*   [x] **Task 7.3:** Implement the Authority Actions ("Authorize Advancement" vs. "Require Revision").
-*   [x] **Task 7.4:** Trigger the 3D Matrix progression logic based on the parent's judgment.
-*   [x] **Task 7.5:** Build pattern tracking dashboard — learner stats, approval rate, revision rate, AI confidence, recent activity history.
-*   [x] **Task 7.6:** Build revision flow — RevisionModal with parent notes, worker re-queues tasks, revision context stored.
-
-## Phase 8: Hackathon Polish, Scripts, & Submission
-*   [x] **Task 8.1:** Write and test spin-up instructions & automated deployment scripts.
-*   [x] **Task 8.2:** Generate the final Architecture Diagram (`docs/Architecture.md` with Mermaid sequence diagram).
-*   [ ] **Task 8.3:** Record the 4-minute demo video.
-*   [ ] **Task 8.4:** Final audit of all codebase logs.
-*   [x] **Task 8.5:** Set up CI/CD pipeline or reproducible deployment script.
-*   [x] **Task 8.6:** Write README / blog post for hackathon submission (polished `README.md` with concept, tech stack, architecture, and run instructions).
-*   [ ] **Task 8.7:** Run final end-to-end smoke test.
-
-## Phase 9: Parent-Primary UI & Evidence Capture
-*   [x] **Task 9.1:** Redesign entry flow — parent opens app, sees today's tasks. Three evidence paths unified.
-*   [x] **Task 9.2:** Build Parent Task View with constraint prompts. *(Done: `ParentTaskCard.tsx`)*
-*   [x] **Task 9.3:** Build Parent Report Flow — guided two-step observation + assessment form (`ParentReportModal.tsx`).
-*   [x] **Task 9.4:** Build Async AI Evidence Capture. *(Done: `AsyncEvidenceModal.tsx`)*
-*   [x] **Task 9.5:** Refactored Live AI Witness — parent-initiated, clearly marked as premium with Crown badge.
-*   [x] **Task 9.6:** Unified all evidence types (parent reports, async AI, live AI) in single dashboard with three action buttons.
-*   [x] **Task 9.7:** Progression logic accepts all evidence sources via shared `/api/portfolio` endpoint.
-
-## Phase 9: Parent-Primary UI & Evidence Capture
-*   [x] **Task 9.1:** Redesign entry flow — parent-primary with unified evidence buttons.
-*   [x] **Task 9.2:** Build Parent Task View. *(Done: `ParentTaskCard.tsx`)*
-*   [x] **Task 9.3:** Build Parent Report Flow (`ParentReportModal.tsx`).
-*   [x] **Task 9.4:** Build Async AI Evidence Capture (`AsyncEvidenceModal.tsx`).
-*   [x] **Task 9.5:** Refactored Live AI as premium/optional with Crown badge.
-*   [x] **Task 9.6:** Unified evidence types in dashboard.
-*   [x] **Task 9.7:** Progression logic works for all evidence sources.
-
-## Phase 10: Curriculum Spine Integration
-*   [x] **Task 10.1:** Schema for Strands, Capacities, DAG, Templates, Repetition State.
-*   [x] **Task 10.2:** Seeding pipeline — 377+ templates deployed to D1.
-*   [x] **Task 10.3:** Task generation engine (`worker/src/lib/taskGen.ts`) — template randomization, context injection, system instruction generation.
-*   [x] **Task 10.4:** DAG dependency resolver (`worker/src/lib/dag.ts`) — cross-strand prerequisite gates, lateral movement suggestions, dependent unlocking.
-*   [x] **Task 10.5:** Repetition Arc engine (`worker/src/lib/arc.ts`) — Exposure→Execution→Endurance→Milestone with cognitive level progression.
-*   [x] **Task 10.6:** Noise injection for Endurance tasks — distractor elements injected into parent prompts.
-*   [x] **Task 10.7:** Cross-strand Milestone tasks — unlabeled combined challenges.
-*   [x] **Task 10.8:** Split Judgment model for Band 4–5. *(Done: `worker/src/lib/splitJudgment.ts` + `/api/portfolio/:id/split-judge` endpoint)*
-*   [x] **Task 10.9:** Parent Primers for Band 3+. *(Done: `worker/src/lib/parentPrimer.ts` + `/api/primer/:templateId` endpoint)*
-*   [x] **Task 10.10:** AI Permission Rule enforcement. *(Done: `worker/src/lib/aiPermissions.ts` + `/api/learner/:id/ai-permission/:capacityId` endpoint)*
-
-## Phase 11: Child Portal & Gradual Handoff
-*   [x] **Task 11.1:** Child Portal shell (`src/pages/learner/ChildPortal.tsx`) — simplified task view with access-level-aware UI.
-*   [x] **Task 11.2:** Parent-controlled access levels (None → Read-Only → Task Execution → Child-Led) via `AccessControlModal.tsx` and `/api/learner/:id/access-level` endpoint.
-*   [x] **Task 11.3:** Child evidence submission in Task Execution mode — photo + audio routed to parent review.
-*   [x] **Task 11.4:** Child-Led mode — AI permission check gates AI tool access, parent still judges formation.
-*   [x] **Task 11.5:** Portfolio view accessible from Child Portal header.
-
-## Phase 13: Explainer Canvas — Digital Whiteboard Agent (Creative Storyteller)
-*   [x] **Task 13.1:** Build `ExplainerCanvas.tsx` — fullscreen digital whiteboard with framer-motion, element registry (CountingBlock, TextElement, ShapeElement, ImageElement), scene management (max 7 elements).
-*   [x] **Task 13.2:** Build `ExplainerClient.ts` — WebSocket bridge handling voice + canvas tool call parsing.
-*   [x] **Task 13.3:** Add `/v1/agent/explainer` Cloud Run endpoint — separate WebSocket from Evidence Witness, with canvas tool declarations (show_element, animate_element, remove_element, clear_canvas, generate_diagram).
-*   [x] **Task 13.4:** Build learner-context-rich system prompts — age/band/name-aware, pedagogically mature instructions.
-*   [x] **Task 13.5:** Build Math counting/blocks demo flow with pre-built SVG primitives. *(Done: `MathPrimitives.tsx` — CountingCube, CountingRow, NumberLine, GroupCircle, OperatorSign, FractionBar)*
-*   [x] **Task 13.6:** Wire "Explain This" entry point from TaskBriefing → PermissionsFlow → ExplainerCanvas.
-*   [x] **Task 13.7:** Audio-canvas sync (atomic payloads). *(Done: `audioCanvasSync.ts` — sequence-ordered queue with audio-visual sync)*
-*   [x] **Task 13.8:** Demo mode (recorded WebSocket replay fallback). *(Done: `demoPlayer.ts` — addition demo, auto-fallback on live failure)*
-*   [x] **Task 13.9:** Nano Banana image generation integration. *(Done: `worker/src/lib/nanoBanana.ts` + `/api/generate-diagram` endpoint + ExplainerCanvas wiring)*
-
-## Task 2.1 — D1 Auth Schema Design & Migration
-- **Status:** Complete
-- **Files created:** `worker/db/migrations/002_auth_tables.sql`, `.antigravity/walkthroughs/Phase2_Auth_Schema.md`
-- **Files modified:** `worker/src/index.ts`
-- **Files archived:** All existing SQL files in `db/` moved to `worker/src/archive/schema-v1/`
-- **Summary:** New auth tables created for Users, Auth_Tokens, Sessions, User_Roles. Env interface updated with new secrets.
-
-## Task 2.2 — JWT Session Utilities & Cookie Helpers
-- **Status:** Complete
-- **Files created:** `worker/src/lib/auth/jwt.ts`, `worker/src/lib/auth/cookies.ts`, `worker/src/lib/auth/middleware.ts`
-- **Files modified:** None
-- **Files archived:** None
-- **Summary:** Created `signToken` and `verifyToken` using the native Web Crypto API. Added cookie helpers (`setSessionCookie`, `getSessionToken`, `clearSessionCookie`) and `authenticateRequest` middleware, keeping core utilities distinct without touching existing routes.
+## Phase 3: African History RAG Curriculum — NOT STARTED
+*   [ ] **Task 3.1:** Design new D1 schema for history content (Topics, Lessons, Sources, RAG chunks)
+*   [ ] **Task 3.2:** Build RAG ingestion pipeline (R2 storage + chunk indexing)
+*   [ ] **Task 3.3:** Build content explorer UI (topic browser, lesson view)
+*   [ ] **Task 3.4:** Build AI-powered Q&A with source citations
+*   [ ] **Task 3.5:** Build learner progress tracking for history curriculum
