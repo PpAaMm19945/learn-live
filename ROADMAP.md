@@ -134,7 +134,7 @@ The existing photo+audio capture pipeline is repurposed:
 - `User_Roles` — `user_id`, `role` (parent | learner) — separate table per security best practice
 
 **Auth Methods (all three supported):**
-1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env['resend-api']`) → User clicks link → Worker validates, sets HttpOnly session cookie
+1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env.Resend_API_Key`) → User clicks link → Worker validates, sets HttpOnly session cookie
 2. **Google OAuth** — `/api/auth/google` redirects to Google (`env.Google_Client_ID`) → callback exchanges code using `env.Google_Client_Secret` → creates/finds user → sets session cookie
 3. **Email + Password** — User signs up with email + password → Worker hashes password (bcrypt/scrypt via Web Crypto), stores in `Users`, sends verification email via Resend → Login validates password, sets session cookie
 
