@@ -2,8 +2,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Loader2, Clock, MapPin, AlertCircle, BookOpen } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { LessonProgress } from '@/components/progress/LessonProgress';
 
 interface Lesson {
   id: string;
