@@ -127,3 +127,10 @@
 - **Files modified:** `worker/src/index.ts`
 - **Files archived:** All existing SQL files in `db/` moved to `worker/src/archive/schema-v1/`
 - **Summary:** New auth tables created for Users, Auth_Tokens, Sessions, User_Roles. Env interface updated with new secrets.
+
+## Task 2.2 — JWT Session Utilities & Cookie Helpers
+- **Status:** Complete
+- **Files created:** `worker/src/lib/auth/jwt.ts`, `worker/src/lib/auth/cookies.ts`, `worker/src/lib/auth/middleware.ts`
+- **Files modified:** None
+- **Files archived:** None
+- **Summary:** Created `signToken` and `verifyToken` using the native Web Crypto API. Added cookie helpers (`setSessionCookie`, `getSessionToken`, `clearSessionCookie`) and `authenticateRequest` middleware, keeping core utilities distinct without touching existing routes.
