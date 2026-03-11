@@ -35,6 +35,11 @@ function cachedJSONParse(jsonString: string | null): any {
 export interface Env {
     DB: D1Database;
     EVIDENCE_VAULT: R2Bucket;
+    JWT_SECRET: string;
+    Google_Client_ID: string;
+    Google_Client_Secret: string;
+    Resend_API_Key: string;
+    // Legacy — keep for backward compat during migration
     API_AUTH_TOKEN?: string;
     GEMINI_API_KEY?: string;
 }
