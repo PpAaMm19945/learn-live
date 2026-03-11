@@ -63,7 +63,8 @@ function ConsistencyBar({ rate, label }: { rate: number; label: string }) {
 }
 
 export function PatternDashboard({ isOpen, onClose, learnerId, learnerName }: PatternDashboardProps) {
-    const { familyId } = useAuthStore();
+    const { userId } = useAuthStore();
+    const familyId = userId?.includes('family_') ? 'family_' + userId.split('family_')[1].split('_child')[0] : null;
 
     const { data, isLoading } = useQuery({
         queryKey: ['learner-patterns', familyId, learnerId],

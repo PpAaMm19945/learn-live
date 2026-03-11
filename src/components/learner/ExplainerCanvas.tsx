@@ -203,7 +203,8 @@ export function ExplainerCanvas({ task, onClose }: ExplainerCanvasProps) {
     const [isDemoMode, setIsDemoMode] = useState(false);
     const clientRef = useRef<ExplainerClient | null>(null);
     const demoRef = useRef<DemoPlayer | null>(null);
-    const { familyId, userId } = useAuthStore();
+    const { userId } = useAuthStore();
+    const familyId = userId?.includes('family_') ? 'family_' + userId.split('family_')[1].split('_child')[0] : null;
 
     const applyOps = useCallback((ops: CanvasOperation[]) => {
         setElements(prev => {
