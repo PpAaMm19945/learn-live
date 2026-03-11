@@ -122,7 +122,7 @@ The existing photo+audio capture pipeline is repurposed:
 *Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password. No third-party auth providers.*
 
 **External Setup (Complete):**
-- Resend account configured — secret stored as `resend-api` in Worker (note: hyphen requires `env['resend-api']` bracket notation in code)
+- Resend account configured — secret stored as `Resend_API_Key` in Worker (accessed as `env.Resend_API_Key`)
 - Google OAuth app configured — secrets stored as `Google_Client_ID` and `Google_Client_Secret` in Worker
 - `JWT_SECRET` in Worker for signing session tokens
 
@@ -134,7 +134,7 @@ The existing photo+audio capture pipeline is repurposed:
 - `User_Roles` — `user_id`, `role` (parent | learner) — separate table per security best practice
 
 **Auth Methods (all three supported):**
-1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env['resend-api']`) → User clicks link → Worker validates, sets HttpOnly session cookie
+1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env.Resend_API_Key`) → User clicks link → Worker validates, sets HttpOnly session cookie
 2. **Google OAuth** — `/api/auth/google` redirects to Google (`env.Google_Client_ID`) → callback exchanges code using `env.Google_Client_Secret` → creates/finds user → sets session cookie
 3. **Email + Password** — User signs up with email + password → Worker hashes password (bcrypt/scrypt via Web Crypto), stores in `Users`, sends verification email via Resend → Login validates password, sets session cookie
 
@@ -159,7 +159,7 @@ The existing photo+audio capture pipeline is repurposed:
 **Tasks:**
 - [ ] **Task 2.1:** Design and migrate D1 schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
 - [ ] **Task 2.2:** Build JWT session utilities — sign/verify with `JWT_SECRET`, cookie helpers (HttpOnly, Secure, SameSite=Lax).
-- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env['resend-api']`), verification endpoint, session creation.
+- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env.Resend_API_Key`), verification endpoint, session creation.
 - [ ] **Task 2.4:** Build Google OAuth flow — redirect, callback, user upsert by email, session creation. Uses `env.Google_Client_ID` and `env.Google_Client_Secret`.
 - [ ] **Task 2.5:** Build email + password flow — registration with email verification, login, password hashing via Web Crypto API.
 - [ ] **Task 2.6:** Build password reset flow — forgot-password email via Resend, reset-password token validation.
