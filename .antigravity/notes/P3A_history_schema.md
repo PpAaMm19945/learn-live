@@ -1,0 +1,3 @@
+# Phase 3A: History Schema Design Notes
+
+Created 6 new tables to support the African History RAG curriculum. `Topics` and `Lessons` establish the pedagogical hierarchy. `Sources` and `RAG_Chunks` manage diverse historical materials (primary, oral) and prepare text for vector embeddings. `Learner_Progress` connects `Users` to `Lessons` to track performance, while `Quiz_Questions` provides structured assessments mapped directly to difficulty bands.
