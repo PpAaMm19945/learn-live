@@ -120,3 +120,10 @@
 *   [x] **Task 13.7:** Audio-canvas sync (atomic payloads). *(Done: `audioCanvasSync.ts` — sequence-ordered queue with audio-visual sync)*
 *   [x] **Task 13.8:** Demo mode (recorded WebSocket replay fallback). *(Done: `demoPlayer.ts` — addition demo, auto-fallback on live failure)*
 *   [x] **Task 13.9:** Nano Banana image generation integration. *(Done: `worker/src/lib/nanoBanana.ts` + `/api/generate-diagram` endpoint + ExplainerCanvas wiring)*
+
+## Task 2.1 — D1 Auth Schema Design & Migration
+- **Status:** Complete
+- **Files created:** `worker/db/migrations/002_auth_tables.sql`, `.antigravity/walkthroughs/Phase2_Auth_Schema.md`
+- **Files modified:** `worker/src/index.ts`
+- **Files archived:** All existing SQL files in `db/` moved to `worker/src/archive/schema-v1/`
+- **Summary:** New auth tables created for Users, Auth_Tokens, Sessions, User_Roles. Env interface updated with new secrets.
