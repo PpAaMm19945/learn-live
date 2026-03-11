@@ -3,7 +3,7 @@ export function setSessionCookie(response: Response, token: string): Response {
     const newResponse = new Response(response.body, response);
 
     // Set the cookie header with standard secure flags
-    const cookieString = `session=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`;
+    const cookieString = `session=${token}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=604800`;
     newResponse.headers.append('Set-Cookie', cookieString);
 
     return newResponse;
@@ -31,7 +31,7 @@ export function clearSessionCookie(response: Response): Response {
     const newResponse = new Response(response.body, response);
 
     // Clear the cookie by setting it to empty with an expired max-age/expires date
-    const cookieString = `session=; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+    const cookieString = `session=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT`;
     newResponse.headers.append('Set-Cookie', cookieString);
 
     return newResponse;
