@@ -1,7 +1,7 @@
 import { Env } from '../../index';
-
 import { signToken } from './jwt';
 import { setSessionCookie } from './cookies';
+import { findOrCreateUser } from './accountLink';
 
 export function generateMagicLinkToken(): string {
     return crypto.randomUUID();
