@@ -98,5 +98,20 @@
 * **Account linking:** All 3 auth methods resolve to same user via `findOrCreateUser()`
 
 ### 17. Phase 3 Prompts Ready (2026-03-11)
-* **Status:** READY
-* **Description:** 4 parallel Jules prompts written in `.antigravity/prompts-phase3.md` for African History curriculum: (A) D1 schema, (B) R2 content pipeline, (C) Frontend UI, (D) Quiz & progress. Zero file overlap between instances.
+* **Status:** COMPLETE
+* **Description:** All 4 Phase 3 parallel instances delivered successfully. Integration step completed.
+
+### 18. Phase 3 Integration — COMPLETE (2026-03-11)
+* **Status:** COMPLETE
+* **Description:** All curriculum API routes wired into `worker/src/index.ts`:
+  - `GET /api/topics` — lists topics with lesson counts (auth required)
+  - `GET /api/topics/:id` — topic detail with lessons + learner progress (auth required)
+  - `GET /api/lessons/:id` — lesson detail with parsed key_dates/key_figures + source citations (auth required)
+  - `POST /api/progress` — upsert learner progress with ON CONFLICT (auth required)
+  - `GET /api/progress` — learner progress overview with topic scores (auth required)
+  - `POST /api/quiz/complete` — submit quiz score as percentage (auth required)
+* **Audit findings fixed:**
+  - TopicDetail: replaced hardcoded color badges with `LessonProgress` component
+  - API transforms DB field names (`summary`→`description`, `narrative_text`→`narrative`, `estimated_minutes`→`estimated_time`) to match frontend expectations
+  - All routes use `requireAuth` middleware for session-cookie auth
+* **Migration required:** `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql`
