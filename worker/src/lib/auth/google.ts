@@ -1,18 +1,7 @@
+import type { Env } from '../../index';
 import { setSessionCookie } from './cookies';
 import { signToken, verifyToken } from './jwt';
-
-// Define the environment interface locally to avoid circular dependencies
-// or importing from index.ts if not exported (it is exported, but this is safer)
-export interface Env {
-    DB: D1Database;
-    EVIDENCE_VAULT: R2Bucket;
-    JWT_SECRET: string;
-    Google_Client_ID: string;
-    Google_Client_Secret: string;
-    Resend_API_Key: string;
-    API_AUTH_TOKEN?: string;
-    GEMINI_API_KEY?: string;
-}
+import { findOrCreateUser } from './accountLink';
 
 export interface GoogleTokens {
     access_token: string;
@@ -89,28 +78,11 @@ export async function getGoogleUserInfo(accessToken: string): Promise<GoogleUser
 }
 
 export async function upsertGoogleUser(db: D1Database, userInfo: { email: string; name: string }): Promise<string> {
-    // Check if user exists
-    const existingUser = await db.prepare('SELECT id FROM Users WHERE email = ?').bind(userInfo.email).first();
-
-    if (existingUser) {
-        // User exists - update name if missing or needed? For now just return ID
-        return existingUser.id as string;
-    }
-
-    // Create new user
-    const userId = `user_${crypto.randomUUID().replace(/-/g, '')}`;
-
-    await db.prepare(
-        'INSERT INTO Users (id, email, name, email_verified) VALUES (?, ?, ?, 1)'
-    ).bind(userId, userInfo.email, userInfo.name).run();
-
-    // Assign parent role by default for new Google signups
-    const roleId = `role_${crypto.randomUUID().replace(/-/g, '')}`;
-    await db.prepare(
-        'INSERT INTO User_Roles (id, user_id, role) VALUES (?, ?, ?)'
-    ).bind(roleId, userId, 'parent').run();
-
-    return userId;
+    const { id } = await findOrCreateUser(db, userInfo.email, {
+        name: userInfo.name,
+        emailVerified: true,
+    });
+    return id;
 }
 
 export async function handleGoogleAuth(request: Request, env: Env): Promise<Response> {

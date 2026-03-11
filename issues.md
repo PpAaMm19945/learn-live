@@ -73,13 +73,13 @@
 * **Status:** FIXED
 * **Description:** `cookies.ts` used `SameSite=Lax` which silently blocks cross-origin cookies when frontend (Pages) and worker are on different origins. Changed to `SameSite=None; Secure` for CORS compatibility.
 
-### 12. Route Integration Needed (2026-03-11)
-* **Status:** TODO — Next step
-* **Description:** All auth libraries (P18-P20) export standalone handler functions but none are wired into `worker/src/index.ts`. A dedicated integration step (P21 Account Linking + P22 Middleware/Routes) must wire these handlers into the router, add `/api/auth/me` and `/api/auth/logout` endpoints, and add CORS headers to all auth responses.
+### 12. ~~Route Integration Needed~~ → COMPLETE (2026-03-11)
+* **Status:** COMPLETE
+* **Description:** All auth handlers wired into `worker/src/index.ts`. Added `/api/auth/me`, `/api/auth/logout`, `/api/auth/set-password`, and all auth routes. CORS updated to use origin-aware `Access-Control-Allow-Credentials: true` with allowlist. `accountLink.ts` created and all auth flows refactored to use `findOrCreateUser`.
 
-### 13. google.ts Duplicate Env Interface (2026-03-11)
-* **Status:** MINOR — Should be cleaned up during integration
-* **Description:** `worker/src/lib/auth/google.ts` defines its own `Env` interface locally instead of importing from `../../index`. This could drift out of sync.
+### 13. ~~google.ts Duplicate Env Interface~~ → FIXED (2026-03-11)
+* **Status:** FIXED
+* **Description:** Replaced local `Env` interface with import from `../../index`.
 
 ### 14. Legacy Math Imports in worker/src/index.ts (2026-03-11)
 * **Status:** LOW — Cleanup deferred

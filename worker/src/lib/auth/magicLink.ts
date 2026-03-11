@@ -1,7 +1,7 @@
 import { Env } from '../../index';
-
 import { signToken } from './jwt';
 import { setSessionCookie } from './cookies';
+import { findOrCreateUser } from './accountLink';
 
 export function generateMagicLinkToken(): string {
     return crypto.randomUUID();
@@ -65,27 +65,18 @@ export async function verifyMagicLinkToken(db: D1Database, token: string): Promi
         UPDATE Auth_Tokens SET used_at = datetime('now') WHERE token = ?
     `).bind(token).run();
 
-    let userId = tokenRecord.user_id;
     let email = tokenRecord.id.split('|')[0]; // Extract email from our custom ID format
 
-    if (!userId) {
-        // Create user if needed
-        userId = crypto.randomUUID();
-        await db.prepare(`
-            INSERT INTO Users (id, email, email_verified) VALUES (?, ?, 1)
-        `).bind(userId, email).run();
+    // Use findOrCreateUser for account linking
+    const { id: resolvedUserId } = await findOrCreateUser(db, email, { emailVerified: true });
 
-        // Link the token to the newly created user
-        await db.prepare(`
-            UPDATE Auth_Tokens SET user_id = ? WHERE token = ?
-        `).bind(userId, token).run();
-    } else {
-        // Fetch actual email from Users table if user exists
-        const user = await db.prepare(`SELECT email FROM Users WHERE id = ?`).bind(userId).first<{ email: string }>();
-        if (user) {
-            email = user.email;
-        }
+    // Link the token to the user if it wasn't linked before
+    if (!tokenRecord.user_id) {
+        await db.prepare(`UPDATE Auth_Tokens SET user_id = ? WHERE token = ?`)
+            .bind(resolvedUserId, token).run();
     }
+
+    return { userId: resolvedUserId, email };
 
     return { userId, email };
 }
