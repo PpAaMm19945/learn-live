@@ -5,8 +5,9 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
-import Onboarding from "./pages/Onboarding";
-import ProfileSelect from "./pages/ProfileSelect";
+import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
 import LearnerDashboard from "./pages/learner/LearnerDashboard";
 import ChildPortal from "./pages/learner/ChildPortal";
@@ -15,6 +16,7 @@ import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
 import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useUIStore } from "./lib/uiStore";
+import { useAuthStore } from "./lib/auth";
 import { useEffect } from "react";
 
 Logger.info("[CORE]", "Application booted");
@@ -22,6 +24,11 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const setOffline = useUIStore((state) => state.setOffline);
+  const { checkSession, isLoading } = useAuthStore();
+
+  useEffect(() => {
+    checkSession();
+  }, [checkSession]);
 
   useEffect(() => {
     const handleOnline = () => setOffline(false);
@@ -37,6 +44,14 @@ const App = () => {
     };
   }, [setOffline]);
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
@@ -47,8 +62,9 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/join" element={<Onboarding />} />
-              <Route path="/profiles" element={<ProfileSelect />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
 
               <Route
                 path="/dashboard"

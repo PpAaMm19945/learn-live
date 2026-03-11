@@ -12,21 +12,32 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     children,
     allowedRoles = ['parent', 'learner']
 }) => {
-    const { isAuthenticated, role, userId } = useAuthStore();
+    const { isAuthenticated, isLoading, roles, userId } = useAuthStore();
     const location = useLocation();
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
 
     if (!isAuthenticated) {
         return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
-    if (role && !allowedRoles.includes(role)) {
-        Logger.warn('[SEC]', `WARNING: Unauthorized access attempt by ${role} to ${location.pathname}`);
-
-        // Redirect based on their actual role
-        if (role === 'learner') {
-            return <Navigate to={userId ? `/learner/${userId}` : '/login'} replace />;
-        } else if (role === 'parent') {
-            return <Navigate to="/dashboard" replace />;
+    if (roles && roles.length > 0) {
+        const hasAccess = roles.some(role => allowedRoles.includes(role));
+        if (!hasAccess) {
+            Logger.warn('[SEC]', `WARNING: Unauthorized access attempt to ${location.pathname}`);
+            // Redirect based on their primary role (assuming first role)
+            const primaryRole = roles[0];
+            if (primaryRole === 'learner') {
+                return <Navigate to={userId ? `/learner/${userId}` : '/login'} replace />;
+            } else if (primaryRole === 'parent') {
+                return <Navigate to="/dashboard" replace />;
+            }
         }
     }
 

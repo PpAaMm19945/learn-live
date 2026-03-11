@@ -16,7 +16,8 @@ export function EvidenceWitness({ task, onComplete }: EvidenceWitnessProps) {
     const [status, setStatus] = useState<'connecting' | 'active' | 'evaluating' | 'complete' | 'error'>('connecting');
     const [errorMessage, setErrorMessage] = useState('');
     const clientRef = useRef<GeminiLiveClient | null>(null);
-    const { familyId: userFamilyId, userId: userLearnerId } = useAuthStore();
+    const { userId: userLearnerId } = useAuthStore();
+    const userFamilyId = userLearnerId?.includes('family_') ? 'family_' + userLearnerId.split('family_')[1].split('_child')[0] : null;
     const [successReason, setSuccessReason] = useState<string | null>(null);
 
     // Default evidence needs for curriculum tasks

@@ -14,7 +14,8 @@ interface AsyncEvidenceModalProps {
 }
 
 export function AsyncEvidenceModal({ isOpen, onClose, templateId, learnerName, capacityName }: AsyncEvidenceModalProps) {
-    const { familyId } = useAuthStore();
+    const { userId } = useAuthStore();
+    const familyId = userId?.includes('family_') ? 'family_' + userId.split('family_')[1].split('_child')[0] : null;
     const [step, setStep] = useState<'capture' | 'review' | 'uploading' | 'done'>('capture');
 
     // Audio State

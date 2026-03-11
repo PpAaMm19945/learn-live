@@ -31,7 +31,8 @@ export function ParentReportModal({
     failureCondition,
     onSuccess,
 }: ParentReportModalProps) {
-    const { familyId } = useAuthStore();
+    const { userId } = useAuthStore();
+    const familyId = userId?.includes('family_') ? 'family_' + userId.split('family_')[1].split('_child')[0] : null;
     const [step, setStep] = useState<'observe' | 'assess' | 'submitting' | 'done'>('observe');
     const [observation, setObservation] = useState('');
     const [outcome, setOutcome] = useState<'success' | 'failure' | ''>('');

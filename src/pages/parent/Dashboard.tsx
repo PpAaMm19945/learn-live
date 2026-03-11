@@ -102,7 +102,8 @@ function getSubjectColor(subject: string): string {
 }
 
 export default function Dashboard() {
-    const { familyId, logout } = useAuthStore();
+    const { userId, logout } = useAuthStore();
+    const familyId = userId?.includes('family_') ? 'family_' + userId.split('family_')[1].split('_child')[0] : null;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const [selectedJudgment, setSelectedJudgment] = useState<JudgmentItem | null>(null);
