@@ -159,7 +159,7 @@ The existing photo+audio capture pipeline is repurposed:
 **Tasks:**
 - [ ] **Task 2.1:** Design and migrate D1 schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
 - [ ] **Task 2.2:** Build JWT session utilities — sign/verify with `JWT_SECRET`, cookie helpers (HttpOnly, Secure, SameSite=Lax).
-- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env['resend-api']`), verification endpoint, session creation.
+- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env.Resend_API_Key`), verification endpoint, session creation.
 - [ ] **Task 2.4:** Build Google OAuth flow — redirect, callback, user upsert by email, session creation. Uses `env.Google_Client_ID` and `env.Google_Client_Secret`.
 - [ ] **Task 2.5:** Build email + password flow — registration with email verification, login, password hashing via Web Crypto API.
 - [ ] **Task 2.6:** Build password reset flow — forgot-password email via Resend, reset-password token validation.
