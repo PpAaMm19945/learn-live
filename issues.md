@@ -84,3 +84,19 @@
 ### 14. Legacy Math Imports in worker/src/index.ts (2026-03-11)
 * **Status:** LOW — Cleanup deferred
 * **Description:** ~10 legacy math-related imports remain (arc, dag, taskGen, nanoBanana, splitJudgment, parentPrimer, aiPermissions, weeklyPlan, enrichTask, evaluateEvidence). Not blocking but will cause build warnings once those archived files are removed.
+
+### 15. Legacy Frontend Cleanup — COMPLETE (2026-03-11)
+* **Status:** COMPLETE
+* **Description:** All legacy learner/parent components (10 learner + 9 parent), pages (Dashboard, LearnerDashboard, ChildPortal), and libs (gemini, explainerClient, audioCanvasSync, demoPlayer) archived to `src/archive/`. `tsconfig.app.json` updated to exclude `src/archive/` from compilation. Placeholder Dashboard created. App.tsx simplified to auth routes + single protected `/dashboard`.
+
+### 16. Phase 2 Auth Complete — Summary (2026-03-11)
+* **Status:** INFO
+* **Auth endpoints available:** `/api/auth/me`, `/api/auth/logout`, `/api/auth/login`, `/api/auth/register`, `/api/auth/forgot-password`, `/api/auth/reset-password`, `/api/auth/verify-email`, `/api/auth/magic-link`, `/api/auth/magic-link/verify`, `/api/auth/google`, `/api/auth/google/callback`, `/api/auth/set-password`
+* **Secrets required:** `JWT_SECRET`, `Google_Client_ID`, `Google_Client_Secret`, `Resend_API_Key`
+* **Frontend pages:** Login, Register, ForgotPassword, ResetPassword (all with toast notifications)
+* **Cookie strategy:** `HttpOnly; Secure; SameSite=None; Path=/; Max-Age=604800`
+* **Account linking:** All 3 auth methods resolve to same user via `findOrCreateUser()`
+
+### 17. Phase 3 Prompts Ready (2026-03-11)
+* **Status:** READY
+* **Description:** 4 parallel Jules prompts written in `.antigravity/prompts-phase3.md` for African History curriculum: (A) D1 schema, (B) R2 content pipeline, (C) Frontend UI, (D) Quiz & progress. Zero file overlap between instances.
