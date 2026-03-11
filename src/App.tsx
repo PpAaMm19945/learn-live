@@ -9,6 +9,8 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
+import TopicDetail from "./pages/TopicDetail";
+import LessonView from "./pages/LessonView";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -67,6 +69,22 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/topics/:topicId"
+                element={
+                  <ProtectedRoute>
+                    <TopicDetail />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/lessons/:lessonId"
+                element={
+                  <ProtectedRoute>
+                    <LessonView />
                   </ProtectedRoute>
                 }
               />
