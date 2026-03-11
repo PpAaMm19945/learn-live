@@ -41,15 +41,7 @@ export default function TopicDetail() {
   });
 
   const getStatusBadge = (status: Lesson['status']) => {
-    switch (status) {
-      case 'completed':
-        return <Badge variant="default" className="bg-green-600 hover:bg-green-700">Completed</Badge>;
-      case 'in_progress':
-        return <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">In Progress</Badge>;
-      case 'not_started':
-      default:
-        return <Badge variant="outline" className="text-muted-foreground">Not Started</Badge>;
-    }
+    return <LessonProgress status={status} />;
   };
 
   if (isLoading) {
