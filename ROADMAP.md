@@ -118,7 +118,59 @@ The existing photo+audio capture pipeline is repurposed:
 - [ ] **Task 1.4:** Build an upload script to push all content to R2 with proper content types and metadata.
 - [ ] **Task 1.5:** Design and implement the RAG retrieval layer — given a chapter + band, fetch the master text and return relevant chunks for AI adaptation.
 
-## Phase 2: Frontend Pivot
+## Phase 2: Authentication & Account System
+*Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password. No third-party auth providers.*
+
+**External Setup (Complete):**
+- Resend account configured — secret stored as `resend-api` in Worker (note: hyphen requires `env['resend-api']` bracket notation in code)
+- Google OAuth app configured — secrets stored as `Google_Client_ID` and `Google_Client_Secret` in Worker
+- `JWT_SECRET` in Worker for signing session tokens
+
+**D1 Schema:**
+- `Users` — `id`, `email`, `name`, `password_hash` (nullable, null for OAuth-only users), `created_at`
+- `Auth_Tokens` — `id`, `user_id`, `token`, `type` (magic_link | email_verify | password_reset), `expires_at`, `used_at`
+- `Sessions` — `id`, `user_id`, `token_hash`, `expires_at` (optional — JWT cookies are stateless, but enables revocation)
+- `Families` — links users to families (existing table, adapted)
+- `User_Roles` — `user_id`, `role` (parent | learner) — separate table per security best practice
+
+**Auth Methods (all three supported):**
+1. **Magic Links** — User enters email → Worker generates signed token, stores in `Auth_Tokens`, sends via Resend (`env['resend-api']`) → User clicks link → Worker validates, sets HttpOnly session cookie
+2. **Google OAuth** — `/api/auth/google` redirects to Google (`env.Google_Client_ID`) → callback exchanges code using `env.Google_Client_Secret` → creates/finds user → sets session cookie
+3. **Email + Password** — User signs up with email + password → Worker hashes password (bcrypt/scrypt via Web Crypto), stores in `Users`, sends verification email via Resend → Login validates password, sets session cookie
+
+**Worker Endpoints:**
+- `POST /api/auth/magic-link` — send magic link email
+- `GET /api/auth/magic-link/verify?token=` — validate token, set cookie
+- `GET /api/auth/google` — initiate OAuth redirect
+- `GET /api/auth/google/callback` — handle OAuth callback
+- `POST /api/auth/register` — email + password signup
+- `POST /api/auth/login` — email + password login
+- `POST /api/auth/forgot-password` — send password reset email
+- `POST /api/auth/reset-password` — validate token + set new password
+- `GET /api/auth/me` — return current user from session cookie
+- `POST /api/auth/logout` — clear session cookie
+
+**Account Syncing / Linking:**
+- Users are identified by email. If a user signs up with magic link, then later uses Google OAuth with the same email, the accounts merge (same `Users` row).
+- If a magic-link-only user later sets a password, `password_hash` is populated — they can now use either method.
+- Google OAuth users can add a password via a "Set Password" flow.
+- All three auth methods resolve to the same session cookie format.
+
+**Tasks:**
+- [ ] **Task 2.1:** Design and migrate D1 schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
+- [ ] **Task 2.2:** Build JWT session utilities — sign/verify with `JWT_SECRET`, cookie helpers (HttpOnly, Secure, SameSite=Lax).
+- [ ] **Task 2.3:** Build magic link flow — token generation, Resend email sending (via `env['resend-api']`), verification endpoint, session creation.
+- [ ] **Task 2.4:** Build Google OAuth flow — redirect, callback, user upsert by email, session creation. Uses `env.Google_Client_ID` and `env.Google_Client_Secret`.
+- [ ] **Task 2.5:** Build email + password flow — registration with email verification, login, password hashing via Web Crypto API.
+- [ ] **Task 2.6:** Build password reset flow — forgot-password email via Resend, reset-password token validation.
+- [ ] **Task 2.7:** Build account linking logic — merge by email across auth methods, allow adding password to OAuth-only accounts.
+- [ ] **Task 2.8:** Build `/api/auth/me` and session middleware — protect all other API routes.
+- [ ] **Task 2.9:** Update frontend auth store — replace client-side-only `useAuthStore` with cookie-based session that calls `/api/auth/me`.
+- [ ] **Task 2.10:** Build login/register UI — magic link form, Google sign-in button, email+password form, password reset pages.
+
+---
+
+## Phase 3: Frontend Pivot
 *Focus: Strip the math-specific UI, build the history course experience.*
 
 - [ ] **Task 2.1:** Archive math-specific components and pages (move to `src/archive/`). Keep shared infrastructure (auth, family management, state, design system).
