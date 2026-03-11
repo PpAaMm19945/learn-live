@@ -1,18 +1,7 @@
+import type { Env } from '../../index';
 import { setSessionCookie } from './cookies';
 import { signToken, verifyToken } from './jwt';
-
-// Define the environment interface locally to avoid circular dependencies
-// or importing from index.ts if not exported (it is exported, but this is safer)
-export interface Env {
-    DB: D1Database;
-    EVIDENCE_VAULT: R2Bucket;
-    JWT_SECRET: string;
-    Google_Client_ID: string;
-    Google_Client_Secret: string;
-    Resend_API_Key: string;
-    API_AUTH_TOKEN?: string;
-    GEMINI_API_KEY?: string;
-}
+import { findOrCreateUser } from './accountLink';
 
 export interface GoogleTokens {
     access_token: string;
