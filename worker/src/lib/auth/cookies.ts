@@ -3,7 +3,7 @@ export function setSessionCookie(response: Response, token: string): Response {
     const newResponse = new Response(response.body, response);
 
     // Set the cookie header with standard secure flags
-    const cookieString = `session=${token}; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=604800`;
+    const cookieString = `session=${token}; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=604800`;
     newResponse.headers.append('Set-Cookie', cookieString);
 
     return newResponse;
