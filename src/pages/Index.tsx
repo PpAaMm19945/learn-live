@@ -1,7 +1,9 @@
 import { Navigate } from 'react-router-dom';
+import { useAuthStore } from '@/lib/auth';
 
 const Index = () => {
-  return <Navigate to="/login" replace />;
+  const { isAuthenticated } = useAuthStore();
+  return <Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />;
 };
 
 export default Index;
