@@ -173,62 +173,62 @@ The existing photo+audio capture pipeline is repurposed:
 ## Phase 3: Frontend Pivot
 *Focus: Strip the math-specific UI, build the history course experience.*
 
-- [ ] **Task 2.1:** Archive math-specific components and pages (move to `src/archive/`). Keep shared infrastructure (auth, family management, state, design system).
-- [ ] **Task 2.2:** Build the **Course Home** page — chapter list with progress indicators, band selector, family context.
-- [ ] **Task 2.3:** Build the **Chapter View** — displays AI-adapted content for the selected band. Includes embedded maps, "Think It Through" prompts, and vocabulary highlights.
-- [ ] **Task 2.4:** Build the **Map Explorer** component — interactive map viewer that overlays geographic annotations. Reuses Explainer Canvas architecture.
-- [ ] **Task 2.5:** Build the **Band Selector** — parent chooses the reading level. Stored per-learner in D1. Can be changed anytime.
+- [ ] **Task 3.1:** Archive math-specific components and pages (move to `src/archive/`). Keep shared infrastructure (auth, family management, state, design system).
+- [ ] **Task 3.2:** Build the **Course Home** page — chapter list with progress indicators, band selector, family context.
+- [ ] **Task 3.3:** Build the **Chapter View** — displays AI-adapted content for the selected band. Includes embedded maps, "Think It Through" prompts, and vocabulary highlights.
+- [ ] **Task 3.4:** Build the **Map Explorer** component — interactive map viewer that overlays geographic annotations. Reuses Explainer Canvas architecture.
+- [ ] **Task 3.5:** Build the **Band Selector** — parent chooses the reading level. Stored per-learner in D1. Can be changed anytime.
 
-## Phase 3: AI Content Adaptation Engine
+## Phase 4: AI Content Adaptation Engine
 *Focus: The core differentiator — one source text, adapted per band via AI.*
 
-- [ ] **Task 3.1:** Build the **band adaptation prompt pipeline** — given master text chunks + band level, generate age-appropriate content. Cache aggressively in D1 (like existing `Enriched_Task_Cache`).
-- [ ] **Task 3.2:** Band 0 (Picture Book) — AI generates 2-3 sentence summaries per chapter section + image generation prompts. Flux generates illustrations. Cache results.
-- [ ] **Task 3.3:** Band 1–2 (Story/Explorer) — AI condenses and simplifies text, adds vocabulary scaffolding, generates discussion questions.
-- [ ] **Task 3.4:** Band 3–4 (Scholar/Apprentice) — AI preserves most of the master text, adds critical thinking prompts, primary source analysis guides, and essay topics.
-- [ ] **Task 3.5:** Band 5 (University Prep) — Master text served directly from R2 with supplementary reading lists and research prompts.
+- [ ] **Task 4.1:** Build the **band adaptation prompt pipeline** — given master text chunks + band level, generate age-appropriate content. Cache aggressively in D1 (like existing `Enriched_Task_Cache`).
+- [ ] **Task 4.2:** Band 0 (Picture Book) — AI generates 2-3 sentence summaries per chapter section + image generation prompts. Flux generates illustrations. Cache results.
+- [ ] **Task 4.3:** Band 1–2 (Story/Explorer) — AI condenses and simplifies text, adds vocabulary scaffolding, generates discussion questions.
+- [ ] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — AI preserves most of the master text, adds critical thinking prompts, primary source analysis guides, and essay topics.
+- [ ] **Task 4.5:** Band 5 (University Prep) — Master text served directly from R2 with supplementary reading lists and research prompts.
 
-## Phase 4: Assessment & Oral Examiner
+## Phase 5: Assessment & Oral Examiner
 *Focus: Repurpose the Evidence Witness for history-specific oral examination.*
 
-- [ ] **Task 4.1:** Adapt the Evidence Witness agent prompt — from math constraint enforcement to Socratic questioning based on chapter RAG context.
-- [ ] **Task 4.2:** Build band-aware question generation — AI generates questions appropriate to the reading level from chapter content.
-- [ ] **Task 4.3:** Build the **Oral Exam flow** — parent initiates, child converses with AI, session recorded, AI drafts assessment, parent reviews.
-- [ ] **Task 4.4:** Build the **Artifact Check flow** — child photographs drawn maps/timelines, AI compares against reference material from R2.
-- [ ] **Task 4.5:** Adapt the parent judgment flow — parent reviews AI assessment, approves or requests revision. Progression is chapter-based, not capacity-based.
+- [ ] **Task 5.1:** Adapt the Evidence Witness agent prompt — from math constraint enforcement to Socratic questioning based on chapter RAG context.
+- [ ] **Task 5.2:** Build band-aware question generation — AI generates questions appropriate to the reading level from chapter content.
+- [ ] **Task 5.3:** Build the **Oral Exam flow** — parent initiates, child converses with AI, session recorded, AI drafts assessment, parent reviews.
+- [ ] **Task 5.4:** Build the **Artifact Check flow** — child photographs drawn maps/timelines, AI compares against reference material from R2.
+- [ ] **Task 5.5:** Adapt the parent judgment flow — parent reviews AI assessment, approves or requests revision. Progression is chapter-based, not capacity-based.
 
-## Phase 5: Explainer Canvas for History
+## Phase 6: Explainer Canvas for History
 *Focus: Repurpose the interactive whiteboard for animated history narration.*
 
-- [ ] **Task 5.1:** Build history-specific canvas elements — map overlays, timeline bars, kingdom boundaries, trade route animations, portrait cards for key figures.
-- [ ] **Task 5.2:** Adapt the Explainer agent prompt — from math counting blocks to historical narration with map manipulation.
-- [ ] **Task 5.3:** Build the **Narrated Lesson flow** — parent taps "Start Lesson" on a chapter section, AI narrates while animating the canvas. Band-aware pacing and vocabulary.
-- [ ] **Task 5.4:** Wire map assets from R2 into the canvas as base layers.
+- [ ] **Task 6.1:** Build history-specific canvas elements — map overlays, timeline bars, kingdom boundaries, trade route animations, portrait cards for key figures.
+- [ ] **Task 6.2:** Adapt the Explainer agent prompt — from math counting blocks to historical narration with map manipulation.
+- [ ] **Task 6.3:** Build the **Narrated Lesson flow** — parent taps "Start Lesson" on a chapter section, AI narrates while animating the canvas. Band-aware pacing and vocabulary.
+- [ ] **Task 6.4:** Wire map assets from R2 into the canvas as base layers.
 
-## Phase 6: Worker & Schema Updates
+## Phase 7: Worker & Schema Updates
 *Focus: Adapt the backend for chapter-based progression instead of capacity-based.*
 
-- [ ] **Task 6.1:** Design new D1 schema: `Chapters`, `Learner_Chapter_Progress`, `Band_Adapted_Content_Cache`, `Oral_Exam_Sessions`. Migrate from capacity-based tables.
-- [ ] **Task 6.2:** Build chapter progression API — track per-learner: which chapters completed, which band, oral exam results, parent judgments.
-- [ ] **Task 6.3:** Build content serving API — `GET /api/chapter/:id/content?band=2` returns cached adapted content or triggers generation.
-- [ ] **Task 6.4:** Adapt the weekly plan engine (optional) — instead of daily math tasks, suggest a weekly chapter reading pace based on the family's chosen schedule.
+- [ ] **Task 7.1:** Design new D1 schema: `Chapters`, `Learner_Chapter_Progress`, `Band_Adapted_Content_Cache`, `Oral_Exam_Sessions`. Migrate from capacity-based tables.
+- [ ] **Task 7.2:** Build chapter progression API — track per-learner: which chapters completed, which band, oral exam results, parent judgments.
+- [ ] **Task 7.3:** Build content serving API — `GET /api/chapter/:id/content?band=2` returns cached adapted content or triggers generation.
+- [ ] **Task 7.4:** Adapt the weekly plan engine (optional) — instead of daily math tasks, suggest a weekly chapter reading pace based on the family's chosen schedule.
 
-## Phase 7: Pilot with Families
+## Phase 8: Pilot with Families
 *Focus: Ship to the families who asked for this.*
 
-- [ ] **Task 7.1:** Onboard 5–10 pilot families. Parent creates account, selects band per child, begins Chapter 1.
-- [ ] **Task 7.2:** Measure: time per chapter, engagement with maps, oral exam completion rate, parent satisfaction.
-- [ ] **Task 7.3:** Calibrate band adaptation quality — is Band 0 actually suitable for a 4-year-old? Is Band 4 challenging enough for a 16-year-old?
-- [ ] **Task 7.4:** Collect feedback on the Explainer Canvas narration — is it helpful or distracting?
-- [ ] **Task 7.5:** Identify content gaps — which chapters need more maps, more primary sources, more illustrations?
+- [ ] **Task 8.1:** Onboard 5–10 pilot families. Parent creates account, selects band per child, begins Chapter 1.
+- [ ] **Task 8.2:** Measure: time per chapter, engagement with maps, oral exam completion rate, parent satisfaction.
+- [ ] **Task 8.3:** Calibrate band adaptation quality — is Band 0 actually suitable for a 4-year-old? Is Band 4 challenging enough for a 16-year-old?
+- [ ] **Task 8.4:** Collect feedback on the Explainer Canvas narration — is it helpful or distracting?
+- [ ] **Task 8.5:** Identify content gaps — which chapters need more maps, more primary sources, more illustrations?
 
-## Phase 8: Content Expansion
+## Phase 9: Content Expansion
 *Focus: Complete the textbook and expand geographic coverage.*
 
-- [ ] **Task 8.1:** Complete Chapter 10 and beyond — East African city-states, Great Zimbabwe, pre-colonial Southern Africa.
-- [ ] **Task 8.2:** Add world history context sidebars — "While Aksum was trading with Rome, what was happening in China?" These are short, AI-generatable inserts that place Africa in global context without requiring a full world history curriculum.
-- [ ] **Task 8.3:** Expand the map library — commission or generate maps for chapters currently lacking visual assets.
-- [ ] **Task 8.4:** Build a glossary and index system — searchable, cross-referenced, band-aware definitions.
+- [ ] **Task 9.1:** Complete Chapter 10 and beyond — East African city-states, Great Zimbabwe, pre-colonial Southern Africa.
+- [ ] **Task 9.2:** Add world history context sidebars — "While Aksum was trading with Rome, what was happening in China?" These are short, AI-generatable inserts that place Africa in global context without requiring a full world history curriculum.
+- [ ] **Task 9.3:** Expand the map library — commission or generate maps for chapters currently lacking visual assets.
+- [ ] **Task 9.4:** Build a glossary and index system — searchable, cross-referenced, band-aware definitions.
 
 ---
 
