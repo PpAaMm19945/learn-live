@@ -1,6 +1,7 @@
 import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
 import { handleGetAdaptedContent, handleGetChapterContent } from './content';
+import { handleUploadArtifact, handleVerifyArtifact, handleListArtifacts } from './artifacts';
 
 /**
  * Central Route Registry
@@ -28,6 +29,29 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // --- Artifact Routes ---
+
+    // POST /api/artifacts/upload
+    if (path === '/api/artifacts/upload' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleUploadArtifact(request, env);
+    }
+
+    // POST /api/artifacts/verify
+    if (path === '/api/artifacts/verify' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleVerifyArtifact(request, env, authResult.userId);
+    }
+
+    // GET /api/artifacts
+    if (path === '/api/artifacts' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleListArtifacts(request, env, authResult.userId);
     }
 
     // Return null if no route matches, allowing legacy index.ts switch to handle it
