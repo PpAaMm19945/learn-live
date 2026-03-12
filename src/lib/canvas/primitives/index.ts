@@ -17,14 +17,14 @@ export interface TimelineData {
   endYear: number;
 }
 
-export interface HistoryCanvasElement extends CanvasElement {
+export interface HistoryCanvasElement extends Omit<CanvasElement, 'type'> {
   type: CanvasElement['type'] | 'map_overlay' | 'timeline_marker' | 'figure_card' | 'event_marker';
   route?: RouteData;
   children?: string[];
   meta?: Record<string, any>;
 }
 
-export interface HistoryCanvasOperation extends CanvasOperation {
+export interface HistoryCanvasOperation extends Omit<CanvasOperation, 'action'> {
   action: CanvasOperation['action'] | 'highlight_route' | 'zoom_map' | 'show_timeline';
   element?: Partial<HistoryCanvasElement>;
   route?: RouteData;

@@ -1,5 +1,5 @@
 import { Logger } from '@/lib/Logger';
-import { AudioCanvasSync } from '@/lib/audioCanvasSync';
+import { AudioCanvasSync } from './audioCanvasSync';
 export interface CanvasElement {
     id: string;
     type: 
