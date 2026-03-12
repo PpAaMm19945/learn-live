@@ -147,14 +147,17 @@ The existing photo+audio capture pipeline is repurposed:
 - [x] **Task 3.8:** Progress components — ProgressOverview with recharts, LessonProgress badge.
 - [x] **Task 3.9:** API routes — topics, lessons, progress, quiz wired into worker.
 
-## Phase 4: AI Content Adaptation Engine — 🔲 NOT STARTED
+## Phase 4: AI Content Adaptation Engine — ✅ COMPLETE
 *Focus: The core differentiator — one source text, adapted per band via AI.*
 
-- [ ] **Task 4.1:** Build band adaptation prompt pipeline — master text chunks + band → age-appropriate content.
-- [ ] **Task 4.2:** Band 0 (Picture Book) — 2-3 sentence summaries + Flux illustrations.
-- [ ] **Task 4.3:** Band 1–2 (Story/Explorer) — condensed text, vocabulary scaffolding, discussion questions.
-- [ ] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — critical thinking prompts, primary source analysis.
-- [ ] **Task 4.5:** Band 5 (University Prep) — master text from R2 + supplementary reading lists.
+- [x] **Task 4.1:** Build band adaptation prompt pipeline — master text chunks + band → age-appropriate content.
+- [x] **Task 4.2:** Band 0 (Picture Book) — 2-3 sentence summaries + Flux illustrations.
+- [x] **Task 4.3:** Band 1–2 (Story/Explorer) — condensed text, vocabulary scaffolding, discussion questions.
+- [x] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — critical thinking prompts, primary source analysis.
+- [x] **Task 4.5:** Band 5 (University Prep) — master text from R2 + supplementary reading lists.
+- [x] **Task 4.6:** Content serving API — `GET /api/lessons/:id/content?band=N` with D1 cache.
+- [x] **Task 4.7:** Frontend BandSelector + AdaptedContentReader + ReadingView.
+- [x] **Task 4.8:** Integration — modular router wired, data shape fixed, `/read/:lessonId` route added.
 
 ## Phase 5: Assessment & Oral Examiner — 🔲 NOT STARTED
 *Focus: Repurpose Evidence Witness for history-specific oral examination.*
