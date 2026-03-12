@@ -52,5 +52,21 @@ export const r2Helper = {
             console.error(`[R2 Get Error] Key: ${key}`, error);
             return null;
         }
+    },
+
+    /**
+     * Checks if an object exists in the given R2 Bucket (lighter than getFile).
+     * @param bucket The R2Bucket binding from the env
+     * @param key The file key/path to retrieve
+     * @returns boolean indicating existence
+     */
+    async fileExists(bucket: R2Bucket, key: string): Promise<boolean> {
+        try {
+            const obj = await bucket.head(key);
+            return obj !== null;
+        } catch (error) {
+            console.error(`[R2 Head Error] Key: ${key}`, error);
+            return false;
+        }
     }
 };
