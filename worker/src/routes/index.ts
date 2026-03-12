@@ -12,6 +12,7 @@ import {
 import { handleGetLessonMapAssets } from './maps';
 import { handleAuthRoutes } from './auth';
 import { handleCurriculumRoutes } from './curriculum';
+import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
 
 /**
  * Central Route Registry
@@ -47,6 +48,43 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // --- Family Routes ---
+
+    // POST /api/family
+    if (path === '/api/family' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleCreateFamily(request, env, authResult.userId);
+    }
+
+    // GET /api/family
+    if (path === '/api/family' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetFamily(request, env, authResult.userId);
+    }
+
+    // POST /api/family/learners
+    if (path === '/api/family/learners' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleAddLearner(request, env, authResult.userId);
+    }
+
+    // PUT /api/family/learners/:id
+    if (path.match(/^\/api\/family\/learners\/[^/]+$/) && method === 'PUT') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleUpdateLearner(request, env, authResult.userId);
+    }
+
+    // DELETE /api/family/learners/:id
+    if (path.match(/^\/api\/family\/learners\/[^/]+$/) && method === 'DELETE') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleRemoveLearner(request, env, authResult.userId);
     }
 
     // --- Map Routes ---

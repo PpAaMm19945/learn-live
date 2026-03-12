@@ -1,11 +1,12 @@
 import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, Loader2, BookOpen, Clock, Globe } from 'lucide-react';
+import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Topic {
   id: string;
@@ -21,7 +22,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const { data: topics, isLoading, isError } = useQuery<Topic[]>({
+  const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
     queryFn: async () => {
       const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
@@ -47,7 +48,7 @@ export default function Dashboard() {
             <h1 className="text-lg font-semibold">Learn Live</h1>
             <p className="text-xs text-muted-foreground">{name || email}</p>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout}>
+          <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
             <LogOut className="h-4 w-4 mr-2" /> Sign out
           </Button>
         </div>
@@ -62,18 +63,47 @@ export default function Dashboard() {
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <Card key={i} className="flex flex-col h-[200px]">
+                <CardHeader className="pb-3">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <Skeleton className="h-5 w-16" />
+                    <Skeleton className="h-5 w-16" />
+                  </div>
+                  <Skeleton className="h-6 w-3/4" />
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <Skeleton className="h-4 w-full mb-2" />
+                  <Skeleton className="h-4 w-5/6" />
+                </CardContent>
+                <CardFooter className="pt-3 border-t">
+                  <Skeleton className="h-4 w-24" />
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         ) : isError ? (
-          <div className="text-center py-12 text-destructive">
-            <p>Failed to load topics. Please try again later.</p>
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
+            <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+            <h3 className="text-xl font-semibold mb-2">Failed to load topics</h3>
+            <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
+            <Button onClick={() => refetch()} variant="outline">
+              <RefreshCcw className="h-4 w-4 mr-2" />
+              Try Again
+            </Button>
           </div>
         ) : !topics || topics.length === 0 ? (
-          <div className="text-center py-12 border rounded-xl border-dashed bg-card">
-            <BookOpen className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
-            <h3 className="text-lg font-medium">No topics available yet</h3>
-            <p className="text-muted-foreground">Content is being prepared.</p>
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl border-dashed bg-card">
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <BookOpen className="h-8 w-8 text-primary" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">No topics available yet</h3>
+            <p className="text-muted-foreground max-w-sm mb-6">We're still preparing the curriculum content. Check back later to start learning!</p>
+            <Button onClick={() => refetch()} variant="secondary">
+              <RefreshCcw className="h-4 w-4 mr-2" />
+              Refresh
+            </Button>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -82,6 +112,15 @@ export default function Dashboard() {
                 key={topic.id}
                 className="hover:shadow-md transition-shadow cursor-pointer flex flex-col h-full"
                 onClick={() => navigate(`/topics/${topic.id}`)}
+                aria-label={`View topic: ${topic.title}`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/topics/${topic.id}`);
+                  }
+                }}
               >
                 <CardHeader className="pb-3">
                   <div className="flex flex-wrap gap-2 mb-2">

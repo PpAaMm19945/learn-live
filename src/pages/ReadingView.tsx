@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, CheckCircle, Loader2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { BandSelector } from '@/components/content/BandSelector';
 import { AdaptedContentReader } from '@/components/content/AdaptedContentReader';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface LessonBasicInfo {
   id: string;
@@ -61,17 +70,18 @@ export default function ReadingView() {
       {/* Sticky Header with Band Selector */}
       <header className="sticky top-0 z-20 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center">
+          <div className="flex items-center w-full md:w-auto justify-between md:justify-start">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => lesson?.topic_id ? navigate(`/topics/${lesson.topic_id}`) : navigate(-1)}
               className="mr-2"
+              aria-label="Back to Course"
             >
               <ChevronLeft className="h-4 w-4 mr-1" /> Back
             </Button>
             {isLessonLoading ? (
-               <Skeleton className="h-6 w-32 bg-muted ml-2" />
+               <Skeleton className="h-6 w-32 bg-muted hidden sm:block ml-2" />
             ) : (
                <h1 className="text-sm font-medium text-muted-foreground truncate max-w-[200px] md:max-w-md hidden sm:block ml-2">
                  {lesson?.title}
@@ -89,42 +99,88 @@ export default function ReadingView() {
       <main className="flex-grow max-w-5xl mx-auto w-full px-4 py-8 md:py-12">
         {lessonId && (
           <div className="max-w-3xl mx-auto">
-            {!isLessonLoading && lesson && (
-               <h2 className="text-4xl font-extrabold tracking-tight mb-8 text-foreground">{lesson.title}</h2>
-            )}
-            <AdaptedContentReader lessonId={lessonId} band={currentBand} />
-
-            <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <p className="text-sm text-muted-foreground text-center sm:text-left">
-                 Finished reading? Mark this lesson as complete to track your progress.
-              </p>
-              <Button
-                onClick={() => markCompleteMutation.mutate()}
-                disabled={markCompleteMutation.isPending}
-                size="lg"
-                className="w-full sm:w-auto"
-              >
-                {markCompleteMutation.isPending ? (
-                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                ) : (
-                  <CheckCircle className="h-5 w-5 mr-2" />
-                )}
-                Mark Complete
-              </Button>
+            <div className="mb-6">
+              {!isLessonLoading && lesson ? (
+                <Breadcrumb>
+                  <BreadcrumbList>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link to="/dashboard">Course</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link to={`/topics/${lesson.topic_id}`}>Topic</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link to={`/lessons/${lessonId}`}>Lesson</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                      <BreadcrumbPage>Read</BreadcrumbPage>
+                    </BreadcrumbItem>
+                  </BreadcrumbList>
+                </Breadcrumb>
+              ) : (
+                <Skeleton className="h-5 w-64" />
+              )}
             </div>
+
+            {isLessonLoading ? (
+              <div className="space-y-6">
+                <Skeleton className="h-12 w-3/4 mb-8" />
+                <div className="flex items-center gap-2 mb-4">
+                  <Skeleton className="h-6 w-16" />
+                  <Skeleton className="h-px flex-grow" />
+                </div>
+                <div className="space-y-4">
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-5 w-5/6" />
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-5 w-4/5" />
+                  <br />
+                  <Skeleton className="h-5 w-full" />
+                  <Skeleton className="h-5 w-11/12" />
+                  <Skeleton className="h-5 w-3/4" />
+                </div>
+              </div>
+            ) : (
+              <>
+                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{lesson?.title}</h2>
+                <AdaptedContentReader lessonId={lessonId} band={currentBand} />
+              </>
+            )}
+
+            {!isLessonLoading && (
+              <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p className="text-sm text-muted-foreground text-center sm:text-left">
+                  Finished reading? Mark this lesson as complete to track your progress.
+                </p>
+                <Button
+                  onClick={() => markCompleteMutation.mutate()}
+                  disabled={markCompleteMutation.isPending}
+                  size="lg"
+                  className="w-full sm:w-auto"
+                  aria-label="Mark lesson complete"
+                >
+                  {markCompleteMutation.isPending ? (
+                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                  ) : (
+                    <CheckCircle className="h-5 w-5 mr-2" />
+                  )}
+                  Mark Complete
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </main>
     </div>
   );
-}
-
-// Helper to provide skeleton inline without importing another file unnecessarily if simple enough
-function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={`animate-pulse rounded-md bg-primary/10 ${className}`}
-      {...props}
-    />
-  )
 }
