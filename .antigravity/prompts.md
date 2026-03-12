@@ -97,23 +97,36 @@
 
 ---
 
-## Phase 7: Production Readiness — 🔄 IN PROGRESS
+## Phase 7: Production Readiness — ✅ COMPLETE
 
 > 4 parallel Jules instances + integration step. Prompts in `.antigravity/prompts-phase7.md`.
 
 | Instance | Task | Status | Key Files |
 |----------|------|--------|-----------|
-| A | Legacy Worker Cleanup (~1300 lines → modular router) | 🔲 Todo | `worker/src/routes/auth.ts`, `curriculum.ts` |
-| B | Chapter Content API & Family Management | 🔲 Todo | `worker/src/routes/family.ts`, `008_families.sql` |
-| C | Frontend Polish & Mobile Readiness | 🔲 Todo | All pages in `src/pages/` |
-| D | Deployment Pipeline & Data Seeding | 🔲 Todo | `worker/scripts/`, `docs/deployment-checklist.md` |
-| Integration | Route wiring, build verification, docs | 🔲 Todo | `worker/src/routes/index.ts` |
+| A | Legacy Worker Cleanup (~1300 lines → modular router) | ✅ Done | `worker/src/routes/auth.ts`, `curriculum.ts` |
+| B | Chapter Content API & Family Management | ✅ Done | `worker/src/routes/family.ts`, `008_families.sql` |
+| C | Frontend Polish & Mobile Readiness | ✅ Done | All pages in `src/pages/` |
+| D | Deployment Pipeline & Data Seeding | ✅ Done | `worker/scripts/`, `docs/deployment-checklist.md` |
+| Integration | Route wiring, build verification, docs | ✅ Done | `worker/src/routes/index.ts` |
+
+---
+
+## Phase 8: Content Pipeline & Pilot Readiness — 🔲 NOT STARTED
+
+> 3 parallel Jules instances + integration step. Prompts in `.antigravity/prompts-phase8.md`.
+
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| A | Content Pipeline & R2 Upload (chapters, maps, real seeds) | 🔲 Todo | `worker/scripts/prepare-content.ts`, `upload-to-r2.ts`, `worker/db/seeds/` |
+| B | Admin Analytics Dashboard (usage metrics, role-based access) | 🔲 Todo | `worker/src/routes/analytics.ts`, `src/pages/admin/Dashboard.tsx` |
+| C | Onboarding Flow & In-App Feedback (wizard, open registration, feedback widget) | 🔲 Todo | `src/pages/Onboarding.tsx`, `worker/src/routes/feedback.ts` |
+| Integration | Route wiring, activity logging, migration sequencing, docs | 🔲 Todo | `worker/src/routes/index.ts` |
 
 ---
 
 ## Prompt Template Reference
 
-Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7).
+Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7), `.antigravity/prompts-phase8.md` (Phase 8).
 
 ---
 
