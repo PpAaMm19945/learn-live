@@ -159,14 +159,14 @@ The existing photo+audio capture pipeline is repurposed:
 - [x] **Task 4.7:** Frontend BandSelector + AdaptedContentReader + ReadingView.
 - [x] **Task 4.8:** Integration — modular router wired, data shape fixed, `/read/:lessonId` route added.
 
-## Phase 5: Assessment & Oral Examiner — 🔲 NOT STARTED
+## Phase 5: Assessment & Oral Examiner — ✅ COMPLETE
 *Focus: Repurpose Evidence Witness for history-specific oral examination.*
 
-- [ ] **Task 5.1:** Adapt Evidence Witness agent prompt for Socratic questioning.
-- [ ] **Task 5.2:** Band-aware question generation from chapter RAG context.
-- [ ] **Task 5.3:** Oral Exam flow — parent initiates, child converses, AI drafts assessment.
-- [ ] **Task 5.4:** Artifact Check flow — photo of drawn maps/timelines, AI comparison.
-- [ ] **Task 5.5:** Parent judgment flow adapted for chapter-based progression.
+- [x] **Task 5.1:** Adapt Evidence Witness agent prompt for Socratic questioning — `worker/src/lib/examiner/agent.ts`.
+- [x] **Task 5.2:** Band-aware question generation from chapter RAG context — band 0–1/2–3/4–5 tone tiers.
+- [x] **Task 5.3:** Oral Exam flow — `ExamView.tsx`, `ExamCard.tsx`, `ParentReviewModal.tsx`, examiner API routes.
+- [x] **Task 5.4:** Artifact Check flow — `ArtifactUpload.tsx`, `artifact.ts` AI pipeline, artifact API routes.
+- [x] **Task 5.5:** Parent judgment flow — parent review modal with approve/redo, DB status tracking.
 
 ## Phase 6: Explainer Canvas for History — 🔲 NOT STARTED
 *Focus: Repurpose interactive whiteboard for animated history narration.*
@@ -238,4 +238,6 @@ The existing photo+audio capture pipeline is repurposed:
 | 9 | D1 migration `004_adaptation_cache.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/004_adaptation_cache.sql` |
 | 10 | Seed curriculum data into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_curriculum.sql` |
 | 11 | Seed RAG chunks into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_rag_chunks.sql` |
+| 12 | D1 migration `005_exam_sessions.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/005_exam_sessions.sql` |
+| 13 | D1 migration `006_artifacts.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/006_artifacts.sql` |
 | 14 | ~1300 lines legacy math routes in worker | LOW | Cleanup deferred — not blocking |
