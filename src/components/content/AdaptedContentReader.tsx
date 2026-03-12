@@ -41,7 +41,20 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
         credentials: 'include',
       });
       if (!res.ok) throw new Error('Failed to fetch adapted content');
-      return res.json();
+      const data = await res.json();
+      // API returns { lesson, content: { adapted_text, vocabulary, ... }, band }
+      // Unwrap to flat shape expected by this component
+      const c = data.content;
+      if (!c) throw new Error('No adapted content available for this band');
+      return {
+        id: c.id || '',
+        lesson_id: c.lesson_id || lessonId,
+        band: data.band ?? band,
+        content: c.adapted_text || '',
+        vocabulary: c.vocabulary || [],
+        discussion_questions: c.discussion_questions || [],
+        essay_prompt: c.essay_prompt || undefined,
+      } as AdaptedContentData;
     },
     enabled: !!lessonId,
   });

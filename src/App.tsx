@@ -89,6 +89,14 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route
+                path="/read/:lessonId"
+                element={
+                  <ProtectedRoute>
+                    <ReadingView />
+                  </ProtectedRoute>
+                }
+              />
 
               <Route path="*" element={<NotFound />} />
             </Routes>

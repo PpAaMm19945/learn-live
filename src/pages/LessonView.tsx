@@ -89,6 +89,14 @@ export default function LessonView() {
             <ChevronLeft className="h-4 w-4 mr-1" /> Back to Topic
           </Button>
           <h1 className="text-sm font-medium truncate flex-grow">{lesson.title}</h1>
+           <Button
+             variant="default"
+             size="sm"
+             className="mr-2"
+             onClick={() => navigate(`/read/${lessonId}`)}
+           >
+             <BookOpen className="h-4 w-4 mr-1" /> Read at My Level
+           </Button>
            <Button variant="outline" size="sm" className="mr-2">
             <HelpCircle className="h-4 w-4 mr-1" /> Ask a Question
           </Button>

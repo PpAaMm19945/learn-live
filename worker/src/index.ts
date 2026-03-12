@@ -99,6 +99,12 @@ export default {
             return new Response(null, { headers: corsHeaders });
         }
 
+        // ==================== MODULAR ROUTES (Phase 4+) ====================
+        const modularResponse = await routeRequest(request, env);
+        if (modularResponse) {
+            return addCors(modularResponse, corsHeaders);
+        }
+
         // ==================== AUTH ROUTES ====================
 
         if (url.pathname === '/api/auth/me' && request.method === 'GET') {
