@@ -312,22 +312,36 @@ export default {
             if (authResult instanceof Response) return addCors(authResult, corsHeaders);
             try {
                 const body: any = await request.json();
-                const { lesson_id, status } = body;
+                const { lesson_id, status, learner_id } = body;
                 if (!lesson_id || !status) {
                     return addCors(new Response(JSON.stringify({ error: 'lesson_id and status required' }), { status: 400 }), corsHeaders);
+                }
+
+                // If learner_id is provided, verify it belongs to user's family
+                if (learner_id) {
+                    const family = await env.DB.prepare('SELECT id FROM Families WHERE owner_user_id = ?').bind(authResult.userId).first<any>();
+                    if (family) {
+                        const learner = await env.DB.prepare('SELECT id FROM Learners WHERE id = ? AND family_id = ?').bind(learner_id, family.id).first<any>();
+                        if (!learner) {
+                            return addCors(new Response(JSON.stringify({ error: 'Learner not found or does not belong to your family' }), { status: 403 }), corsHeaders);
+                        }
+                    } else {
+                        // For backwards compatibility or if they don't have a family setup yet
+                    }
                 }
 
                 const progressId = `prog_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
                 const now = new Date().toISOString();
 
                 await env.DB.prepare(`
-                    INSERT INTO Learner_Progress (id, user_id, lesson_id, status, started_at, completed_at)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    INSERT INTO Learner_Progress (id, user_id, learner_id, lesson_id, status, started_at, completed_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(user_id, lesson_id) DO UPDATE SET
                         status = excluded.status,
+                        learner_id = excluded.learner_id,
                         completed_at = CASE WHEN excluded.status = 'completed' THEN ? ELSE completed_at END
                 `).bind(
-                    progressId, authResult.userId, lesson_id, status, now,
+                    progressId, authResult.userId, learner_id || null, lesson_id, status, now,
                     status === 'completed' ? now : null,
                     now
                 ).run();
@@ -344,17 +358,33 @@ export default {
             const authResult = await requireAuth(request, env);
             if (authResult instanceof Response) return addCors(authResult, corsHeaders);
             try {
+                const learnerId = url.searchParams.get('learner_id');
+                let userFilter = "user_id = ?";
+                let bindParams: any[] = [authResult.userId];
+
+                if (learnerId) {
+                    // Verify learner belongs to user's family
+                    const family = await env.DB.prepare('SELECT id FROM Families WHERE owner_user_id = ?').bind(authResult.userId).first<any>();
+                    if (family) {
+                        const learner = await env.DB.prepare('SELECT id FROM Learners WHERE id = ? AND family_id = ?').bind(learnerId, family.id).first<any>();
+                        if (learner) {
+                            userFilter = "(user_id = ? AND learner_id = ?)";
+                            bindParams = [authResult.userId, learnerId];
+                        }
+                    }
+                }
+
                 const { results: completed } = await env.DB.prepare(
-                    "SELECT COUNT(*) as cnt FROM Learner_Progress WHERE user_id = ? AND status = 'completed'"
-                ).bind(authResult.userId).all();
+                    `SELECT COUNT(*) as cnt FROM Learner_Progress WHERE ${userFilter} AND status = 'completed'`
+                ).bind(...bindParams).all();
 
                 const { results: inProgress } = await env.DB.prepare(`
                     SELECT COUNT(DISTINCT t.id) as cnt
                     FROM Topics t
                     JOIN Lessons l ON l.topic_id = t.id
-                    JOIN Learner_Progress lp ON lp.lesson_id = l.id AND lp.user_id = ?
+                    JOIN Learner_Progress lp ON lp.lesson_id = l.id AND ${userFilter.replace('user_id = ?', 'lp.user_id = ?').replace('learner_id = ?', 'lp.learner_id = ?')}
                     WHERE lp.status IN ('in_progress', 'completed')
-                `).bind(authResult.userId).all();
+                `).bind(...bindParams).all();
 
                 const { results: scores } = await env.DB.prepare(`
                     SELECT t.id as topicId, t.title as topicName,
@@ -362,9 +392,9 @@ export default {
                     FROM Learner_Progress lp
                     JOIN Lessons l ON l.id = lp.lesson_id
                     JOIN Topics t ON t.id = l.topic_id
-                    WHERE lp.user_id = ? AND lp.score IS NOT NULL
+                    WHERE ${userFilter.replace('user_id = ?', 'lp.user_id = ?').replace('learner_id = ?', 'lp.learner_id = ?')} AND lp.score IS NOT NULL
                     GROUP BY t.id
-                `).bind(authResult.userId).all();
+                `).bind(...bindParams).all();
 
                 const topicScores = scores.map((s: any) => ({
                     topicId: s.topicId,
@@ -411,13 +441,27 @@ export default {
                     const now = new Date().toISOString();
                     const percentage = Math.round((score / total) * 100);
 
+                    const { learner_id } = body;
+
+                    // If learner_id is provided, verify it belongs to user's family
+                    if (learner_id) {
+                        const family = await env.DB.prepare('SELECT id FROM Families WHERE owner_user_id = ?').bind(authResult.userId).first<any>();
+                        if (family) {
+                            const learner = await env.DB.prepare('SELECT id FROM Learners WHERE id = ? AND family_id = ?').bind(learner_id, family.id).first<any>();
+                            if (!learner) {
+                                return addCors(new Response(JSON.stringify({ error: 'Learner not found or does not belong to your family' }), { status: 403 }), corsHeaders);
+                            }
+                        }
+                    }
+
                     await env.DB.prepare(`
-                        INSERT INTO Learner_Progress (id, user_id, lesson_id, status, score, completed_at)
-                        VALUES (?, ?, ?, 'completed', ?, ?)
+                        INSERT INTO Learner_Progress (id, user_id, learner_id, lesson_id, status, score, completed_at)
+                        VALUES (?, ?, ?, ?, 'completed', ?, ?)
                         ON CONFLICT(user_id, lesson_id) DO UPDATE SET
                             score = excluded.score,
+                            learner_id = excluded.learner_id,
                             completed_at = excluded.completed_at
-                    `).bind(progressId, authResult.userId, lesson.id, percentage, now).run();
+                    `).bind(progressId, authResult.userId, learner_id || null, lesson.id, percentage, now).run();
                 }
 
                 return addCors(new Response(JSON.stringify({ success: true }), { status: 200 }), corsHeaders);
