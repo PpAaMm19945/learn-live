@@ -235,4 +235,7 @@ The existing photo+audio capture pipeline is repurposed:
 |---|-------|--------|-----|
 | 7 | `package-lock.json` out of sync | BLOCKER | Run `npm install` locally, commit lockfile |
 | 8 | D1 migration `003_history_curriculum.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql` |
+| 9 | D1 migration `004_adaptation_cache.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/004_adaptation_cache.sql` |
+| 10 | Seed curriculum data into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_curriculum.sql` |
+| 11 | Seed RAG chunks into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_rag_chunks.sql` |
 | 14 | ~1300 lines legacy math routes in worker | LOW | Cleanup deferred — not blocking |
