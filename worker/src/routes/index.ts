@@ -1,6 +1,7 @@
 import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
 import { handleGetAdaptedContent, handleGetChapterContent } from './content';
+import { handleUploadArtifact, handleVerifyArtifact, handleListArtifacts } from './artifacts';
 import {
     handleStartExam,
     handleListExams,
@@ -37,6 +38,27 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         return handleGetChapterContent(request, env, authResult.userId);
     }
 
+    // --- Artifact Routes ---
+
+    // POST /api/artifacts/upload
+    if (path === '/api/artifacts/upload' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleUploadArtifact(request, env);
+    }
+
+    // POST /api/artifacts/verify
+    if (path === '/api/artifacts/verify' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleVerifyArtifact(request, env, authResult.userId);
+    }
+
+    // GET /api/artifacts
+    if (path === '/api/artifacts' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleListArtifacts(request, env, authResult.userId);
     // --- Examiner Routes ---
 
     // POST /api/exams/start
