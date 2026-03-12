@@ -1,5 +1,6 @@
 import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
+import { logActivity } from '../lib/analytics/logger';
 
 // Cache for parsed JSON fields to avoid redundant parsing overhead
 const jsonCache = new Map<string, any>();
@@ -261,6 +262,9 @@ export async function handleCurriculumRoutes(request: Request, env: Env, corsHea
                         score = excluded.score,
                         completed_at = excluded.completed_at
                 `).bind(progressId, authResult.userId, lesson.id, percentage, now).run();
+
+                // Log activity
+                logActivity(env, authResult.userId, 'lesson_completed', 'lesson', lesson.id, { topicId, score, percentage });
             }
 
             return addCors(new Response(JSON.stringify({ success: true }), { status: 200 }), corsHeaders);

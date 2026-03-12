@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { Logger } from './Logger';
+import { useState, useEffect } from 'react';
 
-export type UserRole = 'parent' | 'learner';
+export type UserRole = 'parent' | 'learner' | 'admin';
 
 interface AuthState {
     isAuthenticated: boolean;
@@ -89,3 +90,47 @@ export const useAuthStore = create<AuthState>((set) => ({
         }
     },
 }));
+
+export function useIsAdmin() {
+    const { isAuthenticated, roles } = useAuthStore();
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        let mounted = true;
+        const checkAdmin = async () => {
+            if (!isAuthenticated) {
+                if (mounted) {
+                    setIsAdmin(false);
+                    setIsLoading(false);
+                }
+                return;
+            }
+
+            try {
+                const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+                const res = await fetch(`${apiUrl}/api/admin/check`, {
+                    credentials: 'include'
+                });
+
+                if (mounted) {
+                    setIsAdmin(res.ok);
+                    setIsLoading(false);
+                }
+            } catch (err) {
+                if (mounted) {
+                    setIsAdmin(false);
+                    setIsLoading(false);
+                }
+            }
+        };
+
+        checkAdmin();
+
+        return () => {
+            mounted = false;
+        };
+    }, [isAuthenticated, roles]);
+
+    return { isAdmin, isLoading };
+}

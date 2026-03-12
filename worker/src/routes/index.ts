@@ -14,6 +14,7 @@ import { handleAuthRoutes } from './auth';
 import { handleCurriculumRoutes } from './curriculum';
 import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
 import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
+import { handleAnalyticsRoutes } from './analytics';
 
 /**
  * Central Route Registry
@@ -34,6 +35,12 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     // --- Curriculum Routes ---
     const curriculumResponse = await handleCurriculumRoutes(request, env, corsHeaders);
     if (curriculumResponse) return curriculumResponse;
+
+    // --- Admin Analytics Routes ---
+    if (path.startsWith('/api/admin')) {
+        const analyticsResponse = await handleAnalyticsRoutes(request, env, corsHeaders);
+        if (analyticsResponse) return analyticsResponse;
+    }
 
     // --- Content Routes ---
 

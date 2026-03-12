@@ -2,6 +2,7 @@ import type { Env } from '../../index';
 import { signToken } from './jwt';
 import { setSessionCookie } from './cookies';
 import { sendVerificationEmail, sendPasswordResetEmail } from './emailVerification';
+import { logActivity } from '../analytics/logger';
 import { findOrCreateUser } from './accountLink';
 
 const ITERATIONS = 100000;

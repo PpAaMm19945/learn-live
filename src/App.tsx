@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
+import AdminDashboard from "./pages/admin/Dashboard";
 import TopicDetail from "./pages/TopicDetail";
 import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
@@ -82,6 +83,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute allowedRoles={['admin', 'parent']}>
+                    <AdminDashboard />
                   </ProtectedRoute>
                 }
               />
