@@ -12,6 +12,7 @@ import Dashboard from "./pages/parent/Dashboard";
 import TopicDetail from "./pages/TopicDetail";
 import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
+import NarratedLessonView from "./pages/NarratedLessonView";
 import ExamView from "./pages/ExamView";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
@@ -95,6 +96,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <ReadingView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/narrate/:lessonId"
+                element={
+                  <ProtectedRoute>
+                    <NarratedLessonView />
                   </ProtectedRoute>
                 }
               />

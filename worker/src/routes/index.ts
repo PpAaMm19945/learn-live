@@ -2,6 +2,7 @@ import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
 import { handleGetAdaptedContent, handleGetChapterContent } from './content';
 import { handleUploadArtifact, handleVerifyArtifact, handleListArtifacts } from './artifacts';
+import { handleGetMapAssets } from './maps';
 import {
     handleStartExam,
     handleListExams,
@@ -36,6 +37,16 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // --- Map Routes ---
+
+    // GET /api/lessons/:lessonId/map-assets
+    const mapAssetsMatch = path.match(/^\/api\/lessons\/([^/]+)\/map-assets$/);
+    if (mapAssetsMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetMapAssets(request, env, authResult.userId, mapAssetsMatch[1]);
     }
 
     // --- Artifact Routes ---
