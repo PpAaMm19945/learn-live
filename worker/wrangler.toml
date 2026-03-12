@@ -8,7 +8,6 @@ account_id = "4b9e1f0f3d5f50f35db086b8ae9431e1"
 binding = "DB"
 database_name = "learnlive-db-prod"
 database_id = "27043dbb-5aa2-4be3-93fc-97860fb7c158"
-migrations_dir = "db/migrations"
 
 # Binding to R2 Bucket
 [[r2_buckets]]

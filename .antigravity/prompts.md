@@ -97,6 +97,20 @@
 
 ---
 
+## Phase 7: Production Readiness — 🔄 IN PROGRESS
+
+> 4 parallel Jules instances + integration step. Prompts in `.antigravity/prompts-phase7.md`.
+
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| A | Legacy Worker Cleanup (~1300 lines → modular router) | 🔲 Todo | `worker/src/routes/auth.ts`, `curriculum.ts` |
+| B | Chapter Content API & Family Management | 🔲 Todo | `worker/src/routes/family.ts`, `008_families.sql` |
+| C | Frontend Polish & Mobile Readiness | 🔲 Todo | All pages in `src/pages/` |
+| D | Deployment Pipeline & Data Seeding | 🔲 Todo | `worker/scripts/`, `docs/deployment-checklist.md` |
+| Integration | Route wiring, build verification, docs | 🔲 Todo | `worker/src/routes/index.ts` |
+
+---
+
 ## Prompt Template Reference
 
-Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6).
+Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7).
