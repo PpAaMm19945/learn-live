@@ -66,12 +66,31 @@
 
 ---
 
-## Phase 5: Assessment & Oral Examiner — 🔲 NOT STARTED
+## Phase 5: Assessment & Oral Examiner — ✅ COMPLETE
 
-> Next phase. See `.antigravity/prompts-phase5.md` for parallel prompts.
+> 4 parallel Jules instances. Executed 2026-03-12.
+
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| A | Oral Examiner Agent Prompt & RAG Integration | ✅ Done | `worker/src/lib/examiner/agent.ts`, `types.ts` |
+| B | Exam Session API Routes | ✅ Done | `worker/src/routes/examiner.ts`, `005_exam_sessions.sql` |
+| C | Frontend Exam UI Components | ✅ Done | `src/pages/ExamView.tsx`, `src/components/exam/` |
+| D | Artifact Verification System | ✅ Done | `worker/src/routes/artifacts.ts`, `006_artifacts.sql` |
+| Integration | Routes wired, merge conflict resolved | ✅ Done | `worker/src/routes/index.ts` |
+
+**Exam API endpoints:** `POST /api/exams/start`, `GET /api/exams/:sessionId`, `POST /api/exams/:sessionId/complete`, `POST /api/exams/:sessionId/review`, `GET /api/exams?lesson_id=X`
+**Artifact API endpoints:** `POST /api/artifacts/upload`, `POST /api/artifacts/verify`, `GET /api/artifacts?lesson_id=X`
+
+**Migrations required:** `005_exam_sessions.sql`, `006_artifacts.sql`
+
+---
+
+## Phase 6: Explainer Canvas for History — 🔲 NOT STARTED
+
+> Next phase. See `.antigravity/prompts-phase6.md` for parallel prompts.
 
 ---
 
 ## Prompt Template Reference
 
-Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5).
+Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6).
