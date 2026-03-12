@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExamCard } from '@/components/exam/ExamCard';
@@ -93,13 +93,21 @@ export default function LessonView() {
            <Button
              variant="default"
              size="sm"
-             className="mr-2"
+             className="mr-2 hidden md:flex"
              onClick={() => navigate(`/read/${lessonId}`)}
            >
-             <BookOpen className="h-4 w-4 mr-1" /> Read at My Level
+             <BookOpen className="h-4 w-4 mr-1" /> Read
            </Button>
-           <Button variant="outline" size="sm" className="mr-2">
-            <HelpCircle className="h-4 w-4 mr-1" /> Ask a Question
+           <Button
+             variant="secondary"
+             size="sm"
+             className="mr-2"
+             onClick={() => navigate(`/narrate/${lessonId}`)}
+           >
+             <PlayCircle className="h-4 w-4 mr-1" /> Narrate
+           </Button>
+           <Button variant="outline" size="sm" className="mr-2 hidden md:flex">
+            <HelpCircle className="h-4 w-4 mr-1" /> Ask
           </Button>
         </div>
       </header>
