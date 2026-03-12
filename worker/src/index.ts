@@ -11,6 +11,9 @@ import { getOrCreateWeeklyPlan, completeWeeklyTask } from './lib/weeklyPlan';
 import { getEnrichedTask } from './lib/enrichTask';
 import { evaluateEvidence } from './lib/evaluateEvidence';
 
+// Content routes (Phase 4)
+import { routeRequest } from './routes/index';
+
 // Auth imports
 import { authenticateRequest, requireAuth } from './lib/auth/middleware';
 import { handleMagicLinkRequest, handleMagicLinkVerify } from './lib/auth/magicLink';
@@ -94,6 +97,12 @@ export default {
 
         if (request.method === 'OPTIONS') {
             return new Response(null, { headers: corsHeaders });
+        }
+
+        // ==================== MODULAR ROUTES (Phase 4+) ====================
+        const modularResponse = await routeRequest(request, env);
+        if (modularResponse) {
+            return addCors(modularResponse, corsHeaders);
         }
 
         // ==================== AUTH ROUTES ====================

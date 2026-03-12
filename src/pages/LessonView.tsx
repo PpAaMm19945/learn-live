@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -89,6 +89,14 @@ export default function LessonView() {
             <ChevronLeft className="h-4 w-4 mr-1" /> Back to Topic
           </Button>
           <h1 className="text-sm font-medium truncate flex-grow">{lesson.title}</h1>
+           <Button
+             variant="default"
+             size="sm"
+             className="mr-2"
+             onClick={() => navigate(`/read/${lessonId}`)}
+           >
+             <BookOpen className="h-4 w-4 mr-1" /> Read at My Level
+           </Button>
            <Button variant="outline" size="sm" className="mr-2">
             <HelpCircle className="h-4 w-4 mr-1" /> Ask a Question
           </Button>

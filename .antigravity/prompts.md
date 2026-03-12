@@ -48,19 +48,30 @@
 
 ---
 
-## Phase 4: Content Ingestion & AI Adaptation — 🔲 NOT STARTED
+## Phase 4: Content Ingestion & AI Adaptation — ✅ COMPLETE
 
-> Next phase. See `ROADMAP.md` for full task breakdown.
+> 4 parallel Jules instances + integration step. Executed 2026-03-12.
 
-**Key tasks:**
-- Upload master text chapters to R2
-- Seed Topics + Lessons into D1
-- Build band adaptation prompt pipeline
-- Wire content serving API (`GET /api/chapter/:id/content?band=2`)
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| A | Band Adaptation Prompt Pipeline | ✅ Done | `worker/src/lib/content/adapt.ts` |
+| B | BandSelector + AdaptedContentReader UI | ✅ Done | `src/components/content/BandSelector.tsx`, `AdaptedContentReader.tsx`, `VocabularyCard.tsx`, `DiscussionQuestions.tsx` |
+| C | Content Serving API + D1 Cache | ✅ Done | `worker/src/routes/content.ts`, `worker/db/migrations/004_adaptation_cache.sql` |
+| D | ReadingView Page | ✅ Done | `src/pages/ReadingView.tsx` |
+| Integration | Router wired, data shape fixed, `/read/:lessonId` route, docs | ✅ Done | `worker/src/index.ts`, `src/App.tsx`, `src/pages/LessonView.tsx` |
+
+**New API endpoints:** `GET /api/lessons/:id/content?band=N`, `GET /api/chapters/:id/content?band=N`
+
+**Migrations required:** `004_adaptation_cache.sql`, `seed_curriculum.sql`, `seed_rag_chunks.sql`
+
+---
+
+## Phase 5: Assessment & Oral Examiner — 🔲 NOT STARTED
+
+> Next phase. See `.antigravity/prompts-phase5.md` for parallel prompts.
 
 ---
 
 ## Prompt Template Reference
 
-Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3 reference, now complete).
-Future phase prompts will be added as `.antigravity/prompts-phase4.md`.
+Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5).

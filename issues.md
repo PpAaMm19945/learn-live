@@ -115,3 +115,13 @@
   - API transforms DB field names (`summary`→`description`, `narrative_text`→`narrative`, `estimated_minutes`→`estimated_time`) to match frontend expectations
   - All routes use `requireAuth` middleware for session-cookie auth
 * **Migration required:** `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql`
+
+### 19. Phase 4 Integration — COMPLETE (2026-03-12)
+* **Status:** COMPLETE
+* **Description:** Phase 4 (AI Content Adaptation Engine) fully integrated:
+  - Modular router (`worker/src/routes/index.ts`) wired into `worker/src/index.ts` — called before legacy switch
+  - Content API data shape mismatch fixed in `AdaptedContentReader.tsx` — API returns nested `{ lesson, content: { adapted_text, vocabulary, ... }, band }`, frontend now unwraps correctly
+  - `/read/:lessonId` protected route added to `App.tsx`
+  - "Read at My Level" button added to `LessonView.tsx` header
+  - `BandSelector`, `VocabularyCard`, `DiscussionQuestions` components delivered by Jules
+* **Migrations pending:** `004_adaptation_cache.sql`, `seed_curriculum.sql`, `seed_rag_chunks.sql`
