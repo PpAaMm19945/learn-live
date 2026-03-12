@@ -2,6 +2,13 @@ import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
 import { handleGetAdaptedContent, handleGetChapterContent } from './content';
 import { handleUploadArtifact, handleVerifyArtifact, handleListArtifacts } from './artifacts';
+import {
+    handleStartExam,
+    handleListExams,
+    handleGetExamSession,
+    handleCompleteExam,
+    handleReviewExam,
+} from './examiner';
 
 /**
  * Central Route Registry
@@ -52,6 +59,44 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleListArtifacts(request, env, authResult.userId);
+    // --- Examiner Routes ---
+
+    // POST /api/exams/start
+    if (path === '/api/exams/start' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleStartExam(request, env, authResult.userId);
+    }
+
+    // GET /api/exams?lesson_id=X
+    if (path === '/api/exams' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleListExams(request, env, authResult.userId);
+    }
+
+    // POST /api/exams/:sessionId/complete
+    const completeExamMatch = path.match(/^\/api\/exams\/([^/]+)\/complete$/);
+    if (completeExamMatch && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleCompleteExam(request, env, authResult.userId, completeExamMatch[1]);
+    }
+
+    // POST /api/exams/:sessionId/review
+    const reviewExamMatch = path.match(/^\/api\/exams\/([^/]+)\/review$/);
+    if (reviewExamMatch && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleReviewExam(request, env, authResult.userId, reviewExamMatch[1]);
+    }
+
+    // GET /api/exams/:sessionId
+    const getExamMatch = path.match(/^\/api\/exams\/([^/]+)$/);
+    if (getExamMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetExamSession(request, env, authResult.userId, getExamMatch[1]);
     }
 
     // Return null if no route matches, allowing legacy index.ts switch to handle it
