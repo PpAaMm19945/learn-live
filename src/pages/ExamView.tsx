@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -7,6 +7,15 @@ import { ParentReviewModal } from '@/components/exam/ParentReviewModal';
 import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface LessonData {
   id: string;
@@ -94,8 +103,22 @@ export default function ExamView() {
 
   if (isLessonLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="min-h-screen bg-background flex flex-col">
+        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
+          <div className="max-w-6xl mx-auto flex items-center px-4 py-3 w-full">
+            <Button variant="ghost" size="sm" disabled className="mr-4">
+              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
+            </Button>
+            <Skeleton className="h-5 w-48 flex-grow" />
+            <Skeleton className="h-6 w-16" />
+          </div>
+        </header>
+        <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 flex flex-col items-center justify-center">
+          <Skeleton className="w-24 h-24 rounded-full mb-6" />
+          <Skeleton className="h-8 w-64 mb-4" />
+          <Skeleton className="h-4 w-3/4 max-w-md mb-8" />
+          <Skeleton className="h-14 w-48 rounded-full" />
+        </main>
       </div>
     );
   }
@@ -103,19 +126,20 @@ export default function ExamView() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto flex items-center px-4 py-3">
+        <div className="max-w-6xl mx-auto flex items-center px-4 py-3 w-full">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate(`/lessons/${lessonId}`)}
             className="mr-4"
+            aria-label="Back to Course"
           >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Lesson
+            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
           </Button>
-          <div className="flex flex-col flex-grow">
+          <div className="flex flex-col flex-grow truncate mr-2">
             <h1 className="text-sm font-medium truncate">{lesson?.title || 'Oral Exam'}</h1>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
              {status === 'active' && (
                  <Badge variant="outline" className="font-mono bg-background">
                      <Clock className="w-3 h-3 mr-2 text-primary animate-pulse" />
@@ -127,31 +151,59 @@ export default function ExamView() {
         </div>
       </header>
 
+      <div className="max-w-4xl w-full mx-auto px-4 pt-6">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/dashboard">Course</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to={`/topics/${lesson?.topic_id || ''}`}>Topic</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to={`/lessons/${lessonId}`}>Lesson</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Exam</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 flex flex-col items-center justify-center">
 
         {status === 'setup' && (
-          <div className="text-center space-y-8 animate-in fade-in zoom-in duration-300">
+          <div className="text-center space-y-8 animate-in fade-in zoom-in duration-300 w-full px-4">
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                <Mic className="w-12 h-12 text-primary" />
             </div>
-            <h2 className="text-3xl font-bold">Ready for your oral exam?</h2>
-            <p className="text-lg text-muted-foreground max-w-md mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold">Ready for your oral exam?</h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto">
               {getInstructions()}
             </p>
-            <Button size="lg" onClick={startExam} className="px-8 py-6 text-lg rounded-full">
+            <Button size="lg" onClick={startExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Start Recording">
               <Mic className="w-5 h-5 mr-2" /> Start Recording
             </Button>
           </div>
         )}
 
         {status === 'active' && (
-           <div className="text-center space-y-12 animate-in fade-in duration-300 w-full">
-               <div className="relative flex items-center justify-center h-64">
+           <div className="text-center space-y-12 animate-in fade-in duration-300 w-full px-4">
+               <div className="relative flex items-center justify-center h-48 sm:h-64">
                     {/* Visualizer Adapted from EvidenceWitness */}
-                    <div className="absolute w-48 h-48 bg-primary/20 rounded-full animate-ping pointer-events-none"></div>
-                    <div className="absolute w-36 h-36 bg-primary/40 rounded-full animate-pulse pointer-events-none"></div>
-                    <div className="relative w-24 h-24 bg-primary rounded-full shadow-[0_0_50px_rgba(var(--primary),0.8)] border-4 border-background/20 flex items-center justify-center">
-                        <Mic className="w-10 h-10 text-primary-foreground animate-pulse" />
+                    <div className="absolute w-32 h-32 sm:w-48 sm:h-48 bg-primary/20 rounded-full animate-ping pointer-events-none"></div>
+                    <div className="absolute w-24 h-24 sm:w-36 sm:h-36 bg-primary/40 rounded-full animate-pulse pointer-events-none"></div>
+                    <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-primary rounded-full shadow-[0_0_50px_rgba(var(--primary),0.8)] border-4 border-background/20 flex items-center justify-center">
+                        <Mic className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
                     </div>
                </div>
 
@@ -160,7 +212,7 @@ export default function ExamView() {
                    <p className="text-muted-foreground">Speak clearly into your microphone.</p>
                </div>
 
-               <Button size="lg" variant="destructive" onClick={endExam} className="px-8 py-6 text-lg rounded-full">
+               <Button size="lg" variant="destructive" onClick={endExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Stop Exam">
                   <Square className="w-5 h-5 mr-2 fill-current" /> Stop Exam
                </Button>
            </div>
@@ -177,30 +229,30 @@ export default function ExamView() {
         )}
 
         {status === 'complete' && (
-           <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500 w-full max-w-2xl">
-               <CheckCircle className="w-24 h-24 text-primary mx-auto" />
-               <h2 className="text-3xl font-bold">Exam Complete!</h2>
-               <p className="text-lg text-muted-foreground">
+           <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500 w-full max-w-2xl px-4">
+               <CheckCircle className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
+               <h2 className="text-2xl sm:text-3xl font-bold">Exam Complete!</h2>
+               <p className="text-base sm:text-lg text-muted-foreground">
                    Great job! The AI has drafted an assessment for your parent to review.
                </p>
 
-               <div className="bg-muted/30 p-6 rounded-xl border border-border/50 text-left space-y-4">
+               <div className="bg-muted/30 p-4 sm:p-6 rounded-xl border border-border/50 text-left space-y-4 w-full">
                    <h4 className="font-semibold flex items-center gap-2">
                        <Clock className="w-4 h-4 text-muted-foreground" />
                        Session Details
                    </h4>
-                   <div className="grid grid-cols-2 gap-4 text-sm">
+                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
                        <div><span className="text-muted-foreground">Duration:</span> {formatTime(sessionTime)}</div>
                        <div><span className="text-muted-foreground">Band Level:</span> {band}</div>
                    </div>
                </div>
 
-               <div className="flex gap-4 justify-center mt-8">
-                   <Button variant="outline" onClick={() => navigate(`/lessons/${lessonId}`)}>
+               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8 w-full">
+                   <Button variant="outline" className="w-full sm:w-auto" onClick={() => navigate(`/lessons/${lessonId}`)} aria-label="Return to Lesson">
                        Return to Lesson
                    </Button>
                    {isParent && (
-                       <Button onClick={() => setIsReviewModalOpen(true)}>
+                       <Button className="w-full sm:w-auto" onClick={() => setIsReviewModalOpen(true)} aria-label="Review Assessment Now">
                            Review Assessment Now
                        </Button>
                    )}

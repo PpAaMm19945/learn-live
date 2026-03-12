@@ -1,10 +1,19 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, Clock, MapPin, AlertCircle, BookOpen } from 'lucide-react';
+import { ChevronLeft, Clock, MapPin, AlertCircle, BookOpen, RefreshCcw } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LessonProgress } from '@/components/progress/LessonProgress';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 interface Lesson {
   id: string;
@@ -27,7 +36,7 @@ export default function TopicDetail() {
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
 
-  const { data: topic, isLoading, isError } = useQuery<TopicDetailData>({
+  const { data: topic, isLoading, isError, refetch } = useQuery<TopicDetailData>({
     queryKey: ['topic', topicId],
     queryFn: async () => {
       const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
@@ -46,20 +55,66 @@ export default function TopicDetail() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      <div className="min-h-screen bg-background">
+        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
+          <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
+            <Button variant="ghost" size="sm" disabled className="mr-4">
+              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
+            </Button>
+            <Skeleton className="h-5 w-48" />
+          </div>
+        </header>
+
+        <main className="max-w-4xl mx-auto px-4 py-10 space-y-8">
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <Skeleton className="h-6 w-24" />
+              <Skeleton className="h-6 w-32" />
+            </div>
+            <Skeleton className="h-10 w-3/4 max-w-lg" />
+            <Skeleton className="h-24 w-full" />
+          </div>
+
+          <div className="space-y-4 pt-6 border-t border-border/50">
+            <Skeleton className="h-8 w-32 mb-4" />
+            <div className="grid gap-4">
+              {[1, 2, 3].map((i) => (
+                <Card key={i} className="w-full">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-start justify-between gap-4">
+                      <Skeleton className="h-6 w-1/2" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center gap-4">
+                      <Skeleton className="h-4 w-16" />
+                      <Skeleton className="h-4 w-24" />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </main>
       </div>
     );
   }
 
   if (isError || !topic) {
     return (
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4">
-        <AlertCircle className="h-12 w-12 text-destructive" />
-        <h2 className="text-xl font-semibold">Failed to load topic details</h2>
-        <Button onClick={() => navigate('/dashboard')} variant="outline">
-          Back to Dashboard
-        </Button>
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
+        <AlertCircle className="h-16 w-16 text-destructive mb-4" />
+        <h2 className="text-2xl font-bold mb-2">Failed to load topic details</h2>
+        <p className="text-muted-foreground mb-8 max-w-md">There was a problem loading the curriculum content. Please try again.</p>
+        <div className="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
+          <Button onClick={() => navigate('/dashboard')} variant="outline" className="w-full sm:w-auto">
+            <ChevronLeft className="h-4 w-4 mr-2" /> Back to Course
+          </Button>
+          <Button onClick={() => refetch()} variant="default" className="w-full sm:w-auto">
+            <RefreshCcw className="h-4 w-4 mr-2" /> Try Again
+          </Button>
+        </div>
       </div>
     );
   }
@@ -68,14 +123,34 @@ export default function TopicDetail() {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
         <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard')} className="mr-4">
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/dashboard')}
+            className="mr-4"
+            aria-label="Back to Course"
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
           </Button>
           <h1 className="text-sm font-medium truncate">{topic.title}</h1>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 py-10 space-y-8">
+      <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/dashboard">Course</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{topic.title}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <div className="space-y-4">
           <div className="flex flex-wrap gap-2">
             <Badge variant="secondary" className="flex items-center gap-1 text-sm py-1">
@@ -85,8 +160,8 @@ export default function TopicDetail() {
               <MapPin className="w-4 h-4" /> {topic.region}
             </Badge>
           </div>
-          <h2 className="text-4xl font-bold tracking-tight">{topic.title}</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight">{topic.title}</h2>
+          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
             {topic.description}
           </p>
         </div>
@@ -97,16 +172,32 @@ export default function TopicDetail() {
           </h3>
 
           {topic.lessons.length === 0 ? (
-             <div className="text-center py-12 border rounded-xl border-dashed bg-card">
-              <p className="text-muted-foreground">No lessons are currently available for this topic.</p>
+             <div className="flex flex-col items-center justify-center py-12 px-4 text-center border rounded-xl border-dashed bg-card">
+              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                <BookOpen className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">No lessons yet</h3>
+              <p className="text-muted-foreground mb-6 max-w-sm">Content for this topic is currently being developed.</p>
+              <Button variant="outline" onClick={() => navigate('/dashboard')}>
+                Explore Other Topics
+              </Button>
             </div>
           ) : (
-            <div className="grid gap-4">
+            <div className="grid grid-cols-1 gap-4">
               {topic.lessons.map((lesson) => (
                 <Card
                   key={lesson.id}
-                  className="hover:shadow-md transition-shadow cursor-pointer"
+                  className="w-full hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => navigate(`/lessons/${lesson.id}`)}
+                  aria-label={`Go to lesson: ${lesson.title}`}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      navigate(`/lessons/${lesson.id}`);
+                    }
+                  }}
                 >
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-4">

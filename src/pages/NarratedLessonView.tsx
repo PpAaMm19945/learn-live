@@ -176,48 +176,49 @@ export default function NarratedLessonView() {
   // Render
   // ------------------------------------------------------------------
   return (
-    <div className="min-h-screen bg-background flex flex-col h-screen overflow-hidden">
+    <div className="min-h-screen bg-background flex flex-col h-[100dvh] overflow-hidden">
       {/* Header */}
       <header className="border-b border-border bg-card z-10 shrink-0">
-        <div className="px-4 py-3 flex items-center justify-between gap-4 max-w-[1600px] mx-auto w-full">
-          <div className="flex items-center">
+        <div className="px-2 sm:px-4 py-3 flex items-center justify-between gap-2 sm:gap-4 max-w-[1600px] mx-auto w-full">
+          <div className="flex items-center shrink-0">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => lesson?.topic_id ? navigate(`/topics/${lesson.topic_id}`) : navigate(-1)}
-              className="mr-2"
+              className="mr-1 sm:mr-2 px-2 sm:px-3"
+              aria-label="Back to Course"
             >
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back
+              <ChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
             </Button>
             {isLessonLoading ? (
-               <div className="h-6 w-32 bg-muted rounded animate-pulse ml-2" />
+               <div className="h-6 w-24 sm:w-32 bg-muted rounded animate-pulse ml-1 sm:ml-2" />
             ) : (
-               <h1 className="text-sm font-medium text-muted-foreground truncate max-w-[200px] md:max-w-md hidden sm:block ml-2">
+               <h1 className="text-xs sm:text-sm font-medium text-muted-foreground truncate max-w-[120px] sm:max-w-[200px] md:max-w-md ml-1 sm:ml-2">
                  {lesson?.title}
                </h1>
             )}
           </div>
 
-          <div className="flex-grow flex justify-center w-full max-w-2xl overflow-x-auto pb-1 md:pb-0 scrollbar-hide px-4">
+          <div className="flex-grow flex justify-center w-full max-w-2xl overflow-x-auto pb-1 md:pb-0 scrollbar-hide px-2 sm:px-4">
              <BandSelector onBandChange={setCurrentBand} className="w-auto" />
           </div>
 
-          <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" className="hidden sm:inline-flex">
-              <Settings className="h-5 w-5 text-muted-foreground" />
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Settings">
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5 text-muted-foreground" />
+            <Button variant="ghost" size="icon" aria-label="User Profile">
+              <User className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
           </div>
         </div>
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-grow flex flex-col p-4 gap-4 max-w-[1600px] mx-auto w-full h-[calc(100vh-73px)] overflow-hidden">
+      <main className="flex-grow flex flex-col p-2 sm:p-4 gap-2 sm:gap-4 max-w-[1600px] mx-auto w-full min-h-0">
 
-        {/* Canvas Area (Takes up most space) */}
-        <div className="flex-grow min-h-0 relative rounded-lg border border-border shadow-sm bg-muted/20">
+        {/* Canvas Area (Takes up most space, stacks above transcript on mobile) */}
+        <div className="flex-grow min-h-0 relative rounded-lg border border-border shadow-sm bg-muted/20 overflow-hidden">
            <HistoryCanvas
              elements={Array.from(canvasState.elements.values())}
              baseMapUrl={canvasState.baseMap}
@@ -227,11 +228,11 @@ export default function NarratedLessonView() {
         </div>
 
         {/* Controls Area (Bottom) */}
-        <div className="shrink-0 flex flex-col gap-3">
+        <div className="shrink-0 flex flex-col gap-2 sm:gap-3">
           <TranscriptBar
             text={transcriptText}
             sceneContext={sceneContext}
-            className="h-[100px] md:h-[120px]"
+            className="h-[80px] sm:h-[100px] md:h-[120px]"
           />
 
           <PlaybackControls
