@@ -1,0 +1,1 @@
+ALTER TABLE Learner_Progress ADD COLUMN learner_id TEXT REFERENCES Learners(id) ON DELETE CASCADE;

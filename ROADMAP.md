@@ -239,10 +239,10 @@ The existing photo+audio capture pipeline is repurposed:
 | # | Issue | Status | Fix |
 |---|-------|--------|-----|
 | 7 | `package-lock.json` out of sync | BLOCKER | Run `npm install` locally, commit lockfile |
-| 8 | D1 migration `003_history_curriculum.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql` |
-| 9 | D1 migration `004_adaptation_cache.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/004_adaptation_cache.sql` |
-| 10 | Seed curriculum data into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_curriculum.sql` |
-| 11 | Seed RAG chunks into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_rag_chunks.sql` |
-| 12 | D1 migration `005_exam_sessions.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/005_exam_sessions.sql` |
-| 13 | D1 migration `006_artifacts.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/006_artifacts.sql` |
+| 8 | D1 migration `003_history_curriculum.sql` | RESOLVED | `worker/scripts/run-migrations.sh` |
+| 9 | D1 migration `004_adaptation_cache.sql` | RESOLVED | `worker/scripts/run-migrations.sh` |
+| 10 | Seed curriculum data into D1 | RESOLVED | `worker/scripts/run-migrations.sh` |
+| 11 | Seed RAG chunks into D1 | RESOLVED | `worker/scripts/run-migrations.sh` |
+| 12 | D1 migration `005_exam_sessions.sql` | RESOLVED | `worker/scripts/run-migrations.sh` |
+| 13 | D1 migration `006_artifacts.sql` | RESOLVED | `worker/scripts/run-migrations.sh` |
 | 14 | ~1300 lines legacy math routes in worker | LOW | Cleanup deferred — not blocking |
