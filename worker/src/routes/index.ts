@@ -10,6 +10,8 @@ import {
     handleReviewExam,
 } from './examiner';
 import { handleGetLessonMapAssets } from './maps';
+import { handleAuthRoutes } from './auth';
+import { handleCurriculumRoutes } from './curriculum';
 
 /**
  * Central Route Registry
@@ -18,10 +20,18 @@ import { handleGetLessonMapAssets } from './maps';
  * Note: Legacy routes in index.ts will be migrated here over time.
  */
 
-export async function routeRequest(request: Request, env: Env): Promise<Response | null> {
+export async function routeRequest(request: Request, env: Env, corsHeaders: Record<string, string>): Promise<Response | null> {
     const url = new URL(request.url);
     const path = url.pathname;
     const method = request.method;
+
+    // --- Auth Routes ---
+    const authResponse = await handleAuthRoutes(request, env, corsHeaders);
+    if (authResponse) return authResponse;
+
+    // --- Curriculum Routes ---
+    const curriculumResponse = await handleCurriculumRoutes(request, env, corsHeaders);
+    if (curriculumResponse) return curriculumResponse;
 
     // --- Content Routes ---
 
