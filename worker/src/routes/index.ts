@@ -9,6 +9,7 @@ import {
     handleCompleteExam,
     handleReviewExam,
 } from './examiner';
+import { handleGetLessonMapAssets } from './maps';
 
 /**
  * Central Route Registry
@@ -36,6 +37,16 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // --- Map Routes ---
+
+    // GET /api/lessons/:lessonId/map-assets
+    const mapAssetsMatch = path.match(/^\/api\/lessons\/([^/]+)\/map-assets$/);
+    if (mapAssetsMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetLessonMapAssets(request, env, mapAssetsMatch[1]);
     }
 
     // --- Artifact Routes ---
