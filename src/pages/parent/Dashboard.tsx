@@ -9,6 +9,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useIsAdmin } from '@/lib/auth';
 
 interface Topic {
   id: string;
@@ -32,6 +33,7 @@ interface FamilyResponse {
 
 export default function Dashboard() {
   const { email, name, logout } = useAuthStore();
+  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
@@ -82,9 +84,16 @@ export default function Dashboard() {
             <h1 className="text-lg font-semibold">Learn Live</h1>
             <p className="text-xs text-muted-foreground">{name || email}</p>
           </div>
-          <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-            <LogOut className="h-4 w-4 mr-2" /> Sign out
-          </Button>
+          <div className="flex items-center gap-2">
+            {isAdmin && (
+              <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
+                Admin Dashboard
+              </Button>
+            )}
+            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
+              <LogOut className="h-4 w-4 mr-2" /> Sign out
+            </Button>
+          </div>
         </div>
       </header>
 
