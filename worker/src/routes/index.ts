@@ -59,6 +59,8 @@ export async function routeRequest(request: Request, env: Env): Promise<Response
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleListArtifacts(request, env, authResult.userId);
+    }
+
     // --- Examiner Routes ---
 
     // POST /api/exams/start
