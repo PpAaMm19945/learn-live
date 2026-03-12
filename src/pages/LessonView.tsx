@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
