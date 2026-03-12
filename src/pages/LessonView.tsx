@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ExamCard } from '@/components/exam/ExamCard';
 
 interface LessonData {
   id: string;
@@ -177,6 +178,8 @@ export default function LessonView() {
                 </CardContent>
               </Card>
             )}
+
+            <ExamCard lessonId={lessonId!} />
           </div>
         </div>
       </main>

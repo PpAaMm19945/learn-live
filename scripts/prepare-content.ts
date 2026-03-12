@@ -82,7 +82,7 @@ for (const chapter of metadata.chapters) {
   const sectionRegex = /^##\s+(.+)$/gm;
 
   let match;
-  let sectionsData: { heading: string, startIndex: number, endIndex: number }[] = [];
+  const sectionsData: { heading: string, startIndex: number, endIndex: number }[] = [];
 
   while ((match = sectionRegex.exec(content)) !== null) {
     sectionsData.push({
@@ -99,7 +99,7 @@ for (const chapter of metadata.chapters) {
   const sections: Section[] = [];
 
   for (const sData of sectionsData) {
-    let sectionContent = content.substring(sData.startIndex, sData.endIndex);
+    const sectionContent = content.substring(sData.startIndex, sData.endIndex);
 
     // Extract think it through
     let thinkItThrough = '';

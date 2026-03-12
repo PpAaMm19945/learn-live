@@ -65,7 +65,7 @@ export async function verifyMagicLinkToken(db: D1Database, token: string): Promi
         UPDATE Auth_Tokens SET used_at = datetime('now') WHERE token = ?
     `).bind(token).run();
 
-    let email = tokenRecord.id.split('|')[0]; // Extract email from our custom ID format
+    const email = tokenRecord.id.split('|')[0]; // Extract email from our custom ID format
 
     // Use findOrCreateUser for account linking
     const { id: resolvedUserId } = await findOrCreateUser(db, email, { emailVerified: true });

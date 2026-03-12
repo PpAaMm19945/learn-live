@@ -12,6 +12,7 @@ import Dashboard from "./pages/parent/Dashboard";
 import TopicDetail from "./pages/TopicDetail";
 import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
+import ExamView from "./pages/ExamView";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -94,6 +95,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <ReadingView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/exam/:lessonId"
+                element={
+                  <ProtectedRoute>
+                    <ExamView />
                   </ProtectedRoute>
                 }
               />
