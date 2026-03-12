@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +17,10 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { checkSession } = useAuthStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleMagicLink = async () => {
     if (!email.trim()) {
@@ -73,7 +76,7 @@ export default function Login() {
       Logger.info('[LOGIN]', `Login successful for: ${email}`);
       toast({ title: 'Welcome back!' });
       await checkSession();
-      navigate('/dashboard');
+      navigate(from, { replace: true });
     } catch (err: any) {
       setError(err.message);
       toast({ title: 'Login failed', description: err.message, variant: 'destructive' });
@@ -170,10 +173,10 @@ export default function Login() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" type="button" disabled={loading} onClick={handleMagicLink}>
+              <Button variant="outline" type="button" disabled={loading} onClick={handleMagicLink} aria-label="Sign in with Magic Link">
                 <Mail className="mr-2 h-4 w-4" /> Magic Link
               </Button>
-              <Button variant="outline" type="button" disabled={loading} onClick={handleGoogleAuth}>
+              <Button variant="outline" type="button" disabled={loading} onClick={handleGoogleAuth} aria-label="Sign in with Google">
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
