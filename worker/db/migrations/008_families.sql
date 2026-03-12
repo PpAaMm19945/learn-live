@@ -1,5 +1,4 @@
 -- Phase 7 Family and Learner Management Schema Migration
-
 CREATE TABLE IF NOT EXISTS Families (
     id TEXT PRIMARY KEY,
     owner_user_id TEXT REFERENCES Users(id) ON DELETE CASCADE,
