@@ -1,45 +1,5 @@
-import { r2Helper } from './lib/r2';
-// LEGACY: Remove when math curriculum is fully replaced
-import { advanceArc } from './lib/arc';
-import { resolveDependencies } from './lib/dag';
-import { generateTask, generateSystemInstruction } from './lib/taskGen';
-import { generateDiagram } from './lib/nanoBanana';
-import { getSplitJudgmentMode, evaluateCompetence } from './lib/splitJudgment';
-import { generateParentPrimer } from './lib/parentPrimer';
-import { checkAIPermission } from './lib/aiPermissions';
-import { getOrCreateWeeklyPlan, completeWeeklyTask } from './lib/weeklyPlan';
-import { getEnrichedTask } from './lib/enrichTask';
-import { evaluateEvidence } from './lib/evaluateEvidence';
-
 // Content routes (Phase 4)
 import { routeRequest } from './routes/index';
-
-// Auth imports
-import { authenticateRequest, requireAuth } from './lib/auth/middleware';
-import { handleMagicLinkRequest, handleMagicLinkVerify } from './lib/auth/magicLink';
-import { handleGoogleAuth, handleGoogleCallback } from './lib/auth/google';
-import { handleRegister, handleLogin, handleForgotPassword, handleResetPassword, handleVerifyEmail, hashPassword } from './lib/auth/password';
-import { clearSessionCookie } from './lib/auth/cookies';
-
-// Cache for parsed JSON fields to avoid redundant parsing overhead
-const jsonCache = new Map<string, any>();
-
-/**
- * Parses a JSON string and caches the result.
- */
-function cachedJSONParse(jsonString: string | null): any {
-    if (!jsonString) return null;
-    const cached = jsonCache.get(jsonString);
-    if (cached !== undefined) return cached;
-    try {
-        const parsed = JSON.parse(jsonString);
-        jsonCache.set(jsonString, parsed);
-        return parsed;
-    } catch (error) {
-        console.error('[JSON Cache] Failed to parse JSON:', error);
-        return null;
-    }
-}
 
 export interface Env {
     DB: D1Database;
@@ -48,17 +8,8 @@ export interface Env {
     Google_Client_ID: string;
     Google_Client_Secret: string;
     Resend_API_Key: string;
-    // LEGACY: Remove when all clients migrate to cookie auth
-    API_AUTH_TOKEN?: string;
     GEMINI_API_KEY?: string;
-}
-
-// LEGACY: Remove when all clients migrate to cookie auth
-function isAuthorized(request: Request, env: Env): boolean {
-    const authHeader = request.headers.get('Authorization');
-    const expectedToken = env.API_AUTH_TOKEN;
-    if (!expectedToken) return false;
-    return authHeader === `Bearer ${expectedToken}`;
+    PILOT_INVITE_CODE?: string;
 }
 
 const ALLOWED_ORIGINS = [
@@ -100,7 +51,7 @@ export default {
         }
 
         // ==================== MODULAR ROUTES (Phase 4+) ====================
-        const modularResponse = await routeRequest(request, env);
+        const modularResponse = await routeRequest(request, env, corsHeaders);
         if (modularResponse) {
             return addCors(modularResponse, corsHeaders);
         }
