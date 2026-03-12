@@ -168,16 +168,16 @@ The existing photo+audio capture pipeline is repurposed:
 - [x] **Task 5.4:** Artifact Check flow — `ArtifactUpload.tsx`, `artifact.ts` AI pipeline, artifact API routes.
 - [x] **Task 5.5:** Parent judgment flow — parent review modal with approve/redo, DB status tracking.
 
-## Phase 6: Explainer Canvas for History — 🔄 IN PROGRESS
+## Phase 6: Explainer Canvas for History — ✅ COMPLETE
 *Focus: Repurpose interactive whiteboard for animated history narration.*
 
-- [ ] **Task 6.1:** History canvas elements — map overlays, timelines, trade routes, key figure cards.
+- [x] **Task 6.1:** History canvas elements — map overlays, timelines, trade routes, key figure cards.
   - Files: `src/lib/canvas/primitives/MapPrimitives.ts`, `TimelinePrimitives.ts`, `FigurePrimitives.ts`, `EventPrimitives.ts`
-- [ ] **Task 6.2:** Adapt Explainer agent prompt for historical narration.
+- [x] **Task 6.2:** Adapt Explainer agent prompt for historical narration.
   - File: `agent/src/historyExplainerSession.ts`
-- [ ] **Task 6.3:** Narrated Lesson flow — band-aware pacing and vocabulary.
+- [x] **Task 6.3:** Narrated Lesson flow — band-aware pacing and vocabulary.
   - Files: `src/pages/NarratedLessonView.tsx`, `Canvas.tsx`, `MapOverlay.tsx`, `Timeline.tsx`
-- [ ] **Task 6.4:** Wire map assets from R2 into canvas as base layers.
+- [x] **Task 6.4:** Wire map assets from R2 into canvas as base layers.
   - API: `GET /api/lessons/:id/map-assets`
   - Assets: 34 maps from R2 with metadata
 

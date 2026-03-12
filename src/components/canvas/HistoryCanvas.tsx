@@ -61,7 +61,7 @@ export function HistoryCanvas({ elements, baseMapUrl, width, height }: HistoryCa
               initial: { opacity: 0, scale: 0.9 },
               animate: { opacity: el.opacity ?? 1, scale: 1 },
               exit: { opacity: 0, scale: 0.9 },
-              transition: { duration: 0.5, ease: 'easeOut' },
+              transition: { duration: 0.5, ease: 'easeOut' as const },
             };
 
             switch (el.type) {
@@ -134,7 +134,7 @@ export function HistoryCanvas({ elements, baseMapUrl, width, height }: HistoryCa
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: el.opacity ?? 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 1.5, ease: 'easeInOut' }}
+                    transition={{ duration: 1.5, ease: 'easeInOut' as const }}
                   />
                 );
               default:

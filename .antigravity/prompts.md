@@ -85,9 +85,15 @@
 
 ---
 
-## Phase 6: Explainer Canvas for History — 🔲 NOT STARTED
+## Phase 6: Explainer Canvas for History — ✅ COMPLETE
 
-> Next phase. See `.antigravity/prompts-phase6.md` for parallel prompts.
+> Implemented animated history narration via Explainer Canvas.
+
+| Task | Status | Key Files |
+|------|--------|-----------|
+| History Canvas Elements | ✅ Done | `src/lib/canvas/primitives/*` |
+| Agent Integration | ✅ Done | `agent/src/historyExplainerSession.ts`, `agent/src/server.ts` |
+| UI/UX Integrations | ✅ Done | `src/components/canvas/HistoryCanvas.tsx` |
 
 ---
 
