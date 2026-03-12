@@ -114,3 +114,13 @@
 ## Prompt Template Reference
 
 Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7).
+
+---
+
+## Phase 7 Integration — ✅ COMPLETE
+
+> Executed integration and finalization steps.
+
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| Integration | Resolved merge conflicts, stripped legacy routes from `worker/src/index.ts`, wired dashboard learner UI, and generated deployment scripts & seeds. | ✅ Done | `worker/src/index.ts`, `worker/src/routes/index.ts`, `worker/db/migrations/008_families.sql`, `src/pages/parent/Dashboard.tsx` |

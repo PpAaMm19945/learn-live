@@ -181,7 +181,7 @@ The existing photo+audio capture pipeline is repurposed:
   - API: `GET /api/lessons/:id/map-assets`
   - Assets: 34 maps from R2 with metadata
 
-## Phase 7: Worker & Schema Updates — 🔲 PARTIALLY DONE
+## Phase 7: Worker & Schema Updates — ✅ COMPLETE
 *Focus: Adapt backend for chapter-based progression.*
 
 - [x] **Task 7.1:** D1 schema for curriculum (done in Phase 3).
@@ -245,4 +245,7 @@ The existing photo+audio capture pipeline is repurposed:
 | 11 | Seed RAG chunks into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_rag_chunks.sql` |
 | 12 | D1 migration `005_exam_sessions.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/005_exam_sessions.sql` |
 | 13 | D1 migration `006_artifacts.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/006_artifacts.sql` |
-| 14 | ~1300 lines legacy math routes in worker | LOW | Cleanup deferred — not blocking |
+| 14 | ~1300 lines legacy math routes in worker | RESOLVED | Legacy routes cleaned and archived |
+| 15 | D1 migration `007_map_assets.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/007_map_assets.sql` |
+| 16 | D1 migration `008_families.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/008_families.sql` |
+| 17 | D1 migration `009_progress_learner.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/009_progress_learner.sql` |
