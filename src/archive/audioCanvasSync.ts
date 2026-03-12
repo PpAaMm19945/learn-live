@@ -13,7 +13,7 @@
  */
 
 import { CanvasOperation } from './explainerClient';
-import { Logger } from './Logger';
+import { Logger } from '../lib/Logger';
 
 interface SyncPayload {
   seqId: number;

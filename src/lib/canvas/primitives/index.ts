@@ -24,7 +24,7 @@ export interface HistoryCanvasElement extends Omit<CanvasElement, 'type'> {
   meta?: Record<string, any>;
 }
 
-export interface HistoryCanvasOperation extends Omit<CanvasOperation, 'action'> {
+export interface HistoryCanvasOperation extends Omit<CanvasOperation, 'action' | 'element'> {
   action: CanvasOperation['action'] | 'highlight_route' | 'zoom_map' | 'show_timeline';
   element?: Partial<HistoryCanvasElement>;
   route?: RouteData;
