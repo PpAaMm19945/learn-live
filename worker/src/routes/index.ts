@@ -13,6 +13,7 @@ import { handleGetLessonMapAssets } from './maps';
 import { handleAuthRoutes } from './auth';
 import { handleCurriculumRoutes } from './curriculum';
 import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
+import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
 
 /**
  * Central Route Registry
@@ -158,6 +159,30 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetExamSession(request, env, authResult.userId, getExamMatch[1]);
+    }
+
+    // --- Feedback Routes ---
+
+    // POST /api/feedback
+    if (path === '/api/feedback' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleCreateFeedback(request, env, authResult.userId);
+    }
+
+    // GET /api/admin/feedback
+    if (path === '/api/admin/feedback' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleListFeedback(request, env, authResult.userId);
+    }
+
+    // PUT /api/admin/feedback/:id
+    const feedbackMatch = path.match(/^\/api\/admin\/feedback\/([^/]+)$/);
+    if (feedbackMatch && method === 'PUT') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleUpdateFeedback(request, env, authResult.userId, feedbackMatch[1]);
     }
 
     // Return null if no route matches, allowing legacy index.ts switch to handle it

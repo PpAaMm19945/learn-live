@@ -36,17 +36,27 @@ export default function Dashboard() {
   const { toast } = useToast();
   const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
 
-  const { data: familyData } = useQuery<FamilyResponse>({
+  const { data: familyData, isError: isFamilyError } = useQuery<FamilyResponse>({
     queryKey: ['family'],
     queryFn: async () => {
       const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
       const res = await fetch(`${apiUrl}/api/family`, {
         credentials: 'include',
       });
+      if (res.status === 404) {
+        throw new Error('Family not found');
+      }
       if (!res.ok) throw new Error('Failed to fetch family');
       return res.json();
     },
+    retry: false
   });
+
+  useEffect(() => {
+    if (isFamilyError) {
+      navigate('/onboarding');
+    }
+  }, [isFamilyError, navigate]);
 
   useEffect(() => {
     if (familyData?.learners && familyData.learners.length > 0 && !selectedLearnerId) {

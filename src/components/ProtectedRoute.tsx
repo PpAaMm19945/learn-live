@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore, UserRole } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
+import FeedbackWidget from './feedback/FeedbackWidget';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -41,5 +42,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
         }
     }
 
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+            {location.pathname !== '/onboarding' && <FeedbackWidget />}
+        </>
+    );
 };

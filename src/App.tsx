@@ -14,6 +14,7 @@ import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
 import ExamView from "./pages/ExamView";
 import NarratedLessonView from "./pages/NarratedLessonView";
+import Onboarding from "./pages/Onboarding";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -66,6 +67,15 @@ const App = () => {
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+
+              <Route
+                path="/onboarding"
+                element={
+                  <ProtectedRoute>
+                    <Onboarding />
+                  </ProtectedRoute>
+                }
+              />
 
               <Route
                 path="/dashboard"
