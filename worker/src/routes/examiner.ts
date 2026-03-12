@@ -1,4 +1,5 @@
 import { Env } from '../index';
+import { logActivity } from '../lib/analytics/logger';
 
 export async function handleStartExam(request: Request, env: Env, userId: string): Promise<Response> {
     try {
@@ -25,6 +26,8 @@ export async function handleStartExam(request: Request, env: Env, userId: string
             systemPrompt: `You are an Oral Examiner for a history lesson. Ask age-appropriate questions based on the master text for band ${band}.`,
             greeting: `Hello! I'm ready to talk about what you learned. Let's get started.`,
         };
+
+        logActivity(env, userId, 'exam_started', 'exam_session', sessionId, { lesson_id, band });
 
         return new Response(JSON.stringify({ sessionId, agentConfig }), {
             status: 201,
@@ -116,7 +119,7 @@ export async function handleCompleteExam(request: Request, env: Env, userId: str
 
         // Verify session belongs to user and is active
         const session = await env.DB.prepare(`
-            SELECT status FROM Exam_Sessions WHERE id = ? AND user_id = ?
+            SELECT status, lesson_id FROM Exam_Sessions WHERE id = ? AND user_id = ?
         `).bind(sessionId, userId).first();
 
         if (!session) {
@@ -141,6 +144,10 @@ export async function handleCompleteExam(request: Request, env: Env, userId: str
             SET status = 'completed', completed_at = ?, ai_assessment_draft = ?
             WHERE id = ? AND user_id = ?
         `).bind(now, assessmentStr, sessionId, userId).run();
+
+        logActivity(env, userId, 'exam_completed', 'exam_session', sessionId, {
+            lesson_id: session.lesson_id
+        });
 
         return new Response(JSON.stringify({ success: true, message: 'Exam session completed successfully' }), {
             status: 200,
