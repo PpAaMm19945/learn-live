@@ -1,0 +1,202 @@
+[
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_01/chapters/Chapter_01_FINAL_UPGRADED.md",
+    "r2Key": "content/chapters/chapter_01.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_02/chapters/Chapter_02.md",
+    "r2Key": "content/chapters/chapter_02.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_03/chapters/Chapter_03.md",
+    "r2Key": "content/chapters/chapter_03.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_04/chapters/Chapter_04.md",
+    "r2Key": "content/chapters/chapter_04.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_05/chapters/Chapter_05.md",
+    "r2Key": "content/chapters/chapter_05.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_06/chapters/Chapter_06.md",
+    "r2Key": "content/chapters/chapter_06.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_07/chapters/Chapter_07.md",
+    "r2Key": "content/chapters/chapter_07.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_08/chapters/Chapter_08.md",
+    "r2Key": "content/chapters/chapter_08.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_09/chapters/Chapter_09.md",
+    "r2Key": "content/chapters/chapter_09.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/docs/curriculum/history/my-first-textbook/chapter_10/chapters/Chapter_10.md",
+    "r2Key": "content/chapters/chapter_10.md",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_022_trans_saharan_trade_routes.json",
+    "r2Key": "assets/maps/map_022_trans_saharan_trade_routes.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_010_garamantian_kingdom.json",
+    "r2Key": "assets/maps/map_010_garamantian_kingdom.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_005_upper_nile_horn_overview.json",
+    "r2Key": "assets/maps/map_005_upper_nile_horn_overview.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_017_highland_monastic_centers_ethiopia.json",
+    "r2Key": "assets/maps/map_017_highland_monastic_centers_ethiopia.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_004_north_africa_regional_overview.json",
+    "r2Key": "assets/maps/map_004_north_africa_regional_overview.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_007_roman_egypt.json",
+    "r2Key": "assets/maps/map_007_roman_egypt.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_033_zagwe_dynasty.json",
+    "r2Key": "assets/maps/map_033_zagwe_dynasty.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_032_coptic_egypt.json",
+    "r2Key": "assets/maps/map_032_coptic_egypt.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_002_ancient_egypt_overview.json",
+    "r2Key": "assets/maps/map_002_ancient_egypt_overview.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_011_carthaginian_maritime_empire.json",
+    "r2Key": "assets/maps/map_011_carthaginian_maritime_empire.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_006_roman_north_africa.json",
+    "r2Key": "assets/maps/map_006_roman_north_africa.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_003_bantu_migration_biblical_model.json",
+    "r2Key": "assets/maps/map_003_bantu_migration_biblical_model.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_027_zimbabwean_plateau.json",
+    "r2Key": "assets/maps/map_027_zimbabwean_plateau.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_014_islamic_conquest_north_africa.json",
+    "r2Key": "assets/maps/map_014_islamic_conquest_north_africa.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_028_red_sea_world.json",
+    "r2Key": "assets/maps/map_028_red_sea_world.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_001_post_babel_dispersion.json",
+    "r2Key": "assets/maps/map_001_post_babel_dispersion.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_031_nilotic_migrations.json",
+    "r2Key": "assets/maps/map_031_nilotic_migrations.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_025_nile_cataracts.json",
+    "r2Key": "assets/maps/map_025_nile_cataracts.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_029_byzantine_north_africa.json",
+    "r2Key": "assets/maps/map_029_byzantine_north_africa.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_015_meroe_red_sea_trade.json",
+    "r2Key": "assets/maps/map_015_meroe_red_sea_trade.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_008_aksum_red_sea_trade.json",
+    "r2Key": "assets/maps/map_008_aksum_red_sea_trade.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_034_solomonic_dynasty.json",
+    "r2Key": "assets/maps/map_034_solomonic_dynasty.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_009_egyptian_desert_monasticism.json",
+    "r2Key": "assets/maps/map_009_egyptian_desert_monasticism.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_030_cushitic_homeland_debate.json",
+    "r2Key": "assets/maps/map_030_cushitic_homeland_debate.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_012_numidia_mauretania.json",
+    "r2Key": "assets/maps/map_012_numidia_mauretania.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_024_early_iron_age.json",
+    "r2Key": "assets/maps/map_024_early_iron_age.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_026_great_lakes_kingdoms.json",
+    "r2Key": "assets/maps/map_026_great_lakes_kingdoms.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_016_kaleb_expedition.json",
+    "r2Key": "assets/maps/map_016_kaleb_expedition.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_013_christian_north_africa.json",
+    "r2Key": "assets/maps/map_013_christian_north_africa.json",
+    "status": "failed"
+  },
+  {
+    "file": "/app/scripts/output/map_023_horn_africa_language_families.json",
+    "r2Key": "assets/maps/map_023_horn_africa_language_families.json",
+    "status": "failed"
+  }
+]

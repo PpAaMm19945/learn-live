@@ -27,6 +27,7 @@ interface Chapter {
   title: string;
   era: string;
   region: string;
+  summary: string;
   sections: Section[];
 }
 
@@ -76,6 +77,21 @@ for (const chapter of metadata.chapters) {
   const chapterId = `ch${chapterNumber.toString().padStart(2, '0')}`;
 
   const { era, region } = inferEraAndRegion(content, chapterNumber);
+
+  // Extract Frontmatter/Quick Start metadata
+  let summary = '';
+  const summaryMatch = content.match(/\*\*Chapter Summary[^*]*\*\*:\s*(.+)/i);
+  if (summaryMatch) summary = summaryMatch[1].trim();
+
+  // Extract explicit chapter title if present (# Chapter X: Title)
+  let extractedTitle = title;
+  const titleMatch = content.match(/^#\s+\*\*Chapter\s+\d+:\s*(.+)\*\*/m) || content.match(/^#\s+Chapter\s+\d+:\s*(.+)/m);
+  if (titleMatch) {
+    extractedTitle = titleMatch[1].replace(/\*\*/g, '').trim();
+  } else if (chapterNumber === 2 && content.match(/Egypt \/ Nile Valley/i)) {
+      // Just some fallback for chap 2 if it's missing the actual # Title block
+      extractedTitle = "Foundations After Babel: Egypt";
+  }
 
   // Split content by ## headings
   // We use regex to find all sections.
@@ -158,9 +174,10 @@ for (const chapter of metadata.chapters) {
 
   manifest.chapters.push({
     id: chapterId,
-    title,
+    title: extractedTitle,
     era,
     region,
+    summary,
     sections
   });
 }

@@ -47,12 +47,15 @@ let sqlOutput = `-- Phase 6 History Explainer Canvas Map Assets Seed\n-- Generat
 for (let i = 0; i < mapManifest.length; i++) {
   const mapData = mapManifest[i];
   const mapId = mapData.id;
-  const chapterNumber = findChapterForMap(mapId);
-  const lessonId = `lesson_ch${chapterNumber.toString().padStart(2, '0')}_s01`;
+
+  // Try to use the pre-calculated chapter_id from map-manifest, else fallback
+  const chapterNumberMatch = mapData.chapter_id ? mapData.chapter_id.match(/ch(\d+)/) : null;
+  const chapterNumber = chapterNumberMatch ? parseInt(chapterNumberMatch[1], 10) : findChapterForMap(mapId);
+  const lessonId = mapData.lesson_id || `lesson_ch${chapterNumber.toString().padStart(2, '0')}_s01`;
 
   const title = escapeSql(mapData.title);
   const era = escapeSql(mapData.era);
-  const r2BaseMapKey = escapeSql(`maps/chapter_${chapterNumber.toString().padStart(2, '0')}/${mapId}_base.png`);
+  const r2BaseMapKey = escapeSql(mapData.image_path || `assets/maps/${mapId}.png`);
 
   // Create dummy markers/metadata based on the parsed data or leave empty JSON
   const metadataObj = {

@@ -18,30 +18,92 @@ export interface Source {
     excerpt: string | null;
 }
 
+export interface RAGChunkWithScore extends RAGChunk {
+    score: number;
+}
+
 /**
  * Searches for relevant chunks based on a simple keyword query.
+ * Filters by lessonId if provided, then falls back to full corpus if no results or lessonId is missing.
+ * Includes a basic relevance scoring mechanism based on keyword matches and proximity.
  * Future upgrade: replace LIKE with Vector Search.
  */
-export async function searchChunks(env: Env, query: string, limit: number = 5): Promise<RAGChunk[]> {
-    // Basic full-text search implementation (LIKE query)
-    const searchTerms = query.split(' ').filter(term => term.length > 2);
+export async function searchChunks(env: Env, query: string, limit: number = 5, lessonId?: string): Promise<RAGChunkWithScore[]> {
+    const searchTerms = query.toLowerCase().split(/\s+/).filter(term => term.length > 2);
 
     if (searchTerms.length === 0) {
         return [];
     }
 
-    // Build conditions for LIKE query
-    const conditions = searchTerms.map(() => 'chunk_text LIKE ?').join(' OR ');
-    const params = searchTerms.map(term => `%${term}%`);
+    let chunks: RAGChunk[] = [];
 
-    const result = await env.DB.prepare(`
-        SELECT id, source_id, chunk_text, chunk_index
-        FROM RAG_Chunks
-        WHERE ${conditions}
-        LIMIT ?
-    `).bind(...params, limit).all<RAGChunk>();
+    // 1. If lessonId is provided, first search within chunks linked to this lesson.
+    // For now, chunks are linked to sources, and sources are linked to lessons or NULL (if chapter-wide).
+    // Let's get chunks that belong to the specific lesson or its chapter.
+    const baseQuery = `
+        SELECT c.id, c.source_id, c.chunk_text, c.chunk_index
+        FROM RAG_Chunks c
+        JOIN Sources s ON c.source_id = s.id
+    `;
 
-    return result.results;
+    let whereClause = "";
+    const queryParams: string[] = [];
+
+    if (lessonId) {
+        // Find the chapter prefix (e.g., 'lesson_ch01_s01' -> 'ch01')
+        const chapterMatch = lessonId.match(/_ch(\d+)_/);
+        if (chapterMatch) {
+             const chapterNum = chapterMatch[1];
+             // In our seed, source IDs are like 'src_ch01'
+             whereClause = `WHERE (s.lesson_id = ? OR s.id = ?) AND (`;
+             queryParams.push(lessonId, `src_ch${chapterNum}`);
+        } else {
+             whereClause = `WHERE s.lesson_id = ? AND (`;
+             queryParams.push(lessonId);
+        }
+    } else {
+        whereClause = `WHERE (`;
+    }
+
+    const likeConditions = searchTerms.map(() => 'c.chunk_text LIKE ?').join(' OR ');
+    whereClause += likeConditions + ')';
+
+    const likeParams = searchTerms.map(term => `%${term}%`);
+    queryParams.push(...likeParams);
+
+    const result = await env.DB.prepare(baseQuery + " " + whereClause).bind(...queryParams).all<RAGChunk>();
+    chunks = result.results || [];
+
+    // 2. If no chunks found within the lesson context, fallback to full corpus search
+    if (chunks.length === 0 && lessonId) {
+         const fullCorpusConditions = searchTerms.map(() => 'chunk_text LIKE ?').join(' OR ');
+         const fullResult = await env.DB.prepare(`
+             SELECT id, source_id, chunk_text, chunk_index
+             FROM RAG_Chunks
+             WHERE ${fullCorpusConditions}
+         `).bind(...likeParams).all<RAGChunk>();
+         chunks = fullResult.results || [];
+    }
+
+    // 3. Simple relevance scoring (keyword match count)
+    const scoredChunks: RAGChunkWithScore[] = chunks.map(chunk => {
+        let score = 0;
+        const textLower = chunk.chunk_text.toLowerCase();
+
+        for (const term of searchTerms) {
+            // Count occurrences of term
+            let pos = -1;
+            while ((pos = textLower.indexOf(term, pos + 1)) !== -1) {
+                score += 1;
+            }
+        }
+
+        return { ...chunk, score };
+    });
+
+    // Sort by score descending and return top 'limit'
+    scoredChunks.sort((a, b) => b.score - a.score);
+    return scoredChunks.slice(0, limit);
 }
 
 /**
@@ -67,8 +129,8 @@ export async function getSourceContext(env: Env, chunkIds: string[]): Promise<So
 /**
  * Builds a formatted context string suitable for RAG LLM prompts.
  */
-export async function buildRAGContext(env: Env, query: string): Promise<string> {
-    const chunks = await searchChunks(env, query);
+export async function buildRAGContext(env: Env, query: string, lessonId?: string): Promise<string> {
+    const chunks = await searchChunks(env, query, 5, lessonId);
 
     if (chunks.length === 0) {
         return "No relevant context found.";

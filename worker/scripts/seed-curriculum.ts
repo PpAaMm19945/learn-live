@@ -24,7 +24,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   const chapter = manifest.chapters[i];
   const topicId = `topic_ch${(i + 1).toString().padStart(2, '0')}`;
   const displayOrder = i + 1;
-  const summary = `${chapter.title} - ${chapter.era} - ${chapter.region}`; // Simplified summary
+  const summary = chapter.summary || `${chapter.title} - ${chapter.era} - ${chapter.region}`; // Simplified summary
 
   sqlOutput += `-- =========================================\n`;
   sqlOutput += `-- Chapter ${displayOrder}: ${chapter.title}\n`;

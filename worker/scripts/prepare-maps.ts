@@ -16,9 +16,15 @@ interface MapManifestEntry {
   filename: string;
   title: string;
   era: string;
+  image_path: string;
+  chapter_id: string;
+  lesson_id: string;
   geographicFeatures: {
     highlighted_regions: any[];
     settlements: any[];
+    climate_zones: any[];
+    trade_routes: any[];
+    vegetation: any[];
   };
 }
 
@@ -50,7 +56,7 @@ for (const file of mapFiles) {
   }
 
   let era = "Unknown Era";
-  const eraMatch = content.match(/\*\*Young Earth Dating:\*\*\s*(.+)/) || content.match(/Era:\s*(.+)/i);
+  const eraMatch = content.match(/\*\*Young Earth Dating:\*\*\s*(.+)/) || content.match(/Era:\s*(.+)/i) || content.match(/Young Earth Dating:\*\*\s*([^\n]+)/);
   if (eraMatch) {
     era = eraMatch[1].trim();
   } else if (parsedJson && parsedJson.annotations) {
@@ -61,12 +67,45 @@ for (const file of mapFiles) {
     }
   }
 
+  // Derive chapter and lesson IDs
+  let chapter_id = "";
+  let lesson_id = "";
+  const matchNum = mapId.match(/map_(\d+)/);
+  if (matchNum) {
+      const mNum = parseInt(matchNum[1], 10);
+      let chNum = 1;
+
+      // Simple heuristic mapping
+      if (mNum >= 2 && mNum <= 3) chNum = 2;
+      else if (mNum >= 4 && mNum <= 10) chNum = 3;
+      else if (mNum >= 11 && mNum <= 15) chNum = 4;
+      else if (mNum >= 16 && mNum <= 20) chNum = 5;
+      else if (mNum >= 21 && mNum <= 25) chNum = 6;
+      else if (mNum >= 26 && mNum <= 30) chNum = 7;
+      else if (mNum >= 31 && mNum <= 34) chNum = 8;
+
+      chapter_id = `ch${chNum.toString().padStart(2, '0')}`;
+      lesson_id = `lesson_ch${chNum.toString().padStart(2, '0')}_s01`; // Defaulting to s01
+  }
+
   let highlighted_regions: any[] = [];
   let settlements: any[] = [];
+  let climate_zones: any[] = [];
+  let trade_routes: any[] = [];
+  let vegetation: any[] = [];
 
   if (parsedJson) {
     if (parsedJson.highlighted_regions) highlighted_regions = parsedJson.highlighted_regions;
     if (parsedJson.settlements) settlements = parsedJson.settlements;
+    if (parsedJson.paths) {
+       trade_routes = parsedJson.paths.filter((p: any) => p.type?.includes('trade') || p.type?.includes('route'));
+    }
+    // Very basic extraction from text if JSON missing
+  } else {
+     const regionsMatch = content.match(/Regions:\s*([\s\S]*?)(?=\n\n|\n[A-Z])/);
+     if (regionsMatch) {
+         highlighted_regions = regionsMatch[1].split(',').map(s => s.trim());
+     }
   }
 
   mapManifest.push({
@@ -74,9 +113,15 @@ for (const file of mapFiles) {
     filename: file,
     title,
     era,
+    image_path: `assets/maps/${mapId}.png`,
+    chapter_id,
+    lesson_id,
     geographicFeatures: {
       highlighted_regions,
-      settlements
+      settlements,
+      climate_zones,
+      trade_routes,
+      vegetation
     }
   });
 }
