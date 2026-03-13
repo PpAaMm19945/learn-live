@@ -111,7 +111,7 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     if (path === '/api/artifacts/upload' && method === 'POST') {
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
-        return handleUploadArtifact(request, env);
+        return handleUploadArtifact(request, env, authResult.userId);
     }
 
     // POST /api/artifacts/verify

@@ -180,6 +180,8 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
             };
         }));
 
+        logActivity(env, userId, 'content_viewed', 'chapter', chapterId);
+
         return new Response(JSON.stringify({
             chapterId,
             band,

@@ -32,6 +32,9 @@ export async function handleUploadArtifact(request: Request, env: Env, userId?: 
         const uploadResult = await r2Helper.uploadFile(env.EVIDENCE_VAULT, key, arrayBuffer, contentType);
 
         if (uploadResult.success) {
+            if (userId) {
+                logActivity(env, userId, 'artifact_uploaded', 'artifact', uploadResult.key);
+            }
             return new Response(JSON.stringify({ r2_key: uploadResult.key }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
