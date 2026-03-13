@@ -127,6 +127,21 @@
 
 ---
 
+## Phase 9: Content Expansion & Polish — ✅ COMPLETE
+
+> 2 parallel Jules instances + integration step. Prompts in `.antigravity/prompts-phase9.md`.
+
+| Instance | Task | Status | Key Files |
+|----------|------|--------|-----------|
+| A | Glossary, Index & Content Infrastructure | ✅ Done | `worker/src/routes/glossary.ts`, `src/pages/Glossary.tsx`, `worker/db/migrations/012_glossary.sql` |
+| B | World History Context Sidebars | ✅ Done | `worker/src/routes/worldContext.ts`, `src/components/content/WorldContextSidebar.tsx`, `worker/db/migrations/013_world_context.sql` |
+| Integration | DashboardLayout creation, wiring glossary to dashboard, docs update | ✅ Done | `src/components/layout/DashboardLayout.tsx`, `src/pages/parent/Dashboard.tsx` |
+
+**New migrations:** `012_glossary.sql`, `013_world_context.sql`
+**New API endpoints:** `GET /api/glossary`, `GET /api/glossary/:id`, `POST /api/glossary`, `GET /api/chapters/:id/world-context`
+
+---
+
 ## Prompt Template Reference
 
 Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7), `.antigravity/prompts-phase8.md` (Phase 8), `.antigravity/prompts-phase9.md` (Phase 9).
