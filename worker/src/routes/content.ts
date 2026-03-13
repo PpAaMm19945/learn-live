@@ -1,4 +1,5 @@
 import { Env } from '../index';
+import { logActivity } from '../lib/analytics/logger';
 
 export async function handleGetAdaptedContent(request: Request, env: Env, userId: string): Promise<Response> {
     const url = new URL(request.url);
