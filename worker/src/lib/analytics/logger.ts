@@ -16,7 +16,7 @@ export function logActivity(
     resourceId?: string,
     metadata?: Record<string, any>
 ): void {
-    const id = `act_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    const id = `act_${crypto.randomUUID()}`;
     const metadataStr = metadata ? JSON.stringify(metadata) : null;
 
     const promise = env.DB.prepare(`

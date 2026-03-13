@@ -9,7 +9,7 @@ export async function handleCreateFeedback(request: Request, env: Env, userId: s
             return new Response(JSON.stringify({ error: 'Type and description are required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
         }
 
-        const feedbackId = `fb_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const feedbackId = `fb_${crypto.randomUUID()}`;
 
         await env.DB.prepare(
             'INSERT INTO Feedback (id, user_id, type, description, page_url) VALUES (?, ?, ?, ?, ?)'

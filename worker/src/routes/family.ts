@@ -9,7 +9,7 @@ export async function handleCreateFamily(request: Request, env: Env, userId: str
             return new Response(JSON.stringify({ error: 'Family name is required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
         }
 
-        const familyId = `family_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const familyId = `family_${crypto.randomUUID()}`;
 
         await env.DB.prepare(
             'INSERT INTO Families (id, owner_user_id, name) VALUES (?, ?, ?)'
@@ -70,7 +70,7 @@ export async function handleAddLearner(request: Request, env: Env, userId: strin
              return new Response(JSON.stringify({ error: 'Band must be an integer between 0 and 5' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
         }
 
-        const learnerId = `learner_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const learnerId = `learner_${crypto.randomUUID()}`;
 
         await env.DB.prepare(
             'INSERT INTO Learners (id, family_id, name, birth_date, band) VALUES (?, ?, ?, ?, ?)'

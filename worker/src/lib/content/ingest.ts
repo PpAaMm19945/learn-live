@@ -28,7 +28,7 @@ export async function uploadSourceDocument(
         throw new Error(`Failed to upload to R2: ${uploadResult.error}`);
     }
 
-    const sourceId = `src_${timestamp}_${Math.random().toString(36).substring(2, 9)}`;
+    const sourceId = `src_${crypto.randomUUID()}`;
 
     await env.DB.prepare(`
         INSERT INTO Sources (id, lesson_id, title, author, type, url, r2_key, excerpt)
@@ -97,7 +97,7 @@ export async function indexChunks(env: Env, sourceId: string, chunks: string[]):
     `);
 
     const batchStmts = chunks.map((chunkText, index) => {
-        const chunkId = `chk_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const chunkId = `chk_${crypto.randomUUID()}`;
         return stmt.bind(chunkId, sourceId, chunkText, index);
     });
 

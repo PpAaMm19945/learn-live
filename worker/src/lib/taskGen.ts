@@ -52,6 +52,9 @@ export interface GeneratedTask {
     noiseElement?: string;
 }
 
+// NOTE: Math.random() is used here for non-security-sensitive educational task randomization
+// (e.g., selecting mangoes vs. bananas, or choosing a random name for a word problem).
+// This is acceptable as it does not impact system security or ID uniqueness.
 function randomFrom<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
 }

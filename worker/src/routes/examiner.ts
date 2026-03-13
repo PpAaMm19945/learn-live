@@ -13,7 +13,7 @@ export async function handleStartExam(request: Request, env: Env, userId: string
             });
         }
 
-        const sessionId = `exam_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const sessionId = `exam_${crypto.randomUUID()}`;
         const now = new Date().toISOString();
 
         await env.DB.prepare(`
