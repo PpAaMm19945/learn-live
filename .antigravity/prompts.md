@@ -129,7 +129,7 @@
 
 ## Prompt Template Reference
 
-Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7), `.antigravity/prompts-phase8.md` (Phase 8).
+Parallel prompts are written in `.antigravity/prompts-phase3.md` (Phase 3), `.antigravity/prompts-phase4.md` (Phase 4), `.antigravity/prompts-phase5.md` (Phase 5), `.antigravity/prompts-phase6.md` (Phase 6), `.antigravity/prompts-phase7.md` (Phase 7), `.antigravity/prompts-phase8.md` (Phase 8), `.antigravity/prompts-phase9.md` (Phase 9).
 
 ---
 
