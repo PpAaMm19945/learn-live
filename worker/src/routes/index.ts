@@ -15,6 +15,7 @@ import { handleCurriculumRoutes } from './curriculum';
 import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
 import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
 import { handleAnalyticsRoutes } from './analytics';
+import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 
 /**
@@ -81,6 +82,14 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // GET /api/chapters/:chapterId/world-context
+    const worldContextMatch = path.match(/^\/api\/chapters\/([^/]+)\/world-context$/);
+    if (worldContextMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetWorldContext(request, env, worldContextMatch[1]);
     }
 
     // --- Family Routes ---

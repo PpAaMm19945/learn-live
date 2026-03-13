@@ -18,6 +18,7 @@ MIGRATIONS=(
     "worker/db/migrations/009_progress_learner.sql"
     "worker/db/migrations/010_analytics.sql"
     "worker/db/migrations/011_feedback.sql"
+    "worker/db/migrations/013_world_context.sql"
     "worker/db/migrations/012_glossary.sql"
 )
 
@@ -39,6 +40,7 @@ SEEDS=(
     "worker/db/seeds/seed_curriculum.sql"
     "worker/db/seeds/seed_rag_chunks.sql"
     "worker/db/seeds/seed_map_assets.sql"
+    "worker/db/seeds/seed_world_context.sql"
     "worker/db/seeds/seed_glossary.sql"
 )
 
