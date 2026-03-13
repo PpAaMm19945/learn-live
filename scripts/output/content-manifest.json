@@ -2,9 +2,10 @@
   "chapters": [
     {
       "id": "ch01",
-      "title": "The Charter of Nations",
+      "title": "The Sovereign Hand: A Biblical Foundation for African History",
       "era": "Origins – c. 2242 BC",
       "region": "Pan-African",
+      "summary": "",
       "sections": [
         {
           "heading": "**1.1 In the Beginning: God, Man, and the Meaning of History**",
@@ -65,9 +66,10 @@
     },
     {
       "id": "ch02",
-      "title": "Chapter 2",
+      "title": "The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra",
       "era": "c. 3100 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "1. Foundations After Babel (c. 3200–2900 BC, conventional estimate)",
@@ -154,6 +156,7 @@
       "title": "The Lands of Phut — Carthage, Numidia, and the Desert Kingdoms",
       "era": "c. 500 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "Introduction: The 1,000-Year Gap",
@@ -215,6 +218,7 @@
       "title": "The Lands of Cush — From Babel to the Eve of Roman Africa",
       "era": "c. 590 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "4.1 After Babel: Early Migrations into the Upper Nile and Horn (c. 3200–2200 BC)",
@@ -288,6 +292,7 @@
       "title": "The Church in Roman Africa (c. 30 BC – 700 AD)",
       "era": "c. 30 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "5.1 Africa under Roman Dominion (c. 30 BCâ€“100 AD)",
@@ -367,6 +372,7 @@
       "title": "Egypt under Rome and the Rise of the Alexandrian Church (30 BC – 700 AD)",
       "era": "c. 1000 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "6.1 The Roman Annexation of Egypt",
@@ -459,6 +465,7 @@
       "title": "The Churches of the Highlands: Aksum, Conversion, and Survival (c. 50–900 AD)",
       "era": "c. 100 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "7.1 The Rise of the Aksumite State (c. 100 BC – 300 AD)",
@@ -560,9 +567,10 @@
     },
     {
       "id": "ch08",
-      "title": "The Peopling of Africa: The Bantu Migrations and the Forgotten Clans (c. 300 BC – 800 AD)",
+      "title": "The Bantu Migrations and Ironworking",
       "era": "c. 2200 BC",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "Quick Start",
@@ -679,9 +687,10 @@
     },
     {
       "id": "ch09",
-      "title": "Ethiopia Alone: The Hidden Kingdom (c. 900–1500 AD)",
+      "title": "Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD)",
       "era": "Unknown Era",
       "region": "Egypt / Nile Valley",
+      "summary": "",
       "sections": [
         {
           "heading": "9.1 The Twilight of Axum (c. 7th–9th Centuries AD)",
@@ -736,6 +745,7 @@
       "title": "Trade Winds and Stone Cities (c. 1000–1500 AD)",
       "era": "c. 1200 AD",
       "region": "Ethiopia / Horn of Africa",
+      "summary": "",
       "sections": [
         {
           "heading": "10.1 The Swahili Coast: Masters of the Monsoon",

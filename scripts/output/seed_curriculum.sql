@@ -2,11 +2,11 @@
 -- Generated from content-manifest.json
 
 -- =========================================
--- Chapter 1: The Charter of Nations
+-- Chapter 1: The Sovereign Hand: A Biblical Foundation for African History
 -- =========================================
 
 INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
-VALUES ('topic_ch01', 'The Charter of Nations', 'Origins – c. 2242 BC', 'Pan-African', 'The Charter of Nations - Origins – c. 2242 BC - Pan-African', 1, NULL);
+VALUES ('topic_ch01', 'The Sovereign Hand: A Biblical Foundation for African History', 'Origins – c. 2242 BC', 'Pan-African', 'The Sovereign Hand: A Biblical Foundation for African History - Origins – c. 2242 BC - Pan-African', 1, NULL);
 
 INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s01', 'topic_ch01', '**1.1 In the Beginning: God, Man, and the Meaning of History**', '*Creation (c. 4004 BC - biblical chronology) --- The Fall --- The Flood (c. 2348 BC - biblical chronology) --- Tower of Babel (c. 2242 BC - biblical chronology)*
@@ -294,11 +294,11 @@ The identity of the people of Phut was forged in warfare. They sowed to the fles
 10. (Short Answer) What is the meaning of the Hebrew terms *mishpat* and *tzedakah*?', '["c. 2100 BC","c. 2000 BC","c. 1446 BC"]', '["Taharqa"]', 5, 7);
 
 -- =========================================
--- Chapter 2: Chapter 2
+-- Chapter 2: The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra
 -- =========================================
 
 INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
-VALUES ('topic_ch02', 'Chapter 2', 'c. 3100 BC', 'Egypt / Nile Valley', 'Chapter 2 - c. 3100 BC - Egypt / Nile Valley', 2, NULL);
+VALUES ('topic_ch02', 'The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra', 'c. 3100 BC', 'Egypt / Nile Valley', 'The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra - c. 3100 BC - Egypt / Nile Valley', 2, NULL);
 
 INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s01', 'topic_ch02', '1. Foundations After Babel (c. 3200–2900 BC, conventional estimate)', 'Following the great dispersal at the Tower of Babel, humanity began a new chapter. As Genesis 11 describes, God scattered the people “over the face of all the earth.” From this monumental event, new civilizations emerged in the world’s fertile corners. One of the very first and most enduring of these grew along the banks of the Nile River in northeastern Africa. This was a land of immense potential—a ribbon of life-giving water and soil cutting through a harsh desert. It was here that a new story in human history, and a pivotal one in God’s sovereign plan, would begin.
@@ -2242,11 +2242,11 @@ In this chapter, we traced the spectacular rise and gradual decline of the Kingd
 *   **Beta Israel:** The ancient Jewish community of Ethiopia.', '["c. 100 AD","c. 316 AD","c. 330 AD","c. 350 AD","c. 570 AD","c. 615 AD","c. 900 AD"]', '["Ezana","Kaleb","Zoscales"]', 5, 2);
 
 -- =========================================
--- Chapter 8: The Peopling of Africa: The Bantu Migrations and the Forgotten Clans (c. 300 BC – 800 AD)
+-- Chapter 8: The Bantu Migrations and Ironworking
 -- =========================================
 
 INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
-VALUES ('topic_ch08', 'The Peopling of Africa: The Bantu Migrations and the Forgotten Clans (c. 300 BC – 800 AD)', 'c. 2200 BC', 'Egypt / Nile Valley', 'The Peopling of Africa: The Bantu Migrations and the Forgotten Clans (c. 300 BC – 800 AD) - c. 2200 BC - Egypt / Nile Valley', 8, NULL);
+VALUES ('topic_ch08', 'The Bantu Migrations and Ironworking', 'c. 2200 BC', 'Egypt / Nile Valley', 'The Bantu Migrations and Ironworking - c. 2200 BC - Egypt / Nile Valley', 8, NULL);
 
 INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s01', 'topic_ch08', 'Quick Start', '*   **The Big Picture:** The Bantu migrations were one of the largest movements of people in human history, spreading language, agriculture, and iron technology across sub-Saharan Africa.
@@ -2571,11 +2571,11 @@ As we conclude our study of the Bantu migrations, we must address the key confli
 The historical horizon of 500 AD shows a continent teeming with life, culture, and potential. The long, slow work of settlement and adaptation had laid the groundwork for the flourishing of great civilizations. This moment in history is a beautiful picture of God’s common grace. He provides the sun and the rain, the fertility of the soil, and the ingenuity in the human heart that allow societies to grow and thrive. It is on this stage of common grace that the drama of redemptive history unfolds. As new trade routes connected Africa to the wider world, they brought not only goods and ideas, but eventually, the transformative message of the Gospel, which would travel along these very paths to reach the descendants of the first trailblazers.', '["c. 500 AD"]', '[]', 5, 3);
 
 -- =========================================
--- Chapter 9: Ethiopia Alone: The Hidden Kingdom (c. 900–1500 AD)
+-- Chapter 9: Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD)
 -- =========================================
 
 INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
-VALUES ('topic_ch09', 'Ethiopia Alone: The Hidden Kingdom (c. 900–1500 AD)', 'Unknown Era', 'Egypt / Nile Valley', 'Ethiopia Alone: The Hidden Kingdom (c. 900–1500 AD) - Unknown Era - Egypt / Nile Valley', 9, NULL);
+VALUES ('topic_ch09', 'Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD)', 'Unknown Era', 'Egypt / Nile Valley', 'Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD) - Unknown Era - Egypt / Nile Valley', 9, NULL);
 
 INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s01', 'topic_ch09', '9.1 The Twilight of Axum (c. 7th–9th Centuries AD)', 'In this section you will learn about the decline of the once-great Axumite Empire, how the rise of Islam shifted trade routes, and why Ethiopian Christianity began a strategic retreat into the highland interior.
