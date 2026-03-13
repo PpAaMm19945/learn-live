@@ -15,6 +15,7 @@ import { handleCurriculumRoutes } from './curriculum';
 import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
 import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
 import { handleAnalyticsRoutes } from './analytics';
+import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 
 /**
  * Central Route Registry
@@ -40,6 +41,30 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     if (path.startsWith('/api/admin')) {
         const analyticsResponse = await handleAnalyticsRoutes(request, env, corsHeaders);
         if (analyticsResponse) return analyticsResponse;
+    }
+
+    // --- Glossary Routes ---
+
+    // GET /api/glossary
+    if (path === '/api/glossary' && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetGlossary(request, env);
+    }
+
+    // GET /api/glossary/:id
+    const getGlossaryMatch = path.match(/^\/api\/glossary\/([^/]+)$/);
+    if (getGlossaryMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleGetGlossaryTerm(request, env, getGlossaryMatch[1]);
+    }
+
+    // POST /api/glossary
+    if (path === '/api/glossary' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handlePostGlossaryTerm(request, env, authResult.userId);
     }
 
     // --- Content Routes ---

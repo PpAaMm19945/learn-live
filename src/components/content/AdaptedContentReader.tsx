@@ -6,6 +6,7 @@ import { VocabularyCard } from './VocabularyCard';
 import { DiscussionQuestions } from './DiscussionQuestions';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
+import { GlossaryTerm } from '../glossary/GlossaryTerm';
 
 interface VocabularyTerm {
   term: string;
@@ -20,6 +21,13 @@ interface AdaptedContentData {
   vocabulary: VocabularyTerm[];
   discussion_questions: string[];
   essay_prompt?: string;
+}
+
+interface GlossaryTermData {
+  id: string;
+  term: string;
+  definition: string;
+  category: string;
 }
 
 interface AdaptedContentReaderProps {
@@ -59,6 +67,17 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
     enabled: !!lessonId,
   });
 
+  const { data: glossaryTerms } = useQuery<GlossaryTermData[]>({
+    queryKey: ['glossary'],
+    queryFn: async () => {
+      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+      const res = await fetch(`${apiUrl}/api/glossary`, { credentials: 'include' });
+      if (!res.ok) throw new Error('Failed to fetch glossary');
+      return res.json();
+    },
+    staleTime: 1000 * 60 * 60 // 1 hour
+  });
+
   if (isLoading) {
     return (
       <div className="space-y-6 animate-pulse mt-8">
@@ -89,45 +108,84 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
     );
   }
 
-  // --- Content Parsing with Inline Vocabulary ---
-  const renderContentWithVocab = (text: string, vocabulary: VocabularyTerm[]): ReactNode[] => {
-    if (!vocabulary || vocabulary.length === 0) return [text];
-
+  // --- Content Parsing with Inline Vocabulary and Glossary ---
+  const renderContentWithVocab = (text: string, vocabulary: VocabularyTerm[], glossary: GlossaryTermData[] = []): ReactNode[] => {
     let segments: ReactNode[] = [text];
     let keyCounter = 0;
 
-    vocabulary.forEach((vocab) => {
-      const regex = new RegExp(`\\b(${vocab.term})\\b`, 'gi');
-      const newSegments: ReactNode[] = [];
+    const escapeRegExp = (string: string) => {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    };
 
-      segments.forEach((segment) => {
-        if (typeof segment === 'string') {
-          const parts = segment.split(regex);
-          parts.forEach((part) => {
-            if (part.toLowerCase() === vocab.term.toLowerCase()) {
-              newSegments.push(
-                <VocabularyCard
-                  key={`vocab-${vocab.term}-${keyCounter++}`}
-                  term={part}
-                  definition={vocab.definition}
-                  inline
-                />
-              );
-            } else if (part) {
-              newSegments.push(part);
+    // Process Glossary Terms first
+    if (glossary.length > 0) {
+       glossary.forEach((glos) => {
+          // Avoid matching inside other words or already processed components
+          const escapedTerm = escapeRegExp(glos.term);
+          const regex = new RegExp(`\\b(${escapedTerm})\\b`, 'gi');
+          const newSegments: ReactNode[] = [];
+
+          segments.forEach((segment) => {
+            if (typeof segment === 'string') {
+              const parts = segment.split(regex);
+              parts.forEach((part) => {
+                if (part.toLowerCase() === glos.term.toLowerCase()) {
+                  newSegments.push(
+                    <GlossaryTerm
+                      key={`glos-${glos.id}-${keyCounter++}`}
+                      id={glos.id}
+                      term={part}
+                      definition={glos.definition}
+                    />
+                  );
+                } else if (part) {
+                  newSegments.push(part);
+                }
+              });
+            } else {
+              newSegments.push(segment);
             }
           });
-        } else {
-          newSegments.push(segment);
-        }
+          segments = newSegments;
+       });
+    }
+
+    // Process Vocabulary
+    if (vocabulary && vocabulary.length > 0) {
+      vocabulary.forEach((vocab) => {
+        const escapedVocab = escapeRegExp(vocab.term);
+        const regex = new RegExp(`\\b(${escapedVocab})\\b`, 'gi');
+        const newSegments: ReactNode[] = [];
+
+        segments.forEach((segment) => {
+          if (typeof segment === 'string') {
+            const parts = segment.split(regex);
+            parts.forEach((part) => {
+              if (part.toLowerCase() === vocab.term.toLowerCase()) {
+                newSegments.push(
+                  <VocabularyCard
+                    key={`vocab-${vocab.term}-${keyCounter++}`}
+                    term={part}
+                    definition={vocab.definition}
+                    inline
+                  />
+                );
+              } else if (part) {
+                newSegments.push(part);
+              }
+            });
+          } else {
+            newSegments.push(segment);
+          }
+        });
+        segments = newSegments;
       });
-      segments = newSegments;
-    });
+    }
 
     return segments;
   };
 
-  const formattedContent = renderContentWithVocab(contentData.content, contentData.vocabulary);
+  const formattedContent = renderContentWithVocab(contentData.content, contentData.vocabulary, glossaryTerms);
 
   // --- Render based on Band ---
   return (
