@@ -161,7 +161,7 @@ export async function handleCurriculumRoutes(request: Request, env: Env, corsHea
                 return addCors(new Response(JSON.stringify({ error: 'lesson_id and status required' }), { status: 400 }), corsHeaders);
             }
 
-            const progressId = `prog_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+            const progressId = `prog_${crypto.randomUUID()}`;
             const now = new Date().toISOString();
 
             await env.DB.prepare(`
@@ -251,7 +251,7 @@ export async function handleCurriculumRoutes(request: Request, env: Env, corsHea
             ).bind(topicId).first<any>();
 
             if (lesson) {
-                const progressId = `quiz_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+                const progressId = `quiz_${crypto.randomUUID()}`;
                 const now = new Date().toISOString();
                 const percentage = Math.round((score / total) * 100);
 

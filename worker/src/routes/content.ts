@@ -136,7 +136,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
                     const newlyAdapted = await adaptContent(env, chunkText, band, "");
 
                     // Cache the result
-                    const id = `adapt_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+                    const id = `adapt_${crypto.randomUUID()}`;
                     await env.DB.prepare(`
                         INSERT INTO Adapted_Content (id, lesson_id, band, adapted_text, vocabulary, discussion_questions, essay_prompt, thinking_prompts)
                         VALUES (?, ?, ?, ?, ?, ?, ?, ?)

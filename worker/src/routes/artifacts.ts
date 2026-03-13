@@ -71,7 +71,7 @@ export async function handleVerifyArtifact(request: Request, env: Env, userId: s
         const assessment = await evaluateArtifact(env, lesson_id, band, r2_key);
 
         // Save draft to DB
-        const id = `art_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        const id = `art_${crypto.randomUUID()}`;
 
         await env.DB.prepare(`
             INSERT INTO Artifacts (id, user_id, lesson_id, r2_key, status, score, feedback, areas_to_improve)
