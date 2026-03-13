@@ -41,6 +41,8 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
             thinking_prompts: adaptedContent.thinking_prompts ? JSON.parse(adaptedContent.thinking_prompts) : []
         } : null;
 
+        logActivity(env, userId, 'content_viewed', 'lesson', lessonId);
+
         return new Response(JSON.stringify({
             lesson: {
                 title: lesson.title,
