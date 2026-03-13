@@ -187,15 +187,18 @@ export async function getOrCreateWeeklyPlan(
     ).bind(planId, learnerId, familyId, targetWeek).run();
 
     const planTasks: WeeklyPlanTask[] = [];
+    const stmt = db.prepare(
+        `INSERT INTO Weekly_Plan_Tasks (id, plan_id, template_id, capacity_id, strand_name, day_of_week, status, carryover_count)
+         VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)`
+    );
+
+    const batchStmts = [];
     for (let i = 0; i < candidateTasks.length; i++) {
         const task = candidateTasks[i];
         const dayOfWeek = Math.min(4, Math.floor(i / tasksPerDay)); // 0-4 (Mon-Fri)
         const taskId = `wpt_${planId}_${i}`;
 
-        await db.prepare(
-            `INSERT INTO Weekly_Plan_Tasks (id, plan_id, template_id, capacity_id, strand_name, day_of_week, status, carryover_count)
-             VALUES (?, ?, ?, ?, ?, ?, 'pending', ?)`
-        ).bind(taskId, planId, task.template_id, task.capacity_id, task.strand_name, dayOfWeek, task.carryover_count).run();
+        batchStmts.push(stmt.bind(taskId, planId, task.template_id, task.capacity_id, task.strand_name, dayOfWeek, task.carryover_count));
 
         planTasks.push({
             id: taskId,
@@ -206,6 +209,10 @@ export async function getOrCreateWeeklyPlan(
             status: 'pending',
             carryover_count: task.carryover_count,
         });
+    }
+
+    if (batchStmts.length > 0) {
+        await db.batch(batchStmts);
     }
 
     return {
