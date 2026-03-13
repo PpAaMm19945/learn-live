@@ -2,9 +2,9 @@ import fs from 'fs';
 import path from 'path';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const MAPS_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps/Maps');
-const METADATA_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps');
-const CHAPTERS_DIR = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook');
+const MAPS_DIR = path.join(process.cwd(), '../docs/curriculum/history/Maps/Maps');
+const METADATA_DIR = path.join(process.cwd(), '../docs/curriculum/history/Maps');
+const CHAPTERS_DIR = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook');
 
 const MAP_MANIFEST_PATH = path.join(process.cwd(), 'scripts/output/map-manifest.json');
 const CONTENT_MANIFEST_PATH = path.join(process.cwd(), 'scripts/output/content-manifest.json');
@@ -107,11 +107,27 @@ async function main() {
         for (const mapEntry of mapManifest) {
              // Upload Image
              // The images are in Maps/Maps/ - we need to find the correct extension (png, jpg)
-             // Let's assume they are mostly png or jpg based on mapId
+             // The map filenames are "Map 001.png" format, but mapId is "map_001_post_babel_dispersion"
              const mapId = mapEntry.id;
-             let imageLocalPath = path.join(MAPS_DIR, `${mapId}.png`);
-             if (!fs.existsSync(imageLocalPath)) {
-                 imageLocalPath = path.join(MAPS_DIR, `${mapId}.jpg`);
+             let imageLocalPath = '';
+
+             // Extract "001" from "map_001_something"
+             const match = mapId.match(/^map_(\d{3})/);
+             if (match) {
+                 const mapNumber = match[1];
+                 const possibleFileName = `Map ${mapNumber}`;
+
+                 imageLocalPath = path.join(MAPS_DIR, `${possibleFileName}.png`);
+                 if (!fs.existsSync(imageLocalPath)) {
+                     imageLocalPath = path.join(MAPS_DIR, `${possibleFileName}.jpg`);
+                 }
+
+                 // Fallback to exact mapId just in case
+                 if (!fs.existsSync(imageLocalPath)) {
+                     imageLocalPath = path.join(MAPS_DIR, `${mapId}.png`);
+                 }
+             } else {
+                 imageLocalPath = path.join(MAPS_DIR, `${mapId}.png`);
              }
 
              if (fs.existsSync(imageLocalPath)) {
