@@ -16,6 +16,7 @@ import ReadingView from "./pages/ReadingView";
 import ExamView from "./pages/ExamView";
 import NarratedLessonView from "./pages/NarratedLessonView";
 import Onboarding from "./pages/Onboarding";
+import Glossary from "./pages/Glossary";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -131,6 +132,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <ExamView />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/glossary"
+                element={
+                  <ProtectedRoute>
+                    <Glossary />
                   </ProtectedRoute>
                 }
               />
