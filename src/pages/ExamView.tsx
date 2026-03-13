@@ -265,7 +265,6 @@ export default function ExamView() {
         isOpen={isReviewModalOpen}
         onClose={() => setIsReviewModalOpen(false)}
         assessmentDraft={assessmentDraft}
-        lessonId={lessonId!}
       />
     </div>
   );

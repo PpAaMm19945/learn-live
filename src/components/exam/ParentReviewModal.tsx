@@ -9,10 +9,9 @@ interface ParentReviewModalProps {
   isOpen: boolean;
   onClose: () => void;
   assessmentDraft: string;
-  lessonId: string;
 }
 
-export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }: ParentReviewModalProps) {
+export function ParentReviewModal({ isOpen, onClose, assessmentDraft }: ParentReviewModalProps) {
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -20,14 +19,6 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
   const handleSubmitReview = async (action: 'approve' | 'redo') => {
     setIsSubmitting(true);
     try {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      // MOCK API CALL - Replace with real endpoint later
-      // const res = await fetch(`${apiUrl}/api/exam/${lessonId}/review`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ action, notes, assessmentDraft }),
-      // });
-
       // Simulate network request
       await new Promise(resolve => setTimeout(resolve, 1000));
 
