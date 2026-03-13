@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Read metadata
-const METADATA_PATH = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook/metadata.json');
+const METADATA_PATH = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook/metadata.json');
 const OUTPUT_DIR = path.join(process.cwd(), 'scripts/output');
 const OUTPUT_FILE = path.join(OUTPUT_DIR, 'content-manifest.json');
 
@@ -65,7 +65,7 @@ function inferEraAndRegion(content: string, chapterNumber: number): { era: strin
 for (const chapter of metadata.chapters) {
   const chapterNumber = chapter.chapterNumber;
   const title = chapter.title;
-  const filepath = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook', chapter.filepath);
+  const filepath = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook', chapter.filepath);
 
   if (!fs.existsSync(filepath)) {
     console.warn(`File not found: ${filepath}`);

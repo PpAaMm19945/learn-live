@@ -1,0 +1,561 @@
+[
+  {
+    "id": "map_001_post_babel_dispersion",
+    "filename": "map_001_post_babel_dispersion.md",
+    "title": "Map 1: Post-Babel Dispersion",
+    "era": "c. 2300–2200 BC",
+    "image_path": "assets/maps/map_001_post_babel_dispersion.png",
+    "chapter_id": "ch01",
+    "lesson_id": "lesson_ch01_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [
+        {
+          "name": "Mizraim Territory (Egypt)",
+          "boundary": "Nile Valley from Delta to First Cataract",
+          "fill": "light red overlay, 30% opacity",
+          "label": "MIZRAIM\n(Egypt)",
+          "label_position": "center of Nile Valley"
+        },
+        {
+          "name": "Cush Territory (Nubia/Ethiopia)",
+          "boundary": "Upper Nile, Sudan, Ethiopian Highlands, Eritrea",
+          "fill": "light purple overlay, 30% opacity",
+          "label": "CUSH\n(Nubia/Ethiopia)",
+          "label_position": "Sudan region"
+        },
+        {
+          "name": "Phut Territory (Libya)",
+          "boundary": "Cyrenaica, Tripolitania, western desert",
+          "fill": "light orange overlay, 30% opacity",
+          "label": "PHUT\n(Libya/North Africa)",
+          "label_position": "Libya region"
+        },
+        {
+          "name": "Canaan Territory (context)",
+          "boundary": "Levant coast, Jordan River to Mediterranean",
+          "fill": "light gray overlay, 20% opacity",
+          "label": "CANAAN\n(Levant)"
+        }
+      ],
+      "settlements": [
+        {
+          "name": "Babel/Shinar",
+          "coordinates": [
+            33.3,
+            44.4
+          ],
+          "type": "origin_point",
+          "marker": "large red star",
+          "label": "BABEL\n(Tower of Babel)\nDispersion Origin"
+        },
+        {
+          "name": "Memphis",
+          "coordinates": [
+            29.8,
+            31.3
+          ],
+          "type": "early_city",
+          "marker": "red square",
+          "label": "Memphis\n(future capital)"
+        },
+        {
+          "name": "Heliopolis",
+          "coordinates": [
+            30.1,
+            31.3
+          ],
+          "type": "early_city",
+          "marker": "red circle",
+          "label": "Heliopolis"
+        },
+        {
+          "name": "Abydos",
+          "coordinates": [
+            26.2,
+            31.9
+          ],
+          "type": "early_site",
+          "marker": "small red dot",
+          "label": "Abydos"
+        },
+        {
+          "name": "Pre-Kerma region",
+          "coordinates": [
+            19.6,
+            30.4
+          ],
+          "type": "settlement_area",
+          "marker": "purple square",
+          "label": "Early Cushite\nSettlements"
+        }
+      ],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_002_ancient_egypt_overview",
+    "filename": "map_002_ancient_egypt_overview.md",
+    "title": "Map 2: Ancient Egypt Overview",
+    "era": "c. 2100–500 BC (Dynastic Egypt, compressed timeline)",
+    "image_path": "assets/maps/map_002_ancient_egypt_overview.png",
+    "chapter_id": "ch02",
+    "lesson_id": "lesson_ch02_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_003_bantu_migration_biblical_model",
+    "filename": "map_003_bantu_migration_biblical_model.md",
+    "title": "Map 3: Bantu Migration — Biblical–Historical Model",
+    "era": "c. 1500–500 BC (Primary expansion phase)",
+    "image_path": "assets/maps/map_003_bantu_migration_biblical_model.png",
+    "chapter_id": "ch02",
+    "lesson_id": "lesson_ch02_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_004_north_africa_regional_overview",
+    "filename": "map_004_north_africa_regional_overview.md",
+    "title": "Map 4: North Africa Regional Overview",
+    "era": "c. 2200–500 BC (Post-Babel dispersal through Late Classical period)",
+    "image_path": "assets/maps/map_004_north_africa_regional_overview.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_005_upper_nile_horn_overview",
+    "filename": "map_005_upper_nile_horn_overview.md",
+    "title": "Map 5: Upper Nile & Horn Regional Overview",
+    "era": "c. 2200–300 BC",
+    "image_path": "assets/maps/map_005_upper_nile_horn_overview.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_006_roman_north_africa",
+    "filename": "map_006_roman_north_africa.md",
+    "title": "Map 6: Roman North Africa",
+    "era": "c. 30 BC – 700 AD (Roman annexation through Islamic conquest)",
+    "image_path": "assets/maps/map_006_roman_north_africa.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_007_roman_egypt",
+    "filename": "map_007_roman_egypt.md",
+    "title": "Map 7: Roman Egypt",
+    "era": "c. 30 BC – 641 AD (Roman annexation through Islamic conquest)",
+    "image_path": "assets/maps/map_007_roman_egypt.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_008_aksum_red_sea_trade",
+    "filename": "map_008_aksum_red_sea_trade.md",
+    "title": "Map 8: Aksum & Red Sea Trade",
+    "era": "c. 100 BC – 700 AD (Pre-Aksumite through Islamic expansion)",
+    "image_path": "assets/maps/map_008_aksum_red_sea_trade.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_009_egyptian_desert_monasticism",
+    "filename": "map_009_egyptian_desert_monasticism.md",
+    "title": "Map 9: Egyptian Desert Monasticism",
+    "era": "c. 250-700 AD (Origins of Christian monasticism through Islamic conquest)",
+    "image_path": "assets/maps/map_009_egyptian_desert_monasticism.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_010_garamantian_kingdom",
+    "filename": "map_010_garamantian_kingdom.md",
+    "title": "Map 10: Garamantian Kingdom",
+    "era": "c. 800 BC – 700 AD (Post-Babel settlement through Islamic conquest)",
+    "image_path": "assets/maps/map_010_garamantian_kingdom.png",
+    "chapter_id": "ch03",
+    "lesson_id": "lesson_ch03_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_011_carthaginian_maritime_empire",
+    "filename": "map_011_carthaginian_maritime_empire.md",
+    "title": "Map 11: Carthaginian Maritime Empire (c. 814-146 BC)",
+    "era": "c. 814 BC – 146 BC (Founding to Destruction)",
+    "image_path": "assets/maps/map_011_carthaginian_maritime_empire.png",
+    "chapter_id": "ch04",
+    "lesson_id": "lesson_ch04_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_012_numidia_mauretania",
+    "filename": "map_012_numidia_mauretania.md",
+    "title": "Map 12: Numidia & Mauretania (c. 300 BC – 100 AD)",
+    "era": "c. 300 BC – 100 AD (Rise of Massinissa to full Roman Annexation)",
+    "image_path": "assets/maps/map_012_numidia_mauretania.png",
+    "chapter_id": "ch04",
+    "lesson_id": "lesson_ch04_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_013_christian_north_africa",
+    "filename": "map_013_christian_north_africa.md",
+    "title": "Map 13: Christian North Africa (Cities Focus) (c. 100-700 AD)",
+    "era": "c. 100 AD – 700 AD (Apostolic Era to Islamic Conquest)",
+    "image_path": "assets/maps/map_013_christian_north_africa.png",
+    "chapter_id": "ch04",
+    "lesson_id": "lesson_ch04_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_014_islamic_conquest_north_africa",
+    "filename": "map_014_islamic_conquest_north_africa.md",
+    "title": "Map 14: Islamic Conquest of North Africa",
+    "era": "c. 640–710 AD (Early Islamic Period)",
+    "image_path": "assets/maps/map_014_islamic_conquest_north_africa.png",
+    "chapter_id": "ch04",
+    "lesson_id": "lesson_ch04_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_015_meroe_red_sea_trade",
+    "filename": "map_015_meroe_red_sea_trade.md",
+    "title": "Map 15: Meroe & Red Sea Trade Expanded",
+    "era": "c. 300 BC – 350 AD (Meroitic Period)",
+    "image_path": "assets/maps/map_015_meroe_red_sea_trade.png",
+    "chapter_id": "ch04",
+    "lesson_id": "lesson_ch04_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_016_kaleb_expedition",
+    "filename": "map_016_kaleb_expedition.md",
+    "title": "Map 16: Kaleb's Red Sea Expedition Routes",
+    "era": "c. 520–525 AD (Aksumite Golden Age)",
+    "image_path": "assets/maps/map_016_kaleb_expedition.png",
+    "chapter_id": "ch05",
+    "lesson_id": "lesson_ch05_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_017_highland_monastic_centers_ethiopia",
+    "filename": "map_017_highland_monastic_centers_ethiopia.md",
+    "title": "Map 17: Highland Monastic Centers Ethiopia",
+    "era": "c. 500–700 AD (Early Medieval Ethiopia)",
+    "image_path": "assets/maps/map_017_highland_monastic_centers_ethiopia.png",
+    "chapter_id": "ch05",
+    "lesson_id": "lesson_ch05_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_022_trans_saharan_trade_routes",
+    "filename": "map_022_trans_saharan_trade_routes.md",
+    "title": "Map 22: Trans-Saharan Trade Routes (Comprehensive)",
+    "era": "c. 1000 BC – 1500 AD (Multi-period synthesis spanning 2,500 years)",
+    "image_path": "assets/maps/map_022_trans_saharan_trade_routes.png",
+    "chapter_id": "ch06",
+    "lesson_id": "lesson_ch06_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_023_horn_africa_language_families",
+    "filename": "map_023_horn_africa_language_families.md",
+    "title": "Map 23: Horn of Africa Language Families",
+    "era": "Modern distribution (with historical roots c. 2200 BC post-Babel → present)",
+    "image_path": "assets/maps/map_023_horn_africa_language_families.png",
+    "chapter_id": "ch06",
+    "lesson_id": "lesson_ch06_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_024_early_iron_age",
+    "filename": "map_024_early_iron_age.md",
+    "title": "Map 24: Early Iron Age Africa (c. 1000 BC – 500 AD)",
+    "era": "c. 1000 BC – 500 AD (Solomonic Era to Late Antiquity)",
+    "image_path": "assets/maps/map_024_early_iron_age.png",
+    "chapter_id": "ch06",
+    "lesson_id": "lesson_ch06_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_025_nile_cataracts",
+    "filename": "map_025_nile_cataracts.md",
+    "title": "Map 25: Nile Cataracts & Navigation Barriers",
+    "era": "** Present (cataracts mostly submerged by Aswan High Dam, 1970 AD)",
+    "image_path": "assets/maps/map_025_nile_cataracts.png",
+    "chapter_id": "ch06",
+    "lesson_id": "lesson_ch06_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_026_great_lakes_kingdoms",
+    "filename": "map_026_great_lakes_kingdoms.md",
+    "title": "Map 26: Great Lakes Region Kingdoms (c. 1000 AD – 1800 AD)",
+    "era": "c. 1000 AD – 1800 AD (Medieval to Pre-Colonial)",
+    "image_path": "assets/maps/map_026_great_lakes_kingdoms.png",
+    "chapter_id": "ch07",
+    "lesson_id": "lesson_ch07_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_027_zimbabwean_plateau",
+    "filename": "map_027_zimbabwean_plateau.md",
+    "title": "Map 27: The Zimbabwean Plateau & Swahili Gold Trade (c. 1000 AD – 1500 AD)",
+    "era": "c. 1000 AD – 1500 AD (Medieval Warm Period / Iron Age II)",
+    "image_path": "assets/maps/map_027_zimbabwean_plateau.png",
+    "chapter_id": "ch07",
+    "lesson_id": "lesson_ch07_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_028_red_sea_world",
+    "filename": "map_028_red_sea_world.md",
+    "title": "Map 28: Red Sea World (c. 1000 BC – 700 AD)",
+    "era": "c. 1000 BC – 700 AD (Solomon-Sheba Era through Islamic Conquest)",
+    "image_path": "assets/maps/map_028_red_sea_world.png",
+    "chapter_id": "ch07",
+    "lesson_id": "lesson_ch07_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_029_byzantine_north_africa",
+    "filename": "map_029_byzantine_north_africa.md",
+    "title": "Map 29: Byzantine North Africa (c. 533 AD – 698 AD)",
+    "era": "c. 533 AD – 698 AD (Justinian's Reconquest to Islamic Conquest)",
+    "image_path": "assets/maps/map_029_byzantine_north_africa.png",
+    "chapter_id": "ch07",
+    "lesson_id": "lesson_ch07_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_030_cushitic_homeland_debate",
+    "filename": "map_030_cushitic_homeland_debate.md",
+    "title": "Map 30: Cushitic Homeland Debate (c. 2200-1500 BC)",
+    "era": "c. 2200–1500 BC (Post-Babel Dispersion to Early Iron Age transition)",
+    "image_path": "assets/maps/map_030_cushitic_homeland_debate.png",
+    "chapter_id": "ch07",
+    "lesson_id": "lesson_ch07_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_031_nilotic_migrations",
+    "filename": "map_031_nilotic_migrations.md",
+    "title": "Map 31: Nilotic Migrations (c. 1500 BC – 500 AD)",
+    "era": "c. 1500 BC – 500 AD (Post-Exodus to Iron Age)",
+    "image_path": "assets/maps/map_031_nilotic_migrations.png",
+    "chapter_id": "ch08",
+    "lesson_id": "lesson_ch08_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_032_coptic_egypt",
+    "filename": "map_032_coptic_egypt.md",
+    "title": "Map 32: Coptic Egypt (641-1500 AD)",
+    "era": "641 AD – 1500 AD (Islamic Conquest to Ottoman/Mamluk Era)",
+    "image_path": "assets/maps/map_032_coptic_egypt.png",
+    "chapter_id": "ch08",
+    "lesson_id": "lesson_ch08_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_033_zagwe_dynasty",
+    "filename": "map_033_zagwe_dynasty.md",
+    "title": "Map 33: Zagwe Dynasty Ethiopia (c. 900-1270 AD)",
+    "era": "c. 900 AD – 1270 AD (Medieval Period)",
+    "image_path": "assets/maps/map_033_zagwe_dynasty.png",
+    "chapter_id": "ch08",
+    "lesson_id": "lesson_ch08_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  },
+  {
+    "id": "map_034_solomonic_dynasty",
+    "filename": "map_034_solomonic_dynasty.md",
+    "title": "Map 34: Solomonic Dynasty Ethiopia (1270-1500 AD)",
+    "era": "1270 AD – 1500 AD (Late Medieval)",
+    "image_path": "assets/maps/map_034_solomonic_dynasty.png",
+    "chapter_id": "ch08",
+    "lesson_id": "lesson_ch08_s01",
+    "geographicFeatures": {
+      "highlighted_regions": [],
+      "settlements": [],
+      "climate_zones": [],
+      "trade_routes": [],
+      "vegetation": []
+    }
+  }
+]
