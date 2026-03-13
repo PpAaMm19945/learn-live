@@ -18,8 +18,8 @@ MIGRATIONS=(
     "worker/db/migrations/009_progress_learner.sql"
     "worker/db/migrations/010_analytics.sql"
     "worker/db/migrations/011_feedback.sql"
-    "worker/db/migrations/013_world_context.sql"
     "worker/db/migrations/012_glossary.sql"
+    "worker/db/migrations/013_world_context.sql"
 )
 
 # Apply migrations
