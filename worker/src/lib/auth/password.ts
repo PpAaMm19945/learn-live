@@ -148,6 +148,8 @@ export async function handleLogin(request: Request, env: Env): Promise<Response>
 
         const sessionToken = await signToken({ sub: user.id, email: user.email }, env.JWT_SECRET);
 
+        logActivity(env, user.id, 'login', 'auth', user.id);
+
         let response = new Response(JSON.stringify({ success: true, user: { id: user.id, email: user.email, name: user.name } }), { status: 200 });
         response = setSessionCookie(response, sessionToken);
 

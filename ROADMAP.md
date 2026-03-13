@@ -189,14 +189,14 @@ The existing photo+audio capture pipeline is repurposed:
 - [ ] **Task 7.3:** Content serving API — `GET /api/chapter/:id/content?band=2` with cached adapted content.
 - [ ] **Task 7.4:** Weekly plan engine adaptation (optional).
 
-## Phase 8: Pilot with Families — 🔲 NOT STARTED
-*Focus: Ship to families.*
+## Phase 8: Content Pipeline & Pilot Readiness — ✅ COMPLETE
+*Focus: Content pipeline, admin analytics, onboarding, feedback widget.*
 
-- [ ] **Task 8.1:** Onboard 5–10 pilot families.
-- [ ] **Task 8.2:** Measure engagement and completion rates.
-- [ ] **Task 8.3:** Calibrate band adaptation quality.
-- [ ] **Task 8.4:** Collect feedback on Explainer Canvas.
-- [ ] **Task 8.5:** Identify content gaps.
+- [x] **Task 8.1:** Content pipeline scripts (prepare-content, prepare-maps, upload-to-r2, seed-curriculum).
+- [x] **Task 8.2:** Admin analytics dashboard with usage metrics, engagement charts, family stats.
+- [x] **Task 8.3:** Activity logging wired into all handlers (login, content view, artifact upload, lesson complete, exam).
+- [x] **Task 8.4:** Open registration (no invite code), multi-step onboarding wizard with band calculator.
+- [x] **Task 8.5:** In-app feedback widget + admin feedback management.
 
 ## Phase 9: Content Expansion — 🔲 NOT STARTED
 *Focus: Complete textbook and expand coverage.*

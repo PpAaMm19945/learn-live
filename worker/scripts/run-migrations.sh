@@ -16,6 +16,8 @@ MIGRATIONS=(
     "worker/db/migrations/007_map_assets.sql"
     "worker/db/migrations/008_families.sql"
     "worker/db/migrations/009_progress_learner.sql"
+    "worker/db/migrations/010_analytics.sql"
+    "worker/db/migrations/011_feedback.sql"
 )
 
 # Apply migrations

@@ -111,16 +111,19 @@
 
 ---
 
-## Phase 8: Content Pipeline & Pilot Readiness — 🔲 NOT STARTED
+## Phase 8: Content Pipeline & Pilot Readiness — ✅ COMPLETE
 
 > 3 parallel Jules instances + integration step. Prompts in `.antigravity/prompts-phase8.md`.
 
 | Instance | Task | Status | Key Files |
 |----------|------|--------|-----------|
-| A | Content Pipeline & R2 Upload (chapters, maps, real seeds) | 🔲 Todo | `worker/scripts/prepare-content.ts`, `upload-to-r2.ts`, `worker/db/seeds/` |
-| B | Admin Analytics Dashboard (usage metrics, role-based access) | 🔲 Todo | `worker/src/routes/analytics.ts`, `src/pages/admin/Dashboard.tsx` |
-| C | Onboarding Flow & In-App Feedback (wizard, open registration, feedback widget) | 🔲 Todo | `src/pages/Onboarding.tsx`, `worker/src/routes/feedback.ts` |
-| Integration | Route wiring, activity logging, migration sequencing, docs | 🔲 Todo | `worker/src/routes/index.ts` |
+| A | Content Pipeline & R2 Upload (chapters, maps, real seeds) | ✅ Done | `worker/scripts/prepare-content.ts`, `upload-to-r2.ts`, `worker/db/seeds/` |
+| B | Admin Analytics Dashboard (usage metrics, role-based access) | ✅ Done | `worker/src/routes/analytics.ts`, `src/pages/admin/Dashboard.tsx` |
+| C | Onboarding Flow & In-App Feedback (wizard, open registration, feedback widget) | ✅ Done | `src/pages/Onboarding.tsx`, `worker/src/routes/feedback.ts` |
+| Integration | logActivity wired into auth/content/artifacts, admin route restricted, migrations updated | ✅ Done | See `.antigravity/notes/P8_integration.md` |
+
+**New migrations:** `010_analytics.sql` (Activity_Log), `011_feedback.sql` (Feedback)
+**New API endpoints:** `GET /api/admin/analytics/*`, `POST /api/feedback`, `GET/PUT /api/admin/feedback`
 
 ---
 

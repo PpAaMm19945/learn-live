@@ -1,9 +1,10 @@
 import { Env } from '../index';
 import { r2Helper } from '../lib/r2';
 import { evaluateArtifact } from '../lib/examiner/artifact';
+import { logActivity } from '../lib/analytics/logger';
 
 // POST /api/artifacts/upload
-export async function handleUploadArtifact(request: Request, env: Env): Promise<Response> {
+export async function handleUploadArtifact(request: Request, env: Env, userId?: string): Promise<Response> {
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File | null;
@@ -31,6 +32,9 @@ export async function handleUploadArtifact(request: Request, env: Env): Promise<
         const uploadResult = await r2Helper.uploadFile(env.EVIDENCE_VAULT, key, arrayBuffer, contentType);
 
         if (uploadResult.success) {
+            if (userId) {
+                logActivity(env, userId, 'artifact_uploaded', 'artifact', uploadResult.key);
+            }
             return new Response(JSON.stringify({ r2_key: uploadResult.key }), {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },

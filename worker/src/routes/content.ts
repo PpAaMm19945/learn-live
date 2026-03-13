@@ -1,4 +1,5 @@
 import { Env } from '../index';
+import { logActivity } from '../lib/analytics/logger';
 
 export async function handleGetAdaptedContent(request: Request, env: Env, userId: string): Promise<Response> {
     const url = new URL(request.url);
@@ -39,6 +40,8 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
             discussion_questions: adaptedContent.discussion_questions ? JSON.parse(adaptedContent.discussion_questions) : [],
             thinking_prompts: adaptedContent.thinking_prompts ? JSON.parse(adaptedContent.thinking_prompts) : []
         } : null;
+
+        logActivity(env, userId, 'content_viewed', 'lesson', lessonId);
 
         return new Response(JSON.stringify({
             lesson: {
@@ -176,6 +179,8 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
                 discussionQuestions: adaptedContent && adaptedContent.discussion_questions ? JSON.parse(adaptedContent.discussion_questions) : [],
             };
         }));
+
+        logActivity(env, userId, 'content_viewed', 'chapter', chapterId);
 
         return new Response(JSON.stringify({
             chapterId,
