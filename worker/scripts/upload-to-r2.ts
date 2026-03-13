@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 const MAPS_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps/Maps');
 const METADATA_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps');
@@ -12,9 +12,22 @@ const CONTENT_MANIFEST_PATH = path.join(process.cwd(), 'scripts/output/content-m
 const OUTPUT_MANIFEST_FILE = path.join(process.cwd(), 'scripts/output/r2-upload-manifest.json');
 
 const R2_BUCKET = 'learnlive-assets-prod'; // Change if different or make configurable via env
-const WRANGLER_BIN = 'npx wrangler';
 
-// We'll upload using wrangler r2 object put
+const { R2_Access_ID, R2_Access_Secret, R2_S3_API } = process.env;
+
+if (!R2_Access_ID || !R2_Access_Secret || !R2_S3_API) {
+    console.error("Missing required R2 environment variables. Ensure R2_Access_ID, R2_Access_Secret, and R2_S3_API are set.");
+    process.exit(1);
+}
+
+const s3Client = new S3Client({
+    region: 'auto',
+    endpoint: R2_S3_API,
+    credentials: {
+        accessKeyId: R2_Access_ID,
+        secretAccessKey: R2_Access_Secret,
+    },
+});
 
 interface UploadResult {
     file: string;
@@ -24,7 +37,19 @@ interface UploadResult {
 
 const uploadManifest: UploadResult[] = [];
 
-function uploadFile(localPath: string, r2Key: string) {
+function getContentType(filePath: string): string {
+    const ext = path.extname(filePath).toLowerCase();
+    switch (ext) {
+        case '.png': return 'image/png';
+        case '.jpg':
+        case '.jpeg': return 'image/jpeg';
+        case '.json': return 'application/json';
+        case '.md': return 'text/markdown';
+        default: return 'application/octet-stream';
+    }
+}
+
+async function uploadFile(localPath: string, r2Key: string) {
     console.log(`Uploading ${localPath} to ${r2Key}...`);
     try {
         if (!fs.existsSync(localPath)) {
@@ -33,17 +58,22 @@ function uploadFile(localPath: string, r2Key: string) {
              return;
         }
 
-        const command = `${WRANGLER_BIN} r2 object put ${R2_BUCKET}/${r2Key} --file="${localPath}"`;
-        execSync(command, { stdio: 'inherit' });
+        const fileContent = fs.readFileSync(localPath);
+        const contentType = getContentType(localPath);
 
-        // Also verify the file exists by reading headers (head)
-        const checkCommand = `${WRANGLER_BIN} r2 object head ${R2_BUCKET}/${r2Key}`;
-        execSync(checkCommand, { stdio: 'ignore' });
+        const command = new PutObjectCommand({
+            Bucket: R2_BUCKET,
+            Key: r2Key,
+            Body: fileContent,
+            ContentType: contentType,
+        });
+
+        await s3Client.send(command);
 
         uploadManifest.push({ file: localPath, r2Key, status: 'success' });
         console.log(`  [✓] Success`);
     } catch (e) {
-        console.error(`  [X] Failed to upload ${localPath}:`, e);
+        console.error(`  [X] Failed to upload ${localPath}:`, e instanceof Error ? e.message : e);
         uploadManifest.push({ file: localPath, r2Key, status: 'failed' });
     }
 }
@@ -63,7 +93,7 @@ async function main() {
               const localPath = path.join(CHAPTERS_DIR, chapter.filepath);
               const chapterId = `chapter_${chapter.chapterNumber.toString().padStart(2, '0')}`;
               const r2Key = `content/chapters/${chapterId}.md`;
-              uploadFile(localPath, r2Key);
+              await uploadFile(localPath, r2Key);
            }
         }
     } else {
@@ -86,7 +116,7 @@ async function main() {
 
              if (fs.existsSync(imageLocalPath)) {
                  const imageR2Key = `assets/maps/${mapId}${path.extname(imageLocalPath)}`;
-                 uploadFile(imageLocalPath, imageR2Key);
+                 await uploadFile(imageLocalPath, imageR2Key);
              } else {
                  console.warn(`  [!] Could not find image for map ${mapId}`);
              }
@@ -98,7 +128,7 @@ async function main() {
              // Convert metadata to a JSON string and save temporarily, then upload
              const tempJsonPath = path.join(process.cwd(), 'scripts/output', `${mapId}.json`);
              fs.writeFileSync(tempJsonPath, JSON.stringify(mapEntry, null, 2));
-             uploadFile(tempJsonPath, metadataR2Key);
+             await uploadFile(tempJsonPath, metadataR2Key);
 
              // Clean up temp file
              if (fs.existsSync(tempJsonPath)) {
@@ -110,6 +140,10 @@ async function main() {
     }
 
     // Write final upload manifest
+    const manifestDir = path.dirname(OUTPUT_MANIFEST_FILE);
+    if (!fs.existsSync(manifestDir)) {
+        fs.mkdirSync(manifestDir, { recursive: true });
+    }
     fs.writeFileSync(OUTPUT_MANIFEST_FILE, JSON.stringify(uploadManifest, null, 2));
     console.log(`\nUpload complete. Manifest written to ${OUTPUT_MANIFEST_FILE}`);
 }
