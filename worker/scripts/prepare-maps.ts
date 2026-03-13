@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const MAPS_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps');
+const MAPS_DIR = path.join(process.cwd(), '../docs/curriculum/history/Maps');
 const OUTPUT_FILE = path.join(process.cwd(), 'scripts/output/map-manifest.json');
 
 if (!fs.existsSync(MAPS_DIR)) {

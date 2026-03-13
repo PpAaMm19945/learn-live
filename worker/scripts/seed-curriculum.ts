@@ -30,7 +30,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
   sqlOutput += `-- Chapter ${displayOrder}: ${chapter.title}\n`;
   sqlOutput += `-- =========================================\n\n`;
 
-  sqlOutput += `INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)\n`;
+  sqlOutput += `INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)\n`;
   sqlOutput += `VALUES ('${topicId}', ${escapeSql(chapter.title)}, ${escapeSql(chapter.era)}, ${escapeSql(chapter.region)}, ${escapeSql(summary)}, ${displayOrder}, NULL);\n\n`;
 
   for (let j = 0; j < chapter.sections.length; j++) {
@@ -47,7 +47,7 @@ for (let i = 0; i < manifest.chapters.length; i++) {
     const narrativeText = escapeSql(section.text);
     const lessonTitle = escapeSql(section.heading);
 
-    sqlOutput += `INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)\n`;
+    sqlOutput += `INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)\n`;
     sqlOutput += `VALUES ('${lessonId}', '${topicId}', ${lessonTitle}, ${narrativeText}, ${keyDatesJson}, ${keyFiguresJson}, 5, ${estimatedMinutes});\n\n`;
   }
 }

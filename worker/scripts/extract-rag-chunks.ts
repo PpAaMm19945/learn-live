@@ -39,7 +39,7 @@ export function chunkText(text: string, maxChunkSize: number = 500): string[] {
     return chunks;
 }
 
-const METADATA_PATH = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook/metadata.json');
+const METADATA_PATH = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook/metadata.json');
 const OUTPUT_FILE = path.join(process.cwd(), 'scripts/output/seed_rag_chunks.sql');
 
 if (!fs.existsSync(METADATA_PATH)) {
@@ -63,7 +63,7 @@ let totalChunkSize = 0;
 
 for (let i = 0; i < metadata.chapters.length; i++) {
   const chapter = metadata.chapters[i];
-  const filepath = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook', chapter.filepath);
+  const filepath = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook', chapter.filepath);
 
   if (!fs.existsSync(filepath)) {
     console.warn(`File not found: ${filepath}`);
@@ -82,7 +82,7 @@ for (let i = 0; i < metadata.chapters.length; i++) {
   sqlOutput += `-- Chapter ${i + 1} Source & Chunks\n`;
   sqlOutput += `-- =========================================\n\n`;
 
-  sqlOutput += `INSERT INTO Sources (id, lesson_id, title, author, type, url, r2_key, excerpt)\n`;
+  sqlOutput += `INSERT OR IGNORE INTO Sources (id, lesson_id, title, author, type, url, r2_key, excerpt)\n`;
   sqlOutput += `VALUES ('${sourceId}', NULL, ${title}, 'Learn Live Curriculum', 'primary', NULL, ${r2Key}, NULL);\n\n`;
 
   const chunks = chunkText(content);
@@ -95,7 +95,7 @@ for (let i = 0; i < metadata.chapters.length; i++) {
     const chunkId = `chk_ch${(i + 1).toString().padStart(2, '0')}_${(j + 1).toString().padStart(4, '0')}`;
     const chunkTextEscaped = escapeSql(chunk);
 
-    sqlOutput += `INSERT INTO RAG_Chunks (id, source_id, chunk_text, chunk_index, embedding_key)\n`;
+    sqlOutput += `INSERT OR IGNORE INTO RAG_Chunks (id, source_id, chunk_text, chunk_index, embedding_key)\n`;
     sqlOutput += `VALUES ('${chunkId}', '${sourceId}', ${chunkTextEscaped}, ${j}, NULL);\n`;
   }
 
