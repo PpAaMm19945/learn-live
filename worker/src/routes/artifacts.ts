@@ -1,9 +1,10 @@
 import { Env } from '../index';
 import { r2Helper } from '../lib/r2';
 import { evaluateArtifact } from '../lib/examiner/artifact';
+import { logActivity } from '../lib/analytics/logger';
 
 // POST /api/artifacts/upload
-export async function handleUploadArtifact(request: Request, env: Env): Promise<Response> {
+export async function handleUploadArtifact(request: Request, env: Env, userId?: string): Promise<Response> {
     try {
         const formData = await request.formData();
         const file = formData.get('file') as File | null;
