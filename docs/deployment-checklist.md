@@ -16,7 +16,7 @@
 
 ## Post-Deploy
 
-- [ ] Run database migrations: Execute `bash worker/scripts/run-migrations.sh` from the root to run `003` through `011` (including analytics and feedback tables) and insert seed data.
+- [ ] Run database migrations: Execute `bash worker/scripts/run-migrations.sh` from the root to run `003` through `013` (including glossary and world context tables) and insert seed data.
 - [ ] Verify the `/api/health` endpoint returns a `200 OK`.
 - [ ] Log in via the production URL and check the dashboard to ensure the African History topics render.
 - [ ] Verify family / learner selector integration is displayed and correctly updating the URL.

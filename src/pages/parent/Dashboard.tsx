@@ -1,7 +1,7 @@
 import { useAuthStore } from '@/lib/auth';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users } from 'lucide-react';
+import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, Book } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
@@ -95,6 +95,9 @@ export default function Dashboard() {
             <p className="text-xs text-muted-foreground">{name || email}</p>
           </div>
           <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => navigate('/glossary')}>
+              <Book className="h-4 w-4 mr-2" /> Glossary
+            </Button>
             {isAdmin && (
               <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
                 Admin Dashboard

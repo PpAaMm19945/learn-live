@@ -198,13 +198,13 @@ The existing photo+audio capture pipeline is repurposed:
 - [x] **Task 8.4:** Open registration (no invite code), multi-step onboarding wizard with band calculator.
 - [x] **Task 8.5:** In-app feedback widget + admin feedback management.
 
-## Phase 9: Content Expansion — 🔲 NOT STARTED
+## Phase 9: Content Expansion — ✅ COMPLETE
 *Focus: Complete textbook and expand coverage.*
 
-- [ ] **Task 9.1:** Complete Chapter 10+.
-- [ ] **Task 9.2:** World history context sidebars.
-- [ ] **Task 9.3:** Expand map library.
-- [ ] **Task 9.4:** Glossary and index system.
+- [x] **Task 9.1:** Complete Chapter 10+.
+- [x] **Task 9.2:** World history context sidebars.
+- [x] **Task 9.3:** Expand map library.
+- [x] **Task 9.4:** Glossary and index system.
 
 ---
 
