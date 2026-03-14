@@ -8,6 +8,7 @@ export function generateMagicLinkToken(): string {
 }
 
 export async function sendMagicLinkEmail(email: string, token: string, env: Env): Promise<boolean> {
+    const SENDER_EMAIL = 'antmwes104.1@gmail.com';
     try {
         const magicLinkUrl = `https://learn-live.antmwes104-1.workers.dev/api/auth/magic-link/verify?token=${token}`;
 
@@ -18,7 +19,7 @@ export async function sendMagicLinkEmail(email: string, token: string, env: Env)
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@learnlive.app',
+                from: `Learn Live <${SENDER_EMAIL}>`,
                 to: email,
                 subject: 'Sign in to Learn Live',
                 html: `<p>Click the link below to sign in to Learn Live:</p><p><a href="${magicLinkUrl}">${magicLinkUrl}</a></p>`

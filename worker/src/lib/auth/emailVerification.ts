@@ -48,7 +48,7 @@ export async function sendPasswordResetEmail(email: string, token: string, env: 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@learnlive.app',
+                from: `Learn Live <${SENDER_EMAIL}>`,
                 to: email,
                 subject: 'Reset your Learn Live password',
                 html: `
