@@ -17,3 +17,4 @@ bucket_name = "learnlive-evidence-vault"
 # We will need these bindings when we add Auth and Gemini Keys
 # [vars]
 # GEMINI_API_KEY = "placeholder"
+# SENDER_EMAIL = "antmwes104.1@gmail.com"

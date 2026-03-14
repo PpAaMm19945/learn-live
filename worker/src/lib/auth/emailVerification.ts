@@ -1,5 +1,8 @@
 import type { Env } from '../../index';
 
+// Use verified sender email - can be updated when you get a custom domain
+const SENDER_EMAIL = 'antmwes104.1@gmail.com';
+
 export async function sendVerificationEmail(email: string, token: string, env: Env): Promise<boolean> {
     try {
         const verifyUrl = `https://learn-live.antmwes104-1.workers.dev/api/auth/verify-email?token=${token}`;
@@ -11,7 +14,7 @@ export async function sendVerificationEmail(email: string, token: string, env: E
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@learnlive.app',
+                from: `Learn Live <${SENDER_EMAIL}>`,
                 to: email,
                 subject: 'Verify your Learn Live account',
                 html: `
@@ -45,7 +48,7 @@ export async function sendPasswordResetEmail(email: string, token: string, env: 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                from: 'noreply@learnlive.app',
+                from: `Learn Live <${SENDER_EMAIL}>`,
                 to: email,
                 subject: 'Reset your Learn Live password',
                 html: `
