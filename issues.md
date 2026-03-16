@@ -125,3 +125,54 @@
   - "Read at My Level" button added to `LessonView.tsx` header
   - `BandSelector`, `VocabularyCard`, `DiscussionQuestions` components delivered by Jules
 * **Migrations pending:** `004_adaptation_cache.sql`, `seed_curriculum.sql`, `seed_rag_chunks.sql`
+
+---
+
+## Phase 10: UI/UX Overhaul — Open Issues (2026-03-16)
+
+### 20. Navigation Architecture — Back-Arrow Dependency
+* **Status:** OPEN — HIGH PRIORITY
+* **Description:** Every page below Dashboard (TopicDetail, LessonView, ReadingView, NarratedLessonView, ExamView) uses a standalone header with a "Back" button as the sole navigation mechanism. Users lose context of where they are in the app and can't jump laterally between sections. The Glossary page uses `DashboardLayout` with a proper nav header, but no other page does.
+* **Impact:** Parents report the UI feels "messy and confusing." New users can't wrap their minds around the app's structure.
+* **Fix:** Implement a persistent sidebar or top-nav layout that shows the full app structure at all times: Dashboard, current topic/lesson context, Glossary, and profile. Replace per-page headers with a shared layout component.
+
+### 21. Band State Not Propagating from Learner Profile
+* **Status:** OPEN — CRITICAL
+* **Description:** The Dashboard fetches `familyData.learners` and stores `selectedLearnerId` in component state, but this value is only passed as a URL query param (`?learner=`) to TopicDetail. TopicDetail doesn't read it. LessonView, ReadingView, and ExamView all ignore the learner's band — ReadingView defaults to `useState(0)`, ExamView reads from `localStorage`, and LessonView shows the raw master text (Band 5) with no band awareness at all.
+* **Result:** A 4-year-old child sees university-level theological content ("Sovereignty", "Covenant", "Dispensationalism") instead of picture-book content.
+* **Fix:** Create a shared `useLearnerContext()` hook or Zustand slice that stores the active learner ID + band globally. All content views must read band from this context, not from localStorage or component defaults.
+
+### 22. Raw Markdown Rendering in Content
+* **Status:** OPEN — HIGH
+* **Description:** Lesson titles and narrative text contain raw markdown syntax (e.g., `**1.1 In the Beginning...**`). The `LessonView` renders narrative in a `<div>` with `whitespace-pre-wrap` but no markdown parser. Content shows literal `**bold**` markers, `#` headers, and `---` dividers.
+* **Fix:** Either strip markdown before storing in D1, or add a lightweight markdown renderer (e.g., `react-markdown`) for narrative content display.
+
+### 23. AI Content Adaptation Called On-The-Fly — Cost & Latency Risk
+* **Status:** OPEN — STRATEGIC
+* **Description:** `serveAdaptedContent()` in `worker/src/lib/content/serve.ts` calls Gemini to adapt content per request if not cached. This means every first-time read at a band level triggers a ~3-5s AI call. For a product with 10 chapters × 6 bands = 60 adaptations, this is a cold-start problem that hits users on first visit.
+* **Architectural Decision:** Pre-generate all band adaptations at seed time. Store adapted content in D1 as static rows. AI calls should ONLY happen for:
+  1. **Live Narrated Lessons** (Explainer Canvas) — real-time voice interaction
+  2. **Live Oral Examinations** (Evidence Witness) — real-time Socratic questioning
+* **Rationale:** These two live AI experiences are the product's revenue drivers. Reading content is supplementary and should be instant, free of AI latency, and available offline.
+
+### 24. No Clear Funnel to Revenue Features
+* **Status:** OPEN — STRATEGIC
+* **Description:** The Dashboard shows a grid of topic cards that link to TopicDetail → LessonView → Read/Narrate/Exam. The "Narrate" and "Exam" buttons are small, equally weighted with "Read" and "Ask" in the LessonView header. There is no visual hierarchy directing parents toward the product's two core paid experiences:
+  1. **Live Narrated Lessons** (interactive AI storytelling with maps)
+  2. **Live Oral Examinations** (AI-powered Socratic assessment)
+* **Fix:** Redesign the lesson flow to make Live Lesson and Live Exam the primary CTAs. Reading should be positioned as preparation ("Read first, then start the Live Lesson"). The dashboard should surface "Continue" or "Start Live Lesson" actions prominently.
+
+### 25. Inconsistent Page Layouts — No Shared Shell
+* **Status:** OPEN — MEDIUM
+* **Description:** Only `Glossary` uses `DashboardLayout`. All other authenticated pages (Dashboard, TopicDetail, LessonView, ReadingView, ExamView, NarratedLessonView) each render their own `<header>` with slightly different structure, max-widths, and button arrangements. This makes the app feel like 7 separate apps stitched together.
+* **Fix:** Create a unified `AppShell` layout with persistent navigation. All authenticated routes should render inside this shell.
+
+### 26. BandSelector Shown on Reading/Narration — Misleading UX
+* **Status:** OPEN — MEDIUM
+* **Description:** `BandSelector` appears in the ReadingView and NarratedLessonView headers, allowing users to manually switch between 6 bands. This contradicts the app's philosophy: the band should be determined by the learner's age (set during onboarding). Showing all 6 bands suggests the parent should be manually choosing complexity, which undermines the "AI adapts automatically" value proposition.
+* **Fix:** Remove the BandSelector from content views. Show the active learner's band as a read-only badge. Allow band override only in a settings/profile context, not inline during reading.
+
+### 27. Onboarding Selects Topic but Dashboard Ignores It
+* **Status:** OPEN — LOW
+* **Description:** Step 4 of onboarding asks the user to "Choose a Starting Point" and select a topic. But the Dashboard doesn't use this selection — it shows all topics in a flat grid with no indication of which one was chosen or where to start.
+* **Fix:** Use the onboarding topic selection to set initial state. Dashboard should show a "Continue where you left off" or highlight the selected topic.

@@ -206,6 +206,62 @@ The existing photo+audio capture pipeline is repurposed:
 - [x] **Task 9.3:** Expand map library.
 - [x] **Task 9.4:** Glossary and index system.
 
+## Phase 10: UI/UX Overhaul — Revenue-Focused Redesign — 🔲 NOT STARTED
+*Focus: Redesign the entire parent-facing UI to funnel users toward Live Lessons and Live Exams — the two revenue-generating features. Remove on-the-fly AI content generation. Make the app instantly comprehensible.*
+
+### Principles
+1. **Pre-generate, don't generate on-the-fly.** All reading content (Bands 0–5) is pre-adapted and stored in D1 at seed time. AI is reserved exclusively for live interactive sessions.
+2. **Two revenue features front and center.** Every screen funnels toward: (a) Live Narrated Lesson, (b) Live Oral Exam. Reading is preparation, not the product.
+3. **No back-arrow dependency.** A persistent navigation shell means users always know where they are and can jump anywhere.
+4. **Learner context is global.** The active learner's band propagates everywhere automatically.
+
+### Tasks
+
+- [ ] **Task 10.1: Global Learner Context Store**
+  Create a `useLearnerStore` Zustand slice that holds `activeLearnerId`, `activeLearnerName`, `activeLearnerBand`, and `familyId`. Populated from `/api/family` on auth. All content views read band from this store, never from localStorage or component state.
+
+- [ ] **Task 10.2: Unified App Shell with Persistent Navigation**
+  Replace all per-page `<header>` blocks with a single `AppShell` layout component. Options:
+  - **Sidebar (desktop)** + **bottom nav (mobile)**: Dashboard, Current Lesson, Glossary, Profile
+  - **Or** a sticky top-nav with breadcrumb trail and learner switcher always visible
+  All authenticated routes render inside the shell. No more back-arrow-only navigation.
+
+- [ ] **Task 10.3: Dashboard Redesign — Guided Learning Path**
+  Replace the flat topic grid with a structured learning journey:
+  - **Hero section**: Active learner card (name, band, avatar) + "Continue Learning" CTA pointing to their current lesson's Live Lesson
+  - **Learning path**: Topics shown as a vertical timeline/progress path, not a grid
+  - **Per-topic card**: Shows progress (X/Y lessons), next lesson title, and primary CTA: "Start Live Lesson" or "Continue"
+  - **Quick actions**: "Switch Learner", "Glossary", "View Progress"
+
+- [ ] **Task 10.4: Lesson Detail Redesign — Clear 3-Step Flow**
+  Redesign LessonView to present a clear 3-step learning flow:
+  1. **Prepare** — Read the adapted text (pre-generated, band-appropriate). Positioned as step 1, not the main event.
+  2. **Learn** — Start Live Narrated Lesson (the AI interactive map experience). This is the primary CTA, large and visually dominant.
+  3. **Prove** — Take the Live Oral Exam. Unlocked after the lesson, requires parent presence.
+  Remove the small header buttons (Read/Narrate/Ask). Replace with a vertical step layout with clear visual hierarchy.
+
+- [ ] **Task 10.5: Pre-Generate All Band Content at Seed Time**
+  Modify the content pipeline to pre-generate adapted content for all lessons × all bands at seed/deploy time:
+  - Run `serveAdaptedContent()` for each (lessonId, band) combination during seeding
+  - Store results in the `Adapted_Content` D1 table
+  - Change `GET /api/lessons/:id/content?band=N` to return cached content only (no AI fallback)
+  - If content doesn't exist for a band, return the master text with a "content coming soon" notice
+
+- [ ] **Task 10.6: Remove BandSelector from Content Views**
+  Remove the inline `BandSelector` toggle from ReadingView and NarratedLessonView. The band is determined by the active learner's profile. Show a read-only badge ("Reading as: Story Mode (Band 1)") instead. Band override is only available in learner profile settings.
+
+- [ ] **Task 10.7: Markdown Rendering for Narrative Content**
+  Add `react-markdown` (or similar lightweight renderer) to LessonView and AdaptedContentReader. Strip or render markdown in lesson titles. Ensure narrative text renders headings, bold, lists, and blockquotes properly.
+
+- [ ] **Task 10.8: Onboarding → Dashboard Continuity**
+  When onboarding completes, save the selected topic as the family's "current topic" in D1. Dashboard hero section reads this and shows "Continue from: [Topic Title] → [First Lesson]" with a Live Lesson CTA.
+
+- [ ] **Task 10.9: Polish & Responsive Pass**
+  - Consistent max-widths and padding across all views
+  - Mobile-first responsive testing at 360px, 768px, 1024px
+  - Ensure the persistent nav works at all breakpoints (sidebar collapses to bottom nav or hamburger on mobile)
+  - Loading skeletons match new layouts
+
 ---
 
 ## Archived (For Future Reactivation)
