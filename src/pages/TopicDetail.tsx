@@ -1,4 +1,5 @@
 import { useLearnerStore } from '@/lib/learnerStore';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -174,7 +175,7 @@ export default function TopicDetail() {
                   key={lesson.id}
                   className="w-full hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`)}
-                  aria-label={`Go to lesson: ${lesson.title}`}
+                  aria-label={`Go to lesson: ${stripMarkdown(lesson.title)}`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
@@ -186,7 +187,7 @@ export default function TopicDetail() {
                 >
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-4">
-                      <CardTitle className="text-xl leading-tight">{lesson.title}</CardTitle>
+                      <CardTitle className="text-xl leading-tight">{stripMarkdown(lesson.title)}</CardTitle>
                       {getStatusBadge(lesson.status)}
                     </div>
                   </CardHeader>

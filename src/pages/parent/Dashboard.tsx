@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/lib/auth';
 import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
@@ -316,7 +317,7 @@ export default function Dashboard() {
                                 {lesson.status === 'completed' && <div className="w-2 h-2 rounded-full bg-primary" />}
                               </div>
                               <div className="flex-grow">
-                                <h5 className="font-medium">{lIndex + 1}. {lesson.title}</h5>
+                                <h5 className="font-medium">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
                                 <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
                                   <Clock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
                                 </div>

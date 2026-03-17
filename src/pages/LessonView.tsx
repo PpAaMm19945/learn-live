@@ -1,4 +1,5 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { useLearnerStore } from '@/lib/learnerStore';
@@ -123,7 +124,7 @@ export default function LessonView() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{lesson.title}</BreadcrumbPage>
+                <BreadcrumbPage>{stripMarkdown(lesson.title)}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -131,7 +132,7 @@ export default function LessonView() {
 
         <div className="mb-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center justify-center gap-3">
-            <BookOpen className="h-8 w-8 text-primary" /> {lesson.title}
+            <BookOpen className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
           </h1>
           <p className="text-lg text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
         </div>

@@ -106,7 +106,8 @@ export const useLearnerStore = create<LearnerState>()(
           }
         } catch (error) {
           Logger.error('[LEARNER_STORE]', 'Error loading family data', error);
-          throw error;
+          // Don't throw — allow the app to continue with defaults
+          set({ isLoaded: true });
         } finally {
           set({ isLoading: false });
         }

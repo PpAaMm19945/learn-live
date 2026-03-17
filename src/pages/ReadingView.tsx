@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
@@ -153,7 +154,7 @@ export default function ReadingView() {
               </div>
             ) : (
               <>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{lesson?.title}</h2>
+                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{stripMarkdown(lesson?.title || '')}</h2>
                 <AdaptedContentReader lessonId={lessonId} band={currentBand} />
               </>
             )}
