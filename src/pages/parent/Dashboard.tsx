@@ -48,7 +48,8 @@ export default function Dashboard() {
     activeLearnerBand,
     setActiveLearner,
     loadFamily,
-    isLoaded
+    isLoaded,
+    currentTopicId
   } = useLearnerStore();
 
   useEffect(() => {
@@ -115,8 +116,27 @@ export default function Dashboard() {
         }
         if (foundInProgress) break;
 
-        // If no in_progress, check for the first not_started
-        if (!foundInProgress) {
+        // If no in_progress, and we haven't found a match yet, we will check currentTopicId logic below
+      }
+    }
+
+    // If no in_progress lesson was found, use currentTopicId if available
+    if (!foundInProgress && currentTopicId) {
+      const currentTopic = topics.find(t => t.id === currentTopicId);
+      if (currentTopic && currentTopic.lessons && currentTopic.lessons.length > 0) {
+        // Find first not_started or just use the first lesson
+        const firstNotStarted = currentTopic.lessons.find(l => l.status === 'not_started');
+        continueLessonId = firstNotStarted ? firstNotStarted.id : currentTopic.lessons[0].id;
+        continueTopicTitle = currentTopic.title;
+        foundInProgress = true;
+      }
+    }
+
+    // Fallback: If still no lesson found (e.g. no currentTopicId or currentTopicId has no lessons)
+    // use the first not_started across all topics, or the first lesson of the first topic
+    if (!foundInProgress) {
+      for (const topic of topics) {
+        if (topic.lessons) {
           for (const lesson of topic.lessons) {
             if (lesson.status === 'not_started') {
               continueLessonId = lesson.id;
@@ -130,7 +150,6 @@ export default function Dashboard() {
       }
     }
 
-    // Fallback: If all are completed or no status matched, use the first lesson of the first topic
     if (!continueLessonId && topics[0].lessons && topics[0].lessons.length > 0) {
       continueLessonId = topics[0].lessons[0].id;
       continueTopicTitle = topics[0].title;

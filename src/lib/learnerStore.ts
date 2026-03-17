@@ -11,6 +11,7 @@ export interface Learner {
 interface LearnerState {
   familyId: string | null;
   familyName: string | null;
+  currentTopicId: string | null;
   learners: Learner[];
   activeLearnerId: string | null;
   activeLearnerName: string | null;
@@ -26,6 +27,7 @@ export const useLearnerStore = create<LearnerState>()(
     (set, get) => ({
       familyId: null,
       familyName: null,
+      currentTopicId: null,
       learners: [],
       activeLearnerId: null,
       activeLearnerName: null,
@@ -80,6 +82,7 @@ export const useLearnerStore = create<LearnerState>()(
             set({
               familyId: data.family.id,
               familyName: data.family.name,
+              currentTopicId: data.family.current_topic_id || null,
               learners: data.learners,
               isLoaded: true,
             });

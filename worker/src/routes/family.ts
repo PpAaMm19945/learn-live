@@ -113,8 +113,8 @@ export async function handleUpdateLearner(request: Request, env: Env, userId: st
         const body: any = await request.json();
         const { name, band } = body;
 
-        let queryParams: any[] = [];
-        let setClauses: string[] = [];
+        const queryParams: any[] = [];
+        const setClauses: string[] = [];
 
         if (name && typeof name === 'string' && name.trim().length > 0) {
             setClauses.push('name = ?');
