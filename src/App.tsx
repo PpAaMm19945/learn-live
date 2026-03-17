@@ -124,7 +124,7 @@ const App = () => {
                 path="/narrate/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <AppShell><NarratedLessonView /></AppShell>
+                    <NarratedLessonView />
                   </ProtectedRoute>
                 }
               />
@@ -132,7 +132,7 @@ const App = () => {
                 path="/exam/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <AppShell><ExamView /></AppShell>
+                    <ExamView />
                   </ProtectedRoute>
                 }
               />

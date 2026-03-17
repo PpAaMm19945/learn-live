@@ -1,6 +1,7 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { useLearnerStore } from '@/lib/learnerStore';
 import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
@@ -36,9 +37,10 @@ export default function LessonView() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Mocking learner and band details for now. This should ideally come from global state or context
-  const learnerName = "Learner";
-  const bandLabel = "Band";
+  const { activeLearnerName, activeLearnerBand } = useLearnerStore();
+  const BAND_LABELS = ['Picture Book', 'Story Mode', 'Explorer', 'Scholar', 'Apprentice', 'University'];
+  const learnerName = activeLearnerName || 'Learner';
+  const bandLabel = BAND_LABELS[activeLearnerBand] || `Band ${activeLearnerBand}`;
 
   const { data: lesson, isLoading, isError, refetch } = useQuery<LessonData>({
     queryKey: ['lesson', lessonId],
@@ -104,21 +106,6 @@ export default function LessonView() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(`/topics/${lesson.topic_id}`)}
-            className="mr-4"
-            aria-label="Back to Course"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Topic
-          </Button>
-        </div>
-      </header>
-
-
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-6">
           <Breadcrumb>
