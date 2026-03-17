@@ -1,8 +1,8 @@
-import { useAuthStore } from '@/lib/auth';
-import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, Book, ChevronDown, ChevronRight, PlayCircle, Mic } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuthStore } from '@/lib/auth';
+import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
@@ -25,6 +25,11 @@ interface Lesson {
   status: 'not_started' | 'in_progress' | 'completed';
 }
 
+import { useEffect } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useIsAdmin } from '@/lib/auth';
+import { useLearnerStore } from '@/lib/learnerStore';
+
 interface Topic {
   id: string;
   title: string;
@@ -35,24 +40,13 @@ interface Topic {
   lessons?: Lesson[];
 }
 
-interface Learner {
-  id: string;
-  name: string;
-  band: number;
-}
-
-interface FamilyResponse {
-  family: { id: string; name: string };
-  learners: Learner[];
-}
-
 export default function Dashboard() {
-  const { email, name, logout } = useAuthStore();
-  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
   const { toast } = useToast();
   // Using a local state to just hold the first learner for the active learner card display
   const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
+  const { name } = useAuthStore();
+        const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
 
   const { data: familyData, isError: isFamilyError } = useQuery<FamilyResponse>({
     queryKey: ['family'],
@@ -76,11 +70,25 @@ export default function Dashboard() {
     }
   }, [isFamilyError, navigate]);
 
+  const { toast } = useToast();
+  const {
+    learners,
+    activeLearnerId,
+    setActiveLearner,
+    loadFamily,
+    isLoaded
+  } = useLearnerStore();
+
   useEffect(() => {
-    if (familyData?.learners && familyData.learners.length > 0 && !selectedLearnerId) {
-      setSelectedLearnerId(familyData.learners[0].id);
+    if (!isLoaded) {
+      loadFamily().catch(() => {
+        // If it fails with 404, we might navigate to onboarding, but for now we rely on the global store
+        // We'll mimic the previous behavior where family errors navigate to onboarding
+        // We could also do this checking API response if needed, but since it's global let's catch
+        navigate('/onboarding');
+      });
     }
-  }, [familyData, selectedLearnerId]);
+  }, [isLoaded, loadFamily, navigate]);
 
   const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
@@ -120,7 +128,6 @@ export default function Dashboard() {
     navigate('/login');
   };
 
-  const selectedLearner = familyData?.learners.find(l => l.id === selectedLearnerId);
 
   // Determine band label based on band number (0-5)
   const getBandLabel = (band: number) => {
@@ -170,27 +177,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <div>
-            <h1 className="text-lg font-semibold">Learn Live</h1>
-            <p className="text-xs text-muted-foreground">{name || email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/glossary')}>
-              <Book className="h-4 w-4 mr-2" /> Glossary
-            </Button>
-            {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
-                Admin Dashboard
-              </Button>
-            )}
-            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-              <LogOut className="h-4 w-4 mr-2" /> Sign out
-            </Button>
-          </div>
-        </div>
-      </header>
+
 
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
         {/* HERO SECTION */}
@@ -231,6 +218,29 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
+
+          {learners && learners.length > 0 && (
+            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border">
+              <Users className="h-5 w-5 text-muted-foreground ml-2" />
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
+                <Select
+                  value={activeLearnerId || ''}
+                  onValueChange={setActiveLearner}
+                >
+                  <SelectTrigger className="w-[200px] h-8 bg-background">
+                    <SelectValue placeholder="Select a learner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {learners.map(learner => (
+                      <SelectItem key={learner.id} value={learner.id}>
+                        {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
           )}
         </div>
 
@@ -353,6 +363,43 @@ export default function Dashboard() {
                 );
               })}
             </Accordion>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {topics.map((topic) => (
+              <Card
+                key={topic.id}
+                className="hover:shadow-md transition-shadow cursor-pointer flex flex-col h-full"
+                onClick={() => navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`)}
+                aria-label={`View topic: ${topic.title}`}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`);
+                  }
+                }}
+              >
+                <CardHeader className="pb-3">
+                  <div className="flex flex-wrap gap-2 mb-2">
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {topic.era}
+                    </Badge>
+                    <Badge variant="outline" className="flex items-center gap-1">
+                      <Globe className="w-3 h-3" /> {topic.region}
+                    </Badge>
+                  </div>
+                  <CardTitle className="line-clamp-2">{topic.title}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-grow">
+                  <p className="text-sm text-muted-foreground line-clamp-3">
+                    {topic.description}
+                  </p>
+                </CardContent>
+                <CardFooter className="pt-3 border-t text-sm text-muted-foreground">
+                  {topic.lesson_count} lesson{topic.lesson_count !== 1 ? 's' : ''}
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         )}
       </main>

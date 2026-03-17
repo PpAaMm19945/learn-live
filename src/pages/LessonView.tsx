@@ -56,18 +56,7 @@ export default function LessonView() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-          <div className="max-w-6xl mx-auto flex items-center px-4 py-3">
-            <Button variant="ghost" size="sm" disabled className="mr-4">
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-            </Button>
-            <Skeleton className="h-5 w-48 flex-grow" />
-            <div className="flex gap-2">
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-24" />
-            </div>
-          </div>
-        </header>
+
 
         <main className="max-w-6xl mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -128,6 +117,7 @@ export default function LessonView() {
           </Button>
         </div>
       </header>
+
 
       <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-6">
