@@ -231,9 +231,9 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {/* Band 4-5: Dense academic text, essay prompt */}
       {band >= 4 && (
         <div className="space-y-10">
-          <div className="prose prose-slate dark:prose-invert max-w-none text-base md:text-lg leading-relaxed text-foreground whitespace-pre-wrap columns-1 md:columns-2 gap-8">
-            {formattedContent}
-          </div>
+           <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-base md:text-lg leading-relaxed text-foreground columns-1 md:columns-2 gap-8">
+             <ReactMarkdown>{contentData.content}</ReactMarkdown>
+           </div>
 
           {contentData.essay_prompt && (
              <div className="mt-12 p-8 rounded-2xl bg-secondary border border-border/50 shadow-inner">
