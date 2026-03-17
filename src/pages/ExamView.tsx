@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useActiveBand } from '@/lib/learnerStore';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,7 +27,7 @@ interface LessonData {
 export default function ExamView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
-  const [band, setBand] = useState<number>(0);
+  const band = useActiveBand();
   const { roles } = useAuthStore();
   const isParent = roles.includes('parent');
 
@@ -35,13 +36,6 @@ export default function ExamView() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [assessmentDraft, setAssessmentDraft] = useState('');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const savedBand = localStorage.getItem('learn-live-band');
-    if (savedBand) {
-      setBand(parseInt(savedBand, 10));
-    }
-  }, []);
 
   const { data: lesson, isLoading: isLessonLoading } = useQuery<LessonData>({
     queryKey: ['lesson', lessonId],
@@ -104,15 +98,7 @@ export default function ExamView() {
   if (isLessonLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
-        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-          <div className="max-w-6xl mx-auto flex items-center px-4 py-3 w-full">
-            <Button variant="ghost" size="sm" disabled className="mr-4">
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-            </Button>
-            <Skeleton className="h-5 w-48 flex-grow" />
-            <Skeleton className="h-6 w-16" />
-          </div>
-        </header>
+
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 flex flex-col items-center justify-center">
           <Skeleton className="w-24 h-24 rounded-full mb-6" />
           <Skeleton className="h-8 w-64 mb-4" />
@@ -125,31 +111,7 @@ export default function ExamView() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto flex items-center px-4 py-3 w-full">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(`/lessons/${lessonId}`)}
-            className="mr-4"
-            aria-label="Back to Course"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-          </Button>
-          <div className="flex flex-col flex-grow truncate mr-2">
-            <h1 className="text-sm font-medium truncate">{lesson?.title || 'Oral Exam'}</h1>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-             {status === 'active' && (
-                 <Badge variant="outline" className="font-mono bg-background">
-                     <Clock className="w-3 h-3 mr-2 text-primary animate-pulse" />
-                     {formatTime(sessionTime)}
-                 </Badge>
-             )}
-             <Badge variant="secondary">Band {band}</Badge>
-          </div>
-        </div>
-      </header>
+
 
       <div className="max-w-4xl w-full mx-auto px-4 pt-6">
         <Breadcrumb>

@@ -1,7 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
-import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search, Book, Filter, Loader2, X } from 'lucide-react';
@@ -77,7 +76,7 @@ export default function Glossary() {
     };
 
     return (
-        <DashboardLayout>
+        <main className="flex-1 w-full overflow-y-auto">
             <div className="max-w-6xl mx-auto py-8 px-4 space-y-8 animate-in fade-in slide-in-from-bottom-4">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
                     <div>
@@ -135,6 +134,6 @@ export default function Glossary() {
                     <GlossaryIndex terms={filteredTerms} />
                 )}
             </div>
-        </DashboardLayout>
+        </main>
     );
 }
