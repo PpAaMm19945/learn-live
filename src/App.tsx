@@ -17,6 +17,7 @@ import ExamView from "./pages/ExamView";
 import NarratedLessonView from "./pages/NarratedLessonView";
 import Onboarding from "./pages/Onboarding";
 import Glossary from "./pages/Glossary";
+import Progress from "./pages/Progress";
 import { AppShell } from "./components/layout/AppShell";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
@@ -141,6 +142,14 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <AppShell><Glossary /></AppShell>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/progress"
+                element={
+                  <ProtectedRoute>
+                    <AppShell><Progress /></AppShell>
                   </ProtectedRoute>
                 }
               />
