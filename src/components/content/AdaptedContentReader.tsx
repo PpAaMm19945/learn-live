@@ -7,6 +7,7 @@ import { DiscussionQuestions } from './DiscussionQuestions';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { GlossaryTerm } from '../glossary/GlossaryTerm';
+import ReactMarkdown from 'react-markdown';
 
 interface VocabularyTerm {
   term: string;
