@@ -1,4 +1,5 @@
 import { useLearnerStore } from '@/lib/learnerStore';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
