@@ -175,7 +175,7 @@ export default function TopicDetail() {
                   key={lesson.id}
                   className="w-full hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`)}
-                  aria-label={`Go to lesson: ${lesson.title}`}
+                  aria-label={`Go to lesson: ${stripMarkdown(lesson.title)}`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
