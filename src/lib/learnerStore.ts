@@ -12,6 +12,7 @@ interface LearnerState {
   familyId: string | null;
   familyName: string | null;
   currentTopicId: string | null;
+  hasFamily: boolean;
   learners: Learner[];
   activeLearnerId: string | null;
   activeLearnerName: string | null;
@@ -28,6 +29,7 @@ export const useLearnerStore = create<LearnerState>()(
       familyId: null,
       familyName: null,
       currentTopicId: null,
+      hasFamily: false,
       learners: [],
       activeLearnerId: null,
       activeLearnerName: null,
@@ -72,6 +74,16 @@ export const useLearnerStore = create<LearnerState>()(
             credentials: 'include',
           });
 
+          if (res.status === 404) {
+            set({
+              hasFamily: false,
+              isLoaded: true,
+              isLoading: false,
+            });
+            window.location.href = '/onboarding';
+            return;
+          }
+
           if (!res.ok) {
             throw new Error('Failed to fetch family data');
           }
@@ -83,6 +95,7 @@ export const useLearnerStore = create<LearnerState>()(
               familyId: data.family.id,
               familyName: data.family.name,
               currentTopicId: data.family.current_topic_id || null,
+              hasFamily: true,
               learners: data.learners,
               isLoaded: true,
             });
