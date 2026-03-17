@@ -7,6 +7,7 @@ import { DiscussionQuestions } from './DiscussionQuestions';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { GlossaryTerm } from '../glossary/GlossaryTerm';
+import ReactMarkdown from 'react-markdown';
 
 interface VocabularyTerm {
   term: string;
@@ -196,9 +197,9 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           <div className="w-full h-64 md:h-80 bg-muted/50 rounded-2xl flex items-center justify-center border-2 border-dashed border-border text-muted-foreground/50">
              [Illustration Placeholder]
           </div>
-          <div className="prose prose-slate dark:prose-invert max-w-none text-2xl md:text-3xl leading-relaxed md:leading-loose text-foreground whitespace-pre-wrap font-medium">
-            {formattedContent}
-          </div>
+           <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-2xl prose-p:md:text-3xl prose-p:leading-relaxed prose-p:md:leading-loose text-foreground font-medium">
+              <ReactMarkdown>{contentData.content}</ReactMarkdown>
+            </div>
         </div>
       )}
 
@@ -206,8 +207,8 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {(band === 2 || band === 3) && (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-3">
-             <div className="prose prose-slate dark:prose-invert max-w-none text-lg md:text-xl leading-relaxed text-foreground whitespace-pre-wrap">
-              {formattedContent}
+             <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-lg md:text-xl leading-relaxed text-foreground">
+              <ReactMarkdown>{contentData.content}</ReactMarkdown>
             </div>
             <DiscussionQuestions questions={contentData.discussion_questions} />
           </div>
@@ -230,9 +231,9 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {/* Band 4-5: Dense academic text, essay prompt */}
       {band >= 4 && (
         <div className="space-y-10">
-          <div className="prose prose-slate dark:prose-invert max-w-none text-base md:text-lg leading-relaxed text-foreground whitespace-pre-wrap columns-1 md:columns-2 gap-8">
-            {formattedContent}
-          </div>
+           <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-base md:text-lg leading-relaxed text-foreground columns-1 md:columns-2 gap-8">
+             <ReactMarkdown>{contentData.content}</ReactMarkdown>
+           </div>
 
           {contentData.essay_prompt && (
              <div className="mt-12 p-8 rounded-2xl bg-secondary border border-border/50 shadow-inner">
