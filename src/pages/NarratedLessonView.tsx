@@ -178,6 +178,7 @@ export default function NarratedLessonView() {
   return (
     <div className="min-h-screen bg-background flex flex-col h-[100dvh] overflow-hidden">
       {/* Header */}
+
       <header className="border-b border-border bg-card z-10 shrink-0">
         <div className="px-2 sm:px-4 py-3 flex items-center justify-between gap-2 sm:gap-4 max-w-[1600px] mx-auto w-full">
           <div className="flex items-center shrink-0">

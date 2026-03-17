@@ -75,18 +75,7 @@ export default function LessonView() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-          <div className="max-w-6xl mx-auto flex items-center px-4 py-3">
-            <Button variant="ghost" size="sm" disabled className="mr-4">
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-            </Button>
-            <Skeleton className="h-5 w-48 flex-grow" />
-            <div className="flex gap-2">
-              <Skeleton className="h-8 w-20" />
-              <Skeleton className="h-8 w-24" />
-            </div>
-          </div>
-        </header>
+
 
         <main className="max-w-6xl mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -134,41 +123,7 @@ export default function LessonView() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-6xl mx-auto flex items-center px-4 py-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate(`/topics/${lesson.topic_id}`)}
-            className="mr-4"
-            aria-label="Back to Course"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-          </Button>
-          <h1 className="text-sm font-medium truncate flex-grow">{lesson.title}</h1>
-           <Button
-             variant="default"
-             size="sm"
-             className="mr-2 hidden md:flex"
-             onClick={() => navigate(`/read/${lessonId}`)}
-             aria-label="Read lesson"
-           >
-             <BookOpen className="h-4 w-4 mr-1" /> Read
-           </Button>
-           <Button
-             variant="secondary"
-             size="sm"
-             className="mr-2"
-             onClick={() => navigate(`/narrate/${lessonId}`)}
-             aria-label="Narrate lesson"
-           >
-             <PlayCircle className="h-4 w-4 mr-1" /> Narrate
-           </Button>
-           <Button variant="outline" size="sm" className="mr-2 hidden md:flex" aria-label="Ask a question">
-            <HelpCircle className="h-4 w-4 mr-1" /> Ask
-          </Button>
-        </div>
-      </header>
+
 
       <main className="max-w-6xl mx-auto px-4 py-8">
         <div className="mb-6">

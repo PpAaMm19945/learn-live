@@ -1,4 +1,5 @@
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useLearnerStore } from '@/lib/learnerStore';
+import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Clock, MapPin, AlertCircle, BookOpen, RefreshCcw } from 'lucide-react';
@@ -33,6 +34,10 @@ interface TopicDetailData {
 }
 
 export default function TopicDetail() {
+  const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
+  const [searchParams] = useSearchParams();
+  const queryLearnerId = searchParams.get('learner');
+  const learnerId = queryLearnerId || selectedLearnerId;
   const { topicId } = useParams<{ topicId: string }>();
   const navigate = useNavigate();
 
@@ -56,14 +61,7 @@ export default function TopicDetail() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-          <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
-            <Button variant="ghost" size="sm" disabled className="mr-4">
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-            </Button>
-            <Skeleton className="h-5 w-48" />
-          </div>
-        </header>
+
 
         <main className="max-w-4xl mx-auto px-4 py-10 space-y-8">
           <div className="space-y-4">
@@ -121,20 +119,7 @@ export default function TopicDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate('/dashboard')}
-            className="mr-4"
-            aria-label="Back to Course"
-          >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Course
-          </Button>
-          <h1 className="text-sm font-medium truncate">{topic.title}</h1>
-        </div>
-      </header>
+
 
       <main className="max-w-4xl mx-auto px-4 py-8 space-y-8">
         <Breadcrumb>
@@ -188,14 +173,14 @@ export default function TopicDetail() {
                 <Card
                   key={lesson.id}
                   className="w-full hover:shadow-md transition-shadow cursor-pointer"
-                  onClick={() => navigate(`/lessons/${lesson.id}`)}
+                  onClick={() => navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`)}
                   aria-label={`Go to lesson: ${lesson.title}`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
-                      navigate(`/lessons/${lesson.id}`);
+                      navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`);
                     }
                   }}
                 >

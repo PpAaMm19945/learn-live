@@ -1,12 +1,12 @@
-import { useAuthStore } from '@/lib/auth';
-import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, Book } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useAuthStore } from '@/lib/auth';
+import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useState, useEffect } from 'react';
+
 import { useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useIsAdmin } from '@/lib/auth';
@@ -22,9 +22,32 @@ interface Topic {
 }
 
 export default function Dashboard() {
-  const { email, name, logout } = useAuthStore();
-  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
+  const { name } = useAuthStore();
+        const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
+
+  const { data: familyData, isError: isFamilyError } = useQuery<FamilyResponse>({
+    queryKey: ['family'],
+    queryFn: async () => {
+      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+      const res = await fetch(`${apiUrl}/api/family`, {
+        credentials: 'include',
+      });
+      if (res.status === 404) {
+        throw new Error('Family not found');
+      }
+      if (!res.ok) throw new Error('Failed to fetch family');
+      return res.json();
+    },
+    retry: false
+  });
+
+  useEffect(() => {
+    if (isFamilyError) {
+      navigate('/onboarding');
+    }
+  }, [isFamilyError, navigate]);
+
   const { toast } = useToast();
   const {
     learners,
@@ -63,29 +86,10 @@ export default function Dashboard() {
     navigate('/login');
   };
 
+
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <div>
-            <h1 className="text-lg font-semibold">Learn Live</h1>
-            <p className="text-xs text-muted-foreground">{name || email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/glossary')}>
-              <Book className="h-4 w-4 mr-2" /> Glossary
-            </Button>
-            {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
-                Admin Dashboard
-              </Button>
-            )}
-            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-              <LogOut className="h-4 w-4 mr-2" /> Sign out
-            </Button>
-          </div>
-        </div>
-      </header>
+
 
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -95,6 +99,7 @@ export default function Dashboard() {
               Explore the African History curriculum. Select a topic to view its lessons.
             </p>
           </div>
+
 
           {learners && learners.length > 0 && (
             <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border">

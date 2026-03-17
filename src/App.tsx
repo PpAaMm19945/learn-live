@@ -17,6 +17,7 @@ import ExamView from "./pages/ExamView";
 import NarratedLessonView from "./pages/NarratedLessonView";
 import Onboarding from "./pages/Onboarding";
 import Glossary from "./pages/Glossary";
+import { AppShell } from "./components/layout/AppShell";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { Logger } from "./lib/Logger";
 import NotFound from "./pages/NotFound";
@@ -83,7 +84,7 @@ const App = () => {
                 path="/dashboard"
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <AppShell><Dashboard /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -91,7 +92,7 @@ const App = () => {
                 path="/admin"
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
-                    <AdminDashboard />
+                    <AppShell><AdminDashboard /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -99,7 +100,7 @@ const App = () => {
                 path="/topics/:topicId"
                 element={
                   <ProtectedRoute>
-                    <TopicDetail />
+                    <AppShell><TopicDetail /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -107,7 +108,7 @@ const App = () => {
                 path="/lessons/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <LessonView />
+                    <AppShell><LessonView /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -115,7 +116,7 @@ const App = () => {
                 path="/read/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <ReadingView />
+                    <AppShell><ReadingView /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -123,7 +124,7 @@ const App = () => {
                 path="/narrate/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <NarratedLessonView />
+                    <AppShell><NarratedLessonView /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -131,7 +132,7 @@ const App = () => {
                 path="/exam/:lessonId"
                 element={
                   <ProtectedRoute>
-                    <ExamView />
+                    <AppShell><ExamView /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -139,7 +140,7 @@ const App = () => {
                 path="/glossary"
                 element={
                   <ProtectedRoute>
-                    <Glossary />
+                    <AppShell><Glossary /></AppShell>
                   </ProtectedRoute>
                 }
               />
