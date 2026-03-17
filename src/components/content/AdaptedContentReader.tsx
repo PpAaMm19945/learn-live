@@ -207,8 +207,8 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {(band === 2 || band === 3) && (
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-3">
-             <div className="prose prose-slate dark:prose-invert max-w-none text-lg md:text-xl leading-relaxed text-foreground whitespace-pre-wrap">
-              {formattedContent}
+             <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-lg md:text-xl leading-relaxed text-foreground">
+              <ReactMarkdown>{contentData.content}</ReactMarkdown>
             </div>
             <DiscussionQuestions questions={contentData.discussion_questions} />
           </div>
