@@ -25,6 +25,7 @@ interface Lesson {
   difficulty_band: string;
   estimated_time: string;
   status: 'not_started' | 'in_progress' | 'completed';
+  last_studied?: string;
 }
 
 interface Topic {
@@ -102,58 +103,68 @@ export default function Dashboard() {
   // Determine the next lesson ID and topic title to continue learning
   let continueLessonId: string | null = null;
   let continueTopicTitle: string = 'No topics available';
+  let continueLessonTitle: string | null = null;
 
   if (topics && topics.length > 0) {
-    let foundInProgress = false;
-    for (const topic of topics) {
-      if (topic.lessons) {
-        for (const lesson of topic.lessons) {
-          if (lesson.status === 'in_progress') {
-            continueLessonId = lesson.id;
-            continueTopicTitle = topic.title;
-            foundInProgress = true;
-            break;
-          }
-        }
-        if (foundInProgress) break;
+    let foundLesson = false;
 
-        // If no in_progress, and we haven't found a match yet, we will check currentTopicId logic below
-      }
-    }
-
-    // If no in_progress lesson was found, use currentTopicId if available
-    if (!foundInProgress && currentTopicId) {
+    // First, prioritize currentTopicId if available
+    if (currentTopicId) {
       const currentTopic = topics.find(t => t.id === currentTopicId);
       if (currentTopic && currentTopic.lessons && currentTopic.lessons.length > 0) {
-        // Find first not_started or just use the first lesson
-        const firstNotStarted = currentTopic.lessons.find(l => l.status === 'not_started');
-        continueLessonId = firstNotStarted ? firstNotStarted.id : currentTopic.lessons[0].id;
+        // Find first in_progress or not_started lesson
+        const nextLesson = currentTopic.lessons.find(l => l.status === 'in_progress' || l.status === 'not_started');
+        const lessonToUse = nextLesson || currentTopic.lessons[0];
+
+        continueLessonId = lessonToUse.id;
         continueTopicTitle = currentTopic.title;
-        foundInProgress = true;
+        continueLessonTitle = lessonToUse.title;
+        foundLesson = true;
       }
     }
 
-    // Fallback: If still no lesson found (e.g. no currentTopicId or currentTopicId has no lessons)
-    // use the first not_started across all topics, or the first lesson of the first topic
-    if (!foundInProgress) {
+    // If still no lesson found, look for in_progress across all topics
+    if (!foundLesson) {
+      for (const topic of topics) {
+        if (topic.lessons) {
+          for (const lesson of topic.lessons) {
+            if (lesson.status === 'in_progress') {
+              continueLessonId = lesson.id;
+              continueTopicTitle = topic.title;
+              continueLessonTitle = lesson.title;
+              foundLesson = true;
+              break;
+            }
+          }
+        }
+        if (foundLesson) break;
+      }
+    }
+
+    // Fallback: use the first not_started across all topics
+    if (!foundLesson) {
       for (const topic of topics) {
         if (topic.lessons) {
           for (const lesson of topic.lessons) {
             if (lesson.status === 'not_started') {
               continueLessonId = lesson.id;
               continueTopicTitle = topic.title;
-              foundInProgress = true;
+              continueLessonTitle = lesson.title;
+              foundLesson = true;
               break;
             }
           }
         }
-        if (foundInProgress) break;
+        if (foundLesson) break;
       }
     }
 
-    if (!continueLessonId && topics[0].lessons && topics[0].lessons.length > 0) {
-      continueLessonId = topics[0].lessons[0].id;
+    // Final fallback: first lesson of first topic
+    if (!foundLesson && topics[0].lessons && topics[0].lessons.length > 0) {
+      const firstLesson = topics[0].lessons[0];
+      continueLessonId = firstLesson.id;
       continueTopicTitle = topics[0].title;
+      continueLessonTitle = firstLesson.title;
     }
   }
 
@@ -176,7 +187,9 @@ export default function Dashboard() {
                   </div>
 
                   <div className="text-muted-foreground">
-                    Currently on: <span className="font-medium text-foreground">{continueTopicTitle}</span>
+                    Currently on: <span className="font-medium text-foreground">
+                      {continueTopicTitle}{continueLessonTitle ? ` - ${continueLessonTitle}` : ''}
+                    </span>
                   </div>
 
                   <div className="flex gap-4 pt-2">
@@ -274,6 +287,19 @@ export default function Dashboard() {
                 const completedLessons = topic.lessons?.filter(l => l.status === 'completed').length || 0;
                 const totalLessons = topic.lesson_count || 0;
 
+                // Find the most recent last_studied date
+                let lastStudiedDate: Date | null = null;
+                if (topic.lessons) {
+                  for (const lesson of topic.lessons) {
+                    if (lesson.last_studied) {
+                      const d = new Date(lesson.last_studied);
+                      if (!lastStudiedDate || d > lastStudiedDate) {
+                        lastStudiedDate = d;
+                      }
+                    }
+                  }
+                }
+
                 return (
                   <AccordionItem
                     key={topic.id}
@@ -297,6 +323,11 @@ export default function Dashboard() {
                               </span>
                               {completedLessons} / {totalLessons} lessons complete
                             </span>
+                            {lastStudiedDate && (
+                              <span className="text-xs text-muted-foreground border-l pl-2 ml-1">
+                                Last studied: {lastStudiedDate.toLocaleDateString()}
+                              </span>
+                            )}
                           </div>
                         </div>
                       </div>
