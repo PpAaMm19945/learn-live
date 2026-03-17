@@ -10,6 +10,7 @@ import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Book, TrendingUp, Settings, LogOut, Menu } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Learner {
   id: string;
@@ -28,7 +29,7 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const { name, email, logout } = useAuthStore();
-  const { loadFamily, learners, activeLearnerId, setActiveLearner } = useLearnerStore();
+  const { loadFamily, learners, activeLearnerId, setActiveLearner, hasFamily, isLoading } = useLearnerStore();
 
   useEffect(() => {
     loadFamily();
@@ -50,7 +51,11 @@ export function AppShell({ children }: AppShellProps) {
             </div>
 
             <div className="flex items-center gap-4 ml-auto">
-              {learners && learners.length > 0 && (
+              {isLoading ? (
+                <div className="hidden sm:flex items-center gap-2">
+                  <Skeleton className="h-8 w-[180px] rounded-md" />
+                </div>
+              ) : hasFamily && learners && learners.length > 0 ? (
                 <div className="hidden sm:flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">Learner:</span>
                   <Select
@@ -69,7 +74,7 @@ export function AppShell({ children }: AppShellProps) {
                     </SelectContent>
                   </Select>
                 </div>
-              )}
+              ) : null}
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -114,7 +119,11 @@ export function AppShell({ children }: AppShellProps) {
                 <span className="text-[10px] font-medium">Profile</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">
-                {learners && learners.length > 0 && (
+                {isLoading ? (
+                   <div className="p-2 border-b border-border mb-1">
+                     <Skeleton className="h-8 w-full rounded-md" />
+                   </div>
+                ) : hasFamily && learners && learners.length > 0 ? (
                   <div className="p-2 border-b border-border mb-1">
                     <p className="text-xs text-muted-foreground mb-2">Active Learner</p>
                     <Select
@@ -133,7 +142,7 @@ export function AppShell({ children }: AppShellProps) {
                       </SelectContent>
                     </Select>
                   </div>
-                )}
+                ) : null}
                 <DropdownMenuItem onClick={() => logout()}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign out
