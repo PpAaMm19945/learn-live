@@ -70,40 +70,6 @@ export default function ReadingView() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Sticky Header with Band Selector */}
-      <header className="sticky top-0 z-20 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-5xl mx-auto flex items-center px-4 h-14">
-          <div className="flex-1 flex items-center gap-4">
-             <BandBadge />
-
-             {lesson?.topic_id && (
-               <Button
-                 variant="outline"
-                 size="sm"
-                 onClick={() => setIsWorldContextOpen(true)}
-                 className="hidden md:flex items-center gap-2 border-primary/20 hover:bg-primary/10 text-primary"
-               >
-                 <Globe className="h-4 w-4" />
-                 World Context
-               </Button>
-             )}
-          </div>
-        </div>
-      </header>
-
-      {/* Mobile World Context Button - floating or integrated */}
-      {lesson?.topic_id && (
-        <div className="md:hidden fixed bottom-6 right-6 z-30">
-          <Button
-            size="icon"
-            className="h-14 w-14 rounded-full shadow-xl"
-            onClick={() => setIsWorldContextOpen(true)}
-          >
-            <Globe className="h-6 w-6" />
-          </Button>
-        </div>
-      )}
-
       {/* World Context Sidebar */}
       {lesson?.topic_id && (
         <WorldContextSidebar
@@ -118,7 +84,7 @@ export default function ReadingView() {
       <main className="flex-grow max-w-5xl mx-auto w-full px-4 py-8 md:py-12">
         {lessonId && (
           <div className="max-w-3xl mx-auto">
-            <div className="mb-6">
+            <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               {!isLessonLoading && lesson ? (
                 <Breadcrumb>
                   <BreadcrumbList>
@@ -148,6 +114,22 @@ export default function ReadingView() {
               ) : (
                 <Skeleton className="h-5 w-64" />
               )}
+
+              <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 sm:mt-0">
+                 <BandBadge />
+
+                 {lesson?.topic_id && (
+                   <Button
+                     variant="outline"
+                     size="sm"
+                     onClick={() => setIsWorldContextOpen(true)}
+                     className="flex items-center gap-2 border-primary/20 hover:bg-primary/10 text-primary"
+                   >
+                     <Globe className="h-4 w-4" />
+                     <span className="hidden sm:inline">World Context</span>
+                   </Button>
+                 )}
+              </div>
             </div>
 
             {isLessonLoading ? (
