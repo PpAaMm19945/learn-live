@@ -12,7 +12,7 @@ import {
 import { handleGetLessonMapAssets } from './maps';
 import { handleAuthRoutes } from './auth';
 import { handleCurriculumRoutes } from './curriculum';
-import { handleCreateFamily, handleGetFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
+import { handleCreateFamily, handleGetFamily, handleUpdateFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
 import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
 import { handleAnalyticsRoutes } from './analytics';
 import { handleGetWorldContext } from './worldContext';
@@ -99,6 +99,13 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleCreateFamily(request, env, authResult.userId);
+    }
+
+    // PATCH /api/family
+    if (path === '/api/family' && method === 'PATCH') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleUpdateFamily(request, env, authResult.userId);
     }
 
     // GET /api/family

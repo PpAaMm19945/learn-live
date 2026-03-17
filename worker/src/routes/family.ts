@@ -26,7 +26,7 @@ export async function handleCreateFamily(request: Request, env: Env, userId: str
 export async function handleGetFamily(request: Request, env: Env, userId: string): Promise<Response> {
     try {
         const family = await env.DB.prepare(
-            'SELECT id, name, created_at FROM Families WHERE owner_user_id = ?'
+            'SELECT id, name, current_topic_id, created_at FROM Families WHERE owner_user_id = ?'
         ).bind(userId).first<any>();
 
         if (!family) {
@@ -146,6 +146,35 @@ export async function handleUpdateLearner(request: Request, env: Env, userId: st
     } catch (e: any) {
          console.error('[API] Update learner error:', e);
          return new Response(JSON.stringify({ error: 'Failed to update learner', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    }
+}
+
+export async function handleUpdateFamily(request: Request, env: Env, userId: string): Promise<Response> {
+    try {
+        const body: any = await request.json();
+        const { current_topic_id } = body;
+
+        if (current_topic_id === undefined) {
+            return new Response(JSON.stringify({ error: 'current_topic_id is required' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+        }
+
+        const family = await env.DB.prepare(
+            'SELECT id FROM Families WHERE owner_user_id = ?'
+        ).bind(userId).first<any>();
+
+        if (!family) {
+             return new Response(JSON.stringify({ error: 'Family not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+        }
+
+        await env.DB.prepare(
+            'UPDATE Families SET current_topic_id = ? WHERE id = ?'
+        ).bind(current_topic_id, family.id).run();
+
+        return new Response(JSON.stringify({ success: true }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+    } catch (e: any) {
+        console.error('[API] Update family error:', e);
+        return new Response(JSON.stringify({ error: 'Failed to update family', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
     }
 }
 

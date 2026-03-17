@@ -4,6 +4,8 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, CheckCircle, Loader2, Globe } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { BandBadge } from '@/components/content/BandBadge';
+import { useActiveBand } from '@/lib/learnerStore';
 import { WorldContextSidebar } from '@/components/content/WorldContextSidebar';
 import { useActiveBand } from '@/lib/learnerStore';
 import { AdaptedContentReader } from '@/components/content/AdaptedContentReader';
@@ -72,6 +74,8 @@ export default function ReadingView() {
       {/* Sticky Header with Band Selector */}
 
           <div className="w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 flex items-center gap-4">
+             <BandBadge />
+
              {lesson?.topic_id && (
                <Button
                  variant="outline"

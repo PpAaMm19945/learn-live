@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
+import { BandBadge } from '@/components/content/BandBadge';
+import { useActiveBand } from '@/lib/learnerStore';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';
 import { useActiveBand } from '@/lib/learnerStore';
 import { PlaybackControls } from '@/components/canvas/PlaybackControls';
@@ -201,6 +203,7 @@ export default function NarratedLessonView() {
           </div>
 
           <div className="flex-grow flex justify-center w-full max-w-2xl overflow-x-auto pb-1 md:pb-0 scrollbar-hide px-2 sm:px-4">
+             <BandBadge />
              {/* Band selector removed, band is managed via dashboard store */}
           </div>
 

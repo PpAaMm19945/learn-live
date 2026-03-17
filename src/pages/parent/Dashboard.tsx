@@ -37,6 +37,17 @@ interface Topic {
   era: string;
   region: string;
   lesson_count: number;
+}
+
+interface Learner {
+  id: string;
+  name: string;
+  band: number;
+}
+
+interface FamilyResponse {
+  family: { id: string; name: string, current_topic_id?: string | null };
+  learners: Learner[];
   lessons?: Lesson[];
 }
 
@@ -45,6 +56,7 @@ export default function Dashboard() {
   const { toast } = useToast();
   // Using a local state to just hold the first learner for the active learner card display
   const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
+  const setActiveLearner = useLearnerStore((state) => state.setActiveLearner);
   const { name } = useAuthStore();
         const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
 
@@ -89,6 +101,15 @@ export default function Dashboard() {
       });
     }
   }, [isLoaded, loadFamily, navigate]);
+
+  useEffect(() => {
+    if (selectedLearnerId && familyData?.learners) {
+      const learner = familyData.learners.find((l) => l.id === selectedLearnerId);
+      if (learner) {
+        setActiveLearner(learner.id, learner.band);
+      }
+    }
+  }, [selectedLearnerId, familyData?.learners, setActiveLearner]);
 
   const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
@@ -381,6 +402,9 @@ export default function Dashboard() {
               >
                 <CardHeader className="pb-3">
                   <div className="flex flex-wrap gap-2 mb-2">
+                    {familyData?.family?.current_topic_id === topic.id && (
+                      <Badge variant="default" className="flex items-center gap-1 bg-green-600 hover:bg-green-700">Continue Learning</Badge>
+                    )}
                     <Badge variant="secondary" className="flex items-center gap-1">
                       <Clock className="w-3 h-3" /> {topic.era}
                     </Badge>
