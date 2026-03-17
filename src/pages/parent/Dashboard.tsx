@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/lib/auth';
 import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
