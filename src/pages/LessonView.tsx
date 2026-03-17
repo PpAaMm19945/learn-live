@@ -5,7 +5,6 @@ import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, P
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import ReactMarkdown from 'react-markdown';
 import {
   Accordion,
   AccordionContent,
@@ -143,14 +142,6 @@ export default function LessonView() {
           </Breadcrumb>
         </div>
 
-          {/* Main Narrative Content */}
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <h2 className="text-4xl font-bold tracking-tight mb-6">{lesson.title}</h2>
-              <div className="prose prose-slate dark:prose-invert max-w-none text-lg leading-relaxed text-foreground">
-                <ReactMarkdown>{lesson.narrative}</ReactMarkdown>
-              </div>
-            </div>
         <div className="mb-10 text-center">
           <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center justify-center gap-3">
             <BookOpen className="h-8 w-8 text-primary" /> {lesson.title}

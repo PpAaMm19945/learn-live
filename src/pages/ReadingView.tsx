@@ -7,7 +7,6 @@ import { useToast } from '@/hooks/use-toast';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';
 import { WorldContextSidebar } from '@/components/content/WorldContextSidebar';
-import { useActiveBand } from '@/lib/learnerStore';
 import { AdaptedContentReader } from '@/components/content/AdaptedContentReader';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -72,8 +71,9 @@ export default function ReadingView() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Sticky Header with Band Selector */}
-
-          <div className="w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 flex items-center gap-4">
+      <header className="sticky top-0 z-20 w-full border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="max-w-5xl mx-auto flex items-center px-4 h-14">
+          <div className="flex-1 flex items-center gap-4">
              <BandBadge />
 
              {lesson?.topic_id && (
