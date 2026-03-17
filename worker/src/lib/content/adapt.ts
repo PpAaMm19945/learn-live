@@ -6,6 +6,8 @@ export interface AdaptedContent {
     discussionQuestions?: string[];
     essayPrompt?: string;
     thinkingPrompts?: string[];
+    pre_generated?: boolean;
+    fallback?: boolean;
 }
 
 export function getBandPrompt(band: number): string {
@@ -81,7 +83,7 @@ Only include the optional fields (vocabulary, discussionQuestions, essayPrompt, 
                 throw new Error(`Gemini API Error (${response.status}): ${errText}`);
             }
 
-            const data: any = await response.json();
+            const data = await response.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
             const textContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
             if (!textContent) {
@@ -91,11 +93,11 @@ Only include the optional fields (vocabulary, discussionQuestions, essayPrompt, 
             try {
                const parsedContent: AdaptedContent = JSON.parse(textContent);
                return parsedContent;
-            } catch (e: any) {
-               throw new Error(`Failed to parse JSON response from Gemini: ${e.message} - Content: ${textContent}`);
+            } catch (e: unknown) {
+               throw new Error(`Failed to parse JSON response from Gemini: ${e instanceof Error ? e.message : String(e)} - Content: ${textContent}`);
             }
 
-        } catch (error: any) {
+        } catch (error: unknown) {
             if (attempt >= maxAttempts) {
                 console.error('[ADAPT] Gemini adaptation failed after retries:', error);
                 throw error;
