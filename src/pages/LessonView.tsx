@@ -1,10 +1,9 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle, RefreshCcw } from 'lucide-react';
+import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExamCard } from '@/components/exam/ExamCard';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Accordion,
@@ -29,12 +28,17 @@ interface LessonData {
   key_dates: { date: string; event: string }[];
   key_figures: { name: string; role: string }[];
   citations: string[];
+  topic_title?: string; // Assume we might need to fetch this or pass it
 }
 
 export default function LessonView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Mocking learner and band details for now. This should ideally come from global state or context
+  const learnerName = "Learner";
+  const bandLabel = "Band";
 
   const { data: lesson, isLoading, isError, refetch } = useQuery<LessonData>({
     queryKey: ['lesson', lessonId],
@@ -47,29 +51,6 @@ export default function LessonView() {
       return res.json();
     },
     enabled: !!lessonId,
-  });
-
-  const markCompleteMutation = useMutation({
-    mutationFn: async () => {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      const res = await fetch(`${apiUrl}/api/progress`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ lesson_id: lessonId, status: 'completed' }),
-      });
-      if (!res.ok) throw new Error('Failed to mark lesson as complete');
-      return res.json();
-    },
-    onSuccess: () => {
-      toast({ title: 'Lesson marked as complete!' });
-      if (lesson?.topic_id) {
-         navigate(`/topics/${lesson.topic_id}`);
-      }
-    },
-    onError: () => {
-      toast({ title: 'Error', description: 'Failed to update progress.', variant: 'destructive' });
-    }
   });
 
   if (isLoading) {
@@ -123,9 +104,22 @@ export default function LessonView() {
 
   return (
     <div className="min-h-screen bg-background">
+      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto flex items-center px-4 py-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(`/topics/${lesson.topic_id}`)}
+            className="mr-4"
+            aria-label="Back to Course"
+          >
+            <ChevronLeft className="h-4 w-4 mr-1" /> Back to Topic
+          </Button>
+        </div>
+      </header>
 
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-6">
           <Breadcrumb>
             <BreadcrumbList>
@@ -147,119 +141,124 @@ export default function LessonView() {
             </BreadcrumbList>
           </Breadcrumb>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-          {/* Main Narrative Content */}
-          <div className="lg:col-span-2 space-y-8">
-            <div>
-              <h2 className="text-4xl font-bold tracking-tight mb-6">{lesson.title}</h2>
-              <div className="prose prose-slate dark:prose-invert max-w-none text-lg leading-relaxed text-foreground whitespace-pre-wrap">
-                {lesson.narrative}
+        <div className="mb-10 text-center">
+          <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center justify-center gap-3">
+            <BookOpen className="h-8 w-8 text-primary" /> {lesson.title}
+          </h1>
+          <p className="text-lg text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
+        </div>
+
+        <div className="space-y-8 flex flex-col items-center">
+          {/* Step 1: PREPARE */}
+          <Card className="w-full max-w-2xl bg-card border-border/50 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-2 h-full bg-muted"></div>
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground">1</div>
+                <CardTitle className="text-xl">Step 1: PREPARE</CardTitle>
               </div>
-            </div>
-
-            {/* Complete Button */}
-            <div className="pt-8 border-t border-border/50 flex justify-end">
-               <Button
-                onClick={() => markCompleteMutation.mutate()}
-                disabled={markCompleteMutation.isPending}
-                size="lg"
-              >
-                {markCompleteMutation.isPending ? (
-                  <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                ) : (
-                  <CheckCircle className="h-5 w-5 mr-2" />
-                )}
-                Mark Complete
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-6">
+                Read the lesson text adapted for {learnerName}'s level ({bandLabel}).
+              </p>
+              <Button variant="outline" onClick={() => navigate(`/read/${lessonId}`)}>
+                <BookOpen className="h-4 w-4 mr-2" /> Read Lesson
               </Button>
-            </div>
+            </CardContent>
+          </Card>
 
-            {/* Citations at bottom */}
-            {lesson.citations && lesson.citations.length > 0 && (
-              <div className="pt-8 text-sm text-muted-foreground">
-                <h4 className="font-semibold mb-2">Sources</h4>
-                <ul className="list-disc pl-5 space-y-1">
-                  {lesson.citations.map((citation, idx) => (
-                    <li key={idx}>{citation}</li>
-                  ))}
-                </ul>
+          {/* Step 2: LEARN */}
+          <Card className="w-full max-w-2xl bg-card border-primary shadow-md relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+            <CardHeader>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-primary-foreground">2</div>
+                  <CardTitle className="text-2xl font-bold text-primary">Step 2: LEARN</CardTitle>
+                </div>
+                <div className="flex items-center gap-1 text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                  <Star className="h-4 w-4" /> RECOMMENDED
+                </div>
               </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-lg mb-8">
+                Watch the interactive narrated lesson with maps and animations.
+              </p>
+              <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-6 bg-primary text-primary-foreground" onClick={() => navigate(`/narrate/${lessonId}`)}>
+                <PlayCircle className="h-6 w-6 mr-3" /> Start Live Lesson
+              </Button>
+            </CardContent>
+          </Card>
+
+          {/* Step 3: PROVE */}
+          <Card className="w-full max-w-2xl bg-card border-border/50 shadow-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-2 h-full bg-muted"></div>
+            <CardHeader>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground">3</div>
+                <CardTitle className="text-xl">Step 3: PROVE</CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground mb-4">
+                Take an oral exam with AI. <span className="font-medium text-foreground">Sit with your child for this step.</span> Parent reviews the assessment.
+              </p>
+              <Button variant="outline" onClick={() => navigate(`/exam/${lessonId}`)}>
+                <Mic className="h-4 w-4 mr-2" /> Start Oral Exam
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Reference Sections */}
+        <div className="mt-16 w-full max-w-2xl mx-auto space-y-6">
+          <h3 className="text-2xl font-semibold border-b pb-2">Reference Materials</h3>
+
+          <Accordion type="multiple" className="w-full space-y-4">
+            {lesson.key_dates && lesson.key_dates.length > 0 && (
+              <AccordionItem value="key-dates" className="bg-card border rounded-lg px-4">
+                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Dates</AccordionTrigger>
+                <AccordionContent className="pb-4 space-y-4">
+                  {lesson.key_dates.map((item, idx) => (
+                    <div key={idx} className="border-l-2 border-primary pl-4">
+                      <div className="font-semibold">{item.date}</div>
+                      <div className="text-sm text-muted-foreground">{item.event}</div>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
             )}
-          </div>
 
-          {/* Sidebar */}
-          <div className="space-y-6">
+            {lesson.key_figures && lesson.key_figures.length > 0 && (
+              <AccordionItem value="key-figures" className="bg-card border rounded-lg px-4">
+                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Figures</AccordionTrigger>
+                <AccordionContent className="pb-4 space-y-4">
+                  {lesson.key_figures.map((figure, idx) => (
+                    <div key={idx}>
+                      <div className="font-semibold">{figure.name}</div>
+                      <div className="text-sm text-muted-foreground">{figure.role}</div>
+                    </div>
+                  ))}
+                </AccordionContent>
+              </AccordionItem>
+            )}
 
-            {/* Mobile Collapsible Sidebar */}
-            <div className="block lg:hidden">
-              <Accordion type="single" collapsible className="w-full space-y-4">
-                {lesson.key_dates && lesson.key_dates.length > 0 && (
-                  <AccordionItem value="key-dates" className="bg-card border rounded-lg px-4">
-                    <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Dates</AccordionTrigger>
-                    <AccordionContent className="pb-4 space-y-4">
-                      {lesson.key_dates.map((item, idx) => (
-                        <div key={idx} className="border-l-2 border-primary pl-4">
-                          <div className="font-semibold">{item.date}</div>
-                          <div className="text-sm text-muted-foreground">{item.event}</div>
-                        </div>
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-
-                {lesson.key_figures && lesson.key_figures.length > 0 && (
-                  <AccordionItem value="key-figures" className="bg-card border rounded-lg px-4">
-                    <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Figures</AccordionTrigger>
-                    <AccordionContent className="pb-4 space-y-4">
-                      {lesson.key_figures.map((figure, idx) => (
-                        <div key={idx}>
-                          <div className="font-semibold">{figure.name}</div>
-                          <div className="text-sm text-muted-foreground">{figure.role}</div>
-                        </div>
-                      ))}
-                    </AccordionContent>
-                  </AccordionItem>
-                )}
-              </Accordion>
-            </div>
-
-            {/* Desktop Static Sidebar */}
-            <div className="hidden lg:block space-y-6">
-              {lesson.key_dates && lesson.key_dates.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Key Dates</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {lesson.key_dates.map((item, idx) => (
-                      <div key={idx} className="border-l-2 border-primary pl-4">
-                        <div className="font-semibold">{item.date}</div>
-                        <div className="text-sm text-muted-foreground">{item.event}</div>
-                      </div>
+            {lesson.citations && lesson.citations.length > 0 && (
+              <AccordionItem value="citations" className="bg-card border rounded-lg px-4">
+                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Sources</AccordionTrigger>
+                <AccordionContent className="pb-4">
+                  <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
+                    {lesson.citations.map((citation, idx) => (
+                      <li key={idx}>{citation}</li>
                     ))}
-                  </CardContent>
-                </Card>
-              )}
-
-              {lesson.key_figures && lesson.key_figures.length > 0 && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Key Figures</CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    {lesson.key_figures.map((figure, idx) => (
-                      <div key={idx}>
-                        <div className="font-semibold">{figure.name}</div>
-                        <div className="text-sm text-muted-foreground">{figure.role}</div>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-
-            <ExamCard lessonId={lessonId!} />
-          </div>
+                  </ul>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+          </Accordion>
         </div>
       </main>
     </div>
