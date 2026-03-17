@@ -2,9 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
-const MAPS_DIR = path.join(process.cwd(), '../docs/curriculum/history/Maps/Maps');
-const METADATA_DIR = path.join(process.cwd(), '../docs/curriculum/history/Maps');
-const CHAPTERS_DIR = path.join(process.cwd(), '../docs/curriculum/history/my-first-textbook');
+const MAPS_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps/Maps');
+const METADATA_DIR = path.join(process.cwd(), 'docs/curriculum/history/Maps');
+const CHAPTERS_DIR = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook');
+const IMAGES_DIR = path.join(process.cwd(), 'docs/curriculum/history/my-first-textbook/images');
 
 const MAP_MANIFEST_PATH = path.join(process.cwd(), 'scripts/output/map-manifest.json');
 const CONTENT_MANIFEST_PATH = path.join(process.cwd(), 'scripts/output/content-manifest.json');
@@ -153,6 +154,22 @@ async function main() {
         }
     } else {
         console.warn(`Map manifest not found at ${MAP_MANIFEST_PATH}`);
+    }
+
+    // 3. Upload general chapter illustrations
+    if (fs.existsSync(IMAGES_DIR)) {
+        console.log(`\nScanning for general images in ${IMAGES_DIR}...`);
+        const files = fs.readdirSync(IMAGES_DIR);
+        for (const file of files) {
+            const ext = path.extname(file).toLowerCase();
+            if (ext === '.jpg' || ext === '.jpeg' || ext === '.png') {
+                const localPath = path.join(IMAGES_DIR, file);
+                const r2Key = `assets/images/${file}`;
+                await uploadFile(localPath, r2Key);
+            }
+        }
+    } else {
+        console.warn(`Images directory not found at ${IMAGES_DIR}`);
     }
 
     // Write final upload manifest
