@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, CheckCircle, Loader2, Globe } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { BandSelector } from '@/components/content/BandSelector';
 import { WorldContextSidebar } from '@/components/content/WorldContextSidebar';
+import { useActiveBand } from '@/lib/learnerStore';
 import { AdaptedContentReader } from '@/components/content/AdaptedContentReader';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -27,7 +27,7 @@ export default function ReadingView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [currentBand, setCurrentBand] = useState<number>(0);
+  const currentBand = useActiveBand();
   const [isWorldContextOpen, setIsWorldContextOpen] = useState(false);
 
   // Fetch basic lesson info (title, topic_id for navigation)
@@ -92,8 +92,6 @@ export default function ReadingView() {
           </div>
 
           <div className="w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 flex items-center gap-4">
-             <BandSelector onBandChange={setCurrentBand} />
-
              {lesson?.topic_id && (
                <Button
                  variant="outline"
