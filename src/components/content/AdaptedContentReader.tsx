@@ -197,9 +197,9 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           <div className="w-full h-64 md:h-80 bg-muted/50 rounded-2xl flex items-center justify-center border-2 border-dashed border-border text-muted-foreground/50">
              [Illustration Placeholder]
           </div>
-          <div className="prose prose-slate dark:prose-invert max-w-none text-2xl md:text-3xl leading-relaxed md:leading-loose text-foreground whitespace-pre-wrap font-medium">
-            {formattedContent}
-          </div>
+           <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-2xl prose-p:md:text-3xl prose-p:leading-relaxed prose-p:md:leading-loose text-foreground font-medium">
+              <ReactMarkdown>{contentData.content}</ReactMarkdown>
+            </div>
         </div>
       )}
 
