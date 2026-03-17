@@ -124,7 +124,7 @@ export default function LessonView() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{lesson.title}</BreadcrumbPage>
+                <BreadcrumbPage>{stripMarkdown(lesson.title)}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
