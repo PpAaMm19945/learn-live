@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
@@ -31,6 +31,15 @@ export default function ReadingView() {
   const { toast } = useToast();
   const currentBand = useActiveBand();
   const [isWorldContextOpen, setIsWorldContextOpen] = useState(false);
+  const [showBackToLesson, setShowBackToLesson] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToLesson(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Fetch basic lesson info (title, topic_id for navigation)
   const { data: lesson, isLoading: isLessonLoading } = useQuery<LessonBasicInfo>({
@@ -60,9 +69,6 @@ export default function ReadingView() {
     },
     onSuccess: () => {
       toast({ title: 'Reading complete!' });
-      if (lesson?.topic_id) {
-         navigate(`/topics/${lesson.topic_id}`);
-      }
     },
     onError: () => {
       toast({ title: 'Error', description: 'Failed to update progress.', variant: 'destructive' });
@@ -160,29 +166,55 @@ export default function ReadingView() {
             )}
 
             {!isLessonLoading && (
-              <div className="mt-16 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-sm text-muted-foreground text-center sm:text-left">
-                  Finished reading? Mark this lesson as complete to track your progress.
-                </p>
-                <Button
-                  onClick={() => markCompleteMutation.mutate()}
-                  disabled={markCompleteMutation.isPending}
-                  size="lg"
-                  className="w-full sm:w-auto"
-                  aria-label="Mark lesson complete"
-                >
-                  {markCompleteMutation.isPending ? (
-                    <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                  ) : (
-                    <CheckCircle className="h-5 w-5 mr-2" />
-                  )}
-                  Mark Complete
-                </Button>
+              <div className="mt-16 pt-8 border-t border-border/50">
+                {markCompleteMutation.isSuccess ? (
+                  <div className="flex flex-col items-center justify-center gap-6 animate-in fade-in zoom-in duration-300 py-8">
+                    <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                      <CheckCircle className="h-10 w-10" />
+                    </div>
+                    <div className="text-center space-y-2">
+                      <h3 className="text-2xl font-bold">Lesson Completed!</h3>
+                      <p className="text-muted-foreground">Great job finishing this reading material.</p>
+                    </div>
+                    <Button size="lg" onClick={() => navigate(`/topics/${lesson?.topic_id}`)} className="mt-4">
+                      Return to Topic
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p className="text-sm text-muted-foreground text-center sm:text-left">
+                      Finished reading? Mark this lesson as complete to track your progress.
+                    </p>
+                    <Button
+                      onClick={() => markCompleteMutation.mutate()}
+                      disabled={markCompleteMutation.isPending}
+                      size="lg"
+                      className="w-full sm:w-auto"
+                      aria-label="Mark lesson complete"
+                    >
+                      {markCompleteMutation.isPending ? (
+                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
+                      ) : (
+                        <CheckCircle className="h-5 w-5 mr-2" />
+                      )}
+                      Mark Complete
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
           </div>
         )}
       </main>
+
+      {showBackToLesson && lesson?.topic_id && (
+        <Button
+          className="fixed bottom-6 right-6 shadow-lg rounded-full z-50 animate-in fade-in slide-in-from-bottom-4 px-4 py-6"
+          onClick={() => navigate(`/topics/${lesson.topic_id}`)}
+        >
+          <ChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson
+        </Button>
+      )}
     </div>
   );
 }

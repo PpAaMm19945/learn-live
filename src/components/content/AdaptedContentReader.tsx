@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, RefreshCcw, PenTool } from 'lucide-react';
+import { AlertCircle, RefreshCcw, PenTool, Clock } from 'lucide-react';
 import { VocabularyCard } from './VocabularyCard';
 import { DiscussionQuestions } from './DiscussionQuestions';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { GlossaryTerm } from '../glossary/GlossaryTerm';
 import ReactMarkdown from 'react-markdown';
@@ -78,6 +78,26 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
     },
     staleTime: 1000 * 60 * 60 // 1 hour
   });
+
+  const wordCount = contentData?.content?.split(/\s+/).length || 0;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200));
+
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        setScrollProgress((scrollY / scrollHeight) * 100);
+      } else {
+        setScrollProgress(0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   if (isLoading) {
     return (
@@ -223,7 +243,17 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
 
   // --- Render based on Band ---
   return (
-    <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out">
+    <>
+      <div
+        className="fixed top-0 left-0 h-1.5 bg-primary z-50 transition-all duration-150"
+        style={{ width: `${scrollProgress}%` }}
+      />
+      <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out space-y-8">
+        <div className="flex items-center gap-2 text-muted-foreground border-b border-border/50 pb-4">
+          <Clock className="h-4 w-4" />
+          <span className="text-sm font-medium">{readingTime} min read</span>
+        </div>
+
       {/* Band 0-1: Large text, generous spacing, illustration placeholder */}
       {band <= 1 && (
         <div className="space-y-10">
@@ -283,6 +313,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           <DiscussionQuestions questions={contentData.discussion_questions} />
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }
