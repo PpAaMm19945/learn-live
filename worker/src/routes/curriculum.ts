@@ -82,7 +82,8 @@ export async function handleCurriculumRoutes(request: Request, env: Env, corsHea
 
             const { results: lessons } = await env.DB.prepare(`
                 SELECT l.id, l.title, l.difficulty_band, l.estimated_minutes,
-                       COALESCE(lp.status, 'not_started') as status
+                       COALESCE(lp.status, 'not_started') as status,
+                       COALESCE(lp.completed_at, lp.started_at) as last_studied
                 FROM Lessons l
                 LEFT JOIN Learner_Progress lp ON lp.lesson_id = l.id AND lp.user_id = ?
                 WHERE l.topic_id = ?
@@ -101,6 +102,7 @@ export async function handleCurriculumRoutes(request: Request, env: Env, corsHea
                     difficulty_band: l.difficulty_band || 1,
                     estimated_time: l.estimated_minutes ? `${l.estimated_minutes} min` : 'N/A',
                     status: l.status,
+                    last_studied: l.last_studied,
                 })),
             }), { status: 200, headers: { 'Content-Type': 'application/json' } }), corsHeaders);
         } catch (e: any) {
