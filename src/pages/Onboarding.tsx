@@ -125,6 +125,16 @@ export default function Onboarding() {
         if (!res.ok) throw new Error(`Failed to add learner ${learner.name}`);
       }
 
+      // 3. Save selected topic
+      if (selectedTopicId) {
+        await fetch(`${apiUrl}/api/family`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ current_topic_id: selectedTopicId }),
+          credentials: 'include',
+        });
+      }
+
       toast({ title: 'Welcome to Learn Live!', description: 'Your family is set up.' });
 
       navigate('/dashboard');

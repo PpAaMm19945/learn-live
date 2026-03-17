@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
-import { BandSelector } from '@/components/content/BandSelector';
+import { BandBadge } from '@/components/content/BandBadge';
+import { useActiveBand } from '@/lib/learnerStore';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';
 import { PlaybackControls } from '@/components/canvas/PlaybackControls';
 import { TranscriptBar } from '@/components/canvas/TranscriptBar';
@@ -65,7 +66,7 @@ export default function NarratedLessonView() {
   const navigate = useNavigate();
 
   // Basic View State
-  const [currentBand, setCurrentBand] = useState<number>(0);
+  const currentBand = useActiveBand();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentSpeed, setCurrentSpeed] = useState<number>(1);
   const [transcriptText, setTranscriptText] = useState<string>('');
@@ -200,7 +201,7 @@ export default function NarratedLessonView() {
           </div>
 
           <div className="flex-grow flex justify-center w-full max-w-2xl overflow-x-auto pb-1 md:pb-0 scrollbar-hide px-2 sm:px-4">
-             <BandSelector onBandChange={setCurrentBand} className="w-auto" />
+             <BandBadge />
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
