@@ -3,8 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
-import { BandSelector } from '@/components/content/BandSelector';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';
+import { useActiveBand } from '@/lib/learnerStore';
 import { PlaybackControls } from '@/components/canvas/PlaybackControls';
 import { TranscriptBar } from '@/components/canvas/TranscriptBar';
 import { Logger } from '@/lib/Logger';
@@ -65,7 +65,7 @@ export default function NarratedLessonView() {
   const navigate = useNavigate();
 
   // Basic View State
-  const [currentBand, setCurrentBand] = useState<number>(0);
+  const currentBand = useActiveBand();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [currentSpeed, setCurrentSpeed] = useState<number>(1);
   const [transcriptText, setTranscriptText] = useState<string>('');
@@ -179,6 +179,41 @@ export default function NarratedLessonView() {
     <div className="min-h-screen bg-background flex flex-col h-[100dvh] overflow-hidden">
       {/* Header */}
 
+      <header className="border-b border-border bg-card z-10 shrink-0">
+        <div className="px-2 sm:px-4 py-3 flex items-center justify-between gap-2 sm:gap-4 max-w-[1600px] mx-auto w-full">
+          <div className="flex items-center shrink-0">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => lesson?.topic_id ? navigate(`/topics/${lesson.topic_id}`) : navigate(-1)}
+              className="mr-1 sm:mr-2 px-2 sm:px-3"
+              aria-label="Back to Course"
+            >
+              <ChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
+            </Button>
+            {isLessonLoading ? (
+               <div className="h-6 w-24 sm:w-32 bg-muted rounded animate-pulse ml-1 sm:ml-2" />
+            ) : (
+               <h1 className="text-xs sm:text-sm font-medium text-muted-foreground truncate max-w-[120px] sm:max-w-[200px] md:max-w-md ml-1 sm:ml-2">
+                 {lesson?.title}
+               </h1>
+            )}
+          </div>
+
+          <div className="flex-grow flex justify-center w-full max-w-2xl overflow-x-auto pb-1 md:pb-0 scrollbar-hide px-2 sm:px-4">
+             {/* Band selector removed, band is managed via dashboard store */}
+          </div>
+
+          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+            <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Settings">
+              <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="User Profile">
+              <User className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+            </Button>
+          </div>
+        </div>
+      </header>
 
       {/* Main Content Area */}
       <main className="flex-grow flex flex-col p-2 sm:p-4 gap-2 sm:gap-4 max-w-[1600px] mx-auto w-full min-h-0">

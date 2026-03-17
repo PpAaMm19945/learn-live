@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useActiveBand } from '@/lib/learnerStore';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -26,7 +27,7 @@ interface LessonData {
 export default function ExamView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
-  const [band, setBand] = useState<number>(0);
+  const band = useActiveBand();
   const { roles } = useAuthStore();
   const isParent = roles.includes('parent');
 
@@ -35,13 +36,6 @@ export default function ExamView() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [assessmentDraft, setAssessmentDraft] = useState('');
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const savedBand = localStorage.getItem('learn-live-band');
-    if (savedBand) {
-      setBand(parseInt(savedBand, 10));
-    }
-  }, []);
 
   const { data: lesson, isLoading: isLessonLoading } = useQuery<LessonData>({
     queryKey: ['lesson', lessonId],

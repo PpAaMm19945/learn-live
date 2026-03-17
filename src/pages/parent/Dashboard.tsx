@@ -7,6 +7,8 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect } from 'react';
 
+import { useEffect } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useIsAdmin } from '@/lib/auth';
 import { useLearnerStore } from '@/lib/learnerStore';
 
@@ -17,17 +19,6 @@ interface Topic {
   era: string;
   region: string;
   lesson_count: number;
-}
-
-interface Learner {
-  id: string;
-  name: string;
-  band: number;
-}
-
-interface FamilyResponse {
-  family: { id: string; name: string };
-  learners: Learner[];
 }
 
 export default function Dashboard() {
@@ -57,6 +48,25 @@ export default function Dashboard() {
     }
   }, [isFamilyError, navigate]);
 
+  const { toast } = useToast();
+  const {
+    learners,
+    activeLearnerId,
+    setActiveLearner,
+    loadFamily,
+    isLoaded
+  } = useLearnerStore();
+
+  useEffect(() => {
+    if (!isLoaded) {
+      loadFamily().catch(() => {
+        // If it fails with 404, we might navigate to onboarding, but for now we rely on the global store
+        // We'll mimic the previous behavior where family errors navigate to onboarding
+        // We could also do this checking API response if needed, but since it's global let's catch
+        navigate('/onboarding');
+      });
+    }
+  }, [isLoaded, loadFamily, navigate]);
 
   const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
@@ -91,6 +101,29 @@ export default function Dashboard() {
           </div>
 
 
+          {learners && learners.length > 0 && (
+            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border">
+              <Users className="h-5 w-5 text-muted-foreground ml-2" />
+              <div className="flex flex-col">
+                <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
+                <Select
+                  value={activeLearnerId || ''}
+                  onValueChange={setActiveLearner}
+                >
+                  <SelectTrigger className="w-[200px] h-8 bg-background">
+                    <SelectValue placeholder="Select a learner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {learners.map(learner => (
+                      <SelectItem key={learner.id} value={learner.id}>
+                        {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          )}
         </div>
 
         {isLoading ? (
@@ -142,14 +175,14 @@ export default function Dashboard() {
               <Card
                 key={topic.id}
                 className="hover:shadow-md transition-shadow cursor-pointer flex flex-col h-full"
-                onClick={() => navigate(`/topics/${topic.id}${selectedLearnerId ? `?learner=${selectedLearnerId}` : ''}`)}
+                onClick={() => navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`)}
                 aria-label={`View topic: ${topic.title}`}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    navigate(`/topics/${topic.id}${selectedLearnerId ? `?learner=${selectedLearnerId}` : ''}`);
+                    navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`);
                   }
                 }}
               >
