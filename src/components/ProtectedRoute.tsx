@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthStore, UserRole } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import FeedbackWidget from './feedback/FeedbackWidget';
+import { useLearnerStore } from '@/lib/learnerStore';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
@@ -15,6 +16,15 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 }) => {
     const { isAuthenticated, isLoading, roles, userId } = useAuthStore();
     const location = useLocation();
+    const { loadFamily, isLoaded } = useLearnerStore();
+
+    useEffect(() => {
+        if (isAuthenticated && !isLoaded) {
+            loadFamily().catch(err => {
+                Logger.warn('[APP]', 'Family load failed during protected route navigation', err);
+            });
+        }
+    }, [isAuthenticated, isLoaded, loadFamily]);
 
     if (isLoading) {
         return (
