@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
