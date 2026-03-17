@@ -70,44 +70,7 @@ export default function ReadingView() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Sticky Header with Band Selector */}
-      <header className="sticky top-0 z-20 border-b border-border/50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div className="flex items-center w-full md:w-auto justify-between md:justify-start">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => lesson?.topic_id ? navigate(`/topics/${lesson.topic_id}`) : navigate(-1)}
-              className="mr-2"
-              aria-label="Back to Course"
-            >
-              <ChevronLeft className="h-4 w-4 mr-1" /> Back
-            </Button>
-            {isLessonLoading ? (
-               <Skeleton className="h-6 w-32 bg-muted hidden sm:block ml-2" />
-            ) : (
-               <h1 className="text-sm font-medium text-muted-foreground truncate max-w-[200px] md:max-w-md hidden sm:block ml-2">
-                 {lesson?.title}
-               </h1>
-            )}
-          </div>
 
-          <div className="w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0 flex items-center gap-4">
-             <BandSelector onBandChange={setCurrentBand} />
-
-             {lesson?.topic_id && (
-               <Button
-                 variant="outline"
-                 size="sm"
-                 onClick={() => setIsWorldContextOpen(true)}
-                 className="hidden md:flex items-center gap-2 border-primary/20 hover:bg-primary/10 text-primary"
-               >
-                 <Globe className="h-4 w-4" />
-                 World Context
-               </Button>
-             )}
-          </div>
-        </div>
-      </header>
 
       {/* Mobile World Context Button - floating or integrated */}
       {lesson?.topic_id && (

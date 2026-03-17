@@ -1,15 +1,14 @@
-import { useAuthStore } from '@/lib/auth';
-import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, Book } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useAuthStore } from '@/lib/auth';
+import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useState, useEffect } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 import { useIsAdmin } from '@/lib/auth';
+import { useLearnerStore } from '@/lib/learnerStore';
 
 interface Topic {
   id: string;
@@ -32,11 +31,9 @@ interface FamilyResponse {
 }
 
 export default function Dashboard() {
-  const { email, name, logout } = useAuthStore();
-  const { isAdmin } = useIsAdmin();
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
+  const { name } = useAuthStore();
+        const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
 
   const { data: familyData, isError: isFamilyError } = useQuery<FamilyResponse>({
     queryKey: ['family'],
@@ -60,11 +57,6 @@ export default function Dashboard() {
     }
   }, [isFamilyError, navigate]);
 
-  useEffect(() => {
-    if (familyData?.learners && familyData.learners.length > 0 && !selectedLearnerId) {
-      setSelectedLearnerId(familyData.learners[0].id);
-    }
-  }, [familyData, selectedLearnerId]);
 
   const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
@@ -84,31 +76,10 @@ export default function Dashboard() {
     navigate('/login');
   };
 
-  const selectedLearner = familyData?.learners.find(l => l.id === selectedLearnerId);
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10">
-        <div className="max-w-5xl mx-auto flex items-center justify-between px-4 py-3">
-          <div>
-            <h1 className="text-lg font-semibold">Learn Live</h1>
-            <p className="text-xs text-muted-foreground">{name || email}</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => navigate('/glossary')}>
-              <Book className="h-4 w-4 mr-2" /> Glossary
-            </Button>
-            {isAdmin && (
-              <Button variant="outline" size="sm" onClick={() => navigate('/admin')}>
-                Admin Dashboard
-              </Button>
-            )}
-            <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-              <LogOut className="h-4 w-4 mr-2" /> Sign out
-            </Button>
-          </div>
-        </div>
-      </header>
+
 
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -119,29 +90,7 @@ export default function Dashboard() {
             </p>
           </div>
 
-          {familyData?.learners && familyData.learners.length > 0 && (
-            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border">
-              <Users className="h-5 w-5 text-muted-foreground ml-2" />
-              <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
-                <Select
-                  value={selectedLearnerId || ''}
-                  onValueChange={setSelectedLearnerId}
-                >
-                  <SelectTrigger className="w-[200px] h-8 bg-background">
-                    <SelectValue placeholder="Select a learner" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {familyData.learners.map(learner => (
-                      <SelectItem key={learner.id} value={learner.id}>
-                        {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          )}
+
         </div>
 
         {isLoading ? (
