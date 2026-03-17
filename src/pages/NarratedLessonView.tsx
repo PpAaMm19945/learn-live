@@ -6,7 +6,6 @@ import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';
-import { useActiveBand } from '@/lib/learnerStore';
 import { PlaybackControls } from '@/components/canvas/PlaybackControls';
 import { TranscriptBar } from '@/components/canvas/TranscriptBar';
 import { Logger } from '@/lib/Logger';

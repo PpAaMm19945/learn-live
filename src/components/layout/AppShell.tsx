@@ -28,29 +28,11 @@ interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const { name, email, logout } = useAuthStore();
-  const { selectedLearner, setSelectedLearner, setLearners } = useLearnerStore();
-
-  const { data: familyData } = useQuery<FamilyResponse>({
-    queryKey: ['family'],
-    queryFn: async () => {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      const res = await fetch(`${apiUrl}/api/family`, {
-        credentials: 'include',
-      });
-      if (!res.ok) throw new Error('Failed to fetch family');
-      return res.json();
-    },
-    retry: false
-  });
+  const { loadFamily, learners, activeLearnerId, setActiveLearner } = useLearnerStore();
 
   useEffect(() => {
-    if (familyData?.learners) {
-      setLearners(familyData.learners);
-      if (familyData.learners.length > 0 && !selectedLearner) {
-        setSelectedLearner(familyData.learners[0]);
-      }
-    }
-  }, [familyData, selectedLearner, setLearners, setSelectedLearner]);
+    loadFamily();
+  }, [loadFamily]);
 
   return (
     <SidebarProvider>
@@ -68,21 +50,18 @@ export function AppShell({ children }: AppShellProps) {
             </div>
 
             <div className="flex items-center gap-4 ml-auto">
-              {familyData?.learners && familyData.learners.length > 0 && (
+              {learners && learners.length > 0 && (
                 <div className="hidden sm:flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">Learner:</span>
                   <Select
-                    value={selectedLearner?.id || ''}
-                    onValueChange={(id) => {
-                      const learner = familyData.learners.find(l => l.id === id);
-                      if (learner) setSelectedLearner(learner);
-                    }}
+                    value={activeLearnerId || ''}
+                    onValueChange={(id) => setActiveLearner(id)}
                   >
                     <SelectTrigger className="w-[180px] h-8">
                       <SelectValue placeholder="Select learner" />
                     </SelectTrigger>
                     <SelectContent>
-                      {familyData.learners.map(learner => (
+                      {learners.map(learner => (
                         <SelectItem key={learner.id} value={learner.id}>
                           {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
                         </SelectItem>
@@ -135,21 +114,18 @@ export function AppShell({ children }: AppShellProps) {
                 <span className="text-[10px] font-medium">Profile</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">
-                {familyData?.learners && familyData.learners.length > 0 && (
+                {learners && learners.length > 0 && (
                   <div className="p-2 border-b border-border mb-1">
                     <p className="text-xs text-muted-foreground mb-2">Active Learner</p>
                     <Select
-                      value={selectedLearner?.id || ''}
-                      onValueChange={(id) => {
-                        const learner = familyData.learners.find(l => l.id === id);
-                        if (learner) setSelectedLearner(learner);
-                      }}
+                      value={activeLearnerId || ''}
+                      onValueChange={(id) => setActiveLearner(id)}
                     >
                       <SelectTrigger className="w-full h-8">
                         <SelectValue placeholder="Select learner" />
                       </SelectTrigger>
                       <SelectContent>
-                        {familyData.learners.map(learner => (
+                        {learners.map(learner => (
                           <SelectItem key={learner.id} value={learner.id}>
                             {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
                           </SelectItem>

@@ -1,14 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { LogOut, BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, Book, ChevronDown, ChevronRight, PlayCircle, Mic } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/lib/auth';
-import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw } from 'lucide-react';
+import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useState, useEffect } from 'react';
-import { useIsAdmin } from '@/lib/auth';
+import { useEffect } from 'react';
 import {
   Accordion,
   AccordionContent,
@@ -16,6 +14,9 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { LessonProgress } from '@/components/progress/LessonProgress';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useLearnerStore } from '@/lib/learnerStore';
+import { Button } from '@/components/ui/button';
 
 interface Lesson {
   id: string;
@@ -25,11 +26,6 @@ interface Lesson {
   status: 'not_started' | 'in_progress' | 'completed';
 }
 
-import { useEffect } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useIsAdmin } from '@/lib/auth';
-import { useLearnerStore } from '@/lib/learnerStore';
-
 interface Topic {
   id: string;
   title: string;
@@ -37,55 +33,19 @@ interface Topic {
   era: string;
   region: string;
   lesson_count: number;
-}
-
-interface Learner {
-  id: string;
-  name: string;
-  band: number;
-}
-
-interface FamilyResponse {
-  family: { id: string; name: string, current_topic_id?: string | null };
-  learners: Learner[];
   lessons?: Lesson[];
 }
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  // Using a local state to just hold the first learner for the active learner card display
-  const [selectedLearnerId, setSelectedLearnerId] = useState<string | null>(null);
-  const setActiveLearner = useLearnerStore((state) => state.setActiveLearner);
   const { name } = useAuthStore();
-        const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
-
-  const { data: familyData, isError: isFamilyError } = useQuery<FamilyResponse>({
-    queryKey: ['family'],
-    queryFn: async () => {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      const res = await fetch(`${apiUrl}/api/family`, {
-        credentials: 'include',
-      });
-      if (res.status === 404) {
-        throw new Error('Family not found');
-      }
-      if (!res.ok) throw new Error('Failed to fetch family');
-      return res.json();
-    },
-    retry: false
-  });
-
-  useEffect(() => {
-    if (isFamilyError) {
-      navigate('/onboarding');
-    }
-  }, [isFamilyError, navigate]);
-
   const { toast } = useToast();
+
   const {
     learners,
     activeLearnerId,
+    activeLearnerName,
+    activeLearnerBand,
     setActiveLearner,
     loadFamily,
     isLoaded
@@ -94,22 +54,10 @@ export default function Dashboard() {
   useEffect(() => {
     if (!isLoaded) {
       loadFamily().catch(() => {
-        // If it fails with 404, we might navigate to onboarding, but for now we rely on the global store
-        // We'll mimic the previous behavior where family errors navigate to onboarding
-        // We could also do this checking API response if needed, but since it's global let's catch
         navigate('/onboarding');
       });
     }
   }, [isLoaded, loadFamily, navigate]);
-
-  useEffect(() => {
-    if (selectedLearnerId && familyData?.learners) {
-      const learner = familyData.learners.find((l) => l.id === selectedLearnerId);
-      if (learner) {
-        setActiveLearner(learner.id, learner.band);
-      }
-    }
-  }, [selectedLearnerId, familyData?.learners, setActiveLearner]);
 
   const { data: topics, isLoading, isError, refetch } = useQuery<Topic[]>({
     queryKey: ['topics'],
@@ -142,13 +90,6 @@ export default function Dashboard() {
       return topicsWithLessons;
     },
   });
-
-  const handleLogout = async () => {
-    await logout();
-    toast({ title: 'Signed out' });
-    navigate('/login');
-  };
-
 
   // Determine band label based on band number (0-5)
   const getBandLabel = (band: number) => {
@@ -198,21 +139,19 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-
-
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
         {/* HERO SECTION */}
         <div className="space-y-6">
           <h2 className="text-3xl font-bold tracking-tight">👋 Welcome back, {name || 'Parent'}!</h2>
 
-          {selectedLearner && (
+          {activeLearnerId && (
             <Card className="bg-card border-border/50 shadow-sm max-w-2xl">
               <CardContent className="p-6">
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-primary" />
                     <span className="font-medium text-lg">
-                      Learning as: {selectedLearner.name} <span className="text-muted-foreground font-normal">(Band {selectedLearner.band} &middot; {getBandLabel(selectedLearner.band)})</span>
+                      Learning as: {activeLearnerName} <span className="text-muted-foreground font-normal">(Band {activeLearnerBand} &middot; {getBandLabel(activeLearnerBand)})</span>
                     </span>
                   </div>
 
@@ -239,9 +178,10 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
+          )}
 
           {learners && learners.length > 0 && (
-            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border">
+            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border w-max">
               <Users className="h-5 w-5 text-muted-foreground ml-2" />
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
@@ -384,46 +324,6 @@ export default function Dashboard() {
                 );
               })}
             </Accordion>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {topics.map((topic) => (
-              <Card
-                key={topic.id}
-                className="hover:shadow-md transition-shadow cursor-pointer flex flex-col h-full"
-                onClick={() => navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`)}
-                aria-label={`View topic: ${topic.title}`}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate(`/topics/${topic.id}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`);
-                  }
-                }}
-              >
-                <CardHeader className="pb-3">
-                  <div className="flex flex-wrap gap-2 mb-2">
-                    {familyData?.family?.current_topic_id === topic.id && (
-                      <Badge variant="default" className="flex items-center gap-1 bg-green-600 hover:bg-green-700">Continue Learning</Badge>
-                    )}
-                    <Badge variant="secondary" className="flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> {topic.era}
-                    </Badge>
-                    <Badge variant="outline" className="flex items-center gap-1">
-                      <Globe className="w-3 h-3" /> {topic.region}
-                    </Badge>
-                  </div>
-                  <CardTitle className="line-clamp-2">{topic.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-sm text-muted-foreground line-clamp-3">
-                    {topic.description}
-                  </p>
-                </CardContent>
-                <CardFooter className="pt-3 border-t text-sm text-muted-foreground">
-                  {topic.lesson_count} lesson{topic.lesson_count !== 1 ? 's' : ''}
-                </CardFooter>
-              </Card>
-            ))}
           </div>
         )}
       </main>
