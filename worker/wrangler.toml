@@ -14,6 +14,11 @@ database_id = "27043dbb-5aa2-4be3-93fc-97860fb7c158"
 binding = "EVIDENCE_VAULT"
 bucket_name = "learnlive-evidence-vault"
 
+# Binding to Assets R2 Bucket
+[[r2_buckets]]
+binding = "ASSETS_BUCKET"
+bucket_name = "learnlive-assets-prod"
+
 # We will need these bindings when we add Auth and Gemini Keys
 # [vars]
 # GEMINI_API_KEY = "placeholder"

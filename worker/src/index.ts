@@ -3,6 +3,7 @@ import { routeRequest } from './routes/index';
 export interface Env {
     DB: D1Database;
     EVIDENCE_VAULT: R2Bucket;
+    ASSETS_BUCKET: R2Bucket;
     JWT_SECRET: string;
     Google_Client_ID: string;
     Google_Client_Secret: string;

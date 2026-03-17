@@ -28,17 +28,17 @@ export function parseMapMarkers(raw: string | null): MapMarker[] {
 export async function getMapAssetUrl(bucket: R2Bucket, r2Key: string | null): Promise<string> {
     if (!r2Key) {
         // Handle graceful fallback when images are not yet uploaded
-        return '/api/evidence/placeholder.png';
+        return '/api/assets/placeholder.png';
     }
 
     // Use existing r2Helper to check if the file actually exists before returning the URL
     // This allows for graceful fallback if images haven't been uploaded to R2 yet
     const exists = await r2Helper.fileExists(bucket, r2Key);
     if (!exists) {
-        return '/api/evidence/placeholder.png';
+        return '/api/assets/placeholder.png';
     }
 
-    return `/api/evidence/${r2Key}`;
+    return `/api/assets/${r2Key}`;
 }
 
 export async function getMapAssetsForLesson(db: D1Database, bucket: R2Bucket, lessonId: string): Promise<MapAssetResponse[]> {

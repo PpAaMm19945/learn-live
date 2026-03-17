@@ -15,9 +15,9 @@ export async function handleGetLessonMapAssets(request: Request, env: Env, lesso
         }
 
         // Use loader to get the assets. The loader checks R2 logic and db for Map_Assets.
-        const assets = await getMapAssetsForLesson(env.DB, env.EVIDENCE_VAULT, lessonId);
+        const assets = await getMapAssetsForLesson(env.DB, env.ASSETS_BUCKET, lessonId);
 
-        let baseMapUrl = '/api/evidence/placeholder.png';
+        let baseMapUrl = '/api/assets/placeholder.png';
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let markers: any[] = [];
 

@@ -17,6 +17,7 @@ import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from '
 import { handleAnalyticsRoutes } from './analytics';
 import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
+import { handleGetAsset, handleGetEvidence } from './storage';
 
 /**
  * Central Route Registry
@@ -231,6 +232,20 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleUpdateFeedback(request, env, authResult.userId, feedbackMatch[1]);
+    }
+
+    // --- Storage Routes ---
+
+    // GET /api/assets/*
+    const assetsMatch = path.match(/^\/api\/assets\/(.+)$/);
+    if (assetsMatch && method === 'GET') {
+        return handleGetAsset(request, env, assetsMatch[1]);
+    }
+
+    // GET /api/evidence/*
+    const evidenceMatch = path.match(/^\/api\/evidence\/(.+)$/);
+    if (evidenceMatch && method === 'GET') {
+        return handleGetEvidence(request, env, evidenceMatch[1]);
     }
 
     // Return null if no route matches, allowing legacy index.ts switch to handle it
