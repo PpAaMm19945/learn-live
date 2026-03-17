@@ -90,9 +90,9 @@ for (const file of mapFiles) {
 
   let highlighted_regions: any[] = [];
   let settlements: any[] = [];
-  let climate_zones: any[] = [];
+  const climate_zones: any[] = [];
   let trade_routes: any[] = [];
-  let vegetation: any[] = [];
+  const vegetation: any[] = [];
 
   if (parsedJson) {
     if (parsedJson.highlighted_regions) highlighted_regions = parsedJson.highlighted_regions;
