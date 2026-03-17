@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ExamCard } from '@/components/exam/ExamCard';
 import { Skeleton } from '@/components/ui/skeleton';
+import ReactMarkdown from 'react-markdown';
 import {
   Accordion,
   AccordionContent,
@@ -198,8 +199,8 @@ export default function LessonView() {
           <div className="lg:col-span-2 space-y-8">
             <div>
               <h2 className="text-4xl font-bold tracking-tight mb-6">{lesson.title}</h2>
-              <div className="prose prose-slate dark:prose-invert max-w-none text-lg leading-relaxed text-foreground whitespace-pre-wrap">
-                {lesson.narrative}
+              <div className="prose prose-slate dark:prose-invert max-w-none text-lg leading-relaxed text-foreground">
+                <ReactMarkdown>{lesson.narrative}</ReactMarkdown>
               </div>
             </div>
 

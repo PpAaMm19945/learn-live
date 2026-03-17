@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { AlertCircle, RefreshCcw, PenTool } from 'lucide-react';
 import { VocabularyCard } from './VocabularyCard';
 import { DiscussionQuestions } from './DiscussionQuestions';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 import { GlossaryTerm } from '../glossary/GlossaryTerm';
 import ReactMarkdown from 'react-markdown';
@@ -186,7 +186,40 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
     return segments;
   };
 
-  const formattedContent = renderContentWithVocab(contentData.content, contentData.vocabulary, glossaryTerms);
+  const recursivelyRenderVocab = (children: ReactNode): ReactNode => {
+    return React.Children.map(children, (child) => {
+      if (typeof child === 'string') {
+        return renderContentWithVocab(child, contentData.vocabulary, glossaryTerms);
+      }
+      if (React.isValidElement(child)) {
+        // recursively apply to children of this element
+        return React.cloneElement(child, {
+          ...child.props,
+          children: recursivelyRenderVocab(child.props.children)
+        });
+      }
+      return child;
+    });
+  };
+
+  const renderMarkdownWithVocab = (text: string) => {
+    return (
+      <ReactMarkdown
+        components={{
+          p: ({ children }) => <p>{recursivelyRenderVocab(children)}</p>,
+          li: ({ children }) => <li>{recursivelyRenderVocab(children)}</li>,
+          strong: ({ children }) => <strong>{recursivelyRenderVocab(children)}</strong>,
+          em: ({ children }) => <em>{recursivelyRenderVocab(children)}</em>,
+          h1: ({ children }) => <h1>{recursivelyRenderVocab(children)}</h1>,
+          h2: ({ children }) => <h2>{recursivelyRenderVocab(children)}</h2>,
+          h3: ({ children }) => <h3>{recursivelyRenderVocab(children)}</h3>,
+          h4: ({ children }) => <h4>{recursivelyRenderVocab(children)}</h4>,
+        }}
+      >
+        {text}
+      </ReactMarkdown>
+    );
+  };
 
   // --- Render based on Band ---
   return (
@@ -198,7 +231,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
              [Illustration Placeholder]
           </div>
            <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-2xl prose-p:md:text-3xl prose-p:leading-relaxed prose-p:md:leading-loose text-foreground font-medium">
-              <ReactMarkdown>{contentData.content}</ReactMarkdown>
+              {renderMarkdownWithVocab(contentData.content)}
             </div>
         </div>
       )}
@@ -208,7 +241,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-3">
              <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-lg md:text-xl leading-relaxed text-foreground">
-              <ReactMarkdown>{contentData.content}</ReactMarkdown>
+              {renderMarkdownWithVocab(contentData.content)}
             </div>
             <DiscussionQuestions questions={contentData.discussion_questions} />
           </div>
@@ -232,7 +265,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {band >= 4 && (
         <div className="space-y-10">
            <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-base md:text-lg leading-relaxed text-foreground columns-1 md:columns-2 gap-8">
-             <ReactMarkdown>{contentData.content}</ReactMarkdown>
+             {renderMarkdownWithVocab(contentData.content)}
            </div>
 
           {contentData.essay_prompt && (
