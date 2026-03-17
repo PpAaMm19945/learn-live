@@ -34,7 +34,7 @@ interface TopicDetailData {
 }
 
 export default function TopicDetail() {
-  const selectedLearnerId = useLearnerStore(state => state.selectedLearner?.id);
+  const selectedLearnerId = useLearnerStore(state => state.activeLearnerId);
   const [searchParams] = useSearchParams();
   const queryLearnerId = searchParams.get('learner');
   const learnerId = queryLearnerId || selectedLearnerId;
