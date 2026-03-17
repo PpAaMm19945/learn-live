@@ -154,7 +154,7 @@ export default function ReadingView() {
               </div>
             ) : (
               <>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{lesson?.title}</h2>
+                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{stripMarkdown(lesson?.title || '')}</h2>
                 <AdaptedContentReader lessonId={lessonId} band={currentBand} />
               </>
             )}
