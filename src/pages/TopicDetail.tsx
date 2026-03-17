@@ -187,7 +187,7 @@ export default function TopicDetail() {
                 >
                   <CardHeader className="pb-2">
                     <div className="flex items-start justify-between gap-4">
-                      <CardTitle className="text-xl leading-tight">{lesson.title}</CardTitle>
+                      <CardTitle className="text-xl leading-tight">{stripMarkdown(lesson.title)}</CardTitle>
                       {getStatusBadge(lesson.status)}
                     </div>
                   </CardHeader>
