@@ -186,7 +186,7 @@ export default function ExamView() {
 
         {status === 'complete' && (
            <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500 w-full max-w-2xl px-4">
-               <CheckCircle className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
+               <IconCircleCheck className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
                <h2 className="font-display text-2xl sm:text-3xl">Witness Complete</h2>
                <p className="text-base sm:text-lg text-muted-foreground">
                    The AI has drafted an assessment for your parent to review.
