@@ -8,6 +8,7 @@ import React, { ReactNode, useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { GlossaryTerm } from '../glossary/GlossaryTerm';
 import ReactMarkdown from 'react-markdown';
+import { LessonMapDisplay } from './LessonMapDisplay';
 
 interface VocabularyTerm {
   term: string;
@@ -241,6 +242,13 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
     );
   };
 
+  // Clean up content before rendering
+  const cleanedContent = contentData?.content
+    ? contentData.content
+        .replace(/\[IMAGE_PLACEHOLDER:.*?\]/g, '') // Remove image placeholders
+        .replace(/\[MAP:.*?\]/g, '') // Remove map placeholders since we display maps centrally
+    : '';
+
   // --- Render based on Band ---
   return (
     <>
@@ -254,6 +262,8 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           <span className="text-sm font-medium">{readingTime} min read</span>
         </div>
 
+        <LessonMapDisplay lessonId={lessonId} />
+
       {/* Band 0-1: Large text, generous spacing, illustration placeholder */}
       {band <= 1 && (
         <div className="space-y-10">
@@ -261,7 +271,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
              [Illustration Placeholder]
           </div>
            <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-lg prose-p:text-2xl prose-p:md:text-3xl prose-p:leading-relaxed prose-p:md:leading-loose text-foreground font-medium">
-              {renderMarkdownWithVocab(contentData.content)}
+              {renderMarkdownWithVocab(cleanedContent)}
             </div>
         </div>
       )}
@@ -271,7 +281,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-12">
           <div className="lg:col-span-3">
              <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-lg md:text-xl leading-relaxed text-foreground">
-              {renderMarkdownWithVocab(contentData.content)}
+              {renderMarkdownWithVocab(cleanedContent)}
             </div>
             <DiscussionQuestions questions={contentData.discussion_questions} />
           </div>
@@ -295,7 +305,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       {band >= 4 && (
         <div className="space-y-10">
            <div className="prose prose-slate dark:prose-invert max-w-none prose-headings:text-foreground prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg prose-h4:text-base text-base md:text-lg leading-relaxed text-foreground columns-1 md:columns-2 gap-8">
-             {renderMarkdownWithVocab(contentData.content)}
+             {renderMarkdownWithVocab(cleanedContent)}
            </div>
 
           {contentData.essay_prompt && (

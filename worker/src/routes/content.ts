@@ -22,7 +22,7 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
 
     try {
         const lesson = await env.DB.prepare(
-            'SELECT l.title, t.title as topic FROM Lessons l LEFT JOIN Topics t ON l.topic_id = t.id WHERE l.id = ?'
+            'SELECT l.title, l.narrative_text, t.title as topic FROM Lessons l LEFT JOIN Topics t ON l.topic_id = t.id WHERE l.id = ?'
         ).bind(lessonId).first<any>();
 
         if (!lesson) {
@@ -34,12 +34,28 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
         ).bind(lessonId, band).first<any>();
 
         // We return null for content if not found, allowing client to gracefully handle missing adaptation
-        const parsedContent = adaptedContent ? {
+        let parsedContent = adaptedContent ? {
             ...adaptedContent,
             vocabulary: adaptedContent.vocabulary ? JSON.parse(adaptedContent.vocabulary) : [],
             discussion_questions: adaptedContent.discussion_questions ? JSON.parse(adaptedContent.discussion_questions) : [],
-            thinking_prompts: adaptedContent.thinking_prompts ? JSON.parse(adaptedContent.thinking_prompts) : []
+            thinking_prompts: adaptedContent.thinking_prompts ? JSON.parse(adaptedContent.thinking_prompts) : [],
+            fallback: false
         } : null;
+
+        // Fallback to master text if no adapted content is found
+        if (!parsedContent) {
+            parsedContent = {
+                id: null,
+                lesson_id: lessonId,
+                band: band,
+                adapted_text: lesson.narrative_text || '',
+                vocabulary: [],
+                discussion_questions: [],
+                thinking_prompts: [],
+                essay_prompt: null,
+                fallback: true
+            };
+        }
 
         logActivity(env, userId, 'content_viewed', 'lesson', lessonId);
 
@@ -114,61 +130,17 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
         const sections = await Promise.all(lessons.map(async (lesson: any) => {
             let adaptedContent: any = adaptedMap.get(lesson.id);
 
-            // If cache miss, fetch RAG chunks and adapt
+            // If cache miss, fallback to master text
             if (!adaptedContent) {
-                console.log(`[API] Cache miss for lesson ${lesson.id} band ${band}. Adapting...`);
+                console.log(`[API] Cache miss for lesson ${lesson.id} band ${band}. Falling back to master text.`);
 
-                // Fetch RAG chunks for this lesson
-                const { results: chunks } = await env.DB.prepare(`
-                    SELECT rc.chunk_text
-                    FROM RAG_Chunks rc
-                    JOIN Sources s ON rc.source_id = s.id
-                    WHERE s.lesson_id = ?
-                    ORDER BY rc.chunk_index ASC
-                `).bind(lesson.id).all<any>();
-
-                const ragContext = chunks.map((c: any) => c.chunk_text).join('\n\n');
-
-                // Construct the text to adapt based on narrative text and RAG chunks
-                const chunkText = lesson.narrative_text ? `${lesson.narrative_text}\n\n${ragContext}` : ragContext || "No text provided.";
-
-                try {
-                    const newlyAdapted = await adaptContent(env, chunkText, band, "");
-
-                    // Cache the result
-                    const id = `adapt_${crypto.randomUUID()}`;
-                    await env.DB.prepare(`
-                        INSERT INTO Adapted_Content (id, lesson_id, band, adapted_text, vocabulary, discussion_questions, essay_prompt, thinking_prompts)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                        ON CONFLICT(lesson_id, band) DO UPDATE SET
-                            adapted_text = excluded.adapted_text,
-                            vocabulary = excluded.vocabulary,
-                            discussion_questions = excluded.discussion_questions,
-                            essay_prompt = excluded.essay_prompt,
-                            thinking_prompts = excluded.thinking_prompts
-                    `).bind(
-                        id,
-                        lesson.id,
-                        band,
-                        newlyAdapted.text,
-                        newlyAdapted.vocabulary ? JSON.stringify(newlyAdapted.vocabulary) : null,
-                        newlyAdapted.discussionQuestions ? JSON.stringify(newlyAdapted.discussionQuestions) : null,
-                        newlyAdapted.essayPrompt || null,
-                        newlyAdapted.thinkingPrompts ? JSON.stringify(newlyAdapted.thinkingPrompts) : null
-                    ).run();
-
-                    // Format it to match the standard response structure
-                    adaptedContent = {
-                        adapted_text: newlyAdapted.text,
-                        vocabulary: newlyAdapted.vocabulary ? JSON.stringify(newlyAdapted.vocabulary) : null,
-                        discussion_questions: newlyAdapted.discussionQuestions ? JSON.stringify(newlyAdapted.discussionQuestions) : null,
-                        thinking_prompts: newlyAdapted.thinkingPrompts ? JSON.stringify(newlyAdapted.thinkingPrompts) : null
-                    };
-                } catch (adaptError) {
-                    console.error(`[API] Adaptation failed for lesson ${lesson.id}:`, adaptError);
-                    // Fallback to unadapted or empty
-                    adaptedContent = null;
-                }
+                adaptedContent = {
+                    adapted_text: lesson.narrative_text || '',
+                    vocabulary: JSON.stringify([]),
+                    discussion_questions: JSON.stringify([]),
+                    thinking_prompts: JSON.stringify([]),
+                    fallback: true
+                };
             }
 
             return {
@@ -177,6 +149,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
                 adaptedContent: adaptedContent ? adaptedContent.adapted_text : null,
                 vocabularyWords: adaptedContent && adaptedContent.vocabulary ? JSON.parse(adaptedContent.vocabulary) : [],
                 discussionQuestions: adaptedContent && adaptedContent.discussion_questions ? JSON.parse(adaptedContent.discussion_questions) : [],
+                fallback: adaptedContent.fallback || false
             };
         }));
 

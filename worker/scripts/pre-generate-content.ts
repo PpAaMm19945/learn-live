@@ -133,10 +133,10 @@ async function main() {
         console.log(`\nProcessing Lesson [${lessonCount}/${totalLessons}]: ${title} (${lessonId})`);
 
         // Get existing adaptations for this lesson to skip already generated ones
-        // Also check if they exist in Adapted_Content_Cache
+        // Also check if they exist in Adapted_Content
         let existingBands: number[] = [];
         try {
-            const existingBandsData = (await executeSql(`SELECT band FROM Adapted_Content_Cache WHERE lesson_id = '${lessonId}'`, true)) as Array<{ band: number }>;
+            const existingBandsData = (await executeSql(`SELECT band FROM Adapted_Content WHERE lesson_id = '${lessonId}'`, true)) as Array<{ band: number }>;
             existingBands = existingBandsData.map((r) => r.band);
         } catch (e) {
              console.log("Failed to fetch existing bands, assuming none exist.");
@@ -159,15 +159,24 @@ async function main() {
                 // Call the actual adaptation logic with exponential backoff
                 const result = await adaptWithBackoff(mockEnv, narrative_text, band, chapterContext);
 
-                // Ensure it's in JSON string since Adapted_Content_Cache stores `content` string
-                const contentStr = JSON.stringify(result).replace(/'/g, "''");
+                const id = `adapt_${crypto.randomUUID()}`;
+
+                // Escape strings for SQL insert
+                const adaptedTextStr = result.text ? result.text.replace(/'/g, "''") : '';
+                const vocabStr = result.vocabulary ? JSON.stringify(result.vocabulary).replace(/'/g, "''") : '[]';
+                const discussStr = result.discussionQuestions ? JSON.stringify(result.discussionQuestions).replace(/'/g, "''") : '[]';
+                const thinkingStr = result.thinkingPrompts ? JSON.stringify(result.thinkingPrompts).replace(/'/g, "''") : '[]';
+                const essayStr = result.essayPrompt ? result.essayPrompt.replace(/'/g, "''") : '';
 
                 const insertQuery = `
-                    INSERT INTO Adapted_Content_Cache (lesson_id, band, content, updated_at)
-                    VALUES ('${lessonId}', ${band}, '${contentStr}', CURRENT_TIMESTAMP)
+                    INSERT INTO Adapted_Content (id, lesson_id, band, adapted_text, vocabulary, discussion_questions, essay_prompt, thinking_prompts)
+                    VALUES ('${id}', '${lessonId}', ${band}, '${adaptedTextStr}', '${vocabStr}', '${discussStr}', '${essayStr}', '${thinkingStr}')
                     ON CONFLICT(lesson_id, band) DO UPDATE SET
-                        content = excluded.content,
-                        updated_at = excluded.updated_at;
+                        adapted_text = excluded.adapted_text,
+                        vocabulary = excluded.vocabulary,
+                        discussion_questions = excluded.discussion_questions,
+                        essay_prompt = excluded.essay_prompt,
+                        thinking_prompts = excluded.thinking_prompts;
                 `;
 
                 await executeSql(insertQuery);
@@ -186,20 +195,18 @@ async function main() {
         if (!existingBands.includes(5)) {
             console.log(`  Generating Band 5 (Master Text)...`);
             try {
-                const resultObj = {
-                    text: narrative_text,
-                    pre_generated: true,
-                    fallback: false
-                };
-
-                const contentStr = JSON.stringify(resultObj).replace(/'/g, "''");
+                const id = `adapt_${crypto.randomUUID()}`;
+                const textStr = narrative_text.replace(/'/g, "''");
 
                 const insertBand5Query = `
-                    INSERT INTO Adapted_Content_Cache (lesson_id, band, content, updated_at)
-                    VALUES ('${lessonId}', 5, '${contentStr}', CURRENT_TIMESTAMP)
+                    INSERT INTO Adapted_Content (id, lesson_id, band, adapted_text, vocabulary, discussion_questions, essay_prompt, thinking_prompts)
+                    VALUES ('${id}', '${lessonId}', 5, '${textStr}', '[]', '[]', '', '[]')
                     ON CONFLICT(lesson_id, band) DO UPDATE SET
-                        content = excluded.content,
-                        updated_at = excluded.updated_at;
+                        adapted_text = excluded.adapted_text,
+                        vocabulary = excluded.vocabulary,
+                        discussion_questions = excluded.discussion_questions,
+                        essay_prompt = excluded.essay_prompt,
+                        thinking_prompts = excluded.thinking_prompts;
                 `;
                 await executeSql(insertBand5Query);
                 console.log(`  Successfully saved band 5 (Master Text)`);
