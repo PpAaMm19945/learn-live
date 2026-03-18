@@ -119,7 +119,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
         <Card className="w-full max-w-lg mx-auto border-secondary/50 shadow-sm bg-card/50">
             <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
-                    <Camera className="w-5 h-5 text-primary" />
+                    <IconCamera className="w-5 h-5 text-primary" />
                     Artifact Check
                 </CardTitle>
                 <CardDescription>
