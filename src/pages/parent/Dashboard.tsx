@@ -351,7 +351,7 @@ export default function Dashboard() {
                               <div className="flex-grow">
                                 <h5 className="font-display text-base leading-tight">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
                                 <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground font-sans">
-                                  <Clock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
+                                  <IconClock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
                                 </div>
                               </div>
                               <div className="flex items-center gap-3">
