@@ -169,7 +169,7 @@ export default function ExamView() {
                </div>
 
                <Button size="lg" variant="destructive" onClick={endExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Stop Exam">
-                  <Square className="w-5 h-5 mr-2 fill-current" /> Stop
+                  <IconSquare className="w-5 h-5 mr-2 fill-current" /> Stop
                </Button>
            </div>
         )}
