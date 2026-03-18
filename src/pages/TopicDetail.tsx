@@ -149,7 +149,7 @@ export default function TopicDetail() {
 
         <div className="space-y-4 pt-6 border-t border-border/50">
           <h3 className="font-display text-2xl flex items-center gap-2">
-            <BookOpen className="h-6 w-6 text-primary" /> Lessons
+            <IconBook className="h-6 w-6 text-primary" /> Lessons
           </h3>
 
           {topic.lessons.length === 0 ? (
