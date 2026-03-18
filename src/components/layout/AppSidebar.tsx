@@ -79,7 +79,7 @@ export function AppSidebar() {
                     `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                   }
                 >
-                  <ShieldAlert className="h-5 w-5 shrink-0" />
+                  <IconShieldLock className="h-5 w-5 shrink-0" />
                   <span className="group-data-[state=collapsed]:hidden">Admin</span>
                 </NavLink>
               </SidebarMenuButton>
