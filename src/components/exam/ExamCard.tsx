@@ -55,7 +55,7 @@ export function ExamCard({ lessonId, status = 'pending' }: ExamCardProps) {
         )}
         {status === 'reviewed' && (
            <Button variant="secondary" className="w-full" disabled>
-             <CheckCircle className="w-4 h-4 mr-2" /> Reviewed
+             <IconCircleCheck className="w-4 h-4 mr-2" /> Reviewed
            </Button>
         )}
       </CardContent>

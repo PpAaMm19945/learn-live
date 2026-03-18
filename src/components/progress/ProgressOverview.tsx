@@ -4,7 +4,7 @@ import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen, CheckCircle, Target } from 'lucide-react';
+import { IconBook, IconCircleCheck, IconTarget } from '@tabler/icons-react';
 
 interface TopicScore {
     topicId: string;

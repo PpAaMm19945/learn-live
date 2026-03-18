@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
+import { IconChevronLeft, IconLoader2, IconSettings, IconUser } from '@tabler/icons-react';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';

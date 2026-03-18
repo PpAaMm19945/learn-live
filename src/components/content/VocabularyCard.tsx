@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { BookA } from 'lucide-react';
+import { IconVocabulary } from '@tabler/icons-react';
 
 interface VocabularyCardProps {
   term: string;

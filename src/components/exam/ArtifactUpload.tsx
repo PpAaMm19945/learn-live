@@ -1,5 +1,5 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
-import { Upload, Camera, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { IconUpload, IconCamera, IconCircleCheck, IconAlertCircle, IconLoader2 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logger } from '@/lib/Logger';

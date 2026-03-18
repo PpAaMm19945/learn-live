@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { MessageSquarePlus, Loader2 } from 'lucide-react';
+import { IconMessagePlus, IconLoader2 } from '@tabler/icons-react';
 import {
   Dialog,
   DialogContent,

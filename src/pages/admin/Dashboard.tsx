@@ -1,6 +1,6 @@
 import { useAuthStore, useIsAdmin } from '@/lib/auth';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { LogOut, ArrowLeft, Loader2, Users, BookOpen, Clock, Activity, BarChart3 } from 'lucide-react';
+import { IconLogout, IconArrowLeft, IconLoader2, IconUsers, IconBook, IconClock, IconActivity, IconChartBar } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';

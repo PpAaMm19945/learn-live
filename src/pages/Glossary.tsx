@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Book, Filter, Loader2, X } from 'lucide-react';
+import { IconSearch, IconBook, IconFilter, IconLoader2, IconX } from '@tabler/icons-react';
 import { GlossaryIndex } from '@/components/glossary/GlossaryIndex';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
