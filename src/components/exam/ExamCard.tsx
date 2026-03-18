@@ -24,7 +24,7 @@ export function ExamCard({ lessonId, status = 'pending' }: ExamCardProps) {
         return <Badge variant="default" className="bg-primary/20 text-primary">Reviewed</Badge>;
       case 'pending':
       default:
-        return <Badge variant="outline" className="text-muted-foreground"><Clock className="w-3 h-3 mr-1"/> Pending</Badge>;
+        return <Badge variant="outline" className="text-muted-foreground"><IconClock className="w-3 h-3 mr-1"/> Pending</Badge>;
     }
   };
 
