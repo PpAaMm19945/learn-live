@@ -108,7 +108,7 @@ export default function TopicDetail() {
             <IconChevronLeft className="h-4 w-4 mr-2" /> Back to Course
           </Button>
           <Button onClick={() => refetch()} variant="default" className="w-full sm:w-auto">
-            <RefreshCcw className="h-4 w-4 mr-2" /> Try Again
+            <IconRefresh className="h-4 w-4 mr-2" /> Try Again
           </Button>
         </div>
       </div>
