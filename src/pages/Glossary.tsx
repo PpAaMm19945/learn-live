@@ -115,7 +115,7 @@ export default function Glossary() {
                         </Select>
                         {(searchTerm || categoryFilter !== 'all') && (
                             <Button variant="ghost" size="icon" onClick={clearFilters} title="Clear filters">
-                                <X className="h-4 w-4" />
+                                <IconX className="h-4 w-4" />
                             </Button>
                         )}
                     </div>
