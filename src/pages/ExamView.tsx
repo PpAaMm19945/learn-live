@@ -5,7 +5,6 @@ import { Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { ParentReviewModal } from '@/components/exam/ParentReviewModal';
 import { useAuthStore } from '@/lib/auth';
-import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useActiveBand } from '@/lib/learnerStore';
