@@ -3,9 +3,8 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { useLearnerStore } from '@/lib/learnerStore';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { ChevronLeft, AlertCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Accordion,
