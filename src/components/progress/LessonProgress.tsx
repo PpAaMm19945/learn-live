@@ -21,7 +21,7 @@ export const LessonProgress: React.FC<LessonProgressProps> = ({ status, classNam
         case 'in_progress':
             return (
                 <Badge variant="secondary" className={`bg-secondary text-secondary-foreground hover:bg-secondary/80 flex items-center space-x-1 ${className}`}>
-                    <Clock className="w-3 h-3" />
+                    <IconClock className="w-3 h-3" />
                     <span>In Progress</span>
                 </Badge>
             );
