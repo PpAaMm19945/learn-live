@@ -1,10 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
+import { Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { ParentReviewModal } from '@/components/exam/ParentReviewModal';
-import { Badge } from '@/components/ui/badge';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -58,20 +57,18 @@ export default function ExamView() {
 
   const startExam = () => {
     setStatus('active');
-    Logger.info('[EVIDENCE]', 'Oral exam started');
+    Logger.info('[WITNESS]', 'Oral exam started');
     setSessionTime(0);
     timerRef.current = setInterval(() => {
       setSessionTime((prev) => prev + 1);
     }, 1000);
-    // Real implementation would connect to Gemini Live here
   };
 
   const endExam = () => {
     setStatus('evaluating');
     if (timerRef.current) clearInterval(timerRef.current);
-    Logger.info('[EVIDENCE]', 'Oral exam ended manually');
+    Logger.info('[WITNESS]', 'Oral exam ended');
 
-    // Mocking evaluation delay and response
     setTimeout(() => {
       setAssessmentDraft(
         `AI Assessment Draft (Band ${band}):\n\nThe learner demonstrated a clear understanding of the core concepts in "${lesson?.title}". They successfully identified key figures and explained the chronological events with reasonable accuracy.`
@@ -88,9 +85,9 @@ export default function ExamView() {
 
   const getInstructions = () => {
     if (band <= 1) {
-      return "Let's talk about what we just learned! I'm going to ask you a few simple questions. Don't worry, just tell me what you remember.";
+      return "Let's talk about what we just learned. I'm going to ask you a few simple questions. Just tell me what you remember.";
     } else if (band <= 3) {
-      return "Welcome to the oral exam. I'll be asking you to describe key events and figures from this lesson. Please speak clearly.";
+      return "Welcome to The Witness. You will be asked to describe key events and figures from this lesson. Please speak clearly.";
     }
     return "This is a comprehensive oral examination. Be prepared to analyze the material, compare historical events, and provide detailed explanations.";
   };
@@ -98,7 +95,6 @@ export default function ExamView() {
   if (isLessonLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
-
         <main className="flex-1 max-w-4xl w-full mx-auto px-4 py-10 flex flex-col items-center justify-center">
           <Skeleton className="w-24 h-24 rounded-full mb-6" />
           <Skeleton className="h-8 w-64 mb-4" />
@@ -111,8 +107,6 @@ export default function ExamView() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-
-
       <div className="max-w-4xl w-full mx-auto px-4 pt-6">
         <Breadcrumb>
           <BreadcrumbList>
@@ -135,7 +129,7 @@ export default function ExamView() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>Exam</BreadcrumbPage>
+              <BreadcrumbPage>The Witness</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
@@ -148,7 +142,7 @@ export default function ExamView() {
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                <Mic className="w-12 h-12 text-primary" />
             </div>
-            <h2 className="text-3xl sm:text-4xl font-bold">Ready for your oral exam?</h2>
+            <h2 className="font-display text-3xl sm:text-4xl leading-tight">Ready for The Witness?</h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto">
               {getInstructions()}
             </p>
@@ -161,21 +155,21 @@ export default function ExamView() {
         {status === 'active' && (
            <div className="text-center space-y-12 animate-in fade-in duration-300 w-full px-4">
                <div className="relative flex items-center justify-center h-48 sm:h-64">
-                    {/* Visualizer Adapted from EvidenceWitness */}
                     <div className="absolute w-32 h-32 sm:w-48 sm:h-48 bg-primary/20 rounded-full animate-ping pointer-events-none"></div>
                     <div className="absolute w-24 h-24 sm:w-36 sm:h-36 bg-primary/40 rounded-full animate-pulse pointer-events-none"></div>
-                    <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-primary rounded-full shadow-[0_0_50px_rgba(var(--primary),0.8)] border-4 border-background/20 flex items-center justify-center">
+                    <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-primary rounded-full border-4 border-background/20 flex items-center justify-center">
                         <Mic className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
                     </div>
                </div>
 
                <div className="space-y-4">
-                   <h3 className="text-2xl font-semibold">Listening...</h3>
+                   <h3 className="font-display text-2xl">Listening...</h3>
                    <p className="text-muted-foreground">Speak clearly into your microphone.</p>
+                   <p className="font-mono text-xs text-muted-foreground">{formatTime(sessionTime)}</p>
                </div>
 
                <Button size="lg" variant="destructive" onClick={endExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Stop Exam">
-                  <Square className="w-5 h-5 mr-2 fill-current" /> Stop Exam
+                  <Square className="w-5 h-5 mr-2 fill-current" /> Stop
                </Button>
            </div>
         )}
@@ -183,7 +177,7 @@ export default function ExamView() {
         {status === 'evaluating' && (
            <div className="text-center space-y-8 animate-in fade-in duration-300">
                <Loader2 className="w-16 h-16 animate-spin text-primary mx-auto" />
-               <h2 className="text-2xl font-bold">Evaluating Responses...</h2>
+               <h2 className="font-display text-2xl">Evaluating responses…</h2>
                <p className="text-muted-foreground max-w-md mx-auto">
                    The AI is analyzing your answers and drafting an assessment.
                </p>
@@ -193,19 +187,19 @@ export default function ExamView() {
         {status === 'complete' && (
            <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500 w-full max-w-2xl px-4">
                <CheckCircle className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
-               <h2 className="text-2xl sm:text-3xl font-bold">Exam Complete!</h2>
+               <h2 className="font-display text-2xl sm:text-3xl">Witness Complete</h2>
                <p className="text-base sm:text-lg text-muted-foreground">
-                   Great job! The AI has drafted an assessment for your parent to review.
+                   The AI has drafted an assessment for your parent to review.
                </p>
 
-               <div className="bg-muted/30 p-4 sm:p-6 rounded-xl border border-border/50 text-left space-y-4 w-full">
-                   <h4 className="font-semibold flex items-center gap-2">
+               <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/50 text-left space-y-4 w-full">
+                   <h4 className="font-medium flex items-center gap-2">
                        <Clock className="w-4 h-4 text-muted-foreground" />
                        Session Details
                    </h4>
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">
-                       <div><span className="text-muted-foreground">Duration:</span> {formatTime(sessionTime)}</div>
-                       <div><span className="text-muted-foreground">Band Level:</span> {band}</div>
+                       <div><span className="text-muted-foreground">Duration:</span> <span className="font-mono">{formatTime(sessionTime)}</span></div>
+                       <div><span className="text-muted-foreground">Band Level:</span> <span className="font-mono">{band}</span></div>
                    </div>
                </div>
 

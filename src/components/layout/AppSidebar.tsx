@@ -18,11 +18,11 @@ export function AppSidebar() {
   };
 
   return (
-    <Sidebar collapsible="icon" className="hidden md:flex border-r border-border/50 bg-sidebar text-sidebar-foreground">
-      <SidebarHeader className="p-4 border-b border-border/50 flex items-center justify-center h-[57px]">
+    <Sidebar collapsible="icon" className="hidden md:flex border-r-0 bg-background text-sidebar-foreground">
+      <SidebarHeader className="p-4 border-b border-border/30 flex items-center justify-center h-[57px]">
         <div className="flex items-center gap-2 overflow-hidden w-full group-data-[state=collapsed]:justify-center">
           <Book className="h-6 w-6 text-primary shrink-0" />
-          <span className="font-semibold text-lg truncate group-data-[state=collapsed]:hidden">Learn Live</span>
+          <span className="font-display text-xl truncate group-data-[state=collapsed]:hidden">Learn Live</span>
         </div>
       </SidebarHeader>
 
@@ -33,7 +33,7 @@ export function AppSidebar() {
               <NavLink
                 to="/dashboard"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'hover:bg-sidebar-accent/50 text-muted-foreground hover:text-foreground'}`
+                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
                 <LayoutDashboard className="h-5 w-5 shrink-0" />
@@ -47,7 +47,7 @@ export function AppSidebar() {
               <NavLink
                 to="/glossary"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'hover:bg-sidebar-accent/50 text-muted-foreground hover:text-foreground'}`
+                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
                 <Book className="h-5 w-5 shrink-0" />
@@ -61,7 +61,7 @@ export function AppSidebar() {
               <NavLink
                 to="/progress"
                 className={({ isActive }) =>
-                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'hover:bg-sidebar-accent/50 text-muted-foreground hover:text-foreground'}`
+                  `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
                 <TrendingUp className="h-5 w-5 shrink-0" />
@@ -76,7 +76,7 @@ export function AppSidebar() {
                 <NavLink
                   to="/admin"
                   className={({ isActive }) =>
-                    `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'bg-sidebar-accent text-sidebar-accent-foreground font-medium' : 'hover:bg-sidebar-accent/50 text-muted-foreground hover:text-foreground'}`
+                    `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                   }
                 >
                   <ShieldAlert className="h-5 w-5 shrink-0" />
@@ -88,10 +88,10 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarContent>
 
-      <SidebarFooter className="p-2 border-t border-border/50">
+      <SidebarFooter className="p-2 border-t border-border/30">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={handleLogout} tooltip="Sign Out" className="flex items-center gap-3 w-full p-2 rounded-md transition-colors hover:bg-sidebar-accent/50 text-muted-foreground hover:text-foreground">
+            <SidebarMenuButton onClick={handleLogout} tooltip="Sign Out" className="flex items-center gap-3 w-full p-2 rounded-md transition-colors hover:bg-accent/30 text-muted-foreground hover:text-foreground">
               <LogOut className="h-5 w-5 shrink-0" />
               <span className="group-data-[state=collapsed]:hidden">Sign Out</span>
             </SidebarMenuButton>

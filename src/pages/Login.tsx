@@ -42,7 +42,7 @@ export default function Login() {
       if (!res.ok) throw new Error(data.error || 'Failed to send magic link');
 
       setMagicLinkSent(true);
-      toast({ title: 'Magic link sent!', description: 'Check your email inbox.' });
+      toast({ title: 'Magic link sent', description: 'Check your email inbox.' });
       Logger.info('[LOGIN]', `Magic link sent to: ${email}`);
     } catch (err: any) {
       setError(err.message);
@@ -74,7 +74,7 @@ export default function Login() {
       if (!res.ok) throw new Error(data.error || 'Login failed');
 
       Logger.info('[LOGIN]', `Login successful for: ${email}`);
-      toast({ title: 'Welcome back!' });
+      toast({ title: 'Welcome back' });
       await checkSession();
       navigate(from, { replace: true });
     } catch (err: any) {
@@ -93,10 +93,10 @@ export default function Login() {
   if (magicLinkSent) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
-        <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
+        <Card className="w-full max-w-md border border-border/50 bg-card">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
             <CheckCircle2 className="h-12 w-12 text-primary mx-auto" />
-            <h2 className="text-xl font-semibold">Check your email</h2>
+            <h2 className="font-display text-xl">Check your email</h2>
             <p className="text-sm text-muted-foreground">
               We sent a magic link to <strong className="text-foreground">{email}</strong>
             </p>
@@ -112,9 +112,9 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-6">
-        <Card className="border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
+        <Card className="border border-border/50 bg-card">
           <CardHeader className="space-y-1 text-center">
-            <CardTitle className="text-2xl font-bold tracking-tight">Welcome back</CardTitle>
+            <CardTitle className="font-display text-2xl tracking-tight">Welcome back</CardTitle>
             <CardDescription>Sign in to your account to continue</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

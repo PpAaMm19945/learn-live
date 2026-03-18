@@ -41,7 +41,6 @@ export default function ReadingView() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Fetch basic lesson info (title, topic_id for navigation)
   const { data: lesson, isLoading: isLessonLoading } = useQuery<LessonBasicInfo>({
     queryKey: ['lesson-basic', lessonId],
     queryFn: async () => {
@@ -68,7 +67,7 @@ export default function ReadingView() {
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: 'Reading complete!' });
+      toast({ title: 'Reading complete' });
     },
     onError: () => {
       toast({ title: 'Error', description: 'Failed to update progress.', variant: 'destructive' });
@@ -77,7 +76,6 @@ export default function ReadingView() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* World Context Sidebar */}
       {lesson?.topic_id && (
         <WorldContextSidebar
           chapterId={lesson.topic_id}
@@ -87,7 +85,6 @@ export default function ReadingView() {
         />
       )}
 
-      {/* Main Reading Area */}
       <main className="flex-grow max-w-5xl mx-auto w-full px-4 py-8 md:py-12">
         {lessonId && (
           <div className="max-w-3xl mx-auto">
@@ -142,25 +139,15 @@ export default function ReadingView() {
             {isLessonLoading ? (
               <div className="space-y-6">
                 <Skeleton className="h-12 w-3/4 mb-8" />
-                <div className="flex items-center gap-2 mb-4">
-                  <Skeleton className="h-6 w-16" />
-                  <Skeleton className="h-px flex-grow" />
-                </div>
                 <div className="space-y-4">
                   <Skeleton className="h-5 w-full" />
                   <Skeleton className="h-5 w-full" />
                   <Skeleton className="h-5 w-5/6" />
-                  <Skeleton className="h-5 w-full" />
-                  <Skeleton className="h-5 w-4/5" />
-                  <br />
-                  <Skeleton className="h-5 w-full" />
-                  <Skeleton className="h-5 w-11/12" />
-                  <Skeleton className="h-5 w-3/4" />
                 </div>
               </div>
             ) : (
               <>
-                <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8 text-foreground">{stripMarkdown(lesson?.title || '')}</h2>
+                <h2 className="font-display text-3xl sm:text-4xl leading-tight tracking-tight mb-8 text-foreground">{stripMarkdown(lesson?.title || '')}</h2>
                 <AdaptedContentReader lessonId={lessonId} band={currentBand} />
               </>
             )}
@@ -173,8 +160,8 @@ export default function ReadingView() {
                       <CheckCircle className="h-10 w-10" />
                     </div>
                     <div className="text-center space-y-2">
-                      <h3 className="text-2xl font-bold">Lesson Completed!</h3>
-                      <p className="text-muted-foreground">Great job finishing this reading material.</p>
+                      <h3 className="font-display text-2xl">Lesson Completed</h3>
+                      <p className="text-muted-foreground">Well done on finishing this reading.</p>
                     </div>
                     <Button size="lg" onClick={() => navigate(`/topics/${lesson?.topic_id}`)} className="mt-4">
                       Return to Topic
@@ -209,7 +196,7 @@ export default function ReadingView() {
 
       {showBackToLesson && lesson?.topic_id && (
         <Button
-          className="fixed bottom-6 right-6 shadow-lg rounded-full z-50 animate-in fade-in slide-in-from-bottom-4 px-4 py-6"
+          className="fixed bottom-6 right-6 rounded-full z-50 animate-in fade-in slide-in-from-bottom-4 px-4 py-6"
           onClick={() => navigate(`/topics/${lesson.topic_id}`)}
         >
           <ChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson

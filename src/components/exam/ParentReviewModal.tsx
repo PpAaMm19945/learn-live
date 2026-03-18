@@ -20,20 +20,12 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
   const handleSubmitReview = async (action: 'approve' | 'redo') => {
     setIsSubmitting(true);
     try {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      // MOCK API CALL - Replace with real endpoint later
-      // const res = await fetch(`${apiUrl}/api/exam/${lessonId}/review`, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ action, notes, assessmentDraft }),
-      // });
-
       // Simulate network request
       await new Promise(resolve => setTimeout(resolve, 1000));
 
       toast({
-        title: action === 'approve' ? 'Exam Approved' : 'Redo Requested',
-        description: action === 'approve' ? 'The assessment has been finalized.' : 'The exam has been marked for redo.',
+        title: action === 'approve' ? 'Witness Approved' : 'Sent Back',
+        description: action === 'approve' ? 'The assessment has been finalized.' : 'The learner will need to redo this exam.',
       });
       onClose();
     } catch (error) {
@@ -51,13 +43,13 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Review Assessment</DialogTitle>
+          <DialogTitle className="font-display text-xl">Review Assessment</DialogTitle>
           <DialogDescription>
             Review the AI-generated assessment draft for this oral exam.
           </DialogDescription>
         </DialogHeader>
 
-        <div className="my-4 p-4 bg-muted/50 border rounded-md max-h-48 overflow-y-auto text-sm">
+        <div className="my-4 p-4 bg-card border rounded-md max-h-48 overflow-y-auto text-sm">
           <p className="whitespace-pre-wrap">{assessmentDraft}</p>
         </div>
 
@@ -79,7 +71,7 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
             disabled={isSubmitting}
             className="w-full sm:w-auto text-destructive border-destructive/50 hover:bg-destructive/10"
           >
-            Request Redo
+            Send Back
           </Button>
           <Button
             variant="default"
@@ -88,7 +80,7 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
             className="w-full sm:w-auto"
           >
             {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-            Approve Assessment
+            Witness Approved
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,11 +1,10 @@
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { stripMarkdown } from '@/lib/textUtils';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { useLearnerStore } from '@/lib/learnerStore';
-import { ChevronLeft, Loader2, AlertCircle, HelpCircle, CheckCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { ChevronLeft, AlertCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Accordion,
@@ -30,13 +29,12 @@ interface LessonData {
   key_dates: { date: string; event: string }[];
   key_figures: { name: string; role: string }[];
   citations: string[];
-  topic_title?: string; // Assume we might need to fetch this or pass it
+  topic_title?: string;
 }
 
 export default function LessonView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const { activeLearnerName, activeLearnerBand } = useLearnerStore();
   const BAND_LABELS = ['Picture Book', 'Story Mode', 'Explorer', 'Scholar', 'Apprentice', 'University'];
@@ -59,8 +57,6 @@ export default function LessonView() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background">
-
-
         <main className="max-w-6xl mx-auto px-4 py-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
@@ -69,12 +65,6 @@ export default function LessonView() {
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-full" />
                 <Skeleton className="h-4 w-5/6" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-4/5" />
-                <br />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-3/4" />
               </div>
             </div>
             <div className="space-y-6">
@@ -91,7 +81,7 @@ export default function LessonView() {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
         <AlertCircle className="h-16 w-16 text-destructive mb-4" />
-        <h2 className="text-2xl font-bold mb-2">Failed to load lesson</h2>
+        <h2 className="font-display text-2xl mb-2">Failed to load lesson</h2>
         <p className="text-muted-foreground mb-8 max-w-md">There was a problem loading the lesson content. Please try again.</p>
         <div className="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
           <Button onClick={() => navigate(-1)} variant="outline" className="w-full sm:w-auto">
@@ -131,20 +121,20 @@ export default function LessonView() {
         </div>
 
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold tracking-tight mb-2 flex items-center justify-center gap-3">
+          <h1 className="font-display text-3xl sm:text-4xl leading-tight tracking-tight mb-2 flex items-center justify-center gap-3">
             <BookOpen className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
           </h1>
-          <p className="text-lg text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
+          <p className="text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
         </div>
 
         <div className="space-y-8 flex flex-col items-center">
           {/* Step 1: PREPARE */}
-          <Card className="w-full max-w-2xl bg-card border-border/50 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-muted"></div>
+          <Card className="w-full max-w-2xl bg-card border-border/50 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-muted"></div>
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground">1</div>
-                <CardTitle className="text-xl">Step 1: PREPARE</CardTitle>
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-display text-xl text-muted-foreground">1</div>
+                <CardTitle className="font-display text-xl">Prepare</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -158,15 +148,14 @@ export default function LessonView() {
           </Card>
 
           {/* Step 2: LEARN */}
-          <Card className="w-full max-w-2xl bg-card border-primary shadow-md relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-primary"></div>
+          <Card className="w-full max-w-2xl bg-card border-l-4 border-primary relative overflow-hidden">
             <CardHeader>
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-primary-foreground">2</div>
-                  <CardTitle className="text-2xl font-bold text-primary">Step 2: LEARN</CardTitle>
+                  <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-display text-xl text-primary-foreground">2</div>
+                  <CardTitle className="font-display text-2xl text-primary">The Session</CardTitle>
                 </div>
-                <div className="flex items-center gap-1 text-sm font-semibold text-primary bg-primary/10 px-3 py-1 rounded-full">
+                <div className="flex items-center gap-1 text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
                   <Star className="h-4 w-4" /> RECOMMENDED
                 </div>
               </div>
@@ -182,12 +171,12 @@ export default function LessonView() {
           </Card>
 
           {/* Step 3: PROVE */}
-          <Card className="w-full max-w-2xl bg-card border-border/50 shadow-sm relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-2 h-full bg-muted"></div>
+          <Card className="w-full max-w-2xl bg-card border-border/50 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-muted"></div>
             <CardHeader>
               <div className="flex items-center gap-3 mb-2">
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-bold text-muted-foreground">3</div>
-                <CardTitle className="text-xl">Step 3: PROVE</CardTitle>
+                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-display text-xl text-muted-foreground">3</div>
+                <CardTitle className="font-display text-xl">The Witness</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
@@ -203,16 +192,16 @@ export default function LessonView() {
 
         {/* Reference Sections */}
         <div className="mt-16 w-full max-w-2xl mx-auto space-y-6">
-          <h3 className="text-2xl font-semibold border-b pb-2">Reference Materials</h3>
+          <h3 className="font-display text-2xl border-b pb-2">Reference Materials</h3>
 
           <Accordion type="multiple" className="w-full space-y-4">
             {lesson.key_dates && lesson.key_dates.length > 0 && (
               <AccordionItem value="key-dates" className="bg-card border rounded-lg px-4">
-                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Dates</AccordionTrigger>
+                <AccordionTrigger className="font-display text-lg py-4 hover:no-underline">Key Dates</AccordionTrigger>
                 <AccordionContent className="pb-4 space-y-4">
                   {lesson.key_dates.map((item, idx) => (
                     <div key={idx} className="border-l-2 border-primary pl-4">
-                      <div className="font-semibold">{item.date}</div>
+                      <div className="font-medium">{item.date}</div>
                       <div className="text-sm text-muted-foreground">{item.event}</div>
                     </div>
                   ))}
@@ -222,11 +211,11 @@ export default function LessonView() {
 
             {lesson.key_figures && lesson.key_figures.length > 0 && (
               <AccordionItem value="key-figures" className="bg-card border rounded-lg px-4">
-                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Key Figures</AccordionTrigger>
+                <AccordionTrigger className="font-display text-lg py-4 hover:no-underline">Key Figures</AccordionTrigger>
                 <AccordionContent className="pb-4 space-y-4">
                   {lesson.key_figures.map((figure, idx) => (
                     <div key={idx}>
-                      <div className="font-semibold">{figure.name}</div>
+                      <div className="font-medium">{figure.name}</div>
                       <div className="text-sm text-muted-foreground">{figure.role}</div>
                     </div>
                   ))}
@@ -236,7 +225,7 @@ export default function LessonView() {
 
             {lesson.citations && lesson.citations.length > 0 && (
               <AccordionItem value="citations" className="bg-card border rounded-lg px-4">
-                <AccordionTrigger className="text-lg font-semibold py-4 hover:no-underline">Sources</AccordionTrigger>
+                <AccordionTrigger className="font-display text-lg py-4 hover:no-underline">Sources</AccordionTrigger>
                 <AccordionContent className="pb-4">
                   <ul className="list-disc pl-5 space-y-1 text-sm text-muted-foreground">
                     {lesson.citations.map((citation, idx) => (
