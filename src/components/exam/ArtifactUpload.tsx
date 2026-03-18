@@ -132,7 +132,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
                         className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-muted/30 transition-colors"
                         onClick={() => fileInputRef.current?.click()}
                     >
-                        <Upload className="w-10 h-10 text-muted-foreground mb-3" />
+                        <IconUpload className="w-10 h-10 text-muted-foreground mb-3" />
                         <p className="text-sm font-medium">Click to upload or take a photo</p>
                         <p className="text-xs text-muted-foreground mt-1">Supports JPEG, PNG, HEIC</p>
                     </div>
