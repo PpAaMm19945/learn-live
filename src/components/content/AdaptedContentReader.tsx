@@ -118,7 +118,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
   if (isError || !contentData) {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center border rounded-2xl border-dashed bg-card mt-8">
-        <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+        <IconAlertCircle className="h-12 w-12 text-destructive mb-4" />
         <h3 className="text-xl font-semibold mb-2">Failed to load content</h3>
         <p className="text-muted-foreground mb-6 max-w-md">
           There was an error retrieving the reading material for this band level. Please try again.
