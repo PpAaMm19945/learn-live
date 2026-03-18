@@ -122,7 +122,7 @@ export default function LessonView() {
 
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl sm:text-4xl leading-tight tracking-tight mb-2 flex items-center justify-center gap-3">
-            <BookOpen className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
+            <IconBook className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
           </h1>
           <p className="text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
         </div>
