@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { stripMarkdown } from '@/lib/textUtils';
 import { useAuthStore } from '@/lib/auth';
-import { BookOpen, Clock, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
+import { IconBook, IconClock, IconAlertCircle, IconRefresh, IconUsers, IconChevronRight } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';

@@ -3,7 +3,7 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, CheckCircle, Loader2, Globe } from 'lucide-react';
+import { IconChevronLeft, IconCircleCheck, IconLoader2, IconGlobe } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';

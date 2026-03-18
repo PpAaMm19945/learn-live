@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { calculateBand } from '@/lib/bandCalculator';
-import { Loader2, ArrowRight, ArrowLeft, Plus, Trash2, CheckCircle2 } from 'lucide-react';
+import { IconLoader2, IconArrowRight, IconArrowLeft, IconPlus, IconTrash, IconCircleCheck } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface LearnerInput {

@@ -92,7 +92,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton onClick={handleLogout} tooltip="Sign Out" className="flex items-center gap-3 w-full p-2 rounded-md transition-colors hover:bg-accent/30 text-muted-foreground hover:text-foreground">
-              <LogOut className="h-5 w-5 shrink-0" />
+              <IconLogout className="h-5 w-5 shrink-0" />
               <span className="group-data-[state=collapsed]:hidden">Sign Out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

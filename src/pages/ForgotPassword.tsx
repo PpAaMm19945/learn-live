@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Loader2, Mail, CheckCircle2 } from 'lucide-react';
+import { IconArrowLeft, IconLoader2, IconMail, IconCircleCheck } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ForgotPassword() {

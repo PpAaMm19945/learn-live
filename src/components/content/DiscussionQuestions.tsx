@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Lightbulb } from 'lucide-react';
+import { IconBulb } from '@tabler/icons-react';
 
 interface DiscussionQuestionsProps {
   questions: string[];

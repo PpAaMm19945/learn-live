@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Play, Pause } from 'lucide-react';
+import { IconPlayerPlay, IconPlayerPause } from '@tabler/icons-react';
 import { cn } from '@/lib/utils';
 
 interface PlaybackControlsProps {

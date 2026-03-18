@@ -1,6 +1,6 @@
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, Circle, Clock } from 'lucide-react';
+import { IconCircleCheck, IconCircle, IconClock } from '@tabler/icons-react';
 
 export type LessonStatus = 'not_started' | 'in_progress' | 'completed';
 

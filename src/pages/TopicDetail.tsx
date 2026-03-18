@@ -3,7 +3,7 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Clock, MapPin, AlertCircle, BookOpen, RefreshCcw } from 'lucide-react';
+import { IconChevronLeft, IconClock, IconMapPin, IconAlertCircle, IconBook, IconRefresh } from '@tabler/icons-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { LessonProgress } from '@/components/progress/LessonProgress';

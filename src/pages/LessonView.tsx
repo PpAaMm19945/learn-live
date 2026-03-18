@@ -3,7 +3,7 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { useLearnerStore } from '@/lib/learnerStore';
-import { ChevronLeft, AlertCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
+import { IconChevronLeft, IconAlertCircle, IconBook, IconPlayerPlay, IconRefresh, IconMicrophone, IconStar } from '@tabler/icons-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
