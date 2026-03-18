@@ -100,7 +100,7 @@ export function AppShell({ children }: AppShellProps) {
               <span>Home</span>
             </NavLink>
             <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <Book className="h-5 w-5" />
+              <IconBook className="h-5 w-5" />
               <span>Glossary</span>
             </NavLink>
             <NavLink to="/progress" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
