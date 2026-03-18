@@ -50,7 +50,7 @@ export default function ForgotPassword() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
-            <CheckCircle2 className="h-12 w-12 text-primary mx-auto" />
+            <IconCircleCheck className="h-12 w-12 text-primary mx-auto" />
             <h2 className="text-xl font-semibold">Check your email</h2>
             <p className="text-sm text-muted-foreground">
               If an account exists for <strong className="text-foreground">{email}</strong>, a reset link has been sent.
