@@ -102,7 +102,7 @@ export default function Glossary() {
                         <Select value={categoryFilter} onValueChange={handleCategoryChange}>
                             <SelectTrigger className="w-full sm:w-[160px]">
                                 <div className="flex items-center gap-2">
-                                    <Filter className="h-4 w-4" />
+                                    <IconFilter className="h-4 w-4" />
                                     <SelectValue placeholder="Category" />
                                 </div>
                             </SelectTrigger>
