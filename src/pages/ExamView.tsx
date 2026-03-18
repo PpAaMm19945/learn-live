@@ -194,7 +194,7 @@ export default function ExamView() {
 
                <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/50 text-left space-y-4 w-full">
                    <h4 className="font-medium flex items-center gap-2">
-                       <Clock className="w-4 h-4 text-muted-foreground" />
+                       <IconClock className="w-4 h-4 text-muted-foreground" />
                        Session Details
                    </h4>
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">

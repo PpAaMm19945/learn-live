@@ -174,7 +174,7 @@ export default function Login() {
 
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline" type="button" disabled={loading} onClick={handleMagicLink} aria-label="Sign in with Magic Link">
-                <Mail className="mr-2 h-4 w-4" /> Magic Link
+                <IconMail className="mr-2 h-4 w-4" /> Magic Link
               </Button>
               <Button variant="outline" type="button" disabled={loading} onClick={handleGoogleAuth} aria-label="Sign in with Google">
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">

@@ -184,7 +184,7 @@ export default function LessonView() {
                 Take an oral exam with AI. <span className="font-medium text-foreground">Sit with your child for this step.</span> Parent reviews the assessment.
               </p>
               <Button variant="outline" onClick={() => navigate(`/exam/${lessonId}`)}>
-                <Mic className="h-4 w-4 mr-2" /> Start Oral Exam
+                <IconMicrophone className="h-4 w-4 mr-2" /> Start Oral Exam
               </Button>
             </CardContent>
           </Card>

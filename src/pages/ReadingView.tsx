@@ -199,7 +199,7 @@ export default function ReadingView() {
           className="fixed bottom-6 right-6 rounded-full z-50 animate-in fade-in slide-in-from-bottom-4 px-4 py-6"
           onClick={() => navigate(`/topics/${lesson.topic_id}`)}
         >
-          <ChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson
+          <IconChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson
         </Button>
       )}
     </div>
