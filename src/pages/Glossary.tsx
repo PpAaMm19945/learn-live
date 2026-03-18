@@ -123,7 +123,7 @@ export default function Glossary() {
 
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-4">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <IconLoader2 className="h-8 w-8 animate-spin text-primary" />
                         <p>Loading glossary terms...</p>
                     </div>
                 ) : isError ? (

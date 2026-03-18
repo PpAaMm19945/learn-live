@@ -110,7 +110,7 @@ export default function FeedbackWidget() {
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmitting && <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit Feedback
             </Button>
           </div>

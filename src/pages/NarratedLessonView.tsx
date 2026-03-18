@@ -211,7 +211,7 @@ export default function NarratedLessonView() {
               <IconSettings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
             <Button variant="ghost" size="icon" aria-label="User Profile">
-              <User className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+              <IconUser className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
           </div>
         </div>

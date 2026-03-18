@@ -105,8 +105,8 @@ export default function Register() {
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Sign Up <ArrowRight className="h-4 w-4 ml-1" />
+                 {loading ? <IconLoader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                 Sign Up <IconArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </form>
           </CardContent>

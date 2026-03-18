@@ -106,7 +106,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Average Quiz Score
                         </CardTitle>
-                        <Target className="h-4 w-4 text-primary" />
+                        <IconTarget className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.averageScore}%</div>
