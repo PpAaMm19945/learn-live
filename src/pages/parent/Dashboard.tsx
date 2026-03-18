@@ -276,7 +276,7 @@ export default function Dashboard() {
             <h3 className="font-display text-xl mb-2">No topics available yet</h3>
             <p className="text-muted-foreground max-w-sm mb-6">The curriculum content is being prepared. Check back soon.</p>
             <Button onClick={() => refetch()} variant="secondary">
-              <RefreshCcw className="h-4 w-4 mr-2" />
+              <IconRefresh className="h-4 w-4 mr-2" />
               Refresh
             </Button>
           </div>
