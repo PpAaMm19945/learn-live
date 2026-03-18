@@ -83,7 +83,7 @@ export const QuizSession: React.FC<QuizSessionProps> = ({ topicId, questions, on
                     </p>
                     <Progress value={(score / questions.length) * 100} className="h-4 w-3/4 mx-auto" />
                     <p className="text-muted-foreground mt-4">
-                        {score === questions.length ? 'Perfect score! Great job!' : 'Good effort! Keep practicing.'}
+                        {score === questions.length ? 'Perfect score — well done.' : 'Good effort. Keep practicing.'}
                     </p>
                 </CardContent>
                 <CardFooter className="flex justify-center space-x-4 mt-6">

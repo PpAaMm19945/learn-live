@@ -95,3 +95,34 @@
     line-height: 1.6;
   }
 }
+
+/* Phase 15E: Motion */
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes judgment-pulse {
+  0%, 100% {
+    border-color: hsl(37 74% 56%);
+  }
+  50% {
+    border-color: hsl(37 74% 56% / 0.3);
+  }
+}
+
+@layer utilities {
+  .animate-card-enter {
+    animation: card-enter 0.3s ease-out both;
+  }
+
+  .animate-judgment-pulse {
+    animation: judgment-pulse 2s ease-in-out infinite;
+  }
+}
