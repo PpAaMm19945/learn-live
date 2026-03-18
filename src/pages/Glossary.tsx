@@ -91,7 +91,7 @@ export default function Glossary() {
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                          <form onSubmit={handleSearch} className="relative w-full sm:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search terms..."
                                 value={localSearch}
