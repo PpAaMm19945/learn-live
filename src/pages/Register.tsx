@@ -98,7 +98,7 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="confirmPassword" type="password" placeholder="Repeat password" value={confirmPassword}
                     onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }} className="pl-9" />
                 </div>
