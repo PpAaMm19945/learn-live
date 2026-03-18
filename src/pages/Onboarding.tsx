@@ -313,7 +313,7 @@ export default function Onboarding() {
               {step === 5 && (
                 <div className="flex-grow flex flex-col justify-center items-center text-center p-8 space-y-6">
                    <div className="w-20 h-20 bg-green-500/20 text-green-600 rounded-full flex items-center justify-center mb-2">
-                      <CheckCircle2 className="h-10 w-10" />
+                      <IconCircleCheck className="h-10 w-10" />
                    </div>
                    <CardTitle className="text-3xl">You're all set!</CardTitle>
                    <CardDescription className="text-lg max-w-md">
