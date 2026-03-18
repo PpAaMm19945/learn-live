@@ -73,7 +73,6 @@ export default function Dashboard() {
       if (!res.ok) throw new Error('Failed to fetch topics');
       const topicsData = await res.json();
 
-      // Fetch lessons for each topic to populate the accordion
       const topicsWithLessons = await Promise.all(
         topicsData.map(async (topic: Topic) => {
           try {
@@ -95,13 +94,11 @@ export default function Dashboard() {
     },
   });
 
-  // Determine band label based on band number (0-5)
   const getBandLabel = (band: number) => {
     const labels = ['Picture Book', 'Story Mode', 'Explorer', 'Scholar', 'Apprentice Historian', 'University Prep'];
     return labels[band] || `Band ${band}`;
   };
 
-  // Determine the next lesson ID and topic title to continue learning
   let continueLessonId: string | null = null;
   let continueTopicTitle: string = 'No topics available';
   let continueLessonTitle: string | null = null;
@@ -109,14 +106,11 @@ export default function Dashboard() {
   if (topics && topics.length > 0) {
     let foundLesson = false;
 
-    // First, prioritize currentTopicId if available
     if (currentTopicId) {
       const currentTopic = topics.find(t => t.id === currentTopicId);
       if (currentTopic && currentTopic.lessons && currentTopic.lessons.length > 0) {
-        // Find first in_progress or not_started lesson
         const nextLesson = currentTopic.lessons.find(l => l.status === 'in_progress' || l.status === 'not_started');
         const lessonToUse = nextLesson || currentTopic.lessons[0];
-
         continueLessonId = lessonToUse.id;
         continueTopicTitle = currentTopic.title;
         continueLessonTitle = lessonToUse.title;
@@ -124,7 +118,6 @@ export default function Dashboard() {
       }
     }
 
-    // If still no lesson found, look for in_progress across all topics
     if (!foundLesson) {
       for (const topic of topics) {
         if (topic.lessons) {
@@ -142,7 +135,6 @@ export default function Dashboard() {
       }
     }
 
-    // Fallback: use the first not_started across all topics
     if (!foundLesson) {
       for (const topic of topics) {
         if (topic.lessons) {
@@ -160,7 +152,6 @@ export default function Dashboard() {
       }
     }
 
-    // Final fallback: first lesson of first topic
     if (!foundLesson && topics[0].lessons && topics[0].lessons.length > 0) {
       const firstLesson = topics[0].lessons[0];
       continueLessonId = firstLesson.id;
@@ -174,22 +165,22 @@ export default function Dashboard() {
       <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
         {/* HERO SECTION */}
         <div className="space-y-6">
-          <h2 className="text-3xl font-bold tracking-tight">👋 Welcome back, {name || 'Parent'}!</h2>
+          <h2 className="font-display text-3xl leading-tight tracking-tight">Welcome back, {name || 'Parent'}</h2>
 
           {activeLearnerId && (
-            <Card className="bg-card border-border/50 shadow-sm max-w-2xl">
+            <Card className="bg-card border-border/50 max-w-2xl">
               <CardContent className="p-6">
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5 text-primary" />
-                    <span className="font-medium text-lg">
-                      Learning as: {activeLearnerName} <span className="text-muted-foreground font-normal">(Band {activeLearnerBand} &middot; {getBandLabel(activeLearnerBand)})</span>
+                    <span className="font-display text-lg">
+                      Learning as: {activeLearnerName} <span className="font-sans text-sm text-muted-foreground font-normal">(Band {activeLearnerBand} · {getBandLabel(activeLearnerBand)})</span>
                     </span>
                   </div>
 
-                  <div className="text-muted-foreground">
+                  <div className="text-muted-foreground text-sm">
                     Currently on: <span className="font-medium text-foreground">
-                      {continueTopicTitle}{continueLessonTitle ? ` - ${continueLessonTitle}` : ''}
+                      {continueTopicTitle}{continueLessonTitle ? ` — ${stripMarkdown(continueLessonTitle)}` : ''}
                     </span>
                   </div>
 
@@ -199,14 +190,14 @@ export default function Dashboard() {
                       onClick={() => navigate(`/narrate/${continueLessonId}`)}
                       disabled={!continueLessonId}
                     >
-                      ▶ Start Live Lesson
+                      Start Live Lesson
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => navigate(`/read/${continueLessonId}`)}
                       disabled={!continueLessonId}
                     >
-                      📖 Read First
+                      Read First
                     </Button>
                   </div>
                 </div>
@@ -215,7 +206,7 @@ export default function Dashboard() {
           )}
 
           {learners && learners.length > 0 && (
-            <div className="flex items-center gap-3 bg-secondary/50 p-2 rounded-lg border border-border w-max">
+            <div className="flex items-center gap-3 bg-card p-2 rounded-lg border border-border/50 w-max">
               <Users className="h-5 w-5 text-muted-foreground ml-2" />
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
@@ -244,7 +235,7 @@ export default function Dashboard() {
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <Users className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">Complete your family profile</h3>
+            <h3 className="font-display text-xl mb-2">Complete your family profile</h3>
             <p className="text-muted-foreground mb-6 max-w-sm">To start your curriculum journey, please complete the onboarding process and set up your family profile.</p>
             <Button onClick={() => navigate('/onboarding')}>
               Complete Onboarding
@@ -272,7 +263,7 @@ export default function Dashboard() {
         ) : isError ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
             <AlertCircle className="h-12 w-12 text-destructive mb-4" />
-            <h3 className="text-xl font-semibold mb-2">Failed to load topics</h3>
+            <h3 className="font-display text-xl mb-2">Failed to load topics</h3>
             <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
             <Button onClick={() => refetch()} variant="outline">
               <RefreshCcw className="h-4 w-4 mr-2" />
@@ -284,8 +275,8 @@ export default function Dashboard() {
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <BookOpen className="h-8 w-8 text-primary" />
             </div>
-            <h3 className="text-xl font-semibold mb-2">No topics available yet</h3>
-            <p className="text-muted-foreground max-w-sm mb-6">We're still preparing the curriculum content. Check back later to start learning!</p>
+            <h3 className="font-display text-xl mb-2">No topics available yet</h3>
+            <p className="text-muted-foreground max-w-sm mb-6">The curriculum content is being prepared. Check back soon.</p>
             <Button onClick={() => refetch()} variant="secondary">
               <RefreshCcw className="h-4 w-4 mr-2" />
               Refresh
@@ -293,13 +284,12 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="space-y-6">
-            <h3 className="text-2xl font-bold tracking-tight border-b pb-2">Curriculum Journey</h3>
+            <h3 className="font-display text-2xl leading-tight border-b pb-2">Curriculum Journey</h3>
             <Accordion type="single" collapsible className="w-full space-y-4">
               {topics.map((topic, index) => {
                 const completedLessons = topic.lessons?.filter(l => l.status === 'completed').length || 0;
                 const totalLessons = topic.lesson_count || 0;
 
-                // Find the most recent last_studied date
                 let lastStudiedDate: Date | null = null;
                 if (topic.lessons) {
                   for (const lesson of topic.lessons) {
@@ -316,15 +306,16 @@ export default function Dashboard() {
                   <AccordionItem
                     key={topic.id}
                     value={topic.id}
-                    className="bg-card border rounded-xl px-2 shadow-sm overflow-hidden"
+                    className="bg-card border border-border/50 rounded-xl px-2 overflow-hidden animate-card-enter"
+                    style={{ animationDelay: `${index * 40}ms` }}
                   >
                     <AccordionTrigger className="hover:no-underline py-4 px-2">
                       <div className="flex items-center gap-4 text-left w-full pr-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-display text-xl">
                           {index + 1}
                         </div>
                         <div className="flex-grow">
-                          <h4 className="text-lg font-semibold line-clamp-1">{topic.title}</h4>
+                          <h4 className="font-display text-lg leading-tight line-clamp-1">{topic.title}</h4>
                           <div className="flex flex-wrap items-center gap-2 mt-1">
                             <Badge variant="secondary" className="flex items-center gap-1 text-xs py-0 h-5">
                               <Clock className="w-3 h-3" /> {topic.era}
@@ -354,14 +345,14 @@ export default function Dashboard() {
                           topic.lessons.map((lesson, lIndex) => (
                             <div
                               key={lesson.id}
-                              className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-secondary/30 hover:bg-secondary/50 transition-colors border border-border/50"
+                              className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-background hover:bg-accent/10 transition-colors border border-border/50"
                             >
                               <div className="absolute -left-[29px] w-4 h-4 rounded-full bg-background border-2 border-primary/40 flex items-center justify-center">
                                 {lesson.status === 'completed' && <div className="w-2 h-2 rounded-full bg-primary" />}
                               </div>
                               <div className="flex-grow">
-                                <h5 className="font-medium">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
-                                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                                <h5 className="font-display text-base leading-tight">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
+                                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground font-sans">
                                   <Clock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
                                 </div>
                               </div>

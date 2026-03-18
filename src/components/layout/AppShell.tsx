@@ -2,12 +2,11 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { useAuthStore } from "@/lib/auth";
 import { useLearnerStore } from "@/lib/learnerStore";
-import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Book, TrendingUp, Settings, LogOut, Menu } from "lucide-react";
+import { LayoutDashboard, Book, TrendingUp, Settings, LogOut } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -16,11 +15,6 @@ interface Learner {
   id: string;
   name: string;
   band: number;
-}
-
-interface FamilyResponse {
-  family: { id: string; name: string };
-  learners: Learner[];
 }
 
 interface AppShellProps {
@@ -41,10 +35,10 @@ export function AppShell({ children }: AppShellProps) {
         <AppSidebar />
 
         <div className="flex-1 flex flex-col min-w-0">
-          <header className="border-b border-border/50 bg-card/60 backdrop-blur-xl sticky top-0 z-10 flex items-center justify-between px-4 h-[57px] shrink-0">
+          <header className="border-b border-border/50 bg-background sticky top-0 z-10 flex items-center justify-between px-4 h-[57px] shrink-0">
             <div className="flex items-center gap-2">
               <SidebarTrigger className="md:hidden" />
-              <div className="md:hidden font-semibold text-lg flex items-center gap-2">
+              <div className="md:hidden font-display text-xl flex items-center gap-2">
                 <Book className="h-5 w-5 text-primary" />
                 Learn Live
               </div>
@@ -100,23 +94,23 @@ export function AppShell({ children }: AppShellProps) {
           </main>
 
           {/* Mobile Bottom Navigation */}
-          <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-border/50 bg-card/80 backdrop-blur-lg z-50 px-6 py-3 flex justify-between items-center">
-            <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+          <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-border/50 bg-card z-50 px-6 py-3 flex justify-between items-center">
+            <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
               <LayoutDashboard className="h-5 w-5" />
-              <span className="text-[10px] font-medium">Home</span>
+              <span>Home</span>
             </NavLink>
-            <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+            <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
               <Book className="h-5 w-5" />
-              <span className="text-[10px] font-medium">Glossary</span>
+              <span>Glossary</span>
             </NavLink>
-            <NavLink to="/progress" className={({ isActive }) => `flex flex-col items-center gap-1 ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+            <NavLink to="/progress" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
               <TrendingUp className="h-5 w-5" />
-              <span className="text-[10px] font-medium">Progress</span>
+              <span>Progress</span>
             </NavLink>
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex flex-col items-center gap-1 text-muted-foreground outline-none">
+              <DropdownMenuTrigger className="flex flex-col items-center gap-1 text-muted-foreground outline-none font-sans text-xs font-medium">
                 <Settings className="h-5 w-5" />
-                <span className="text-[10px] font-medium">Profile</span>
+                <span>Profile</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">
                 {isLoading ? (
