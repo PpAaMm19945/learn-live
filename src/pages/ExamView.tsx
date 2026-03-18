@@ -176,7 +176,7 @@ export default function ExamView() {
 
         {status === 'evaluating' && (
            <div className="text-center space-y-8 animate-in fade-in duration-300">
-               <Loader2 className="w-16 h-16 animate-spin text-primary mx-auto" />
+               <IconLoader2 className="w-16 h-16 animate-spin text-primary mx-auto" />
                <h2 className="font-display text-2xl">Evaluating responses…</h2>
                <p className="text-muted-foreground max-w-md mx-auto">
                    The AI is analyzing your answers and drafting an assessment.
