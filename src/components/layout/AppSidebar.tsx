@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Book, TrendingUp, ShieldAlert, LogOut } from "lucide-react";
+import { IconLayoutDashboard, IconBook, IconTrendingUp, IconShieldLock, IconLogout } from "@tabler/icons-react";
 import { useIsAdmin, useAuthStore } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
