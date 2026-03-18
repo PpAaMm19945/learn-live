@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
+import { Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { ParentReviewModal } from '@/components/exam/ParentReviewModal';
-import { Badge } from '@/components/ui/badge';
+import { useAuthStore } from '@/lib/auth';
 import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Skeleton } from '@/components/ui/skeleton';

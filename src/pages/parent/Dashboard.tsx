@@ -40,7 +40,6 @@ interface Topic {
 export default function Dashboard() {
   const navigate = useNavigate();
   const { name } = useAuthStore();
-  const { toast } = useToast();
 
   const {
     learners,

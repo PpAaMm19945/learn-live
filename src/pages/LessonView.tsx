@@ -35,7 +35,6 @@ interface LessonData {
 export default function LessonView() {
   const { lessonId } = useParams<{ lessonId: string }>();
   const navigate = useNavigate();
-  const { toast } = useToast();
 
   const { activeLearnerName, activeLearnerBand } = useLearnerStore();
   const BAND_LABELS = ['Picture Book', 'Story Mode', 'Explorer', 'Scholar', 'Apprentice', 'University'];

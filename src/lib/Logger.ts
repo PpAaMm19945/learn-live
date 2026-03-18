@@ -1,5 +1,5 @@
 export type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error';
-export type LogContext = '[UI]' | '[AGENT]' | '[DB]' | '[AUTH]' | '[CORE]' | '[MATRIX]' | '[PROFILE]' | '[SEC]' | '[EVIDENCE]' | '[EXPLAINER]' | '[NARRATOR]' | '[SYNC]' | '[DEMO]' | '[LOGIN]' | '[ONBOARD]' | '[APP]' | '[LEARNER_STORE]';
+export type LogContext = '[UI]' | '[AGENT]' | '[DB]' | '[AUTH]' | '[CORE]' | '[MATRIX]' | '[PROFILE]' | '[SEC]' | '[EVIDENCE]' | '[WITNESS]' | '[EXPLAINER]' | '[NARRATOR]' | '[SYNC]' | '[DEMO]' | '[LOGIN]' | '[ONBOARD]' | '[APP]' | '[LEARNER_STORE]';
 
 interface LogOptions {
     level: LogLevel;
