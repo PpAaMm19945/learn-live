@@ -14,7 +14,7 @@ export const LessonProgress: React.FC<LessonProgressProps> = ({ status, classNam
         case 'completed':
             return (
                 <Badge variant="default" className={`bg-primary text-primary-foreground hover:bg-primary/90 flex items-center space-x-1 ${className}`}>
-                    <CheckCircle2 className="w-3 h-3" />
+                    <IconCircleCheck className="w-3 h-3" />
                     <span>Completed</span>
                 </Badge>
             );
