@@ -138,7 +138,7 @@ export default function TopicDetail() {
               <IconClock className="w-4 h-4" /> {topic.era}
             </Badge>
             <Badge variant="outline" className="flex items-center gap-1 text-sm py-1">
-              <MapPin className="w-4 h-4" /> {topic.region}
+              <IconMapPin className="w-4 h-4" /> {topic.region}
             </Badge>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl leading-tight tracking-tight">{topic.title}</h2>
