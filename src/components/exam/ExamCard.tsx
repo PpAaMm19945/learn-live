@@ -45,7 +45,7 @@ export function ExamCard({ lessonId, status = 'pending' }: ExamCardProps) {
 
         {status === 'pending' && (
           <Button onClick={handleStartExam} className="w-full">
-            <Mic className="w-4 h-4 mr-2" /> Start Exam
+            <IconMicrophone className="w-4 h-4 mr-2" /> Start Exam
           </Button>
         )}
         {status === 'completed' && (
