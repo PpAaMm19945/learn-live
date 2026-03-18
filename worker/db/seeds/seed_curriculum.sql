@@ -5,10 +5,10 @@
 -- Chapter 1: The Sovereign Hand: A Biblical Foundation for African History
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch01', 'The Sovereign Hand: A Biblical Foundation for African History', 'Origins – c. 2242 BC', 'Pan-African', 'The Sovereign Hand: A Biblical Foundation for African History - Origins – c. 2242 BC - Pan-African', 1, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s01', 'topic_ch01', '**1.1 In the Beginning: God, Man, and the Meaning of History**', '*Creation (c. 4004 BC - biblical chronology) --- The Fall --- The Flood (c. 2348 BC - biblical chronology) --- Tower of Babel (c. 2242 BC - biblical chronology)*
 
 #### **History''s True Beginning**
@@ -44,7 +44,7 @@ With this biblical framework established, we''re now equipped to navigate the sp
 3. God''s judgment at Babel **(c. 2242 BC - biblical chronology)** resulted in the creation of different languages and the scattering of peoples. In what ways can this event be seen as both an act of **judgment** and an act of **mercy**?
 4. This introduction sets the stage to discuss controversial topics like the "Curse of Ham." Why is it important to have a solid theological foundation (**Creation, Fall, Redemption**) before tackling such difficult historical issues?', '["c. 4004 BC","c. 2348 BC","c. 2242 BC"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s02', 'topic_ch01', '**1.2 The Charter of Nations: Africa''s Biblical Roots**', '*Babel Dispersion (c. 2242 BC - biblical chronology) --- Early Settlement of Egypt (Mizraim) --- Early Settlement of Cush & Phut*
 
 > **Key Term: Sovereignty**
@@ -100,7 +100,7 @@ Our human pursuit of justice (Hebrew: ***mishpat***) and righteousness (Hebrew: 
 3.  The people at Babel wanted to create a single, unified human culture in their own name. God responded by creating many cultures for His glory. What does this teach us about the difference between sinful uniformity and godly diversity?
 4.  How does the biblical idea of justice (*mishpat*—restoring wholeness) connect to God''s command, "You shall be holy, for I the LORD your God am holy"?', '["c. 2242 BC","c. 2100 BC"]', '[]', 5, 8);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s03', 'topic_ch01', '**1.3 The Weaponization of a Myth: Deconstructing the "Curse of Ham"**', '*Noah''s Curse on Canaan (c. 2347 BC - biblical chronology) --- Fulfillment in Conquest (c. 1400 BC - biblical chronology) --- Invention of Racist Myth (1500s AD)*
 
 > **Key Term: Curse**
@@ -152,7 +152,7 @@ So where did the racist myth come from? Beginning in the **16th and 17th centuri
 
 4.  What are the dangers of coming to the Bible looking for verses to support what you already believe, rather than coming to have your beliefs shaped by the text?', '["c. 2347 BC","c. 1400 BC","c. 2091 BC"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s04', 'topic_ch01', '**1.4 The Peopling of Africa: A Biblical Model**', '*Babel Dispersion (c. 2242 BC - biblical chronology) --- Founding of Egypt, Cush, & Phut --- Rise of Early Kingdoms*
 
 ![Map 1: Post-Babel Dispersion showing Shem, Ham, Japheth; highlighting Mizraim, Cush, Phut](images/map-001-post-babel-dispersion.png)
@@ -206,7 +206,7 @@ Eventually, this is not a question of competing scientific models; it''s a quest
 1.  **Oral Traditions as Historical Evidence:** Many African cultures have rich oral histories passed down through generations. How should a historian weigh the value of these traditions (like the "Misri" origin stories) against archaeological findings? What are the strengths and weaknesses of each type of evidence?
 2.  **Comparing Genesis 10 and Linguistic Maps:** Look at a modern map showing the distribution of major African language families (like Niger-Congo, Nilo-Saharan, Afro-Asiatic). How does the history presented in Genesis 10 (which focuses on the northeast) help us interpret or question the assumptions behind these modern linguistic maps?', '["c. 2242 BC","c. 860 BC"]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch01_s05', 'topic_ch01', '**1.5 Portraits of Power: Mizraim, Cush, and Phut**', '*→ See Chapter 2 for a full discussion.*
 
 *Rise of Egypt''s Old Kingdom (c. 2100 BC - biblical chronology) --- Rise of Kingdom of Cush (c. 2000 BC - biblical chronology) --- Cushite 25th Dynasty (c. 744-656 BC - biblical chronology)*
@@ -297,10 +297,10 @@ The identity of the people of Phut was forged in warfare. They sowed to the fles
 -- Chapter 2: The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch02', 'The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra', 'c. 3100 BC', 'Egypt / Nile Valley', 'The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra - c. 3100 BC - Egypt / Nile Valley', 2, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s01', 'topic_ch02', '1. Foundations After Babel (c. 3200–2900 BC, conventional estimate)', 'Following the great dispersal at the Tower of Babel, humanity began a new chapter. As Genesis 11 describes, God scattered the people “over the face of all the earth.” From this monumental event, new civilizations emerged in the world’s fertile corners. One of the very first and most enduring of these grew along the banks of the Nile River in northeastern Africa. This was a land of immense potential—a ribbon of life-giving water and soil cutting through a harsh desert. It was here that a new story in human history, and a pivotal one in God’s sovereign plan, would begin.
 
 ![Map 2: Ancient Egypt — Upper & Lower Egypt, Memphis, Thebes, Nile Delta, Sinai Peninsula, Major Trade Routes](chapter_02/maps/map-002-ancient-egypt.png)
@@ -322,7 +322,7 @@ As these early communities grew and coalesced, their desire to impose order on t
 
 ***', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s02', 'topic_ch02', '2. The Unification and the Old Kingdom (c. 2900–2180 BC, conventional estimate)', 'The scattered settlements along the Nile were growing in confidence and strength, putting them on a collision course. Their quest for order led logically to unification. This meant merging the distinct cultures of Upper Egypt (the southern, upstream part of the Nile) and Lower Egypt (the northern, delta region) into a single, powerful kingdom. Around 2900 BC, this historic moment arrived. Tradition credits this achievement to a king named **Narmer** (also known as Menes). Through conquest and diplomacy, he brought the two lands under his command. This event marks the birth of the world’s first centralized monarchy and the dawn of the Old Kingdom.
 
 ![The Narmer Palette showing the unification of Upper and Lower Egypt (c. 3100 BC)](images/ch02_narmer_palette.jpg)
@@ -358,7 +358,7 @@ The stability and prosperity of the Old Kingdom, however, were not destined to l
 **Exegetical Note:** The biblical parallel places the Old Kingdom in the era after the Babel dispersion but before God’s covenant with Abraham. This timing is significant because it establishes Egypt’s rise as part of the broader story of nations developing according to their own ambitions, separate from God''s specific redemptive plan that would begin with Israel.
 ***', '["c. 3100 BC","c. 2100 BC"]', '["Narmer"]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s03', 'topic_ch02', '3. The First Intermediate Period (c. 2180–2050 BC, conventional estimate)', 'For centuries, the Old Kingdom seemed an unshakeable force of stability, a monument to order itself. But the very factors of its glory—the immense power of the Pharaoh and the vast resources his divinity required—also held the seeds of its collapse. The end of the Old Kingdom was a slow unraveling, not a sudden event. A series of weak pharaohs and growing droughts from climate stress weakened the central government. The Nile’s predictable flooding became unreliable, which led to famine and economic hardship. This was a profound theological crisis. If the divine Pharaoh could not guarantee the harvest, was he truly in control? Was **Ma’at** failing?
 
 As the Pharaoh''s power faded, regional governors, known as nomarchs, grew bolder. The crown had entrusted them with great authority to manage their provinces, and now they began to rule their lands as independent lords. Egypt, once a proud, unified nation, fractured into competing territories. The flow of taxes to the capital at Memphis slowed to a trickle. Grand, nation-unifying projects like pyramid building stopped completely. Brother fought against brother, and city fought against city. This era, the First Intermediate Period, was a time of intense chaos and civil war. It was a stark, terrifying manifestation of *Isfet* (chaos) overcoming the order that had defined their world for half a millennium.
@@ -392,7 +392,7 @@ The First Intermediate Period was a dark and difficult chapter in Egypt''s story
 > 2. The literature of this period shows people questioning authority and divine justice. Is it faithful to ask hard questions during times of suffering? What examples do we see of this in the Bible (e.g., the book of Job, many of the Psalms)?
 > 3. The collapse of the central government led to widespread chaos. What does this teach us about the importance of good and just **governance** in society?***', '["c. 1250 BC"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s04', 'topic_ch02', '4. The Middle Kingdom: Egypt’s Classical Age (c. 2050–1650 BC, conventional estimate)', 'Out of the chaos of the First Intermediate Period, a new Egypt emerged. The powerful rulers of Thebes in the south, led by **Mentuhotep II**, defeated their northern rivals and reunified the two lands around 2050 BC. This event ushered in the Middle Kingdom, an era widely seen as Egypt’s “Classical Age.” After enduring a century of collapse, the Egyptians came forth with a new maturity. The Old Kingdom had projected supreme, youthful confidence; the Middle Kingdom, however, showed a deeper understanding of the world’s fragility. It placed a renewed emphasis on justice, social responsibility, and a more personal form of religion.
 
 The idea of kingship shifted. The Pharaoh was still a divine figure, but artists now often portrayed him as a wise and vigilant **shepherd** of his people, bearing the heavy burdens of rule. The art of the period reflects this, moving toward a striking realism. Statues of pharaohs like Senusret III show care-worn, thoughtful faces, not the idealized, god-like expressions of the Old Kingdom. This was a king who understood suffering and his duty to protect his flock. Under these strong rulers, Egypt again became prosperous and stable. They expanded trade routes, secured the borders, and launched ambitious irrigation projects to increase the food supply, ensuring the nation was secure.
@@ -418,7 +418,7 @@ The stability of the Middle Kingdom created a context where people from surround
 Sold into slavery by his own brothers, Joseph’s story (Genesis 37-50) is a masterpiece of divine providence. He endured false accusations and imprisonment in Egypt before his God-given ability to interpret dreams brought him before Pharaoh. Rising to become Vizier, or prime minister, he brilliantly administered the nation through a seven-year famine. His wisdom not only saved Egypt but also created a refuge for his own family, the progenitors of the twelve tribes of Israel. Joseph’s life demonstrates that God can use the evil intentions of men to accomplish His good and sovereign purposes, positioning His people for the next chapter of His redemptive plan.
 ***', '["c. 1921 BC"]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s05', 'topic_ch02', '5. The Second Intermediate Period and the Hyksos (c. 1650–1550 BC, conventional estimate)', 'The restored stability of the Middle Kingdom eventually frayed. A series of less effective pharaohs weakened the central government, leaving Egypt vulnerable. This time, the disruption came not from internal collapse alone, but from a foreign people. Around 1650 BC, a group of rulers known as the **Hyksos**, meaning “foreign rulers,” swept into Lower Egypt from the northeast. Scholars still debate their precise origins, but they were likely a mix of Semitic and Canaanite peoples from the Levant. They established their capital at Avaris in the Nile Delta and ruled northern Egypt for about a century.
 
 The Hyksos'' arrival marked the beginning of the Second Intermediate Period. For the native Egyptians, this was a time of great humiliation. For the first time in their long history, a large part of their homeland was under the control of outsiders they considered culturally inferior. The Hyksos, however, were not simply barbarians. They brought new technologies that would revolutionize Egyptian warfare. They introduced the **horse-drawn chariot** and advanced bronze weapons like the composite bow. These military innovations gave them a decisive advantage over the more traditionally armed Egyptian forces.
@@ -463,7 +463,7 @@ The Hyksos'' dominance was not to last. The simmering resentment of the Theban r
 
 ***', '[]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s06', 'topic_ch02', '6. The New Kingdom: Empire and Glory (c. 1550–1070 BC, conventional estimate)', 'A new, more aggressive Egypt emerged from the fire of national liberation. Around 1550 BC, the Theban king **Ahmose I** successfully expelled the Hyksos. He reunited the country and launched the New Kingdom, the most powerful and glorious era in Egyptian history. The humiliation of foreign rule had taught the Egyptians a harsh lesson: to prevent future invasions, they had to build an empire. No longer content within their traditional borders, the New Kingdom pharaohs became warrior-kings. They led a professional army equipped with the very chariots and advanced weapons the Hyksos had introduced, determined to project their power far beyond the Nile Valley.
 
 This was an age of legendary pharaohs and immense conquests. Rulers like **Thutmose III**, the "Napoleon of Egypt," and the great builder **Ramesses II** led campaigns deep into Nubia (modern Sudan) and the Levant (modern Syria and Israel). These conquests brought unprecedented wealth into Egypt. Tribute, raw materials like Nubian gold, and enslaved peoples poured into the kingdom. This wealth funded an age of monumental construction that dwarfed all previous eras. The rulers expanded the sprawling temple complexes at **Karnak and Luxor** to colossal sizes and carved magnificent new tombs into the rock of the **Valley of the Kings**. The Pharaoh was now at the absolute peak of his power: a victorious general, the head of a vast empire, and a living god worshipped throughout the land.
@@ -488,7 +488,7 @@ Often called the "heretic king," Akhenaten stands out for his radical attempt to
 
 The wealth and power of the New Kingdom created a pride and self-sufficiency that placed Egypt on a direct collision course with the God of the Hebrews. The stage was now set for the most dramatic event in Israel’s history, an event that would shatter Egypt’s confidence and proclaim Yahweh’s name to the world.***', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s07', 'topic_ch02', '7. The Late Period and Foreign Domination (c. 1070–332 BC, conventional estimate)', 'After the New Kingdom''s apex, Egypt''s glory entered a long, slow unraveling that spanned centuries. The Pharaoh''s central authority weakened as powerful priesthoods, especially the cult of Amun-Ra at Thebes, accumulated vast wealth and often challenged the throne. This internal decay left Egypt vulnerable. For much of the Late Period, a succession of foreign powers invaded and ruled the nation.
 
 First, Libyans from the west established their own dynasty but largely assimilated into Egyptian culture. Following them, a more remarkable conquest came from the south. The kingdom of Kush, based in Nubia, had long been under Egyptian control. Now, with Egypt weakened, the Kushite kings saw their chance. They swept north, conquering their former masters and establishing the **25th Dynasty** (c. 744-656 BC). This was a stunning African resurgence. The Kushite Pharaohs, like Piye and Taharqa, saw themselves not as foreign conquerors but as restorers of Egypt’s true culture. They revered the ancient ways and sought to bring back the glory of the Old and Middle Kingdoms.
@@ -506,7 +506,7 @@ This new reality is captured in the prophet Ezekiel''s powerful imagery. He famo
 
 The final chapters of Egypt’s independence were drawing to a close. The nation had passed from one foreign ruler to another—Libyan, Nubian, Assyrian, and Persian. But another, even more transformative, conquest was on the horizon. This one would bring Greek culture to the banks of the Nile and set the stage for the final act of pharaonic Egypt.***', '[]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s08', 'topic_ch02', '8. The Hellenistic Period: Greeks in Egypt (332–30 BC, conventional estimate)', 'The long era of Persian rule ended abruptly with the arrival of **Alexander the Great**. In 332 BC, the brilliant Macedonian general swept into Egypt, where the people welcomed him as a liberator. Alexander respected their religion and accepted the crown of the Pharaohs, but his vision was global. He founded a new city on the coast, **Alexandria**, intending it to be a great center of Greek culture and commerce. After Alexander’s early death, his generals divided his vast empire. Egypt fell to the shrewd and capable **Ptolemy I**, who established a Greek dynasty that ruled the land for nearly 300 years.
 
 This Ptolemaic Dynasty ushered in the Hellenistic Period, a time of remarkable cultural fusion. The Ptolemaic rulers were Greek in language and culture. They filled the new capital of Alexandria with Greek art, architecture, and philosophy. Alexandria quickly became the world’s intellectual capital. It was home to the famous **Library of Alexandria**, which housed hundreds of thousands of scrolls and attracted the greatest minds of the age. Yet, the Ptolemies were also pragmatic. To win the loyalty of their Egyptian subjects, they adopted pharaonic traditions. They built and restored Egyptian temples, had themselves depicted in the pharaonic style, and participated in native religious festivals.
@@ -554,7 +554,7 @@ Egypt, the land of pyramids and pharaohs, the great oppressor and the broken ree
 
 ***', '[]', '["Ptolemy"]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch02_s09', 'topic_ch02', '9. Legacy of the Nile (Post-30 BC, conventional estimate)', 'With Cleopatra’s death, the grand story of ancient Egypt as an independent power ended. Rome formally annexed Egypt, and it became the personal province of the Emperor Augustus. Its new role was clear and pragmatic: it was to be the **breadbasket of Rome**. The Romans would harness its immense agricultural wealth to feed the empire’s capital. They admired Egypt’s ancient culture and marveled at its monuments, but they did not see the land as a theological peer or political rival. It was a resource to manage, its divine kingship replaced by the secular, administrative power of Roman governors.
 
 Yet, Egypt''s legacy was not erased; it was absorbed and transmitted. For three thousand years, the civilization of the Nile had been a beacon of human achievement. Its contributions to the world were immense. In **architecture**, the Egyptians pioneered monumental stone construction, creating structures that still inspire awe. In **science and mathematics**, their knowledge of engineering, astronomy, and medicine was unmatched in the ancient world. Their invention of **writing**, from sacred hieroglyphs to common scripts, provided a foundation for recording knowledge and administering a complex society. Their art, with its distinctive style and symbolic depth, created a visual language that told their civilization''s story.
@@ -582,10 +582,10 @@ The story of Egypt, from the pyramid builders to Cleopatra, is a drama on the st
 -- Chapter 3: The Lands of Phut — Carthage, Numidia, and the Desert Kingdoms
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch03', 'The Lands of Phut — Carthage, Numidia, and the Desert Kingdoms', 'c. 500 BC', 'Egypt / Nile Valley', 'The Lands of Phut — Carthage, Numidia, and the Desert Kingdoms - c. 500 BC - Egypt / Nile Valley', 3, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch03_s01', 'topic_ch03', 'Introduction: The 1,000-Year Gap', 'When we left the story in Chapter 4, it was approximately **300 BC** (conventional estimate). The Kingdom of **Kush (Napata/Meroe)** was entering its golden age along the Upper Nile, controlling trade routes and building pyramids in imitation of their Egyptian predecessors. In **Egypt** itself, the Ptolemaic Dynasty—Greek rulers descended from Alexander the Great''s general Ptolemy—sat on the throne of the pharaohs. The great empires of the ancient Near East (Assyria, Babylon, Persia) had risen and fallen, and a new power was emerging in the west: **Rome**.
 
 But before Rome would paint the Mediterranean purple with its legions and establish the *Pax Romana* that would facilitate the spread of the Gospel, another drama unfolded across North Africa—a drama involving three remarkable civilizations that have often been overlooked in Christian accounts of African history.
@@ -649,7 +649,7 @@ Let us now turn to the story of these three civilizations, each remarkable in it
 
 ---', '["c. 500 BC","c. 700 AD"]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch03_s02', 'topic_ch03', '3.1 The Phoenician West — Carthage and the Punic Wars', 'In this section you will discover the remarkable story of Carthage, the greatest rival Rome ever faced, and learn how this Canaanite colony preserved the ancient religion condemned in Scripture until its final destruction in 146 BC.
 
 ![Map 11: Carthaginian Maritime Empire — Trade Routes, Punic Wars, and the Legacy of Canaan](images/map-011-carthaginian-maritime-empire.png)
@@ -769,7 +769,7 @@ There is also a profound irony in the fact that Carthage''s destruction paved th
 
 ---', '["c. 814 BC","c. 1100 BC"]', '["Solomon"]', 5, 13);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch03_s03', 'topic_ch03', '3.2 The Berber Kingdoms — Numidia and Mauretania', 'In this section you will discover the indigenous North African kingdoms that bridged the gap between Carthaginian and Roman dominance, and learn how God used their Romanization to prepare the way for the Gospel.
 
 ![Map 12: Numidia & Mauretania — The Berber Kingdoms, From Massinissa to the Roman Annexation](images/map-012-numidia-mauretania.png)
@@ -878,7 +878,7 @@ With this annexation, the era of independent Berber kingdoms came to an end. The
 
 ---', '["c. 48 BC","c. 35 AD","c. 200 AD"]', '["Who Chose Rome\n\nBut","Bocchus"]', 5, 11);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch03_s04', 'topic_ch03', '3.3 Masters of the Desert — The Garamantian Kingdom', 'In this section you will discover one of ancient Africa''s most ingenious civilizations—desert dwellers who turned the Sahara into a thriving oasis network through remarkable engineering, and learn how their story illustrates both human ingenuity under God''s dominion mandate and the universal reach of human sinfulness.
 
 ![Map 10: Garamantian Kingdom — Fezzan Oasis Network, Foggara Irrigation, Trans-Saharan Trade Routes](images/map-010-garamantian-kingdom.png)
@@ -1019,7 +1019,7 @@ Today, the ruins of Germa lie in the Libyan desert, a evidence of one of history
 
 ---', '["c. 800 BC","c. 500 BC"]', '[]', 5, 11);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch03_s05', 'topic_ch03', 'Chapter Summary and Conclusion', 'In this chapter, we have journeyed through 1,200 years of North African history, from the founding of Carthage in 814 BC to the final Roman annexation of Mauretania in 40 AD, and glimpsed the enduring Garamantian civilization until its decline around 700 AD. We have seen three remarkable civilizations rise and fall:
 
 **Carthage**, the Canaanite city-state that preserved the abominations condemned in Scripture—child sacrifice, Baal worship—until its final destruction became a evidence of the long arc of divine judgment. Yet from its ashes would rise a Christian intellectual powerhouse that would shape the faith for centuries.
@@ -1059,10 +1059,10 @@ God truly does write straight with crooked lines.
 -- Chapter 4: The Lands of Cush — From Babel to the Eve of Roman Africa
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch04', 'The Lands of Cush — From Babel to the Eve of Roman Africa', 'c. 590 BC', 'Egypt / Nile Valley', 'The Lands of Cush — From Babel to the Eve of Roman Africa - c. 590 BC - Egypt / Nile Valley', 4, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s01', 'topic_ch04', '4.1 After Babel: Early Migrations into the Upper Nile and Horn (c. 3200–2200 BC)', 'This section explores the initial settlement patterns in the lands south of Egypt following the dispersion at Babel. We will trace the movement of peoples who would form the basis of the great Cushite civilizations, examining the environmental factors and early cultural markers that shaped their development.
 
 The generations following the judgment at Babel saw humanity scatter across the face of the earth. As recorded in Genesis 10, the descendants of Ham, son of Noah, included Cush, whose progeny would establish a lasting legacy in northeast Africa. The Table of Nations divides Cush''s children into specific lines: **Seba, Havilah, Sabtah, Raamah, and Sabteca** (Genesis 10:7). Each of these names represents not just individuals but entire people groups who would settle distinct regions of the Upper Nile and the Horn of Africa. From the staging ground of the Nile corridor, groups began migrating southward and eastward, following the life-giving headwaters of the Nile—the **White Nile, Blue Nile (flowing from Lake Tana in the Ethiopian Highlands), and the Atbara River**—and settling the fertile, well-watered highlands of the "Roof of Africa." This movement, occurring around 3200–2200 BC (conventional estimate), laid the foundation for a distinct cultural and political trajectory separate from that of Mizraim (Egypt) to the north.
@@ -1123,7 +1123,7 @@ The story of Kerma is a powerful reminder that God''s common grace extends to al
 
 However, Kerma''s practice of human sacrifice reveals the other side of the fallen human condition. Despite their artistic brilliance and organizational skill, the Kerma elite participated in a practice of profound evil, treating human lives—lives made in God''s image—as expendable. This is the legacy of the Fall (Genesis 3): human creativity and depravity coexist. Kerma''s rise and eventual fall (it was conquered and absorbed by New Kingdom Egypt around 1500 BC) illustrate the transient nature of all human kingdoms and the universal need for the redemptive work of Christ, a King whose kingdom is not of this world and will never fade. The tension we see in Kerma—brilliance and brutality—is the tension we see in every unredeemed society, and it points us to the only solution: the Gospel.', '[]', '[]', 5, 11);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s02', 'topic_ch04', '4.3 Napatan Kush: The Re-emergence of a Nubian Kingdom (c. 1000–590 BC)', 'This section examines the resurgence of a powerful Nubian kingdom centered at Napata, which not only revived Cushite power but also culminated in the conquest of Egypt itself.
 
 Following the decline of Egypt''s New Kingdom and the end of its colonial rule in Nubia, a new native dynasty rose to power around 1000 BC (conventional estimate). This new kingdom was centered at the city of **Napata**, located near the **4th Cataract** of the Nile and the base of the holy mountain of **Jebel Barkal**. The Napatan rulers spearheaded a powerful revival of Cushite civilization, blending local traditions with select Egyptian customs to forge a unique and potent cultural identity.
@@ -1167,7 +1167,7 @@ The rise of the 25th Dynasty is a stunning reversal of historical norms, where a
 
 For the student of Scripture, the story serves as a powerful illustration of God''s sovereignty over the affairs of nations. He raises up kings and brings them down (Daniel 2:21), and He is not limited by human ethnic or political boundaries. The Napatan kings, whatever their personal motives, were instruments in God''s hand, shaping the political landscape of the day in ways that would eventually serve His redemptive purposes. The mention of **Tirhakah** in Isaiah 37 is particularly significant: God used a Cushite king—a descendant of Ham—to oppose the Assyrians and, in doing so, to help preserve the kingdom of Judah from annihilation. Without Judah''s survival, there would be no Davidic line, and without the Davidic line, there would be no fulfillment of the messianic promise. The "Black Pharaohs" of Nubia, often overlooked in popular history, were part of God''s sovereign plan to preserve the lineage of the Messiah. This is a profound example of God working through unexpected actors (like Cyrus in Isaiah 45:1) to accomplish His purposes, a reminder that His plan encompasses all nations and that African kingdoms were central to the biblical story, not peripheral.', '[]', '["Hezekiah"]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s03', 'topic_ch04', '4.4 The Meroitic Era: Meroe and the Southward Shift (c. 590 BC–350 AD)', 'This section traces the evolution of the Cushite kingdom as its center of power shifted south to Meroe, leading to a flourishing of a unique culture, a new writing system, and a powerful iron-based economy.
 
 Following an Egyptian raid on Napata around 591 BC (conventional estimate), the Cushite kingdom gradually shifted its political and economic heartland south to **Meroe**. Located on the fertile **Butana Plain**—the triangular region bounded by the Nile to the west, the **Atbara River** to the north and east, and the **Blue Nile** to the south—Meroe offered significant strategic advantages. This region, known to ancient writers as the **"Island of Meroe,"** was less vulnerable to attacks from the north, sat amidst vast acacia forests that provided abundant fuel for iron smelting, and was perfectly positioned to control trade routes leading eastward to the Red Sea. This strategic relocation sparked a new and vibrant phase of Cushite history that would last nearly a thousand years.
@@ -1208,7 +1208,7 @@ Yet, the story of Meroe also reminds us that technological advancement does not 
 
 The eventual decline and conquest of Meroe by Aksum around 350 AD highlight the biblical truth that all earthly kingdoms are temporary. Meroe lasted for a millennium, an impressive run by any measure, but it too fell. True and lasting security is found not in economic power, military might, or technological superiority, but in the unshakable kingdom of our Lord Jesus Christ. The very fact that we read of the "Kandake" in Acts 8—that a Meroitic queen''s treasurer encountered the Gospel and carried it back to his homeland—shows that God''s kingdom was advancing even as Meroe''s earthly power would eventually fade.', '["c. 590 BC"]', '[]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s04', 'topic_ch04', '4.5 Cush and the Red Sea World: Ancient Judaic Roots (c. 1000 BC–1st Century AD)', '> **Key Term: D''mt**
 > A pre-Aksumite culture (c. 800–400 BC) in the Tigray/Eritrea region, showing strong South Arabian (Sabaean) influence. Major site: Yeha.
 
@@ -1224,7 +1224,7 @@ This pre-Christian monotheistic presence may be seen as part of God''s provident
 
 The story is a beautiful picture of how God works through historical and cultural currents—trade routes, political connections, religious seeking—to draw people from every nation, tribe, and tongue to Himself. **Psalm 68:31**, "Ethiopia [Cush] shall soon stretch out her hands unto God," is not merely a poetic image but a prophetic promise that begins to find its fulfillment in the conversion of the Ethiopian eunuch and continues in the later Christianization of the Aksumite empire. The deep and ancient connection between the people of the Horn and the biblical story of Israel was not incidental but preparatory, part of God''s sovereign plan for the nations.', '["c. 1000 BC"]', '["Solomon"]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s05', 'topic_ch04', '4.6 The Aksumite Rise: From Local Kingdom to Regional Empire (c. 1st Century BC–4th Century AD)', 'This section charts the rise of the Aksumite kingdom in the Ethiopian highlands, tracing its growth from a local power to a major regional empire recognized on the world stage.
 
 Emerging in the 1st century BC (conventional estimate), the kingdom of Aksum represented a new center of power in the Horn of Africa. Located in the highlands of modern Ethiopia (specifically the Tigray region), Aksum grew wealthy and powerful by dominating the lucrative trade routes between the African interior and the Red Sea port of **Adulis**. From Adulis, Aksumite merchants exported **ivory, gold, rhinoceros horn, and incense** to the Roman Empire and beyond, making their kingdom a key player in the interconnected economy of the ancient world. The wealth generated by this trade allowed the Aksumite kings to consolidate power, expand their territory, and develop a sophisticated material culture that rivaled any contemporary civilization.
@@ -1258,7 +1258,7 @@ The rise of Aksum demonstrates God''s common grace in bestowing wisdom, skill, a
 
 This period of Aksum''s ascent, however, was still characterized by pagan worship (of deities represented by the sun and moon discs on their early coins) and the glorification of human kings (the monumental stelae). It was a kingdom of great earthly power and wealth, but spiritually, it was still in darkness, waiting for a new revelation. The stage was being set for a dramatic spiritual transformation that would have eternal consequences. The story of Aksum reminds us that God often works through the "secular" rise and fall of nations—through trade, warfare, political alliances, and economic development—to prepare the way for the coming of His kingdom. The wealth and power of pagan Aksum, while impressive, served eventually as the platform upon which Christian Aksum would be built. God was sovereignly orchestrating events, raising up a powerful African empire that would soon become a vibrant center of the Christian faith and a witness to the Gospel "to the ends of the earth" (Acts 1:8).', '[]', '["Ezana"]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s06', 'topic_ch04', '4.7 The Aksumite Victory: The Fall of Meroe and Geopolitical Reordering (c. 330 AD)', 'This section details the climactic confrontation between Aksum and Meroe, culminating in the fall of the ancient Cushite capital and a fundamental reordering of power in Northeast Africa.
 
 For centuries, the riverine kingdom of Meroe and the highland empire of Aksum coexisted, sometimes trading peacefully, at other times competing for control of valuable trade routes. By the early 4th century AD, however, Aksum''s power had grown to a point where it could project its military force decisively into the Nile Valley. Around 330 AD (conventional estimate), the Aksumite king **Ezana** launched a major military campaign against Meroe and the surrounding regions. The details of this campaign are known to us from a remarkable primary source: an inscription left by Ezana himself, carved in stone in three languages—**Ge''ez, Greek, and Sabaean**—demonstrating Aksum''s multicultural, cosmopolitan character and its connections to the Mediterranean, African, and Arabian worlds.
@@ -1301,7 +1301,7 @@ The Bible is clear that God''s kingdom is not advanced by the sword. The Great C
 
 This tension does not invalidate the genuineness of Ezana''s faith. The apostle Paul himself, writing to believers, acknowledged the ongoing war between the "old man" and the "new man" (Ephesians 4:22-24, Colossians 3:9-10)—the conflict between our fallen nature and our new life in Christ. Even in the lives of great Christian figures, sin and sanctification coexist. Ezana''s story calls us to a faith that does not seek earthly power or try to build God''s kingdom through worldly means, but trusts in the ultimate victory of the Lamb who was slain (Revelation 5:12). It also reminds us that the 4th century AD was a hinge point for Christianity globally: in the same era, **Constantine** in Rome was also merging Christian faith with imperial power, creating a similar tension that would shape church-state relations for centuries. The story of Aksum is not isolated but part of a larger, complex story of how Christianity engaged with political power in the post-persecution era.', '["c. 330 AD"]', '[]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch04_s07', 'topic_ch04', '4.8 Legacy and Enduring Threads (Post-c. 330 AD)', 'This final section summarizes the enduring legacies of the Cushite civilizations and looks ahead to the next chapter in the region''s history, centered on the newly Christianized kingdom of Aksum.
 
 The fall of Meroe did not erase the cultural fingerprints of the great Cushite kingdoms. The traditions of Kerma (monumental architecture, mastery of craft production), the imperial memory of Napata (the 25th Dynasty''s rule over Egypt, the sacred status of Jebel Barkal), and the technological and cultural innovations of Meroe (iron smelting, the Meroitic script, the syncretic blend of Egyptian and Nubian religion) left a deep imprint on the subsequent history of the Nile Valley. These legacies would influence the development of the **medieval Nubian kingdoms of Nobatia, Makuria, and Alodia**, which emerged from the 6th to the 15th centuries AD in the very same geographic corridor—from the **1st to the 6th Cataracts** of the Nile. These kingdoms, like Aksum to the east, would adopt Christianity and flourish for centuries as vibrant Christian states, maintaining distinctive Nubian liturgies and producing beautiful Christian art and architecture. The story of Cush is not one of failure or extinction, but of a long and proud tradition that adapted and evolved over more than three thousand years, from the post-Babel settlement through Kerma, Napata, Meroe, and into the Christian medieval period.
@@ -1333,10 +1333,10 @@ The story of the Ethiopian eunuch in Acts 8, who encountered Philip on the road 
 -- Chapter 5: The Church in Roman Africa (c. 30 BC – 700 AD)
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch05', 'The Church in Roman Africa (c. 30 BC – 700 AD)', 'c. 30 BC', 'Egypt / Nile Valley', 'The Church in Roman Africa (c. 30 BC – 700 AD) - c. 30 BC - Egypt / Nile Valley', 5, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s01', 'topic_ch05', '5.1 Africa under Roman Dominion (c. 30 BCâ€“100 AD)', 'In this section you will learn about the political, economic, and cultural landscape of North Africa after it was fully integrated into the Roman Empire, setting the stage for the arrival of Christianity.
 
 ![Map 6: Roman North Africa â€” Africa Proconsularis, Numidia, Mauretania, Cyrenaica, Major Cities and Ports](chapter_05/maps/map-006-roman-north-africa.png)
@@ -1362,7 +1362,7 @@ The Roman subjugation of Africa, while born of conquest, ambition, and imperial 
 
 This historical reality reminds us of a profound theological truth: God often uses the designs of worldly empires, whether Rome, Persia, or Babylon, to advance His own redemptive purposes. He is sovereign over the rise and fall of nations (Daniel 2:21). The fact that a Berber-Punic African, **Septimius Severus**, could rise to rule the entire Roman Empire shows that God''s purposes transcend ethnicity and geography. The "breadbasket of Rome" would soon become a cradle for the African Church, demonstrating that God''s harvest can flourish in the most unexpected of soils. The Mediterranean Coastal Roadâ€”built to move grain to feed Rome''s massesâ€”would become the highway along which the Gospel would travel westward from Cyrene to Carthage and beyond, showing that even the logistics of empire serve the kingdom of God.', '["c. 30 BC"]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s02', 'topic_ch05', '5.2 The Birth of the African Church (c. 50â€“300 AD)', 'In this section you will discover the earliest traces of Christianity in North Africa, from its New Testament origins to the establishment of vibrant Christian communities.
 
 The story of the African church begins at the very heart of the Christian story: the Day of Pentecost. The book of Acts records that among the diverse crowd who witnessed the Holy Spirit''s descent in Jerusalem were visitors from "Egypt and the parts of Libya belonging to Cyrene" (Acts 2:10, ESV).
@@ -1390,7 +1390,7 @@ Yet there is an even deeper truth here. **Simon of Cyrene bearing Christ''s cros
 
 This story is a evidence of the power of God''s Word, which does not depend on grand strategies, imperial support, or human eloquence to take root. The Holy Spirit works through the ordinary means of travel, trade, diaspora, and personal testimony to build His church, often in places the world considers peripheral. The story of the African church''s birth encourages a missiology of faithful presence, reminding us that the seeds we plant in obscurityâ€”a conversation on a dusty road, a testimony in a marketplace, a kindness shown to a strangerâ€”can grow into a great and fruitful tree. God delights in using the foolish things of the world to shame the wise (1 Corinthians 1:27), and He used men from a distant city called Cyrene to pioneer the Gentile mission and bear the very cross of Christ.', '[]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s03', 'topic_ch05', '5.3 Conflict with Roman Authority (c. 150â€“300 AD)', 'In this section, you will examine the reasons behind Roman persecution of the African church and meet some of the courageous martyrs who chose faith over imperial loyalty.
 
 The rapid growth of African Christianity inevitably led to conflict. The Roman state, while generally tolerant of diverse religions and establishing no single "state religion" in the modern sense, demanded a baseline of civic loyalty. This was expressed through public rituals, chief among them offering a pinch of incense to the *genius* (divine spirit or guardian spirit) of the emperor. For most pagans, this was a simple political gesture, no different from saluting a flag. For Christians, however, this was not a civic formality; it was an act of **idolatry**. To burn incense before the emperor''s image was to declare him divine, a status that belonged to Christ alone. Their refusal to participate was seen by Roman authorities as stubbornness at best, and treasonous atheism (paradoxically, for rejecting the gods) at worst. Christians were also accused of secretive, immoral rituals (misunderstandings of the Lord''s Supper and the "love feast"), and of being enemies of the social order.
@@ -1418,7 +1418,7 @@ The story of Perpetua and Felicitas offers a profound insight. In their *shared 
 
 The martyrs'' blood did not just "seed" the church with new members; it watered the soil of a radical new society founded on the sacrificial love of Jesus. Their witness testified to a reality more solid than Rome itself: that eternal life with Christ is worth any earthly loss, even life itself. And the irony that the persecutor, **Septimius Severus**, was himself African underscores a sobering truth: ethnicity, nationality, and cultural heritage are no shield against spiritual blindness. Only the grace of God, working through His sovereign choice, opens eyes to see Christ and bow the knee.', '[]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s04', 'topic_ch05', '5.4 The Age of the African Fathers (c. 150â€“450 AD)', 'In this section, you will meet the brilliant theologians who made North Africa an intellectual powerhouse of early Christianity and explore the divisive controversy that threatened to tear the church apart.
 
 As the African church matured through trial and persecution, it also produced some of the most influential thinkers in the early Christian world. These "Church Fathers" defended the faith against pagan critics and heretics, clarified its doctrines, and shaped its theological vocabulary for centuries to come. North Africa became an intellectual engine for the global church, a theological workshop where some of the most important Christian concepts were hammered out in the heat of controversy and pastoral crisis.
@@ -1447,7 +1447,7 @@ The struggles of Tertullian, Cyprian, and the Donatists reveal a vital truth: **
 
 The Donatist tragedy, in particular, is a warning. A church that becomes consumed with its own purity, that draws ever-tighter circles to define who is "in" and who is "out," that confuses cultural identity (Roman vs. Berber) with spiritual identity (faithful vs. unfaithful), is a church that has lost its way. The divisive legacy of Donatism weakened the African church from within, leaving it vulnerable to external threats that would soon arrive.', '["c. 197 AD"]', '[]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s05', 'topic_ch05', '5.5 Augustine of Hippo (354â€“430 AD)', 'In this section, you will be introduced to the most influential Christian thinker of the first millennium, Augustine of Hippo, whose life and work deeply shaped Western theology.
 
 No figure dominates the landscape of the African churchâ€”or indeed, Western Christian thoughtâ€”like **Augustine of Hippo**. Born in the provincial town of **Thagaste**, Numidia (modern **Souk Ahras**, Algeria) in **354 AD**, Augustine was a product of the very Romano-African culture he would later critique. His devout Christian mother, **Monica**, a Berber woman of deep faith, prayed fervently for him throughout his wayward years. His pagan father, Patricius, invested in his classical education, seeing in his gifted son a path to worldly success. A brilliant student with a restless mind, Augustine''s ambition led him to study rhetoric in the bustling city of **Carthage**, where he lived a life of intellectual pride and moral compromise. He later traveled to teach in Rome and Milan, seeking fame and wealth.
@@ -1479,7 +1479,7 @@ His story is a comfort to every parent who prays for a wandering child and an en
 
 The fact that Augustine, an *African* theologian writing from an African city, shaped the theology of the Western churchâ€”that *The City of God*, written as Rome fell, redefined Christian political thoughtâ€”shows that God raises up His spokesmen from unexpected places. As the imperial capital of Rome crumbled, the theological capital of Western Christianity stood firm in Hippo Regius, North Africa. The center had shifted, and from African soil came the voice that would guide the church through the collapse of the ancient world and into the medieval age. Augustine is a reminder that the Kingdom of God is not tied to the fortunes of any earthly empire, and that God''s truth can shine brightest from the most unlikely corners of the map.', '[]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s06', 'topic_ch05', '5.6 Rome''s Shadow: Vandal Invasion & Byzantine Restoration (429â€“647 AD)', 'In this section, you will learn about the dramatic political and religious upheavals that marked the end of Roman control in Africa, including the Vandal conquest and the brief Byzantine reconquest.
 
 The world Augustine knew was already crumbling. In **429 AD**, a Germanic tribe known as the **Vandals**, led by their ambitious and cunning king **Gaiseric** (also spelled Geiseric), crossed the Strait of Gibraltar from Spain into North Africa with approximately **80,000 people**â€”warriors, women, children, and camp followers. This was not a mere raid; it was a full-scale migration and invasion. They swept eastward along the coastal road, leaving a trail of disruption and conflict. In **430 AD**, as the Vandals besieged his beloved city of Hippo, the aged Bishop Augustine lay on his deathbed, reciting the penitential psalms pinned to the wall of his chamber. He died on August 28, 430 AD, spared the sight of what would come next. By **439 AD**, Gaiseric had captured the prize: **Carthage** itself. In one of history''s great ironies, the ancient Punic capitalâ€”rebuilt by Rome, made Christian by martyrsâ€”now became the capital of a Germanic Arian kingdom.
@@ -1500,7 +1500,7 @@ The Vandal kingdom''s dominance was not to last. The Eastern Roman (or Byzantine
 
 In **533 AD**, he dispatched his brilliant and loyal general, **Belisarius**, with a fleet and army. Belisarius''s campaign was swift and decisive: within a year (533–534 AD), he had defeated the Vandal king Gelimer, destroyed the Vandal kingdom, and brought North Africa back under imperial control. Justinian reestablished the Orthodox Catholic church, restoring its bishops, properties, and privileges. Catholic Christians who had endured a century of Arian persecution rejoiced.', '[]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s07', 'topic_ch05', '5.7 Intellectual & Spiritual Decline and Islamic Advance (600sâ€“700 AD)', 'In this section, you will explore the final chapter of the ancient African church, examining its internal decline and the subsequent arrival of Islamic forces that reshaped the region forever.
 
 The Byzantine restoration proved to be a fragile dawn. The centuries of schism (Donatist division), persecution (Vandal Arianism), and invasion had inflicted deep, nearly mortal wounds on the North African church. By the **600s AD**, the once-vibrant intellectual life of the African churchâ€”which had produced Tertullian, Cyprian, and Augustineâ€”had faded into silence. Few significant theological works emerged from the region after the year 600. The great urban centersâ€”Carthage, Hippo Regius, Cirtaâ€”once hubs of commerce, learning, and Christian debate, were in decline. Trade routes faltered,  communication with the wider Christian world in Rome and Constantinople became sporadic, and the Latin-speaking clergy who led the church were aging, with few to replace them. The North African church, home of giants, stood largely isolated and weakened.
@@ -1536,7 +1536,7 @@ Yet, even in this story of collapse, we see a glimmer of **God''s preserving gra
 
  later, the Protestant Reformation. Martin Luther called himself an Augustinian. John Calvin''s *Institutes* are saturated with Augustine''s theology. The North African church may have fallen, but its legacyâ€”preserved by God''s providenceâ€”continues to nourish the global church today. Even in judgment, God preserves a remnant and a testimony.', '["c. 686 AD","c. 702 AD"]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch05_s08', 'topic_ch05', '5.8 Chronological Summary & Review', 'In this final section, you will find a summary timeline of key events and a set of review questions to help you synthesize the material from this chapter.
 
 This chapter traced the dramatic rise and fall of the church in Roman North Africa. We began with the establishment of Roman rule under Augustus, which created the stable political and economic conditions for Christianity to spread from its apostolic origins in Cyrene. We met Simon of Cyrene, who bore the cross of Christ, and the Pentecost pilgrims who carried the Gospel back to African soil. We witnessed the church''s growth, its violent collision with imperial authority during the age of martyrs like the Scillitan Martyrs, Perpetua, Felicitas, and Cyprian. We explored the golden age of intellectual flourishing led by giants like Tertullian (who gave us the Latin vocabulary of the Trinity), Cyprian (who defined ecclesiology and Christian unity), and above all, Augustine of Hippo (whose works on grace, sin, and the City of God shaped all of Western theology).
@@ -1625,10 +1625,10 @@ The fall of this great church is a sobering reminder that **faithfulness must be
 -- Chapter 6: Egypt under Rome and the Rise of the Alexandrian Church (30 BC – 700 AD)
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch06', 'Egypt under Rome and the Rise of the Alexandrian Church (30 BC – 700 AD)', 'c. 1000 BC', 'Egypt / Nile Valley', 'Egypt under Rome and the Rise of the Alexandrian Church (30 BC – 700 AD) - c. 1000 BC - Egypt / Nile Valley', 6, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s01', 'topic_ch06', '6.1 The Roman Annexation of Egypt', 'In this section you will learn how Egypt transitioned from being the last great Hellenistic kingdom to a vital province of the Roman Empire, setting the stage for centuries of cultural and religious transformation.
 
 The suicide of Cleopatra VII in 30 BC (conventional estimate) marked the end of the Ptolemaic dynasty, which had ruled Egypt for nearly 300 years. After defeating his rival Mark Antony and Cleopatra at the Battle of Actium, Octavian (soon to be Emperor Augustus) formally annexed Egypt as a Roman province. Unlike other provinces governed by the Senate, Egypt was the personal domain of the emperor, a evidence of its immense strategic and economic value. The province was administered by a governor of equestrian rank, the *praefectus Aegypti* (Prefect of Egypt), who answered directly to the emperor. This was a unique arrangement in the Roman Empire—senators were deliberately excluded from governing Egypt to prevent any potential rival from controlling such a lucrative and strategically vital province.
@@ -1675,7 +1675,7 @@ The absorption of Egypt into the Roman Empire can be seen as an act of divine pr
 
 This historical moment reminds us that God often works through secular political structures, even those built on conquest and self-interest, to achieve His redemptive purposes. Joseph''s words to his brothers come to mind: "As for you, you meant evil against me, but God meant it for good, to bring it about that many people should be kept alive, as they are today" (Genesis 50:20). Rome''s conquest of Egypt, driven by economic greed and imperial ambition, became in God''s hands a means of connecting the ancient land of the Pharaohs to the highways of the Gospel. It challenges us to see God''s hand in the grand movements of history, trusting that He is weaving a story of salvation even in the midst of human empires, and that His purposes cannot be thwarted by the rise and fall of earthly kingdoms.', '["c. 1000 BC"]', '[]', 5, 8);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s02', 'topic_ch06', '6.2 Alexandria, the Intellectual Crossroads', 'In this section you will learn why the city of Alexandria was a unique center of learning in the Roman world, and how its intellectual climate shaped early Christian theology.
 
 Alexandria was more than just a provincial capital; it was a global hub of culture, scholarship, and commerce. Founded by Alexander the Great in 331 BC, the city was home to the famous **Library of Alexandria** and the **Musaeum**, a research institution that drew scholars from across the Mediterranean. While the great library faced a series of declines and destructive events over centuries, the city''s reputation as an intellectual powerhouse endured well into the Roman period.
@@ -1713,7 +1713,7 @@ Alexandria''s intellectual fervor presents a crucial lesson for the Church: fait
 
 However, the example of Origen also stands as a warning. While we must engage the culture, we must not compromise the truth of Scripture to fit the "wisdom" of the age. Origen''s speculative theology departed from the apostolic command to "rightly handle the word of truth" (2 Timothy 2:15). True Christian scholarship submits the mind to God''s revelation, rather than reshaping revelation to fit human philosophy. The balance is found in being "in the world but not of it"—using the tools of intellect and culture to serve Christ, while holding fast to the "faith once for all delivered to the saints" (Jude 3).', '["c. 20 BC","c. 190 AD"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s03', 'topic_ch06', '6.3 The Great Persecutions and the Rise of the Martyrs', 'In this section you will learn about the intense periods of Roman persecution faced by Egyptian Christians and how their response shaped the identity of the Coptic Church.
 
 While Christians experienced sporadic, localized persecution since the first century, the third and early fourth centuries saw empire-wide campaigns aimed at enforcing religious conformity. The persecutions under emperors **Decius** (250 AD) and **Valerian** (257-259 AD) were particularly severe in Egypt. Decius issued an edict requiring all citizens to perform a sacrifice to the Roman gods and the emperor''s genius (divine spirit) in the presence of a magistrate. Those who complied were issued a **libellus**, a certificate proving their loyalty. For Christians, this created a crisis: to sacrifice was apostasy, but to refuse meant imprisonment, torture, or death.
@@ -1739,7 +1739,7 @@ The era of martyrs is a stark reminder that the call to follow Christ is a call 
 
 Their willingness to surrender their earthly lives testified to their unwavering belief in the resurrection and a kingdom not of this world. This raises a challenging question for us today: what "gods" does our culture demand we sacrifice to? Whether it is the idol of personal comfort, financial security, or social acceptance, the martyrs challenge us to examine our own allegiances. They teach us that a faith that costs nothing is worth nothing, and that true loyalty to Christ may require us to stand against the pressures of our time, confident that our ultimate hope is in Him alone.', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s04', 'topic_ch06', '6.4 The Birth of Monasticism', 'In this section you will learn about the origins of Christian monasticism in the Egyptian desert, distinguishing between its two main early forms: the solitary hermit and the organized community.
 
 As the era of persecution drew to a close with the Edict of Milan in 313 AD, a new spiritual movement arose in the deserts of Egypt: Christian monasticism. Seeking a life of radical discipleship, men and women withdrew from the cities and villages into the wilderness. This "white martyrdom" of self-denial replaced the "red martyrdom" of persecution as the ultimate expression of Christian commitment.
@@ -1776,7 +1776,7 @@ The rise of monasticism was a complex movement with both profound strengths and 
 
 On the other hand, the movement sometimes risked falling into the trap warned about in **Colossians 2:20-23**: "self-made religion and asceticism and severity to the body," which Paul says are "of no value in stopping the indulgence of the flesh." The danger was believing that physical deprivation itself could earn righteousness. The biblical balance is found in **1 Timothy 4:8**: "for while bodily training is of some value, godliness is of value in every way." The best of the desert tradition did not view asceticism as an end in itself, but as a means to clear the heart for the love of God and neighbor.', '["c. 360 AD","c. 330 AD","c. 338 AD","c. 390 AD"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s05', 'topic_ch06', '6.5 The Arian Controversy and the Council of Nicaea', 'In this section you will learn about the Arian controversy, a major theological dispute about the nature of Jesus Christ, and how the Church addressed it at the First Council of Nicaea.
 
 In the early fourth century, a dispute erupted in Alexandria that would shake the foundations of the Christian world. The controversy began with the teachings of **Arius** (c. 256–336 AD), a popular presbyter in Alexandria. Influenced by Greek philosophical concepts of God''s absolute oneness, Arius taught that the Son of God was not eternal but was created by the Father before the ages. In his view, the Son was the first and greatest of all created beings, but he was not co-eternal and co-equal with the Father. His followers popularized this view with the slogan: "There was a time when the Son was not."
@@ -1810,7 +1810,7 @@ The Arian controversy was not just an argument over theological jargon; it was a
 
 The Nicene fathers understood that a created being cannot save; only God can. The doctrine of the Trinity, affirmed at Nicaea, is not an abstract philosophical puzzle; it is the bedrock of our redemption. It assures us that in Jesus Christ, we meet the living God, who loved us and gave Himself for us. The steadfastness of Athanasius is a powerful example of the courage required to defend the essential truths of the faith, even when they are unpopular or politically inconvenient.', '[]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s06', 'topic_ch06', '6.6 Christological Debates and the Council of Chalcedon', 'In this section you will learn about the complex debates over the person of Christ that followed the Council of Nicaea, culminating in the pivotal and controversial Council of Chalcedon.
 
 While the Council of Nicaea settled the question of Christ''s divinity, it did not end the debate about how His divinity and humanity relate to each other in one person. In the fifth century, two major schools of thought emerged. The **Antiochene** school emphasized the distinction between Christ''s human and divine natures, sometimes at the risk of dividing them into two separate persons. The **Alexandrian** school, led by figures like **Cyril of Alexandria** (376–444 AD), stressed the unity of Christ''s person.
@@ -1839,7 +1839,7 @@ The debates leading to Chalcedon touch on the deepest mysteries of our faith. Wh
 
 The tragedy of the schism that followed, however, is a somber reminder of human fallibility. The division weakened the church in the East just before the rise of Islam. It teaches us the importance of pursuing both theological precision and charitable understanding. We must speak the truth in love (**Ephesians 4:15**), recognizing that even those with whom we disagree may be earnestly seeking to honor the same Lord. The legacy of Chalcedon is therefore twofold: a beautiful and enduring confession of faith, and a painful lesson in the cost of Christian disunity.', '[]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s07', 'topic_ch06', '6.7 The Coptic Church under Byzantine and Early Arab Rule', 'In this section you will learn about the experience of the Coptic Church after the Council of Chalcedon, including its relationship with the Byzantine state and the dramatic changes brought by the Arab conquest of Egypt.
 
 Following the Council of Chalcedon in 451 AD, the Coptic Church found itself officially at odds with the Byzantine Empire. The emperors in Constantinople, committed to the Chalcedonian formula, periodically attempted to impose their will on the Egyptian church. They appointed pro-Chalcedonian (or **Melkite**) patriarchs in Alexandria, supported by imperial troops. This created a deep and lasting alienation between the Coptic majority and the Byzantine state.
@@ -1874,7 +1874,7 @@ The long history of the Coptic Church under non-Christian rule is a powerful evi
 
 The lesson of translation is profound: the Gospel must be in the heart language of a people or it will not survive. God''s Word is not bound to any one culture or language. The example of Pentecost, where people heard the Gospel "each in our own native language" (**Acts 2:8**), is the model for the church. The survival of the Copts and the disappearance of the Berber church stand as a stark reminder that cultural adaptation—translating Scripture, worship, and theology into indigenous expressions—is not optional. It is essential for the long-term flourishing of the faith.', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s08', 'topic_ch06', '6.8 Chronological Summary & Review', '### Timeline of Key Events
 
 | **Date (YEC)** | **Event** | **Significance** |
@@ -1898,7 +1898,7 @@ VALUES ('lesson_ch06_s08', 'topic_ch06', '6.8 Chronological Summary & Review', '
 | 451 AD | Council of Chalcedon | Coptic Church rejects; Great Schism; Oriental Orthodox separate |
 | 639-641 AD | Islamic conquest (''Amr ibn al-''As) | Byzantine rule ends; Coptic Church granted dhimmi status |', '["c. 4 BC","c. 42 AD","c. 190 AD","c. 250 AD","c. 270 AD","c. 320 AD","c. 330 AD","c. 356 AD","c. 360 AD","c. 390 AD"]', '[]', 5, 2);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch06_s09', 'topic_ch06', '6.3 The Faithful Remnant: Coptic Egypt (Map 32) (641–1500 AD)', 'In this final section, you will learn how the Egyptian church—unlike its North African neighbor—survived the Islamic conquest to become a "faithful remnant" under the crescent.
 
 While the church of Augustine in Carthage faded under Islamic rule, the church of Athanasius in Alexandria endured. This survival was not accidental; it was forged in the fire of persecution and anchored in the deserts.
@@ -1971,10 +1971,10 @@ As the cities slowly Islamized and Arabic replaced Coptic as the language of com
 -- Chapter 7: The Churches of the Highlands: Aksum, Conversion, and Survival (c. 50–900 AD)
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch07', 'The Churches of the Highlands: Aksum, Conversion, and Survival (c. 50–900 AD)', 'c. 100 BC', 'Egypt / Nile Valley', 'The Churches of the Highlands: Aksum, Conversion, and Survival (c. 50–900 AD) - c. 100 BC - Egypt / Nile Valley', 7, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s01', 'topic_ch07', '7.1 The Rise of the Aksumite State (c. 100 BC – 300 AD)', 'In this section you will learn how the Aksumite state rose to prominence from its ancient roots. We will explore its transition from the pre-Aksumite D''mt kingdom to a centralized power capable of erecting the largest stone monuments in Africa.
 
 ### Quick Start
@@ -2002,7 +2002,7 @@ These monuments served a dual purpose: they were gravestones for the elite and "
 ### Theological Reflection: Common Grace and Human Creativity
 The engineering genius required to quarry, transport, and erect the Aksumite stelae is a stunning example of God''s common grace. Genesis 4 describes how the descendants of Cain developed metallurgy and city-building. While these achievements were often directed toward human glory, the ability to create, build, and organize is a reflection of the *Imago Dei* (Image of God) in humanity. God has endowed all people, regardless of their spiritual state, with gifts of wisdom and skill. As Christians, we can admire the grandeur of Aksum not as a rival to God''s glory, but as a reflection of the Creator who gave such capacity to His creatures.', '["c. 100 BC"]', '["Ezana"]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s02', 'topic_ch07', '7.2 Geography and the Red Sea Trade Network', 'In this section you will learn how Aksum''s strategic location allowed it to dominate international commerce. We''ll examine the port of Adulis, the monsoon wind system, and the vast network that connected Ethiopia to India and Rome.
 
 ### Quick Start
@@ -2036,7 +2036,7 @@ The *Periplus* gives us a snapshot of Adulis around 50 AD:
 > "Two days'' sail beyond [the harbor of Moscha] there is another port of trade called Adulis... Before this place, at a distance of about three thousand stadia, lies the city of the people called Auxumites [Aksumites]."
 *   **Analysis:** The author mentions Aksum ("Auxumites") as a distinct people with a king (Zoscales). How does this external account confirm the Bible''s description of Ethiopia/Cush as a significant nation (e.g., Acts 8)?', '[]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s03', 'topic_ch07', '7.3 Biblical Connections: Sheba, the Eunuch, and the "Ends of the Earth"', 'In this section you will learn about the deep biblical roots claimed by the Ethiopian people. We''ll examine the stories of the Queen of Sheba and the Ethiopian Eunuch, separating historical evidence from tradition while affirming the theological significance of both.
 
 ### Quick Start
@@ -2067,7 +2067,7 @@ This verse became the motto of the Ethiopian Church. They saw their history—fr
 ### Theological Reflection: The Gospel for the Outcast
 The Ethiopian eunuch was a double outcast: a Gentile and a eunuch (often excluded from the assembly, Deut. 23:1). Yet, God sent an apostle specifically to him. His conversion shows that the Gospel breaks down every barrier—racial, national, and physical. In Christ, the "dry tree" (Isaiah 56:3) bears fruit, and the foreigner is brought near. This story reminds us that God''s heart has always been for the nations, and He orchestrates history to bring His word to those who are seeking Him.', '["c. 350 AD"]', '["Solomon","Mothers"]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s04', 'topic_ch07', '7.4 The Christian Mission: Frumentius and King Ezana (c. 320–360 AD)', 'In this section you will learn about the pivotal moment when Aksum officially adopted Christianity. We''ll explore the dramatic story of Frumentius and the archaeological evidence left by King Ezana.
 
 ### Quick Start
@@ -2098,7 +2098,7 @@ Ezana''s conversion is not just a legend; it is a historical fact stamped onto t
 ### Theological Reflection: The Sovereignty of God in History
 The conversion of Aksum illustrates how God weaves individual lives into the destiny of nations. A shipwreck, seemingly a disaster, placed Frumentius in the royal court at the precise moment to influence the future king. This parallels the story of Joseph in Egypt or Daniel in Babylon. In addition, Ezana''s public confession of Christ ("Lord of Heaven") transformed the identity of his people. It reminds us that the Gospel claims lordship not just over private hearts, but over culture, leadership, and the public square.', '["c. 350 AD"]', '["Ezana"]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s05', 'topic_ch07', '7.5 The Nine Saints: Syrian Refugees and the Golden Age of Ge''ez (c. 480–520 AD)', 'In this section you will learn about the "Nine Saints," a group of foreign monks who fled persecution and transformed the Ethiopian Church. We''ll explore their role in translating the Bible and founding the monasteries that would preserve the faith for centuries.
 
 ### Quick Start
@@ -2126,7 +2126,7 @@ The greatest legacy of the Nine Saints was the completion of the Ge''ez Bible. W
 ### Theological Reflection: The Blessing of the Refugee
 The story of the Nine Saints challenges our modern view of refugees. These men came with nothing but their faith and their learning, yet they enriched their host country beyond measure. They remind us that God often uses the displaced and the persecuted to carry His truth to new places (Acts 8:4). Their flight from persecution in Byzantium led to a golden age of faith in Ethiopia. In addition, their work in translating the Bible fulfills the pattern of Pentecost (Acts 2), where every nation hears the mighty works of God in its own tongue. The survival of the Ethiopian Church through centuries of isolation is directly linked to this foundational work: because the Word was in their hearts and on their lips in their own language, no external force could take it away.', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s06', 'topic_ch07', '7.4 Aksum on the International Stage: Kaleb, Abraha, and the Red Sea Crisis (c. 520–575 AD)', 'In this section you will learn about the peak of Aksum''s power under King Kaleb. We''ll explore his massive amphibious invasion of South Arabia, the "Just War" theology behind it, and the complex legacy of his general, Abraha.
 
 ### Quick Start
@@ -2161,7 +2161,7 @@ After his victory, Kaleb erected a victory stele (inscription RIE 191) at Aksum.
 ### Theological Reflection: Justice and the Sword
 King Kaleb''s expedition raises difficult questions about the use of force. He viewed his campaign as a fulfillment of Romans 13:4, acting as "God''s servant... to execute wrath on the wrongdoer" and defending the helpless martyrs of Najran. This aligns with the "Just War" tradition, which argues that war can be morally justified if used to protect the innocent from grave evil. However, the subsequent history of Abraha shows how quickly a "holy war" can morph into a quest for political dominance and territory. This history challenges Christians to carefully weigh the biblical mandate to protect the vulnerable (Psalm 82:3-4) against the temptation to rely on worldly power (Zechariah 4:6). Kaleb''s offering of his crown to Jerusalem suggests that, in the end, he recognized that the only true King is Christ.', '["c. 570 AD"]', '["Kaleb"]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s07', 'topic_ch07', '7.7 The Decline of Aksum and the Reorientation of the Highlands (c. 615–900 AD)', 'In this section you will learn what led to the decline of the Aksumite kingdom''s power. We''ll explore the complex relationship with early Islam, the environmental factors that weakened the state, and how the Christian faith survived by shifting its center to the mountains.
 
 ### Quick Start
@@ -2194,7 +2194,7 @@ In this period of isolation, the monasteries founded by the Nine Saints became t
 ### Theological Reflection: The Church in the Wilderness
 The survival of the Ethiopian Church during centuries of isolation ("encircled on all sides by the enemies of their religion," as Edward Gibbon later wrote) is a evidence of God''s providence. It reminds us of the church in the wilderness in Revelation 12—nourished by God in a place of safety away from the dragon. Stripped of its wealth and international prestige, the Ethiopian Church deepened its roots. This "hidden" season produced a unique, indigenous expression of the faith that could withstand any storm. It teaches us that God often prunes His church of worldly power so that it may bear the fruit of endurance.', '["c. 615 AD"]', '["Armah"]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s08', 'topic_ch07', '7.8 Communities at the Margins: The Beta Israel (c. 4th–9th centuries)', 'In this section you will learn about the "Beta Israel," the ancient Jewish community of Ethiopia. We''ll explore their mysterious origins and their unique role in the religious landscape of the Horn of Africa.
 
 ### Quick Start
@@ -2212,7 +2212,7 @@ The relationship between the Christian state and the Beta Israel varied. At time
 ### Theological Reflection: The Root and the Branch
 The existence of the Beta Israel reminds Christians of the Jewish roots of their faith. The Ethiopian Church, with its circumcision, dietary laws, and reverence for the Ark, already had a "Hebraic" character. The presence of a living Jewish community alongside it served as a constant reminder that the God of the Church is the God of Abraham, Isaac, and Jacob. It challenges us to respect the mystery of God''s covenant people and to approach history with humility.', '[]', '[]', 5, 2);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch07_s09', 'topic_ch07', '7.9 Chapter Review and Chronology', '### Chapter Summary
 In this chapter, we traced the spectacular rise and gradual decline of the Kingdom of Aksum. We saw how a trading power in the Ethiopian highlands was transformed by the Gospel through the ministry of Frumentius and the conversion of King Ezana. We explored the "Golden Age" of the Nine Saints, who translated the Scriptures and founded the monasteries that became the spiritual fortresses of the nation. We witnessed Aksum''s projection of power under King Kaleb to defend persecuted Christians in Yemen, and its eventual retreat into the highlands in the face of Islamic expansion and environmental degradation. Through it all, we have seen how God preserved His church in isolation, creating a unique Christian civilization that endured for over a millennium.
 
@@ -2245,18 +2245,18 @@ In this chapter, we traced the spectacular rise and gradual decline of the Kingd
 -- Chapter 8: The Bantu Migrations and Ironworking
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch08', 'The Bantu Migrations and Ironworking', 'c. 2200 BC', 'Egypt / Nile Valley', 'The Bantu Migrations and Ironworking - c. 2200 BC - Egypt / Nile Valley', 8, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s01', 'topic_ch08', 'Quick Start', '*   **The Big Picture:** The Bantu migrations were one of the largest movements of people in human history, spreading language, agriculture, and iron technology across sub-Saharan Africa.
 *   **Biblical Connection:** This expansion is part of the post-Babel dispersion (Genesis 11), fulfilling God''s command to fill the earth.
 *   **Key Themes:** Migration, Technology (Iron), Language Families, Common Grace.', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s02', 'topic_ch08', 'Chapter Summary', 'This chapter covers the period from c. 2200 BC to 500 AD. It traces the origins of the Bantu peoples from the north/northeast, their rapid expansion across the continent, and the technological revolution of ironworking. We will examine the evidence from linguistics, archaeology, and oral tradition, contrasting the evolutionary model with a biblical-historical framework that affirms the unity of humanity and the reliability of Genesis.', '["c. 2200 BC"]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s03', 'topic_ch08', 'Key Terms', '*   **Bantu:** A major linguistic family in Africa.
 *   **Urewe & Nok:** Key Iron Age cultures.
 *   **Khoisan:** Indigenous hunter-gatherer/pastoralist peoples.
@@ -2265,14 +2265,14 @@ VALUES ('lesson_ch08_s03', 'topic_ch08', 'Key Terms', '*   **Bantu:** A major li
 *   **Proto-Bantu:** The reconstructed ancestral language.
 *   **High God:** The concept of a supreme creator in African religion.', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s04', 'topic_ch08', 'The Scripture Thread', '> "And he made from one man every nation of mankind to live on all the face of the earth, having determined allotted periods and the boundaries of their dwelling place." — **Acts 17:26**
 
 ---
 
 # Chapter 8: The Bantu Migrations and Ironworking', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s05', 'topic_ch08', '8.1 After Babel: Remembering the First Dispersions (c. 2200–1500 BC)', 'In this section you will learn about the biblical account of humanity''s dispersion from the Tower of Babel and how the descendants of Ham—Mizraim, Cush, and Put—settled the northern and northeastern regions of Africa, forming the continent''s foundational people groups.
 
 The story of Africa’s peopling begins long before the migrations of the Bantu. To understand the deep history of the continent, we must return to the biblical account of the first great dispersion of peoples. The book of Genesis records that after a global flood (c. 2400 BC), humanity remained as a single, unified group in the land of Shinar (Mesopotamia). Under the leadership of the Cushite ruler Nimrod, they rebelled against God’s command to fill the earth, choosing instead to build a great city and tower to make a name for themselves (Genesis 11:4).
@@ -2304,7 +2304,7 @@ This verse affirms two critical truths for African history: first, the **biologi
 ### Theological Reflection
 The dispersion at Babel was an act of judgment on human pride, but it was also an act of mercy. By scattering humanity, God ensured that no single rebellious power could dominate the entire earth. In addition, this event launched the fulfillment of His original creation mandate to "be fruitful and multiply, and fill the earth" (Genesis 1:28). This story reminds us that even in judgment, God’s sovereign purposes are at work. The beautiful diversity of cultures and languages we see today—including the hundreds of Bantu tongues—is a direct result of this event. While sin created division, God''s plan of redemption in Christ eventually brings unity from every tribe and tongue, turning the curse of Babel into the blessing of Pentecost.', '["c. 2400 BC","c. 2200 BC","c. 1500 BC"]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s06', 'topic_ch08', '8.2 The Two Maps of Origin: Evolutionary vs. Biblical Epistemologies', 'In this section you will learn about the two primary models for understanding Bantu origins: the mainstream scientific (or Evolutionary) model, which places their homeland in West Africa, and the Biblical-historical model, which argues for a dispersion from the north after the events at Babel.
 
 When we ask, “Where did the Bantu peoples come from?” we find two very different answers. These answers are not just about geography; they represent two different ways of knowing and interpreting the past. One is based on modern scientific methods that assume long ages, and the other is based on the historical account found in the Bible. To be good thinkers, we must understand both maps of origin.
@@ -2359,7 +2359,7 @@ When we recalibrate these dates to account for post-Flood atmospheric conditions
 ### Theological Reflection
 The existence of competing models for the past should not shake our faith; it should strengthen our intellect. The Bible does not ask us to ignore evidence, but to weigh it wisely. The core difference between these two maps is their starting assumption: one begins with faith in scientific uniformity, the other with faith in the historical reliability of God''s Word. As Christians, we are called to use our minds to engage with all forms of knowledge, to ask critical questions about the assumptions behind scientific claims (like C-14 dating), and to show how the biblical account provides a cohesive and powerful framework for understanding all of human history.', '["c. 3000 BC","c. 2400 BC"]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s07', 'topic_ch08', '8.3 The Linguistic Evidence: What “Bantu” Really Means', 'In this section you will learn what the term “Bantu” means, how the hundreds of Bantu languages are related, and why this linguistic evidence is so crucial for understanding the history of the people who speak them.
 
 The word “Bantu” itself provides a powerful clue to the connection between the hundreds of ethnic groups it describes. The term was first used in a scholarly sense by the linguist Wilhelm Bleek in the 19th century. It is not the name of a single tribe or nation, but a term derived from a common word for “person” found across the language family. In many of these languages, the root for person is *-ntu*, and the prefix for people (the plural form) is *ba-*. Combining them creates *ba-ntu*, which literally means “the people.” This shared vocabulary for such a fundamental concept is a clear sign of a common origin.
@@ -2403,7 +2403,7 @@ If the Bantu came from the east, why is there so much linguistic diversity in Ca
 ### Theological Reflection
 The story of the Bantu languages is a beautiful illustration of the post-Babel world. At Babel, God created linguistic diversity, scattering humanity. Yet, within that diversity, He preserved the ability for families of languages, like Bantu, to share a common root and structure. This reflects a key biblical theme: unity in diversity. While humanity was no longer one monolithic bloc, the new people groups retained their shared identity as image-bearers of God. The linguistic connections between the Bantu peoples are a horizontal echo of the vertical connection we all share as God''s creation. It reminds us that while our tongues may differ, the underlying grammar of our shared humanity, and our need for a Savior, remains the same.', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s08', 'topic_ch08', '8.4 The Early Trailblazers (c. 700 BC – 300 AD)', 'In this section you will learn about the early phase of the Bantu migrations, the revolutionary impact of iron technology, and the key archaeological cultures—Urewe and Nok—that provide a window into this transformative period.
 
 The initial centuries of the Bantu migrations were a time of trailblazing, as small groups of pioneers moved into new territories, bringing with them new technologies and ways of life. This period, from roughly 700 BC to 300 AD (YEC timeline), was not a centrally organized conquest but a slow and steady expansion, driven by families and small clans seeking new land. A key factor that accelerated their movement and allowed them to reshape their environment was the mastery of iron working.
@@ -2443,7 +2443,7 @@ In West Africa, the **Nok culture** (flourishing c. 700 BC – 100 BC YEC) provi
 ### Theological Reflection
 The story of the early trailblazers is a powerful evidence of human resilience, creativity, and adaptation. As these pioneering families moved into new lands, they carried with them not just pots and tools, but culture, language, and a worldview. Their mastery of iron, their ability to navigate vast river systems, and their creation of beautiful art all speak to the inherent dignity and capability God has placed in all peoples. This period reminds us that history is not just about great kings and empires, but about the quiet courage of ordinary families who, through their labor and ingenuity, transform the world around them.', '["c. 700 BC"]', '[]', 5, 5);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s09', 'topic_ch08', '8.5 Settling the Heartlands (c. 1500 BC – 500 AD)', 'In this section you will learn about the three major streams of the Bantu migration—Eastern, Western, and Southern—and how these movements led to the settlement of Africa’s vast heartlands and the formation of new societies.
 
 By 1500 BC (YEC timeline), the Bantu migrations had gained significant momentum. Over the next two millennia, Bantu-speaking peoples would settle the great heartlands of the continent, moving in three main streams. This was not a centrally planned invasion, but a continuous expansion of families and clans, adapting to new environments and interacting with the peoples they met.
@@ -2474,7 +2474,7 @@ From the Great Lakes nucleus, a third wave of migrants pushed south, eventually 
 ### Theological Reflection
 The settling of the heartlands is a story of immense human endeavor and adaptation. It reflects the fulfillment of God’s creation mandate for humanity to spread out, be fruitful, and fill the earth. As these pioneers moved into new and diverse environments—from the Great Lakes to the Congo rainforest to the southern savannas—they demonstrated incredible ingenuity in building new societies. This process of cultural fusion and the formation of new communities reminds us of the dynamic nature of human history. It also foreshadows a deeper spiritual truth: that God’s plan of redemption is for all peoples, in all places, as the Gospel would one day travel along these same paths to reach the very heartlands these early settlers pioneered.', '["c. 1500 BC","c. 500 BC"]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s10', 'topic_ch08', '8.6 The Forgotten Clans: Before the Bantu Came', 'In this section you will learn about the indigenous peoples who inhabited central and southern Africa before the Bantu migrations, including the Khoisan, Hadza, and Pygmy peoples, and understand that the Bantu expansion was a process of interaction, not a settlement of empty lands.
 
 The story of the Bantu migrations did not unfold in an empty continent. For over a thousand years before the first Bantu-speaking farmers arrived, the forests and savannas of central and southern Africa were home to diverse groups of hunter-gatherers and pastoralists. These were the “forgotten clans” of Africa, peoples with their own unique languages, cultures, and deep histories. The arrival of the Bantu newcomers was not a simple replacement, but a complex story of coexistence, intermarriage, and cultural exchange.
@@ -2500,7 +2500,7 @@ In East Africa, particularly in modern-day Tanzania, lived other ancient groups 
 ### Theological Reflection
 The story of the forgotten clans is a crucial reminder of a profound theological truth: all of humanity is descended from a single family, and every people group, no matter how small or remote, bears the image of God. The Bible tells us that God’s plan of redemption is for people from “every tribe and language and people and nation” (Revelation 5:9). The deep history of the Khoisan, the specialized knowledge of the Pygmy peoples, and the unique heritage of the Hadza are not footnotes to history; they are a vital part of the rich tapestry of humanity that God created. Recognizing their presence helps us appreciate the full scope of God’s creative love and the complexity of the human story He is weaving.', '["c. 500 BC"]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s11', 'topic_ch08', '8.7 The Nilotic Expansion: The Third Stream (c. 1500 BC – 500 AD)', 'In this section you will learn about the Nilotic peoples, a distinct group who migrated south from the Nile Valley, forming a "third stream" of expansion alongside the Bantu and Cushites, and how their cattle-centered culture shaped the history of East Africa.
 
 While the Bantu peoples were expanding from the west and the Cushites were establishing themselves in the Horn, a third major group was on the move. These were the **Nilotes**, tall, pastoralist warriors who migrated southward from the Nile Valley region of modern-day South Sudan. Their expansion down the Great Rift Valley created a dynamic "third stream" of African history, distinct from but constantly interacting with their Bantu and Cushitic neighbors.
@@ -2522,7 +2522,7 @@ The Nilotic expansion was powerfully shaped by a tiny insect: the **tsetse fly**
 > 1. The Nilotes and Bantu had different strengths (herding vs. farming) that allowed them to inhabit different parts of the same landscape. How does this illustrate the principle of "niche adaptation" in human history?
 > 2. Isaiah 18 describes a people "feared near and far." How does the Bible''s awareness of specific distant peoples challenge the idea that the biblical authors were ignorant of the wider world?', '["c. 1500 BC"]', '[]', 5, 3);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s12', 'topic_ch08', '8.8 Belief, Memory, and Migration', 'In this section you will learn about the traditional religious beliefs of the early Bantu-speaking peoples, including their concept of a High God, the role of ancestors, and the development of sacred kingship as a form of governance.
 
 As Bantu-speaking peoples migrated and settled across the continent, they carried with them a shared set of spiritual beliefs that formed the foundation of their societies. While specific practices varied, a common cosmological framework can be seen in many of their traditions. This worldview was not a static religion, but a dynamic system of belief that helped them make sense of the world, organize their communities, and preserve their history.
@@ -2547,7 +2547,7 @@ As societies grew more complex, new forms of political and religious leadership 
 ### Theological Reflection
 The traditional beliefs of the Bantu peoples reveal a profound human longing for connection with the divine. Their concept of a High God, their reverence for ancestors, and their desire for a mediator in the form of a sacred king all point to a spiritual hunger that is universal to all humanity. The Apostle Paul writes in **Romans 1:19-20** that "what can be known about God is plain to them, because God has shown it to them." God has placed eternity in the hearts of men (Ecclesiastes 3:11), and creation itself testifies to His existence. These traditional beliefs are a response to that innate knowledge. While not the full revelation of the Gospel, they show that no person or culture is a blank slate. They are a evidence of the human search for meaning, order, and a bridge to the transcendent—a search that is eventually and perfectly fulfilled in Jesus Christ, our great High Priest and King.', '[]', '[]', 5, 4);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch08_s13', 'topic_ch08', '8.9 The Historical Horizon (c. 500 AD)', 'In this section you will learn about the state of sub-Saharan Africa at the end of the primary Bantu migration period, and how the continent was poised for new interactions with the wider world, including the rise of Islamic trade networks.
 
 By the sixth century AD (conventional estimate), the great Bantu migrations had fundamentally reshaped the demographic map of the southern half of the continent. From their ancestral homeland in the northeast, Bantu-speaking peoples had, over the course of a millennium, settled the vast heartlands of Central, Eastern, and Southern Africa. Their agricultural and iron-working economies had proven incredibly successful, allowing them to establish thriving communities from the Great Lakes to the banks of the Limpopo River.
@@ -2574,10 +2574,10 @@ The historical horizon of 500 AD shows a continent teeming with life, culture, a
 -- Chapter 9: Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD)
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch09', 'Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD)', 'Unknown Era', 'Egypt / Nile Valley', 'Ethiopia Alone — The Hidden Kingdom (c. 900–1500 AD) - Unknown Era - Egypt / Nile Valley', 9, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s01', 'topic_ch09', '9.1 The Twilight of Axum (c. 7th–9th Centuries AD)', 'In this section you will learn about the decline of the once-great Axumite Empire, how the rise of Islam shifted trade routes, and why Ethiopian Christianity began a strategic retreat into the highland interior.
 
 Consider the vast Axumite Empire, a beacon of Christian civilization for centuries. Its merchants had sailed the Red Sea and the Indian Ocean, its kings had minted their own currency, and its architects had raised monumental stelae that pierced the heavens. Yet, by the 7th century AD (conventional estimate), this mighty kingdom was facing a profound and irreversible decline, not from a single, dramatic military defeat, but from a slow economic strangulation that would reshape its destiny.
@@ -2620,7 +2620,7 @@ This period teaches us a vital truth: when the world closes doors, faith finds a
 
 The lesson for us is clear: earthly empires rise and fall, but the Word of the Lord endures forever. When God''s people are driven into the wilderness, it is not abandonment—it is preparation. The highlands were Ethiopia''s appointed place, prepared by God, where His Church would be nourished and protected until the day of her re-emergence.', '[]', '[]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s02', 'topic_ch09', '9.2 The Rise of the Zagwe Dynasty (c. 900–1270 AD)', 'In this section you will learn about the rise of the Zagwe Dynasty from the Agaw people, the religious and political significance of their rule, and the monumental construction of the rock-hewn churches of Lalibela, a "New Jerusalem" in the Ethiopian highlands.
 
 Out of the ashes of Axum''s decline, a new power emerged in the Ethiopian highlands. This was the **Zagwe Dynasty**, a line of rulers from the Agaw people of **Lasta**. While later chronicles, written by their Solomonic rivals, would question their legitimacy, the Zagwe kings were devout Christians who saw themselves as the restorers of a fractured kingdom. Their rise to power around 900 AD (conventional estimate) marked a pivotal shift in Ethiopian history, moving the center of political and religious life southward from the ancient Axumite heartland into the mountainous interior.
@@ -2682,7 +2682,7 @@ Lalibela teaches that when we cannot make a pilgrimage to a distant holy land, w
 
 It is a evidence of the enduring belief that where the faithful gather, and where God is worshiped in spirit and in truth, that place becomes its own Jerusalem—a holy space carved out by faith in the midst of a challenging world. The monks who copied manuscripts, the artisans who carved churches from living rock, the pilgrims who came to pray—all bore witness to the truth that God''s presence sanctifies the ordinary and transforms the wilderness into a sanctuary.', '[]', '["Lalibela"]', 5, 8);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s03', 'topic_ch09', '9.3 The Solomonic Restoration (1270 AD)', 'In this section you will learn about the overthrow of the Zagwe Dynasty and the rise of the Solomonic line, the central role of the *Kebra Nagast* epic in establishing their legitimacy, and the powerful alliance forged between the newly restored crown and the Ethiopian Church.
 
 The Zagwe Dynasty''s rule, for all its architectural and spiritual achievements, rested on a contested foundation. They were not of the ancient Axumite line, a fact that a growing movement of their rivals used to challenge their legitimacy. This movement championed a powerful narrative: that the only true rulers of Ethiopia were those descended from **Menelik I**, the legendary son of King Solomon of Israel and the Queen of Sheba. This belief, which had circulated in Ethiopian oral tradition for centuries, culminated in the overthrow of the Zagwe and the establishment of a new dynasty that would rule Ethiopia for over 700 years.
@@ -2760,7 +2760,7 @@ While earthly dynasties rise and fall, the story of the *Kebra Nagast* is a powe
 
 The *Kebra Nagast*, therefore, is valuable not as literal history, but as a window into the Ethiopian Christian soul—a people who longed to be part of the biblical narrative, and who, through faith in Christ, truly are.', '[]', '["Solomon"]', 5, 10);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s04', 'topic_ch09', '9.4 Ethiopia''s Isolation and Resilience (c. 13th–15th Centuries)', 'In this section you will learn about the increasing military pressure Ethiopia faced from surrounding Muslim sultanates, the decisive leadership of Emperor Amda Seyon I, and the internal monastic renewals that shaped the nation''s unique theological identity.
 
 The restoration of the Solomonic Dynasty inaugurated a period of renewed confidence and cultural flourishing, but it also coincided with a new and growing threat. The Christian kingdom found itself increasingly encircled by powerful Muslim sultanates, such as **Ifat** and **Adal**, which were expanding along the eastern and southern frontiers. This era was defined by a struggle for survival that forged a militant, resilient, and deeply self-reliant  national character.
@@ -2815,7 +2815,7 @@ Consider the contrast: Amda Seyon''s battles secured borders that would last for
 
 Amda Seyon''s sword defended the gates; Tekle Haymanot''s prayers defended the soul. Both were necessary, but only one was eternal.', '[]', '[]', 5, 7);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s05', 'topic_ch09', '9.5 Ethiopia and the Wider Christian World (c. 14th–15th Centuries)', 'In this section you will learn about the European legend of Prester John and its connection to Ethiopia, the first tentative diplomatic contacts between the highland kingdom and Europe, and the remarkable reign of Emperor Zara Yaqob, a theologian-king who reformed the church and consolidated the faith.
 
 Despite its profound isolation, Ethiopia was not entirely forgotten by the rest of Christendom. In a Europe locked in a centuries-long struggle with Islamic powers, a fascinating legend took root—the story of **Prester John**. This legend told of a mighty Christian king ruling a lost kingdom in the East, a potential ally who could help turn the tide of the crusades. For centuries, Europeans searched for this mythical figure, with many eventually identifying his kingdom with the remote Christian empire of Ethiopia.
@@ -2859,7 +2859,7 @@ This dynamic teaches us that the Church is both universal and local. We share on
 
 The re-connection of Ethiopia with the wider Christian world—first through legend, then through tentative diplomacy—was a foretaste of the global church that would emerge in later centuries. It reminds us that God''s kingdom transcends national and cultural boundaries, that the Spirit works in ways we cannot see, and that the prayer of Jesus for unity is being answered, even when we are unaware of it.', '[]', '[]', 5, 6);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch09_s06', 'topic_ch09', '9.6 The Coming Storm (c. 15th–Early 16th Centuries)', 'In this section you will learn about the rising power of the Sultanate of Adal, the foreshadowing of a new era of conflict, and how Ethiopia stood on the precipice of a dramatic re-engagement with the wider world as the medieval period drew to a close.
 
 The reforms of Zara Yaqob had brought the Ethiopian Church and state to a pinnacle of internal unity and intellectual confidence. The kingdom had successfully weathered centuries of isolation, defended its borders, and forged a unique and resilient Christian identity. Yet, as the 15th century drew to a close, the geopolitical forces that had long been held at bay were gathering strength, preparing to unleash a new and more perilous era of conflict.
@@ -2910,10 +2910,10 @@ The coming storm was real, but so was the God who commanded the storm. Ethiopia'
 -- Chapter 10: Trade Winds and Stone Cities (c. 1000–1500 AD)
 -- =========================================
 
-INSERT INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
+INSERT OR IGNORE INTO Topics (id, title, era, region, summary, display_order, parent_topic_id)
 VALUES ('topic_ch10', 'Trade Winds and Stone Cities (c. 1000–1500 AD)', 'c. 1200 AD', 'Ethiopia / Horn of Africa', 'Trade Winds and Stone Cities (c. 1000–1500 AD) - c. 1200 AD - Ethiopia / Horn of Africa', 10, NULL);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s01', 'topic_ch10', '10.1 The Swahili Coast: Masters of the Monsoon', 'While the Christian kingdoms of Nubia and Ethiopia stood as sentinels in the north, a different kind of civilization was blossoming along the East African coast, stretching from modern-day Somalia to Mozambique. This was the **Swahili Coast**, a vibrant ribbon of trade and culture where the African continent met the Indian Ocean world.
 
 The driving force behind this civilization was the **Monsoon wind system**. God''s created weather patterns provided a natural engine for trade: the **Northeast Monsoon** (blowing from India/Arabia to Africa) in the winter allowed ships to arrive, while the **Southwest Monsoon** (blowing from Africa to India) in the summer carried them home. This predictable rhythm turned the Indian Ocean into a "maritime highway," connecting East Africa to Arabia, Persia, India, and even China.
@@ -2922,14 +2922,14 @@ The people of this coast, the **Swahili** (from the Arabic *sawāhil*, meaning "
 
 > **Key Term:** **Swahili** — A Bantu language and culture heavily influenced by Arabic and Persian loanwords. It became the *lingua franca* (trade language) of East Africa, facilitating communication between diverse interior tribes and foreign merchants.', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s02', 'topic_ch10', '10.2 The Rise of the Zimbabwe Culture (c. 1000–1200 AD)', 'Far inland, on the high, temperate plateau between the **Zambezi** and **Limpopo** rivers, another civilization was rising—not from the sea, but from the stone. This was the land of the ancestors of the **Shona** people.
 
 The plateau offered a perfect environment: it was free from the deadly **tsetse fly** (which killed cattle in the lowlands), had ample rainfall for agriculture, and was rich in gold and granite. Here, a cattle-keeping culture emerged where wealth was measured in herds.
 
 The first great capital of this region was **Mapungubwe** (c. 1075–1220 AD), located near the Limpopo River. It was here that the distinctive social structure of the Zimbabwe culture first appeared: a sacred king living on a hilltop, separated from the commoners in the valley below. Archaeologists have found incredible treasures at Mapungubwe, including the famous **Golden Rhinoceros**, a small wooden carving covered in gold foil, proving that local artisans were mastering gold-working techniques long before European contact.', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s03', 'topic_ch10', '10.3 Great Zimbabwe: The House of Stone (c. 1200–1450 AD)', 'As Mapungubwe declined (possibly due to climate change), power shifted north to a site that would become the largest stone structure in sub-Saharan Africa: **Great Zimbabwe**.
 
 ![Map 27: Great Zimbabwe & The Gold Trade](chapter_10/maps/map-027-zimbabwean-plateau.png)
@@ -2952,7 +2952,7 @@ The walls were built using **dry-stone masonry**, meaning no mortar or cement wa
 2.  **Batter:** Building the walls with a slight inward slope (batter) to increase stability.
 3.  **Natural Materials:** They used the local biotite granite, which naturally exfoliates (splits) into flat slabs when heated and cooled, providing perfect building blocks.', '[]', '[]', 5, 2);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s04', 'topic_ch10', '10.4 The Gold Trade & Global Connections', 'Great Zimbabwe was not isolated. It was the beating heart of a trade network that spanned the globe. The plateau was rich in gold, which the Shona mined from narrow shafts and alluvial deposits. This gold was carried by porters to the coast, specifically to the port of **Sofala** (in modern Mozambique).
 
 From Sofala, Swahili traders shipped the gold north to **Kilwa**, and from there it entered the Indian Ocean network. In exchange, the Shona kings received luxury goods from the ends of the earth. Archaeologists at Great Zimbabwe have found:
@@ -2967,7 +2967,7 @@ The story of Great Zimbabwe challenges us to see God''s "common grace" at work i
 
 However, it also highlights a tragedy. While the *goods* of the world (gold, porcelain) flowed freely into the Zimbabwean plateau, the *Gospel* did not. The Swahili traders brought Islam to the coast, but the interior remained largely cut off from the knowledge of the true God until the 19th century. The Shona people knew of a Supreme Creator (*Mwari*), a remnant of the original monotheism of Noah, but without the light of Scripture, this truth was obscured by ancestor veneration. It reminds us of the urgency of the Great Commission—that while trade can connect economies, only the Gospel can connect hearts to their Creator.', '[]', '[]', 5, 1);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s05', 'topic_ch10', '10.5 The Great Lakes Kingdoms: Empire of Kitara', 'While the Swahili coast traded with the world and Great Zimbabwe built in stone, another civilization was rising in the fertile interlacustrine ("between the lakes") region of modern-day Uganda. This was the **Empire of Kitara**, a powerful state that dominated the region from c. 1300 to 1500 AD.
 
 ![Map 26: The Empire of Kitara & The Rise of Buganda](chapter_10/maps/map-026-great-lakes-kingdoms.png)
@@ -2984,7 +2984,7 @@ Later, the **Kingdom of Buganda** (on the shores of Lake Victoria) would rise to
 
 > **Theological Note:** The oral traditions of these kingdoms, preserved with remarkable accuracy by court historians, remind us of the value of memory. Just as the Israelites preserved the history of their judges and kings orally before writing them down, the African "griots" and chroniclers preserved the history of God''s providence in their lands.', '[]', '[]', 5, 2);
 
-INSERT INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
+INSERT OR IGNORE INTO Lessons (id, topic_id, title, narrative_text, key_dates, key_figures, difficulty_band, estimated_minutes)
 VALUES ('lesson_ch10_s06', 'topic_ch10', '10.6 Chronological Summary & Review', '### Chronological Summary (c. 1000–1500 AD)
 
 | Period | Event | Significance |
