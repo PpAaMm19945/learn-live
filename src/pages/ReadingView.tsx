@@ -129,7 +129,7 @@ export default function ReadingView() {
                      onClick={() => setIsWorldContextOpen(true)}
                      className="flex items-center gap-2 border-primary/20 hover:bg-primary/10 text-primary"
                    >
-                     <Globe className="h-4 w-4" />
+                     <IconGlobe className="h-4 w-4" />
                      <span className="hidden sm:inline">World Context</span>
                    </Button>
                  )}
