@@ -258,7 +258,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       />
       <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out space-y-8">
         <div className="flex items-center gap-2 text-muted-foreground border-b border-border/50 pb-4">
-          <Clock className="h-4 w-4" />
+          <IconClock className="h-4 w-4" />
           <span className="text-sm font-medium">{readingTime} min read</span>
         </div>
 
