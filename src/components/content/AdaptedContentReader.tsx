@@ -124,7 +124,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           There was an error retrieving the reading material for this band level. Please try again.
         </p>
         <Button onClick={() => refetch()} variant="outline" className="gap-2">
-          <RefreshCcw className="h-4 w-4" /> Retry
+          <IconRefresh className="h-4 w-4" /> Retry
         </Button>
       </div>
     );
