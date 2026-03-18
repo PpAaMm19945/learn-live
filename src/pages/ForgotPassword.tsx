@@ -56,7 +56,7 @@ export default function ForgotPassword() {
               If an account exists for <strong className="text-foreground">{email}</strong>, a reset link has been sent.
             </p>
             <Link to="/login" className="inline-flex items-center text-sm text-primary hover:underline">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Back to login
+              <IconArrowLeft className="mr-1 h-4 w-4" /> Back to login
             </Link>
           </CardContent>
         </Card>
