@@ -140,7 +140,7 @@ export default function ExamView() {
         {status === 'setup' && (
           <div className="text-center space-y-8 animate-in fade-in zoom-in duration-300 w-full px-4">
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-               <Mic className="w-12 h-12 text-primary" />
+               <IconMicrophone className="w-12 h-12 text-primary" />
             </div>
             <h2 className="font-display text-3xl sm:text-4xl leading-tight">Ready for The Witness?</h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto">
