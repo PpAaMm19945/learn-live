@@ -231,7 +231,7 @@ export default function Dashboard() {
         {!hasFamily && isLoaded ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-              <Users className="h-8 w-8 text-primary" />
+              <IconUsers className="h-8 w-8 text-primary" />
             </div>
             <h3 className="font-display text-xl mb-2">Complete your family profile</h3>
             <p className="text-muted-foreground mb-6 max-w-sm">To start your curriculum journey, please complete the onboarding process and set up your family profile.</p>
