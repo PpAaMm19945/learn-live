@@ -3,7 +3,7 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, CheckCircle, Loader2, Globe } from 'lucide-react';
+import { IconChevronLeft, IconCircleCheck, IconLoader2, IconGlobe } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';
@@ -129,7 +129,7 @@ export default function ReadingView() {
                      onClick={() => setIsWorldContextOpen(true)}
                      className="flex items-center gap-2 border-primary/20 hover:bg-primary/10 text-primary"
                    >
-                     <Globe className="h-4 w-4" />
+                     <IconGlobe className="h-4 w-4" />
                      <span className="hidden sm:inline">World Context</span>
                    </Button>
                  )}
@@ -157,7 +157,7 @@ export default function ReadingView() {
                 {markCompleteMutation.isSuccess ? (
                   <div className="flex flex-col items-center justify-center gap-6 animate-in fade-in zoom-in duration-300 py-8">
                     <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                      <CheckCircle className="h-10 w-10" />
+                      <IconCircleCheck className="h-10 w-10" />
                     </div>
                     <div className="text-center space-y-2">
                       <h3 className="font-display text-2xl">Lesson Completed</h3>
@@ -180,9 +180,9 @@ export default function ReadingView() {
                       aria-label="Mark lesson complete"
                     >
                       {markCompleteMutation.isPending ? (
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      ) : (
-                        <CheckCircle className="h-5 w-5 mr-2" />
+                         <IconLoader2 className="h-5 w-5 mr-2 animate-spin" />
+                       ) : (
+                         <IconCircleCheck className="h-5 w-5 mr-2" />
                       )}
                       Mark Complete
                     </Button>
@@ -199,7 +199,7 @@ export default function ReadingView() {
           className="fixed bottom-6 right-6 rounded-full z-50 animate-in fade-in slide-in-from-bottom-4 px-4 py-6"
           onClick={() => navigate(`/topics/${lesson.topic_id}`)}
         >
-          <ChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson
+          <IconChevronLeft className="h-5 w-5 mr-2" /> Back to Lesson
         </Button>
       )}
     </div>

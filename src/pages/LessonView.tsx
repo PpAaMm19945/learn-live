@@ -3,7 +3,7 @@ import { stripMarkdown } from '@/lib/textUtils';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { useLearnerStore } from '@/lib/learnerStore';
-import { ChevronLeft, AlertCircle, BookOpen, PlayCircle, RefreshCcw, Mic, Star } from 'lucide-react';
+import { IconChevronLeft, IconAlertCircle, IconBook, IconPlayerPlay, IconRefresh, IconMicrophone, IconStar } from '@tabler/icons-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
@@ -80,15 +80,15 @@ export default function LessonView() {
   if (isError || !lesson) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
-        <AlertCircle className="h-16 w-16 text-destructive mb-4" />
+        <IconAlertCircle className="h-16 w-16 text-destructive mb-4" />
         <h2 className="font-display text-2xl mb-2">Failed to load lesson</h2>
         <p className="text-muted-foreground mb-8 max-w-md">There was a problem loading the lesson content. Please try again.</p>
         <div className="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
           <Button onClick={() => navigate(-1)} variant="outline" className="w-full sm:w-auto">
-            <ChevronLeft className="h-4 w-4 mr-2" /> Go Back
+            <IconChevronLeft className="h-4 w-4 mr-2" /> Go Back
           </Button>
           <Button onClick={() => refetch()} variant="default" className="w-full sm:w-auto">
-            <RefreshCcw className="h-4 w-4 mr-2" /> Try Again
+            <IconRefresh className="h-4 w-4 mr-2" /> Try Again
           </Button>
         </div>
       </div>
@@ -122,7 +122,7 @@ export default function LessonView() {
 
         <div className="mb-10 text-center">
           <h1 className="font-display text-3xl sm:text-4xl leading-tight tracking-tight mb-2 flex items-center justify-center gap-3">
-            <BookOpen className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
+            <IconBook className="h-8 w-8 text-primary" /> {stripMarkdown(lesson.title)}
           </h1>
           <p className="text-muted-foreground">Follow this 3-step guide to complete the lesson.</p>
         </div>
@@ -142,7 +142,7 @@ export default function LessonView() {
                 Read the lesson text adapted for {learnerName}'s level ({bandLabel}).
               </p>
               <Button variant="outline" onClick={() => navigate(`/read/${lessonId}`)}>
-                <BookOpen className="h-4 w-4 mr-2" /> Read Lesson
+                <IconBook className="h-4 w-4 mr-2" /> Read Lesson
               </Button>
             </CardContent>
           </Card>
@@ -156,7 +156,7 @@ export default function LessonView() {
                   <CardTitle className="font-display text-2xl text-primary">The Session</CardTitle>
                 </div>
                 <div className="flex items-center gap-1 text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
-                  <Star className="h-4 w-4" /> RECOMMENDED
+                  <IconStar className="h-4 w-4" /> RECOMMENDED
                 </div>
               </div>
             </CardHeader>
@@ -165,7 +165,7 @@ export default function LessonView() {
                 Watch the interactive narrated lesson with maps and animations.
               </p>
               <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-6 bg-primary text-primary-foreground" onClick={() => navigate(`/narrate/${lessonId}`)}>
-                <PlayCircle className="h-6 w-6 mr-3" /> Start Live Lesson
+                <IconPlayerPlay className="h-6 w-6 mr-3" /> Start Live Lesson
               </Button>
             </CardContent>
           </Card>
@@ -184,7 +184,7 @@ export default function LessonView() {
                 Take an oral exam with AI. <span className="font-medium text-foreground">Sit with your child for this step.</span> Parent reviews the assessment.
               </p>
               <Button variant="outline" onClick={() => navigate(`/exam/${lessonId}`)}>
-                <Mic className="h-4 w-4 mr-2" /> Start Oral Exam
+                <IconMicrophone className="h-4 w-4 mr-2" /> Start Oral Exam
               </Button>
             </CardContent>
           </Card>

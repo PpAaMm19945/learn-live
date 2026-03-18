@@ -2,7 +2,7 @@ import { useState, useEffect, useReducer } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, Loader2, Settings, User } from 'lucide-react';
+import { IconChevronLeft, IconLoader2, IconSettings, IconUser } from '@tabler/icons-react';
 import { BandBadge } from '@/components/content/BandBadge';
 import { useActiveBand } from '@/lib/learnerStore';
 import { HistoryCanvas, CanvasElement } from '@/components/canvas/HistoryCanvas';
@@ -190,7 +190,7 @@ export default function NarratedLessonView() {
               className="mr-1 sm:mr-2 px-2 sm:px-3"
               aria-label="Back to Course"
             >
-              <ChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
+              <IconChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
             </Button>
             {isLessonLoading ? (
                <div className="h-6 w-24 sm:w-32 bg-muted rounded animate-pulse ml-1 sm:ml-2" />
@@ -208,10 +208,10 @@ export default function NarratedLessonView() {
 
           <div className="flex items-center gap-1 sm:gap-2 shrink-0">
             <Button variant="ghost" size="icon" className="hidden sm:inline-flex" aria-label="Settings">
-              <Settings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+              <IconSettings className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
             <Button variant="ghost" size="icon" aria-label="User Profile">
-              <User className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
+              <IconUser className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             </Button>
           </div>
         </div>

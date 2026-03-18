@@ -4,7 +4,7 @@ import { useAuthStore } from '@/lib/auth';
 import { Logger } from '@/lib/Logger';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen, CheckCircle, Target } from 'lucide-react';
+import { IconBook, IconCircleCheck, IconTarget } from '@tabler/icons-react';
 
 interface TopicScore {
     topicId: string;
@@ -82,7 +82,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Lessons Completed
                         </CardTitle>
-                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <IconCircleCheck className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.totalLessonsCompleted}</div>
@@ -94,7 +94,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Topics in Progress
                         </CardTitle>
-                        <BookOpen className="h-4 w-4 text-primary" />
+                        <IconBook className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.topicsInProgress}</div>
@@ -106,7 +106,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Average Quiz Score
                         </CardTitle>
-                        <Target className="h-4 w-4 text-primary" />
+                        <IconTarget className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.averageScore}%</div>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { MessageSquarePlus, Loader2 } from 'lucide-react';
+import { IconMessagePlus, IconLoader2 } from '@tabler/icons-react';
 import {
   Dialog,
   DialogContent,
@@ -70,7 +70,7 @@ export default function FeedbackWidget() {
           size="icon"
           className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-2xl z-50 transition-transform hover:scale-105"
         >
-          <MessageSquarePlus className="h-6 w-6" />
+          <IconMessagePlus className="h-6 w-6" />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -110,7 +110,7 @@ export default function FeedbackWidget() {
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              {isSubmitting && <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />}
               Submit Feedback
             </Button>
           </div>

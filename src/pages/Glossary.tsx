@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, Book, Filter, Loader2, X } from 'lucide-react';
+import { IconSearch, IconBook, IconFilter, IconLoader2, IconX } from '@tabler/icons-react';
 import { GlossaryIndex } from '@/components/glossary/GlossaryIndex';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
@@ -81,7 +81,7 @@ export default function Glossary() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
-                            <Book className="h-8 w-8 text-primary" />
+                            <IconBook className="h-8 w-8 text-primary" />
                             Glossary
                         </h1>
                         <p className="text-lg text-muted-foreground mt-2 max-w-2xl">
@@ -91,7 +91,7 @@ export default function Glossary() {
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                          <form onSubmit={handleSearch} className="relative w-full sm:w-64">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <IconSearch className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                             <Input
                                 placeholder="Search terms..."
                                 value={localSearch}
@@ -102,7 +102,7 @@ export default function Glossary() {
                         <Select value={categoryFilter} onValueChange={handleCategoryChange}>
                             <SelectTrigger className="w-full sm:w-[160px]">
                                 <div className="flex items-center gap-2">
-                                    <Filter className="h-4 w-4" />
+                                    <IconFilter className="h-4 w-4" />
                                     <SelectValue placeholder="Category" />
                                 </div>
                             </SelectTrigger>
@@ -115,7 +115,7 @@ export default function Glossary() {
                         </Select>
                         {(searchTerm || categoryFilter !== 'all') && (
                             <Button variant="ghost" size="icon" onClick={clearFilters} title="Clear filters">
-                                <X className="h-4 w-4" />
+                                <IconX className="h-4 w-4" />
                             </Button>
                         )}
                     </div>
@@ -123,7 +123,7 @@ export default function Glossary() {
 
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center py-24 text-muted-foreground gap-4">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <IconLoader2 className="h-8 w-8 animate-spin text-primary" />
                         <p>Loading glossary terms...</p>
                     </div>
                 ) : isError ? (

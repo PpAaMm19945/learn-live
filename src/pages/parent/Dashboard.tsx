@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { stripMarkdown } from '@/lib/textUtils';
 import { useAuthStore } from '@/lib/auth';
-import { BookOpen, Clock, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
+import { IconBook, IconClock, IconAlertCircle, IconRefresh, IconUsers, IconChevronRight } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
@@ -170,7 +170,7 @@ export default function Dashboard() {
               <CardContent className="p-6">
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
+                    <IconBook className="h-5 w-5 text-primary" />
                     <span className="font-display text-lg">
                       Learning as: {activeLearnerName} <span className="font-sans text-sm text-muted-foreground font-normal">(Band {activeLearnerBand} · {getBandLabel(activeLearnerBand)})</span>
                     </span>
@@ -205,7 +205,7 @@ export default function Dashboard() {
 
           {learners && learners.length > 0 && (
             <div className="flex items-center gap-3 bg-card p-2 rounded-lg border border-border/50 w-max">
-              <Users className="h-5 w-5 text-muted-foreground ml-2" />
+              <IconUsers className="h-5 w-5 text-muted-foreground ml-2" />
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
                 <Select
@@ -231,7 +231,7 @@ export default function Dashboard() {
         {!hasFamily && isLoaded ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-              <Users className="h-8 w-8 text-primary" />
+              <IconUsers className="h-8 w-8 text-primary" />
             </div>
             <h3 className="font-display text-xl mb-2">Complete your family profile</h3>
             <p className="text-muted-foreground mb-6 max-w-sm">To start your curriculum journey, please complete the onboarding process and set up your family profile.</p>
@@ -260,23 +260,23 @@ export default function Dashboard() {
           </div>
         ) : isError ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
-            <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+            <IconAlertCircle className="h-12 w-12 text-destructive mb-4" />
             <h3 className="font-display text-xl mb-2">Failed to load topics</h3>
             <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
             <Button onClick={() => refetch()} variant="outline">
-              <RefreshCcw className="h-4 w-4 mr-2" />
+              <IconRefresh className="h-4 w-4 mr-2" />
               Try Again
             </Button>
           </div>
         ) : !topics || topics.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl border-dashed bg-card">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-              <BookOpen className="h-8 w-8 text-primary" />
+              <IconBook className="h-8 w-8 text-primary" />
             </div>
             <h3 className="font-display text-xl mb-2">No topics available yet</h3>
             <p className="text-muted-foreground max-w-sm mb-6">The curriculum content is being prepared. Check back soon.</p>
             <Button onClick={() => refetch()} variant="secondary">
-              <RefreshCcw className="h-4 w-4 mr-2" />
+              <IconRefresh className="h-4 w-4 mr-2" />
               Refresh
             </Button>
           </div>
@@ -316,7 +316,7 @@ export default function Dashboard() {
                           <h4 className="font-display text-lg leading-tight line-clamp-1">{topic.title}</h4>
                           <div className="flex flex-wrap items-center gap-2 mt-1">
                             <Badge variant="secondary" className="flex items-center gap-1 text-xs py-0 h-5">
-                              <Clock className="w-3 h-3" /> {topic.era}
+                              <IconClock className="w-3 h-3" /> {topic.era}
                             </Badge>
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
                               <span className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden inline-block mr-1">
@@ -351,7 +351,7 @@ export default function Dashboard() {
                               <div className="flex-grow">
                                 <h5 className="font-display text-base leading-tight">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
                                 <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground font-sans">
-                                  <Clock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
+                                  <IconClock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
                                 </div>
                               </div>
                               <div className="flex items-center gap-3">
@@ -360,7 +360,7 @@ export default function Dashboard() {
                                   size="sm"
                                   onClick={() => navigate(`/lessons/${lesson.id}`)}
                                 >
-                                  View <ChevronRight className="w-4 h-4 ml-1" />
+                                  View <IconChevronRight className="w-4 h-4 ml-1" />
                                 </Button>
                               </div>
                             </div>

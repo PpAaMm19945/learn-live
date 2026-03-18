@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, RefreshCcw, PenTool, Clock } from 'lucide-react';
+import { IconAlertCircle, IconRefresh, IconPencil, IconClock } from '@tabler/icons-react';
 import { VocabularyCard } from './VocabularyCard';
 import { DiscussionQuestions } from './DiscussionQuestions';
 import React, { ReactNode, useState, useEffect } from 'react';
@@ -118,13 +118,13 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
   if (isError || !contentData) {
     return (
       <div className="flex flex-col items-center justify-center p-12 text-center border rounded-2xl border-dashed bg-card mt-8">
-        <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+        <IconAlertCircle className="h-12 w-12 text-destructive mb-4" />
         <h3 className="text-xl font-semibold mb-2">Failed to load content</h3>
         <p className="text-muted-foreground mb-6 max-w-md">
           There was an error retrieving the reading material for this band level. Please try again.
         </p>
         <Button onClick={() => refetch()} variant="outline" className="gap-2">
-          <RefreshCcw className="h-4 w-4" /> Retry
+          <IconRefresh className="h-4 w-4" /> Retry
         </Button>
       </div>
     );
@@ -258,7 +258,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       />
       <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out space-y-8">
         <div className="flex items-center gap-2 text-muted-foreground border-b border-border/50 pb-4">
-          <Clock className="h-4 w-4" />
+          <IconClock className="h-4 w-4" />
           <span className="text-sm font-medium">{readingTime} min read</span>
         </div>
 
@@ -311,7 +311,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           {contentData.essay_prompt && (
              <div className="mt-12 p-8 rounded-2xl bg-secondary border border-border/50 shadow-inner">
                 <div className="flex items-center gap-3 mb-4 text-primary">
-                  <PenTool className="w-6 h-6" />
+                  <IconPencil className="w-6 h-6" />
                   <h3 className="text-2xl font-bold">Essay Prompt</h3>
                 </div>
                 <p className="text-lg text-foreground leading-relaxed italic border-l-4 border-primary pl-4 py-2">

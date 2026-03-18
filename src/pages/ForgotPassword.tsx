@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowLeft, Loader2, Mail, CheckCircle2 } from 'lucide-react';
+import { IconArrowLeft, IconLoader2, IconMail, IconCircleCheck } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ForgotPassword() {
@@ -50,13 +50,13 @@ export default function ForgotPassword() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
-            <CheckCircle2 className="h-12 w-12 text-primary mx-auto" />
+            <IconCircleCheck className="h-12 w-12 text-primary mx-auto" />
             <h2 className="text-xl font-semibold">Check your email</h2>
             <p className="text-sm text-muted-foreground">
               If an account exists for <strong className="text-foreground">{email}</strong>, a reset link has been sent.
             </p>
             <Link to="/login" className="inline-flex items-center text-sm text-primary hover:underline">
-              <ArrowLeft className="mr-1 h-4 w-4" /> Back to login
+              <IconArrowLeft className="mr-1 h-4 w-4" /> Back to login
             </Link>
           </CardContent>
         </Card>
@@ -79,14 +79,14 @@ export default function ForgotPassword() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconMail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="email" type="email" placeholder="name@example.com" value={email}
                     onChange={(e) => { setEmail(e.target.value); setError(''); }} className="pl-9" autoFocus />
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                {loading ? <IconLoader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Send Reset Link
               </Button>
             </form>
@@ -95,7 +95,7 @@ export default function ForgotPassword() {
 
         <p className="text-center text-xs text-muted-foreground">
           <Link to="/login" className="inline-flex items-center text-primary hover:text-primary/80">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to login
+            <IconArrowLeft className="mr-2 h-4 w-4" /> Back to login
           </Link>
         </p>
       </div>

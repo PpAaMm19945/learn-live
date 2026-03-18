@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from '@/components/ui/sheet';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Globe, Clock } from 'lucide-react';
+import { IconGlobe, IconClock } from '@tabler/icons-react';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
@@ -49,7 +49,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col h-full bg-card/95 backdrop-blur-md border-l border-border/50">
         <SheetHeader className="pb-6 border-b border-border/50">
           <div className="flex items-center gap-2">
-            <Globe className="h-6 w-6 text-primary" />
+            <IconGlobe className="h-6 w-6 text-primary" />
             <SheetTitle className="text-2xl font-bold tracking-tight">Meanwhile, in the World...</SheetTitle>
           </div>
           <SheetDescription className="text-base">
@@ -82,7 +82,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
             </div>
           ) : !contextEntries || contextEntries.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-muted-foreground text-center">
-              <Globe className="h-12 w-12 mb-4 opacity-20" />
+              <IconGlobe className="h-12 w-12 mb-4 opacity-20" />
               <p>No world context available for this chapter.</p>
             </div>
           ) : (
@@ -107,7 +107,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
                       </div>
 
                       <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground mb-4 bg-background/50 inline-flex px-2 py-1 rounded-md">
-                        <Clock className="h-3.5 w-3.5" />
+                        <IconClock className="h-3.5 w-3.5" />
                         {formatYear(entry.start_year)} — {formatYear(entry.end_year)}
                       </div>
 

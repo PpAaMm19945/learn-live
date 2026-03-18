@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2 } from 'lucide-react';
+import { IconLoader2 } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface ParentReviewModalProps {
@@ -79,7 +79,7 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
             disabled={isSubmitting}
             className="w-full sm:w-auto"
           >
-            {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+            {isSubmitting ? <IconLoader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
             Witness Approved
           </Button>
         </DialogFooter>

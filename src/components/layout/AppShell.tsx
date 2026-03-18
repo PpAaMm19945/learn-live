@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Book, TrendingUp, Settings, LogOut } from "lucide-react";
+import { IconLayoutDashboard, IconBook, IconTrendingUp, IconSettings, IconLogout } from "@tabler/icons-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -39,7 +39,7 @@ export function AppShell({ children }: AppShellProps) {
             <div className="flex items-center gap-2">
               <SidebarTrigger className="md:hidden" />
               <div className="md:hidden font-display text-xl flex items-center gap-2">
-                <Book className="h-5 w-5 text-primary" />
+                <IconBook className="h-5 w-5 text-primary" />
                 Learn Live
               </div>
             </div>
@@ -73,7 +73,7 @@ export function AppShell({ children }: AppShellProps) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-                    <Settings className="h-5 w-5" />
+                     <IconSettings className="h-5 w-5" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
@@ -81,7 +81,7 @@ export function AppShell({ children }: AppShellProps) {
                     {name || email}
                   </div>
                   <DropdownMenuItem onClick={() => logout()}>
-                    <LogOut className="h-4 w-4 mr-2" />
+                     <IconLogout className="h-4 w-4 mr-2" />
                     Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
@@ -96,20 +96,20 @@ export function AppShell({ children }: AppShellProps) {
           {/* Mobile Bottom Navigation */}
           <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-border/50 bg-card z-50 px-6 py-3 flex justify-between items-center">
             <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <LayoutDashboard className="h-5 w-5" />
+              <IconLayoutDashboard className="h-5 w-5" />
               <span>Home</span>
             </NavLink>
             <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <Book className="h-5 w-5" />
+              <IconBook className="h-5 w-5" />
               <span>Glossary</span>
             </NavLink>
             <NavLink to="/progress" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <TrendingUp className="h-5 w-5" />
+              <IconTrendingUp className="h-5 w-5" />
               <span>Progress</span>
             </NavLink>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex flex-col items-center gap-1 text-muted-foreground outline-none font-sans text-xs font-medium">
-                <Settings className="h-5 w-5" />
+                <IconSettings className="h-5 w-5" />
                 <span>Profile</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">
@@ -138,7 +138,7 @@ export function AppShell({ children }: AppShellProps) {
                   </div>
                 ) : null}
                 <DropdownMenuItem onClick={() => logout()}>
-                  <LogOut className="h-4 w-4 mr-2" />
+                  <IconLogout className="h-4 w-4 mr-2" />
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>

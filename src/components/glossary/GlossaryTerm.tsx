@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { BookOpen } from 'lucide-react';
+import { IconBook } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
 interface GlossaryTermProps {
@@ -37,7 +37,7 @@ export function GlossaryTerm({ term, definition, className, id }: GlossaryTermPr
         <div className="space-y-3">
           <div className="flex items-center justify-between text-primary">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4" />
+              <IconBook className="w-4 h-4" />
               <h4 className="font-semibold leading-none">{term}</h4>
             </div>
           </div>

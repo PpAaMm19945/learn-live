@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Book, TrendingUp, ShieldAlert, LogOut } from "lucide-react";
+import { IconLayoutDashboard, IconBook, IconTrendingUp, IconShieldLock, IconLogout } from "@tabler/icons-react";
 import { useIsAdmin, useAuthStore } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="hidden md:flex border-r-0 bg-background text-sidebar-foreground">
       <SidebarHeader className="p-4 border-b border-border/30 flex items-center justify-center h-[57px]">
         <div className="flex items-center gap-2 overflow-hidden w-full group-data-[state=collapsed]:justify-center">
-          <Book className="h-6 w-6 text-primary shrink-0" />
+          <IconBook className="h-6 w-6 text-primary shrink-0" />
           <span className="font-display text-xl truncate group-data-[state=collapsed]:hidden">Learn Live</span>
         </div>
       </SidebarHeader>
@@ -36,7 +36,7 @@ export function AppSidebar() {
                   `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
-                <LayoutDashboard className="h-5 w-5 shrink-0" />
+                <IconLayoutDashboard className="h-5 w-5 shrink-0" />
                 <span className="group-data-[state=collapsed]:hidden">Dashboard</span>
               </NavLink>
             </SidebarMenuButton>
@@ -50,7 +50,7 @@ export function AppSidebar() {
                   `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
-                <Book className="h-5 w-5 shrink-0" />
+                <IconBook className="h-5 w-5 shrink-0" />
                 <span className="group-data-[state=collapsed]:hidden">Glossary</span>
               </NavLink>
             </SidebarMenuButton>
@@ -64,7 +64,7 @@ export function AppSidebar() {
                   `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
-                <TrendingUp className="h-5 w-5 shrink-0" />
+                <IconTrendingUp className="h-5 w-5 shrink-0" />
                 <span className="group-data-[state=collapsed]:hidden">Progress</span>
               </NavLink>
             </SidebarMenuButton>
@@ -79,7 +79,7 @@ export function AppSidebar() {
                     `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                   }
                 >
-                  <ShieldAlert className="h-5 w-5 shrink-0" />
+                  <IconShieldLock className="h-5 w-5 shrink-0" />
                   <span className="group-data-[state=collapsed]:hidden">Admin</span>
                 </NavLink>
               </SidebarMenuButton>
@@ -92,7 +92,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton onClick={handleLogout} tooltip="Sign Out" className="flex items-center gap-3 w-full p-2 rounded-md transition-colors hover:bg-accent/30 text-muted-foreground hover:text-foreground">
-              <LogOut className="h-5 w-5 shrink-0" />
+              <IconLogout className="h-5 w-5 shrink-0" />
               <span className="group-data-[state=collapsed]:hidden">Sign Out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Loader2, Mail, Lock, User } from 'lucide-react';
+import { IconArrowRight, IconLoader2, IconMail, IconLock, IconUser } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Register() {
@@ -71,7 +71,7 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconUser className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="name" type="text" placeholder="Your name" value={name}
                     onChange={(e) => { setName(e.target.value); setError(''); }} className="pl-9" autoFocus />
                 </div>
@@ -80,7 +80,7 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconMail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="email" type="email" placeholder="name@example.com" value={email}
                     onChange={(e) => { setEmail(e.target.value); setError(''); }} className="pl-9" />
                 </div>
@@ -89,7 +89,7 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="password">Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                   <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="password" type="password" placeholder="Min. 8 characters" value={password}
                     onChange={(e) => { setPassword(e.target.value); setError(''); }} className="pl-9" />
                 </div>
@@ -98,15 +98,15 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="confirmPassword" type="password" placeholder="Repeat password" value={confirmPassword}
                     onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }} className="pl-9" />
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Sign Up <ArrowRight className="h-4 w-4 ml-1" />
+                 {loading ? <IconLoader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                 Sign Up <IconArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </form>
           </CardContent>

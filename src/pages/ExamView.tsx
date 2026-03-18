@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Mic, Loader2, Square, CheckCircle, Clock } from 'lucide-react';
+import { IconMicrophone, IconLoader2, IconSquare, IconCircleCheck, IconClock } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { ParentReviewModal } from '@/components/exam/ParentReviewModal';
 import { useAuthStore } from '@/lib/auth';
@@ -140,14 +140,14 @@ export default function ExamView() {
         {status === 'setup' && (
           <div className="text-center space-y-8 animate-in fade-in zoom-in duration-300 w-full px-4">
             <div className="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-               <Mic className="w-12 h-12 text-primary" />
+               <IconMicrophone className="w-12 h-12 text-primary" />
             </div>
             <h2 className="font-display text-3xl sm:text-4xl leading-tight">Ready for The Witness?</h2>
             <p className="text-base sm:text-lg text-muted-foreground max-w-md mx-auto">
               {getInstructions()}
             </p>
             <Button size="lg" onClick={startExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Start Recording">
-              <Mic className="w-5 h-5 mr-2" /> Start Recording
+              <IconMicrophone className="w-5 h-5 mr-2" /> Start Recording
             </Button>
           </div>
         )}
@@ -158,7 +158,7 @@ export default function ExamView() {
                     <div className="absolute w-32 h-32 sm:w-48 sm:h-48 bg-primary/20 rounded-full animate-ping pointer-events-none"></div>
                     <div className="absolute w-24 h-24 sm:w-36 sm:h-36 bg-primary/40 rounded-full animate-pulse pointer-events-none"></div>
                     <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-primary rounded-full border-4 border-background/20 flex items-center justify-center">
-                        <Mic className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
+                        <IconMicrophone className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
                     </div>
                </div>
 
@@ -169,14 +169,14 @@ export default function ExamView() {
                </div>
 
                <Button size="lg" variant="destructive" onClick={endExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Stop Exam">
-                  <Square className="w-5 h-5 mr-2 fill-current" /> Stop
+                  <IconSquare className="w-5 h-5 mr-2 fill-current" /> Stop
                </Button>
            </div>
         )}
 
         {status === 'evaluating' && (
            <div className="text-center space-y-8 animate-in fade-in duration-300">
-               <Loader2 className="w-16 h-16 animate-spin text-primary mx-auto" />
+               <IconLoader2 className="w-16 h-16 animate-spin text-primary mx-auto" />
                <h2 className="font-display text-2xl">Evaluating responses…</h2>
                <p className="text-muted-foreground max-w-md mx-auto">
                    The AI is analyzing your answers and drafting an assessment.
@@ -186,7 +186,7 @@ export default function ExamView() {
 
         {status === 'complete' && (
            <div className="text-center space-y-8 animate-in fade-in zoom-in duration-500 w-full max-w-2xl px-4">
-               <CheckCircle className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
+               <IconCircleCheck className="w-20 h-20 sm:w-24 sm:h-24 text-primary mx-auto" />
                <h2 className="font-display text-2xl sm:text-3xl">Witness Complete</h2>
                <p className="text-base sm:text-lg text-muted-foreground">
                    The AI has drafted an assessment for your parent to review.
@@ -194,7 +194,7 @@ export default function ExamView() {
 
                <div className="bg-card p-4 sm:p-6 rounded-xl border border-border/50 text-left space-y-4 w-full">
                    <h4 className="font-medium flex items-center gap-2">
-                       <Clock className="w-4 h-4 text-muted-foreground" />
+                       <IconClock className="w-4 h-4 text-muted-foreground" />
                        Session Details
                    </h4>
                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-sm">

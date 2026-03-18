@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Loader2, Mail, Lock, CheckCircle2 } from 'lucide-react';
+import { IconArrowRight, IconLoader2, IconMail, IconLock, IconCircleCheck } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 import { Logger } from '@/lib/Logger';
 
@@ -95,7 +95,7 @@ export default function Login() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border border-border/50 bg-card">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
-            <CheckCircle2 className="h-12 w-12 text-primary mx-auto" />
+            <IconCircleCheck className="h-12 w-12 text-primary mx-auto" />
             <h2 className="font-display text-xl">Check your email</h2>
             <p className="text-sm text-muted-foreground">
               We sent a magic link to <strong className="text-foreground">{email}</strong>
@@ -124,7 +124,7 @@ export default function Login() {
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconMail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="email"
                     type="email"
@@ -145,7 +145,7 @@ export default function Login() {
                   </Link>
                 </div>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type="password"
@@ -158,8 +158,8 @@ export default function Login() {
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Sign In <ArrowRight className="h-4 w-4 ml-1" />
+                 {loading ? <IconLoader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                 Sign In <IconArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </form>
 
@@ -174,7 +174,7 @@ export default function Login() {
 
             <div className="grid grid-cols-2 gap-4">
               <Button variant="outline" type="button" disabled={loading} onClick={handleMagicLink} aria-label="Sign in with Magic Link">
-                <Mail className="mr-2 h-4 w-4" /> Magic Link
+                <IconMail className="mr-2 h-4 w-4" /> Magic Link
               </Button>
               <Button variant="outline" type="button" disabled={loading} onClick={handleGoogleAuth} aria-label="Sign in with Google">
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">

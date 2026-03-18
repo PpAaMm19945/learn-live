@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { ArrowRight, Loader2, Lock, AlertTriangle } from 'lucide-react';
+import { IconArrowRight, IconLoader2, IconLock, IconAlertTriangle } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 export default function ResetPassword() {
@@ -22,7 +22,7 @@ export default function ResetPassword() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
-            <AlertTriangle className="h-12 w-12 text-destructive mx-auto" />
+            <IconAlertTriangle className="h-12 w-12 text-destructive mx-auto" />
             <h2 className="text-xl font-semibold">Invalid reset link</h2>
             <p className="text-sm text-muted-foreground">
               This link is missing or expired. Please request a new one.
@@ -90,7 +90,7 @@ export default function ResetPassword() {
               <div className="space-y-2">
                 <Label htmlFor="password">New Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                   <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="password" type="password" placeholder="Min. 8 characters" value={password}
                     onChange={(e) => { setPassword(e.target.value); setError(''); }} className="pl-9" autoFocus />
                 </div>
@@ -99,15 +99,15 @@ export default function ResetPassword() {
               <div className="space-y-2">
                 <Label htmlFor="confirmPassword">Confirm New Password</Label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconLock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="confirmPassword" type="password" placeholder="Repeat password" value={confirmPassword}
                     onChange={(e) => { setConfirmPassword(e.target.value); setError(''); }} className="pl-9" />
                 </div>
               </div>
 
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
-                Reset Password <ArrowRight className="h-4 w-4 ml-1" />
+                 {loading ? <IconLoader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                 Reset Password <IconArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </form>
           </CardContent>

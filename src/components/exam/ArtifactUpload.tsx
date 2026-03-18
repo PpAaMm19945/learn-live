@@ -1,5 +1,5 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
-import { Upload, Camera, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { IconUpload, IconCamera, IconCircleCheck, IconAlertCircle, IconLoader2 } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Logger } from '@/lib/Logger';
@@ -119,7 +119,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
         <Card className="w-full max-w-lg mx-auto border-secondary/50 shadow-sm bg-card/50">
             <CardHeader>
                 <CardTitle className="text-xl flex items-center gap-2">
-                    <Camera className="w-5 h-5 text-primary" />
+                    <IconCamera className="w-5 h-5 text-primary" />
                     Artifact Check
                 </CardTitle>
                 <CardDescription>
@@ -132,7 +132,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
                         className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:bg-muted/30 transition-colors"
                         onClick={() => fileInputRef.current?.click()}
                     >
-                        <Upload className="w-10 h-10 text-muted-foreground mb-3" />
+                        <IconUpload className="w-10 h-10 text-muted-foreground mb-3" />
                         <p className="text-sm font-medium">Click to upload or take a photo</p>
                         <p className="text-xs text-muted-foreground mt-1">Supports JPEG, PNG, HEIC</p>
                     </div>
@@ -170,7 +170,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
 
                 {error && (
                     <div className="p-3 bg-destructive/10 text-destructive text-sm rounded-md flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                        <IconAlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                         <p>{error}</p>
                     </div>
                 )}
@@ -179,7 +179,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
                     <div className="p-4 bg-primary/5 rounded-md border border-primary/20 space-y-3">
                         <div className="flex items-center justify-between border-b border-primary/10 pb-2">
                             <h4 className="font-semibold text-primary flex items-center gap-2">
-                                <CheckCircle className="w-4 h-4" />
+                                <IconCircleCheck className="w-4 h-4" />
                                 AI Assessment Draft
                             </h4>
                             <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded-full">
@@ -209,12 +209,12 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
                     >
                         {isUploading ? (
                             <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                 <IconLoader2 className="w-4 h-4 mr-2 animate-spin" />
                                 Uploading...
                             </>
                         ) : isVerifying ? (
                             <>
-                                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                                <IconLoader2 className="w-4 h-4 mr-2 animate-spin" />
                                 AI is Checking...
                             </>
                         ) : (

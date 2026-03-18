@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Mic, CheckCircle, Clock } from 'lucide-react';
+import { IconMicrophone, IconCircleCheck, IconClock } from '@tabler/icons-react';
 
 interface ExamCardProps {
   lessonId: string;
@@ -24,7 +24,7 @@ export function ExamCard({ lessonId, status = 'pending' }: ExamCardProps) {
         return <Badge variant="default" className="bg-primary/20 text-primary">Reviewed</Badge>;
       case 'pending':
       default:
-        return <Badge variant="outline" className="text-muted-foreground"><Clock className="w-3 h-3 mr-1"/> Pending</Badge>;
+        return <Badge variant="outline" className="text-muted-foreground"><IconClock className="w-3 h-3 mr-1"/> Pending</Badge>;
     }
   };
 
@@ -45,17 +45,17 @@ export function ExamCard({ lessonId, status = 'pending' }: ExamCardProps) {
 
         {status === 'pending' && (
           <Button onClick={handleStartExam} className="w-full">
-            <Mic className="w-4 h-4 mr-2" /> Start Exam
+            <IconMicrophone className="w-4 h-4 mr-2" /> Start Exam
           </Button>
         )}
         {status === 'completed' && (
           <Button variant="outline" className="w-full" disabled>
-            <CheckCircle className="w-4 h-4 mr-2" /> Completed
+            <IconCircleCheck className="w-4 h-4 mr-2" /> Completed
           </Button>
         )}
         {status === 'reviewed' && (
            <Button variant="secondary" className="w-full" disabled>
-             <CheckCircle className="w-4 h-4 mr-2" /> Reviewed
+             <IconCircleCheck className="w-4 h-4 mr-2" /> Reviewed
            </Button>
         )}
       </CardContent>

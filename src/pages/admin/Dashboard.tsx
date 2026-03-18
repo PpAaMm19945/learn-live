@@ -1,6 +1,6 @@
 import { useAuthStore, useIsAdmin } from '@/lib/auth';
 import { useNavigate, Navigate } from 'react-router-dom';
-import { LogOut, ArrowLeft, Loader2, Users, BookOpen, Clock, Activity, BarChart3 } from 'lucide-react';
+import { IconLogout, IconArrowLeft, IconLoader2, IconUsers, IconBook, IconClock, IconActivity, IconChartBar } from '@tabler/icons-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   if (isAdminLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <IconLoader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function AdminDashboard() {
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-4">
             <Button variant="ghost" size="icon" onClick={() => navigate('/dashboard')} aria-label="Back to dashboard">
-              <ArrowLeft className="h-5 w-5" />
+              <IconArrowLeft className="h-5 w-5" />
             </Button>
             <div>
               <h1 className="text-lg font-semibold flex items-center gap-2">
@@ -92,7 +92,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-            <LogOut className="h-4 w-4 mr-2" /> Sign out
+            <IconLogout className="h-4 w-4 mr-2" /> Sign out
           </Button>
         </div>
       </header>
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Families</CardTitle>
-              <Users className="h-4 w-4 text-muted-foreground" />
+              <IconUsers className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isOverviewLoading ? '-' : overview?.totalFamilies}</div>
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Total Learners</CardTitle>
-              <BookOpen className="h-4 w-4 text-muted-foreground" />
+              <IconBook className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isOverviewLoading ? '-' : overview?.totalLearners}</div>
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Active Users (7d)</CardTitle>
-              <Activity className="h-4 w-4 text-muted-foreground" />
+              <IconActivity className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isOverviewLoading ? '-' : overview?.activeUsers7d}</div>
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">Lessons Completed</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
+              <IconClock className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{isOverviewLoading ? '-' : overview?.lessons?.total}</div>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
             <CardContent>
               {isEngagementLoading ? (
                 <div className="flex items-center justify-center h-[300px]">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                   <IconLoader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : (
                 <div className="h-[300px] w-full mt-4">
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
             <CardContent>
               {isOverviewLoading ? (
                 <div className="flex items-center justify-center h-[300px]">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                   <IconLoader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : (
                 <div className="h-[300px] w-full mt-4">
@@ -226,7 +226,7 @@ export default function AdminDashboard() {
             <CardContent>
               {isFamiliesLoading ? (
                 <div className="flex items-center justify-center h-[200px]">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <IconLoader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : (
                 <div className="rounded-md border border-border overflow-hidden">

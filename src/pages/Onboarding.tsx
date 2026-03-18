@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { calculateBand } from '@/lib/bandCalculator';
-import { Loader2, ArrowRight, ArrowLeft, Plus, Trash2, CheckCircle2 } from 'lucide-react';
+import { IconLoader2, IconArrowRight, IconArrowLeft, IconPlus, IconTrash, IconCircleCheck } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface LearnerInput {
@@ -245,7 +245,7 @@ export default function Onboarding() {
                              className="absolute top-2 right-2 h-8 w-8 text-muted-foreground hover:text-destructive"
                              onClick={() => removeLearner(learner.id)}
                            >
-                             <Trash2 className="h-4 w-4" />
+                             <IconTrash className="h-4 w-4" />
                            </Button>
                          )}
                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -275,7 +275,7 @@ export default function Onboarding() {
                        </div>
                      ))}
                      <Button type="button" variant="outline" onClick={addLearner} className="w-full border-dashed">
-                       <Plus className="mr-2 h-4 w-4" /> Add another learner
+                       <IconPlus className="mr-2 h-4 w-4" /> Add another learner
                      </Button>
                   </CardContent>
                 </div>
@@ -290,7 +290,7 @@ export default function Onboarding() {
                   <CardContent className="px-0 flex-grow overflow-y-auto pr-2">
                     {loadingTopics ? (
                       <div className="flex justify-center items-center h-32">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <IconLoader2 className="h-8 w-8 animate-spin text-primary" />
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -312,8 +312,8 @@ export default function Onboarding() {
 
               {step === 5 && (
                 <div className="flex-grow flex flex-col justify-center items-center text-center p-8 space-y-6">
-                   <div className="w-20 h-20 bg-green-500/20 text-green-600 rounded-full flex items-center justify-center mb-2">
-                      <CheckCircle2 className="h-10 w-10" />
+                   <div className="w-20 h-20 bg-success/20 text-success rounded-full flex items-center justify-center mb-2">
+                      <IconCircleCheck className="h-10 w-10" />
                    </div>
                    <CardTitle className="text-3xl">You're all set!</CardTitle>
                    <CardDescription className="text-lg max-w-md">
@@ -332,17 +332,17 @@ export default function Onboarding() {
                disabled={step === 1 || isSubmitting}
                className={step === 1 ? 'invisible' : ''}
              >
-               <ArrowLeft className="mr-2 h-4 w-4" /> Back
+               <IconArrowLeft className="mr-2 h-4 w-4" /> Back
              </Button>
 
              {step < totalSteps ? (
                <Button onClick={nextStep}>
-                 Next <ArrowRight className="ml-2 h-4 w-4" />
+                 Next <IconArrowRight className="ml-2 h-4 w-4" />
                </Button>
              ) : (
                <Button onClick={handleFinish} disabled={isSubmitting}>
-                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                 Go to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                  {isSubmitting && <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Go to Dashboard <IconArrowRight className="ml-2 h-4 w-4" />
                </Button>
              )}
           </CardFooter>

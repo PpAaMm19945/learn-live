@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { BookA } from 'lucide-react';
+import { IconVocabulary } from '@tabler/icons-react';
 
 interface VocabularyCardProps {
   term: string;
@@ -37,7 +37,7 @@ export function VocabularyCard({ term, definition, inline = false, className }: 
         >
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-accent-foreground">
-              <BookA className="w-4 h-4" />
+               <IconVocabulary className="w-4 h-4" />
               <h4 className="font-semibold leading-none">{term}</h4>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
@@ -53,7 +53,7 @@ export function VocabularyCard({ term, definition, inline = false, className }: 
     <Card className={cn("overflow-hidden border-l-4 border-l-accent", className)}>
       <CardContent className="p-4 space-y-1.5 bg-card">
         <div className="flex items-center gap-2 text-accent-foreground">
-           <BookA className="w-4 h-4" />
+           <IconVocabulary className="w-4 h-4" />
            <h4 className="font-semibold text-base">{term}</h4>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
