@@ -290,7 +290,7 @@ export default function Onboarding() {
                   <CardContent className="px-0 flex-grow overflow-y-auto pr-2">
                     {loadingTopics ? (
                       <div className="flex justify-center items-center h-32">
-                        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                        <IconLoader2 className="h-8 w-8 animate-spin text-primary" />
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
