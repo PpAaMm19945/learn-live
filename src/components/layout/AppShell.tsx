@@ -96,7 +96,7 @@ export function AppShell({ children }: AppShellProps) {
           {/* Mobile Bottom Navigation */}
           <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-border/50 bg-card z-50 px-6 py-3 flex justify-between items-center">
             <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <LayoutDashboard className="h-5 w-5" />
+              <IconLayoutDashboard className="h-5 w-5" />
               <span>Home</span>
             </NavLink>
             <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
