@@ -155,7 +155,7 @@ export default function TopicDetail() {
           {topic.lessons.length === 0 ? (
              <div className="flex flex-col items-center justify-center py-12 px-4 text-center border rounded-xl border-dashed bg-card">
               <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                <BookOpen className="h-8 w-8 text-primary" />
+                <IconBook className="h-8 w-8 text-primary" />
               </div>
               <h3 className="font-display text-xl mb-2">No lessons yet</h3>
               <p className="text-muted-foreground mb-6 max-w-sm">Content for this topic is currently being developed.</p>
