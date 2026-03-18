@@ -22,7 +22,7 @@ export default function ResetPassword() {
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <Card className="w-full max-w-md border border-border/50 bg-card/60 backdrop-blur-xl shadow-2xl">
           <CardContent className="pt-8 pb-8 text-center space-y-4">
-            <AlertTriangle className="h-12 w-12 text-destructive mx-auto" />
+            <IconAlertTriangle className="h-12 w-12 text-destructive mx-auto" />
             <h2 className="text-xl font-semibold">Invalid reset link</h2>
             <p className="text-sm text-muted-foreground">
               This link is missing or expired. Please request a new one.
