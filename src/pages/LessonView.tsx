@@ -142,7 +142,7 @@ export default function LessonView() {
                 Read the lesson text adapted for {learnerName}'s level ({bandLabel}).
               </p>
               <Button variant="outline" onClick={() => navigate(`/read/${lessonId}`)}>
-                <BookOpen className="h-4 w-4 mr-2" /> Read Lesson
+                <IconBook className="h-4 w-4 mr-2" /> Read Lesson
               </Button>
             </CardContent>
           </Card>
