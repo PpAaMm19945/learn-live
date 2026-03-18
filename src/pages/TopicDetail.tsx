@@ -192,7 +192,7 @@ export default function TopicDetail() {
                         <span className="font-medium text-foreground">Band:</span> {lesson.difficulty_band}
                       </div>
                       <div className="flex items-center gap-1">
-                        <Clock className="h-4 w-4" /> {lesson.estimated_time}
+                        <IconClock className="h-4 w-4" /> {lesson.estimated_time}
                       </div>
                     </div>
                   </CardContent>

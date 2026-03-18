@@ -23,7 +23,7 @@ export function DiscussionQuestions({ questions }: DiscussionQuestionsProps) {
           <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-card/80 transition-colors">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-full bg-primary/10 text-primary">
-                <Lightbulb className="w-5 h-5" />
+                <IconBulb className="w-5 h-5" />
               </div>
               <h3 className="text-xl font-bold tracking-tight text-foreground">Think about this...</h3>
             </div>

@@ -79,7 +79,7 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
             disabled={isSubmitting}
             className="w-full sm:w-auto"
           >
-            {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+            {isSubmitting ? <IconLoader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
             Witness Approved
           </Button>
         </DialogFooter>

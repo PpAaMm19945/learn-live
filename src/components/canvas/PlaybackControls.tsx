@@ -30,7 +30,7 @@ export function PlaybackControls({
         onClick={onToggle}
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
-        {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-1" />}
+        {isPlaying ? <IconPlayerPause className="h-5 w-5" /> : <IconPlayerPlay className="h-5 w-5 ml-1" />}
       </Button>
 
       {/* Progress placeholder - would normally be a slider, keeping it simple visual for now */}

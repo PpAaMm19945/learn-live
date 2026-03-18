@@ -341,8 +341,8 @@ export default function Onboarding() {
                </Button>
              ) : (
                <Button onClick={handleFinish} disabled={isSubmitting}>
-                 {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                 Go to Dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                  {isSubmitting && <IconLoader2 className="mr-2 h-4 w-4 animate-spin" />}
+                  Go to Dashboard <IconArrowRight className="ml-2 h-4 w-4" />
                </Button>
              )}
           </CardFooter>

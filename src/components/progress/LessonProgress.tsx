@@ -29,7 +29,7 @@ export const LessonProgress: React.FC<LessonProgressProps> = ({ status, classNam
         default:
             return (
                 <Badge variant="outline" className={`text-muted-foreground border-muted-foreground/30 flex items-center space-x-1 ${className}`}>
-                    <Circle className="w-3 h-3" />
+                    <IconCircle className="w-3 h-3" />
                     <span>Not Started</span>
                 </Badge>
             );
