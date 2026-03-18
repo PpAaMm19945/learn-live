@@ -105,7 +105,7 @@ export default function TopicDetail() {
         <p className="text-muted-foreground mb-8 max-w-md">There was a problem loading the curriculum content. Please try again.</p>
         <div className="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
           <Button onClick={() => navigate('/dashboard')} variant="outline" className="w-full sm:w-auto">
-            <ChevronLeft className="h-4 w-4 mr-2" /> Back to Course
+            <IconChevronLeft className="h-4 w-4 mr-2" /> Back to Course
           </Button>
           <Button onClick={() => refetch()} variant="default" className="w-full sm:w-auto">
             <RefreshCcw className="h-4 w-4 mr-2" /> Try Again
