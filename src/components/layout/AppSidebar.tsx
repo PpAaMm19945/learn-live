@@ -21,7 +21,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="hidden md:flex border-r-0 bg-background text-sidebar-foreground">
       <SidebarHeader className="p-4 border-b border-border/30 flex items-center justify-center h-[57px]">
         <div className="flex items-center gap-2 overflow-hidden w-full group-data-[state=collapsed]:justify-center">
-          <Book className="h-6 w-6 text-primary shrink-0" />
+          <IconBook className="h-6 w-6 text-primary shrink-0" />
           <span className="font-display text-xl truncate group-data-[state=collapsed]:hidden">Learn Live</span>
         </div>
       </SidebarHeader>
