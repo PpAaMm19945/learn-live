@@ -264,7 +264,7 @@ export default function Dashboard() {
             <h3 className="font-display text-xl mb-2">Failed to load topics</h3>
             <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
             <Button onClick={() => refetch()} variant="outline">
-              <RefreshCcw className="h-4 w-4 mr-2" />
+              <IconRefresh className="h-4 w-4 mr-2" />
               Try Again
             </Button>
           </div>
