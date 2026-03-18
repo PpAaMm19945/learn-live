@@ -226,7 +226,7 @@ export default function AdminDashboard() {
             <CardContent>
               {isFamiliesLoading ? (
                 <div className="flex items-center justify-center h-[200px]">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <IconLoader2 className="h-8 w-8 animate-spin text-muted-foreground" />
                 </div>
               ) : (
                 <div className="rounded-md border border-border overflow-hidden">
