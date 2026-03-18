@@ -316,7 +316,7 @@ export default function Dashboard() {
                           <h4 className="font-display text-lg leading-tight line-clamp-1">{topic.title}</h4>
                           <div className="flex flex-wrap items-center gap-2 mt-1">
                             <Badge variant="secondary" className="flex items-center gap-1 text-xs py-0 h-5">
-                              <Clock className="w-3 h-3" /> {topic.era}
+                              <IconClock className="w-3 h-3" /> {topic.era}
                             </Badge>
                             <span className="text-xs text-muted-foreground flex items-center gap-1">
                               <span className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden inline-block mr-1">
