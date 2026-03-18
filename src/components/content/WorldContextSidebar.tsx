@@ -107,7 +107,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
                       </div>
 
                       <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground mb-4 bg-background/50 inline-flex px-2 py-1 rounded-md">
-                        <Clock className="h-3.5 w-3.5" />
+                        <IconClock className="h-3.5 w-3.5" />
                         {formatYear(entry.start_year)} — {formatYear(entry.end_year)}
                       </div>
 

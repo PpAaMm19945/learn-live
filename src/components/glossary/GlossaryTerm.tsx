@@ -37,7 +37,7 @@ export function GlossaryTerm({ term, definition, className, id }: GlossaryTermPr
         <div className="space-y-3">
           <div className="flex items-center justify-between text-primary">
             <div className="flex items-center gap-2">
-              <BookOpen className="w-4 h-4" />
+              <IconBook className="w-4 h-4" />
               <h4 className="font-semibold leading-none">{term}</h4>
             </div>
           </div>

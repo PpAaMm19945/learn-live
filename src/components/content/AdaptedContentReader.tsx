@@ -311,7 +311,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
           {contentData.essay_prompt && (
              <div className="mt-12 p-8 rounded-2xl bg-secondary border border-border/50 shadow-inner">
                 <div className="flex items-center gap-3 mb-4 text-primary">
-                  <PenTool className="w-6 h-6" />
+                  <IconPencil className="w-6 h-6" />
                   <h3 className="text-2xl font-bold">Essay Prompt</h3>
                 </div>
                 <p className="text-lg text-foreground leading-relaxed italic border-l-4 border-primary pl-4 py-2">
