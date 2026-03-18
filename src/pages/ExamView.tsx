@@ -158,7 +158,7 @@ export default function ExamView() {
                     <div className="absolute w-32 h-32 sm:w-48 sm:h-48 bg-primary/20 rounded-full animate-ping pointer-events-none"></div>
                     <div className="absolute w-24 h-24 sm:w-36 sm:h-36 bg-primary/40 rounded-full animate-pulse pointer-events-none"></div>
                     <div className="relative w-16 h-16 sm:w-24 sm:h-24 bg-primary rounded-full border-4 border-background/20 flex items-center justify-center">
-                        <Mic className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
+                        <IconMicrophone className="w-6 h-6 sm:w-10 sm:h-10 text-primary-foreground animate-pulse" />
                     </div>
                </div>
 
