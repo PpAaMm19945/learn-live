@@ -147,7 +147,7 @@ export default function ExamView() {
               {getInstructions()}
             </p>
             <Button size="lg" onClick={startExam} className="w-full sm:w-auto px-8 py-6 text-lg rounded-full" aria-label="Start Recording">
-              <Mic className="w-5 h-5 mr-2" /> Start Recording
+              <IconMicrophone className="w-5 h-5 mr-2" /> Start Recording
             </Button>
           </div>
         )}
