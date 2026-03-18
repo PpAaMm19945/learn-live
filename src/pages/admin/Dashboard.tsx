@@ -67,7 +67,7 @@ export default function AdminDashboard() {
   if (isAdminLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
-        <Loader2 className="h-12 w-12 animate-spin text-primary" />
+        <IconLoader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
