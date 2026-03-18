@@ -109,7 +109,7 @@ export function AppShell({ children }: AppShellProps) {
             </NavLink>
             <DropdownMenu>
               <DropdownMenuTrigger className="flex flex-col items-center gap-1 text-muted-foreground outline-none font-sans text-xs font-medium">
-                <Settings className="h-5 w-5" />
+                <IconSettings className="h-5 w-5" />
                 <span>Profile</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 mb-2">
