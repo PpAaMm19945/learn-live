@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { AlertCircle, RefreshCcw, PenTool, Clock } from 'lucide-react';
+import { IconAlertCircle, IconRefresh, IconPencil, IconClock } from '@tabler/icons-react';
 import { VocabularyCard } from './VocabularyCard';
 import { DiscussionQuestions } from './DiscussionQuestions';
 import React, { ReactNode, useState, useEffect } from 'react';

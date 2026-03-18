@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
-import { BookOpen } from 'lucide-react';
+import { IconBook } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 
 interface GlossaryTermProps {
