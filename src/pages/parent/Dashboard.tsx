@@ -170,7 +170,7 @@ export default function Dashboard() {
               <CardContent className="p-6">
                 <div className="flex flex-col space-y-4">
                   <div className="flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
+                    <IconBook className="h-5 w-5 text-primary" />
                     <span className="font-display text-lg">
                       Learning as: {activeLearnerName} <span className="font-sans text-sm text-muted-foreground font-normal">(Band {activeLearnerBand} · {getBandLabel(activeLearnerBand)})</span>
                     </span>
