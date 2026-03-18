@@ -165,7 +165,7 @@ export default function LessonView() {
                 Watch the interactive narrated lesson with maps and animations.
               </p>
               <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-6 bg-primary text-primary-foreground" onClick={() => navigate(`/narrate/${lessonId}`)}>
-                <PlayCircle className="h-6 w-6 mr-3" /> Start Live Lesson
+                <IconPlayerPlay className="h-6 w-6 mr-3" /> Start Live Lesson
               </Button>
             </CardContent>
           </Card>
