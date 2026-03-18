@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Book, TrendingUp, Settings, LogOut } from "lucide-react";
+import { IconLayoutDashboard, IconBook, IconTrendingUp, IconSettings, IconLogout } from "@tabler/icons-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
