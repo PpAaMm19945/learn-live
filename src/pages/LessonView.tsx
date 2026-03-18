@@ -156,7 +156,7 @@ export default function LessonView() {
                   <CardTitle className="font-display text-2xl text-primary">The Session</CardTitle>
                 </div>
                 <div className="flex items-center gap-1 text-sm font-medium text-primary bg-primary/10 px-3 py-1 rounded-full">
-                  <Star className="h-4 w-4" /> RECOMMENDED
+                  <IconStar className="h-4 w-4" /> RECOMMENDED
                 </div>
               </div>
             </CardHeader>
