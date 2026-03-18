@@ -71,7 +71,7 @@ export default function Register() {
               <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <div className="relative">
-                  <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IconUser className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input id="name" type="text" placeholder="Your name" value={name}
                     onChange={(e) => { setName(e.target.value); setError(''); }} className="pl-9" autoFocus />
                 </div>
