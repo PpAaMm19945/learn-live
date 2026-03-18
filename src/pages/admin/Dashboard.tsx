@@ -92,7 +92,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
-            <LogOut className="h-4 w-4 mr-2" /> Sign out
+            <IconLogout className="h-4 w-4 mr-2" /> Sign out
           </Button>
         </div>
       </header>
