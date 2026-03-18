@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { stripMarkdown } from '@/lib/textUtils';
-import { useToast } from '@/hooks/use-toast';
 import { useAuthStore } from '@/lib/auth';
-import { BookOpen, Clock, Globe, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
+import { BookOpen, Clock, AlertCircle, RefreshCcw, Users, ChevronRight } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useEffect } from 'react';
 import {
