@@ -82,7 +82,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
             </div>
           ) : !contextEntries || contextEntries.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-muted-foreground text-center">
-              <Globe className="h-12 w-12 mb-4 opacity-20" />
+              <IconGlobe className="h-12 w-12 mb-4 opacity-20" />
               <p>No world context available for this chapter.</p>
             </div>
           ) : (
