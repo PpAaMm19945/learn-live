@@ -88,7 +88,7 @@ export default function LessonView() {
             <IconChevronLeft className="h-4 w-4 mr-2" /> Go Back
           </Button>
           <Button onClick={() => refetch()} variant="default" className="w-full sm:w-auto">
-            <RefreshCcw className="h-4 w-4 mr-2" /> Try Again
+            <IconRefresh className="h-4 w-4 mr-2" /> Try Again
           </Button>
         </div>
       </div>
