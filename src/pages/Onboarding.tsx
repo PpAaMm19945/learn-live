@@ -337,7 +337,7 @@ export default function Onboarding() {
 
              {step < totalSteps ? (
                <Button onClick={nextStep}>
-                 Next <ArrowRight className="ml-2 h-4 w-4" />
+                 Next <IconArrowRight className="ml-2 h-4 w-4" />
                </Button>
              ) : (
                <Button onClick={handleFinish} disabled={isSubmitting}>
