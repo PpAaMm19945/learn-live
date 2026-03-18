@@ -332,7 +332,7 @@ export default function Onboarding() {
                disabled={step === 1 || isSubmitting}
                className={step === 1 ? 'invisible' : ''}
              >
-               <ArrowLeft className="mr-2 h-4 w-4" /> Back
+               <IconArrowLeft className="mr-2 h-4 w-4" /> Back
              </Button>
 
              {step < totalSteps ? (
