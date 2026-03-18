@@ -157,7 +157,7 @@ export default function ReadingView() {
                 {markCompleteMutation.isSuccess ? (
                   <div className="flex flex-col items-center justify-center gap-6 animate-in fade-in zoom-in duration-300 py-8">
                     <div className="h-20 w-20 bg-primary/10 rounded-full flex items-center justify-center text-primary">
-                      <CheckCircle className="h-10 w-10" />
+                      <IconCircleCheck className="h-10 w-10" />
                     </div>
                     <div className="text-center space-y-2">
                       <h3 className="font-display text-2xl">Lesson Completed</h3>
