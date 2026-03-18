@@ -28,6 +28,11 @@
     --destructive: 4 62% 46%;       /* #C0392B Ochre Red */
     --destructive-foreground: 0 0% 98%;
 
+    --success: 152 43% 30%;         /* #2C6E49 Forest */
+    --success-foreground: 0 0% 98%;
+
+    --slate: 215 19% 35%;           /* #4A5568 Slate */
+
     --border: 0 0% 83%;             /* #D4D4D4 Stone */
     --input: 0 0% 83%;
     --ring: 19 65% 47%;
