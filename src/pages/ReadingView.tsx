@@ -180,9 +180,9 @@ export default function ReadingView() {
                       aria-label="Mark lesson complete"
                     >
                       {markCompleteMutation.isPending ? (
-                        <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      ) : (
-                        <CheckCircle className="h-5 w-5 mr-2" />
+                         <IconLoader2 className="h-5 w-5 mr-2 animate-spin" />
+                       ) : (
+                         <IconCircleCheck className="h-5 w-5 mr-2" />
                       )}
                       Mark Complete
                     </Button>
