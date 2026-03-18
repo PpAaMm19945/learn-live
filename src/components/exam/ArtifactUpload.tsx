@@ -179,7 +179,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
                     <div className="p-4 bg-primary/5 rounded-md border border-primary/20 space-y-3">
                         <div className="flex items-center justify-between border-b border-primary/10 pb-2">
                             <h4 className="font-semibold text-primary flex items-center gap-2">
-                                <CheckCircle className="w-4 h-4" />
+                                <IconCircleCheck className="w-4 h-4" />
                                 AI Assessment Draft
                             </h4>
                             <span className="text-xs font-bold bg-primary/10 text-primary px-2 py-1 rounded-full">
