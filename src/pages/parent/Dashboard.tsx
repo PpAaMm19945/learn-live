@@ -205,7 +205,7 @@ export default function Dashboard() {
 
           {learners && learners.length > 0 && (
             <div className="flex items-center gap-3 bg-card p-2 rounded-lg border border-border/50 w-max">
-              <Users className="h-5 w-5 text-muted-foreground ml-2" />
+              <IconUsers className="h-5 w-5 text-muted-foreground ml-2" />
               <div className="flex flex-col">
                 <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
                 <Select
