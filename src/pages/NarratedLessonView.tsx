@@ -190,7 +190,7 @@ export default function NarratedLessonView() {
               className="mr-1 sm:mr-2 px-2 sm:px-3"
               aria-label="Back to Course"
             >
-              <ChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
+              <IconChevronLeft className="h-4 w-4 sm:mr-1" /> <span className="hidden sm:inline">Back</span>
             </Button>
             {isLessonLoading ? (
                <div className="h-6 w-24 sm:w-32 bg-muted rounded animate-pulse ml-1 sm:ml-2" />
