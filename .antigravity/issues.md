@@ -1,6 +1,6 @@
 # Learn Live Project Audit Summary
 
-## Status: Phase 11 Complete — Phase 12 Ready
+## Status: Phase 12 Complete — Phase 13 Ready
 
 ### Phase 10: Merge Conflict Debris — All Resolved
 - [x] **learnerStore.ts triple definition** — Consolidated to single Instance A version with `loadFamily()`.
@@ -22,7 +22,31 @@
 - [x] **Raw markdown in titles** — Created `stripMarkdown()` utility. Applied to LessonView, ReadingView, TopicDetail, Dashboard title rendering.
 - [x] **loadFamily crash resilience** — `loadFamily()` no longer throws on API failure; sets `isLoaded: true` with defaults so app doesn't crash.
 
+### Phase 12: Dependency and Lockfile Updates — Complete
+- [x] Resolved build frozen lockfile mismatches and updated `bun.lock`.
+- [x] Ran D1 migration `014_family_current_topic.sql` on production.
+
 ### Open Issues
+
+#### 37. ReadingView "Failed to load content" (content API returns null)
+* **Status:** OPEN — HIGH (Code Fix & Manual Action)
+* **Description:** The `/api/lessons/:id/content?band=0` returns HTTP 200 with `content: null` because no `Adapted_Content` row exists for band 0. The frontend throws an error.
+* **Fix:** Frontend modified to gracefully handle null adapted content and fallback to master narrative text. Manual action needed to run `worker/scripts/pre-generate-content.ts` against production D1.
+
+#### 38. Glossary API returns 500
+* **Status:** OPEN — MEDIUM (Code Fix)
+* **Description:** The `/api/glossary` endpoint returns 500 when `params` is empty, as D1's `.bind()` throws with zero arguments.
+* **Fix:** Conditional check added in `worker/src/routes/glossary.ts` to skip `.bind()` when params is empty.
+
+#### 39. World Context API returns 500
+* **Status:** OPEN — MEDIUM (Code Fix)
+* **Description:** The `/api/chapters/:id/world-context` returns 500. `World_Context` table (migration 013) may not have been run or throws an error.
+* **Fix:** Frontend updated to handle fetch errors gracefully and return an empty array. Migrations run via wrangler.
+
+#### 40. No pre-generated content in D1
+* **Status:** OPEN — STRATEGIC (Manual Action)
+* **Description:** The `Adapted_Content` table has no rows for any band other than possibly band 5. The pre-generate script exists but hasn't been executed.
+* **Fix:** User must run the pre-generation script or manually seed adapted content.
 
 #### 34. D1 Migration 014 Not Run on Production
 * **Status:** OPEN — CRITICAL (Manual Action Required)

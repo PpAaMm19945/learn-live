@@ -21,7 +21,11 @@ export async function handleGetGlossary(request: Request, env: Env): Promise<Res
 
         query += ' ORDER BY term ASC';
 
-        const { results } = await env.DB.prepare(query).bind(...params).all();
+        const stmt = params.length > 0
+            ? env.DB.prepare(query).bind(...params)
+            : env.DB.prepare(query);
+
+        const { results } = await stmt.all();
 
         return new Response(JSON.stringify(results), { status: 200, headers: { 'Content-Type': 'application/json' } });
     } catch (e: unknown) {

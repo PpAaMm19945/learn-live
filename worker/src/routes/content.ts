@@ -22,7 +22,7 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
 
     try {
         const lesson = await env.DB.prepare(
-            'SELECT l.title, t.title as topic FROM Lessons l LEFT JOIN Topics t ON l.topic_id = t.id WHERE l.id = ?'
+            'SELECT l.title, l.narrative_text, t.title as topic FROM Lessons l LEFT JOIN Topics t ON l.topic_id = t.id WHERE l.id = ?'
         ).bind(lessonId).first<any>();
 
         if (!lesson) {
@@ -39,7 +39,13 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
             vocabulary: adaptedContent.vocabulary ? JSON.parse(adaptedContent.vocabulary) : [],
             discussion_questions: adaptedContent.discussion_questions ? JSON.parse(adaptedContent.discussion_questions) : [],
             thinking_prompts: adaptedContent.thinking_prompts ? JSON.parse(adaptedContent.thinking_prompts) : []
-        } : null;
+        } : {
+            adapted_text: lesson.narrative_text,
+            vocabulary: [],
+            discussion_questions: [],
+            thinking_prompts: [],
+            fallback: true
+        };
 
         logActivity(env, userId, 'content_viewed', 'lesson', lessonId);
 

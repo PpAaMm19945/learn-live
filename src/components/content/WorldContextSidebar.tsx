@@ -32,12 +32,17 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
   const { data: contextEntries, isLoading } = useQuery<WorldContextEntry[]>({
     queryKey: ['world-context', chapterId],
     queryFn: async () => {
-      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
-      const res = await fetch(`${apiUrl}/api/chapters/${chapterId}/world-context`, {
-        credentials: 'include',
-      });
-      if (!res.ok) throw new Error('Failed to fetch world context');
-      return res.json();
+      try {
+        const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+        const res = await fetch(`${apiUrl}/api/chapters/${chapterId}/world-context`, {
+          credentials: 'include',
+        });
+        if (!res.ok) throw new Error('Failed to fetch world context');
+        return await res.json();
+      } catch (err) {
+        console.error('World context fetch failed:', err);
+        return []; // Fallback to empty array so the UI renders gracefully
+      }
     },
     enabled: isOpen && !!chapterId,
   });

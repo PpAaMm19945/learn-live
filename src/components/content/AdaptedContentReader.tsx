@@ -22,6 +22,7 @@ interface AdaptedContentData {
   vocabulary: VocabularyTerm[];
   discussion_questions: string[];
   essay_prompt?: string;
+  fallback?: boolean;
 }
 
 interface GlossaryTermData {
@@ -54,7 +55,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
       // API returns { lesson, content: { adapted_text, vocabulary, ... }, band }
       // Unwrap to flat shape expected by this component
       const c = data.content;
-      if (!c) throw new Error('No adapted content available for this band');
+      if (!c || !c.adapted_text) throw new Error('No adapted content available for this band');
       return {
         id: c.id || '',
         lesson_id: c.lesson_id || lessonId,
@@ -63,6 +64,7 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
         vocabulary: c.vocabulary || [],
         discussion_questions: c.discussion_questions || [],
         essay_prompt: c.essay_prompt || undefined,
+        fallback: c.fallback || false,
       } as AdaptedContentData;
     },
     enabled: !!lessonId,
@@ -249,6 +251,13 @@ export function AdaptedContentReader({ lessonId, band }: AdaptedContentReaderPro
         style={{ width: `${scrollProgress}%` }}
       />
       <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out space-y-8">
+        {contentData.fallback && (
+          <div className="bg-muted text-muted-foreground px-4 py-3 rounded-md text-sm flex items-center gap-2 border border-border/50">
+            <AlertCircle className="h-4 w-4 text-primary" />
+            <span>This content hasn't been adapted for this reading level yet. Showing the standard version.</span>
+          </div>
+        )}
+
         <div className="flex items-center gap-2 text-muted-foreground border-b border-border/50 pb-4">
           <Clock className="h-4 w-4" />
           <span className="text-sm font-medium">{readingTime} min read</span>
