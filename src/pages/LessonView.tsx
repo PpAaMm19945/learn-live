@@ -80,7 +80,7 @@ export default function LessonView() {
   if (isError || !lesson) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 text-center">
-        <AlertCircle className="h-16 w-16 text-destructive mb-4" />
+        <IconAlertCircle className="h-16 w-16 text-destructive mb-4" />
         <h2 className="font-display text-2xl mb-2">Failed to load lesson</h2>
         <p className="text-muted-foreground mb-8 max-w-md">There was a problem loading the lesson content. Please try again.</p>
         <div className="flex gap-4 flex-col sm:flex-row w-full sm:w-auto">
