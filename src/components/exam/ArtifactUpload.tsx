@@ -170,7 +170,7 @@ export function ArtifactUpload({ lessonId, band, onAssessmentDraft }: ArtifactUp
 
                 {error && (
                     <div className="p-3 bg-destructive/10 text-destructive text-sm rounded-md flex items-start gap-2">
-                        <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+                        <IconAlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                         <p>{error}</p>
                     </div>
                 )}
