@@ -39,7 +39,7 @@ export function AppShell({ children }: AppShellProps) {
             <div className="flex items-center gap-2">
               <SidebarTrigger className="md:hidden" />
               <div className="md:hidden font-display text-xl flex items-center gap-2">
-                <Book className="h-5 w-5 text-primary" />
+                <IconBook className="h-5 w-5 text-primary" />
                 Learn Live
               </div>
             </div>
