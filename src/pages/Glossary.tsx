@@ -81,7 +81,7 @@ export default function Glossary() {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-12">
                     <div>
                         <h1 className="text-4xl font-extrabold tracking-tight text-foreground flex items-center gap-3">
-                            <Book className="h-8 w-8 text-primary" />
+                            <IconBook className="h-8 w-8 text-primary" />
                             Glossary
                         </h1>
                         <p className="text-lg text-muted-foreground mt-2 max-w-2xl">
