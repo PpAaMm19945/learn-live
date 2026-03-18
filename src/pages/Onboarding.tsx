@@ -275,7 +275,7 @@ export default function Onboarding() {
                        </div>
                      ))}
                      <Button type="button" variant="outline" onClick={addLearner} className="w-full border-dashed">
-                       <Plus className="mr-2 h-4 w-4" /> Add another learner
+                       <IconPlus className="mr-2 h-4 w-4" /> Add another learner
                      </Button>
                   </CardContent>
                 </div>
