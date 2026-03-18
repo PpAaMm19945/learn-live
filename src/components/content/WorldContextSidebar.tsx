@@ -49,7 +49,7 @@ export function WorldContextSidebar({ chapterId, band, isOpen, onOpenChange }: W
       <SheetContent className="w-[400px] sm:w-[540px] flex flex-col h-full bg-card/95 backdrop-blur-md border-l border-border/50">
         <SheetHeader className="pb-6 border-b border-border/50">
           <div className="flex items-center gap-2">
-            <Globe className="h-6 w-6 text-primary" />
+            <IconGlobe className="h-6 w-6 text-primary" />
             <SheetTitle className="text-2xl font-bold tracking-tight">Meanwhile, in the World...</SheetTitle>
           </div>
           <SheetDescription className="text-base">
