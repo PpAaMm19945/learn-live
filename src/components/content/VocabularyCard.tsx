@@ -37,7 +37,7 @@ export function VocabularyCard({ term, definition, inline = false, className }: 
         >
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-accent-foreground">
-              <BookA className="w-4 h-4" />
+               <IconVocabulary className="w-4 h-4" />
               <h4 className="font-semibold leading-none">{term}</h4>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
