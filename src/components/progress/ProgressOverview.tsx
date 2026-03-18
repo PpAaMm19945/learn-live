@@ -94,7 +94,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Topics in Progress
                         </CardTitle>
-                        <BookOpen className="h-4 w-4 text-primary" />
+                        <IconBook className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.topicsInProgress}</div>
