@@ -260,7 +260,7 @@ export default function Dashboard() {
           </div>
         ) : isError ? (
           <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
-            <AlertCircle className="h-12 w-12 text-destructive mb-4" />
+            <IconAlertCircle className="h-12 w-12 text-destructive mb-4" />
             <h3 className="font-display text-xl mb-2">Failed to load topics</h3>
             <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
             <Button onClick={() => refetch()} variant="outline">
