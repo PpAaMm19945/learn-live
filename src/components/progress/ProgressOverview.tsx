@@ -82,7 +82,7 @@ export const ProgressOverview: React.FC = () => {
                         <CardTitle className="text-sm font-medium text-muted-foreground">
                             Lessons Completed
                         </CardTitle>
-                        <CheckCircle className="h-4 w-4 text-primary" />
+                        <IconCircleCheck className="h-4 w-4 text-primary" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-3xl font-bold">{progressData.totalLessonsCompleted}</div>
