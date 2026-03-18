@@ -360,7 +360,7 @@ export default function Dashboard() {
                                   size="sm"
                                   onClick={() => navigate(`/lessons/${lesson.id}`)}
                                 >
-                                  View <ChevronRight className="w-4 h-4 ml-1" />
+                                  View <IconChevronRight className="w-4 h-4 ml-1" />
                                 </Button>
                               </div>
                             </div>
