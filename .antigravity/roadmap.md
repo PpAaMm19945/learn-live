@@ -47,6 +47,30 @@ Learn Live is a Biblical African History AI Tutor covering 9 chapters (Creation 
 
 ---
 
+## 2. Design Principles
+
+These 6 principles drive every UI decision. Every screen, component, and interaction must be traceable back to one of these.
+
+### Principle 01 — The canvas is the product
+The AI teaching on screen — voice, map, visuals — is why this app exists. Every pixel that is not the canvas is peripheral. The canvas should dominate every lesson screen (70–75% of viewport).
+
+### Principle 02 — One tap to learning
+From the moment a parent opens the app, there should be at most one decision before the lesson begins. Pick a chapter. Tap play. Nothing else. Every additional step is a failure of design.
+
+### Principle 03 — Band 0 is a different app
+A 4-year-old and a 14-year-old are not using the same interface. The storybook player and the lesson player are two separate products sharing a codebase, not one product with a mode switch.
+
+### Principle 04 — Parents observe, not gatekeep
+The old architecture put parents in a judgment queue. The new model keeps parents informed but removes blocking gates. Learning flows continuously. The parent sees what happened, not a permission request.
+
+### Principle 05 — The curriculum is a library
+Chapters are books in a library, not levels in a game. The parent dashboard should feel like a home library shelf — calm, rich, purposeful — not a progress tracker or a management dashboard.
+
+### Principle 06 — Age-appropriate by default
+Band is set once per child, not chosen per session. The entire UI — language, visual density, interaction model — adjusts to the child's band automatically. The parent never has to think about it again after setup.
+
+---
+
 ## 2. Content Scale Reality
 
 | Asset Type | Total Count | Notes |
