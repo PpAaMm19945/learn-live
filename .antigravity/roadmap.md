@@ -353,7 +353,7 @@ The band is not just a content setting. It changes the entire visual language of
 
 ---
 
-## 7. Phase 3.1 — Cloud Run Deployment
+## 12. Phase 3.1 — Cloud Run Deployment
 
 **Priority:** FIRST — unblocks everything.
 **Effort:** 1–2 days (configuration, not development)
