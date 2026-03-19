@@ -90,7 +90,7 @@ Band is set once per child, not chosen per session. The entire UI — language, 
 
 ---
 
-## 3. Band Definitions — The Content Contract
+## 4. Band Definitions — The Content Contract
 
 ### Band 0 — Ages 3–5 (Picture Book)
 - **Text:** Fully rewritten storybook. 8–12 scenes per chapter. Max 3 sentences per scene. Read-aloud rhythm.
