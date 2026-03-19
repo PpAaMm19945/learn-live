@@ -71,7 +71,7 @@ Band is set once per child, not chosen per session. The entire UI — language, 
 
 ---
 
-## 2. Content Scale Reality
+## 3. Content Scale Reality
 
 | Asset Type | Total Count | Notes |
 |---|---|---|
