@@ -457,7 +457,7 @@ PauseParams {
 
 ---
 
-## 9. Phase 3.3 — SVG Alignment Tool
+## 14. Phase 3.3 — SVG Alignment Tool
 
 **Priority:** THIRD — required before any map works in the player.
 **Effort:** 1 day to build, then 10–15 minutes per map to align.
