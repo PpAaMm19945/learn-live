@@ -719,7 +719,7 @@ Every piece of content follows one of three workflows:
 
 ---
 
-## 18. Image Generation System
+## 23. Image Generation System
 
 ### Master Style Brief (paste at start of every image prompt)
 ```
