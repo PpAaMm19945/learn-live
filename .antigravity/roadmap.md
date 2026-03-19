@@ -548,7 +548,7 @@ Each component accepts a data prop and renders. All must be band-aware (accept a
 
 ---
 
-## 12. Phase 3.6 — Chapter 1 Band 3 End-to-End
+## 17. Phase 3.6 — Chapter 1 Band 3 End-to-End
 
 **Priority:** THE MILESTONE — "the moment you have something real."
 **Effort:** ~2 weeks total (including all prior phases)
