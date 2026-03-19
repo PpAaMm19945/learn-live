@@ -37,6 +37,8 @@
     --input: 0 0% 83%;
     --ring: 19 65% 47%;
 
+    --void: 0 0% 5%;               /* #0D0D0D Void */
+
     --radius: 0.75rem;
 
     --sidebar-background: 42 47% 90%;
