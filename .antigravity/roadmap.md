@@ -759,7 +759,7 @@ FEEL: Warm, inviting, like a map in a children's storybook Bible.
 
 ---
 
-## 19. Pronunciation Dictionary
+## 24. Pronunciation Dictionary
 
 A JSON map of proper nouns → phonetic spellings / SSML phoneme tags. Injected into every TTS call as preprocessing.
 
