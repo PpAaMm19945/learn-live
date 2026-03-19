@@ -53,6 +53,7 @@
 
   .dark {
     --background: 0 0% 5%;          /* #0D0D0D Void */
+    --void: 0 0% 3%;               /* Even darker for Witness */
     --foreground: 40 33% 92%;
 
     --card: 0 0% 10%;
