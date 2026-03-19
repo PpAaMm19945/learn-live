@@ -524,7 +524,7 @@ Each component accepts a data prop and renders. All must be band-aware (accept a
 
 ---
 
-## 11. Phase 3.5 — Lesson Script Generator
+## 16. Phase 3.5 — Lesson Script Generator
 
 **Priority:** FIFTH — after player can consume scripts.
 **Effort:** ~3 days
