@@ -84,7 +84,7 @@ export function AppShell({ children }: AppShellProps) {
                   </div>
                   <DropdownMenuItem onClick={() => logout()}>
                      <IconLogout className="h-4 w-4 mr-2" />
-                    {t('nav.sign_out')}
+                    Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
