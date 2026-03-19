@@ -72,6 +72,27 @@ export function AppShell({ children }: AppShellProps) {
                 </div>
               ) : null}
 
+              {/* Language Toggle */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="Change language">
+                    <IconLanguage className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {(Object.entries(LOCALE_LABELS) as [Locale, string][]).map(([key, label]) => (
+                    <DropdownMenuItem
+                      key={key}
+                      onClick={() => setLocale(key)}
+                      className={locale === key ? 'bg-accent/20 font-medium' : ''}
+                    >
+                      {label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Settings */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
@@ -84,7 +105,7 @@ export function AppShell({ children }: AppShellProps) {
                   </div>
                   <DropdownMenuItem onClick={() => logout()}>
                      <IconLogout className="h-4 w-4 mr-2" />
-                    Sign out
+                    {t('nav.sign_out')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
