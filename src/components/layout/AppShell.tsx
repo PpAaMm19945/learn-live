@@ -25,6 +25,7 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   const { name, email, logout } = useAuthStore();
   const { loadFamily, learners, activeLearnerId, setActiveLearner, hasFamily, isLoading } = useLearnerStore();
+  const { locale, setLocale, t } = useI18n();
 
   useEffect(() => {
     loadFamily();
