@@ -855,7 +855,7 @@ After Chapter 1 is complete, every subsequent chapter follows this exact checkli
 
 ---
 
-## 23. Known Risks & Mitigations
+## 28. Known Risks & Mitigations
 
 | # | Risk | Severity | Mitigation |
 |---|---|---|---|
