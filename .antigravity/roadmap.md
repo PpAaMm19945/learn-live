@@ -692,7 +692,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 17. Content Production Workflow
+## 22. Content Production Workflow
 
 Every piece of content follows one of three workflows:
 
