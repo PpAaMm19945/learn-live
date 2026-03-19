@@ -49,6 +49,7 @@ export default {
           foreground: "hsl(var(--success-foreground))",
         },
         slate: "hsl(var(--slate))",
+        void: "hsl(var(--void))",
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",

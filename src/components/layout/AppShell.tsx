@@ -6,10 +6,11 @@ import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { IconLayoutDashboard, IconBook, IconTrendingUp, IconSettings, IconLogout } from "@tabler/icons-react";
+import { IconLayoutDashboard, IconBook, IconTrendingUp, IconSettings, IconLogout, IconLanguage } from "@tabler/icons-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useI18n, LOCALE_LABELS, type Locale } from "@/lib/i18n";
 
 interface Learner {
   id: string;
@@ -24,6 +25,7 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   const { name, email, logout } = useAuthStore();
   const { loadFamily, learners, activeLearnerId, setActiveLearner, hasFamily, isLoading } = useLearnerStore();
+  const { locale, setLocale, t } = useI18n();
 
   useEffect(() => {
     loadFamily();
@@ -70,6 +72,27 @@ export function AppShell({ children }: AppShellProps) {
                 </div>
               ) : null}
 
+              {/* Language Toggle */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="Change language">
+                    <IconLanguage className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {(Object.entries(LOCALE_LABELS) as [Locale, string][]).map(([key, label]) => (
+                    <DropdownMenuItem
+                      key={key}
+                      onClick={() => setLocale(key)}
+                      className={locale === key ? 'bg-accent/20 font-medium' : ''}
+                    >
+                      {label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Settings */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
@@ -82,7 +105,7 @@ export function AppShell({ children }: AppShellProps) {
                   </div>
                   <DropdownMenuItem onClick={() => logout()}>
                      <IconLogout className="h-4 w-4 mr-2" />
-                    Sign out
+                    {t('nav.sign_out')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
