@@ -788,7 +788,7 @@ A JSON map of proper nouns → phonetic spellings / SSML phoneme tags. Injected 
 
 ---
 
-## 20. Theological Guardrails
+## 25. Theological Guardrails
 
 ### Band 3 System Prompt Addition
 ```
