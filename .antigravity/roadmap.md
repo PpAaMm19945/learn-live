@@ -493,7 +493,7 @@ MapAlignment {
 
 ---
 
-## 10. Phase 3.4 — 9 Visual Component Shells
+## 15. Phase 3.4 — 9 Visual Component Shells
 
 **Priority:** FOURTH — after players and alignment tool exist.
 **Effort:** ~1 week
