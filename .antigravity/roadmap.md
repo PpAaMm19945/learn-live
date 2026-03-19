@@ -372,7 +372,7 @@ The band is not just a content setting. It changes the entire visual language of
 
 ---
 
-## 8. Phase 3.2 — Dual Player Architecture
+## 13. Phase 3.2 — Dual Player Architecture
 
 **Priority:** SECOND — core engine for all content playback.
 **Effort:** ~1 week
