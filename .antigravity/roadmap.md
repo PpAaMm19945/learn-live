@@ -155,7 +155,7 @@ Build each component once, use it across all chapters. Every visual in every les
 
 ---
 
-## 5. Architecture Decisions (Locked)
+## 6. Architecture Decisions (Locked)
 
 These are final. Do not revisit.
 
@@ -165,10 +165,14 @@ These are final. Do not revisit.
 4. **StorybookPlayer is a separate component from day one.** Not a mode switch on the lesson player. Different interaction paradigm entirely.
 5. **Chapter 1 launches before Chapter 2 is touched.** Chapter 1 across all 6 bands is a sellable product.
 6. **Image generation uses existing Gemini/nanobanana workflow, systematized.** No new pipeline needed. Same workflow, consistent prompt format, naming convention, checklist.
+7. **The lesson player is ONE screen with 3 phases — Teaching → Dialogue → Review.** ExamView is NOT a separate page. The canvas stays visible throughout. During review, the AI shows visuals for each question. The child never leaves the lesson to take a test.
+8. **ParentReviewModal is removed as a blocking gate.** Replaced by a passive post-lesson summary. Next lesson auto-unlocks. Parent authority is expressed in curriculum choice and band setting, not in clicking approve after every lesson.
+9. **ReadingView is removed entirely.** The AI reads and teaches. The lesson player IS the reading. A separate static text page is a symptom of an architecture where the AI was not actually teaching.
+10. **LessonView 3-step wrapper is removed.** The Prepare → Session → Witness wrapper page exists for a building that no longer exists. The lesson player handles all three phases internally.
 
 ---
 
-## 6. Owner Clarifications (Locked)
+## 7. Owner Clarifications (Locked)
 
 These are the owner's direct responses to technical flags, recorded verbatim for future reference.
 
@@ -189,6 +193,163 @@ These are the owner's direct responses to technical flags, recorded verbatim for
 
 ### On the comparison view being theologically sensitive
 > "If Gemini hedges, equivocates, or uses phrases like 'some scholars believe' when defending YEC, you have failed your core customer. The system prompt for Band 4–5 dialogue needs an explicit instruction: 'The Biblical chronology presented in this chapter is the authoritative framework. You do not present it as one option among many. You teach it as true and, when challenged, you defend it from the text.' That line needs to be in the prompt before a single Band 4 student ever opens a lesson."
+
+### On the parent approval gate
+> "A parent reading a child's history textbook does not need to approve each chapter before the next one opens. The parent's role in this curriculum is to choose what their child learns (the dashboard), to sit with them during lessons at young ages (Band 0–1), and to see how they are growing (the summary). The approval gate turns a warm educational relationship into an administrative task. Remove it. The parent's authority is expressed in the choice of curriculum and the setting of the band — not in clicking approve after every lesson."
+
+---
+
+## 8. Page-by-Page Audit — What Stays, What Goes
+
+Based on full codebase analysis, here is every screen that currently exists and what to do with each one.
+
+| Page | Verdict | Reason |
+|---|---|---|
+| **Login + Onboarding** | 🟡 REBUILD | Collects info for old 3D Matrix architecture. Needs to be rebuilt: add a child, set their band (age guide), pick a starting chapter. Three steps maximum. |
+| **Parent Dashboard** | 🟡 REBUILD | Currently shows topic list + "Judgment Queue." Chapter structure salvageable. Remove judgment queue, make it a library shelf, change CTA from "manage" to "play." |
+| **LessonView (3-step wrapper)** | 🔴 REMOVE | The Prepare → Session → Witness wrapper page exists for a building that no longer exists. All three phases happen inside one lesson player now. |
+| **ReadingView (static text)** | 🔴 REMOVE | Existed because AI wasn't teaching. In new architecture, the AI reads and teaches. The lesson player IS the reading. |
+| **NarratedLessonView** | 🟡 REBUILD FROM SCRATCH | Concept correct (canvas + AI voice), execution is a mock. setTimeout sequences → script player. Canvas must be full-screen dominant (70–75% viewport). Becomes the new Lesson Player. |
+| **ExamView** | 🔴 INTEGRATE INTO PLAYER | Standalone page with pulsing microphone. Wrong: review phase happens inside the lesson player at the end. Canvas stays visible, shows visuals per question. Microphone activates in-place. |
+| **ParentReviewModal** | 🔴 REMOVE AS GATE | Blocks next lesson until parent approves. Replace with passive summary notification. Next lesson auto-unlocks. |
+| **LearnerDashboard** | 🔴 REMOVE (redirect) | Currently just redirects. For Bands 3–5 a child-facing dashboard makes sense eventually. Not a priority for launch. |
+| **Storybook Player** | 🟢 NEW | Does not exist. Full-screen illustration, read-aloud audio, tap to advance. Completely different interaction model. Most important new screen for youngest children. |
+| **Post-lesson Summary** | 🟢 NEW | Replaces blocking review modal. Shows: what was taught, 3 oral review responses, AI observations, "start next lesson" prompt. Informs rather than gates. |
+
+---
+
+## 9. Navigation Flow — Before & After
+
+### Current Journey: 10 states, 2 blocking gates
+```
+Login → Dashboard → Select topic → LessonView wrapper → ReadingView → NarratedLesson (mocked) → ExamView → AI draft generated → Parent approval required → Lesson unlocks
+```
+**Problems:** ReadingView blocks before lesson. ParentReviewModal blocks after. Child cannot learn without parent present at both start AND end.
+
+### New Journey for Bands 2–5: 4 states, 0 blocking gates
+```
+Login → Dashboard (tap chapter) → Lesson plays (Teaching → Dialogue → Review) → Parent notified (passive)
+```
+Parent starts the lesson, child learns, parent gets a summary. The entire lesson — teaching, dialogue, review — happens inside one screen.
+
+### New Journey for Band 0: 2 states
+```
+Login → Dashboard → Storybook plays (parent reads alongside)
+```
+For a 4-year-old: parent opens the app, taps the chapter, the story plays. That is the entire experience.
+
+---
+
+## 10. Screen Specifications
+
+### Screen 1 — Parent Dashboard (Library Shelf)
+
+**Metaphor:** A home library shelf — calm, rich, purposeful. Not a progress tracker or management dashboard.
+
+**Layout:**
+- **Header:** Child's name + band badge (e.g. "Arie · Band 3 · age 10") + band change link
+- **Summary line:** "9 chapters · 2 complete · last session 2 days ago"
+- **Chapter list:** Vertical list of chapter cards, not a grid
+
+**Per-chapter card:**
+- Chapter number (active = green, completed = green, not started = muted)
+- Chapter title
+- Last session metadata: "Complete · last session Mar 14 · 'Strong recall of Ham's sons'"
+- Progress bar (per chapter, not per session)
+- CTA: "Continue →" (in progress), "Start →" (not started), "Review →" (complete)
+
+**Key rules:**
+- No judgment queue — replaced by inline last-session summaries
+- One clear CTA per chapter
+- The parent is a curator choosing what the child learns next, not a manager approving tasks
+
+### Screen 2 — Lesson Player (Bands 2–5)
+
+**The single most important screen in the product.** This is where learning happens.
+
+**Layout (full-screen, immersive, excluded from AppShell):**
+- **Top bar (minimal):** Chapter · Section indicator | Phase badge (Teaching / Dialogue / Review) | Child name · Band | Exit button
+- **Canvas area (70–75% of viewport):** Map PNG + SVG overlay + visual components rendered by script cues. This is the dominant element.
+- **Transcript bar (bottom):** Shows current narration text synced with audio. Stays visible in all phases.
+- **Controls bar (bottom):** Play/pause | Progress bar with time | "Ask a question" button (Bands 2–3) | Speed controls (Bands 4–5)
+
+**Three phases, one screen:**
+
+**Phase 1 — Teaching:**
+- Script player drives canvas + audio in perfect sync
+- Map highlights regions as narration mentions them
+- Visual components (genealogy, timeline, scripture cards, etc.) animate in/out per cue timing
+- Phase badge shows "Teaching" in green
+- Child can interrupt with "Ask a question" button → enters Dialogue phase, then returns
+
+**Phase 2 — Dialogue:**
+- Activates when child taps "Ask a question" OR when teaching script completes
+- Canvas dims slightly but stays visible — map regions still highlighted for context
+- Child's question appears in a speech bubble overlay on the canvas
+- AI responds via live Gemini, transcript bar changes color (purple) to distinguish from scripted narration
+- "Back to lesson" button returns to Teaching phase (if mid-lesson) or advances to Review (if post-lesson)
+- Phase badge shows "Dialogue" in purple
+
+**Phase 3 — Review (in-canvas, NOT a separate page):**
+- AI asks 3 oral review questions (Band 3) or thesis-level prompts (Band 4–5)
+- For EACH question, the canvas shows a relevant visual: portrait of Narmer while asking "Who united Upper and Lower Egypt?"
+- Microphone activates in-place on the canvas
+- Phase badge shows "Review" in amber
+- After review, post-lesson summary auto-generates → parent notified passively → next lesson auto-unlocks
+
+**Critical:** The canvas NEVER disappears. The child never goes from a rich visual lesson to a grey screen with a microphone dot. Visual + question are one thing.
+
+### Screen 3 — Storybook Player (Band 0–1)
+
+**A completely different product sharing a codebase.** Excluded from AppShell.
+
+**Layout (full-screen, dark background):**
+- **Illustration area (fills viewport):** Full-screen scene illustration. Semi-realistic, warm palette, African figures. The image IS the experience.
+- **Highlighted word overlay:** Current key word appears large (28–32px) over the illustration with "tap to hear again" prompt. Gold/amber color.
+- **Caption bar (bottom):** 1–2 sentences of narration text. Key words highlighted in gold. Large, readable font.
+- **Navigation bar (bottom):** Back arrow | Progress dots (child can see "3 more pages") | "tap anywhere to continue →"
+
+**Interaction model:**
+- AI reads aloud slowly, warmly — child just listens
+- Key words appear large on screen as they are spoken
+- Tap anywhere to advance to next scene
+- Tap a highlighted word to hear it again in isolation
+- No exam, no oral review, no grade — just the story
+- Parent mode: subtle "reading along" text visible for parent to follow
+
+**Band 1 additions:** Slightly more detail, 10–15 scenes. "What do you think happens next?" prompts. 3 simple picture-based review questions at end (AI shows image, child says the name).
+
+### Screen 4 — Post-Lesson Summary (replaces ParentReviewModal)
+
+**Passive, not blocking. Informs, not gates.**
+
+**Shows:**
+- What was taught (chapter, section, key topics covered)
+- 3 oral review responses (what the child said, what the AI observed)
+- 2–3 specific things the AI noted about the child's understanding
+- "Start next lesson" prompt
+
+**Parent actions (optional, non-blocking):**
+- Add a note: "We discussed this at dinner — she understood it well"
+- Flag a section for review: "Revisit the Curse of Ham section"
+- Neither action blocks the next lesson
+
+**Feels like:** A teacher's note sent home with a child. Not a permission request.
+
+---
+
+## 11. Band-Aware UI Adaptation
+
+The band is not just a content setting. It changes the entire visual language of the app. This table is the specification.
+
+| UI Element | Band 0 | Band 1–2 | Band 3 | Band 4–5 |
+|---|---|---|---|---|
+| **Player type** | Storybook player | Storybook (Band 1) / Lesson player (Band 2) | Lesson player | Lesson player |
+| **Typography** | Very large (28–32px), 1 sentence visible at a time | Large (18–22px), short paragraphs | Normal (14–16px), full transcript | Normal with dense annotation mode available |
+| **Canvas complexity** | No canvas — full-screen illustration only | Simplified map + scene images only | Full map + all components | Full canvas + comparison mode + cross-chapter reference |
+| **Dialogue trigger** | None — no dialogue | Large "Ask" button, visible always | "Ask a question" in controls bar | Interrupt freely — no button needed |
+| **Review / exam** | None | Picture-based: AI shows image, child says the name | 3 oral questions with visual prompt | Thesis-level oral argument or essay prompt |
+| **Controls** | Tap anywhere to advance. That is all. | Tap to advance, replay button, Ask button | Play/pause, progress bar, Ask button, exit | All controls + chapter reference panel |
 
 ---
 
