@@ -595,7 +595,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 14. Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)
+## 19. Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)
 
 **Effort:** ~3 weeks (includes illustration production)
 **Status:** NOT STARTED
