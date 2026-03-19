@@ -86,7 +86,7 @@ export function ParentReviewModal({ isOpen, onClose, assessmentDraft, lessonId }
           {/* Right panel — Parent actions */}
           <div className="p-6 flex flex-col">
             <h3 className="font-display text-lg mb-4 flex items-center gap-2">
-              <IconStamp className="w-5 h-5 text-accent" />
+              <IconGavel className="w-5 h-5 text-accent" />
               Your Judgment
             </h3>
 
