@@ -4,25 +4,85 @@
 *   [x] All tasks complete.
 
 ## Phase 2: Authentication, State, & Data Access ✅
-*   [x] **Task 2.1:** D1 Auth Schema (`002_auth_tables.sql` — Users, Auth_Tokens, Sessions, User_Roles)
-*   [x] **Task 2.2:** JWT Session Utilities & Cookie Helpers (`jwt.ts`, `cookies.ts`, `middleware.ts`)
-*   [x] **Task 2.3:** Magic Link Auth (`magicLink.ts` — token generation, Resend email, verify flow)
-*   [x] **Task 2.4:** Google OAuth (`google.ts` — consent URL, token exchange, user upsert)
-*   [x] **Task 2.5:** Password Auth + Email Verification (`password.ts`, `emailVerification.ts`)
-*   [x] **Task 2.6:** Account Linking (`accountLink.ts` — `findOrCreateUser` resolves all methods to one user)
-*   [x] **Task 2.7:** Auth Middleware + Route Wiring (`/api/auth/me`, `/api/auth/logout`, all auth routes in `index.ts`)
-*   [x] **Task 2.8:** Frontend Auth Store (Zustand `checkSession()` + `logout()`, no localStorage)
-*   [x] **Task 2.9:** Auth UI Pages (Login, Register, ForgotPassword, ResetPassword with toast notifications)
-*   [x] **Task 2.10:** UI Polish + Route Guards (magic link sent state, invalid token state, `ProtectedRoute` updated)
-*   [x] **Task 2.11:** CORS fix (`SameSite=None; Secure`, origin-aware allowlist with credentials)
-*   [x] **Task 2.12:** Legacy cleanup (all math/science/english components archived, placeholder Dashboard created)
+*   [x] All tasks complete (P16–P25). Custom auth on Cloudflare Workers.
+
+## Phase 3: African History Curriculum Build ✅
+*   [x] D1 Schema, R2 Content Pipeline, Frontend UI, Quiz & Progress.
+
+## Phase 4: Content Ingestion & AI Adaptation ✅
+*   [x] Band Adaptation, Content Serving API, ReadingView.
+
+## Phase 5: Assessment & Oral Examiner ✅
+*   [x] Oral Examiner Agent, Exam Sessions, Frontend Exam UI, Artifact Verification.
+
+## Phase 6: Explainer Canvas for History ✅
+*   [x] History Canvas Elements, Agent Integration, UI/UX.
+
+## Phase 7: Production Readiness ✅
+*   [x] Legacy Worker Cleanup, Chapter Content API, Family Management, Deployment Pipeline.
+
+## Phase 8: Content Pipeline & Pilot Readiness ✅
+*   [x] R2 Upload, Admin Analytics, Onboarding Flow, Feedback Widget.
+
+## Phase 9: Content Expansion & Polish ✅
+*   [x] Glossary, Index, World History Context Sidebars.
+
+## Phase 10: UI/UX Overhaul ✅
+*   [x] Global Learner Context Store (Zustand)
+*   [x] Unified AppShell with Persistent Navigation
+*   [x] Dashboard & Lesson Flow Redesign
+*   [x] Pre-Generate Content Script
+*   [x] BandSelector removal, BandBadge, Onboarding Continuity
+
+## Phase 11: Post-Merge Cleanup & Shell Integration ✅
+*   [x] Remove Redundant Headers from AppShell pages
+*   [x] Progress Page placeholder
+*   [x] Onboarding → Dashboard Continuity
+*   [x] Pre-Generate Content Script
+
+## Phase 12: Data Quality, Deployment & Polish ✅
+*   [x] Pending Migration & Data Quality fixes
+*   [x] Reading Experience Polish
+*   [x] Dashboard Continue-Learning Enhancement
+*   [x] Error Handling & Edge Cases
+
+---
+
+## Phase 3 (New): The Session Engine — IN PROGRESS
+
+> Master roadmap: `.antigravity/roadmap.md`
+> This is the major rebuild phase. Sub-phases:
+
+### Phase 3.1 — Cloud Run Deployment — NOT STARTED
+### Phase 3.2 — Dual Player Architecture — NOT STARTED
+### Phase 3.3 — SVG Alignment Tool — NOT STARTED (prompt: `prompts-phase14-alignment-tool.md`)
+### Phase 3.4 — 9 Visual Component Shells — NOT STARTED
+### Phase 3.5 — Lesson Script Generator — NOT STARTED
+### Phase 3.6 — Chapter 1 Band 3 End-to-End — NOT STARTED
+### Phase 3.7 — Chapter 1 Bands 4–5 (Premium) — NOT STARTED
+### Phase 3.8 — Chapter 1 Bands 1–2 (Storybook) — NOT STARTED
+### Phase 3.9 — Chapter 1 Band 0 (Picture Book) — NOT STARTED
+### Phase 3.10 — UI Redesign — NOT STARTED
+
+---
+
+## Content Production Tasks — PROMPTS READY
+
+### Phase 13: SVG Map Overlays — NOT STARTED
+> Prompt: `.antigravity/prompts-phase13-svg-maps.md`
+> 30 maps, 6 batches of 5, chunked for sequential Jules instances.
+
+### Phase 13B: Pronunciation Dictionary — NOT STARTED
+> Prompt: `.antigravity/prompts-phase13-pronunciation.md`
+> 9 chapters, 3 batches of 3 chapters.
+
+### Phase 13C: Component Data Extraction — NOT STARTED
+> Prompt: `.antigravity/prompts-phase13-component-data.md`
+> 9 chapters × 6 data types, 3 batches.
+
+### Phase 14: SVG Alignment Tool — NOT STARTED
+> Prompt: `.antigravity/prompts-phase14-alignment-tool.md`
+> Single Jules instance. Standalone browser tool.
 
 ## Legacy Phases (Pre-Pivot) — Archived
-All Phase 3-13 work (multi-subject math/science/english curriculum, Explainer Canvas, Evidence Witness, etc.) has been archived to `src/archive/` and `worker/src/archive/`. Components will be rebuilt for the African History RAG curriculum.
-
-## Phase 3: African History RAG Curriculum — NOT STARTED
-*   [ ] **Task 3.1:** Design new D1 schema for history content (Topics, Lessons, Sources, RAG chunks)
-*   [ ] **Task 3.2:** Build RAG ingestion pipeline (R2 storage + chunk indexing)
-*   [ ] **Task 3.3:** Build content explorer UI (topic browser, lesson view)
-*   [ ] **Task 3.4:** Build AI-powered Q&A with source citations
-*   [ ] **Task 3.5:** Build learner progress tracking for history curriculum
+All Phase 3-13 work (multi-subject math/science/english curriculum) archived to `src/archive/` and `worker/src/archive/`.
