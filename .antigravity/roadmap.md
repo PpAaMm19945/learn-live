@@ -846,7 +846,7 @@ After Chapter 1 is complete, every subsequent chapter follows this exact checkli
 
 ---
 
-## 22. Launch Strategy
+## 27. Launch Strategy
 
 1. **Launch after Chapter 1 is fully complete across all 6 bands.** Do not wait for all 9 chapters.
 2. A Christian homeschool family can start their 4-year-old on Band 0, their 10-year-old on Band 3, and their 16-year-old on Band 4, all from Chapter 1 alone.
