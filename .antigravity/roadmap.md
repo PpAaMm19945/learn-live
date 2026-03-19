@@ -819,7 +819,7 @@ while remaining academically rigorous.
 
 ---
 
-## 21. Chapter Production Checklist (Repeatable Template)
+## 26. Chapter Production Checklist (Repeatable Template)
 
 After Chapter 1 is complete, every subsequent chapter follows this exact checklist:
 
