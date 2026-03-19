@@ -579,7 +579,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 13. Phase 3.7 — Chapter 1 Bands 4–5 (Premium)
+## 18. Phase 3.7 — Chapter 1 Bands 4–5 (Premium)
 
 **Effort:** ~1 week
 **Status:** NOT STARTED
