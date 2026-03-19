@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { IconLoader2, IconCircleCheck, IconRotateClockwise, IconStamp } from '@tabler/icons-react';
+import { IconLoader2, IconCircleCheck, IconRotateClockwise, IconGavel } from '@tabler/icons-react';
 import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { IconMicrophone, IconLoader2, IconSquare, IconCircleCheck, IconClock, IconArrowLeft } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
