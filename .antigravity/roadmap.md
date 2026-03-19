@@ -9,28 +9,33 @@
 ## Table of Contents
 
 1. [Product Vision Summary](#1-product-vision-summary)
-2. [Content Scale Reality](#2-content-scale-reality)
-3. [Band Definitions — The Content Contract](#3-band-definitions--the-content-contract)
-4. [The 9 Visual Components](#4-the-9-visual-components)
-5. [Architecture Decisions (Locked)](#5-architecture-decisions-locked)
-6. [Owner Clarifications (Locked)](#6-owner-clarifications-locked)
-7. [Phase 3.1 — Cloud Run Deployment](#7-phase-31--cloud-run-deployment)
-8. [Phase 3.2 — Dual Player Architecture](#8-phase-32--dual-player-architecture)
-9. [Phase 3.3 — SVG Alignment Tool](#9-phase-33--svg-alignment-tool)
-10. [Phase 3.4 — 9 Visual Component Shells](#10-phase-34--9-visual-component-shells)
-11. [Phase 3.5 — Lesson Script Generator](#11-phase-35--lesson-script-generator)
-12. [Phase 3.6 — Chapter 1 Band 3 End-to-End](#12-phase-36--chapter-1-band-3-end-to-end)
-13. [Phase 3.7 — Chapter 1 Bands 4–5 (Premium)](#13-phase-37--chapter-1-bands-45-premium)
-14. [Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)](#14-phase-38--chapter-1-bands-12-storybook-layer)
-15. [Phase 3.9 — Chapter 1 Band 0 (Picture Book)](#15-phase-39--chapter-1-band-0-picture-book)
-16. [Phase 3.10 — UI Simplification](#16-phase-310--ui-simplification)
-17. [Content Production Workflow](#17-content-production-workflow)
-18. [Image Generation System](#18-image-generation-system)
-19. [Pronunciation Dictionary](#19-pronunciation-dictionary)
-20. [Theological Guardrails](#20-theological-guardrails)
-21. [Chapter Production Checklist (Repeatable Template)](#21-chapter-production-checklist-repeatable-template)
-22. [Launch Strategy](#22-launch-strategy)
-23. [Known Risks & Mitigations](#23-known-risks--mitigations)
+2. [Design Principles](#2-design-principles)
+3. [Content Scale Reality](#3-content-scale-reality)
+4. [Band Definitions — The Content Contract](#4-band-definitions--the-content-contract)
+5. [The 9 Visual Components](#5-the-9-visual-components)
+6. [Architecture Decisions (Locked)](#6-architecture-decisions-locked)
+7. [Owner Clarifications (Locked)](#7-owner-clarifications-locked)
+8. [Page-by-Page Audit — What Stays, What Goes](#8-page-by-page-audit--what-stays-what-goes)
+9. [Navigation Flow — Before & After](#9-navigation-flow--before--after)
+10. [Screen Specifications](#10-screen-specifications)
+11. [Band-Aware UI Adaptation](#11-band-aware-ui-adaptation)
+12. [Phase 3.1 — Cloud Run Deployment](#12-phase-31--cloud-run-deployment)
+13. [Phase 3.2 — Dual Player Architecture](#13-phase-32--dual-player-architecture)
+14. [Phase 3.3 — SVG Alignment Tool](#14-phase-33--svg-alignment-tool)
+15. [Phase 3.4 — 9 Visual Component Shells](#15-phase-34--9-visual-component-shells)
+16. [Phase 3.5 — Lesson Script Generator](#16-phase-35--lesson-script-generator)
+17. [Phase 3.6 — Chapter 1 Band 3 End-to-End](#17-phase-36--chapter-1-band-3-end-to-end)
+18. [Phase 3.7 — Chapter 1 Bands 4–5 (Premium)](#18-phase-37--chapter-1-bands-45-premium)
+19. [Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)](#19-phase-38--chapter-1-bands-12-storybook-layer)
+20. [Phase 3.9 — Chapter 1 Band 0 (Picture Book)](#20-phase-39--chapter-1-band-0-picture-book)
+21. [Phase 3.10 — UI Redesign](#21-phase-310--ui-redesign)
+22. [Content Production Workflow](#22-content-production-workflow)
+23. [Image Generation System](#23-image-generation-system)
+24. [Pronunciation Dictionary](#24-pronunciation-dictionary)
+25. [Theological Guardrails](#25-theological-guardrails)
+26. [Chapter Production Checklist (Repeatable Template)](#26-chapter-production-checklist-repeatable-template)
+27. [Launch Strategy](#27-launch-strategy)
+28. [Known Risks & Mitigations](#28-known-risks--mitigations)
 
 ---
 
@@ -42,7 +47,31 @@ Learn Live is a Biblical African History AI Tutor covering 9 chapters (Creation 
 
 ---
 
-## 2. Content Scale Reality
+## 2. Design Principles
+
+These 6 principles drive every UI decision. Every screen, component, and interaction must be traceable back to one of these.
+
+### Principle 01 — The canvas is the product
+The AI teaching on screen — voice, map, visuals — is why this app exists. Every pixel that is not the canvas is peripheral. The canvas should dominate every lesson screen (70–75% of viewport).
+
+### Principle 02 — One tap to learning
+From the moment a parent opens the app, there should be at most one decision before the lesson begins. Pick a chapter. Tap play. Nothing else. Every additional step is a failure of design.
+
+### Principle 03 — Band 0 is a different app
+A 4-year-old and a 14-year-old are not using the same interface. The storybook player and the lesson player are two separate products sharing a codebase, not one product with a mode switch.
+
+### Principle 04 — Parents observe, not gatekeep
+The old architecture put parents in a judgment queue. The new model keeps parents informed but removes blocking gates. Learning flows continuously. The parent sees what happened, not a permission request.
+
+### Principle 05 — The curriculum is a library
+Chapters are books in a library, not levels in a game. The parent dashboard should feel like a home library shelf — calm, rich, purposeful — not a progress tracker or a management dashboard.
+
+### Principle 06 — Age-appropriate by default
+Band is set once per child, not chosen per session. The entire UI — language, visual density, interaction model — adjusts to the child's band automatically. The parent never has to think about it again after setup.
+
+---
+
+## 3. Content Scale Reality
 
 | Asset Type | Total Count | Notes |
 |---|---|---|
@@ -61,7 +90,7 @@ Learn Live is a Biblical African History AI Tutor covering 9 chapters (Creation 
 
 ---
 
-## 3. Band Definitions — The Content Contract
+## 4. Band Definitions — The Content Contract
 
 ### Band 0 — Ages 3–5 (Picture Book)
 - **Text:** Fully rewritten storybook. 8–12 scenes per chapter. Max 3 sentences per scene. Read-aloud rhythm.
@@ -108,7 +137,7 @@ Learn Live is a Biblical African History AI Tutor covering 9 chapters (Creation 
 
 ---
 
-## 4. The 9 Visual Components
+## 5. The 9 Visual Components
 
 Build each component once, use it across all chapters. Every visual in every lesson is one of these components rendered with different data and band-appropriate styling.
 
@@ -126,7 +155,7 @@ Build each component once, use it across all chapters. Every visual in every les
 
 ---
 
-## 5. Architecture Decisions (Locked)
+## 6. Architecture Decisions (Locked)
 
 These are final. Do not revisit.
 
@@ -136,10 +165,14 @@ These are final. Do not revisit.
 4. **StorybookPlayer is a separate component from day one.** Not a mode switch on the lesson player. Different interaction paradigm entirely.
 5. **Chapter 1 launches before Chapter 2 is touched.** Chapter 1 across all 6 bands is a sellable product.
 6. **Image generation uses existing Gemini/nanobanana workflow, systematized.** No new pipeline needed. Same workflow, consistent prompt format, naming convention, checklist.
+7. **The lesson player is ONE screen with 3 phases — Teaching → Dialogue → Review.** ExamView is NOT a separate page. The canvas stays visible throughout. During review, the AI shows visuals for each question. The child never leaves the lesson to take a test.
+8. **ParentReviewModal is removed as a blocking gate.** Replaced by a passive post-lesson summary. Next lesson auto-unlocks. Parent authority is expressed in curriculum choice and band setting, not in clicking approve after every lesson.
+9. **ReadingView is removed entirely.** The AI reads and teaches. The lesson player IS the reading. A separate static text page is a symptom of an architecture where the AI was not actually teaching.
+10. **LessonView 3-step wrapper is removed.** The Prepare → Session → Witness wrapper page exists for a building that no longer exists. The lesson player handles all three phases internally.
 
 ---
 
-## 6. Owner Clarifications (Locked)
+## 7. Owner Clarifications (Locked)
 
 These are the owner's direct responses to technical flags, recorded verbatim for future reference.
 
@@ -161,9 +194,166 @@ These are the owner's direct responses to technical flags, recorded verbatim for
 ### On the comparison view being theologically sensitive
 > "If Gemini hedges, equivocates, or uses phrases like 'some scholars believe' when defending YEC, you have failed your core customer. The system prompt for Band 4–5 dialogue needs an explicit instruction: 'The Biblical chronology presented in this chapter is the authoritative framework. You do not present it as one option among many. You teach it as true and, when challenged, you defend it from the text.' That line needs to be in the prompt before a single Band 4 student ever opens a lesson."
 
+### On the parent approval gate
+> "A parent reading a child's history textbook does not need to approve each chapter before the next one opens. The parent's role in this curriculum is to choose what their child learns (the dashboard), to sit with them during lessons at young ages (Band 0–1), and to see how they are growing (the summary). The approval gate turns a warm educational relationship into an administrative task. Remove it. The parent's authority is expressed in the choice of curriculum and the setting of the band — not in clicking approve after every lesson."
+
 ---
 
-## 7. Phase 3.1 — Cloud Run Deployment
+## 8. Page-by-Page Audit — What Stays, What Goes
+
+Based on full codebase analysis, here is every screen that currently exists and what to do with each one.
+
+| Page | Verdict | Reason |
+|---|---|---|
+| **Login + Onboarding** | 🟡 REBUILD | Collects info for old 3D Matrix architecture. Needs to be rebuilt: add a child, set their band (age guide), pick a starting chapter. Three steps maximum. |
+| **Parent Dashboard** | 🟡 REBUILD | Currently shows topic list + "Judgment Queue." Chapter structure salvageable. Remove judgment queue, make it a library shelf, change CTA from "manage" to "play." |
+| **LessonView (3-step wrapper)** | 🔴 REMOVE | The Prepare → Session → Witness wrapper page exists for a building that no longer exists. All three phases happen inside one lesson player now. |
+| **ReadingView (static text)** | 🔴 REMOVE | Existed because AI wasn't teaching. In new architecture, the AI reads and teaches. The lesson player IS the reading. |
+| **NarratedLessonView** | 🟡 REBUILD FROM SCRATCH | Concept correct (canvas + AI voice), execution is a mock. setTimeout sequences → script player. Canvas must be full-screen dominant (70–75% viewport). Becomes the new Lesson Player. |
+| **ExamView** | 🔴 INTEGRATE INTO PLAYER | Standalone page with pulsing microphone. Wrong: review phase happens inside the lesson player at the end. Canvas stays visible, shows visuals per question. Microphone activates in-place. |
+| **ParentReviewModal** | 🔴 REMOVE AS GATE | Blocks next lesson until parent approves. Replace with passive summary notification. Next lesson auto-unlocks. |
+| **LearnerDashboard** | 🔴 REMOVE (redirect) | Currently just redirects. For Bands 3–5 a child-facing dashboard makes sense eventually. Not a priority for launch. |
+| **Storybook Player** | 🟢 NEW | Does not exist. Full-screen illustration, read-aloud audio, tap to advance. Completely different interaction model. Most important new screen for youngest children. |
+| **Post-lesson Summary** | 🟢 NEW | Replaces blocking review modal. Shows: what was taught, 3 oral review responses, AI observations, "start next lesson" prompt. Informs rather than gates. |
+
+---
+
+## 9. Navigation Flow — Before & After
+
+### Current Journey: 10 states, 2 blocking gates
+```
+Login → Dashboard → Select topic → LessonView wrapper → ReadingView → NarratedLesson (mocked) → ExamView → AI draft generated → Parent approval required → Lesson unlocks
+```
+**Problems:** ReadingView blocks before lesson. ParentReviewModal blocks after. Child cannot learn without parent present at both start AND end.
+
+### New Journey for Bands 2–5: 4 states, 0 blocking gates
+```
+Login → Dashboard (tap chapter) → Lesson plays (Teaching → Dialogue → Review) → Parent notified (passive)
+```
+Parent starts the lesson, child learns, parent gets a summary. The entire lesson — teaching, dialogue, review — happens inside one screen.
+
+### New Journey for Band 0: 2 states
+```
+Login → Dashboard → Storybook plays (parent reads alongside)
+```
+For a 4-year-old: parent opens the app, taps the chapter, the story plays. That is the entire experience.
+
+---
+
+## 10. Screen Specifications
+
+### Screen 1 — Parent Dashboard (Library Shelf)
+
+**Metaphor:** A home library shelf — calm, rich, purposeful. Not a progress tracker or management dashboard.
+
+**Layout:**
+- **Header:** Child's name + band badge (e.g. "Arie · Band 3 · age 10") + band change link
+- **Summary line:** "9 chapters · 2 complete · last session 2 days ago"
+- **Chapter list:** Vertical list of chapter cards, not a grid
+
+**Per-chapter card:**
+- Chapter number (active = green, completed = green, not started = muted)
+- Chapter title
+- Last session metadata: "Complete · last session Mar 14 · 'Strong recall of Ham's sons'"
+- Progress bar (per chapter, not per session)
+- CTA: "Continue →" (in progress), "Start →" (not started), "Review →" (complete)
+
+**Key rules:**
+- No judgment queue — replaced by inline last-session summaries
+- One clear CTA per chapter
+- The parent is a curator choosing what the child learns next, not a manager approving tasks
+
+### Screen 2 — Lesson Player (Bands 2–5)
+
+**The single most important screen in the product.** This is where learning happens.
+
+**Layout (full-screen, immersive, excluded from AppShell):**
+- **Top bar (minimal):** Chapter · Section indicator | Phase badge (Teaching / Dialogue / Review) | Child name · Band | Exit button
+- **Canvas area (70–75% of viewport):** Map PNG + SVG overlay + visual components rendered by script cues. This is the dominant element.
+- **Transcript bar (bottom):** Shows current narration text synced with audio. Stays visible in all phases.
+- **Controls bar (bottom):** Play/pause | Progress bar with time | "Ask a question" button (Bands 2–3) | Speed controls (Bands 4–5)
+
+**Three phases, one screen:**
+
+**Phase 1 — Teaching:**
+- Script player drives canvas + audio in perfect sync
+- Map highlights regions as narration mentions them
+- Visual components (genealogy, timeline, scripture cards, etc.) animate in/out per cue timing
+- Phase badge shows "Teaching" in green
+- Child can interrupt with "Ask a question" button → enters Dialogue phase, then returns
+
+**Phase 2 — Dialogue:**
+- Activates when child taps "Ask a question" OR when teaching script completes
+- Canvas dims slightly but stays visible — map regions still highlighted for context
+- Child's question appears in a speech bubble overlay on the canvas
+- AI responds via live Gemini, transcript bar changes color (purple) to distinguish from scripted narration
+- "Back to lesson" button returns to Teaching phase (if mid-lesson) or advances to Review (if post-lesson)
+- Phase badge shows "Dialogue" in purple
+
+**Phase 3 — Review (in-canvas, NOT a separate page):**
+- AI asks 3 oral review questions (Band 3) or thesis-level prompts (Band 4–5)
+- For EACH question, the canvas shows a relevant visual: portrait of Narmer while asking "Who united Upper and Lower Egypt?"
+- Microphone activates in-place on the canvas
+- Phase badge shows "Review" in amber
+- After review, post-lesson summary auto-generates → parent notified passively → next lesson auto-unlocks
+
+**Critical:** The canvas NEVER disappears. The child never goes from a rich visual lesson to a grey screen with a microphone dot. Visual + question are one thing.
+
+### Screen 3 — Storybook Player (Band 0–1)
+
+**A completely different product sharing a codebase.** Excluded from AppShell.
+
+**Layout (full-screen, dark background):**
+- **Illustration area (fills viewport):** Full-screen scene illustration. Semi-realistic, warm palette, African figures. The image IS the experience.
+- **Highlighted word overlay:** Current key word appears large (28–32px) over the illustration with "tap to hear again" prompt. Gold/amber color.
+- **Caption bar (bottom):** 1–2 sentences of narration text. Key words highlighted in gold. Large, readable font.
+- **Navigation bar (bottom):** Back arrow | Progress dots (child can see "3 more pages") | "tap anywhere to continue →"
+
+**Interaction model:**
+- AI reads aloud slowly, warmly — child just listens
+- Key words appear large on screen as they are spoken
+- Tap anywhere to advance to next scene
+- Tap a highlighted word to hear it again in isolation
+- No exam, no oral review, no grade — just the story
+- Parent mode: subtle "reading along" text visible for parent to follow
+
+**Band 1 additions:** Slightly more detail, 10–15 scenes. "What do you think happens next?" prompts. 3 simple picture-based review questions at end (AI shows image, child says the name).
+
+### Screen 4 — Post-Lesson Summary (replaces ParentReviewModal)
+
+**Passive, not blocking. Informs, not gates.**
+
+**Shows:**
+- What was taught (chapter, section, key topics covered)
+- 3 oral review responses (what the child said, what the AI observed)
+- 2–3 specific things the AI noted about the child's understanding
+- "Start next lesson" prompt
+
+**Parent actions (optional, non-blocking):**
+- Add a note: "We discussed this at dinner — she understood it well"
+- Flag a section for review: "Revisit the Curse of Ham section"
+- Neither action blocks the next lesson
+
+**Feels like:** A teacher's note sent home with a child. Not a permission request.
+
+---
+
+## 11. Band-Aware UI Adaptation
+
+The band is not just a content setting. It changes the entire visual language of the app. This table is the specification.
+
+| UI Element | Band 0 | Band 1–2 | Band 3 | Band 4–5 |
+|---|---|---|---|---|
+| **Player type** | Storybook player | Storybook (Band 1) / Lesson player (Band 2) | Lesson player | Lesson player |
+| **Typography** | Very large (28–32px), 1 sentence visible at a time | Large (18–22px), short paragraphs | Normal (14–16px), full transcript | Normal with dense annotation mode available |
+| **Canvas complexity** | No canvas — full-screen illustration only | Simplified map + scene images only | Full map + all components | Full canvas + comparison mode + cross-chapter reference |
+| **Dialogue trigger** | None — no dialogue | Large "Ask" button, visible always | "Ask a question" in controls bar | Interrupt freely — no button needed |
+| **Review / exam** | None | Picture-based: AI shows image, child says the name | 3 oral questions with visual prompt | Thesis-level oral argument or essay prompt |
+| **Controls** | Tap anywhere to advance. That is all. | Tap to advance, replay button, Ask button | Play/pause, progress bar, Ask button, exit | All controls + chapter reference panel |
+
+---
+
+## 12. Phase 3.1 — Cloud Run Deployment
 
 **Priority:** FIRST — unblocks everything.
 **Effort:** 1–2 days (configuration, not development)
@@ -182,7 +372,7 @@ These are the owner's direct responses to technical flags, recorded verbatim for
 
 ---
 
-## 8. Phase 3.2 — Dual Player Architecture
+## 13. Phase 3.2 — Dual Player Architecture
 
 **Priority:** SECOND — core engine for all content playback.
 **Effort:** ~1 week
@@ -267,7 +457,7 @@ PauseParams {
 
 ---
 
-## 9. Phase 3.3 — SVG Alignment Tool
+## 14. Phase 3.3 — SVG Alignment Tool
 
 **Priority:** THIRD — required before any map works in the player.
 **Effort:** 1 day to build, then 10–15 minutes per map to align.
@@ -303,7 +493,7 @@ MapAlignment {
 
 ---
 
-## 10. Phase 3.4 — 9 Visual Component Shells
+## 15. Phase 3.4 — 9 Visual Component Shells
 
 **Priority:** FOURTH — after players and alignment tool exist.
 **Effort:** ~1 week
@@ -334,7 +524,7 @@ Each component accepts a data prop and renders. All must be band-aware (accept a
 
 ---
 
-## 11. Phase 3.5 — Lesson Script Generator
+## 16. Phase 3.5 — Lesson Script Generator
 
 **Priority:** FIFTH — after player can consume scripts.
 **Effort:** ~3 days
@@ -358,7 +548,7 @@ Each component accepts a data prop and renders. All must be band-aware (accept a
 
 ---
 
-## 12. Phase 3.6 — Chapter 1 Band 3 End-to-End
+## 17. Phase 3.6 — Chapter 1 Band 3 End-to-End
 
 **Priority:** THE MILESTONE — "the moment you have something real."
 **Effort:** ~2 weeks total (including all prior phases)
@@ -389,7 +579,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 13. Phase 3.7 — Chapter 1 Bands 4–5 (Premium)
+## 18. Phase 3.7 — Chapter 1 Bands 4–5 (Premium)
 
 **Effort:** ~1 week
 **Status:** NOT STARTED
@@ -405,7 +595,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 14. Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)
+## 19. Phase 3.8 — Chapter 1 Bands 1–2 (Storybook Layer)
 
 **Effort:** ~3 weeks (includes illustration production)
 **Status:** NOT STARTED
@@ -425,7 +615,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 15. Phase 3.9 — Chapter 1 Band 0 (Picture Book)
+## 20. Phase 3.9 — Chapter 1 Band 0 (Picture Book)
 
 **Effort:** ~2 weeks
 **Status:** NOT STARTED
@@ -445,24 +635,64 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 16. Phase 3.10 — UI Simplification
+## 21. Phase 3.10 — UI Redesign
 
-**Effort:** ~2 days
+**Effort:** ~1 week
 **Status:** NOT STARTED
 **Can be done in parallel with any phase after 3.2**
+**Reference:** Sections 8–11 of this document (Page Audit, Nav Flow, Screen Specs, Band-Aware UI)
+
+### Guiding Principles
+- The canvas is the product (Principle 01)
+- One tap to learning (Principle 02)
+- Parents observe, not gatekeep (Principle 04)
+- The curriculum is a library (Principle 05)
 
 ### Tasks
-- [ ] Reduce the app to 3 screens:
-  1. **Parent Dashboard** — chapter list + band selector + progress overview
-  2. **Lesson Screen** — ScriptPlayer + visual canvas
-  3. **Dialogue Screen** — microphone + visual canvas + Gemini Live
-- [ ] Remove all legacy navigation items that don't serve these 3 screens
-- [ ] Band selector on dashboard determines which player/script loads
-- [ ] Progress tracking shows per-chapter, per-band completion
+
+#### Demolition
+- [ ] Remove `ReadingView` page and all routes pointing to it
+- [ ] Remove `LessonView` 3-step wrapper (Prepare → Session → Witness)
+- [ ] Remove `ExamView` as a standalone page — its functionality moves into the lesson player's Review phase
+- [ ] Remove `ParentReviewModal` as a blocking gate — replace with passive `PostLessonSummary`
+- [ ] Remove `LearnerDashboard` redirect page
+- [ ] Remove Judgment Queue component from Parent Dashboard
+- [ ] Remove all 3D Matrix references (Domain, Capacity, Repetition Arc) from UI
+
+#### Build — Parent Dashboard (Library Shelf)
+- [ ] Rebuild Parent Dashboard per Screen 1 spec (Section 10)
+- [ ] Child name + band badge in header
+- [ ] Chapter cards as vertical list with progress bars, last-session metadata, single CTA per chapter
+- [ ] "Recent sessions" drawer replaces judgment queue
+- [ ] Dashboard routes to correct player based on band: StorybookPlayer (Band 0–1) or LessonPlayer (Band 2–5)
+
+#### Build — Lesson Player (Bands 2–5)
+- [ ] Rebuild NarratedLessonView as unified Lesson Player per Screen 2 spec (Section 10)
+- [ ] Canvas dominates at 70–75% viewport
+- [ ] Phase indicator: Teaching (green) → Dialogue (purple) → Review (amber)
+- [ ] Transcript bar stays visible in all 3 phases
+- [ ] Dialogue activates in-place — canvas dims, stays visible, microphone appears on canvas
+- [ ] Review questions shown with in-canvas visuals per question — canvas never disappears
+- [ ] Excluded from AppShell (immersive full-screen)
+
+#### Build — Storybook Player (Band 0–1)
+- [ ] Already scoped in Phase 3.2 — ensure it matches Screen 3 spec (Section 10)
+- [ ] Dark background, full-screen illustration, highlighted word overlay, caption bar, progress dots
+- [ ] Excluded from AppShell (immersive full-screen)
+
+#### Build — Post-Lesson Summary
+- [ ] Build `PostLessonSummary` page per Screen 4 spec (Section 10)
+- [ ] Shows: what was taught, oral review responses, AI observations
+- [ ] Parent can add note or flag section — neither action blocks next lesson
+- [ ] Next lesson auto-unlocks upon completion
+
+#### Onboarding Rebuild
+- [ ] Simplify onboarding to 3 steps: add child → set band (with age guide) → pick starting chapter
+- [ ] Remove all 3D Matrix / old architecture fields
 
 ---
 
-## 17. Content Production Workflow
+## 22. Content Production Workflow
 
 Every piece of content follows one of three workflows:
 
@@ -489,7 +719,7 @@ Every piece of content follows one of three workflows:
 
 ---
 
-## 18. Image Generation System
+## 23. Image Generation System
 
 ### Master Style Brief (paste at start of every image prompt)
 ```
@@ -529,7 +759,7 @@ FEEL: Warm, inviting, like a map in a children's storybook Bible.
 
 ---
 
-## 19. Pronunciation Dictionary
+## 24. Pronunciation Dictionary
 
 A JSON map of proper nouns → phonetic spellings / SSML phoneme tags. Injected into every TTS call as preprocessing.
 
@@ -558,7 +788,7 @@ A JSON map of proper nouns → phonetic spellings / SSML phoneme tags. Injected 
 
 ---
 
-## 20. Theological Guardrails
+## 25. Theological Guardrails
 
 ### Band 3 System Prompt Addition
 ```
@@ -589,7 +819,7 @@ while remaining academically rigorous.
 
 ---
 
-## 21. Chapter Production Checklist (Repeatable Template)
+## 26. Chapter Production Checklist (Repeatable Template)
 
 After Chapter 1 is complete, every subsequent chapter follows this exact checklist:
 
@@ -616,7 +846,7 @@ After Chapter 1 is complete, every subsequent chapter follows this exact checkli
 
 ---
 
-## 22. Launch Strategy
+## 27. Launch Strategy
 
 1. **Launch after Chapter 1 is fully complete across all 6 bands.** Do not wait for all 9 chapters.
 2. A Christian homeschool family can start their 4-year-old on Band 0, their 10-year-old on Band 3, and their 16-year-old on Band 4, all from Chapter 1 alone.
@@ -625,7 +855,7 @@ After Chapter 1 is complete, every subsequent chapter follows this exact checkli
 
 ---
 
-## 23. Known Risks & Mitigations
+## 28. Known Risks & Mitigations
 
 | # | Risk | Severity | Mitigation |
 |---|---|---|---|
