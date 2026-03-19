@@ -635,20 +635,60 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 16. Phase 3.10 — UI Simplification
+## 21. Phase 3.10 — UI Redesign
 
-**Effort:** ~2 days
+**Effort:** ~1 week
 **Status:** NOT STARTED
 **Can be done in parallel with any phase after 3.2**
+**Reference:** Sections 8–11 of this document (Page Audit, Nav Flow, Screen Specs, Band-Aware UI)
+
+### Guiding Principles
+- The canvas is the product (Principle 01)
+- One tap to learning (Principle 02)
+- Parents observe, not gatekeep (Principle 04)
+- The curriculum is a library (Principle 05)
 
 ### Tasks
-- [ ] Reduce the app to 3 screens:
-  1. **Parent Dashboard** — chapter list + band selector + progress overview
-  2. **Lesson Screen** — ScriptPlayer + visual canvas
-  3. **Dialogue Screen** — microphone + visual canvas + Gemini Live
-- [ ] Remove all legacy navigation items that don't serve these 3 screens
-- [ ] Band selector on dashboard determines which player/script loads
-- [ ] Progress tracking shows per-chapter, per-band completion
+
+#### Demolition
+- [ ] Remove `ReadingView` page and all routes pointing to it
+- [ ] Remove `LessonView` 3-step wrapper (Prepare → Session → Witness)
+- [ ] Remove `ExamView` as a standalone page — its functionality moves into the lesson player's Review phase
+- [ ] Remove `ParentReviewModal` as a blocking gate — replace with passive `PostLessonSummary`
+- [ ] Remove `LearnerDashboard` redirect page
+- [ ] Remove Judgment Queue component from Parent Dashboard
+- [ ] Remove all 3D Matrix references (Domain, Capacity, Repetition Arc) from UI
+
+#### Build — Parent Dashboard (Library Shelf)
+- [ ] Rebuild Parent Dashboard per Screen 1 spec (Section 10)
+- [ ] Child name + band badge in header
+- [ ] Chapter cards as vertical list with progress bars, last-session metadata, single CTA per chapter
+- [ ] "Recent sessions" drawer replaces judgment queue
+- [ ] Dashboard routes to correct player based on band: StorybookPlayer (Band 0–1) or LessonPlayer (Band 2–5)
+
+#### Build — Lesson Player (Bands 2–5)
+- [ ] Rebuild NarratedLessonView as unified Lesson Player per Screen 2 spec (Section 10)
+- [ ] Canvas dominates at 70–75% viewport
+- [ ] Phase indicator: Teaching (green) → Dialogue (purple) → Review (amber)
+- [ ] Transcript bar stays visible in all 3 phases
+- [ ] Dialogue activates in-place — canvas dims, stays visible, microphone appears on canvas
+- [ ] Review questions shown with in-canvas visuals per question — canvas never disappears
+- [ ] Excluded from AppShell (immersive full-screen)
+
+#### Build — Storybook Player (Band 0–1)
+- [ ] Already scoped in Phase 3.2 — ensure it matches Screen 3 spec (Section 10)
+- [ ] Dark background, full-screen illustration, highlighted word overlay, caption bar, progress dots
+- [ ] Excluded from AppShell (immersive full-screen)
+
+#### Build — Post-Lesson Summary
+- [ ] Build `PostLessonSummary` page per Screen 4 spec (Section 10)
+- [ ] Shows: what was taught, oral review responses, AI observations
+- [ ] Parent can add note or flag section — neither action blocks next lesson
+- [ ] Next lesson auto-unlocks upon completion
+
+#### Onboarding Rebuild
+- [ ] Simplify onboarding to 3 steps: add child → set band (with age guide) → pick starting chapter
+- [ ] Remove all 3D Matrix / old architecture fields
 
 ---
 
