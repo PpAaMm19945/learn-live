@@ -615,7 +615,7 @@ A parent logs in, selects Chapter 1 Band 3. The lesson plays:
 
 ---
 
-## 15. Phase 3.9 — Chapter 1 Band 0 (Picture Book)
+## 20. Phase 3.9 — Chapter 1 Band 0 (Picture Book)
 
 **Effort:** ~2 weeks
 **Status:** NOT STARTED
