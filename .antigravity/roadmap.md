@@ -137,7 +137,7 @@ Band is set once per child, not chosen per session. The entire UI — language, 
 
 ---
 
-## 4. The 9 Visual Components
+## 5. The 9 Visual Components
 
 Build each component once, use it across all chapters. Every visual in every lesson is one of these components rendered with different data and band-appropriate styling.
 
