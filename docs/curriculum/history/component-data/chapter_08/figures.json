@@ -1,0 +1,23 @@
+{
+  "chapterId": "ch08",
+  "figures": [
+    {
+      "id": "fig_08_001",
+      "name": "Kintu",
+      "title": "Legendary Founder of the Ganda",
+      "dates": "Ancestral Time",
+      "quote": "Kintu came from the east, from the direction of Mount Elgon.",
+      "summary": "A foundational figure in the oral traditions of the Baganda people of Uganda, whose story preserves the memory of an eastern highland origin for the Bantu migrations.",
+      "imageSlug": "kintu_legend"
+    },
+    {
+      "id": "fig_08_002",
+      "name": "Tubal-cain",
+      "title": "The First Smith",
+      "dates": "Pre-Flood",
+      "quote": "He was the forger of all instruments of bronze and iron. — Genesis 4:22",
+      "summary": "A descendant of Cain who mastered metallurgy before the Flood. His ancient knowledge was likely preserved through Noah's family and later recovered by early African societies.",
+      "imageSlug": "tubal_cain"
+    }
+  ]
+}

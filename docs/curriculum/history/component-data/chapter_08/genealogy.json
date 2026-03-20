@@ -1,0 +1,15 @@
+{
+  "chapterId": "ch08",
+  "title": "Ancestors of the Bantu Expansions",
+  "nodes": [
+    { "id": "adam", "name": "Adam", "parent": null, "dates": null, "descriptor": "First Man" },
+    { "id": "noah", "name": "Noah", "parent": "adam", "dates": "c. 2950–2000 BC (YEC)", "descriptor": "Patriarch of the Flood" },
+    { "id": "ham", "name": "Ham", "parent": "noah", "dates": null, "descriptor": "Son of Noah" },
+    { "id": "mizraim", "name": "Mizraim", "parent": "ham", "dates": null, "descriptor": "Settled Nile Valley (Egypt)" },
+    { "id": "cush", "name": "Cush", "parent": "ham", "dates": null, "descriptor": "Settled Upper Nile/Horn of Africa" },
+    { "id": "put", "name": "Put", "parent": "ham", "dates": null, "descriptor": "Settled West of Egypt (North Africa)" },
+    { "id": "canaan", "name": "Canaan", "parent": "ham", "dates": null, "descriptor": "Settled Levant" },
+    { "id": "nimrod", "name": "Nimrod", "parent": "cush", "dates": "c. 2200 BC", "descriptor": "Ruler at Babel" },
+    { "id": "tubal_cain", "name": "Tubal-cain", "parent": null, "dates": "Pre-Flood", "descriptor": "First forger of bronze and iron" }
+  ]
+}

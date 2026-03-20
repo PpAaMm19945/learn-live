@@ -1,0 +1,54 @@
+{
+  "chapterId": "ch09",
+  "terms": [
+    {
+      "id": "def_09_001",
+      "term": "Zagwe Dynasty",
+      "definition": "A medieval Ethiopian ruling line from the Agaw people of Lasta (c. 900–1270 AD), renowned for constructing the rock-hewn churches of Lalibela.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "ዛግዌ", "transliteration": "Zagwe", "language": "Amharic" }
+    },
+    {
+      "id": "def_09_002",
+      "term": "Kebra Nagast",
+      "definition": "The 'Glory of Kings', a 14th-century national epic asserting the Solomonic lineage of Ethiopian kings, from Menelik I (son of Solomon and Sheba) bringing the Ark of the Covenant to Ethiopia.",
+      "scriptureRef": "1 Kings 10:1-13",
+      "originalLanguage": { "script": "ክብረ ነገሥት", "transliteration": "Kebra Nagast", "language": "Ge'ez" }
+    },
+    {
+      "id": "def_09_003",
+      "term": "Abuna",
+      "definition": "The metropolitan bishop and spiritual head of the Ethiopian Orthodox Tewahedo Church, traditionally a Coptic monk appointed by the Patriarch of Alexandria.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "አቡነ", "transliteration": "Abuna", "language": "Ge'ez" }
+    },
+    {
+      "id": "def_09_004",
+      "term": "Ewostathian Movement",
+      "definition": "A monastic renewal movement founded by Abba Ewostatewos that emphasized strict discipline and sparked a theological debate by insisting on observing both the Saturday Sabbath and Sunday.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_09_005",
+      "term": "Prester John",
+      "definition": "A legendary Christian patriarch and king believed by medieval Europeans to rule a lost, powerful Christian nation in the East or Africa, eventually associated with Ethiopia.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_09_006",
+      "term": "Meskal",
+      "definition": "A major Ethiopian Christian festival celebrating the 'Finding of the True Cross' by Empress Helena, deeply promoted by Emperor Zara Yaqob.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "መስቀል", "transliteration": "Meskal", "language": "Ge'ez" }
+    },
+    {
+      "id": "def_09_007",
+      "term": "Sultanate of Adal",
+      "definition": "A powerful Muslim state in the Horn of Africa (c. 1415–1577) that was the primary geopolitical and religious rival to the Christian Ethiopian Empire.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    }
+  ]
+}

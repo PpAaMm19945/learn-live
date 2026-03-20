@@ -1,0 +1,95 @@
+{
+  "chapterId": "ch09",
+  "events": [
+    {
+      "id": "evt_09_001",
+      "title": "Loss of Adulis",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 710 AD",
+      "description": "The port of Adulis falls to Islamic forces, isolating Aksum and ending its maritime trade.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_002",
+      "title": "Rise of the Zagwe Dynasty",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 900 AD",
+      "description": "The political center moves south as Agaw rulers establish power in Lasta.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_003",
+      "title": "Construction of Lalibela Churches",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 1181–1221 AD",
+      "description": "King Lalibela builds eleven rock-hewn churches to serve as a 'New Jerusalem'.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_004",
+      "title": "The Solomonic Restoration",
+      "biblicalDate": "N/A",
+      "conventionalDate": "1270 AD",
+      "description": "Yekuno Amlak overthrows the Zagwe, restoring the Solomonic line of kings.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_005",
+      "title": "Founding of Debre Libanos",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 1280s-1290s",
+      "description": "Abba Tekle Haymanot founds a major center of monasticism in Shewa.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_006",
+      "title": "Defeat of the Ifat Sultanate",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 1332 AD",
+      "description": "Amda Seyon's decisive campaign secures borders and expands the empire.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_007",
+      "title": "Compilation of the Kebra Nagast",
+      "biblicalDate": "N/A",
+      "conventionalDate": "14th Century",
+      "description": "The national epic is codified to legitimize the Solomonic Dynasty's rule.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_008",
+      "title": "Council of Florence",
+      "biblicalDate": "N/A",
+      "conventionalDate": "1441 AD",
+      "description": "Zara Yaqob sends an Ethiopian delegation to Italy, establishing formal diplomatic ties with Europe.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_009",
+      "title": "Battle of Gomit",
+      "biblicalDate": "N/A",
+      "conventionalDate": "1445 AD",
+      "description": "Zara Yaqob secures a major military victory over Muslim forces.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_09_010",
+      "title": "Arrival of the Portuguese",
+      "biblicalDate": "N/A",
+      "conventionalDate": "1490s AD",
+      "description": "Envoys like Pêro da Covilhã reach the Ethiopian court, ending medieval isolation.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

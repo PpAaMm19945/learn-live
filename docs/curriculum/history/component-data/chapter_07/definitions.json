@@ -1,0 +1,54 @@
+{
+  "chapterId": "ch07",
+  "terms": [
+    {
+      "id": "def_07_001",
+      "term": "Stelae",
+      "definition": "Tall, carved stone shafts erected as monuments. In Aksum, they marked royal tombs and are famous for mimicking timber-frame buildings in stone.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_07_002",
+      "term": "Monsoon Winds",
+      "definition": "Seasonal winds in the Indian Ocean that reverse direction twice a year. Ancient sailors used them to travel between India and Africa, making the Red Sea trade network possible.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_07_003",
+      "term": "Periplus of the Erythraean Sea",
+      "definition": "A 1st-century AD Greek sailing guide (periplus) written by an anonymous merchant. It is our most important primary source for the early trade of the Red Sea and Indian Ocean.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_07_004",
+      "term": "Abuna",
+      "definition": "Meaning 'Our Father,' the title of the head of the Ethiopian Church. Historically an Egyptian monk appointed by the Patriarch of Alexandria.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "አቡነ", "transliteration": "Abuna", "language": "Ge'ez" }
+    },
+    {
+      "id": "def_07_005",
+      "term": "Garima Gospels",
+      "definition": "The world's oldest surviving illuminated Gospels, kept at the Abba Garima Monastery. Their existence confirms the high level of culture in Aksum during the time of the Nine Saints.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_07_006",
+      "term": "First Hijra",
+      "definition": "The migration of early Muslims to Aksum (c. 615 AD) to escape persecution in Mecca. The Aksumite king's refusal to hand them over is a key event in Islamic-Christian relations.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "هجرة", "transliteration": "Hijra", "language": "Arabic" }
+    },
+    {
+      "id": "def_07_007",
+      "term": "Beta Israel",
+      "definition": "The ancient Jewish community of Ethiopia, which practiced a pre-Talmudic form of Judaism.",
+      "scriptureRef": null,
+      "originalLanguage": { "script": "ቤተ እስራኤል", "transliteration": "Beta Israel", "language": "Ge'ez" }
+    }
+  ]
+}

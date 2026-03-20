@@ -1,0 +1,47 @@
+{
+  "chapterId": "ch08",
+  "cards": [
+    {
+      "id": "sc_08_001",
+      "reference": "Genesis 11:4, 8",
+      "text": "Come, let us build ourselves a city and a tower with its top in the heavens... So the LORD dispersed them from there over the face of all the earth.",
+      "connection": "The origin of humanity's dispersion, setting the stage for the settlement of Africa.",
+      "cueContext": "Shown when discussing the events following the Flood."
+    },
+    {
+      "id": "sc_08_002",
+      "reference": "Deuteronomy 32:8",
+      "text": "When the Most High gave to the nations their inheritance, when he separated the children of mankind, he fixed the borders of the peoples...",
+      "connection": "Affirms that the migration and boundaries of African peoples were divinely ordained.",
+      "cueContext": "Shown when discussing the sovereign design behind migrations."
+    },
+    {
+      "id": "sc_08_003",
+      "reference": "Acts 17:26",
+      "text": "And he made from one man every nation of mankind to live on all the face of the earth, having determined allotted periods and the boundaries of their dwelling place.",
+      "connection": "Highlights the biological unity of all Africans and the divine timing of their expansions.",
+      "cueContext": "Shown when discussing the biological unity and sovereign timing of peoples."
+    },
+    {
+      "id": "sc_08_004",
+      "reference": "Genesis 10:6",
+      "text": "The sons of Ham: Cush, Egypt, Put, and Canaan.",
+      "connection": "Identifies the foundational progenitors of the African continent.",
+      "cueContext": "Shown when discussing the Table of Nations."
+    },
+    {
+      "id": "sc_08_005",
+      "reference": "Genesis 4:22",
+      "text": "Zillah also bore Tubal-cain; he was the forger of all instruments of bronze and iron.",
+      "connection": "Demonstrates that metallurgy was an ancient technology preserved from before the Flood, challenging evolutionary models of the 'Iron Age'.",
+      "cueContext": "Shown when discussing the origins of iron-working in Africa."
+    },
+    {
+      "id": "sc_08_006",
+      "reference": "Romans 1:19-20",
+      "text": "For what can be known about God is plain to them... so they are without excuse.",
+      "connection": "Explains the widespread belief in a High God across traditional African religions as a preserved memory of the one true God.",
+      "cueContext": "Shown when discussing the Bantu High God and traditional religion."
+    }
+  ]
+}

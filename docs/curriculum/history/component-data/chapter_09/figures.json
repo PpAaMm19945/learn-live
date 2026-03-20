@@ -1,0 +1,59 @@
+{
+  "chapterId": "ch09",
+  "figures": [
+    {
+      "id": "fig_09_001",
+      "name": "Lalibela",
+      "title": "Architect of the New Jerusalem",
+      "dates": "c. 1181–1221 AD",
+      "quote": "Commanded by God in a vision to build a 'New Jerusalem' in Ethiopia.",
+      "summary": "The most famous king of the Zagwe Dynasty, who oversaw the excavation of eleven breathtaking monolithic rock-hewn churches from the volcanic mountains of Lasta.",
+      "imageSlug": "lalibela"
+    },
+    {
+      "id": "fig_09_002",
+      "name": "Yekuno Amlak",
+      "title": "Restorer of the Solomonic Line",
+      "dates": "r. 1270–1285 AD",
+      "quote": "The nobleman from Amhara who overthrew the Zagwe.",
+      "summary": "Leader of the 1270 AD rebellion that ended the Zagwe Dynasty, shifting power to the Amhara and founding the Solomonic line of kings based on the Kebra Nagast.",
+      "imageSlug": "yekuno_amlak"
+    },
+    {
+      "id": "fig_09_003",
+      "name": "Amda Seyon I",
+      "title": "The Lion of Judah",
+      "dates": "r. 1314–1344 AD",
+      "quote": "He defended Christendom against overwhelming odds.",
+      "summary": "A brilliant military commander who decisively defeated the Ifat Sultanate, expanding Ethiopia's borders and centralizing royal power.",
+      "imageSlug": "amda_seyon"
+    },
+    {
+      "id": "fig_09_004",
+      "name": "Abba Tekle Haymanot",
+      "title": "Founder of Debre Libanos",
+      "dates": "c. 1215–1313 AD",
+      "quote": "He prayed on one leg for seven years until the other withered.",
+      "summary": "Revered saint who founded the great Debre Libanos monastery, a spiritual powerhouse and center of learning that sustained the kingdom.",
+      "imageSlug": "tekle_haymanot"
+    },
+    {
+      "id": "fig_09_005",
+      "name": "Zara Yaqob",
+      "title": "Theologian-Emperor",
+      "dates": "r. 1434–1468 AD",
+      "quote": "Wrote the Book of Light and established the Meskal festival.",
+      "summary": "A formidable intellectual and military leader who reformed the Ethiopian Church, settled the Sabbath controversy, and engaged in diplomacy with Europe.",
+      "imageSlug": "zara_yaqob"
+    },
+    {
+      "id": "fig_09_006",
+      "name": "Ahmad Gran",
+      "title": "The Left-Handed Jihadist",
+      "dates": "c. 1506–1543 AD",
+      "quote": "A military leader of Adal whose campaigns nearly destroyed the Christian kingdom.",
+      "summary": "Formidable general of the Sultanate of Adal who utilized Ottoman firearms to devastate the Ethiopian highlands, marking the end of medieval isolation.",
+      "imageSlug": "ahmad_gran"
+    }
+  ]
+}

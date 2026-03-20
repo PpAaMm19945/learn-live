@@ -1,0 +1,17 @@
+{
+  "chapterId": "ch07",
+  "title": "Aksumite Kings and the Nine Saints",
+  "nodes": [
+    { "id": "zoscales", "name": "Zoscales", "parent": null, "dates": "1st Century AD", "descriptor": "Early Aksumite King" },
+    { "id": "ella_amida", "name": "Ella Amida", "parent": null, "dates": "c. 316 AD", "descriptor": "King who took Frumentius in" },
+    { "id": "ezana", "name": "Ezana", "parent": "ella_amida", "dates": "c. 320–360 AD", "descriptor": "First Christian King of Aksum" },
+    { "id": "kaleb", "name": "Kaleb (Ella Asbeha)", "parent": null, "dates": "6th Century AD", "descriptor": "Conqueror of Yemen" },
+    { "id": "armah", "name": "Armah (Al-Najashi)", "parent": null, "dates": "c. 615 AD", "descriptor": "King during the First Hijra" },
+    { "id": "nine_saints", "name": "The Nine Saints", "parent": null, "dates": "c. 480–520 AD", "descriptor": "Syrian Monks" },
+    { "id": "abba_aragawi", "name": "Abba Aragawi", "parent": "nine_saints", "dates": null, "descriptor": "Founder of Debre Damo" },
+    { "id": "abba_garima", "name": "Abba Garima", "parent": "nine_saints", "dates": null, "descriptor": "Illuminated the Garima Gospels" },
+    { "id": "abba_aftse", "name": "Abba Aftse", "parent": "nine_saints", "dates": null, "descriptor": "Settled at Yeha" },
+    { "id": "abba_yemata", "name": "Abba Yem'ata", "parent": "nine_saints", "dates": null, "descriptor": "Founder of Gheralta rock church" },
+    { "id": "abraha", "name": "Abraha", "parent": null, "dates": "6th Century AD", "descriptor": "General who rebelled in Yemen" }
+  ]
+}
