@@ -228,3 +228,47 @@ Decisions made:
 - For 'D'mt', transcribed as "DAH-muht" approximating the Sabaean/Ge'ez roots.
 - For Latin/Greek names common in English academic contexts (e.g. Augustine, Athanasius, Alexandria), provided standard English academic pronunciations.
 - Skipped obvious/common words and focused on proper nouns relevant to the chapters (peoples, places, leaders).
+
+## Batch C (Chapters 7-9) Completed
+
+Added the following proper nouns to the pronunciation dictionary:
+- **Aedesius** (Chapter 7, Origin: Greek/Syriac)
+- **Afse** (Chapter 7, Origin: Syriac/Ge'ez)
+- **Agaw** (Chapter 7, Origin: Cushitic)
+- **Amda Seyon** (Chapter 9, Origin: Ge'ez)
+- **Amhara** (Chapter 7, Origin: Semitic/Ethiopian)
+- **Aragawi** (Chapter 7, Origin: Ge'ez)
+- **Arethas** (Chapter 7, Origin: Greek/Arabic)
+- **Armah** (Chapter 7, Origin: Ge'ez)
+- **Axumite** (Chapter 9, Origin: Ge'ez)
+- **Bantu** (Chapter 8, Origin: Bantu)
+- **Beta Israel** (Chapter 7, Origin: Hebrew/Ge'ez)
+- **Candace** (Chapter 7, Origin: Meroitic/Greek)
+- **Debre Damo** (Chapter 7, Origin: Ge'ez)
+- **Debre Libanos** (Chapter 9, Origin: Ge'ez)
+- **Dhu Nuwas** (Chapter 7, Origin: Arabic/Himyarite)
+- **Ewostatewos** (Chapter 9, Origin: Ge'ez)
+- **Ezana** (Chapter 7, Origin: Ge'ez)
+- **Frumentius** (Chapter 7, Origin: Latin/Syriac)
+- **Ge'ez** (Chapter 7, Origin: Ge'ez)
+- **Kaleb** (Chapter 7, Origin: Ge'ez)
+- **Kebra Nagast** (Chapter 7, Origin: Ge'ez)
+- **Lalibela** (Chapter 7, Origin: Ge'ez/Agaw)
+- **Lasta** (Chapter 7, Origin: Ethiopian)
+- **Maasai** (Chapter 8, Origin: Nilotic)
+- **Menelik** (Chapter 7, Origin: Ge'ez)
+- **Naakuto La'ab** (Chapter 9, Origin: Ge'ez)
+- **Najran** (Chapter 7, Origin: Arabic)
+- **Shewa** (Chapter 9, Origin: Ethiopian)
+- **Tekle Haymanot** (Chapter 9, Origin: Ge'ez)
+- **Tigray** (Chapter 9, Origin: Ethiopian)
+- **Yekuno Amlak** (Chapter 9, Origin: Ge'ez)
+- **Zagwe** (Chapter 7, Origin: Ge'ez/Agaw)
+- **Zara Yaqob** (Chapter 9, Origin: Ge'ez)
+
+Decisions made:
+- Kept proper nouns specific to the key events in these chapters, such as Kaleb, Ezana, the Nine Saints (e.g. Aragawi, Afse), and Zagwe/Solomonic rulers.
+- Omitted names that are too broad, widely anglicized, or already present in common dictionaries.
+- Ensured SSML formats strictly adhered to valid IPA phonetic representations matching their origin languages.
+- Verified that all entries were properly added and sorted alphabetically within the main JSON file.
+- Total new names added: 33.
