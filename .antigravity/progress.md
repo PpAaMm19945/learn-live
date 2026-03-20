@@ -57,7 +57,7 @@
 ### Phase 3.2 — Dual Player Architecture — NOT STARTED
 ### Phase 3.3 — SVG Alignment Tool — ✅ COMPLETE
 ### Phase 3.4 — 9 Visual Component Shells — NOT STARTED
-### Phase 3.5 — Lesson Script Generator — NOT STARTED
+### Phase 3.5 — Lesson Script Generator — ✅ COMPLETE
 ### Phase 3.6 — Chapter 1 Band 3 End-to-End — NOT STARTED
 ### Phase 3.7 — Chapter 1 Bands 4–5 (Premium) — NOT STARTED
 ### Phase 3.8 — Chapter 1 Bands 1–2 (Storybook) — NOT STARTED
