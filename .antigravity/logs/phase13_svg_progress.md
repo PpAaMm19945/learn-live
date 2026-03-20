@@ -40,3 +40,23 @@
 - **Decision:** As in Batch A, dynamic mapping of detailed geographic paths into a 2816x1536 SVG viewport is skipped in favor of simplified central placeholders since the exact mapping boundaries will be managed by the alignment tool.
 - **Decision:** Expanded JSON parsing to account for different keys such as `garamantian_heartland`, `provincial_boundaries`, `monastic_sites`, `arabian_cities`, etc., because the map specifications diverge slightly from one another.
 - **Decision:** Base map dimensions were identical to Batch A (2816x1536), which maintained script stability across generation.
+
+## Batch C (Maps 11-15)
+**Status**: Completed
+**Date**: 2024-05-24
+
+### Completed Maps
+- `map_011_carthaginian_maritime_empire`
+- `map_012_numidia_mauretania`
+- `map_013_christian_north_africa`
+- `map_014_islamic_conquest_north_africa`
+- `map_015_meroe_red_sea_trade`
+
+### Time Taken
+- Script authoring and validation: ~5 minutes
+- Total execution time for 5 maps: < 1 minute
+
+### Issues and Decisions
+- **Decision:** Kept same dimensions (2816x1536) since all source map PNGs have this resolution (except Map 013 which had 1024x575 but we stick with the standard for consistency). Map 014 has no PNG, assuming 2816x1536 as well.
+- **Decision:** Updated JSON extraction logic to handle more varied schema keys present in maps 11-15 (`territories`, `zones_of_influence`, `political_zones`, `regions`, `sites`, `battles`).
+- **Decision:** Maintained color/styling conventions from previous batches.
