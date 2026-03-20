@@ -1,0 +1,35 @@
+{
+  "chapterId": "ch04",
+  "comparisons": [
+    {
+      "id": "cmp_04_001",
+      "topic": "Nature of Meroitic Iron Production",
+      "biblical": {
+        "date": "Meroitic Era",
+        "framework": "Technological advancement tainted by the Fall",
+        "evidence": "Massive slag heaps indicate industrial scale; environmental degradation (deforestation) reflects failure of stewardship mandate."
+      },
+      "conventional": {
+        "date": "c. 590 BC – 350 AD",
+        "framework": "Economic and military liberation vs. elite coercion",
+        "evidence": "Widespread iron tools suggest agricultural benefit; reliance on intensive labor suggests possible coercion or slavery to maintain elite power."
+      },
+      "resolution": "Both views recognize iron's transformative power. A biblical perspective balances appreciation for human ingenuity (common grace) with realism about how fallen societies often exploit labor and resources."
+    },
+    {
+      "id": "cmp_04_002",
+      "topic": "Ezana's Conquest of Meroe",
+      "biblical": {
+        "date": "c. 330 AD",
+        "framework": "Tension between Christian faith and state violence",
+        "evidence": "Ezana's conversion roughly coincides with the invasion. The Gospel spreads, but state-sponsored warfare contradicts Christ's teachings."
+      },
+      "conventional": {
+        "date": "c. 330 AD",
+        "framework": "Geopolitical calculus",
+        "evidence": "Ezana's own trilingual inscription cites secular grievances (attacks on allies, trade interference) rather than religious holy war."
+      },
+      "resolution": "Scholars debate if the war was religiously motivated or purely political. Regardless, it illustrates the complex historical reality of a newly Christianized state navigating geopolitics."
+    }
+  ]
+}

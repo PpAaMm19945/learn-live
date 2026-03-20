@@ -1,0 +1,55 @@
+{
+  "chapterId": "ch05",
+  "terms": [
+    {
+      "id": "def_05_001",
+      "term": "Latifundia",
+      "definition": "Large, landed estates specializing in cash-crop agriculture like grain and olives, often worked by enslaved labor.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_05_002",
+      "term": "Lapsi",
+      "definition": "Christians who faltered under persecution and denied the faith or handed over Scriptures, sparking intense debate over their restoration.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "lapsi",
+        "transliteration": "lapsi",
+        "language": "Latin"
+      }
+    },
+    {
+      "id": "def_05_003",
+      "term": "Traditores",
+      "definition": "Clergy who surrendered copies of Scripture to Roman authorities to be burned during persecution; literally 'handers-over'.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "traditores",
+        "transliteration": "traditores",
+        "language": "Latin"
+      }
+    },
+    {
+      "id": "def_05_004",
+      "term": "Donatism",
+      "definition": "A rigorist schism in North Africa that argued sacraments performed by compromised clergy (traditores) were invalid.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_05_005",
+      "term": "Pelagianism",
+      "definition": "A heresy that denied original sin and taught humans could achieve righteousness by their own moral effort, heavily opposed by Augustine.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_05_006",
+      "term": "Arianism",
+      "definition": "A heresy embraced by the Vandals that denied the full, co-equal divinity of Jesus Christ with God the Father.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    }
+  ]
+}

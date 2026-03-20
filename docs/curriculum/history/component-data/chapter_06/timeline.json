@@ -1,0 +1,68 @@
+{
+  "chapterId": "ch06",
+  "events": [
+    {
+      "id": "evt_06_001",
+      "title": "Roman Annexation of Egypt",
+      "biblicalDate": "N/A",
+      "conventionalDate": "30 BC",
+      "description": "Octavian defeats Antony and Cleopatra, making Egypt an imperial province.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_06_002",
+      "title": "Flight to Egypt",
+      "biblicalDate": "c. 4 BC",
+      "conventionalDate": "c. 4 BC",
+      "description": "The Holy Family flees to Egypt to escape King Herod.",
+      "scriptureRef": "Matthew 2:13-15",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_06_003",
+      "title": "Decian Persecution",
+      "biblicalDate": "N/A",
+      "conventionalDate": "250 AD",
+      "description": "Empire-wide persecution requiring libellus certificates of sacrifice.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_06_004",
+      "title": "Era of the Martyrs Begins",
+      "biblicalDate": "N/A",
+      "conventionalDate": "284 AD",
+      "description": "Accession of Diocletian marks the start of the Coptic calendar due to severe persecution.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_06_005",
+      "title": "Council of Nicaea",
+      "biblicalDate": "N/A",
+      "conventionalDate": "325 AD",
+      "description": "First ecumenical council condemns Arianism and affirms the Son is homoousios with the Father.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_06_006",
+      "title": "Council of Chalcedon",
+      "biblicalDate": "N/A",
+      "conventionalDate": "451 AD",
+      "description": "Council defines Christ's two natures; rejected by the Egyptian church leading to the Oriental Orthodox schism.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_06_007",
+      "title": "Islamic Conquest of Egypt",
+      "biblicalDate": "N/A",
+      "conventionalDate": "639-641 AD",
+      "description": "Arab forces under 'Amr ibn al-'As conquer Egypt, ending Byzantine rule.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

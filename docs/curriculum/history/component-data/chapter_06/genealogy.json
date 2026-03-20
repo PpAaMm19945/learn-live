@@ -1,0 +1,16 @@
+{
+  "chapterId": "ch06",
+  "title": "Key Figures of Roman and Christian Egypt",
+  "nodes": [
+    { "id": "apollos", "name": "Apollos", "parent": null, "dates": "1st Century AD", "descriptor": "Eloquent Alexandrian Apologist" },
+    { "id": "pantaenus", "name": "Pantaenus", "parent": null, "dates": "c. 190 AD", "descriptor": "First Head of Catechetical School" },
+    { "id": "clement", "name": "Clement of Alexandria", "parent": "pantaenus", "dates": "c. 150–215 AD", "descriptor": "Theologian and Head of School" },
+    { "id": "origen", "name": "Origen", "parent": "clement", "dates": "c. 185–254 AD", "descriptor": "Prolific Scholar, Compiler of Hexapla" },
+    { "id": "antony", "name": "Antony the Great", "parent": null, "dates": "c. 251–356 AD", "descriptor": "Father of Eremitic Monasticism" },
+    { "id": "pachomius", "name": "Pachomius", "parent": null, "dates": "c. 292–348 AD", "descriptor": "Founder of Cenobitic Monasticism" },
+    { "id": "arius", "name": "Arius", "parent": null, "dates": "c. 256–336 AD", "descriptor": "Alexandrian Presbyter, Heresiarch" },
+    { "id": "athanasius", "name": "Athanasius", "parent": null, "dates": "c. 296–373 AD", "descriptor": "20th Pope of Alexandria, Defender of Nicaea" },
+    { "id": "cyril", "name": "Cyril of Alexandria", "parent": null, "dates": "376–444 AD", "descriptor": "Patriarch, Opponent of Nestorius" },
+    { "id": "amr", "name": "'Amr ibn al-'As", "parent": null, "dates": "7th Century AD", "descriptor": "Arab General, Conquered Egypt" }
+  ]
+}

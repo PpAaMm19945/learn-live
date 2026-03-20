@@ -1,0 +1,35 @@
+{
+  "chapterId": "ch05",
+  "comparisons": [
+    {
+      "id": "cmp_05_001",
+      "topic": "The Donatist Schism",
+      "biblical": {
+        "date": "4th Century AD",
+        "framework": "The Church is a mixed body requiring grace (Augustine's view)",
+        "evidence": "Sacraments are valid ex opere operato (by Christ's power, not the minister's purity). Emphasizes unity and restoration for the repentant lapsi."
+      },
+      "conventional": {
+        "date": "4th Century AD",
+        "framework": "The Church must maintain absolute purity (Donatist view)",
+        "evidence": "A compromised priest (traditor) invalidates the sacrament. Emphasizes rigorous holiness, appealing to rural Berber populations against Roman elites."
+      },
+      "resolution": "Augustine's view prevailed in orthodox theology, recognizing that human ministers are flawed and salvation depends solely on Christ's perfect work."
+    },
+    {
+      "id": "cmp_05_002",
+      "topic": "Why the North African Church Fell",
+      "biblical": {
+        "date": "7th Century AD",
+        "framework": "Failure to indigenize and spiritual decay",
+        "evidence": "The Gospel was never fully translated into the Berber language or culture. Internal division (Donatism) and isolation weakened the church's witness."
+      },
+      "conventional": {
+        "date": "7th Century AD",
+        "framework": "Military and political conquest",
+        "evidence": "Overwhelming force of Arab Islamic armies and the weakness of the overextended Byzantine Empire led to the collapse of the Christian Roman structures."
+      },
+      "resolution": "Military conquest was the final blow, but the church's fatal internal weakness—remaining a Latin, Roman institution disconnected from the indigenous Berbers—ensured it did not survive the loss of state power."
+    }
+  ]
+}

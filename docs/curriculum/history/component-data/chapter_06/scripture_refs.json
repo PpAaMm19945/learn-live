@@ -1,0 +1,47 @@
+{
+  "chapterId": "ch06",
+  "cards": [
+    {
+      "id": "sc_06_001",
+      "reference": "Matthew 2:13-15",
+      "text": "Rise, take the child and his mother, and flee to Egypt...",
+      "connection": "Shows God's providential use of Egypt as a safe refuge for the infant Jesus, echoing Old Testament themes.",
+      "cueContext": "Shown when discussing Egypt's early connection to the Gospel narrative."
+    },
+    {
+      "id": "sc_06_002",
+      "reference": "Acts 27:6",
+      "text": "There the centurion found a ship of Alexandria sailing for Italy and put us on board.",
+      "connection": "Illustrates how God used the Roman grain trade infrastructure to facilitate the spread of the Gospel.",
+      "cueContext": "Used to explain the providential aspect of the Alexandrian grain trade."
+    },
+    {
+      "id": "sc_06_003",
+      "reference": "Acts 18:24",
+      "text": "Now a Jew named Apollos, a native of Alexandria, came to Ephesus. He was an eloquent man, competent in the Scriptures.",
+      "connection": "Demonstrates the intellectual and rhetorical training available to Alexandrian Jews that benefited the early church.",
+      "cueContext": "Shown when discussing Alexandria's intellectual climate."
+    },
+    {
+      "id": "sc_06_004",
+      "reference": "Matthew 16:24",
+      "text": "If anyone would come after me, let him deny himself and take up his cross and follow me.",
+      "connection": "Embodies the spirit of the Egyptian martyrs who refused to compromise their allegiance to Christ.",
+      "cueContext": "Used when reflecting on the era of the Great Persecutions."
+    },
+    {
+      "id": "sc_06_005",
+      "reference": "Colossians 2:20-23",
+      "text": "...These have indeed an appearance of wisdom in promoting self-made religion and asceticism and severity to the body, but they are of no value in stopping the indulgence of the flesh.",
+      "connection": "Provides a biblical warning against the dangers of extreme monastic asceticism becoming an end in itself.",
+      "cueContext": "Shown during the theological reflection on the desert monastic movement."
+    },
+    {
+      "id": "sc_06_006",
+      "reference": "John 1:1",
+      "text": "In the beginning was the Word, and the Word was with God, and the Word was God.",
+      "connection": "The foundational biblical truth that Athanasius defended against the Arian heresy at Nicaea.",
+      "cueContext": "Used to clarify the core theological issue of the Arian controversy."
+    }
+  ]
+}

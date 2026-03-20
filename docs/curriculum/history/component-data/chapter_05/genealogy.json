@@ -1,0 +1,18 @@
+{
+  "chapterId": "ch05",
+  "title": "Key Figures of the African Church",
+  "nodes": [
+    { "id": "simon", "name": "Simon of Cyrene", "parent": null, "dates": "c. 33 AD", "descriptor": "Carried Christ's Cross" },
+    { "id": "lucius", "name": "Lucius of Cyrene", "parent": null, "dates": "c. 50s AD", "descriptor": "Prophet/Teacher at Antioch" },
+    { "id": "septimius", "name": "Septimius Severus", "parent": null, "dates": "193–211 AD", "descriptor": "African Roman Emperor, Persecutor" },
+    { "id": "perpetua", "name": "Perpetua", "parent": null, "dates": "d. 203 AD", "descriptor": "Noblewoman Martyr of Carthage" },
+    { "id": "felicitas", "name": "Felicitas", "parent": "perpetua", "dates": "d. 203 AD", "descriptor": "Enslaved Servant, Co-Martyr" },
+    { "id": "tertullian", "name": "Tertullian", "parent": null, "dates": "c. 155–225 AD", "descriptor": "Theologian of Carthage, Coined 'Trinitas'" },
+    { "id": "cyprian", "name": "Cyprian", "parent": null, "dates": "c. 200–258 AD", "descriptor": "Bishop of Carthage, Martyr" },
+    { "id": "donatus", "name": "Donatus Magnus", "parent": null, "dates": "Early 4th Century", "descriptor": "Leader of the Donatist Schism" },
+    { "id": "monica", "name": "Monica", "parent": null, "dates": "4th Century", "descriptor": "Devout Berber Mother of Augustine" },
+    { "id": "augustine", "name": "Augustine of Hippo", "parent": "monica", "dates": "354–430 AD", "descriptor": "Bishop, Theologian, Author of City of God" },
+    { "id": "gaiseric", "name": "Gaiseric", "parent": null, "dates": "429–477 AD", "descriptor": "Vandal King, Conquered Carthage" },
+    { "id": "kahina", "name": "Kahina", "parent": null, "dates": "d. c. 702 AD", "descriptor": "Berber Queen, Resisted Islamic Conquest" }
+  ]
+}

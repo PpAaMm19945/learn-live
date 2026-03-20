@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch05",
+  "figures": [
+    {
+      "id": "fig_05_001",
+      "name": "Tertullian",
+      "title": "The Father of Latin Theology",
+      "dates": "c. 155–225 AD",
+      "quote": "The blood of the martyrs is the seed of the Church.",
+      "summary": "Brilliant Carthaginian theologian who coined terms like 'Trinity' and forcefully defended Christianity against pagan critics.",
+      "imageSlug": "tertullian"
+    },
+    {
+      "id": "fig_05_002",
+      "name": "Perpetua & Felicitas",
+      "title": "Martyrs of Carthage",
+      "dates": "d. 203 AD",
+      "quote": "Stand fast in the faith, and love one another, all of you...",
+      "summary": "A noblewoman and her enslaved servant who stood together in faith and faced martyrdom in the arena, breaking down Roman social barriers.",
+      "imageSlug": "perpetua-felicitas"
+    },
+    {
+      "id": "fig_05_003",
+      "name": "Cyprian of Carthage",
+      "title": "Bishop and Martyr",
+      "dates": "c. 200–258 AD",
+      "quote": "He cannot have God as Father who does not have the Church as mother.",
+      "summary": "Bishop who navigated the lapsi crisis with pastoral care, championed church unity, and was ultimately martyred.",
+      "imageSlug": "cyprian"
+    },
+    {
+      "id": "fig_05_004",
+      "name": "Augustine of Hippo",
+      "title": "Doctor of Grace",
+      "dates": "354–430 AD",
+      "quote": "You have made us for yourself, O Lord, and our hearts are restless until they rest in you.",
+      "summary": "The most influential Christian thinker of the first millennium; his writings on grace, sin, and the City of God shaped Western theology.",
+      "imageSlug": "augustine"
+    }
+  ]
+}

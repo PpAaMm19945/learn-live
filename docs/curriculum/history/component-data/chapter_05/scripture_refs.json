@@ -1,0 +1,47 @@
+{
+  "chapterId": "ch05",
+  "cards": [
+    {
+      "id": "sc_05_001",
+      "reference": "Acts 2:10",
+      "text": "...Phrygia and Pamphylia, Egypt and the parts of Libya belonging to Cyrene...",
+      "connection": "Places North Africa directly in the initial wave of the gospel's global expansion at Pentecost.",
+      "cueContext": "Shown when discussing the earliest origins of the African church."
+    },
+    {
+      "id": "sc_05_002",
+      "reference": "Acts 11:20",
+      "text": "But there were some of them, men of Cyprus and Cyrene, who on coming to Antioch spoke to the Hellenists also, preaching the Lord Jesus.",
+      "connection": "Highlights North African believers as some of the first missionaries to preach the Gospel to Gentiles.",
+      "cueContext": "Used to show the active missionary role of early African Christians."
+    },
+    {
+      "id": "sc_05_003",
+      "reference": "Mark 15:21",
+      "text": "And they compelled a passerby, Simon of Cyrene, who was coming in from the country, the father of Alexander and Rufus, to carry his cross.",
+      "connection": "A North African man literally bore the cross of Christ, foreshadowing the African church's role in bearing theological weight.",
+      "cueContext": "Shown when discussing the profound connection between North Africa and the crucifixion."
+    },
+    {
+      "id": "sc_05_004",
+      "reference": "Matthew 13:24-30",
+      "text": "Let both grow together until the harvest...",
+      "connection": "Augustine used the Parable of the Weeds to argue against the Donatists, asserting the church is a mixed body requiring grace.",
+      "cueContext": "Used during the discussion of the Donatist controversy."
+    },
+    {
+      "id": "sc_05_005",
+      "reference": "Romans 13:13-14",
+      "text": "Let us walk properly as in the daytime, not in orgies and drunkenness... But put on the Lord Jesus Christ...",
+      "connection": "The exact verses Augustine read in the garden in Milan that led to his dramatic conversion.",
+      "cueContext": "Shown when describing Augustine's conversion experience."
+    },
+    {
+      "id": "sc_05_006",
+      "reference": "John 1:1",
+      "text": "In the beginning was the Word, and the Word was with God, and the Word was God.",
+      "connection": "Directly contradicts the Arian heresy of the Vandals, affirming the full deity of Christ.",
+      "cueContext": "Used when explaining the theological danger of Arianism during the Vandal rule."
+    }
+  ]
+}
