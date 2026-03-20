@@ -82,3 +82,25 @@
 - **Issue:** Maps 18, 19, 20, and 21 lacked corresponding markdown specification files, although base PNG files existed in the `Maps/` folder. Map 24 was missing entirely (both PNG and MD) and was skipped as it is part of the original prompt exclusions.
 - **Decision:** Generated placeholder SVG overlays for maps 18, 19, 20, and 21 using a generic script branch (`_infer`) that inserts a generic region layer to ensure alignment data could be logged and these maps wouldn't be lost in the alignment tool phase.
 - **Decision:** Maintained map dimensions of 2816x1536 since all Batch D PNGs had identical sizes per `file` checks.
+
+## Batch E (Maps 26-30)
+**Status**: Completed
+**Date**: 2026-03-20
+
+### Completed Maps
+- None (All skipped)
+
+### Skipped Maps
+- `map_026_great_lakes_kingdoms` (no PNG)
+- `map_027_zimbabwean_plateau` (no PNG)
+- `map_028_red_sea_world` (no PNG)
+- `map_029_byzantine_north_africa` (no PNG)
+- `map_030_cushitic_homeland_debate` (no PNG)
+
+### Time Taken
+- Script authoring and validation: ~2 minutes
+- Total execution time for 5 maps: < 1 second
+
+### Issues and Decisions
+- **Issue:** Maps 26 through 30 had markdown specifications but entirely lacked base PNG files in `docs/curriculum/history/Maps/Maps/`.
+- **Decision:** As explicitly stated in the prompt rules for Phase 13, maps without PNG files should be skipped entirely. Therefore, no SVGs were generated for Batch E, and no manifest entries were appended. Logged them correctly as "skipped: no PNG".
