@@ -157,8 +157,9 @@ historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
     const lessonId = searchParams.get('lessonId');
     const familyId = searchParams.get('familyId');
     const learnerId = searchParams.get('learnerId');
+    const band = parseInt(searchParams.get('band') || '3', 10);
 
-    console.log(`[AGENT] History Explainer session initiated — learner: ${learnerId}, lesson: ${lessonId}`);
+    console.log(`[AGENT] History Explainer session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
 
     if (!lessonId || !familyId) {
         ws.send(JSON.stringify({ error: 'Missing lessonId or familyId' }));
@@ -172,7 +173,7 @@ historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
         return;
     }
 
-    handleHistoryExplainerSession(ws, lessonId, familyId, learnerId || 'unknown');
+    handleHistoryExplainerSession(ws, lessonId, familyId, learnerId || 'unknown', band);
 });
 
 /**
