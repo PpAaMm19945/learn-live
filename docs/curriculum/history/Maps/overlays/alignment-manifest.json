@@ -68,5 +68,75 @@
     },
     "status": "draft",
     "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_006",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 006.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_006_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_007",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 007.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_007_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_008",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 008.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_008_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_009",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 009.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_009_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_010",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 010.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_010_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
   }
 ]
