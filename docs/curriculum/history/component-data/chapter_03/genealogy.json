@@ -1,0 +1,48 @@
+{
+  "chapterId": "ch03",
+  "title": "The Lines of Canaan and Phut",
+  "nodes": [
+    {
+      "id": "ham",
+      "name": "Ham",
+      "parent": null,
+      "dates": null,
+      "descriptor": "Son of Noah"
+    },
+    {
+      "id": "canaan",
+      "name": "Canaan",
+      "parent": "ham",
+      "dates": null,
+      "descriptor": "Father of Phoenicians"
+    },
+    {
+      "id": "sidon",
+      "name": "Sidon",
+      "parent": "canaan",
+      "dates": null,
+      "descriptor": "Firstborn of Canaan"
+    },
+    {
+      "id": "dido",
+      "name": "Dido",
+      "parent": "sidon",
+      "dates": "c. 814 BC",
+      "descriptor": "Founder of Carthage"
+    },
+    {
+      "id": "phut",
+      "name": "Phut",
+      "parent": "ham",
+      "dates": null,
+      "descriptor": "Father of Berbers"
+    },
+    {
+      "id": "massinissa",
+      "name": "Massinissa",
+      "parent": "phut",
+      "dates": "c. 238-148 BC",
+      "descriptor": "King of Numidia"
+    }
+  ]
+}

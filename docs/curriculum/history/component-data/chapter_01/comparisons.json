@@ -1,0 +1,20 @@
+{
+  "chapterId": "ch01",
+  "comparisons": [
+    {
+      "id": "cmp_01_001",
+      "topic": "Bantu Origins",
+      "biblical": {
+        "date": "Post-Babel",
+        "framework": "North-to-South migration from the Nile Valley",
+        "evidence": "Sudden appearance of Urewe pottery, metallurgical skills carried from advanced civilizations, oral traditions citing 'Misri'."
+      },
+      "conventional": {
+        "date": "c. 1000 BC",
+        "framework": "Gradual West-to-East expansion over thousands of years",
+        "evidence": "Linguistic spread from West Africa, evolutionary assumptions of independent development."
+      },
+      "resolution": "The biblical model accounts for the rapidity of skill transfer across vast distances, supported by African oral traditions that secular models dismiss."
+    }
+  ]
+}

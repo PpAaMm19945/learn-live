@@ -1,0 +1,33 @@
+{
+  "chapterId": "ch03",
+  "cards": [
+    {
+      "id": "sc_03_001",
+      "reference": "Genesis 10:15",
+      "text": "Canaan fathered Sidon his firstborn and Heth...",
+      "connection": "Establishes that the Phoenicians (founders of Carthage) were descendants of Canaan.",
+      "cueContext": "Used when discussing the origins of Carthage."
+    },
+    {
+      "id": "sc_03_002",
+      "reference": "Jeremiah 19:5",
+      "text": "They have built the high places of Baal to burn their sons in the fire as burnt offerings to Baal, which I did not command or decree...",
+      "connection": "A biblical condemnation of the very practices (like child sacrifice) found archaeologically at the Tophet in Carthage.",
+      "cueContext": "Shown during the discussion of Carthage's religion."
+    },
+    {
+      "id": "sc_03_003",
+      "reference": "Jeremiah 46:9",
+      "text": "Come up, O horses, and rage, O chariots! And let the mighty men come forth: the Ethiopians and the Libyans (Put) who handle the shield...",
+      "connection": "Biblically identifies the descendants of Phut as light-shield warriors, accurately matching the historical Numidian cavalry.",
+      "cueContext": "Displayed when introducing the Berber kingdoms."
+    },
+    {
+      "id": "sc_03_004",
+      "reference": "Deuteronomy 8:15",
+      "text": "who led you through the great and terrifying wilderness... who brought you water out of the flinty rock.",
+      "connection": "Thematically connects God's provision in the wilderness to the foggara system created by the Garamantes under the dominion mandate.",
+      "cueContext": "Used when discussing the Foggara miracle of the Garamantes."
+    }
+  ]
+}

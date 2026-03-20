@@ -1,0 +1,33 @@
+{
+  "chapterId": "ch02",
+  "cards": [
+    {
+      "id": "sc_02_001",
+      "reference": "Deuteronomy 17:14-20",
+      "text": "When you come to the land that the LORD your God is giving you... you may indeed set a king over you whom the LORD your God will choose.",
+      "connection": "Contrasts the biblical view of kingship as a servant role with the Egyptian view of the Pharaoh as a divine god on earth.",
+      "cueContext": "Used in the comparison between Pharaonic and Biblical Kingship."
+    },
+    {
+      "id": "sc_02_002",
+      "reference": "Genesis 12:17",
+      "text": "But the LORD afflicted Pharaoh and his house with great plagues because of Sarai, Abram's wife.",
+      "connection": "Shows an early confrontation demonstrating that Yahweh's power over the world's superpower.",
+      "cueContext": "Displayed during the discussion of Abraham's sojourn in Egypt."
+    },
+    {
+      "id": "sc_02_003",
+      "reference": "Exodus 1:8",
+      "text": "Now there arose a new king over Egypt, who did not know Joseph.",
+      "connection": "Signals Egypt's willful forgetting of God's mercy through Joseph, leading directly to the oppression of Israel.",
+      "cueContext": "Used when discussing the darkness of the New Kingdom."
+    },
+    {
+      "id": "sc_02_004",
+      "reference": "Ezekiel 29:6",
+      "text": "Then all the inhabitants of Egypt shall know that I am the LORD. Because you have been a staff of reed to the house of Israel.",
+      "connection": "A prophetic verdict illustrating Egypt's decline into a broken and unreliable power.",
+      "cueContext": "Shown during the discussion of Egypt's Late Period."
+    }
+  ]
+}

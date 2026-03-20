@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch01",
+  "figures": [
+    {
+      "id": "fig_01_001",
+      "name": "Mizraim",
+      "title": "Father of Egypt",
+      "dates": "c. 2250–2100 BC",
+      "quote": "The sons of Ham: Cush, Mizraim, Phut, and Canaan. — Genesis 10:6",
+      "summary": "Son of Ham whose descendants settled the Nile Delta, establishing Egypt.",
+      "imageSlug": "mizraim"
+    },
+    {
+      "id": "fig_01_002",
+      "name": "Cush",
+      "title": "Patriarch of Nubia",
+      "dates": "c. 2250–2100 BC",
+      "quote": "The sons of Ham: Cush, Mizraim, Phut, and Canaan. — Genesis 10:6",
+      "summary": "Son of Ham whose descendants settled south of Egypt in Nubia.",
+      "imageSlug": "cush"
+    },
+    {
+      "id": "fig_01_003",
+      "name": "Phut",
+      "title": "Patriarch of North Africa",
+      "dates": "c. 2250–2100 BC",
+      "quote": "The sons of Ham: Cush, Mizraim, Phut, and Canaan. — Genesis 10:6",
+      "summary": "Son of Ham whose descendants settled westward in Libya and North Africa.",
+      "imageSlug": "phut"
+    },
+    {
+      "id": "fig_01_004",
+      "name": "Taharqa",
+      "title": "Cushite Pharaoh",
+      "dates": "c. 690-664 BC",
+      "quote": "And the king heard concerning Tirhakah king of Ethiopia, 'He has come out to fight against you.' — 2 Kings 19:9",
+      "summary": "A powerful Cushite Pharaoh during the 25th Dynasty who challenged the Assyrian empire.",
+      "imageSlug": "taharqa"
+    }
+  ]
+}
