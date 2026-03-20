@@ -1,0 +1,33 @@
+{
+  "chapterId": "ch01",
+  "cards": [
+    {
+      "id": "sc_01_001",
+      "reference": "Genesis 1:1",
+      "text": "In the beginning, God created the heavens and the earth.",
+      "connection": "Provides the foundational worldview that history unfolds under divine sovereignty, not random chaos.",
+      "cueContext": "Used when establishing the biblical foundation of history."
+    },
+    {
+      "id": "sc_01_002",
+      "reference": "Genesis 10:6",
+      "text": "The sons of Ham: Cush, Mizraim, Phut, and Canaan.",
+      "connection": "Identifies the founders of African civilizations according to the Table of Nations.",
+      "cueContext": "Shown during the discussion of the African Founders."
+    },
+    {
+      "id": "sc_01_003",
+      "reference": "Genesis 9:25",
+      "text": "Cursed be Canaan; a servant of servants he shall be to his brothers.",
+      "connection": "Clarifies that the curse was on Canaan, refuting the racist 'Curse of Ham' myth used to justify slavery.",
+      "cueContext": "Used when debunking the Curse of Ham."
+    },
+    {
+      "id": "sc_01_004",
+      "reference": "Galatians 6:7-8",
+      "text": "Do not be deceived: God is not mocked, for whatever one sows, that will he also reap.",
+      "connection": "Explains how the great African civilizations flourished through common grace but faced judgment for their idolatry.",
+      "cueContext": "Shown when discussing the spiritual legacy of Egypt, Cush, and Phut."
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch02",
+  "title": "Pharaohs of Egypt",
+  "nodes": [
+    {
+      "id": "mizraim",
+      "name": "Mizraim",
+      "parent": null,
+      "dates": "c. 2250 BC",
+      "descriptor": "Founder of Egypt"
+    },
+    {
+      "id": "narmer",
+      "name": "Narmer",
+      "parent": "mizraim",
+      "dates": "c. 2900 BC",
+      "descriptor": "Uniter of Egypt"
+    },
+    {
+      "id": "mentuhotep",
+      "name": "Mentuhotep II",
+      "parent": "mizraim",
+      "dates": "c. 2050 BC",
+      "descriptor": "Middle Kingdom Founder"
+    },
+    {
+      "id": "ahmose",
+      "name": "Ahmose I",
+      "parent": "mizraim",
+      "dates": "c. 1550 BC",
+      "descriptor": "New Kingdom Founder"
+    },
+    {
+      "id": "cleopatra",
+      "name": "Cleopatra VII",
+      "parent": "mizraim",
+      "dates": "69-30 BC",
+      "descriptor": "The Last Pharaoh"
+    }
+  ]
+}

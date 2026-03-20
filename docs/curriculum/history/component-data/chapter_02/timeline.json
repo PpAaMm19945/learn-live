@@ -1,0 +1,86 @@
+{
+  "chapterId": "ch02",
+  "events": [
+    {
+      "id": "evt_02_001",
+      "title": "Unification of Egypt",
+      "biblicalDate": "c. 2100 BC",
+      "conventionalDate": "c. 2900 BC",
+      "description": "Narmer unifies Upper and Lower Egypt into the world's first nation-state.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_002",
+      "title": "The Old Kingdom",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 2686–2181 BC",
+      "description": "The Pyramid Age marked by divine kingship and monumental construction.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_003",
+      "title": "The Middle Kingdom",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 2055–1650 BC",
+      "description": "Egypt's Classical Age characterized by literature and rulers acting as 'shepherds'.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_004",
+      "title": "Abraham in Egypt",
+      "biblicalDate": "c. 1921 BC",
+      "conventionalDate": "N/A",
+      "description": "Abraham seeks refuge in Egypt during a famine; Pharaoh's house is plagued.",
+      "scriptureRef": "Genesis 12",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_02_005",
+      "title": "Hyksos Rule (Second Intermediate Period)",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 1650–1550 BC",
+      "description": "Foreign rulers introduce the chariot; Joseph likely rises to power during this era.",
+      "scriptureRef": "Genesis 41",
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_006",
+      "title": "The New Kingdom",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 1550–1069 BC",
+      "description": "The Empire Age, marked by great wealth, warrior-kings, and monumental temples.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_007",
+      "title": "The Exodus",
+      "biblicalDate": "c. 1446 BC",
+      "conventionalDate": "c. 1250 BC",
+      "description": "God liberates Israel from Egyptian bondage.",
+      "scriptureRef": "Exodus",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_02_008",
+      "title": "Alexander the Great Conquers Egypt",
+      "biblicalDate": "N/A",
+      "conventionalDate": "332 BC",
+      "description": "Egypt is liberated from Persian rule and the Hellenistic period begins.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_02_009",
+      "title": "Death of Cleopatra VII",
+      "biblicalDate": "N/A",
+      "conventionalDate": "30 BC",
+      "description": "End of the Ptolemaic dynasty; Egypt becomes a Roman province.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

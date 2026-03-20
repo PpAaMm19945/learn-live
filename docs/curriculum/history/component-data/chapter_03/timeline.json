@@ -1,0 +1,77 @@
+{
+  "chapterId": "ch03",
+  "events": [
+    {
+      "id": "evt_03_001",
+      "title": "Founding of Carthage",
+      "biblicalDate": "N/A",
+      "conventionalDate": "814 BC",
+      "description": "Dido founds the Phoenician colony that becomes a maritime empire.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_002",
+      "title": "First Punic War",
+      "biblicalDate": "N/A",
+      "conventionalDate": "264-241 BC",
+      "description": "Rome fights Carthage for control of Sicily, ultimately seizing the island.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_003",
+      "title": "Second Punic War",
+      "biblicalDate": "N/A",
+      "conventionalDate": "218-201 BC",
+      "description": "Hannibal crosses the Alps and ravages Italy.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_004",
+      "title": "Battle of Zama",
+      "biblicalDate": "N/A",
+      "conventionalDate": "202 BC",
+      "description": "Scipio defeats Hannibal with the aid of Massinissa's Numidian cavalry.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_005",
+      "title": "Destruction of Carthage",
+      "biblicalDate": "N/A",
+      "conventionalDate": "146 BC",
+      "description": "End of the Third Punic War; Carthage is utterly destroyed by Rome.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_006",
+      "title": "Jugurthine War",
+      "biblicalDate": "N/A",
+      "conventionalDate": "112-105 BC",
+      "description": "Rome fights a difficult guerrilla war against Jugurtha of Numidia.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_007",
+      "title": "Juba II Installed",
+      "biblicalDate": "N/A",
+      "conventionalDate": "25 BC",
+      "description": "Augustus makes Juba II the client king of Mauretania.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_03_008",
+      "title": "Roman Annexation of Mauretania",
+      "biblicalDate": "N/A",
+      "conventionalDate": "40 AD",
+      "description": "Caligula murders Ptolemy, leading to the formal division and annexation of Mauretania.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

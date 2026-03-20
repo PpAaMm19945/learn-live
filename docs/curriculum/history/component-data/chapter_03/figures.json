@@ -1,0 +1,50 @@
+{
+  "chapterId": "ch03",
+  "figures": [
+    {
+      "id": "fig_03_001",
+      "name": "Dido (Elissa)",
+      "title": "Founder of Carthage",
+      "dates": "c. 814 BC",
+      "quote": null,
+      "summary": "A Tyrian princess who fled a power struggle and founded Carthage, building it into a powerful maritime empire.",
+      "imageSlug": "dido"
+    },
+    {
+      "id": "fig_03_002",
+      "name": "Hannibal Barca",
+      "title": "Carthaginian General",
+      "dates": "247-183 BC",
+      "quote": "Let us relieve the Romans from the anxiety they have so long experienced, since they think it tries their patience too much to wait for an old man's death.",
+      "summary": "One of history's greatest military commanders, who led an audacious invasion of Italy over the Alps during the Second Punic War.",
+      "imageSlug": "hannibal"
+    },
+    {
+      "id": "fig_03_003",
+      "name": "Massinissa",
+      "title": "The Cavalry King",
+      "dates": "c. 238–148 BC",
+      "quote": null,
+      "summary": "A Numidian king who allied with Rome, providing decisive cavalry support at the Battle of Zama, and united Numidia.",
+      "imageSlug": "massinissa"
+    },
+    {
+      "id": "fig_03_004",
+      "name": "Jugurtha",
+      "title": "Guerrilla King of Numidia",
+      "dates": "c. 160–104 BC",
+      "quote": "Rome is a city for sale, and doomed to perish as soon as it finds a buyer.",
+      "summary": "A brilliant tactician who waged a guerrilla war against Rome, exposing its corruption before being captured.",
+      "imageSlug": "jugurtha"
+    },
+    {
+      "id": "fig_03_005",
+      "name": "Juba II",
+      "title": "Scholar King of Mauretania",
+      "dates": "c. 48 BC – 23 AD",
+      "quote": null,
+      "summary": "A Hellenistic scholar installed as a client king by Augustus, he brought a multicultural renaissance to North Africa.",
+      "imageSlug": "juba_ii"
+    }
+  ]
+}

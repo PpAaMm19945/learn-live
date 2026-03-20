@@ -1,0 +1,86 @@
+{
+  "chapterId": "ch01",
+  "events": [
+    {
+      "id": "evt_01_001",
+      "title": "The Creation",
+      "biblicalDate": "c. 4004 BC",
+      "conventionalDate": "N/A",
+      "description": "God created the heavens and the earth, setting the foundation for history.",
+      "scriptureRef": "Genesis 1:1",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_01_002",
+      "title": "The Fall",
+      "biblicalDate": "Shortly after Creation",
+      "conventionalDate": "N/A",
+      "description": "Sin enters the world through Adam's disobedience in the garden.",
+      "scriptureRef": "Genesis 3",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_01_003",
+      "title": "The Flood",
+      "biblicalDate": "c. 2348 BC",
+      "conventionalDate": "N/A",
+      "description": "Global flood destroys humanity except Noah's family.",
+      "scriptureRef": "Genesis 7-8",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_01_004",
+      "title": "The Curse on Canaan",
+      "biblicalDate": "c. 2347 BC",
+      "conventionalDate": "N/A",
+      "description": "Noah curses Canaan with servitude following Ham's sinful disrespect.",
+      "scriptureRef": "Genesis 9:20-27",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_01_005",
+      "title": "Tower of Babel Dispersion",
+      "biblicalDate": "c. 2242 BC",
+      "conventionalDate": "N/A",
+      "description": "Humanity is scattered across the earth and languages are confused.",
+      "scriptureRef": "Genesis 11",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_01_006",
+      "title": "Settlement of Mizraim (Egypt)",
+      "biblicalDate": "c. 2250–2100 BC",
+      "conventionalDate": "c. 3100 BC",
+      "description": "Ham's descendants settle the Nile Delta establishing Egypt.",
+      "scriptureRef": "Genesis 10:6",
+      "category": "conventional"
+    },
+    {
+      "id": "evt_01_007",
+      "title": "Settlement of Cush",
+      "biblicalDate": "c. 2250–2100 BC",
+      "conventionalDate": "c. 2500 BC",
+      "description": "Ham's descendants establish settlements in the Upper Nile Valley.",
+      "scriptureRef": "Genesis 10:6",
+      "category": "conventional"
+    },
+    {
+      "id": "evt_01_008",
+      "title": "Settlement of Phut",
+      "biblicalDate": "c. 2250–2100 BC",
+      "conventionalDate": "c. 2000 BC",
+      "description": "Ham's descendants establish settlements in North Africa and the Sahara.",
+      "scriptureRef": "Genesis 10:6",
+      "category": "conventional"
+    },
+    {
+      "id": "evt_01_009",
+      "title": "Rise of the 25th Dynasty",
+      "biblicalDate": "c. 744-656 BC",
+      "conventionalDate": "744-656 BC",
+      "description": "Cushite Pharaohs rule the entire Nile Valley.",
+      "scriptureRef": "2 Kings 19:9",
+      "category": "conventional"
+    }
+  ]
+}

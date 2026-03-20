@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch03",
+  "terms": [
+    {
+      "id": "def_03_001",
+      "term": "Carthage (Qart-Hadasht)",
+      "definition": "Founded c. 814 BC on the North African coast, Carthage became the capital of a vast maritime empire, featuring the Cothon harbor, Byrsa Hill citadel, and the Tophet.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "Qart-Hadasht",
+        "transliteration": "Qart-Hadasht",
+        "language": "Punic"
+      }
+    },
+    {
+      "id": "def_03_002",
+      "term": "Ships of Tarshish",
+      "definition": "Heavy, ocean-going freighters used by the Phoenicians and Carthaginians for long-distance trade, often symbolizing human commercial ambition and seafaring pride.",
+      "scriptureRef": "Ezekiel 27:25",
+      "originalLanguage": null
+    },
+    {
+      "id": "def_03_003",
+      "term": "Berbers (Amazigh)",
+      "definition": "The indigenous peoples of North Africa, speaking languages of the Berber family. Descendants of Phut, they distinctively refer to themselves as 'free people'.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "Amazigh",
+        "transliteration": "Amazigh",
+        "language": "Berber"
+      }
+    },
+    {
+      "id": "def_03_004",
+      "term": "Foggara (Qanat)",
+      "definition": "An underground irrigation system consisting of a gently sloping tunnel that taps into an aquifer to channel water to surface irrigation channels.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    }
+  ]
+}

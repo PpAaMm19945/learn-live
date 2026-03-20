@@ -1,0 +1,55 @@
+{
+  "chapterId": "ch01",
+  "terms": [
+    {
+      "id": "def_01_001",
+      "term": "Sovereignty",
+      "definition": "God's absolute right and power to govern all things. He is not bound by any external standard but acts according to His own perfect will.",
+      "scriptureRef": "Daniel 4:35",
+      "originalLanguage": null
+    },
+    {
+      "id": "def_01_002",
+      "term": "Covenant",
+      "definition": "A binding agreement between two parties. In the Bible, God makes covenants with His people, establishing the terms of their relationship with Him.",
+      "scriptureRef": "Genesis 9:9-11",
+      "originalLanguage": null
+    },
+    {
+      "id": "def_01_003",
+      "term": "Mishpat",
+      "definition": "Hebrew term for justice, referring to fair judgment and restoring order.",
+      "scriptureRef": "Micah 6:8",
+      "originalLanguage": {
+        "script": "מִשְׁפָּט",
+        "transliteration": "mishpat",
+        "language": "Hebrew"
+      }
+    },
+    {
+      "id": "def_01_004",
+      "term": "Tzedakah",
+      "definition": "Hebrew term for righteousness, meaning living in right relationship with God and others.",
+      "scriptureRef": "Micah 6:8",
+      "originalLanguage": {
+        "script": "צְדָקָה",
+        "transliteration": "tzedakah",
+        "language": "Hebrew"
+      }
+    },
+    {
+      "id": "def_01_005",
+      "term": "Common Grace",
+      "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+      "scriptureRef": "Matthew 5:45",
+      "originalLanguage": null
+    },
+    {
+      "id": "def_01_006",
+      "term": "Curse",
+      "definition": "In the Bible, a curse is not a magical spell. It's a formal, prophetic declaration of divine judgment in response to sin, often pronounced by a patriarch.",
+      "scriptureRef": "Genesis 12:3",
+      "originalLanguage": null
+    }
+  ]
+}

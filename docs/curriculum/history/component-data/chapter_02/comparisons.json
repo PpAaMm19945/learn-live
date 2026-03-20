@@ -1,0 +1,20 @@
+{
+  "chapterId": "ch02",
+  "comparisons": [
+    {
+      "id": "cmp_02_001",
+      "topic": "Pharaonic Kingship vs Biblical Kingship",
+      "biblical": {
+        "date": "N/A",
+        "framework": "The king is chosen by God, accountable to God's law, and serves to maintain covenant justice.",
+        "evidence": "Deuteronomy 17 warnings against kingly pride."
+      },
+      "conventional": {
+        "date": "N/A",
+        "framework": "The king (Pharaoh) is a god on earth, unaccountable, whose word is law.",
+        "evidence": "Old Kingdom Pyramid Texts, divine status of Horus."
+      },
+      "resolution": "Pharaonic kingship represents the archetypal 'kingdom of man' built on pride, while biblical kingship provides a servant-leader model under divine law."
+    }
+  ]
+}

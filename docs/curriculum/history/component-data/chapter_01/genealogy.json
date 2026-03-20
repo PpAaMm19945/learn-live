@@ -1,0 +1,48 @@
+{
+  "chapterId": "ch01",
+  "title": "Table of Nations — Ham's Line",
+  "nodes": [
+    {
+      "id": "noah",
+      "name": "Noah",
+      "parent": null,
+      "dates": "c. 2950–2000 BC (YEC)",
+      "descriptor": "Patriarch"
+    },
+    {
+      "id": "ham",
+      "name": "Ham",
+      "parent": "noah",
+      "dates": null,
+      "descriptor": "Son of Noah"
+    },
+    {
+      "id": "mizraim",
+      "name": "Mizraim",
+      "parent": "ham",
+      "dates": "c. 2250 BC",
+      "descriptor": "Father of Egypt"
+    },
+    {
+      "id": "cush",
+      "name": "Cush",
+      "parent": "ham",
+      "dates": "c. 2250 BC",
+      "descriptor": "Patriarch of Nubia"
+    },
+    {
+      "id": "phut",
+      "name": "Phut",
+      "parent": "ham",
+      "dates": "c. 2250 BC",
+      "descriptor": "Patriarch of North Africa"
+    },
+    {
+      "id": "canaan",
+      "name": "Canaan",
+      "parent": "ham",
+      "dates": "c. 2250 BC",
+      "descriptor": "Cursed Son"
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch02",
+  "figures": [
+    {
+      "id": "fig_02_001",
+      "name": "Narmer",
+      "title": "Uniter of Egypt",
+      "dates": "c. 2900 BC",
+      "quote": null,
+      "summary": "King who united Upper and Lower Egypt into the world's first centralized monarchy, marking the birth of the Old Kingdom.",
+      "imageSlug": "narmer"
+    },
+    {
+      "id": "fig_02_002",
+      "name": "Joseph",
+      "title": "Hebrew Vizier",
+      "dates": "c. 1650-1550 BC (Hyksos Era)",
+      "quote": "God sent me before you to preserve for you a remnant on earth, and to keep alive for you many survivors. — Genesis 45:7",
+      "summary": "Rose from slavery to become vizier in Egypt, saving the nation from famine and providing refuge for his family.",
+      "imageSlug": "joseph"
+    },
+    {
+      "id": "fig_02_003",
+      "name": "Akhenaten",
+      "title": "The Heretic King",
+      "dates": "c. 1352-1336 BC",
+      "quote": null,
+      "summary": "Pharaoh who radically attempted to overturn Egyptian tradition by promoting the exclusive worship of the Aten, a self-serving reform.",
+      "imageSlug": "akhenaten"
+    },
+    {
+      "id": "fig_02_004",
+      "name": "Cleopatra VII",
+      "title": "The Last Pharaoh",
+      "dates": "69-30 BC",
+      "quote": null,
+      "summary": "A brilliant political strategist and linguist who navigated Roman politics to protect her kingdom but ultimately fell to Octavian.",
+      "imageSlug": "cleopatra"
+    }
+  ]
+}

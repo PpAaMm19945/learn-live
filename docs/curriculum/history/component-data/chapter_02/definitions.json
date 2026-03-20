@@ -1,0 +1,40 @@
+{
+  "chapterId": "ch02",
+  "terms": [
+    {
+      "id": "def_02_001",
+      "term": "Ma’at",
+      "definition": "A deep concept in Egyptian religion representing harmony, truth, and justice—the predictable, life-sustaining rhythm of the Nile.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_02_002",
+      "term": "Isfet",
+      "definition": "The ever-present threat of the harsh desert, of famine, and of death, representing chaos in opposition to Ma'at.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_02_003",
+      "term": "Pharaoh",
+      "definition": "The ruler of Egypt, considered not merely a king, but a god on earth, the living bridge between the heavens and humanity, often embodying Horus.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_02_004",
+      "term": "Hieroglyphs",
+      "definition": "A beautiful and complex script ('sacred carvings') created by Egyptians, used to record laws, accounts, and inscribe sacred texts on temple and tomb walls.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_02_005",
+      "term": "Hyksos",
+      "definition": "Meaning 'foreign rulers', a group of Semitic/Canaanite people who swept into Lower Egypt around 1650 BC and established their capital at Avaris.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    }
+  ]
+}
