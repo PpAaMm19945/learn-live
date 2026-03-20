@@ -1,0 +1,20 @@
+{
+  "chapterId": "ch04",
+  "title": "Descendants of Cush and Early Kingdoms",
+  "nodes": [
+    { "id": "ham", "name": "Ham", "parent": null, "dates": null, "descriptor": "Son of Noah" },
+    { "id": "cush", "name": "Cush", "parent": "ham", "dates": null, "descriptor": "Patriarch of Northeast Africa" },
+    { "id": "seba", "name": "Seba", "parent": "cush", "dates": null, "descriptor": "Settled Meroe region" },
+    { "id": "havilah", "name": "Havilah", "parent": "cush", "dates": null, "descriptor": "Settled gold-bearing regions (Eritrea/N. Ethiopia)" },
+    { "id": "sabtah", "name": "Sabtah", "parent": "cush", "dates": null, "descriptor": "Son of Cush" },
+    { "id": "raamah", "name": "Raamah", "parent": "cush", "dates": null, "descriptor": "Son of Cush" },
+    { "id": "sabteca", "name": "Sabteca", "parent": "cush", "dates": null, "descriptor": "Son of Cush" },
+    { "id": "piye", "name": "Piye (Piankhi)", "parent": null, "dates": "c. 744 BC", "descriptor": "Napatan King, conquered Egypt" },
+    { "id": "shabaka", "name": "Shabaka", "parent": null, "dates": null, "descriptor": "Napatan King, ruled from Memphis" },
+    { "id": "tirhakah", "name": "Tirhakah", "parent": null, "dates": null, "descriptor": "Kushite Pharaoh, fought Assyria" },
+    { "id": "tanutamun", "name": "Tanutamun", "parent": null, "dates": "c. 656 BC", "descriptor": "Last Kushite Pharaoh in Egypt" },
+    { "id": "amanirenas", "name": "Amanirenas", "parent": null, "dates": "c. 25-21 BC", "descriptor": "Meroitic Kandake, resisted Rome" },
+    { "id": "amantitere", "name": "Amantitere", "parent": null, "dates": "c. 25-41 AD", "descriptor": "Likely the 'Candace' of Acts 8" },
+    { "id": "ezana", "name": "Ezana", "parent": null, "dates": "c. 330 AD", "descriptor": "King of Aksum, conquered Meroe, converted to Christianity" }
+  ]
+}

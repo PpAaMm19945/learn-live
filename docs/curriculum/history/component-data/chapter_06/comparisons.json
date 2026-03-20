@@ -1,0 +1,35 @@
+{
+  "chapterId": "ch06",
+  "comparisons": [
+    {
+      "id": "cmp_06_001",
+      "topic": "The Arian Controversy",
+      "biblical": {
+        "date": "325 AD (Nicaea)",
+        "framework": "The Son is Homoousios (of the same substance)",
+        "evidence": "Jesus is fully God and eternal. Athanasius argued that only a fully divine Savior could reconcile humanity to God."
+      },
+      "conventional": {
+        "date": "Early 4th Century",
+        "framework": "The Son is a created being",
+        "evidence": "Arius taught 'there was a time when the Son was not,' seeking to preserve Greek concepts of God's absolute indivisible oneness."
+      },
+      "resolution": "The Council of Nicaea condemned Arianism, affirming the biblical truth of the Trinity and securing the foundation of the Christian Gospel."
+    },
+    {
+      "id": "cmp_06_002",
+      "topic": "Survival vs. Extinction under Islamic Rule",
+      "biblical": {
+        "date": "7th Century AD onward",
+        "framework": "Coptic Christianity (Egypt) - Survived",
+        "evidence": "The Bible and liturgy were translated into Coptic (the indigenous language), giving the faith deep roots among the common people despite dhimmi status."
+      },
+      "conventional": {
+        "date": "7th Century AD onward",
+        "framework": "North African Christianity - Disappeared",
+        "evidence": "The church remained tied to Latin and Roman culture; the failure to translate the Bible into Berber meant the faith collapsed when Roman structures fell."
+      },
+      "resolution": "This historical contrast vividly demonstrates the absolute necessity of Bible translation and cultural contextualization for the survival and flourishing of the church."
+    }
+  ]
+}

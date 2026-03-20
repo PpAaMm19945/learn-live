@@ -1,0 +1,77 @@
+{
+  "chapterId": "ch04",
+  "events": [
+    {
+      "id": "evt_04_001",
+      "title": "Post-Babel Migration",
+      "biblicalDate": "Post-Flood",
+      "conventionalDate": "c. 3200–2200 BC",
+      "description": "Descendants of Cush settle the Upper Nile and Horn of Africa.",
+      "scriptureRef": "Genesis 10:7",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_04_002",
+      "title": "Rise of Kerma",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 2400–1500 BC",
+      "description": "First major urban center in Nubia, a powerful trading rival to Egypt.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_04_003",
+      "title": "D'mt Culture Flourishes",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 800–400 BC",
+      "description": "Pre-Aksumite culture in Tigray/Eritrea showing strong South Arabian (Sabaean) influence.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_04_004",
+      "title": "Napatan Kush and 25th Dynasty",
+      "biblicalDate": "Time of Isaiah",
+      "conventionalDate": "c. 744–656 BC",
+      "description": "Nubian kings conquer Egypt; Tirhakah rules and challenges Assyria.",
+      "scriptureRef": "2 Kings 19:9",
+      "category": "both"
+    },
+    {
+      "id": "evt_04_005",
+      "title": "Shift to Meroe",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 591 BC",
+      "description": "Following an Egyptian raid, the Cushite capital moves south to Meroe.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_04_006",
+      "title": "War with Rome",
+      "biblicalDate": "N/A",
+      "conventionalDate": "25–21 BC",
+      "description": "Kandake Amanirenas leads Meroitic forces against Roman invasion, securing a peace treaty at Samos.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_04_007",
+      "title": "Conversion of the Ethiopian Eunuch",
+      "biblicalDate": "c. 30s AD",
+      "conventionalDate": "1st Century AD",
+      "description": "A court official of the Meroitic Candace is baptized by Philip.",
+      "scriptureRef": "Acts 8:27",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_04_008",
+      "title": "Aksum Conquers Meroe",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 330 AD",
+      "description": "King Ezana of Aksum destroys Meroe and converts to Christianity, reordering regional power.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "chapterId": "ch05",
+  "events": [
+    {
+      "id": "evt_05_001",
+      "title": "Rome Controls North Africa",
+      "biblicalDate": "N/A",
+      "conventionalDate": "30 BC",
+      "description": "Following Octavian's victory, the entire North African coastline is firmly under Roman control.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_002",
+      "title": "Pentecost",
+      "biblicalDate": "c. 33 AD",
+      "conventionalDate": "c. 33 AD",
+      "description": "Jews from Cyrene are present in Jerusalem and witness the descent of the Holy Spirit.",
+      "scriptureRef": "Acts 2:10",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_05_003",
+      "title": "Martyrdom of the Scillitan Twelve",
+      "biblicalDate": "N/A",
+      "conventionalDate": "180 AD",
+      "description": "Twelve Christians from Scillium are executed for refusing to swear by the emperor's genius.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_004",
+      "title": "Martyrdom of Perpetua and Felicitas",
+      "biblicalDate": "N/A",
+      "conventionalDate": "203 AD",
+      "description": "Noblewoman Perpetua and her servant Felicitas are martyred in the Amphitheater of Carthage.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_005",
+      "title": "Council of Carthage (Canon)",
+      "biblicalDate": "N/A",
+      "conventionalDate": "397 AD",
+      "description": "The Council produces a canonical list of the 27 books of the New Testament.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_006",
+      "title": "Augustine Writes The City of God",
+      "biblicalDate": "N/A",
+      "conventionalDate": "413-426 AD",
+      "description": "Augustine authors his monumental work in response to the sack of Rome.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_007",
+      "title": "Vandal Invasion",
+      "biblicalDate": "N/A",
+      "conventionalDate": "429 AD",
+      "description": "Arian Vandals led by Gaiseric cross into North Africa, bringing severe persecution.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_05_008",
+      "title": "Fall of Carthage to Arab Forces",
+      "biblicalDate": "N/A",
+      "conventionalDate": "698 AD",
+      "description": "Arab forces capture and destroy Carthage, effectively ending the organized church in North Africa.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

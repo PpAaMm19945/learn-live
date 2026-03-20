@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch06",
+  "figures": [
+    {
+      "id": "fig_06_001",
+      "name": "Athanasius",
+      "title": "Defender of Orthodoxy",
+      "dates": "c. 296–373 AD",
+      "quote": "Athanasius contra mundum (Athanasius against the world).",
+      "summary": "The 20th Pope of Alexandria who fiercely defended the Nicene Creed against Arianism, suffering five exiles for his uncompromising stance.",
+      "imageSlug": "athanasius"
+    },
+    {
+      "id": "fig_06_002",
+      "name": "Antony the Great",
+      "title": "Father of Monks",
+      "dates": "c. 251–356 AD",
+      "quote": "Wherever you go, have God always before your eyes.",
+      "summary": "An Egyptian Christian who retreated to the desert, pioneering the eremitic (solitary) monastic lifestyle that inspired a massive movement.",
+      "imageSlug": "antony"
+    },
+    {
+      "id": "fig_06_003",
+      "name": "Pachomius",
+      "title": "Founder of Cenobitic Monasticism",
+      "dates": "c. 292–348 AD",
+      "quote": "Be careful not to be deceived by the enemy.",
+      "summary": "Established the first structured, communal (cenobitic) monasteries in Upper Egypt, creating a rule that shaped Western monasticism.",
+      "imageSlug": "pachomius"
+    },
+    {
+      "id": "fig_06_004",
+      "name": "Apollos",
+      "title": "Alexandrian Apologist",
+      "dates": "1st Century AD",
+      "quote": "He powerfully refuted the Jews in public, showing by the Scriptures that the Christ was Jesus. — Acts 18:28",
+      "summary": "An eloquent, highly educated Jewish Christian from Alexandria who became a major evangelist and defender of the faith in the early church.",
+      "imageSlug": "apollos"
+    }
+  ]
+}

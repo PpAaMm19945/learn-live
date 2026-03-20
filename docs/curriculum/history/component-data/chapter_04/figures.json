@@ -1,0 +1,41 @@
+{
+  "chapterId": "ch04",
+  "figures": [
+    {
+      "id": "fig_04_001",
+      "name": "Piye (Piankhi)",
+      "title": "Conqueror of Egypt",
+      "dates": "8th Century BC",
+      "quote": "I am a king, divine emanation, living image of Atum...",
+      "summary": "Napatan king who launched the military campaign that brought Egypt under Cushite control, establishing the 25th Dynasty.",
+      "imageSlug": "piye"
+    },
+    {
+      "id": "fig_04_002",
+      "name": "Tirhakah",
+      "title": "The Black Pharaoh",
+      "dates": "c. 690–664 BC",
+      "quote": "He has set out to fight against you. — 2 Kings 19:9",
+      "summary": "Most famous of the Kushite pharaohs, he challenged the Assyrian empire and is mentioned in the Bible.",
+      "imageSlug": "tirhakah"
+    },
+    {
+      "id": "fig_04_003",
+      "name": "Amanirenas",
+      "title": "Fierce Kandake",
+      "dates": "c. 40 BC – 10 BC",
+      "quote": "A masculine woman, and blind in one eye. — Strabo",
+      "summary": "Meroitic queen mother who successfully led her forces against the Roman prefect Petronius, forcing a favorable peace treaty.",
+      "imageSlug": "amanirenas"
+    },
+    {
+      "id": "fig_04_004",
+      "name": "Ezana",
+      "title": "Christian King of Aksum",
+      "dates": "4th Century AD",
+      "quote": "By the power of the Lord of Heaven, who in heaven and upon earth is mightier than everything which exists...",
+      "summary": "Aksumite ruler who conquered Meroe and officially converted his empire to Christianity, altering the region's history.",
+      "imageSlug": "ezana"
+    }
+  ]
+}

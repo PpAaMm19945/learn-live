@@ -1,0 +1,47 @@
+{
+  "chapterId": "ch04",
+  "cards": [
+    {
+      "id": "sc_04_001",
+      "reference": "Genesis 10:7",
+      "text": "The sons of Cush: Seba, Havilah, Sabtah, Raamah, and Sabteca.",
+      "connection": "Identifies the specific lineages that settled the Upper Nile and Horn of Africa.",
+      "cueContext": "Shown when discussing the post-Babel settlement of Northeast Africa."
+    },
+    {
+      "id": "sc_04_002",
+      "reference": "Isaiah 18:1",
+      "text": "Ah, land of whirring wings that is beyond the rivers of Cush...",
+      "connection": "A prophetic reference evoking the confluence of the Nile's tributaries where Cushite civilization flourished.",
+      "cueContext": "Used when describing the geographic heartland of Cush."
+    },
+    {
+      "id": "sc_04_003",
+      "reference": "Ezekiel 29:10",
+      "text": "...from Migdol to Syene, as far as the border of Cush.",
+      "connection": "Defines the ancient southern boundary of Egypt, confirming the geographic divide between Mizraim and Cush.",
+      "cueContext": "Shown when discussing the border at the First Cataract."
+    },
+    {
+      "id": "sc_04_004",
+      "reference": "2 Kings 19:9",
+      "text": "Now the king heard concerning Tirhakah king of Cush, 'Behold, he has set out to fight against you.'",
+      "connection": "Confirms the historical reality and geopolitical power of the 25th Dynasty Nubian pharaohs.",
+      "cueContext": "Used when discussing the Napatan confrontation with Assyria."
+    },
+    {
+      "id": "sc_04_005",
+      "reference": "Acts 8:27",
+      "text": "And he rose and went. And there was an Ethiopian, a eunuch, a court official of Candace, queen of the Ethiopians, who was in charge of all her treasure.",
+      "connection": "Demonstrates the reach of the Gospel into the royal court of Meroe and the historical reality of the Kandakes.",
+      "cueContext": "Shown when discussing Meroitic queens or the spread of early Christianity."
+    },
+    {
+      "id": "sc_04_006",
+      "reference": "Psalm 68:31",
+      "text": "Princes shall come out of Egypt; Cush shall hasten to stretch out her hands to God.",
+      "connection": "A prophetic promise fulfilled in part by the conversion of the Ethiopian eunuch and later the Aksumite empire.",
+      "cueContext": "Used to reflect on the spiritual destiny of the region."
+    }
+  ]
+}

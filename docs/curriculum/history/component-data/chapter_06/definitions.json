@@ -1,0 +1,77 @@
+{
+  "chapterId": "ch06",
+  "terms": [
+    {
+      "id": "def_06_001",
+      "term": "Praefectus Aegypti",
+      "definition": "The Roman governor of Egypt, chosen from the equestrian class, who answered directly to the emperor.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "Praefectus Aegypti",
+        "transliteration": "Praefectus Aegypti",
+        "language": "Latin"
+      }
+    },
+    {
+      "id": "def_06_002",
+      "term": "Septuagint (LXX)",
+      "definition": "The Greek translation of the Hebrew Bible produced in Alexandria, widely used by early Christians.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_06_003",
+      "term": "Libellus",
+      "definition": "A certificate issued during Roman persecutions proving a citizen had sacrificed to the pagan gods.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "libellus",
+        "transliteration": "libellus",
+        "language": "Latin"
+      }
+    },
+    {
+      "id": "def_06_004",
+      "term": "Asceticism",
+      "definition": "A lifestyle of severe self-discipline and abstention from worldly pleasures for spiritual purposes.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_06_005",
+      "term": "Arianism",
+      "definition": "The heretical teaching of Arius that the Son of God was a created being, not co-eternal or co-equal with the Father.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_06_006",
+      "term": "Homoousios",
+      "definition": "A Greek term meaning 'of the same substance,' used at Nicaea to affirm Christ's full deity.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "ὁμοούσιος",
+        "transliteration": "homoousios",
+        "language": "Greek"
+      }
+    },
+    {
+      "id": "def_06_007",
+      "term": "Miaphysitism",
+      "definition": "The Coptic belief that Christ has one unified nature that is both fully divine and fully human.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_06_008",
+      "term": "Dhimmi",
+      "definition": "A protected non-Muslim subject under Islamic law, required to pay a special tax (jizya) and accept social restrictions.",
+      "scriptureRef": null,
+      "originalLanguage": {
+        "script": "ذمي",
+        "transliteration": "dhimmi",
+        "language": "Arabic"
+      }
+    }
+  ]
+}
