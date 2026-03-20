@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Map Alignment Tool</title>
+    <style>
+        :root {
+            --bg-color: #1e1e24;
+            --panel-bg: #2b2b36;
+            --text-color: #f8f8f2;
+            --accent-color: #ff79c6;
+            --border-color: #44475a;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Controls */
+        #sidebar {
+            width: 320px;
+            min-width: 320px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #bd93f9;
+        }
+
+        select, input[type="file"], button {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--border-color);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #6272a4;
+        }
+
+        button.primary {
+            background-color: #50fa7b;
+            color: #282a36;
+        }
+
+        button.primary:hover {
+            background-color: #40c963;
+        }
+
+        .slider-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-row input[type="range"] {
+            flex-grow: 1;
+        }
+
+        .slider-row input[type="number"] {
+            width: 70px;
+            padding: 4px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-row input {
+            width: auto;
+        }
+
+        /* Main Canvas Area */
+        #main-area {
+            flex-grow: 1;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000;
+            background-image: radial-gradient(#333 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        #canvas-container {
+            position: relative;
+            /* Will be sized by JS or CSS based on images */
+            transform-origin: center center;
+            /* Container scales for view zoom */
+        }
+
+        #base-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none; /* Let drag events pass through if needed, or handle on container */
+        }
+
+        #overlay-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* SVG overlay interacts with mouse */
+            cursor: grab;
+            transform-origin: 0 0; /* Important for scaling from top-left of the original position */
+        }
+
+        #overlay-map:active {
+            cursor: grabbing;
+        }
+
+        #overlay-map svg {
+             width: 100%;
+             height: 100%;
+        }
+
+        /* Status Bar */
+        #status-bar {
+            position: absolute;
+            bottom: 0;
+            left: 320px;
+            right: 0;
+            padding: 10px;
+            background-color: var(--panel-bg);
+            border-top: 1px solid var(--border-color);
+            font-size: 0.85rem;
+            color: #8be9fd;
+            z-index: 10;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <h1>SVG Map Alignment Tool</h1>
+
+        <div class="control-group">
+            <label>1. Load Manifest</label>
+            <button id="btn-load-fetch" onclick="fetchManifest()">Auto-Load (Fetch)</button>
+            <div style="font-size: 0.8rem; text-align: center;">OR</div>
+            <input type="file" id="manifest-file" accept=".json" onchange="handleFileUpload(event)">
+        </div>
+
+        <div class="control-group">
+            <label>2. Select Map</label>
+            <select id="map-select" onchange="selectMap()" disabled>
+                <option value="">Load manifest first...</option>
+            </select>
+        </div>
+
+        <div class="control-group" id="transform-controls" style="opacity: 0.5; pointer-events: none;">
+            <label>3. Transform (SVG Overlay)</label>
+
+            <div style="font-size: 0.8rem;">X Translate</div>
+            <div class="slider-row">
+                <input type="range" id="tx-slider" min="-2000" max="2000" step="1" oninput="syncInput('tx')">
+                <input type="number" id="tx-input" oninput="syncSlider('tx')">
+            </div>
+
+            <div style="font-size: 0.8rem;">Y Translate</div>
+            <div class="slider-row">
+                <input type="range" id="ty-slider" min="-2000" max="2000" step="1" oninput="syncInput('ty')">
+                <input type="number" id="ty-input" oninput="syncSlider('ty')">
+            </div>
+
+            <div style="font-size: 0.8rem;">Scale X</div>
+            <div class="slider-row">
+                <input type="range" id="sx-slider" min="0.1" max="5" step="0.01" oninput="syncInput('sx')">
+                <input type="number" id="sx-input" step="0.01" oninput="syncSlider('sx')">
+            </div>
+
+            <div style="font-size: 0.8rem;">Scale Y</div>
+            <div class="slider-row">
+                <input type="range" id="sy-slider" min="0.1" max="5" step="0.01" oninput="syncInput('sy')">
+                <input type="number" id="sy-input" step="0.01" oninput="syncSlider('sy')">
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="lock-scale" checked>
+                <label for="lock-scale" style="color:var(--text-color);font-weight:normal">Lock aspect ratio</label>
+            </div>
+
+            <div style="font-size: 0.8rem;">Rotate (deg)</div>
+            <div class="slider-row">
+                <input type="range" id="rot-slider" min="-180" max="180" step="0.1" oninput="syncInput('rot')">
+                <input type="number" id="rot-input" step="0.1" oninput="syncSlider('rot')">
+            </div>
+
+            <button onclick="resetTransform()">Reset Transform</button>
+        </div>
+
+        <div class="control-group">
+            <label>View Controls</label>
+            <div style="font-size: 0.8rem;">SVG Opacity</div>
+            <div class="slider-row">
+                <input type="range" id="opacity-slider" min="0" max="1" step="0.05" value="0.7" oninput="updateView()">
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="show-png" checked onchange="updateView()">
+                <label for="show-png" style="color:var(--text-color);font-weight:normal">Show Base PNG</label>
+            </div>
+            <div class="checkbox-row">
+                <input type="checkbox" id="show-svg" checked onchange="updateView()">
+                <label for="show-svg" style="color:var(--text-color);font-weight:normal">Show SVG Overlay</label>
+            </div>
+
+            <div style="font-size: 0.8rem;">Workspace Zoom (Scroll wheel)</div>
+            <div class="slider-row">
+                 <input type="range" id="zoom-slider" min="0.1" max="3" step="0.1" value="0.5" oninput="updateWorkspaceZoom()">
+            </div>
+        </div>
+
+        <div style="flex-grow: 1;"></div>
+
+        <div class="control-group">
+            <button class="primary" onclick="saveCurrentTransform()">Save to LocalStorage</button>
+            <button onclick="exportManifest()">Export All (JSON)</button>
+        </div>
+    </div>
+
+    <div id="main-area">
+        <div id="canvas-container">
+            <img id="base-map" alt="Base PNG Map">
+            <div id="overlay-map">
+                <!-- SVG content injected here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="status-bar">Ready. Load manifest to begin.</div>
+
+    <script>
+        // State
+        let manifest = [];
+        let currentMapId = null;
+        let currentTransform = { translateX: 0, translateY: 0, scaleX: 1, scaleY: 1, rotate: 0 };
+        let workspaceZoom = 0.5;
+
+        // DOM Elements
+        const canvasContainer = document.getElementById('canvas-container');
+        const baseMap = document.getElementById('base-map');
+        const overlayMap = document.getElementById('overlay-map');
+        const mapSelect = document.getElementById('map-select');
+        const statusBar = document.getElementById('status-bar');
+        const transformControls = document.getElementById('transform-controls');
+
+        // Inputs
+        const controls = {
+            tx: { slider: document.getElementById('tx-slider'), input: document.getElementById('tx-input'), key: 'translateX' },
+            ty: { slider: document.getElementById('ty-slider'), input: document.getElementById('ty-input'), key: 'translateY' },
+            sx: { slider: document.getElementById('sx-slider'), input: document.getElementById('sx-input'), key: 'scaleX' },
+            sy: { slider: document.getElementById('sy-slider'), input: document.getElementById('sy-input'), key: 'scaleY' },
+            rot: { slider: document.getElementById('rot-slider'), input: document.getElementById('rot-input'), key: 'rotate' }
+        };
+
+        function setStatus(msg, isError = false) {
+            statusBar.textContent = msg;
+            statusBar.style.color = isError ? '#ff5555' : '#8be9fd';
+        }
+
+        // 1. Loading Manifest
+        async function fetchManifest() {
+            try {
+                setStatus("Fetching manifest...");
+                // Note: We're running from tools/svg-aligner/index.html
+                // If running npx serve from root, the path might be different.
+                // Assuming tool is run via file:// or simple server at project root.
+                // Let's try the relative path from project root assuming serve . is run there.
+
+                // Construct path robustly. If we are at /tools/svg-aligner/, go up two levels.
+                const path = '../../docs/curriculum/history/Maps/overlays/alignment-manifest.json';
+
+                const response = await fetch(path);
+                if (!response.ok) throw new Error(`HTTP ${response.status} - Try File Upload if using file:// protocol`);
+
+                const data = await response.json();
+                loadManifestData(data);
+                setStatus(`Manifest loaded via fetch: ${data.length} maps found.`);
+            } catch (err) {
+                console.error(err);
+                setStatus(`Fetch failed: ${err.message}. Try the file upload button instead.`, true);
+            }
+        }
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    loadManifestData(data);
+                    setStatus(`Manifest loaded from file: ${data.length} maps found.`);
+                } catch (err) {
+                    setStatus("Error parsing JSON file.", true);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function loadManifestData(data) {
+            // Check localStorage for saved changes
+            const savedData = localStorage.getItem('svgAlignerManifest');
+            if (savedData) {
+                try {
+                    const parsedSaved = JSON.parse(savedData);
+                    // Merge saved transforms into loaded manifest
+                    data = data.map(map => {
+                        const savedMap = parsedSaved.find(sm => sm.mapId === map.mapId);
+                        if (savedMap) {
+                            return { ...map, transform: savedMap.transform, status: savedMap.status };
+                        }
+                        return map;
+                    });
+                    setStatus(`Manifest loaded. Applied saved changes from LocalStorage.`);
+                } catch(e) {
+                    console.error("Failed to parse saved data from localStorage", e);
+                }
+            }
+
+            manifest = data;
+
+            // Populate Dropdown
+            mapSelect.innerHTML = '<option value="">-- Select Map --</option>';
+            manifest.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.mapId;
+                const statusIcon = item.status === 'aligned' ? '✓' : (item.status === 'saved' ? '💾' : '○');
+                opt.textContent = `${item.mapId} ${statusIcon}`;
+                mapSelect.appendChild(opt);
+            });
+
+            mapSelect.disabled = false;
+        }
+
+        // 2. Loading Map
+        async function selectMap() {
+            const mapId = mapSelect.value;
+            if (!mapId) {
+                transformControls.style.opacity = '0.5';
+                transformControls.style.pointerEvents = 'none';
+                return;
+            }
+
+            const mapData = manifest.find(m => m.mapId === mapId);
+            if (!mapData) return;
+
+            currentMapId = mapId;
+            currentTransform = { ...mapData.transform };
+
+            setStatus(`Loading ${mapId}...`);
+
+            try {
+                // Determine paths. If loaded via fetch from root, paths are fine.
+                // If loaded locally, we need to prefix with ../../ to get to root.
+                // We'll try to use the raw path first, if error, fallback to ../../
+
+                // Helper to check if image loads
+                const loadImg = (src) => new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = () => reject(new Error('Failed to load'));
+                    img.src = src;
+                });
+
+                let pngPath = mapData.pngPath;
+                let svgPath = mapData.svgPath;
+
+                // Simple check: if we are not at root (e.g. url contains tools/svg-aligner)
+                if (window.location.href.includes('tools/svg-aligner')) {
+                    pngPath = '../../' + pngPath;
+                    svgPath = '../../' + svgPath;
+                }
+
+                // Load PNG
+                baseMap.src = pngPath;
+                await new Promise(r => { baseMap.onload = r; baseMap.onerror = r; });
+
+                // Set container size to match PNG (or default if missing)
+                const w = baseMap.naturalWidth || 2816;
+                const h = baseMap.naturalHeight || 1536;
+                canvasContainer.style.width = `${w}px`;
+                canvasContainer.style.height = `${h}px`;
+                overlayMap.style.width = `${w}px`;
+                overlayMap.style.height = `${h}px`;
+
+                // Load SVG contents
+                const svgRes = await fetch(svgPath);
+                if (!svgRes.ok) throw new Error("Failed to fetch SVG");
+                const svgText = await svgRes.text();
+                overlayMap.innerHTML = svgText;
+
+                // Sync UI
+                updateUIFromTransform();
+                updateOverlayTransform();
+                updateView();
+                updateWorkspaceZoom();
+
+                transformControls.style.opacity = '1';
+                transformControls.style.pointerEvents = 'auto';
+
+                setStatus(`Loaded ${mapId}. Ready to align.`);
+            } catch (err) {
+                console.error(err);
+                setStatus(`Error loading map assets: ${err.message}. Check paths.`, true);
+            }
+        }
+
+        // 3. Transform Controls
+        function syncInput(axis) {
+            const val = parseFloat(controls[axis].slider.value);
+            controls[axis].input.value = val;
+            currentTransform[controls[axis].key] = val;
+
+            // Handle lock scale
+            if (axis === 'sx' && document.getElementById('lock-scale').checked) {
+                controls['sy'].slider.value = val;
+                controls['sy'].input.value = val;
+                currentTransform['scaleY'] = val;
+            } else if (axis === 'sy' && document.getElementById('lock-scale').checked) {
+                controls['sx'].slider.value = val;
+                controls['sx'].input.value = val;
+                currentTransform['scaleX'] = val;
+            }
+
+            updateOverlayTransform();
+        }
+
+        function syncSlider(axis) {
+            const val = parseFloat(controls[axis].input.value);
+            controls[axis].slider.value = val;
+            currentTransform[controls[axis].key] = val;
+
+             // Handle lock scale
+            if (axis === 'sx' && document.getElementById('lock-scale').checked) {
+                controls['sy'].slider.value = val;
+                controls['sy'].input.value = val;
+                currentTransform['scaleY'] = val;
+            } else if (axis === 'sy' && document.getElementById('lock-scale').checked) {
+                controls['sx'].slider.value = val;
+                controls['sx'].input.value = val;
+                currentTransform['scaleX'] = val;
+            }
+
+            updateOverlayTransform();
+        }
+
+        function updateUIFromTransform() {
+            for (const key in controls) {
+                const val = currentTransform[controls[key].key];
+                controls[key].slider.value = val;
+                controls[key].input.value = val;
+            }
+        }
+
+        function updateOverlayTransform() {
+            const t = currentTransform;
+            overlayMap.style.transform = `translate(${t.translateX}px, ${t.translateY}px) scale(${t.scaleX}, ${t.scaleY}) rotate(${t.rotate}deg)`;
+        }
+
+        function resetTransform() {
+            currentTransform = { translateX: 0, translateY: 0, scaleX: 1, scaleY: 1, rotate: 0 };
+            updateUIFromTransform();
+            updateOverlayTransform();
+        }
+
+        // 4. View Controls
+        function updateView() {
+            const opacity = document.getElementById('opacity-slider').value;
+            overlayMap.style.opacity = opacity;
+
+            baseMap.style.display = document.getElementById('show-png').checked ? 'block' : 'none';
+            overlayMap.style.display = document.getElementById('show-svg').checked ? 'block' : 'none';
+        }
+
+        function updateWorkspaceZoom() {
+            workspaceZoom = parseFloat(document.getElementById('zoom-slider').value);
+            canvasContainer.style.transform = `scale(${workspaceZoom})`;
+        }
+
+        // 5. Drag & Drop interactions on the overlay
+        let isDragging = false;
+        let startX, startY;
+        let startTx, startTy;
+
+        overlayMap.addEventListener('mousedown', (e) => {
+            if(e.button !== 0) return; // Only left click
+            isDragging = true;
+            startX = e.clientX;
+            startY = e.clientY;
+            startTx = currentTransform.translateX;
+            startTy = currentTransform.translateY;
+            e.preventDefault(); // prevent text selection
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            // Calculate delta, taking workspace zoom into account
+            const dx = (e.clientX - startX) / workspaceZoom;
+            const dy = (e.clientY - startY) / workspaceZoom;
+
+            currentTransform.translateX = startTx + dx;
+            currentTransform.translateY = startTy + dy;
+
+            updateUIFromTransform();
+            updateOverlayTransform();
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        // Main area dragging (Pan workspace)
+        const mainArea = document.getElementById('main-area');
+        let isPanning = false;
+        let panStartX, panStartY, scrollLeftStart, scrollTopStart;
+
+        mainArea.addEventListener('mousedown', (e) => {
+            if(e.target === overlayMap || overlayMap.contains(e.target)) return;
+            if(e.button !== 0) return;
+            isPanning = true;
+            panStartX = e.clientX;
+            panStartY = e.clientY;
+            scrollLeftStart = mainArea.scrollLeft;
+            scrollTopStart = mainArea.scrollTop;
+            mainArea.style.cursor = 'grabbing';
+        });
+
+        mainArea.addEventListener('mousemove', (e) => {
+            if (!isPanning) return;
+            const dx = e.clientX - panStartX;
+            const dy = e.clientY - panStartY;
+            mainArea.scrollLeft = scrollLeftStart - dx;
+            mainArea.scrollTop = scrollTopStart - dy;
+        });
+
+        mainArea.addEventListener('mouseup', () => {
+            isPanning = false;
+            mainArea.style.cursor = 'default';
+        });
+
+        // Wheel zoom on workspace
+        mainArea.addEventListener('wheel', (e) => {
+            if (e.ctrlKey) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? -0.1 : 0.1;
+                let newZoom = workspaceZoom + delta;
+                newZoom = Math.max(0.1, Math.min(newZoom, 3));
+
+                document.getElementById('zoom-slider').value = newZoom;
+                updateWorkspaceZoom();
+            }
+        }, { passive: false });
+
+
+        // 6. Save & Export
+        function saveCurrentTransform() {
+            if (!currentMapId) return;
+
+            const mapIndex = manifest.findIndex(m => m.mapId === currentMapId);
+            if (mapIndex !== -1) {
+                manifest[mapIndex].transform = { ...currentTransform };
+                manifest[mapIndex].status = 'saved';
+
+                // Update select UI
+                const option = mapSelect.querySelector(`option[value="${currentMapId}"]`);
+                if(option) {
+                    option.textContent = `${currentMapId} 💾`;
+                }
+
+                localStorage.setItem('svgAlignerManifest', JSON.stringify(manifest));
+                setStatus(`Map ${currentMapId} saved to LocalStorage.`);
+            }
+        }
+
+        function exportManifest() {
+            if (manifest.length === 0) {
+                setStatus("Nothing to export.", true);
+                return;
+            }
+
+            const jsonStr = JSON.stringify(manifest, null, 2);
+            const blob = new Blob([jsonStr], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'alignment-manifest.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            setStatus("Manifest exported. Replace original file with this one.");
+        }
+
+        // Init - attempt fetch
+        setTimeout(() => {
+            if(window.location.protocol !== 'file:') {
+                 // Try auto-fetch if served via http
+                 // fetchManifest();
+            } else {
+                 setStatus("Running via file://. Please use 'Load Manifest' button with alignment-manifest.json.");
+            }
+        }, 500);
+
+    </script>
+</body>
+</html>
