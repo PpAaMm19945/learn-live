@@ -1,0 +1,16 @@
+{
+  "chapterId": "ch09",
+  "title": "Dynasties of the Ethiopian Highlands",
+  "nodes": [
+    { "id": "menelik", "name": "Menelik I", "parent": null, "dates": "10th Century BC", "descriptor": "Legendary Founder of Solomonic Line" },
+    { "id": "zagwe_kings", "name": "Zagwe Dynasty Kings", "parent": null, "dates": "c. 900–1270 AD", "descriptor": "Agaw Rulers from Lasta" },
+    { "id": "lalibela", "name": "Lalibela", "parent": "zagwe_kings", "dates": "c. 1181–1221 AD", "descriptor": "Builder of the Rock-Hewn Churches" },
+    { "id": "naakuto_laab", "name": "Naakuto La'ab", "parent": "zagwe_kings", "dates": "c. 1270 AD", "descriptor": "Last Zagwe King" },
+    { "id": "yekuno_amlak", "name": "Yekuno Amlak", "parent": "menelik", "dates": "r. 1270–1285 AD", "descriptor": "Restorer of the Solomonic Line" },
+    { "id": "amda_seyon", "name": "Amda Seyon I", "parent": "yekuno_amlak", "dates": "r. 1314–1344 AD", "descriptor": "The Lion of Judah" },
+    { "id": "zara_yaqob", "name": "Zara Yaqob", "parent": "amda_seyon", "dates": "r. 1434–1468 AD", "descriptor": "Theologian-Emperor" },
+    { "id": "abba_tekle_haymanot", "name": "Abba Tekle Haymanot", "parent": null, "dates": "c. 1215–1313 AD", "descriptor": "Founder of Debre Libanos" },
+    { "id": "abba_ewostatewos", "name": "Abba Ewostatewos", "parent": null, "dates": "c. 1273–1352 AD", "descriptor": "Leader of Sabbath Renewal Movement" },
+    { "id": "ahmad_gran", "name": "Ahmad ibn Ibrahim al-Ghazi (Gran)", "parent": null, "dates": "c. 1506–1543 AD", "descriptor": "Muslim Military Leader of Adal" }
+  ]
+}

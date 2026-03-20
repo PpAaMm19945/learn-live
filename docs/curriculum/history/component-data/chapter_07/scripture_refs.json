@@ -1,0 +1,47 @@
+{
+  "chapterId": "ch07",
+  "cards": [
+    {
+      "id": "sc_07_001",
+      "reference": "Genesis 4:22",
+      "text": "Zillah also bore Tubal-cain; he was the forger of all instruments of bronze and iron.",
+      "connection": "Highlights that advanced skills like engineering (seen in Aksum's stelae) are a reflection of human capacity given by God.",
+      "cueContext": "Shown when discussing the engineering of the Aksum stelae."
+    },
+    {
+      "id": "sc_07_002",
+      "reference": "1 Kings 10:2",
+      "text": "She came to Jerusalem with a very great retinue, with camels bearing spices and very much gold and precious stones.",
+      "connection": "The visit of the Queen of Sheba connects the region to the biblical narrative and the Solomonic lineage.",
+      "cueContext": "Shown when discussing the Queen of Sheba and Ethiopian identity."
+    },
+    {
+      "id": "sc_07_003",
+      "reference": "Acts 8:27",
+      "text": "And he rose and went. And there was an Ethiopian, a eunuch, a court official of Candace, queen of the Ethiopians...",
+      "connection": "Marks the first recorded African convert to Christianity and the spread of the Gospel to the region.",
+      "cueContext": "Shown when discussing the Ethiopian Eunuch."
+    },
+    {
+      "id": "sc_07_004",
+      "reference": "Psalm 68:31",
+      "text": "Envoys will come out of Egypt; Ethiopia shall quickly stretch out her hands to God.",
+      "connection": "A prophetic verse that became the motto of the Ethiopian Church, affirming their faith as a fulfillment of prophecy.",
+      "cueContext": "Shown when discussing the conversion of Aksum and King Ezana."
+    },
+    {
+      "id": "sc_07_005",
+      "reference": "Romans 13:4",
+      "text": "For he is the servant of God, an avenger who carries out God's wrath on the wrongdoer.",
+      "connection": "Provides the theological framework for King Kaleb's 'Just War' expedition to defend Christians in Najran.",
+      "cueContext": "Shown when discussing Kaleb's invasion of Yemen."
+    },
+    {
+      "id": "sc_07_006",
+      "reference": "Matthew 25:35",
+      "text": "For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me...",
+      "connection": "Reflected in the Christian hospitality shown by the Aksumite king during the First Hijra.",
+      "cueContext": "Shown when discussing the First Hijra."
+    }
+  ]
+}

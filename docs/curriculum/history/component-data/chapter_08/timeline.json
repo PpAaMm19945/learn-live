@@ -1,0 +1,68 @@
+{
+  "chapterId": "ch08",
+  "events": [
+    {
+      "id": "evt_08_001",
+      "title": "The Global Flood",
+      "biblicalDate": "c. 2400 BC",
+      "conventionalDate": "N/A",
+      "description": "Earth cleansed; Noah's family restarts humanity.",
+      "scriptureRef": "Genesis 7-8",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_08_002",
+      "title": "The Tower of Babel Dispersion",
+      "biblicalDate": "c. 2200 BC",
+      "conventionalDate": "N/A",
+      "description": "God confuses languages; humanity scatters across the earth.",
+      "scriptureRef": "Genesis 11:8",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_08_003",
+      "title": "Hamitic Settlement of Africa",
+      "biblicalDate": "c. 2200–1800 BC",
+      "conventionalDate": "N/A",
+      "description": "Descendants of Mizraim, Cush, and Put settle the northern and northeastern heartlands.",
+      "scriptureRef": "Genesis 10:6-7",
+      "category": "biblical"
+    },
+    {
+      "id": "evt_08_004",
+      "title": "Onset of Bantu Migrations",
+      "biblicalDate": "c. 1500 BC",
+      "conventionalDate": "c. 3000 BC",
+      "description": "Bantu-speaking families begin expanding south and west from the eastern highlands.",
+      "scriptureRef": null,
+      "category": "both"
+    },
+    {
+      "id": "evt_08_005",
+      "title": "Urewe Culture Flourishes",
+      "biblicalDate": "c. 700–300 BC (Recalibrated)",
+      "conventionalDate": "500 BC – 500 AD",
+      "description": "Early Iron Age Bantu culture with dimple-based pottery and sophisticated iron-smelting.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_08_006",
+      "title": "Nok Culture Flourishes",
+      "biblicalDate": "c. 700–100 BC (Recalibrated)",
+      "conventionalDate": "c. 1000 BC",
+      "description": "Advanced West African society known for terracotta sculptures and early iron-working.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_08_007",
+      "title": "Settlement of the Heartlands Complete",
+      "biblicalDate": "c. 500 AD (Recalibrated)",
+      "conventionalDate": "c. 500 AD",
+      "description": "Bantu-speaking peoples become dominant across Central, Eastern, and Southern Africa.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "chapterId": "ch09",
+  "comparisons": [
+    {
+      "id": "cmp_09_001",
+      "topic": "The Kebra Nagast: Legitimacy and Lineage",
+      "biblical": {
+        "date": "14th Century AD",
+        "framework": "Spiritual Longing and Covenant Destiny",
+        "evidence": "Though lacking scriptural/historical backing for an Ethiopian Sheba or Ark transfer, the text reveals the deep desire of Ethiopian Christians to be grafted into the biblical narrative of God's redemptive plan."
+      },
+      "conventional": {
+        "date": "14th Century AD",
+        "framework": "Medieval Political Propaganda",
+        "evidence": "Viewed as a brilliant piece of political engineering codified after the 1270 revolution to retroactively justify Yekuno Amlak's overthrow of the Zagwe Dynasty by inventing an ancient tradition."
+      },
+      "resolution": "From a Reformed perspective, it functions politically as a foundational myth rather than literal history, yet theologically it powerfully reflects the nation's profound self-identification as a covenant people."
+    },
+    {
+      "id": "cmp_09_002",
+      "topic": "Amda Seyon I: Crusader or Emperor?",
+      "biblical": {
+        "date": "c. 1314–1344 AD",
+        "framework": "Defender of the Faith (Romans 13:4)",
+        "evidence": "His campaigns against Ifat and Adal were a necessary, righteous struggle for survival, fulfilling the magistrate's duty to protect innocent Christians from existential jihadist threats."
+      },
+      "conventional": {
+        "date": "c. 1314–1344 AD",
+        "framework": "Imperial Expansion and Hegemony",
+        "evidence": "He utilized the language of holy war to legitimize classic imperial expansion, seeking control over lucrative trade routes and subjugating rival political powers."
+      },
+      "resolution": "These motivations are not mutually exclusive. He was a pragmatic empire-builder whose genuine defense of the Christian faith secured the kingdom's borders for future generations."
+    },
+    {
+      "id": "cmp_09_003",
+      "topic": "The Construction of Lalibela",
+      "biblical": {
+        "date": "12th-13th Century",
+        "framework": "Single Miraculous Creation",
+        "evidence": "Ethiopian hagiography (Gadla Lalibela) attributes the rapid construction of all eleven churches to King Lalibela, aided by angels and divine visions."
+      },
+      "conventional": {
+        "date": "10th-13th Century",
+        "framework": "Multi-Generational Project",
+        "evidence": "Stylistic variations and the immense scale suggest construction spanned multiple reigns over a long period, culminating under Lalibela."
+      },
+      "resolution": "Accepting a multi-generational timeline does not diminish the faith behind it. Attributing a massive project to its greatest patron is common in oral tradition (like Solomon's Temple). The devotion required remains a true miracle of faith."
+    }
+  ]
+}

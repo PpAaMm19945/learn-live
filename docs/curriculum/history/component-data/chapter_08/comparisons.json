@@ -1,0 +1,50 @@
+{
+  "chapterId": "ch08",
+  "comparisons": [
+    {
+      "id": "cmp_08_001",
+      "topic": "The Ancestral Homeland of the Bantu",
+      "biblical": {
+        "date": "c. 1500 BC",
+        "framework": "Biblical-Historical Model (East/Northeast Origin)",
+        "evidence": "Genesis 10 geography places Cush in the East. Proto-Bantu vocabulary points to highland savannas (cattle, sorghum). Oral traditions consistently point to origins in the North or East."
+      },
+      "conventional": {
+        "date": "c. 3000 BC",
+        "framework": "Evolutionary Model (West African Origin)",
+        "evidence": "Places the homeland in the Congo-Niger basin near Cameroon, based on the assumption that the region with the highest linguistic diversity is the point of origin."
+      },
+      "resolution": "High linguistic diversity can be explained by founder effects or the Babel paradigm rather than deep time. The combination of oral memory, agricultural evidence, and Scripture strongly supports an Eastern/Northern origin."
+    },
+    {
+      "id": "cmp_08_002",
+      "topic": "The Onset of the 'Iron Age'",
+      "biblical": {
+        "date": "Post-Babel",
+        "framework": "Technological Recovery and Diffusion",
+        "evidence": "Genesis 4 reveals metallurgy existed before the Flood. Iron working in Africa was a recovery and transmission of ancient knowledge, explaining its rapid spread among early pioneers."
+      },
+      "conventional": {
+        "date": "c. 1000 BC",
+        "framework": "Evolutionary Progression",
+        "evidence": "Humanity slowly evolved from stone tools to bronze and eventually to iron smelting through independent discovery and long periods of trial and error."
+      },
+      "resolution": "The sophisticated nature of early African furnaces (like the Urewe forced-draft furnaces) points to the application of pre-existing knowledge rather than a slow evolutionary ascent from primitive states."
+    },
+    {
+      "id": "cmp_08_003",
+      "topic": "Dating the Bantu Expansion",
+      "biblical": {
+        "date": "c. 1500 BC – 500 AD",
+        "framework": "Recalibrated YEC Timeline",
+        "evidence": "Adjusts C-14 dates by accounting for lower post-Flood atmospheric carbon levels. A rapid exponential population growth (like the Israelites in Egypt) easily fills the continent in ~1,000 years."
+      },
+      "conventional": {
+        "date": "c. 3000 BC – 500 AD",
+        "framework": "Uniformitarian Radiocarbon Dating",
+        "evidence": "Relies on uncalibrated C-14 dates from organic remains like charcoal, assuming atmospheric carbon ratios have remained constant over tens of thousands of years."
+      },
+      "resolution": "When we recalibrate carbon dates to account for the catastrophic changes of the Flood, archaeological cultures like Urewe fit perfectly within the biblical chronology of the post-Babel world."
+    }
+  ]
+}

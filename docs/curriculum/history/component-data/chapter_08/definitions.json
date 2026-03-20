@@ -1,0 +1,54 @@
+{
+  "chapterId": "ch08",
+  "terms": [
+    {
+      "id": "def_08_001",
+      "term": "Bantu",
+      "definition": "Derived from the root *-ntu* (person) and the prefix *ba-* (people). It literally means 'the people' and refers to a vast family of over 500 related languages in sub-Saharan Africa.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_002",
+      "term": "Proto-Bantu",
+      "definition": "The reconstructed ancestral language of all modern Bantu languages. Its vocabulary suggests a highland savanna homeland, containing words for sorghum and cattle but not rainforest crops.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_003",
+      "term": "Noun Classes",
+      "definition": "A grammatical system characteristic of Bantu languages, where nouns are grouped into categories (e.g., humans, animals) marked by specific prefixes that dictate agreement throughout a sentence.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_004",
+      "term": "Urewe Culture",
+      "definition": "An early Iron Age archaeological culture in the Great Lakes region known for distinctive dimple-based pottery and sophisticated iron-smelting furnaces.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_005",
+      "term": "Interlacustrine",
+      "definition": "Meaning 'between the lakes,' referring to the fertile, high-altitude region in East Africa surrounding the Great Lakes (Victoria, Tanganyika, etc.), a key staging ground for migrations.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_006",
+      "term": "Khoisan",
+      "definition": "A composite term for the indigenous hunter-gatherer (San) and pastoralist (Khoikhoi) peoples of Southern Africa, characterized by deep genetic diversity and unique 'click' languages.",
+      "scriptureRef": null,
+      "originalLanguage": null
+    },
+    {
+      "id": "def_08_007",
+      "term": "High God",
+      "definition": "A supreme creator deity recognized in many traditional African religions. Often viewed as remote, this belief reflects a devolutionary memory of the original monotheism of Noah.",
+      "scriptureRef": "Romans 1:19-20",
+      "originalLanguage": null
+    }
+  ]
+}

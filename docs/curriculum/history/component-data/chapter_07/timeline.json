@@ -1,0 +1,104 @@
+{
+  "chapterId": "ch07",
+  "events": [
+    {
+      "id": "evt_07_001",
+      "title": "D'mt Kingdom Flourishes",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 800–400 BC",
+      "description": "Pre-Aksumite civilization centered at Yeha with ties to South Arabia.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_002",
+      "title": "Rise of Aksum",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 100 AD",
+      "description": "Aksum emerges as a major Red Sea power, noted in the Periplus of the Erythraean Sea.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_003",
+      "title": "Frumentius Shipwrecked",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 316 AD",
+      "description": "Syrian Christians Frumentius and Aedesius survive a shipwreck and enter the royal court.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_004",
+      "title": "Conversion of Aksum",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 330 AD",
+      "description": "King Ezana officially embraces Christianity; Frumentius consecrated bishop by Athanasius.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_005",
+      "title": "Conquest of Meroe",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 350 AD",
+      "description": "Aksum under Ezana conquers the declining kingdom of Meroe (Kush).",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_006",
+      "title": "Arrival of the Nine Saints",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 480–520 AD",
+      "description": "Syrian monks flee Byzantine persecution, translate the Bible, and found monasteries in Ethiopia.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_007",
+      "title": "Najran Massacre",
+      "biblicalDate": "N/A",
+      "conventionalDate": "523 AD",
+      "description": "Jewish king Dhu Nuwas massacres Christians in Najran, sparking international outrage.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_008",
+      "title": "Kaleb’s Expedition",
+      "biblicalDate": "N/A",
+      "conventionalDate": "525 AD",
+      "description": "Aksumite King Kaleb conquers Yemen to protect persecuted Christians.",
+      "scriptureRef": null,
+      "category": "both"
+    },
+    {
+      "id": "evt_07_009",
+      "title": "Year of the Elephant",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 570 AD",
+      "description": "Abraha's failed attack on Mecca.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_010",
+      "title": "First Hijra",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 615 AD",
+      "description": "Aksumite king gives refuge to early Muslims fleeing Mecca.",
+      "scriptureRef": null,
+      "category": "conventional"
+    },
+    {
+      "id": "evt_07_011",
+      "title": "Inland Shift of Aksum",
+      "biblicalDate": "N/A",
+      "conventionalDate": "c. 900 AD",
+      "description": "Due to Islamic expansion and environmental degradation, the political center moves south to Lasta/Amhara.",
+      "scriptureRef": null,
+      "category": "conventional"
+    }
+  ]
+}

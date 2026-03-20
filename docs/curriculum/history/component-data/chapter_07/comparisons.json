@@ -1,0 +1,35 @@
+{
+  "chapterId": "ch07",
+  "comparisons": [
+    {
+      "id": "cmp_07_001",
+      "topic": "King Kaleb's Invasion of Yemen",
+      "biblical": {
+        "date": "525 AD",
+        "framework": "Just War / Defense of the Innocent",
+        "evidence": "Kaleb acted as 'God's servant... to execute wrath' (Rom 13:4) to defend the Christian martyrs of Najran. He attributed his victory to the 'Lord of Heaven' and offered his crown to Jerusalem."
+      },
+      "conventional": {
+        "date": "525 AD",
+        "framework": "Geopolitical Dominance",
+        "evidence": "The invasion secured Aksum's control over Red Sea trade routes and established a vassal state in South Arabia, expanding Aksumite imperial power."
+      },
+      "resolution": "Both motivations likely coexisted. The campaign was a righteous defense of persecuted Christians, but it also rapidly evolved into a quest for regional hegemony, illustrating the complex intersection of faith and statecraft."
+    },
+    {
+      "id": "cmp_07_002",
+      "topic": "Origins of the Queen of Sheba Tradition",
+      "biblical": {
+        "date": "c. 950 BC",
+        "framework": "Scriptural account of seeking divine wisdom",
+        "evidence": "1 Kings 10 describes a wealthy queen coming to hear Solomon's wisdom and praising God. The focus is on the international renown of God's anointed king."
+      },
+      "conventional": {
+        "date": "c. 950 BC / 14th C AD",
+        "framework": "Cultural diffusion and political legitimation",
+        "evidence": "Historically, 'Sheba' likely refers to Saba in Yemen. However, the Ethiopian tradition (Kebra Nagast) adapted this narrative to legitimize the Solomonic dynasty and connect Ethiopian identity to the biblical covenant."
+      },
+      "resolution": "While the historical queen likely came from South Arabia, the Red Sea region shared a unified cultural sphere. The Ethiopian tradition powerfully reflects the region's deep spiritual desire to be grafted into the biblical story."
+    }
+  ]
+}

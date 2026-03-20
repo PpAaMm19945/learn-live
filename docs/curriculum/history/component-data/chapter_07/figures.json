@@ -1,0 +1,50 @@
+{
+  "chapterId": "ch07",
+  "figures": [
+    {
+      "id": "fig_07_001",
+      "name": "Frumentius",
+      "title": "Kesate Birhan (Revealer of Light)",
+      "dates": "c. 316–360 AD",
+      "quote": "A shipwrecked tutor who became the first Abuna of Ethiopia.",
+      "summary": "Syrian Christian who survived a shipwreck, tutored the future King Ezana, and was consecrated as the first Bishop of Ethiopia by Athanasius.",
+      "imageSlug": "frumentius"
+    },
+    {
+      "id": "fig_07_002",
+      "name": "King Ezana",
+      "title": "The Constantine of Africa",
+      "dates": "c. 320–360 AD",
+      "quote": "By the power of the Lord of Heaven, who in heaven and upon earth is mightier than everything that exists.",
+      "summary": "The first Aksumite king to officially embrace Christianity, replacing pagan symbols with the cross on his coinage.",
+      "imageSlug": "ezana"
+    },
+    {
+      "id": "fig_07_003",
+      "name": "Abba Aragawi",
+      "title": "Founder of Debre Damo",
+      "dates": "Late 5th / Early 6th Century AD",
+      "quote": "One of the Nine Saints who fled persecution and built a fortress of prayer.",
+      "summary": "Syrian monk who established the Debre Damo monastery on a sheer-sided amba, accessible only by rope.",
+      "imageSlug": "abba_aragawi"
+    },
+    {
+      "id": "fig_07_004",
+      "name": "King Kaleb",
+      "title": "Defender of the Faith",
+      "dates": "6th Century AD",
+      "quote": "Launched an amphibious invasion to avenge the martyrs of Najran.",
+      "summary": "Aksumite king who conquered Yemen to protect persecuted Christians, later retiring to a monastery and sending his crown to Jerusalem.",
+      "imageSlug": "kaleb"
+    },
+    {
+      "id": "fig_07_005",
+      "name": "Al-Najashi (King Armah)",
+      "title": "Protector of the First Hijra",
+      "dates": "c. 615 AD",
+      "quote": "A king who rules without injustice.",
+      "summary": "Aksumite king who provided refuge to early Muslims fleeing persecution in Mecca, an act of profound hospitality.",
+      "imageSlug": "al_najashi"
+    }
+  ]
+}
