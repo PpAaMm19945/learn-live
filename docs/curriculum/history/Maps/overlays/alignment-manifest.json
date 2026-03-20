@@ -1,0 +1,72 @@
+[
+  {
+    "mapId": "map_001",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 001.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_001_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_002",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 002.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_002_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_003",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 003.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_003_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_004",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 004.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_004_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_005",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 005.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_005_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  }
+]

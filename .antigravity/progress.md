@@ -68,7 +68,8 @@
 
 ## Content Production Tasks — PROMPTS READY
 
-### Phase 13: SVG Map Overlays — NOT STARTED
+### Phase 13: SVG Map Overlays — IN PROGRESS
+- Batch A: Complete
 > Prompt: `.antigravity/prompts-phase13-svg-maps.md`
 > 30 maps, 6 batches of 5, chunked for sequential Jules instances.
 
