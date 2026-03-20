@@ -1,0 +1,344 @@
+{
+  "Adulis": {
+    "phonetic": "uh-DOO-liss",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"əˈduːlɪs\">Adulis</phoneme>",
+    "language_origin": "Greek/Ge'ez",
+    "chapter_first_appears": 4
+  },
+  "Aksum": {
+    "phonetic": "AHK-soom",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈɑːksuːm\">Aksum</phoneme>",
+    "language_origin": "Ge'ez",
+    "chapter_first_appears": 4
+  },
+  "Alexandria": {
+    "phonetic": "al-ig-ZAN-dree-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌælɪɡˈzændri.ə\">Alexandria</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 6
+  },
+  "Amoun": {
+    "phonetic": "ah-MOON",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ɑːˈmuːn\">Amoun</phoneme>",
+    "language_origin": "Egyptian/Coptic",
+    "chapter_first_appears": 6
+  },
+  "Arius": {
+    "phonetic": "AIR-ee-us",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈɛəri.əs\">Arius</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 6
+  },
+  "Aswan": {
+    "phonetic": "ahs-WAHN",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ɑːsˈwɑːn\">Aswan</phoneme>",
+    "language_origin": "Arabic/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Athanasius": {
+    "phonetic": "ath-uh-NAY-shus",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌæθəˈneɪʃəs\">Athanasius</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 6
+  },
+  "Augustine": {
+    "phonetic": "AW-gus-teen",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈɔːɡəstiːn\">Augustine</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Bagai": {
+    "phonetic": "BAH-gy",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈbɑːɡaɪ\">Bagai</phoneme>",
+    "language_origin": "Berber/Latin",
+    "chapter_first_appears": 5
+  },
+  "Belisarius": {
+    "phonetic": "bel-ih-SAIR-ee-us",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌbɛlɪˈsɛəri.əs\">Belisarius</phoneme>",
+    "language_origin": "Latin/Greek",
+    "chapter_first_appears": 5
+  },
+  "Berenike": {
+    "phonetic": "ber-uh-NYE-kee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌbɛrəˈnaɪki\">Berenike</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 4
+  },
+  "Butana": {
+    "phonetic": "boo-TAH-nah",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"buːˈtɑːnə\">Butana</phoneme>",
+    "language_origin": "Arabic/Regional",
+    "chapter_first_appears": 4
+  },
+  "Byzantine": {
+    "phonetic": "BIZ-un-teen",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈbɪzəntiːn\">Byzantine</phoneme>",
+    "language_origin": "Greek/Latin",
+    "chapter_first_appears": 5
+  },
+  "Caesariensis": {
+    "phonetic": "see-zuh-ree-EN-sis",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌsiːzəriˈɛnsɪs\">Caesariensis</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Carthage": {
+    "phonetic": "KAR-thij",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈkɑːrθɪdʒ\">Carthage</phoneme>",
+    "language_origin": "Phoenician/Latin",
+    "chapter_first_appears": 5
+  },
+  "Cirta": {
+    "phonetic": "SUR-tuh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈsɜːrtə\">Cirta</phoneme>",
+    "language_origin": "Phoenician/Latin",
+    "chapter_first_appears": 5
+  },
+  "Cyprian": {
+    "phonetic": "SIP-ree-un",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈsɪpri.ən\">Cyprian</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Cyrenaica": {
+    "phonetic": "sy-ruh-NAY-ih-kuh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌsaɪrəˈneɪ.ɪkə\">Cyrenaica</phoneme>",
+    "language_origin": "Greek/Latin",
+    "chapter_first_appears": 5
+  },
+  "Cyrene": {
+    "phonetic": "sy-REE-nee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"saɪˈriːni\">Cyrene</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 5
+  },
+  "D'mt": {
+    "phonetic": "DAH-muht",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈdɑːmət\">D'mt</phoneme>",
+    "language_origin": "Sabaean/Ge'ez",
+    "chapter_first_appears": 4
+  },
+  "Donatist": {
+    "phonetic": "DOH-nuh-tist",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈdoʊnətɪst\">Donatist</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Hippo Regius": {
+    "phonetic": "HIP-oh REE-jee-us",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈhɪpoʊ ˈriːdʒi.əs\">Hippo Regius</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Kairouan": {
+    "phonetic": "keer-WAHN",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"kɪərˈwɑːn\">Kairouan</phoneme>",
+    "language_origin": "Arabic",
+    "chapter_first_appears": 5
+  },
+  "Kellia": {
+    "phonetic": "KEL-ee-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈkɛli.ə\">Kellia</phoneme>",
+    "language_origin": "Greek",
+    "chapter_first_appears": 6
+  },
+  "Kerma": {
+    "phonetic": "KUR-muh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈkɜːrmə\">Kerma</phoneme>",
+    "language_origin": "Cushitic/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Kush": {
+    "phonetic": "KOOSH",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"kʊʃ\">Kush</phoneme>",
+    "language_origin": "Hebrew/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Leptis Magna": {
+    "phonetic": "LEP-tiss MAG-nuh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈlɛptɪs ˈmæɡnə\">Leptis Magna</phoneme>",
+    "language_origin": "Phoenician/Latin",
+    "chapter_first_appears": 5
+  },
+  "Macarius": {
+    "phonetic": "muh-KAIR-ee-us",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"məˈkɛəri.əs\">Macarius</phoneme>",
+    "language_origin": "Greek/Coptic",
+    "chapter_first_appears": 6
+  },
+  "Mauretania": {
+    "phonetic": "maw-ruh-TAY-nee-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌmɔːrɪˈteɪni.ə\">Mauretania</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Meroe": {
+    "phonetic": "MER-oh-ee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈmɛroʊ.i\">Meroe</phoneme>",
+    "language_origin": "Meroitic",
+    "chapter_first_appears": 4
+  },
+  "Mizraim": {
+    "phonetic": "miz-RAY-im",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"mɪzˈreɪɪm\">Mizraim</phoneme>",
+    "language_origin": "Hebrew",
+    "chapter_first_appears": 1
+  },
+  "Musawwarat": {
+    "phonetic": "moo-SAH-wuh-raht",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"muːˈsɑːwərɑːt\">Musawwarat</phoneme>",
+    "language_origin": "Arabic",
+    "chapter_first_appears": 4
+  },
+  "Napata": {
+    "phonetic": "nuh-PAH-tuh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"nəˈpɑːtə\">Napata</phoneme>",
+    "language_origin": "Cushitic/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Naqa": {
+    "phonetic": "NAH-kah",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈnɑːkɑː\">Naqa</phoneme>",
+    "language_origin": "Meroitic/Arabic",
+    "chapter_first_appears": 4
+  },
+  "Nitria": {
+    "phonetic": "NIH-tree-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈnɪtri.ə\">Nitria</phoneme>",
+    "language_origin": "Greek/Egyptian",
+    "chapter_first_appears": 6
+  },
+  "Nubia": {
+    "phonetic": "NOO-bee-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈnuːbi.ə\">Nubia</phoneme>",
+    "language_origin": "Latin/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Numidia": {
+    "phonetic": "noo-MID-ee-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"nuːˈmɪdi.ə\">Numidia</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Oea": {
+    "phonetic": "EE-uh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈiː.ə\">Oea</phoneme>",
+    "language_origin": "Phoenician/Latin",
+    "chapter_first_appears": 5
+  },
+  "Oxyrhynchus": {
+    "phonetic": "ok-see-RING-kus",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌɒksiˈrɪŋkəs\">Oxyrhynchus</phoneme>",
+    "language_origin": "Greek/Egyptian",
+    "chapter_first_appears": 6
+  },
+  "Pachomius": {
+    "phonetic": "puh-KOH-mee-us",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"pəˈkoʊmi.əs\">Pachomius</phoneme>",
+    "language_origin": "Coptic/Greek",
+    "chapter_first_appears": 6
+  },
+  "Punt": {
+    "phonetic": "POONT",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"pʊnt\">Punt</phoneme>",
+    "language_origin": "Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Sabratha": {
+    "phonetic": "sah-BRAH-thah",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"sɑːˈbrɑːθɑː\">Sabratha</phoneme>",
+    "language_origin": "Phoenician/Latin",
+    "chapter_first_appears": 5
+  },
+  "Scetis": {
+    "phonetic": "SEE-tiss",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈsiːtɪs\">Scetis</phoneme>",
+    "language_origin": "Greek/Egyptian",
+    "chapter_first_appears": 6
+  },
+  "Septem": {
+    "phonetic": "SEP-tem",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈsɛptɛm\">Septem</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Sufetula": {
+    "phonetic": "soo-FET-yoo-luh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"suːˈfɛtjʊlə\">Sufetula</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Syene": {
+    "phonetic": "sy-EE-nee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"saɪˈiːni\">Syene</phoneme>",
+    "language_origin": "Greek/Egyptian",
+    "chapter_first_appears": 4
+  },
+  "Tabennisi": {
+    "phonetic": "tah-buh-NEE-see",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌtɑːbəˈniːsi\">Tabennisi</phoneme>",
+    "language_origin": "Coptic",
+    "chapter_first_appears": 6
+  },
+  "Taharqa": {
+    "phonetic": "tah-HAR-kah",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"tɑːˈhɑːrkɑː\">Taharqa</phoneme>",
+    "language_origin": "Egyptian/Cushitic",
+    "chapter_first_appears": 3
+  },
+  "Tertullian": {
+    "phonetic": "tur-TULL-ee-un",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"tɜːrˈtʌli.ən\">Tertullian</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Thagaste": {
+    "phonetic": "thuh-GAS-tee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"θəˈɡæsti\">Thagaste</phoneme>",
+    "language_origin": "Berber/Latin",
+    "chapter_first_appears": 5
+  },
+  "Thamugadi": {
+    "phonetic": "thah-moo-GAH-dee",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"θɑːmuːˈɡɑːdi\">Thamugadi</phoneme>",
+    "language_origin": "Berber/Latin",
+    "chapter_first_appears": 5
+  },
+  "Thebes": {
+    "phonetic": "THEEBZ",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"θiːbz\">Thebes</phoneme>",
+    "language_origin": "Greek/Egyptian",
+    "chapter_first_appears": 6
+  },
+  "Timgad": {
+    "phonetic": "TIM-gad",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈtɪmɡæd\">Timgad</phoneme>",
+    "language_origin": "Berber/Arabic",
+    "chapter_first_appears": 5
+  },
+  "Tingis": {
+    "phonetic": "TIN-jis",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈtɪndʒɪs\">Tingis</phoneme>",
+    "language_origin": "Berber/Latin",
+    "chapter_first_appears": 5
+  },
+  "Tingitana": {
+    "phonetic": "tin-jih-TAH-nuh",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˌtɪndʒɪˈtɑːnə\">Tingitana</phoneme>",
+    "language_origin": "Latin",
+    "chapter_first_appears": 5
+  },
+  "Vandal": {
+    "phonetic": "VAN-dul",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈvændəl\">Vandal</phoneme>",
+    "language_origin": "Germanic/Latin",
+    "chapter_first_appears": 5
+  },
+  "Yeha": {
+    "phonetic": "YEH-hah",
+    "ssml": "<phoneme alphabet=\"ipa\" ph=\"ˈjɛhɑː\">Yeha</phoneme>",
+    "language_origin": "Ge'ez",
+    "chapter_first_appears": 4
+  }
+}
