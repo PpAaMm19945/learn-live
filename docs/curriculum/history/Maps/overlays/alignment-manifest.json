@@ -306,5 +306,19 @@
     },
     "status": "draft",
     "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_032",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 032.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_032_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
   }
 ]

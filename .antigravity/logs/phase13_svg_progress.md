@@ -104,3 +104,24 @@
 ### Issues and Decisions
 - **Issue:** Maps 26 through 30 had markdown specifications but entirely lacked base PNG files in `docs/curriculum/history/Maps/Maps/`.
 - **Decision:** As explicitly stated in the prompt rules for Phase 13, maps without PNG files should be skipped entirely. Therefore, no SVGs were generated for Batch E, and no manifest entries were appended. Logged them correctly as "skipped: no PNG".
+
+## Batch F (Maps 31-34 - FINAL)
+**Status**: Completed
+**Date**: 2024-05-24
+
+### Completed Maps
+- `map_032_coptic_egypt`
+
+### Skipped Maps
+- `map_031_nilotic_migrations` (no PNG)
+- `map_033_zagwe_dynasty` (no PNG)
+- `map_034_solomonic_dynasty` (no PNG)
+
+### Time Taken
+- Script authoring and validation: ~2 minutes
+- Total execution time: < 1 second
+
+### Issues and Decisions
+- **Issue:** Maps 31, 33, and 34 lacked corresponding base PNG files in `docs/curriculum/history/Maps/Maps/`.
+- **Decision:** Following prompt instructions, skipped SVG generation entirely for maps missing their PNG base layer. Logged them as "skipped: no PNG".
+- **Decision:** For `map_032_coptic_egypt`, dynamically mapped latitude and longitude coordinates extracted from the Markdown JSON block directly to SVG coordinate system using a 2816x1536 viewport mapping scale to preserve geographical placement.
