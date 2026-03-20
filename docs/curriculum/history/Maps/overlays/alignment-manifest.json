@@ -208,5 +208,103 @@
     },
     "status": "draft",
     "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_016",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 016.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_016_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_017",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 017.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_017_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_018",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 018.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_018_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_019",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 019.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_019_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_020",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 020.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_020_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_021",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 021.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_021_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
+  },
+  {
+    "mapId": "map_022",
+    "pngPath": "docs/curriculum/history/Maps/Maps/Map 022.png",
+    "svgPath": "docs/curriculum/history/Maps/overlays/map_022_overlay.svg",
+    "transform": {
+      "translateX": 0,
+      "translateY": 0,
+      "scaleX": 1,
+      "scaleY": 1,
+      "rotate": 0
+    },
+    "status": "draft",
+    "notes": "Initial generation. Needs manual alignment with alignment tool."
   }
 ]
