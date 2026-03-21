@@ -94,6 +94,9 @@ export default function AdminDashboard() {
           <Button variant="ghost" size="sm" onClick={handleLogout} aria-label="Sign out">
             <IconLogout className="h-4 w-4 mr-2" /> Sign out
           </Button>
+          <Button variant="outline" size="sm" onClick={() => navigate('/admin/content')}>
+            Content Tools
+          </Button>
         </div>
       </header>
 

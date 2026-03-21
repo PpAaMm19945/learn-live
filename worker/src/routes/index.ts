@@ -18,6 +18,8 @@ import { handleAnalyticsRoutes } from './analytics';
 import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 import { handleGetAsset, handleGetEvidence } from './storage';
+import { handleTtsRoutes } from './tts';
+import { handleMapTransformRoutes } from './mapTransforms';
 
 /**
  * Central Route Registry
@@ -39,10 +41,16 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     const curriculumResponse = await handleCurriculumRoutes(request, env, corsHeaders);
     if (curriculumResponse) return curriculumResponse;
 
-    // --- Admin Analytics Routes ---
+    // --- Admin Routes ---
     if (path.startsWith('/api/admin')) {
         const analyticsResponse = await handleAnalyticsRoutes(request, env, corsHeaders);
         if (analyticsResponse) return analyticsResponse;
+
+        const ttsResponse = await handleTtsRoutes(request, env, corsHeaders);
+        if (ttsResponse) return ttsResponse;
+
+        const mapResponse = await handleMapTransformRoutes(request, env, corsHeaders);
+        if (mapResponse) return mapResponse;
     }
 
     // --- Glossary Routes ---

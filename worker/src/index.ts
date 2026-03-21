@@ -10,6 +10,7 @@ export interface Env {
     Resend_API_Key: string;
     GEMINI_API_KEY?: string;
     PILOT_INVITE_CODE?: string;
+    GOOGLE_TTS_KEY?: string;
 }
 
 const ALLOWED_ORIGINS = [

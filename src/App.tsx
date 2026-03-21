@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
+import ContentTools from "./pages/admin/ContentTools";
 import TopicDetail from "./pages/TopicDetail";
 import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
@@ -95,6 +96,14 @@ const App = () => {
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
                     <AppShell><AdminDashboard /></AppShell>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/content"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AppShell><ContentTools /></AppShell>
                   </ProtectedRoute>
                 }
               />
