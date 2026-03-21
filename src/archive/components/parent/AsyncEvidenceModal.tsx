@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Camera, Mic, Square, UploadCloud, RefreshCw, Activity, Image as ImageIcon, FileCheck2 } from 'lucide-react';
 import { useAuthStore } from '@/lib/auth';
 import { toast } from 'sonner';
+import { Logger } from '@/lib/Logger';
 
 interface AsyncEvidenceModalProps {
     isOpen: boolean;
@@ -52,7 +53,7 @@ export function AsyncEvidenceModal({ isOpen, onClose, templateId, learnerName, c
             mediaRecorder.start();
             setIsRecording(true);
         } catch (error) {
-            console.error('Microphone error:', error);
+            Logger.error('[EVIDENCE]', 'Microphone error', error);
             toast.error('Could not access microphone');
         }
     };
@@ -142,7 +143,7 @@ export function AsyncEvidenceModal({ isOpen, onClose, templateId, learnerName, c
                 toast.info('Evidence needs revision, parent attention required.');
             }
         } catch (error) {
-            console.error('Submission error:', error);
+            Logger.error('[EVIDENCE]', 'Submission error', error);
             toast.error('Failed to analyze evidence. Please try again.');
             setStep('review');
         }
