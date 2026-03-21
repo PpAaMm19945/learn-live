@@ -185,17 +185,9 @@ export default function Dashboard() {
                   <div className="flex gap-4 pt-2">
                     <Button
                       className="bg-primary text-primary-foreground"
-                      onClick={() => navigate(`/narrate/${continueLessonId}`)}
-                      disabled={!continueLessonId}
+                      onClick={() => navigate('/play/ch01')}
                     >
                       Start Live Lesson
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => navigate(`/read/${continueLessonId}`)}
-                      disabled={!continueLessonId}
-                    >
-                      Read First
                     </Button>
                   </div>
                 </div>

@@ -4,6 +4,7 @@ import { LessonScript } from '@/lib/player/types';
 import { OverlayControls } from './OverlayControls';
 import { OverlayCaption } from './OverlayCaption';
 import { LessonDrawer, LessonDrawerItem } from './LessonDrawer';
+import { ComponentRenderer } from './ComponentRenderer';
 import { useAutoHide } from './useAutoHide';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X } from 'lucide-react';
@@ -150,10 +151,7 @@ export function ScriptPlayer({
     >
       {/* Visual Canvas Area */}
       <div className={`absolute inset-0 transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`}>
-         {/* Render visible components here (Instance C integration) */}
-         <div className="flex items-center justify-center w-full h-full text-zinc-500 font-mono text-sm opacity-50">
-           [Canvas Area: Render Map Overlay + Floating Components Here]
-         </div>
+         <ComponentRenderer visibleComponents={visibleComponents} band={band} />
       </div>
 
       {/* Top Metadata Overlay */}

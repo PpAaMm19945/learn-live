@@ -53,11 +53,11 @@
 > Master roadmap: `.antigravity/roadmap.md`
 > This is the major rebuild phase. Sub-phases:
 
-### Phase 3.1 — Cloud Run Deployment — NOT STARTED
-### Phase 3.2 — Dual Player Architecture — IN PROGRESS (Instance A Complete)
+### Phase 3.1 — Cloud Run Deployment — ✅ COMPLETE (Phase 15 Instance D)
+### Phase 3.2 — Dual Player Architecture — ✅ COMPLETE (Phase 15 Instances A + B)
 ### Phase 3.3 — SVG Alignment Tool — ✅ COMPLETE
-### Phase 3.4 — 9 Visual Component Shells — NOT STARTED
-### Phase 3.5 — Lesson Script Generator — ✅ COMPLETE
+### Phase 3.4 — 9 Visual Component Shells — ✅ COMPLETE (Phase 15 Instance C)
+### Phase 3.5 — Lesson Script Generator — ✅ COMPLETE (Phase 15 Instance E)
 ### Phase 3.6 — Chapter 1 Band 3 End-to-End — NOT STARTED
 ### Phase 3.7 — Chapter 1 Bands 4–5 (Premium) — NOT STARTED
 ### Phase 3.8 — Chapter 1 Bands 1–2 (Storybook) — NOT STARTED
@@ -86,8 +86,13 @@
 > Prompt: `.antigravity/prompts-phase13-component-data.md`
 > 9 chapters × 6 data types, 3 batches.
 
-### Phase 15: Session Engine — Player Architecture & Visual Components
-- Instance C: Complete
+### Phase 15: Session Engine — Player Architecture & Visual Components — ✅ COMPLETE
+- Instance A: LessonScript Types + useScriptPlayer Hook ✅
+- Instance B: ScriptPlayer + StorybookPlayer (YouTube-style) ✅
+- Instance C: 9 Visual Components ✅
+- Instance D: Cloud Run band param fix + deploy script ✅
+- Instance E: Lesson Script Generator CLI ✅
+> Prompt: `.antigravity/prompts-phase15-session-engine.md`
 
 ### Phase 14: SVG Alignment Tool — ✅ COMPLETE
 > Prompt: `.antigravity/prompts-phase14-alignment-tool.md`
