@@ -44,7 +44,7 @@ export async function handleMapTransformRoutes(
 
                 // Check if transform and SVG exist
                 const transformHead = await env.ASSETS_BUCKET.head(`assets/maps/transforms/${mapId}.json`);
-                const svgHead = await env.ASSETS_BUCKET.head(`assets/maps/overlays/${mapId}.svg`);
+                const svgHead = await env.ASSETS_BUCKET.head(`assets/maps/overlays/${mapId}_overlay.svg`);
 
                 maps.push({
                     mapId,
