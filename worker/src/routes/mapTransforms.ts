@@ -36,13 +36,15 @@ export async function handleMapTransformRoutes(
             }> = [];
 
             for (const obj of pngList.objects) {
-                // Extract mapId from key: maps/png/map_001.png → map_001
+                // Skip JSON metadata files, only process image files
                 const filename = obj.key.split('/').pop() || '';
+                if (filename.endsWith('.json')) continue;
+                // Extract mapId from key: assets/maps/map_001.png → map_001
                 const mapId = filename.replace(/\.[^.]+$/, '');
 
                 // Check if transform and SVG exist
-                const transformHead = await env.ASSETS_BUCKET.head(`maps/transforms/${mapId}.json`);
-                const svgHead = await env.ASSETS_BUCKET.head(`maps/svg/${mapId}.svg`);
+                const transformHead = await env.ASSETS_BUCKET.head(`assets/maps/transforms/${mapId}.json`);
+                const svgHead = await env.ASSETS_BUCKET.head(`assets/maps/overlays/${mapId}.svg`);
 
                 maps.push({
                     mapId,
