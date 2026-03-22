@@ -71,7 +71,7 @@ export async function handleMapTransformRoutes(
     const getTransformMatch = path.match(/^\/api\/admin\/maps\/([^/]+)\/transform$/);
     if (getTransformMatch && method === 'GET') {
         const mapId = getTransformMatch[1];
-        const r2Key = `maps/transforms/${mapId}.json`;
+        const r2Key = `assets/maps/transforms/${mapId}.json`;
         const obj = await env.ASSETS_BUCKET.get(r2Key);
 
         if (!obj) {
