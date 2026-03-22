@@ -27,7 +27,7 @@ export async function handleMapTransformRoutes(
     if (path === '/api/admin/maps' && method === 'GET') {
         try {
             // List all map PNGs in R2
-            const pngList = await env.ASSETS_BUCKET.list({ prefix: 'maps/png/' });
+            const pngList = await env.ASSETS_BUCKET.list({ prefix: 'assets/maps/' });
             const maps: Array<{
                 mapId: string;
                 pngKey: string;
