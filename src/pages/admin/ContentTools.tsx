@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useIsAdmin } from '@/lib/auth';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { IconArrowLeft, IconLoader2, IconPlayerPlay, IconCheck, IconX, IconVolume, IconMap2 } from '@tabler/icons-react';
+import { IconArrowLeft, IconLoader2, IconCheck, IconX, IconVolume, IconMap2 } from '@tabler/icons-react';
 
 const API_URL = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
 
@@ -428,22 +428,30 @@ function MapAlignmentTab() {
 
           {/* Preview area */}
           <div className="relative aspect-[3/2] bg-zinc-900 rounded-lg border overflow-hidden">
-            {/* PNG base layer would render here */}
-            <div className="absolute inset-0 flex items-center justify-center text-zinc-600 text-sm">
-              Map PNG: {selectedMap}.png
-            </div>
+            {/* PNG base layer */}
+            <img
+              src={`${API_URL}/api/assets/assets/maps/${selectedMap}.png`}
+              alt={`Map ${selectedMap}`}
+              className="absolute inset-0 w-full h-full object-contain"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
             {/* SVG overlay with transform */}
-            <div
-              className="absolute inset-0 border-2 border-dashed border-primary/30"
+            <img
+              src={`${API_URL}/api/assets/assets/maps/overlays/${selectedMap}_overlay.svg`}
+              alt="SVG Overlay"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none border-2 border-dashed border-primary/30"
               style={{
                 transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scaleX}, ${transform.scaleY}) rotate(${transform.rotate}deg)`,
                 transformOrigin: 'center center',
               }}
-            >
-              <div className="w-full h-full flex items-center justify-center text-primary/40 text-sm">
-                SVG Overlay: {selectedMap}.svg
-              </div>
-            </div>
+              onError={(e) => {
+                const img = e.target as HTMLImageElement;
+                img.style.display = 'none';
+                img.parentElement?.insertAdjacentHTML('beforeend',
+                  '<div class="absolute inset-0 flex items-center justify-center text-amber-500/60 text-sm">No SVG overlay uploaded</div>'
+                );
+              }}
+            />
           </div>
 
           {/* Transform controls */}
