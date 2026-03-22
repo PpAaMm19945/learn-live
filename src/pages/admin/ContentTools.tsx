@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useIsAdmin } from '@/lib/auth';
-import { useQuery, useMutation } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { IconArrowLeft, IconLoader2, IconPlayerPlay, IconCheck, IconX, IconVolume, IconMap2 } from '@tabler/icons-react';
+import { IconArrowLeft, IconLoader2, IconCheck, IconX, IconVolume, IconMap2 } from '@tabler/icons-react';
 
 const API_URL = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
 
