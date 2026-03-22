@@ -427,22 +427,34 @@ function MapAlignmentTab() {
           </div>
 
           {/* Preview area */}
-          <div className="relative aspect-[3/2] bg-zinc-900 rounded-lg border overflow-hidden">
-            {/* PNG base layer would render here */}
-            <div className="absolute inset-0 flex items-center justify-center text-zinc-600 text-sm">
-              Map PNG: {selectedMap}.png
-            </div>
+          <div className="relative aspect-[3/2] bg-muted rounded-lg border overflow-hidden">
+            {/* PNG base layer */}
+            <img
+              src={`${API_URL}/api/assets/assets/maps/${selectedMap}.png`}
+              alt={selectedMap}
+              className="absolute inset-0 w-full h-full object-contain"
+              onError={(e) => {
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
             {/* SVG overlay with transform */}
             <div
-              className="absolute inset-0 border-2 border-dashed border-primary/30"
+              className="absolute inset-0 border-2 border-dashed border-primary/30 pointer-events-none"
               style={{
                 transform: `translate(${transform.translateX}px, ${transform.translateY}px) scale(${transform.scaleX}, ${transform.scaleY}) rotate(${transform.rotate}deg)`,
                 transformOrigin: 'center center',
               }}
             >
-              <div className="w-full h-full flex items-center justify-center text-primary/40 text-sm">
-                SVG Overlay: {selectedMap}.svg
-              </div>
+              <img
+                src={`${API_URL}/api/assets/assets/maps/overlays/${selectedMap}.svg`}
+                alt="SVG overlay"
+                className="w-full h-full object-contain opacity-60"
+                onError={(e) => {
+                  const el = e.target as HTMLImageElement;
+                  el.style.display = 'none';
+                  el.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-primary/40 text-sm">No SVG overlay uploaded</div>';
+                }}
+              />
             </div>
           </div>
 
