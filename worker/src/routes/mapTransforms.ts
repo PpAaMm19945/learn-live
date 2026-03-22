@@ -26,33 +26,57 @@ export async function handleMapTransformRoutes(
     // -------------------------------------------------------
     if (path === '/api/admin/maps' && method === 'GET') {
         try {
-            // List all map PNGs in R2
-            const pngList = await env.ASSETS_BUCKET.list({ prefix: 'assets/maps/' });
+            // List all map assets in R2, then keep only base map PNGs
+            const assetList = await env.ASSETS_BUCKET.list({ prefix: 'assets/maps/' });
             const maps: Array<{
                 mapId: string;
                 pngKey: string;
                 hasTransform: boolean;
                 hasSvg: boolean;
+                overlayKey: string | null;
             }> = [];
 
-            for (const obj of pngList.objects) {
-                // Skip JSON metadata files, only process image files
-                const filename = obj.key.split('/').pop() || '';
-                if (filename.endsWith('.json')) continue;
-                // Extract mapId from key: assets/maps/map_001.png → map_001
-                const mapId = filename.replace(/\.[^.]+$/, '');
+            for (const obj of assetList.objects) {
+                // Keep only base PNG map files (exclude overlays + transforms folders)
+                if (!obj.key.startsWith('assets/maps/')) continue;
+                if (obj.key.startsWith('assets/maps/overlays/')) continue;
+                if (obj.key.startsWith('assets/maps/transforms/')) continue;
+                if (!obj.key.toLowerCase().endsWith('.png')) continue;
 
-                // Check if transform and SVG exist
+                const filename = obj.key.split('/').pop() || '';
+                const mapId = filename.replace(/\.[^.]+$/, '');
+                const mapPrefix = mapId.match(/^map_\d{3}/)?.[0] || mapId;
+
+                // Check if transform exists
                 const transformHead = await env.ASSETS_BUCKET.head(`assets/maps/transforms/${mapId}.json`);
-                const svgHead = await env.ASSETS_BUCKET.head(`assets/maps/overlays/${mapId}.svg`);
+
+                // Resolve SVG overlay key by trying common naming variants
+                const overlayCandidates = [
+                    `assets/maps/overlays/${mapId}_overlay.svg`,
+                    `assets/maps/overlays/${mapPrefix}_overlay.svg`,
+                    `assets/maps/overlays/${mapId}.svg`,
+                ];
+
+                let overlayKey: string | null = null;
+                for (const candidate of overlayCandidates) {
+                    // eslint-disable-next-line no-await-in-loop
+                    const svgHead = await env.ASSETS_BUCKET.head(candidate);
+                    if (svgHead) {
+                        overlayKey = candidate;
+                        break;
+                    }
+                }
 
                 maps.push({
                     mapId,
                     pngKey: obj.key,
                     hasTransform: !!transformHead,
-                    hasSvg: !!svgHead,
+                    hasSvg: !!overlayKey,
+                    overlayKey,
                 });
             }
+
+            maps.sort((a, b) => a.mapId.localeCompare(b.mapId));
 
             return addCors(new Response(JSON.stringify({ maps }), {
                 headers: { 'Content-Type': 'application/json' }

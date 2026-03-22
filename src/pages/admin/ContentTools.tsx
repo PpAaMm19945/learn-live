@@ -301,28 +301,79 @@ interface MapTransform {
   rotate: number;
 }
 
+interface AdminMap {
+  mapId: string;
+  pngKey: string;
+  hasTransform: boolean;
+  hasSvg: boolean;
+  overlayKey: string | null;
+}
+
+function extractMapPrefix(value: string): string {
+  return value.match(/^map_\d{3}/)?.[0] || value;
+}
+
 function MapAlignmentTab() {
-  const [selectedMap, setSelectedMap] = useState<string | null>(null);
+  const [selectedMap, setSelectedMap] = useState<AdminMap | null>(null);
   const [transform, setTransform] = useState<MapTransform>({
     translateX: 0, translateY: 0, scaleX: 1, scaleY: 1, rotate: 0,
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [overlayLoadError, setOverlayLoadError] = useState(false);
 
-  const { data: mapsData, isLoading } = useQuery({
+  const { data: mapsData, isLoading } = useQuery<{ maps: AdminMap[] }>({
     queryKey: ['admin-maps'],
     queryFn: async () => {
       const res = await fetch(`${API_URL}/api/admin/maps`, { credentials: 'include' });
       if (!res.ok) throw new Error('Failed to load maps');
-      return res.json();
+
+      const payload = await res.json() as { maps?: Array<Record<string, unknown>> };
+      const rawMaps = Array.isArray(payload.maps) ? payload.maps : [];
+
+      // Frontend safety net: if stale backend still returns overlay SVG cards,
+      // map them back to their PNG card by numeric map prefix.
+      const overlayByPrefix = new Map<string, string>();
+      rawMaps.forEach((item) => {
+        const key = typeof item.pngKey === 'string' ? item.pngKey : '';
+        if (!key || !key.toLowerCase().endsWith('.svg')) return;
+
+        const filename = key.split('/').pop() || '';
+        const overlayId = filename.replace(/\.[^.]+$/, '');
+        overlayByPrefix.set(extractMapPrefix(overlayId), key);
+      });
+
+      const normalizedMaps: AdminMap[] = rawMaps
+        .filter((item) => {
+          const key = typeof item.pngKey === 'string' ? item.pngKey : '';
+          return !!key && key.toLowerCase().endsWith('.png');
+        })
+        .map((item) => {
+          const mapId = typeof item.mapId === 'string' ? item.mapId : '';
+          const pngKey = typeof item.pngKey === 'string' ? item.pngKey : '';
+          const resolvedOverlay = typeof item.overlayKey === 'string' && item.overlayKey.length > 0
+            ? item.overlayKey
+            : overlayByPrefix.get(extractMapPrefix(mapId)) || null;
+
+          return {
+            mapId,
+            pngKey,
+            hasTransform: Boolean(item.hasTransform),
+            hasSvg: Boolean(item.hasSvg) || Boolean(resolvedOverlay),
+            overlayKey: resolvedOverlay,
+          };
+        });
+
+      return { maps: normalizedMaps };
     },
   });
 
-  const loadTransform = async (mapId: string) => {
-    setSelectedMap(mapId);
+  const loadTransform = async (map: AdminMap) => {
+    setSelectedMap(map);
     setSaved(false);
+    setOverlayLoadError(false);
     try {
-      const res = await fetch(`${API_URL}/api/admin/maps/${mapId}/transform`, { credentials: 'include' });
+      const res = await fetch(`${API_URL}/api/admin/maps/${map.mapId}/transform`, { credentials: 'include' });
       if (res.ok) {
         const data = await res.json();
         setTransform(data.transform);
@@ -336,7 +387,7 @@ function MapAlignmentTab() {
     if (!selectedMap) return;
     setSaving(true);
     try {
-      const res = await fetch(`${API_URL}/api/admin/maps/${selectedMap}/transform`, {
+      const res = await fetch(`${API_URL}/api/admin/maps/${selectedMap.mapId}/transform`, {
         method: 'PUT',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -369,7 +420,7 @@ function MapAlignmentTab() {
                 <Card
                   key={m.mapId}
                   className="cursor-pointer hover:border-primary/50 transition-colors"
-                  onClick={() => loadTransform(m.mapId)}
+                  onClick={() => loadTransform(m)}
                 >
                   <CardContent className="p-4">
                     <div className="aspect-[4/3] bg-muted rounded-md mb-3 overflow-hidden flex items-center justify-center">
@@ -411,10 +462,10 @@ function MapAlignmentTab() {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Button variant="ghost" size="sm" onClick={() => setSelectedMap(null)}>
+              <Button variant="ghost" size="sm" onClick={() => { setSelectedMap(null); setOverlayLoadError(false); }}>
                 <IconArrowLeft className="h-4 w-4 mr-1" /> Back to maps
               </Button>
-              <h3 className="font-medium text-lg">{selectedMap}</h3>
+              <h3 className="font-medium text-lg">{selectedMap.mapId}</h3>
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -437,8 +488,8 @@ function MapAlignmentTab() {
           <div className="relative aspect-[3/2] bg-muted rounded-lg border overflow-hidden">
             {/* PNG base layer */}
             <img
-              src={`${API_URL}/api/assets/assets/maps/${selectedMap}.png`}
-              alt={selectedMap}
+              src={`${API_URL}/api/assets/${selectedMap.pngKey}`}
+              alt={selectedMap.mapId}
               className="absolute inset-0 w-full h-full object-contain"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
@@ -452,16 +503,18 @@ function MapAlignmentTab() {
                 transformOrigin: 'center center',
               }}
             >
-              <img
-                src={`${API_URL}/api/assets/assets/maps/overlays/${selectedMap}.svg`}
-                alt="SVG overlay"
-                className="w-full h-full object-contain opacity-60"
-                onError={(e) => {
-                  const el = e.target as HTMLImageElement;
-                  el.style.display = 'none';
-                  el.parentElement!.innerHTML = '<div class="w-full h-full flex items-center justify-center text-primary/40 text-sm">No SVG overlay uploaded</div>';
-                }}
-              />
+              {selectedMap.overlayKey && !overlayLoadError ? (
+                <img
+                  src={`${API_URL}/api/assets/${selectedMap.overlayKey}`}
+                  alt="SVG overlay"
+                  className="w-full h-full object-contain opacity-60"
+                  onError={() => setOverlayLoadError(true)}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-primary/40 text-sm">
+                  No SVG overlay uploaded
+                </div>
+              )}
             </div>
           </div>
 
