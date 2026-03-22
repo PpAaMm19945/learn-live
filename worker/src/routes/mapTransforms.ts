@@ -126,7 +126,7 @@ export async function handleMapTransformRoutes(
                 alignedAt: new Date().toISOString(),
             };
 
-            const r2Key = `maps/transforms/${mapId}.json`;
+            const r2Key = `assets/maps/transforms/${mapId}.json`;
             await env.ASSETS_BUCKET.put(r2Key, JSON.stringify(transform, null, 2), {
                 httpMetadata: { contentType: 'application/json' },
             });
