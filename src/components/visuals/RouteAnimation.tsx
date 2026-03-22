@@ -20,7 +20,7 @@ export const RouteAnimation: React.FC<RouteAnimationProps> = ({
   useEffect(() => {
     // This effect expects the SVG path with id `svgPathId` to be present in the DOM,
     // which should be loaded by the MapOverlay component.
-    const pathElement = document.getElementById(svgPathId) as SVGPathElement | null;
+    const pathElement = document.getElementById(svgPathId) as unknown as SVGPathElement | null;
     if (pathElement) {
       const length = pathElement.getTotalLength();
 
