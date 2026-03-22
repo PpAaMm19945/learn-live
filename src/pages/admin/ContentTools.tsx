@@ -372,10 +372,17 @@ function MapAlignmentTab() {
                   onClick={() => loadTransform(m.mapId)}
                 >
                   <CardContent className="p-4">
-                    <div className="aspect-[4/3] bg-muted rounded-md mb-3 flex items-center justify-center">
-                      <IconMap2 className="h-8 w-8 text-muted-foreground/30" />
+                    <div className="aspect-[4/3] bg-muted rounded-md mb-3 overflow-hidden flex items-center justify-center">
+                      <img
+                        src={`${API_URL}/api/assets/${m.pngKey}`}
+                        alt={m.mapId}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
                     </div>
-                    <h4 className="font-medium text-sm">{m.mapId}</h4>
+                    <h4 className="font-medium text-sm truncate" title={m.mapId}>{m.mapId}</h4>
                     <div className="flex gap-2 mt-1">
                       <span className={`text-xs px-1.5 py-0.5 rounded ${m.hasSvg ? 'bg-green-500/10 text-green-500' : 'bg-muted text-muted-foreground'}`}>
                         {m.hasSvg ? 'SVG ✓' : 'No SVG'}
@@ -391,7 +398,7 @@ function MapAlignmentTab() {
                 <div className="col-span-full text-center py-12 text-muted-foreground">
                   <IconMap2 className="h-12 w-12 mx-auto mb-4 opacity-30" />
                   <p>No maps found in R2.</p>
-                  <p className="text-xs mt-1">Upload map PNGs to <code>maps/png/</code> in the ASSETS_BUCKET.</p>
+                  <p className="text-xs mt-1">Upload map PNGs to <code>assets/maps/</code> in the ASSETS_BUCKET.</p>
                 </div>
               )}
             </div>
