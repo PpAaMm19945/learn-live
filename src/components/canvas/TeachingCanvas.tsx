@@ -282,6 +282,133 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const [activeGenealogy, setActiveGenealogy] = useState<{ rootName: string, nodes: { name: string, parent?: string, descriptor?: string, color?: string }[] } | null>(null);
     const [activeTimeline, setActiveTimeline] = useState<{ events: { year: number, label: string, color?: string }[] } | null>(null);
 
+    // Expose overlay methods via the imperative handle (appended to existing ref)
+    useImperativeHandle(ref, () => ({
+      ...ref && typeof ref === 'object' && 'current' in ref && ref.current ? ref.current : {},
+      // Re-declare all existing methods from the first useImperativeHandle above
+      zoomTo(lng: number, lat: number, zoom: number = 5, duration: number = 1000) {
+        mapRef.current?.flyTo({ center: [lng, lat], zoom, duration });
+      },
+      highlightRegion(featureId: string, color: string, opacity: number = 0.25) {
+        if (!mapRef.current || !mapLoaded) return;
+        const map = mapRef.current;
+        const currentOpacity = map.getPaintProperty('chapter-regions-fill', 'fill-opacity') || 0;
+        let newOpacityExpr;
+        if (Array.isArray(currentOpacity) && currentOpacity[0] === 'match') {
+          newOpacityExpr = [...currentOpacity];
+          newOpacityExpr.splice(newOpacityExpr.length - 1, 0, featureId, opacity);
+        } else {
+          newOpacityExpr = ['match', ['get', 'id'], featureId, opacity, 0];
+        }
+        map.setPaintProperty('chapter-regions-fill', 'fill-opacity', newOpacityExpr);
+        let newLineExpr;
+        const currentLineOpacity = map.getPaintProperty('chapter-regions-line', 'line-opacity') || 0;
+        if (Array.isArray(currentLineOpacity) && currentLineOpacity[0] === 'match') {
+          newLineExpr = [...currentLineOpacity];
+          newLineExpr.splice(newLineExpr.length - 1, 0, featureId, 0.5);
+        } else {
+          newLineExpr = ['match', ['get', 'id'], featureId, 0.5, 0];
+        }
+        map.setPaintProperty('chapter-regions-line', 'line-opacity', newLineExpr);
+      },
+      clearHighlight(featureId: string) {
+        if (!mapRef.current || !mapLoaded) return;
+        mapRef.current.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
+        mapRef.current.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
+      },
+      drawRoute(coordinates: [number, number][], color: string, style: 'migration' | 'trade' | 'conquest', animate: boolean = true) {
+        if (!mapRef.current || !mapLoaded) return "";
+        const map = mapRef.current;
+        const routeId = `route-${Date.now()}`;
+        let dashArray = [1, 0];
+        let lineWidth = 2;
+        if (style === 'migration') { dashArray = [8, 4]; lineWidth = 2; }
+        else if (style === 'trade') { dashArray = [2, 2]; lineWidth = 1.5; }
+        else if (style === 'conquest') { dashArray = [1, 0]; lineWidth = 3; }
+        map.addSource(routeId, { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } } });
+        map.addLayer({ id: routeId, type: 'line', source: routeId, layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': color, 'line-width': lineWidth, 'line-dasharray': dashArray as [number, number] } });
+        return routeId;
+      },
+      removeRoute(routeId: string) {
+        if (!mapRef.current) return;
+        const map = mapRef.current;
+        if (map.getLayer(routeId)) map.removeLayer(routeId);
+        if (map.getSource(routeId)) map.removeSource(routeId);
+        if (animationRefs.current.has(routeId)) {
+          cancelAnimationFrame(animationRefs.current.get(routeId)!);
+          animationRefs.current.delete(routeId);
+        }
+      },
+      placeMarker(lng: number, lat: number, label: string, color: string = '#fac775') {
+        if (!mapRef.current) return "";
+        const markerId = `marker-${Date.now()}`;
+        const el = document.createElement('div');
+        el.className = 'teaching-canvas-marker';
+        const dot = document.createElement('div');
+        dot.className = 'teaching-canvas-marker-dot';
+        dot.style.backgroundColor = color;
+        const labelEl = document.createElement('div');
+        labelEl.className = 'teaching-canvas-marker-label';
+        labelEl.textContent = label;
+        el.appendChild(dot);
+        el.appendChild(labelEl);
+        const marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(mapRef.current);
+        markersRef.current.set(markerId, marker);
+        return markerId;
+      },
+      removeMarker(markerId: string) {
+        if (markersRef.current.has(markerId)) {
+          markersRef.current.get(markerId)?.remove();
+          markersRef.current.delete(markerId);
+        }
+      },
+      clearOverlays() {
+        if (!mapRef.current || !mapLoaded) return;
+        const map = mapRef.current;
+        markersRef.current.forEach(marker => marker.remove());
+        markersRef.current.clear();
+        if (map.getLayer('chapter-regions-fill')) {
+          map.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
+          map.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
+        }
+        const style = map.getStyle();
+        if (style?.layers) {
+          style.layers.forEach(layer => {
+            if (layer.id.startsWith('route-')) {
+              map.removeLayer(layer.id);
+              map.removeSource(layer.id);
+            }
+          });
+        }
+        setActiveScripture(null);
+        setActiveFigure(null);
+        setActiveGenealogy(null);
+        setActiveTimeline(null);
+      },
+      flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }) {
+        mapRef.current?.flyTo(options);
+      },
+      // --- Overlay imperative methods ---
+      showScripture(reference: string, text: string, connection?: string) {
+        setActiveScripture({ text, reference, connection });
+      },
+      showFigure(name: string, title: string, imageUrl?: string) {
+        setActiveFigure({ name, title, imageUrl });
+      },
+      showGenealogy(rootName: string, nodes: { name: string; parent?: string; descriptor?: string; color?: string }[]) {
+        setActiveGenealogy({ rootName, nodes });
+      },
+      showTimeline(events: { year: number; label: string; color?: string }[]) {
+        setActiveTimeline({ events });
+      },
+      dismissOverlay(type: 'scripture' | 'figure' | 'genealogy' | 'timeline' | 'all') {
+        if (type === 'all' || type === 'scripture') setActiveScripture(null);
+        if (type === 'all' || type === 'figure') setActiveFigure(null);
+        if (type === 'all' || type === 'genealogy') setActiveGenealogy(null);
+        if (type === 'all' || type === 'timeline') setActiveTimeline(null);
+      },
+    }));
+
     return (
       <div className={`teaching-canvas-container ${className}`}>
         <div ref={mapContainerRef} className="w-full h-full" />
