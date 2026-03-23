@@ -43,7 +43,7 @@ export function ScriptPlayer({
     toolCallLog,
     startSession,
     endSession,
-  } = useWebSocketCanvas('ws://localhost:3000'); // Note: Adjust URL in real app
+  } = useWebSocketCanvas(import.meta.env.VITE_WS_URL || 'ws://localhost:3000');
 
   const {
     phase,

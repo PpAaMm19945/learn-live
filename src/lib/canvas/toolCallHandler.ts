@@ -50,5 +50,20 @@ export function handleToolCall(canvas: TeachingCanvasRef, message: ToolCallMessa
     case 'clear_canvas':
       canvas.clearOverlays();
       break;
+    case 'show_scripture':
+      canvas.showScripture(message.args.reference, message.args.text, message.args.connection);
+      break;
+    case 'show_figure':
+      canvas.showFigure(message.args.name, message.args.title, message.args.imageUrl);
+      break;
+    case 'show_genealogy':
+      canvas.showGenealogy(message.args.rootName, message.args.nodes);
+      break;
+    case 'show_timeline':
+      canvas.showTimeline(message.args.events);
+      break;
+    case 'dismiss_overlay':
+      canvas.dismissOverlay(message.args.type || 'all');
+      break;
   }
 }
