@@ -407,6 +407,9 @@ function MapAlignmentTab() {
 
   return (
     <div className="space-y-6">
+      <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-3 text-sm text-amber-200">
+        <strong>⚠ Legacy Tool:</strong> This tab manages PNG/SVG overlay alignment. The teaching canvas now uses <strong>MapLibre GL JS</strong> with GeoJSON regions. This tool is kept for reference only.
+      </div>
       {/* Map Grid */}
       {!selectedMap && (
         <div>
