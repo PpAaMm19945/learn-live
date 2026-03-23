@@ -1,130 +1,62 @@
 
 
-# Repository Cleanup Plan
+# Audit Report and Loose Ends Fix Plan
 
-## The Problem
+## Issues Found
 
-The repo has accumulated debris from 15+ phases of development, two major pivots (math → history, raster maps → MapLibre), and parallel agent (Jules) execution. Documentation is scattered across 7+ files with overlapping content, root directory has ~20 orphaned scripts and screenshots, and legacy code sits in multiple locations.
+### 1. MapTiler API Key is "PLACEHOLDER"
+**File**: `src/components/canvas/TeachingCanvas.tsx`, line 31
+**Problem**: `MAP_STYLE` URL uses `key=PLACEHOLDER`. The MapLibre map will fail to load tiles in production. This needs a real MapTiler key injected via environment variable (`VITE_MAPTILER_KEY`).
+**Fix**: Change to `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}` and document the required env var.
 
-## What Gets Cleaned Up
+### 2. Legacy `primitives/index.ts` imports from `@/archive`
+**File**: `src/lib/canvas/primitives/index.ts`, line 1
+**Problem**: `import { CanvasElement, CanvasOperation } from '@/archive/explainerClient'` — this pulls types from archived code. The entire `primitives/` directory (`MapPrimitives.ts`, `TimelinePrimitives.ts`, `FigurePrimitives.ts`, `EventPrimitives.ts`) is the old SVG-based system that has been replaced by MapLibre's `TeachingCanvas`.
+**Fix**: Move the entire `src/lib/canvas/primitives/` directory to `src/archive/canvas/primitives/`. Nothing in active code imports from it except `HistoryCanvas.tsx` (also legacy).
 
-### 1. Root Directory — Remove Orphaned Files
+### 3. Legacy `HistoryCanvas.tsx` still in active components
+**File**: `src/components/canvas/HistoryCanvas.tsx`
+**Problem**: This is the old SVG-based canvas that renders PNG base maps with SVG elements. It is imported by `NarratedLessonView.tsx`. Both are superseded by `TeachingCanvas.tsx` + `ScriptPlayer.tsx` via `LessonPlayerPage.tsx`.
+**Fix**: Move `HistoryCanvas.tsx` to `src/archive/canvas/`. Move `PlaybackControls.tsx` and `TranscriptBar.tsx` to archive too (replaced by `OverlayControls`, `TranscriptPanel`). Update or archive `NarratedLessonView.tsx` since it uses the old system.
 
-**Delete these** (one-off scripts, screenshots, and legacy helpers that served their purpose):
+### 4. `NarratedLessonView.tsx` uses legacy canvas system
+**File**: `src/pages/NarratedLessonView.tsx`
+**Problem**: Imports `HistoryCanvas`, `PlaybackControls`, `TranscriptBar` — all legacy components. This page duplicates the functionality now in `LessonPlayerPage.tsx`.
+**Fix**: Archive `NarratedLessonView.tsx` to `src/archive/pages/`. Verify no active route points to it.
 
-```text
-ROOT FILES TO DELETE:
-├── append_manifest.js
-├── append_manifest_c.cjs
-├── audit_worldview.cjs
-├── extract_legacy.cjs
-├── fix_legacy.cjs
-├── frontend-verify.py
-├── generate_batch_b.cjs
-├── generate_batch_c.cjs
-├── generate_batch_d.cjs
-├── generate_science_strand_1.cjs
-├── generate_science_strand_2.cjs
-├── generate_science_strand_3.cjs
-├── generate_strand_5.cjs
-├── deploy_agent.sh
-├── dashboard-mobile.png
-├── dashboard_cta.png
-├── dashboard_redirect.png
-├── exam-view-mobile.png
-├── glossary_verification.png
-├── lesson-view-mobile.png
-├── narrated-lesson-mobile.png
-├── reading-view-mobile.png
-├── topic-detail-mobile.png
-├── SYNC_TEST.md
-├── PROMPT_FOR_JULES.md
-├── PROMPT_FOR_JULES_ENGLISH.md
-├── PROMPT_FOR_JULES_SCIENCE.md
-├── PROMPT_FOR_JULES_SUBJECTS.md
-├── issues.md  (duplicate — consolidating into .antigravity/)
-```
+### 5. WebSocket URL hardcoded to `localhost:3000`
+**File**: `src/components/player/ScriptPlayer.tsx`, line 46
+**Problem**: `useWebSocketCanvas('ws://localhost:3000')` — hardcoded dev URL. Will fail in production.
+**Fix**: Use an environment variable: `import.meta.env.VITE_WS_URL || 'ws://localhost:3000'`.
 
-**Keep**: `ROADMAP.md` (will be rewritten), `AGENTS.md`, `README.md`, all config files.
+### 6. Console warning: Badge component ref issue
+**Problem**: `Function components cannot be given refs` warning from `Badge` in `Dashboard`. Minor but noisy.
+**Fix**: Wrap `Badge` component with `React.forwardRef` in `src/components/ui/badge.tsx`.
 
-### 2. Legacy Curriculum Data — Archive
+### 7. Admin ContentTools still manages PNG/SVG alignment
+**File**: `src/pages/admin/ContentTools.tsx` (625 lines)
+**Problem**: The `MapAlignmentTab` manages PNG/SVG overlay alignment — the exact system being replaced by MapLibre. This is now dead functionality.
+**Fix**: Keep for now but add a deprecation banner at the top of the tab: "This tool manages legacy PNG/SVG maps. The teaching canvas now uses MapLibre GL JS." No code removal needed yet — it still works for reference.
 
-Move to `archive/` (these are from the math/english/science pivot and no longer active):
+### 8. `TeachingCanvas` overlay state is internal-only
+**Problem**: The `activeScripture`, `activeFigure`, `activeGenealogy`, `activeTimeline` states in `TeachingCanvas.tsx` are declared but have no imperative API to set them. The `TeachingCanvasRef` interface doesn't expose `showScripture()`, `showFigure()`, etc.
+**Fix**: Add these methods to the `useImperativeHandle` block: `showScripture(ref, text, connection?)`, `showFigure(name, title, imageUrl?)`, `showGenealogy(rootName, nodes)`, `showTimeline(events)`, `dismissOverlay(type)`. Wire them to the existing state setters.
 
-```text
-MOVE TO archive/:
-├── curriculum_data/          (all math/english/science JSON templates)
-├── docs/curriculum/math/     (math spine, templates, task.md)
-├── docs/curriculum/english/  (english spine, templates)
-├── docs/curriculum/science/  (science spine, templates)
-├── scripts/english/          (english extraction scripts)
-├── scripts/generate_b2_*.py  (math generation scripts)
-├── scripts/batch_sql.cjs
-├── scripts/run_batches.cjs
-├── scripts/extract_english_templates.cjs
-├── verification/             (old screenshots)
-├── videos/                   (old verification videos)
-```
+## Execution Plan
 
-**Keep in place**: `docs/curriculum/history/`, `docs/core-docs/`, `scripts/generate_lesson_script.ts`, `scripts/seed_curriculum.ts`.
+| Step | Action | Files |
+|------|--------|-------|
+| 1 | Add MapTiler env var support to TeachingCanvas | `TeachingCanvas.tsx` |
+| 2 | Add overlay imperative methods to TeachingCanvasRef | `TeachingCanvas.tsx` |
+| 3 | Add overlay tool calls to toolCallHandler | `toolCallHandler.ts` |
+| 4 | Fix WebSocket URL to use env var | `ScriptPlayer.tsx` |
+| 5 | Archive legacy canvas files | Move `HistoryCanvas.tsx`, `PlaybackControls.tsx`, `TranscriptBar.tsx`, primitives dir, `NarratedLessonView.tsx` to `src/archive/` |
+| 6 | Fix Badge forwardRef warning | `badge.tsx` |
+| 7 | Add deprecation banner to MapAlignmentTab | `ContentTools.tsx` |
 
-### 3. Documentation Consolidation
-
-Replace the current 7-file scattered documentation with 4 clean files:
-
-#### `.antigravity/ROADMAP.md` — Single Source of Truth
-- Merge `ROADMAP.md` (root) + `.antigravity/roadmap.md` + `.antigravity/progress.md`
-- Structure: Origin story (math pivot → history pivot → MapLibre pivot), completed phases as a compact summary table, current architecture, and upcoming phases clearly laid out
-- The 873-line session engine roadmap gets trimmed to its still-relevant sections (vision, band definitions, design principles, architecture decisions). Phases 3.1-3.5 marked complete. Phases 3.6-3.10 rewritten to reflect the MapLibre pivot.
-
-#### `.antigravity/ISSUES.md` — Single Issues Tracker
-- Merge `issues.md` (root) + `.antigravity/issues.md`
-- Resolved issues compressed to a one-line-per-issue summary table
-- Only open/active issues get full descriptions
-- Add the new open issues (MapLibre migration, admin tools refinement)
-
-#### `.antigravity/PROMPTS.md` — Consolidated Prompt Log
-- Merge `.antigravity/prompts.md` + all `prompts-phase*.md` files
-- Each phase becomes a compact table (already the format in prompts.md)
-- Delete the 6 individual `prompts-phase*.md` files after merging
-
-#### `.antigravity/CHANGELOG.md` — One-Line-Per-Decision Log
-- Absorb `.antigravity/notes/` (18 files) and `.antigravity/walkthroughs/` (3 files) and `.antigravity/logs/` (2 files)
-- Each note becomes 1-3 lines: date, decision, outcome
-- Delete the `notes/`, `walkthroughs/`, `logs/` directories after
-
-### 4. Root ROADMAP.md — Rewrite
-
-The root `ROADMAP.md` becomes a short, public-facing document:
-- Product vision (3 paragraphs)
-- Architecture overview (Cloudflare Workers + D1 + R2, Cloud Run agent, React frontend)
-- Chapter content status table
-- Link to `.antigravity/ROADMAP.md` for detailed engineering roadmap
-
-### 5. What Does NOT Get Touched
-
-- `src/archive/` and `worker/src/archive/` — already properly archived and excluded from compilation
-- `docs/curriculum/history/` — active content, stays
-- `docs/core-docs/` — philosophy and pedagogy docs, stays
-- `agent/` — Cloud Run agent, stays
-- `tools/svg-aligner/` — still useful reference, stays
-- All active `src/components/`, `src/pages/`, `worker/src/routes/` — no changes
-
-## Execution Order
-
-1. Delete root orphaned files (scripts, screenshots, legacy prompts)
-2. Move legacy curriculum data to `archive/`
-3. Write consolidated `.antigravity/ROADMAP.md`
-4. Write consolidated `.antigravity/ISSUES.md`
-5. Write consolidated `.antigravity/PROMPTS.md`
-6. Write consolidated `.antigravity/CHANGELOG.md`
-7. Rewrite root `ROADMAP.md` as short overview
-8. Delete absorbed files (`notes/`, `walkthroughs/`, `logs/`, individual prompt files)
-9. Update `.gitignore` if needed
-
-## Technical Notes
-
-- No code changes. No component edits. No route changes. Documentation and file organization only.
-- The `tsconfig.app.json` already excludes `src/archive/` — the new `archive/` at root for curriculum data doesn't need exclusion since it's not TypeScript source.
-- Build will not be affected by any of these changes.
+## What This Does NOT Touch
+- Worker/backend code (no changes needed)
+- GeoJSON data files (correct and complete for Chapter 1)
+- Player components (`ScriptPlayer`, `StorybookPlayer`, `OverlayControls`, etc.)
+- Documentation (already consolidated)
 
