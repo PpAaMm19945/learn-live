@@ -131,14 +131,7 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/narrate/:lessonId"
-                element={
-                  <ProtectedRoute>
-                    <NarratedLessonView />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Legacy /narrate route removed — use /play/:chapterId instead */}
               <Route
                 path="/play/:chapterId"
                 element={
