@@ -15,7 +15,7 @@ import TopicDetail from "./pages/TopicDetail";
 import LessonView from "./pages/LessonView";
 import ReadingView from "./pages/ReadingView";
 import ExamView from "./pages/ExamView";
-import NarratedLessonView from "./pages/NarratedLessonView";
+
 import LessonPlayerPage from "./pages/LessonPlayerPage";
 import Onboarding from "./pages/Onboarding";
 import Glossary from "./pages/Glossary";
