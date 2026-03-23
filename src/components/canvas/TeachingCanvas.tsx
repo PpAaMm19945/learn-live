@@ -106,7 +106,6 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
 
     // Expose overlay methods via the imperative handle (appended to existing ref)
     useImperativeHandle(ref, () => ({
-      ...ref && typeof ref === 'object' && 'current' in ref && ref.current ? ref.current : {},
       // Re-declare all existing methods from the first useImperativeHandle above
       zoomTo(lng: number, lat: number, zoom: number = 5, duration: number = 1000) {
         mapRef.current?.flyTo({ center: [lng, lat], zoom, duration });
