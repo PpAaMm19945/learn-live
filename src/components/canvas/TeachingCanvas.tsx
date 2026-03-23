@@ -28,7 +28,7 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const animationRefs = useRef<Map<string, number>>(new Map());
     const [mapLoaded, setMapLoaded] = useState(false);
 
-    const MAP_STYLE = 'https://api.maptiler.com/maps/outdoor-v2/style.json?key=PLACEHOLDER';
+    const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}`;
 
     useEffect(() => {
       if (!mapContainerRef.current) return;
