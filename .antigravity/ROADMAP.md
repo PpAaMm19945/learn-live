@@ -103,42 +103,85 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 
 ## Architecture Decisions (Locked)
 
-1. **MapLibre GL JS replaces PNG+SVG maps** for the teaching canvas. PNG maps kept as reference images.
-2. **Pre-generated lesson scripts drive playback.** Live AI is dialogue only.
-3. **9 reusable visual components, built once.** Every chapter uses same components with different data.
+1. **MapLibre GL JS replaces PNG+SVG maps** for the teaching canvas. PNG maps kept as reference images in R2.
+2. **Live AI narration replaces pre-recorded audio.** Gemini streams voice + tool calls simultaneously via WebSocket. No pre-synchronization needed.
+3. **9 reusable visual components, built once.** Every chapter uses same components with different data. These now render as MapLibre overlays + HTML panels, not SVG primitives.
 4. **StorybookPlayer is a separate component.** Not a mode switch on LessonPlayer.
 5. **Chapter 1 launches before Chapter 2 is touched.**
 6. **Lesson player is ONE screen with 3 phases:** Teaching → Dialogue → Review.
-7. **ReadingView removed.** The AI reads and teaches. The lesson player IS the reading.
-8. **ParentReviewModal removed as blocking gate.** Replaced by passive post-lesson summary.
+7. **The AI is the teacher.** It decides what to show as it speaks — zoom, highlight, draw routes — via tool calls. The lesson script provides structure, but the map interactions are live.
+
+---
+
+## MapLibre Tool-Call API
+
+The AI controls the canvas via these tool calls, fired through the WebSocket alongside audio:
+
+| Tool | What it does |
+|------|-------------|
+| `zoom_to(region)` | Fly camera to a named location (800ms smooth animation) |
+| `highlight_region(id, color)` | Fill a GeoJSON polygon with translucent color |
+| `draw_route(from, to, style)` | Animate dashed line between named locations (migration/trade/conquest) |
+| `place_marker(location, label)` | Drop a labeled pin at a named city |
+| `show_scripture(ref, text)` | Overlay scripture card on canvas |
+| `show_genealogy(data)` | Render animated family tree panel |
+| `show_timeline(events)` | Pop timeline bar across bottom of map |
+| `show_figure(name, image_url)` | Bring up historical figure portrait card |
+| `clear_canvas()` | Remove all overlays, return to clean map |
 
 ---
 
 ## Current Phase: MapLibre Migration + Chapter 1 E2E
 
-### What's Next
+### Phase 16: MapLibre Teaching Canvas (4 parallel instances)
 
-#### Phase 16: MapLibre Teaching Canvas
-- [ ] Integrate MapLibre GL JS into the project
-- [ ] Build `TeachingCanvas` component with programmable tool-call API
-- [ ] Create GeoJSON for Chapter 1 (Babel, Egypt, Cush, Phut boundaries)
-- [ ] Wire AI tool calls (`zoom_to`, `highlight_region`, `draw_route`, `place_marker`) to MapLibre
-- [ ] Replace PNG+SVG overlay system with MapLibre layers
+**Goal:** Replace HistoryCanvas (SVG/PNG) with a MapLibre GL JS powered TeachingCanvas. The AI controls the map live via tool calls.
 
-#### Phase 17: Chapter 1 Band 3 End-to-End
-- [ ] Generate real `lesson_ch01_band3.json` with Chapter 1 content
-- [ ] Batch render TTS audio for all Band 3 cues
-- [ ] Wire ScriptPlayer → TeachingCanvas → live Gemini dialogue
-- [ ] Test full flow: lesson plays → dialogue works → progress saves
+#### 16A: MapLibre Integration + TeachingCanvas Shell
+- [ ] Install `maplibre-gl` package
+- [ ] Create `src/components/canvas/TeachingCanvas.tsx` — wraps MapLibre GL JS
+- [ ] Use MapTiler or Protomaps for base tiles (terrain style, muted palette matching app theme)
+- [ ] Default view: Northeast Africa centered, zoom level showing Babel → Libya extent
+- [ ] Expose imperative API: `zoomTo()`, `highlightRegion()`, `drawRoute()`, `placeMarker()`, `clearOverlays()`
+- [ ] Build overlay panel system for scripture cards, genealogy trees, figure cards, timeline (HTML overlays positioned over MapLibre, not SVG)
+- [ ] Wire into `LessonPlayerPage.tsx` replacing the old `HistoryCanvas`
 
-#### Phase 18: Chapter 1 All Bands
-- [ ] Band 0–1: StorybookPlayer with illustrations
-- [ ] Band 2: Adapted textbook with simplified map
-- [ ] Band 4–5: Academic mode with ComparisonView and debate dialogue
+#### 16B: Historical GeoJSON Data (Chapter 1)
+- [ ] Create `src/data/geojson/ch01_regions.geojson` — polygons for Mizraim (Egypt), Cush (Nubia), Phut (Libya), Canaan, Babel marker
+- [ ] Source coordinates from Ancient World Mapping Center + existing map spec descriptions in `docs/curriculum/history/component-data/chapter_01/`
+- [ ] Create `src/data/geojson/ch01_routes.geojson` — LineStrings for Babel→Egypt, Babel→Nubia, Babel→Libya migration routes
+- [ ] Create `src/data/geojson/ch01_markers.geojson` — named cities: Babel, Memphis, Kerma, Thebes, etc.
+- [ ] Each feature has properties: `id`, `name`, `color`, `chapter`, `type` for programmatic access
+- [ ] Create `src/data/geojson/index.ts` — loader that exports chapter GeoJSON by chapter number
 
-#### Phase 19: UI Redesign
+#### 16C: Agent Tool-Call Rewrite
+- [ ] Rewrite `agent/src/historyExplainerTools.ts` — replace `show_element`/`animate_element`/`remove_element`/`show_map_overlay`/`highlight_route`/`zoom_map` with MapLibre-native tools: `zoom_to`, `highlight_region`, `draw_route`, `place_marker`, `show_scripture`, `show_genealogy`, `show_timeline`, `show_figure`, `clear_canvas`
+- [ ] Update `agent/src/historyExplainerSession.ts` — tool call handler maps new tool names to WebSocket messages
+- [ ] Update `buildHistoryExplainerPrompt()` — new instructions reference MapLibre capabilities (e.g., "You can zoom to any named location. Regions are GeoJSON polygons, not canvas elements.")
+- [ ] Keep band-aware prompt sections (band 0-1, 2-3, 4-5)
+
+#### 16D: Frontend Tool-Call Handler + Integration
+- [ ] Create `src/lib/canvas/toolCallHandler.ts` — receives WebSocket tool-call messages, dispatches to TeachingCanvas imperative API
+- [ ] Wire WebSocket from Cloud Run agent → `toolCallHandler` → `TeachingCanvas`
+- [ ] Build tool-call activity log (sidebar "Canvas actions" panel showing what the AI is doing)
+- [ ] Build transcript panel (sidebar showing live narration text)
+- [ ] Build waveform/speaking indicator
+- [ ] Update `ScriptPlayer` to use `TeachingCanvas` instead of `HistoryCanvas`
+
+### Phase 17: Chapter 1 Band 3 End-to-End
+- [ ] Generate real `lesson_ch01_band3.json` with Chapter 1 content referencing new tool names
+- [ ] Wire ScriptPlayer → TeachingCanvas → live Gemini dialogue (Teaching phase uses script, Dialogue phase is live)
+- [ ] Test full flow: lesson plays → map responds → dialogue works → progress saves
+- [ ] Verify all 9 tool calls work end-to-end with Chapter 1 data
+
+### Phase 18: Chapter 1 All Bands
+- [ ] Band 0–1: StorybookPlayer with generated illustrations (no map, simple story)
+- [ ] Band 2: Simplified map interactions (fewer regions, slower zoom, bigger labels)
+- [ ] Band 4–5: Full map complexity + ComparisonView + Socratic dialogue mode
+
+### Phase 19: UI Redesign
 - [ ] Rebuild Dashboard as library shelf
-- [ ] Remove deprecated pages (old ReadingView, LessonView wrapper, standalone ExamView)
+- [ ] Remove deprecated pages (old ReadingView, LessonView wrapper, standalone ExamView, admin SVG alignment tools)
 - [ ] Build PostLessonSummary (passive, non-blocking)
 - [ ] Simplify onboarding to 3 steps
 
