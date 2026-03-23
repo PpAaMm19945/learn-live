@@ -1,307 +1,49 @@
-# Learn Live: African History Curriculum — Development Roadmap
+# Learn Live
 
-> **Pivot Note (March 2026):** Learn Live is pivoting from a general-purpose math curriculum platform to a focused **African History curriculum** adapted for all ages. The core philosophy remains: *AI as Witness, not Authority — Parents hold sovereignty.* The math curriculum engine, DAG system, and constraint templates are archived (not deleted) for future reuse. The previous roadmap is preserved in `docs/archive/ROADMAP_v1.md`.
-
----
-
-## Vision
-
-**One deeply researched African History source, AI-adapted for any age — from picture books to university prep.**
-
-Parents already committed to established curricula (Saxon, Classical Conversations, etc.) unanimously report one gap: **African History.** Learn Live fills that gap as a standalone, supplementary course families plug into whatever else they're doing.
+**Biblical African History AI Tutor** — One deeply researched source, AI-adapted for any age.
 
 ---
 
-## Philosophy (Unchanged)
+## What Is This?
 
-- **Parent as Authority.** The parent chooses the band, reviews AI-generated content, and holds judgment over progression.
-- **AI as Steward.** AI adapts content to reading levels, narrates interactive maps, conducts oral examinations — but never grades or advances a child without parental consent.
-- **Physical-First.** AI supplements; it doesn't replace books, maps, narration, and discussion at the kitchen table.
-- **Confessional Framework.** The source text is written from a 1689 Reformed Baptist perspective with YEC chronology. Conventional dates are provided transparently for reference.
+Learn Live is a supplementary African History course for homeschool families. A single 9-chapter, university-level textbook is AI-adapted into 6 age-appropriate bands (ages 3–18+). A parent who starts a child at Band 0 (age 3) and continues through Band 5 (age 17) uses this product for 14 years on the same content — only vocabulary, length, and visual style change. Never the theology, never the facts.
 
----
-
-## The Master Text
-
-The source material is a 10-chapter, university-level African History textbook located in `docs/curriculum/history/my-first-textbook/`. This is the **single source of truth** that all band-level content is derived from.
-
-| Chapter | Title | Period |
-|---------|-------|--------|
-| 1 | Creation, Babel, & the Table of Nations | Origins – c. 2250 BC |
-| 2 | Ancient Egypt | c. 2100–1000 BC |
-| 3 | The Kingdom of Kush & Nubia | c. 1900–300 BC |
-| 4 | The Phoenicians & Carthage in Africa | c. 1100–146 BC |
-| 5 | The Church in Roman Africa | 30 AD – 700 AD |
-| 6 | The Kingdom of Aksum & Ethiopian Christianity | c. 100–940 AD |
-| 7 | The Rise of Islam in Africa | 632–1100 AD |
-| 8 | The Bantu Migrations | c. 1000 BC – 1500 AD |
-| 9 | Medieval African Kingdoms (Ghana, Mali, Songhai, Zimbabwe) | c. 300–1600 AD |
-| 10 | *(In progress)* | TBD |
-
-**Supporting Assets:** 34 detailed maps in `docs/curriculum/history/Maps/`, chapter images, and `metadata.json`.
+Written from a 1689 Reformed Baptist perspective with YEC chronology. Conventional dates provided transparently for reference.
 
 ---
 
-## Band Model (Content Adaptation, Not Skill Progression)
+## Architecture
 
-Unlike math, history doesn't follow a skill-repetition arc. Instead, **every band covers the same chapters** but the AI adapts delivery to the reading/comprehension level:
-
-| Band | Ages | Label | Delivery Style |
-|------|------|-------|---------------|
-| 0 | 3–5 | Picture Book | AI generates simple narration + illustrated scenes. 2-3 key facts per chapter. Parents read aloud. |
-| 1 | 6–8 | Story Mode | Short narrative retellings with vocabulary scaffolding. Interactive map exploration. Simple narration questions. |
-| 2 | 9–11 | Explorer | Condensed chapter text with primary source excerpts. Map-based activities. Guided discussion questions. |
-| 3 | 12–14 | Scholar | Near-full chapter text with critical thinking prompts. Timeline construction. Compare/contrast exercises. |
-| 4 | 15–17 | Apprentice Historian | Full academic text. Primary source analysis. Essay prompts. Historiographical awareness (why sources disagree). |
-| 5 | 18+ | University Prep | Master text as-is + supplementary reading lists. Research methodology. Thesis-level discussion. |
-
-**Key Insight:** We don't write 6 versions of the textbook. The master text lives in R2. The AI reads it via RAG and adapts output dynamically per band. One source, infinite adaptations.
+- **Frontend:** React + Vite + Tailwind → Cloudflare Pages
+- **Backend:** Cloudflare Workers + D1 (SQLite) + R2 (object storage)
+- **AI Agent:** Google Cloud Run (Express + Gemini Live) for narration & oral examination
+- **Teaching Canvas:** MapLibre GL JS (programmable vector maps with live AI tool calls)
+- **Auth:** Custom JWT sessions — magic link, Google OAuth, email/password
 
 ---
 
-## Geography Integration
+## Current Status
 
-Rather than a separate geography curriculum, geographic concepts are embedded into the history timeline:
+**Chapter 1** has full text, maps, component data (genealogy, timeline, definitions, figures), and a Band 3 lesson script. The teaching canvas is being rebuilt on MapLibre GL JS to replace the previous PNG+SVG overlay approach.
 
-- Every map in `Maps/` is tagged with geographic metadata (climate zones, physical features, trade routes, vegetation).
-- The Explainer Canvas renders these maps interactively — overlaying terrain, trade routes, migration arrows.
-- Assessment includes geographic reasoning: "Why did Aksum control Red Sea trade?" requires understanding of physical geography.
-- This gives parents a **two-for-one**: African History + African Geography in a single course.
+**Chapters 2–9** have full text, maps, and extracted component data. Lesson scripts and audio are pending.
 
 ---
 
-## Repurposed AI Integrations
+## Detailed Engineering Roadmap
 
-### 1. Explainer Canvas → Interactive Narrator & Map Explorer
-The existing tool-calling architecture (`show_element`, `animate_element`, `generate_diagram`) is repurposed:
-- AI narrates a chapter segment while animating trade routes, migration paths, and kingdom boundaries on the canvas.
-- Band-aware: Band 0 gets slow, simple narration with big illustrations. Band 4 gets detailed analysis with primary source overlays.
-- Maps from R2 are the base layer; AI overlays dynamic annotations.
-- **Parent value:** A self-running lesson. Parent starts it, child watches and listens, parent reviews comprehension afterward.
-
-### 2. Evidence Witness → Oral Examiner
-The existing Gemini Live bidi-streaming agent is repurposed:
-- Instead of watching a child do math, it **asks questions** about what they learned.
-- Uses RAG context from the chapter to ask age-appropriate questions.
-- Band 0–1: "Can you tell me who built the pyramids?" (conversational, encouraging).
-- Band 3–4: "Compare Augustine's City of God with the Donatist position on church purity." (Socratic).
-- Records the conversation. AI drafts an assessment. Parent reviews and judges.
-- **This is the "Evidence Witness" reframed:** it witnesses the child's understanding, not their task execution.
-
-### 3. Async Evidence → Artifact Verification
-The existing photo+audio capture pipeline is repurposed:
-- Child draws a map of Bantu migration routes → takes a photo → AI compares against reference maps in R2.
-- Child builds a timeline on paper → photographs it → AI checks accuracy against chapter content.
-- Parent reviews AI assessment before it counts.
+See [`.antigravity/ROADMAP.md`](.antigravity/ROADMAP.md) for the full phase-by-phase engineering plan, architecture decisions, band specifications, and theological guardrails.
 
 ---
 
-## Tech Stack (Mostly Unchanged)
+## Repository Structure
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Frontend | React, Vite, Tailwind CSS | Deployed to Cloudflare Pages |
-| Data | Cloudflare D1 | Families, learners, progress, session summaries |
-| Content Storage | Cloudflare R2 | Master text (markdown), maps (images), generated assets |
-| AI Bridge | Google Cloud Run | Gemini Live for Explainer & Oral Examiner |
-| Content Adaptation | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation, assessment |
-| Image Generation | Flux (via existing pipeline) | Band 0–1 picture book illustrations |
-
----
-
-## Phase 1: Content Pipeline & R2 Setup — 🔲 NOT STARTED
-*Focus: Clean up the history dump, structure it for RAG, upload to R2.*
-
-- [ ] **Task 1.1:** Clean and standardize all 10 chapters — consistent markdown structure, frontmatter with metadata.
-- [ ] **Task 1.2:** Process all 34 maps — convert description files to actionable metadata.
-- [ ] **Task 1.3:** Design the R2 content structure and upload all content.
-- [ ] **Task 1.4:** Build upload script to push content to R2 with proper content types.
-- [ ] **Task 1.5:** Design and implement the RAG retrieval layer.
-
-> **Note:** R2 content pipeline utilities already built in Phase 3B (`worker/src/lib/content/ingest.ts`, `retrieve.ts`). This phase focuses on preparing and uploading actual content.
-
-## Phase 2: Authentication & Account System — ✅ COMPLETE
-*Focus: Custom auth on Cloudflare Workers — magic links, Google OAuth, email-password.*
-
-- [x] **Task 2.1:** D1 Auth Schema — `Users`, `Auth_Tokens`, `Sessions`, `User_Roles` tables.
-- [x] **Task 2.2:** JWT session utilities & cookie helpers.
-- [x] **Task 2.3:** Magic link flow — token generation, Resend email, verification, session creation.
-- [x] **Task 2.4:** Google OAuth flow — redirect, callback, user upsert, session creation.
-- [x] **Task 2.5:** Email + password flow — registration, email verification, login, PBKDF2 hashing.
-- [x] **Task 2.6:** Password reset flow — forgot-password email, reset token validation.
-- [x] **Task 2.7:** Account linking — merge by email across all 3 auth methods.
-- [x] **Task 2.8:** Auth middleware & `/api/auth/me` endpoint.
-- [x] **Task 2.9:** Frontend auth store — Zustand cookie-based sessions, `checkSession()`, `logout()`.
-- [x] **Task 2.10:** Login/Register UI polish, route guards, loading states, toasts.
-
-## Phase 3: Frontend & Schema Pivot — ✅ COMPLETE
-*Focus: Strip math UI, build history course experience, create curriculum schema.*
-
-- [x] **Task 3.1:** Archive math-specific components and pages to `src/archive/`.
-- [x] **Task 3.2:** D1 schema for curriculum — Topics, Lessons, Sources, RAG_Chunks, Learner_Progress, Quiz_Questions.
-- [x] **Task 3.3:** R2 content ingestion utilities — upload, chunk, index, retrieve.
-- [x] **Task 3.4:** Course Home (Dashboard) — topic grid with era/region badges, lesson counts.
-- [x] **Task 3.5:** Topic Detail page — lesson list with progress indicators and difficulty bands.
-- [x] **Task 3.6:** Lesson View page — narrative, key dates sidebar, key figures, source citations, mark complete.
-- [x] **Task 3.7:** Quiz components — QuizCard, QuizSession with scoring and API submission.
-- [x] **Task 3.8:** Progress components — ProgressOverview with recharts, LessonProgress badge.
-- [x] **Task 3.9:** API routes — topics, lessons, progress, quiz wired into worker.
-
-## Phase 4: AI Content Adaptation Engine — ✅ COMPLETE
-*Focus: The core differentiator — one source text, adapted per band via AI.*
-
-- [x] **Task 4.1:** Build band adaptation prompt pipeline — master text chunks + band → age-appropriate content.
-- [x] **Task 4.2:** Band 0 (Picture Book) — 2-3 sentence summaries + Flux illustrations.
-- [x] **Task 4.3:** Band 1–2 (Story/Explorer) — condensed text, vocabulary scaffolding, discussion questions.
-- [x] **Task 4.4:** Band 3–4 (Scholar/Apprentice) — critical thinking prompts, primary source analysis.
-- [x] **Task 4.5:** Band 5 (University Prep) — master text from R2 + supplementary reading lists.
-- [x] **Task 4.6:** Content serving API — `GET /api/lessons/:id/content?band=N` with D1 cache.
-- [x] **Task 4.7:** Frontend BandSelector + AdaptedContentReader + ReadingView.
-- [x] **Task 4.8:** Integration — modular router wired, data shape fixed, `/read/:lessonId` route added.
-
-## Phase 5: Assessment & Oral Examiner — ✅ COMPLETE
-*Focus: Repurpose Evidence Witness for history-specific oral examination.*
-
-- [x] **Task 5.1:** Adapt Evidence Witness agent prompt for Socratic questioning — `worker/src/lib/examiner/agent.ts`.
-- [x] **Task 5.2:** Band-aware question generation from chapter RAG context — band 0–1/2–3/4–5 tone tiers.
-- [x] **Task 5.3:** Oral Exam flow — `ExamView.tsx`, `ExamCard.tsx`, `ParentReviewModal.tsx`, examiner API routes.
-- [x] **Task 5.4:** Artifact Check flow — `ArtifactUpload.tsx`, `artifact.ts` AI pipeline, artifact API routes.
-- [x] **Task 5.5:** Parent judgment flow — parent review modal with approve/redo, DB status tracking.
-
-## Phase 6: Explainer Canvas for History — ✅ COMPLETE
-*Focus: Repurpose interactive whiteboard for animated history narration.*
-
-- [x] **Task 6.1:** History canvas elements — map overlays, timelines, trade routes, key figure cards.
-  - Files: `src/lib/canvas/primitives/MapPrimitives.ts`, `TimelinePrimitives.ts`, `FigurePrimitives.ts`, `EventPrimitives.ts`
-- [x] **Task 6.2:** Adapt Explainer agent prompt for historical narration.
-  - File: `agent/src/historyExplainerSession.ts`
-- [x] **Task 6.3:** Narrated Lesson flow — band-aware pacing and vocabulary.
-  - Files: `src/pages/NarratedLessonView.tsx`, `Canvas.tsx`, `MapOverlay.tsx`, `Timeline.tsx`
-- [x] **Task 6.4:** Wire map assets from R2 into canvas as base layers.
-  - API: `GET /api/lessons/:id/map-assets`
-  - Assets: 34 maps from R2 with metadata
-
-## Phase 7: Worker & Schema Updates — ✅ COMPLETE
-*Focus: Adapt backend for chapter-based progression.*
-
-- [x] **Task 7.1:** D1 schema for curriculum (done in Phase 3).
-- [x] **Task 7.2:** Chapter/lesson progress API (done in Phase 3).
-- [ ] **Task 7.3:** Content serving API — `GET /api/chapter/:id/content?band=2` with cached adapted content.
-- [ ] **Task 7.4:** Weekly plan engine adaptation (optional).
-
-## Phase 8: Content Pipeline & Pilot Readiness — ✅ COMPLETE
-*Focus: Content pipeline, admin analytics, onboarding, feedback widget.*
-
-- [x] **Task 8.1:** Content pipeline scripts (prepare-content, prepare-maps, upload-to-r2, seed-curriculum).
-- [x] **Task 8.2:** Admin analytics dashboard with usage metrics, engagement charts, family stats.
-- [x] **Task 8.3:** Activity logging wired into all handlers (login, content view, artifact upload, lesson complete, exam).
-- [x] **Task 8.4:** Open registration (no invite code), multi-step onboarding wizard with band calculator.
-- [x] **Task 8.5:** In-app feedback widget + admin feedback management.
-
-## Phase 9: Content Expansion — ✅ COMPLETE
-*Focus: Complete textbook and expand coverage.*
-
-- [x] **Task 9.1:** Complete Chapter 10+.
-- [x] **Task 9.2:** World history context sidebars.
-- [x] **Task 9.3:** Expand map library.
-- [x] **Task 9.4:** Glossary and index system.
-
-## Phase 10: UI/UX Overhaul — Revenue-Focused Redesign — 🔲 NOT STARTED
-*Focus: Redesign the entire parent-facing UI to funnel users toward Live Lessons and Live Exams — the two revenue-generating features. Remove on-the-fly AI content generation. Make the app instantly comprehensible.*
-
-### Principles
-1. **Pre-generate, don't generate on-the-fly.** All reading content (Bands 0–5) is pre-adapted and stored in D1 at seed time. AI is reserved exclusively for live interactive sessions.
-2. **Two revenue features front and center.** Every screen funnels toward: (a) Live Narrated Lesson, (b) Live Oral Exam. Reading is preparation, not the product.
-3. **No back-arrow dependency.** A persistent navigation shell means users always know where they are and can jump anywhere.
-4. **Learner context is global.** The active learner's band propagates everywhere automatically.
-
-### Tasks
-
-- [ ] **Task 10.1: Global Learner Context Store**
-  Create a `useLearnerStore` Zustand slice that holds `activeLearnerId`, `activeLearnerName`, `activeLearnerBand`, and `familyId`. Populated from `/api/family` on auth. All content views read band from this store, never from localStorage or component state.
-
-- [ ] **Task 10.2: Unified App Shell with Persistent Navigation**
-  Replace all per-page `<header>` blocks with a single `AppShell` layout component. Options:
-  - **Sidebar (desktop)** + **bottom nav (mobile)**: Dashboard, Current Lesson, Glossary, Profile
-  - **Or** a sticky top-nav with breadcrumb trail and learner switcher always visible
-  All authenticated routes render inside the shell. No more back-arrow-only navigation.
-
-- [ ] **Task 10.3: Dashboard Redesign — Guided Learning Path**
-  Replace the flat topic grid with a structured learning journey:
-  - **Hero section**: Active learner card (name, band, avatar) + "Continue Learning" CTA pointing to their current lesson's Live Lesson
-  - **Learning path**: Topics shown as a vertical timeline/progress path, not a grid
-  - **Per-topic card**: Shows progress (X/Y lessons), next lesson title, and primary CTA: "Start Live Lesson" or "Continue"
-  - **Quick actions**: "Switch Learner", "Glossary", "View Progress"
-
-- [ ] **Task 10.4: Lesson Detail Redesign — Clear 3-Step Flow**
-  Redesign LessonView to present a clear 3-step learning flow:
-  1. **Prepare** — Read the adapted text (pre-generated, band-appropriate). Positioned as step 1, not the main event.
-  2. **Learn** — Start Live Narrated Lesson (the AI interactive map experience). This is the primary CTA, large and visually dominant.
-  3. **Prove** — Take the Live Oral Exam. Unlocked after the lesson, requires parent presence.
-  Remove the small header buttons (Read/Narrate/Ask). Replace with a vertical step layout with clear visual hierarchy.
-
-- [ ] **Task 10.5: Pre-Generate All Band Content at Seed Time**
-  Modify the content pipeline to pre-generate adapted content for all lessons × all bands at seed/deploy time:
-  - Run `serveAdaptedContent()` for each (lessonId, band) combination during seeding
-  - Store results in the `Adapted_Content` D1 table
-  - Change `GET /api/lessons/:id/content?band=N` to return cached content only (no AI fallback)
-  - If content doesn't exist for a band, return the master text with a "content coming soon" notice
-
-- [ ] **Task 10.6: Remove BandSelector from Content Views**
-  Remove the inline `BandSelector` toggle from ReadingView and NarratedLessonView. The band is determined by the active learner's profile. Show a read-only badge ("Reading as: Story Mode (Band 1)") instead. Band override is only available in learner profile settings.
-
-- [ ] **Task 10.7: Markdown Rendering for Narrative Content**
-  Add `react-markdown` (or similar lightweight renderer) to LessonView and AdaptedContentReader. Strip or render markdown in lesson titles. Ensure narrative text renders headings, bold, lists, and blockquotes properly.
-
-- [ ] **Task 10.8: Onboarding → Dashboard Continuity**
-  When onboarding completes, save the selected topic as the family's "current topic" in D1. Dashboard hero section reads this and shows "Continue from: [Topic Title] → [First Lesson]" with a Live Lesson CTA.
-
-- [ ] **Task 10.9: Polish & Responsive Pass**
-  - Consistent max-widths and padding across all views
-  - Mobile-first responsive testing at 360px, 768px, 1024px
-  - Ensure the persistent nav works at all breakpoints (sidebar collapses to bottom nav or hamburger on mobile)
-  - Loading skeletons match new layouts
-
----
-
-## Archived (For Future Reactivation)
-
-| System | Location | Reactivation Path |
-|--------|----------|-------------------|
-| Math Curriculum Spine (377 templates, 5 strands) | `worker/src/lib/`, `db/` | Load JSON seeds, re-enable math strand |
-| DAG Dependency Resolver | `worker/src/lib/dag.ts` | Applicable if history adds prerequisites |
-| Repetition Arc Engine | `worker/src/lib/arc.ts` | Applicable for skill-based subjects |
-| Split Judgment Model | `worker/src/lib/splitJudgment.ts` | Applicable for multi-dimension assessment |
-| AI Permission Rules | `worker/src/lib/aiPermissions.ts` | Applicable for gradual child autonomy |
-| Noise Injection / Endurance Tasks | `worker/src/lib/taskGen.ts` | Math-specific |
-| Child Portal Access Levels | `src/archive/pages/ChildPortal.tsx` | Re-enable for child-led exploration |
-| Legacy Learner Components (10) | `src/archive/` | Various math/science primitives |
-| Legacy Parent Components (9) | `src/archive/` | Judgment, quiz, revision modals |
-
----
-
-## Cross-Cutting Concerns (Unchanged)
-
-- **CC.1: Mobile-First.** Every component tested at 360px and 768px.
-- **CC.2: Low-Bandwidth Resilience.** Cache adapted content aggressively.
-- **CC.3: Parental Sovereignty.** No progression without parent approval.
-- **CC.4: Offline-Safe Content.** Adapted text cached in D1 for offline reading.
-- **CC.5: Confessional Integrity.** AI may not contradict the master text's theological framework.
-
----
-
-## Current Blockers
-
-| # | Issue | Status | Fix |
-|---|-------|--------|-----|
-| 7 | `package-lock.json` out of sync | BLOCKER | Run `npm install` locally, commit lockfile |
-| 8 | D1 migration `003_history_curriculum.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/003_history_curriculum.sql` |
-| 9 | D1 migration `004_adaptation_cache.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/004_adaptation_cache.sql` |
-| 10 | Seed curriculum data into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_curriculum.sql` |
-| 11 | Seed RAG chunks into D1 | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/seeds/seed_rag_chunks.sql` |
-| 12 | D1 migration `005_exam_sessions.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/005_exam_sessions.sql` |
-| 13 | D1 migration `006_artifacts.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/006_artifacts.sql` |
-| 14 | ~1300 lines legacy math routes in worker | RESOLVED | Legacy routes cleaned and archived |
-| 15 | D1 migration `007_map_assets.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/007_map_assets.sql` |
-| 16 | D1 migration `008_families.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/008_families.sql` |
-| 17 | D1 migration `009_progress_learner.sql` | PENDING | `npx wrangler d1 execute learnlive-db-prod --file=worker/db/migrations/009_progress_learner.sql` |
+```
+src/               Frontend React app
+worker/             Cloudflare Worker (API, auth, content serving)
+agent/              Cloud Run Express agent (Gemini Live)
+docs/               Curriculum content & architecture docs
+tools/              Developer tools (SVG aligner)
+archive/            Archived legacy curriculum (math/english/science)
+.antigravity/       Engineering docs (roadmap, issues, prompts, changelog)
+```
