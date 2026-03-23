@@ -1,0 +1,58 @@
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+.teaching-canvas-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0f0e0b; /* Match app dark theme */
+}
+
+/* Minimal MapLibre controls styles */
+.teaching-canvas-container .maplibregl-control-container {
+  /* Hide the default Mapbox/MapLibre logo if allowed by license, or reposition it */
+}
+
+.teaching-canvas-container .maplibregl-ctrl-bottom-left,
+.teaching-canvas-container .maplibregl-ctrl-bottom-right {
+  z-index: 10;
+}
+
+.teaching-canvas-container .maplibregl-ctrl-group {
+  background-color: rgba(15, 14, 11, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.teaching-canvas-container .maplibregl-ctrl-group button {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Custom Marker styles */
+.teaching-canvas-marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.teaching-canvas-marker-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid #0f0e0b;
+  box-shadow: 0 0 4px rgba(0,0,0,0.5);
+}
+
+.teaching-canvas-marker-label {
+  margin-top: 4px;
+  background: rgba(15, 14, 11, 0.8);
+  color: #e8e4d8;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+}
