@@ -8,6 +8,11 @@ import { ComponentRenderer } from './ComponentRenderer';
 import { useAutoHide } from './useAutoHide';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X } from 'lucide-react';
+import { TeachingCanvas, TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
+import { useWebSocketCanvas } from '@/lib/canvas/useWebSocketCanvas';
+import { VoiceIndicator } from './VoiceIndicator';
+import { TranscriptPanel } from './TranscriptPanel';
+import { CanvasActionLog } from './CanvasActionLog';
 
 interface ScriptPlayerProps {
   script: LessonScript;
@@ -29,6 +34,16 @@ export function ScriptPlayer({
   onExit,
 }: ScriptPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<TeachingCanvasRef>(null);
+
+  const {
+    isConnected,
+    isPlaying: wsIsPlaying,
+    transcript,
+    toolCallLog,
+    startSession,
+    endSession,
+  } = useWebSocketCanvas('ws://localhost:3000'); // Note: Adjust URL in real app
 
   const {
     phase,
@@ -44,6 +59,13 @@ export function ScriptPlayer({
     onAudioCue: (id) => console.log('Simulating Audio Play:', id),
     onComplete: () => console.log('Script Complete'),
   });
+
+  useEffect(() => {
+    startSession(canvasRef);
+    return () => {
+      endSession();
+    };
+  }, [startSession, endSession]);
 
   const { isVisible: controlsVisible, show: showControls, toggle: toggleControls } = useAutoHide(3000);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -135,71 +157,108 @@ export function ScriptPlayer({
   return (
     <div
       ref={containerRef}
-      className={`fixed inset-0 bg-black text-white w-full h-full overflow-hidden select-none ${
+      className={`fixed inset-0 bg-black text-foreground w-full h-full overflow-hidden select-none ${
         shouldShowControls ? 'cursor-default' : 'cursor-none'
       }`}
+      style={{
+        display: 'grid',
+        gridTemplateColumns: '1fr 320px',
+        gridTemplateRows: '64px 1fr 80px', // slightly taller top bar to fit content well
+      }}
       onMouseMove={handleInteraction}
       onMouseDown={handleInteraction}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onClick={() => {
-        // Only toggle on desktop clicks if we aren't clicking a button
         if (window.innerWidth >= 768) {
-             // toggleControls(); // Removed to prevent accidental hiding while trying to click things. Mobile handles via touch.
+             // toggleControls();
         }
       }}
     >
-      {/* Visual Canvas Area */}
-      <div className={`absolute inset-0 transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`}>
-         <ComponentRenderer visibleComponents={visibleComponents} band={band} />
-      </div>
+      {/* Top Metadata Overlay / Bar */}
+      <div className="col-span-2 row-start-1 bg-black z-50 px-4 sm:px-6 flex items-center justify-between border-b border-border/50">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={(e) => { e.stopPropagation(); onExit(); }}
+            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-zinc-300" />
+          </button>
+          <div className="flex flex-col">
+            <span className="text-xs text-zinc-400 font-medium tracking-wide">
+              {chapterTitle}
+            </span>
+            <h1 className="text-sm font-semibold">{lessonTitle}</h1>
+          </div>
+        </div>
 
-      {/* Top Metadata Overlay */}
-      <div
-        className={`absolute top-0 left-0 right-0 z-50 transition-opacity duration-300 pointer-events-none ${
-          shouldShowControls ? 'opacity-100' : 'opacity-0'
-        }`}
-        style={{ background: 'linear-gradient(rgba(0,0,0,0.6), transparent)' }}
-      >
-        <div className="flex items-center justify-between p-4 sm:p-6 pointer-events-auto">
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={(e) => { e.stopPropagation(); onExit(); }}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors"
-            >
-              <ArrowLeft className="w-6 h-6" />
-            </button>
-            <div className="flex flex-col">
-              <span className="text-xs text-zinc-300 font-semibold uppercase tracking-wider">
-                {chapterTitle}
-              </span>
-              <h1 className="text-lg sm:text-xl font-bold">{lessonTitle}</h1>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-             <div className="hidden sm:flex items-center bg-white/10 backdrop-blur-md rounded-full px-3 py-1">
-                 <span className="text-sm font-medium">{learnerName}</span>
-                 <span className="mx-2 text-white/50">•</span>
-                 <span className="text-sm text-primary font-semibold tracking-wide">Band {band}</span>
-             </div>
-             <button
-              onClick={(e) => { e.stopPropagation(); onExit(); }}
-              className="p-2 hover:bg-white/20 rounded-full transition-colors hidden sm:block"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
+        <div className="flex items-center space-x-4">
+           {/* Phase Pill */}
+           <div className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
+              phase === 'dialogue' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+              phase === 'review' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+              'bg-green-500/20 text-green-400 border border-green-500/30'
+           }`}>
+              {phase === 'dialogue' ? 'Dialogue' : phase === 'review' ? 'Review' : 'Teaching'}
+           </div>
+
+           <div className="hidden sm:flex items-center bg-zinc-900 border border-border rounded-full px-3 py-1">
+               <span className="text-xs font-medium text-zinc-300">{learnerName}</span>
+               <span className="mx-2 text-zinc-600">•</span>
+               <span className="text-xs text-primary font-bold">Band {band}</span>
+           </div>
+
+           <button
+            onClick={(e) => { e.stopPropagation(); onExit(); }}
+            className="p-2 hover:bg-white/10 rounded-full transition-colors hidden sm:block"
+          >
+            <X className="w-5 h-5 text-zinc-300" />
+          </button>
         </div>
       </div>
 
-      {/* Dialogue / Review UI Overlay */}
+      {/* Main Canvas Area (Left) */}
+      <div className="col-start-1 row-start-2 relative overflow-hidden bg-zinc-950">
+        <TeachingCanvas ref={canvasRef} className={`w-full h-full transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`} />
+        <div className="absolute inset-0 pointer-events-none">
+          <ComponentRenderer visibleComponents={visibleComponents} band={band} />
+        </div>
+      </div>
+
+      {/* Sidebar Area (Right) */}
+      <div className="col-start-2 row-start-2 bg-black border-l border-border/50 flex flex-col overflow-hidden">
+         {/* Voice Indicator Area */}
+         <div className="p-4 border-b border-border/50 shrink-0 flex items-center justify-between">
+            <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Agent Status</span>
+            <div className="flex items-center space-x-2">
+               {isConnected ? (
+                  <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+               ) : (
+                  <span className="w-2 h-2 rounded-full bg-red-500"></span>
+               )}
+               <VoiceIndicator isSpeaking={wsIsPlaying} />
+            </div>
+         </div>
+
+         {/* Transcript Area */}
+         <div className="flex-1 p-4 overflow-hidden border-b border-border/50">
+            <TranscriptPanel transcriptText={transcript || transcriptText} isActive={wsIsPlaying || phase === 'playing'} />
+         </div>
+
+         {/* Action Log Area */}
+         <div className="h-1/3 p-4 bg-zinc-950">
+            <CanvasActionLog logs={toolCallLog} />
+         </div>
+      </div>
+
+      {/* Dialogue UI Overlay (Centered over everything) */}
       <AnimatePresence>
         {phase === 'dialogue' && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
+            className="col-span-2 row-span-3 absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
           >
              <div className="bg-purple-900/40 border border-purple-500/50 backdrop-blur-lg rounded-3xl p-8 max-w-lg text-center shadow-2xl shadow-purple-900/50 pointer-events-auto">
                  <div className="w-16 h-16 mx-auto bg-purple-500 rounded-full flex items-center justify-center mb-6 animate-pulse">
@@ -212,23 +271,20 @@ export function ScriptPlayer({
         )}
       </AnimatePresence>
 
-      <OverlayCaption
-        text={transcriptText}
-        isVisible={shouldShowControls}
-        isDialoguePhase={phase === 'dialogue'}
-      />
-
-      <OverlayControls
-        isVisible={shouldShowControls}
-        isPlaying={phase === 'playing'}
-        onPlayPause={phase === 'playing' ? pause : play}
-        currentTimeMs={currentTimeMs}
-        totalTimeMs={script.estimatedDurationMs}
-        onSeek={seek}
-        onOpenDrawer={() => setIsDrawerOpen(true)}
-        onAskQuestion={() => console.log('Ask question clicked')}
-        onSettings={() => console.log('Settings clicked')}
-      />
+      {/* Bottom Controls Area */}
+      <div className="col-span-2 row-start-3 bg-black z-40 border-t border-border/50">
+        <OverlayControls
+          isVisible={true}
+          isPlaying={phase === 'playing'}
+          onPlayPause={phase === 'playing' ? pause : play}
+          currentTimeMs={currentTimeMs}
+          totalTimeMs={script.estimatedDurationMs}
+          onSeek={seek}
+          onOpenDrawer={() => setIsDrawerOpen(true)}
+          onAskQuestion={() => console.log('Ask question clicked')}
+          onSettings={() => console.log('Settings clicked')}
+        />
+      </div>
 
       <AnimatePresence>
          {isDrawerOpen && (
