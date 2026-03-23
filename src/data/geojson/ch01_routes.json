@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [44.4, 32.5],
+          [40.0, 35.0],
+          [36.0, 36.0],
+          [35.0, 33.0],
+          [34.0, 31.0],
+          [31.25, 29.85]
+        ]
+      },
+      "properties": {
+        "id": "babel_to_egypt",
+        "name": "Babel to Egypt",
+        "color": "#fac775",
+        "style": "migration",
+        "chapter": 1,
+        "type": "route"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [44.4, 32.5],
+          [40.0, 35.0],
+          [36.0, 36.0],
+          [35.0, 33.0],
+          [34.0, 31.0],
+          [31.25, 29.85],
+          [32.65, 25.7],
+          [32.0, 22.0],
+          [30.4, 19.6]
+        ]
+      },
+      "properties": {
+        "id": "babel_to_nubia",
+        "name": "Babel to Nubia",
+        "color": "#afa9ec",
+        "style": "migration",
+        "chapter": 1,
+        "type": "route"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [44.4, 32.5],
+          [40.0, 35.0],
+          [36.0, 36.0],
+          [35.0, 33.0],
+          [34.0, 31.0],
+          [31.25, 29.85],
+          [29.0, 31.0],
+          [25.0, 31.5],
+          [21.85, 32.82]
+        ]
+      },
+      "properties": {
+        "id": "babel_to_libya",
+        "name": "Babel to Libya",
+        "color": "#f0997b",
+        "style": "migration",
+        "chapter": 1,
+        "type": "route"
+      }
+    }
+  ]
+}
