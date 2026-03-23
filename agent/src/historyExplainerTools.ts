@@ -1,152 +1,127 @@
-export const HISTORY_EXPLAINER_TOOLS = [
-    {
-        name: 'show_element',
-        description: 'Show a new element on the digital whiteboard canvas. Use this to place blocks, text, shapes, or images.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                id: { type: 'STRING', description: 'Unique element ID (e.g. "block_1", "title")' },
-                type: { type: 'STRING', enum: ['block', 'text', 'shape', 'image'], description: 'Visual type' },
-                x: { type: 'NUMBER', description: 'X position (0-800)' },
-                y: { type: 'NUMBER', description: 'Y position (0-500)' },
-                width: { type: 'NUMBER', description: 'Width in pixels' },
-                height: { type: 'NUMBER', description: 'Height in pixels' },
-                content: { type: 'STRING', description: 'Text label or image URL' },
-                color: { type: 'STRING', description: 'CSS color (e.g. "hsl(217, 89%, 61%)")' },
-            },
-            required: ['id', 'type', 'x', 'y'],
-        },
+export const MAPLIBRE_TEACHING_TOOLS = [
+  {
+    name: 'zoom_to',
+    description: 'Smoothly fly the map camera to a named location or coordinates.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        location: { type: 'STRING', description: 'Named location (e.g., "babel", "egypt", "nile_delta")' },
+        lng: { type: 'NUMBER', description: 'Longitude (if location is "coords")' },
+        lat: { type: 'NUMBER', description: 'Latitude (if location is "coords")' },
+        zoom: { type: 'NUMBER', description: 'Target zoom level (default: 5)' },
+        duration: { type: 'NUMBER', description: 'Animation duration in ms (default: 800)' },
+      },
+      required: ['location'],
     },
-    {
-        name: 'animate_element',
-        description: 'Animate an existing element on the canvas — move it, scale it, rotate it, or fade it.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                elementId: { type: 'STRING', description: 'The element ID to animate' },
-                property: { type: 'STRING', enum: ['x', 'y', 'scale', 'rotation', 'opacity'], description: 'Property to animate' },
-                to: { type: 'NUMBER', description: 'Target value' },
-                duration: { type: 'NUMBER', description: 'Duration in seconds (default 0.5)' },
-            },
-            required: ['elementId', 'property', 'to'],
-        },
+  },
+  {
+    name: 'highlight_region',
+    description: 'Fill an ancient kingdom boundary with a translucent color on the map.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        regionId: { type: 'STRING', description: 'Region ID matching GeoJSON feature (e.g., "mizraim", "cush", "phut", "canaan")' },
+        color: { type: 'STRING', description: 'Fill color (e.g., "#fac775")' },
+        opacity: { type: 'NUMBER', description: 'Fill opacity 0-1 (default: 0.25)' },
+      },
+      required: ['regionId', 'color'],
     },
-    {
-        name: 'remove_element',
-        description: 'Remove an element from the canvas with an exit animation.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                elementId: { type: 'STRING', description: 'The element ID to remove' },
-            },
-            required: ['elementId'],
-        },
+  },
+  {
+    name: 'draw_route',
+    description: 'Animate a migration, trade, or conquest route between two named locations.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        from: { type: 'STRING', description: 'Starting location ID (e.g., "babel")' },
+        to: { type: 'STRING', description: 'Ending location ID (e.g., "egypt")' },
+        style: { type: 'STRING', enum: ['migration', 'trade', 'conquest'] },
+        color: { type: 'STRING', description: 'Route color (default: uses destination region color)' },
+      },
+      required: ['from', 'to', 'style'],
     },
-    {
-        name: 'clear_canvas',
-        description: 'Clear all elements from the canvas for a fresh start.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {},
-            required: [],
-        },
+  },
+  {
+    name: 'place_marker',
+    description: 'Drop a labeled marker at a named city or site.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        location: { type: 'STRING', description: 'Named location ID' },
+        label: { type: 'STRING', description: 'Display label' },
+        color: { type: 'STRING', description: 'Marker color' },
+      },
+      required: ['location', 'label'],
     },
-    {
-        name: 'show_map_overlay',
-        description: 'Display a geographic territory overlay on the base map.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                regionId: { type: 'STRING', description: 'ID of the region to display' },
-                fillColor: { type: 'STRING', description: 'CSS color to fill the region' },
-                label: { type: 'STRING', description: 'Label to show over the region' },
-                opacity: { type: 'NUMBER', description: 'Opacity of the overlay (0.0 to 1.0)' },
-            },
-            required: ['regionId', 'fillColor', 'label'],
-        },
+  },
+  {
+    name: 'show_scripture',
+    description: 'Display a scripture reference card overlaid on the map.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        reference: { type: 'STRING', description: 'e.g., "Genesis 10:6"' },
+        text: { type: 'STRING', description: 'The scripture text' },
+        connection: { type: 'STRING', description: 'How this connects to the lesson' },
+      },
+      required: ['reference', 'text'],
     },
-    {
-        name: 'show_timeline',
-        description: 'Render a timeline bar with events.',
-        parameters: {
+  },
+  {
+    name: 'show_genealogy',
+    description: 'Display an animated genealogy tree panel.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        rootName: { type: 'STRING' },
+        nodes: {
+          type: 'ARRAY',
+          items: {
             type: 'OBJECT',
-            properties: {
-                events: {
-                    type: 'ARRAY',
-                    items: {
-                        type: 'OBJECT',
-                        properties: {
-                            year: { type: 'NUMBER', description: 'Year of the event (negative for BC)' },
-                            label: { type: 'STRING', description: 'Label for the event' },
-                            importance: { type: 'STRING', enum: ['high', 'medium', 'low'], description: 'Importance level' },
-                        },
-                        required: ['year', 'label'],
-                    },
-                    description: 'List of events to show on the timeline'
-                },
-                startYear: { type: 'NUMBER', description: 'Start year of the timeline' },
-                endYear: { type: 'NUMBER', description: 'End year of the timeline' },
-            },
-            required: ['events', 'startYear', 'endYear'],
+            properties: { name: { type: 'STRING' }, parent: { type: 'STRING' }, descriptor: { type: 'STRING' }, color: { type: 'STRING' } },
+            required: ['name'],
+          },
         },
+      },
+      required: ['rootName', 'nodes'],
     },
-    {
-        name: 'show_figure',
-        description: 'Display a historical figure card.',
-        parameters: {
+  },
+  {
+    name: 'show_timeline',
+    description: 'Display a timeline bar with historical events.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        events: {
+          type: 'ARRAY',
+          items: {
             type: 'OBJECT',
-            properties: {
-                name: { type: 'STRING', description: 'Name of the historical figure' },
-                title: { type: 'STRING', description: 'Title or role of the figure' },
-                portraitUrl: { type: 'STRING', description: 'Optional URL to a portrait image' },
-                quote: { type: 'STRING', description: 'Optional quote from or about the figure' },
-            },
-            required: ['name', 'title'],
+            properties: { year: { type: 'NUMBER' }, label: { type: 'STRING' }, color: { type: 'STRING' } },
+            required: ['year', 'label'],
+          },
         },
+      },
+      required: ['events'],
     },
-    {
-        name: 'highlight_route',
-        description: 'Animate a trade, migration, or conquest route on the map.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                from: {
-                    type: 'ARRAY',
-                    items: { type: 'NUMBER' },
-                    description: 'Starting coordinate [x, y]'
-                },
-                to: {
-                    type: 'ARRAY',
-                    items: { type: 'NUMBER' },
-                    description: 'Ending coordinate [x, y]'
-                },
-                style: {
-                    type: 'STRING',
-                    enum: ['trade', 'migration', 'conquest'],
-                    description: 'Style of the route line'
-                },
-                color: { type: 'STRING', description: 'Optional CSS color for the route' },
-            },
-            required: ['from', 'to', 'style'],
-        },
+  },
+  {
+    name: 'show_figure',
+    description: 'Display a historical figure portrait card.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        name: { type: 'STRING' },
+        title: { type: 'STRING' },
+        imageUrl: { type: 'STRING' },
+      },
+      required: ['name', 'title'],
     },
-    {
-        name: 'zoom_map',
-        description: 'Zoom or pan the base map.',
-        parameters: {
-            type: 'OBJECT',
-            properties: {
-                center: {
-                    type: 'ARRAY',
-                    items: { type: 'NUMBER' },
-                    description: 'Target center coordinate [x, y]'
-                },
-                level: { type: 'NUMBER', description: 'Zoom level multiplier (1.0 = normal)' },
-                duration: { type: 'NUMBER', description: 'Animation duration in seconds' },
-            },
-            required: ['center', 'level'],
-        },
-    },
+  },
+  {
+    name: 'clear_canvas',
+    description: 'Remove all overlays, routes, markers, and panels. Return to clean map.',
+    parameters: { type: 'OBJECT', properties: {}, required: [] },
+  },
 ];
 
 export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?: { name?: string; age?: number; band?: number }, band: number = 2): string {
@@ -183,12 +158,16 @@ export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?
 NARRATION STYLE (Band-aware):${bandSpecificInstructions}
 
 CANVAS USAGE:
-- ALWAYS start with the map base layer from R2 (already rendered by the client, use overlays on top of it).
-- Use show_map_overlay to show territories, trade routes, migration paths.
+- The teaching canvas is a live, programmable map powered by MapLibre GL JS.
+- You can zoom to any named location — the map will smoothly fly there.
+- Ancient kingdom boundaries (Mizraim, Cush, Phut, Canaan) are loaded as GeoJSON polygons. Call highlight_region to fill them with color.
+- Migration routes are pre-defined LineStrings. Call draw_route with location names — the frontend resolves coordinates.
+- Use place_marker to label cities as you mention them.
+- Use show_scripture when reading a verse aloud — the card appears on screen as you speak.
+- Use show_genealogy when teaching family trees.
 - Use show_timeline to anchor events in time.
-- Use show_figure when introducing key people.
-- Clear and transition smoothly between scenes.
-- Animate elements to draw attention (e.g., animate_element, highlight_route).
+- Use clear_canvas between major topic transitions.
+- NEVER reference canvas coordinates, pixel positions, or element IDs. Use semantic names only.
 
 LESSON CONTENT TO NARRATE:
 ${baseContent}
