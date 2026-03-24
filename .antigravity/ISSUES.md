@@ -32,10 +32,9 @@
 - **Description:** The Cloud Run agent needs `GEMINI_API_KEY` injected via GCP Secret Manager. Without it, live dialogue and oral examination features are non-functional.
 - **Fix:** Create secret in GCP Secret Manager, update `cloudbuild.yaml`, redeploy.
 
-### 44. Agent Tool Definitions Still Use Legacy Names
-- **Status:** OPEN — HIGH (Phase 16C)
-- **Description:** `agent/src/historyExplainerTools.ts` still uses old tool names (`show_element`, `animate_element`, `remove_element`, `show_map_overlay`, `highlight_route`, `zoom_map`). These need to be replaced with MapLibre-native tools (`zoom_to`, `highlight_region`, `draw_route`, `place_marker`, `show_scripture`, `show_genealogy`, `show_timeline`, `show_figure`, `clear_canvas`).
-- **Blocks:** Phase 17 (live E2E).
+### ~~44. Agent Tool Definitions Still Use Legacy Names~~
+- **Status:** RESOLVED — Phase 16C already completed
+- **Resolution:** `agent/src/historyExplainerTools.ts` already exports `MAPLIBRE_TEACHING_TOOLS` with all 9 MapLibre-native tools. `historyExplainerSession.ts` already imports and uses them. Prompt builder already references MapLibre canvas usage.
 
 ### 45. WebSocket Not Yet Wired to TeachingCanvas
 - **Status:** OPEN — HIGH (Phase 16D)
