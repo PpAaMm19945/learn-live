@@ -1,451 +1,460 @@
-# Jules Mega-Plan: Content Pipeline & E2E Wiring
+# Jules Plan: Phases 16D → 17 → 18 → 19
 
 > **Created:** 2026-03-24
-> **Scope:** GeoJSON for Chapters 2–9, Lesson Scripts for all chapters, Chapter 1 E2E integration
-> **Estimated Jules instances:** 5 (can run in parallel where noted)
+> **Scope:** Complete the live AI integration, Chapter 1 E2E, multi-band support, and UI redesign
+> **Estimated Jules instances:** 6 (dependency order noted)
 
 ---
 
-## Overview
+## Status Summary
 
-Three workstreams, executed in dependency order:
+### Already Complete
+- ✅ **16A:** TeachingCanvas with MapLibre GL JS (imperative API, overlay panels)
+- ✅ **16B:** GeoJSON data for all 9 chapters (regions, routes, markers, locations registry)
+- ✅ **16C:** Agent tool-call rewrite (`MAPLIBRE_TEACHING_TOOLS`, session handler, prompt builder)
+- ✅ **Stream B:** Lesson script generator updated + band 3 scripts for all 9 chapters
+- ✅ **Stream C:** E2E wiring (adaptRawScript, lesson loader, ScriptPlayer tool-call bridge)
 
-```
-Stream A: GeoJSON Data (Ch 2–9)           ← No dependencies, start immediately
-Stream B: Lesson Script Generation (Ch 1–9) ← Needs component-data (already exists)
-Stream C: E2E Wiring (Ch 1 first)          ← Needs A + B complete for Ch 1 (Ch 1 GeoJSON already exists)
-```
+### What Exists But Needs Work
+- `src/lib/canvas/useWebSocketCanvas.ts` — skeleton hook, needs Web Audio API for audio streaming
+- `src/lib/canvas/toolCallHandler.ts` — complete, dispatches all 9 tool types
+- `src/components/player/VoiceIndicator.tsx` — exists, needs integration
+- `src/components/player/TranscriptPanel.tsx` — exists, needs integration
+- `src/components/player/CanvasActionLog.tsx` — exists, needs integration
 
----
-
-## Stream A: GeoJSON Data for Chapters 2–9
-
-### Context
-
-Chapter 1 GeoJSON is complete and serves as the template:
-- `src/data/geojson/ch01_regions.json` — Kingdom polygons (Mizraim, Cush, Phut, Canaan)
-- `src/data/geojson/ch01_routes.json` — Migration LineStrings (Babel→Egypt, etc.)
-- `src/data/geojson/ch01_markers.json` — City/site markers (Babel, Memphis, Kerma, etc.)
-
-Named locations live in `src/data/geojson/locations.ts` — a flat `Record<string, [lng, lat]>` used by `toolCallHandler.ts` to resolve location names to coordinates.
-
-### Geographic Scope Per Chapter
-
-| Ch | Title | Key Regions (Polygons) | Key Routes (LineStrings) | Key Markers (Points) |
-|----|-------|----------------------|------------------------|---------------------|
-| 2 | Ancient Egypt | Upper Egypt, Lower Egypt, Nile Delta, Fayum, Sinai | Nile trade route, Hyksos invasion path, Exodus route | Memphis, Thebes, Amarna, Alexandria, Pi-Ramesses, Avaris |
-| 3 | Kingdom of Kush & Nubia | Kerma kingdom, Napata kingdom, Meroë kingdom, Egypt (25th Dynasty extent) | Kerma→Napata expansion, Piye's conquest route (Napata→Memphis), Meroë trade routes | Kerma, Napata, Jebel Barkal, Meroë, Musawwarat |
-| 4 | Phoenicians & Carthage | Phoenicia, Carthaginian territory (N. Africa), Carthaginian Iberia | Tyre→Carthage founding route, Hannibal's Alpine route, Punic trade network (W. Mediterranean) | Tyre, Sidon, Carthage, Zama, Saguntum, Leptis Magna |
-| 5 | Church in Roman Africa | Roman Africa Proconsularis, Numidia, Cyrenaica, Egypt (Roman) | Paul's journey connections, Perpetua's Carthage, Augustine's journey (Thagaste→Carthage→Milan→Hippo) | Carthage, Hippo Regius, Thagaste, Alexandria, Cyrene |
-| 6 | Aksum & Ethiopian Christianity | Aksumite Empire, Himyarite Yemen, Adulis trade zone | Red Sea trade route (Adulis→India), Frumentius journey (Tyre→Aksum), Aksumite→Yemen campaign | Aksum, Adulis, Lalibela, Gondar, Yeha |
-| 7 | Rise of Islam in Africa | Rashidun/Umayyad conquest zones (Egypt, Maghreb), Fatimid Caliphate, Almoravid Empire | Arab conquest route (Arabia→Egypt→Maghreb→Iberia), Trans-Saharan trade routes | Fustat/Cairo, Kairouan, Fez, Marrakesh, Timbuktu, Córdoba |
-| 8 | Bantu Migrations | Bantu homeland (Nigeria-Cameroon border), Urewe culture zone, Southern expansion zone | Eastern stream (Great Lakes), Western stream (Congo basin), Southern stream (to Limpopo) | Nok region, Great Zimbabwe (precursor sites), Lake Victoria |
-| 9 | Medieval African Kingdoms | Ghana Empire, Mali Empire, Songhai Empire, Great Zimbabwe, Swahili Coast, Kanem-Bornu | Trans-Saharan gold-salt trade routes, Indian Ocean trade routes, Mansa Musa's Hajj route | Koumbi Saleh, Niani, Gao, Timbuktu, Djenné, Great Zimbabwe, Kilwa, Sofala, Mogadishu |
-
-### Prompt for Jules Instance A1 (Chapters 2–5)
-
-```
-You are generating historical GeoJSON data files for an African History curriculum app.
-
-## What exists (use as template)
-Read these files first:
-- src/data/geojson/ch01_regions.json (polygon template)
-- src/data/geojson/ch01_routes.json (route template)  
-- src/data/geojson/ch01_markers.json (marker template)
-- src/data/geojson/locations.ts (named locations registry)
-
-## Your task
-Create GeoJSON files for Chapters 2, 3, 4, and 5. For each chapter create:
-1. `src/data/geojson/ch{NN}_regions.json` — FeatureCollection of Polygons
-2. `src/data/geojson/ch{NN}_routes.json` — FeatureCollection of LineStrings
-3. `src/data/geojson/ch{NN}_markers.json` — FeatureCollection of Points
-
-## Feature property format (MUST match exactly)
-Regions: { "id": "snake_case_id", "name": "Display Name", "color": "#hex", "chapter": N, "type": "kingdom" | "empire" | "territory" | "region" }
-Routes: { "id": "snake_case_id", "name": "Display Name", "color": "#hex", "chapter": N, "type": "migration" | "trade" | "conquest" | "journey" }
-Markers: { "id": "snake_case_id", "name": "City Name", "chapter": N, "type": "city" | "site" | "battle" }
-
-## Geographic data for each chapter
-
-### Chapter 2: Ancient Egypt
-Read: docs/curriculum/history/my-first-textbook/chapter_02/summaries/chapter_summary.md
-Read: docs/curriculum/history/component-data/chapter_02/timeline.json
-
-Regions to create:
-- upper_egypt: Nile Valley from ~Aswan (24°N) to ~Memphis (29.8°N). Polygon follows Nile corridor, ~50km wide. Color: #e8a87c
-- lower_egypt: Nile Delta region, Memphis north to Mediterranean coast. Color: #7cb8e8
-- sinai: Sinai Peninsula. Color: #d4a574
-- fayum: Fayum Oasis depression west of Nile. Small polygon. Color: #8bc48a
-
-Routes:
-- hyksos_invasion: From Sinai/Canaan (~34°N, 34°E) southwest into Delta (~31°E, 30.5°N). Color: #e85454, type: conquest
-- exodus_route: Pi-Ramesses (~31.8°E, 30.8°N) → Sinai crossing → Sinai Peninsula. Color: #f0c75e, type: journey
-- nile_trade: Memphis → Thebes → Aswan along Nile. Color: #5eaef0, type: trade
-
-Markers: Memphis (31.25, 29.85), Thebes/Luxor (32.65, 25.7), Amarna (30.9, 27.65), Alexandria (29.9, 31.2), Pi-Ramesses (31.8, 30.8), Avaris (31.82, 30.79), Giza (31.13, 29.98), Karnak (32.66, 25.72)
-
-### Chapter 3: Kingdom of Kush & Nubia  
-Read: docs/curriculum/history/my-first-textbook/chapter_03/summaries/chapter_summary.md
-Read: docs/curriculum/history/component-data/chapter_03/timeline.json
-
-Regions:
-- kerma_kingdom: Upper Nubia along Nile from 3rd Cataract (~19.5°N) to ~4th Cataract (~18°N), ~100km wide. Color: #c47cb8
-- napata_kingdom: Centered on Jebel Barkal (18.5°N), extends from 4th Cataract to ~16°N. Color: #7c8ec4
-- meroe_kingdom: South of 5th Cataract (~17°N) down to ~14°N along Nile, wider to east. Color: #c4b87c
-- egypt_25th_dynasty: Copy of Ch2 Egypt extent to show Kushite control. Color: #b87cc4
-
-Routes:
-- kerma_napata_expansion: Kerma → Napata southward. Color: #c47cb8, type: migration
-- piye_conquest: Napata (31.6, 18.5) → north along Nile → Memphis (31.25, 29.85). Color: #e85454, type: conquest
-- meroe_trade: Meroë → Red Sea coast + Meroë → Aksum. Color: #5eaef0, type: trade
-
-Markers: Kerma (30.4, 19.6), Napata (31.6, 18.5), Jebel_Barkal (31.6, 18.53), Meroe (33.7, 16.9), Musawwarat (33.3, 16.4), Naga (33.3, 16.3)
-
-### Chapter 4: Phoenicians & Carthage
-Read: docs/curriculum/history/my-first-textbook/chapter_04/summaries/chapter_summary.md
-
-Regions:
-- phoenicia: Narrow coastal strip, roughly Tyre to Byblos (~33-35°N, 35.2-35.8°E). Color: #7cc4a8
-- carthaginian_territory: Coastal N. Africa from roughly eastern Algeria to western Libya (~10-20°E, 33-37°N). Color: #c47c7c  
-- carthaginian_iberia: SE Spain coast (~-2 to 3°E, 37-40°N). Color: #c49a7c
-
-Routes:
-- tyre_carthage: Tyre (35.2, 33.27) → along N. Africa coast → Carthage (10.18, 36.85). Color: #7cc4a8, type: journey
-- hannibal_route: Carthaginian Iberia → across Pyrenees → Alps → Italy. Color: #e85454, type: conquest
-- punic_trade: Carthage → Sicily → Sardinia → Iberia coastal circuit. Color: #5eaef0, type: trade
-
-Markers: Tyre (35.2, 33.27), Sidon (35.37, 33.56), Carthage (10.18, 36.85), Zama (36.3, 8.3 — note: swap to 8.3, 36.3 as [lng, lat]), Leptis_Magna (14.28, 32.64), Byblos (35.65, 34.12), Utica (10.06, 37.06)
-
-### Chapter 5: Church in Roman Africa
-Read: docs/curriculum/history/my-first-textbook/chapter_05/summaries/chapter_summary.md
-
-Regions:
-- africa_proconsularis: Roughly modern Tunisia + NW Libya. Color: #c4a87c
-- numidia: Roughly modern eastern Algeria. Color: #a8c47c
-- cyrenaica: NE Libya coast. Color: #7cc4c4
-- roman_egypt: Same as Ch2 Egypt extent. Color: #c48a7c
-
-Routes:
-- augustine_journey: Thagaste (7.95, 36.28) → Carthage (10.18, 36.85) → across Mediterranean to Milan (9.19, 45.46) → back to Hippo (7.77, 36.90). Color: #c47cb8, type: journey
-- gospel_spread: Alexandria (29.9, 31.2) → west along coast → Cyrene → Carthage. Color: #f0c75e, type: journey
-
-Markers: Carthage (10.18, 36.85), Hippo_Regius (7.77, 36.90), Thagaste (7.95, 36.28), Alexandria (29.9, 31.2), Cyrene (21.85, 32.82), Madauros (8.23, 36.38)
-
-## After creating all GeoJSON files
-
-1. Update `src/data/geojson/locations.ts` — add ALL new marker locations as named entries
-2. Update `src/data/geojson/index.ts` — add cases 2-5 to the switch statement, importing the new JSON files
-
-## Color palette guidelines
-- Warm earth tones for kingdoms/empires
-- Blues for trade routes  
-- Reds for conquest/military routes
-- Purples for cultural/religious journeys
-- Greens for territories
-- Use distinguishable colors within each chapter
-
-## Coordinate format
-All coordinates are [longitude, latitude] (GeoJSON standard). Africa spans roughly:
-- Longitude: -20°W to 55°E
-- Latitude: -35°S to 37°N
-```
-
-### Prompt for Jules Instance A2 (Chapters 6–9)
-
-```
-You are generating historical GeoJSON data files for an African History curriculum app.
-
-## What exists (use as template)
-Read these files first:
-- src/data/geojson/ch01_regions.json (polygon template)
-- src/data/geojson/ch01_routes.json (route template)
-- src/data/geojson/ch01_markers.json (marker template)
-- src/data/geojson/locations.ts (named locations registry)
-
-## Your task
-Create GeoJSON files for Chapters 6, 7, 8, and 9. For each chapter create:
-1. `src/data/geojson/ch{NN}_regions.json` — FeatureCollection of Polygons
-2. `src/data/geojson/ch{NN}_routes.json` — FeatureCollection of LineStrings
-3. `src/data/geojson/ch{NN}_markers.json` — FeatureCollection of Points
-
-## Feature property format (MUST match exactly)
-Regions: { "id": "snake_case_id", "name": "Display Name", "color": "#hex", "chapter": N, "type": "kingdom" | "empire" | "territory" | "region" }
-Routes: { "id": "snake_case_id", "name": "Display Name", "color": "#hex", "chapter": N, "type": "migration" | "trade" | "conquest" | "journey" }
-Markers: { "id": "snake_case_id", "name": "City Name", "chapter": N, "type": "city" | "site" | "battle" }
-
-## Geographic data for each chapter
-
-### Chapter 6: Aksum & Ethiopian Christianity
-Read: docs/curriculum/history/my-first-textbook/chapter_06/summaries/chapter_summary.md
-
-Regions:
-- aksumite_empire: Ethiopian highlands, centered on Aksum (38.7°E, 14.1°N). Extends roughly 36-42°E, 12-16°N. Color: #c4a87c
-- himyarite_yemen: SW Arabian Peninsula, roughly 43-46°E, 13-16°N. Color: #a87cc4
-- adulis_trade_zone: Red Sea coastal strip from Adulis down to Djibouti area. Color: #7cc4c4
-
-Routes:
-- red_sea_trade: Adulis (39.66, 15.37) → across Red Sea → Aden → India direction (heading east). Color: #5eaef0, type: trade
-- frumentius_journey: Tyre (35.2, 33.27) → Red Sea → Adulis (39.66, 15.37) → Aksum (38.72, 14.13). Color: #f0c75e, type: journey
-- aksum_yemen_campaign: Aksum (38.72, 14.13) → across Red Sea → Yemen coast. Color: #e85454, type: conquest
-
-Markers: Aksum (38.72, 14.13), Adulis (39.66, 15.37), Lalibela (39.04, 12.03), Gondar (37.47, 12.6), Yeha (39.02, 14.28), Matara (39.5, 14.7)
-
-### Chapter 7: Rise of Islam in Africa
-Read: docs/curriculum/history/my-first-textbook/chapter_07/summaries/chapter_summary.md
-
-Regions:
-- rashidun_umayyad_egypt: Egypt under Arab control, same boundaries as Ch2 Egypt. Color: #7cc48a
-- maghreb_conquest: N. Africa from Egypt border west to Morocco (~-8 to 25°E, 30-37°N). Color: #8ac47c
-- fatimid_caliphate: Egypt + Tunisia + parts of Libya. Color: #c4c47c
-- almoravid_empire: Morocco + Western Sahara + Mauritania + southern Iberia. Color: #c4a87c
-
-Routes:
-- arab_conquest: Arabia (~40°E, 25°N) → Egypt → along N. Africa coast → Morocco → into Iberia. Color: #e85454, type: conquest
-- trans_saharan_trade: Morocco/Sijilmasa (~-4°E, 31.5°N) → south across Sahara → Timbuktu/Ghana. Color: #f0c75e, type: trade
-
-Markers: Fustat_Cairo (31.23, 30.05), Kairouan (10.1, 35.67), Fez (5.0, 34.03), Marrakesh (-8.0, 31.63), Timbuktu (-3.0, 16.77), Cordoba (-4.78, 37.88), Sijilmasa (-4.28, 31.28)
-
-### Chapter 8: Bantu Migrations
-Read: docs/curriculum/history/my-first-textbook/chapter_08/summaries/chapter_summary.md
-
-Regions:
-- bantu_homeland: Nigeria-Cameroon border region, roughly 7-12°E, 4-8°N. Color: #c47c7c
-- urewe_culture: Great Lakes region, roughly 28-35°E, -4 to 2°N. Color: #7c8ec4
-- southern_expansion: Zone from Limpopo to Zambezi, 25-35°E, -25 to -15°S. Color: #7cc4a8
-- khoisan_territory: Southern Africa, Cape region up to ~-20°S. Color: #e8c87c (pre-existing peoples)
-- congo_basin: Central Africa rainforest, 15-30°E, -5 to 5°N. Color: #4a8c5e
-
-Routes:
-- eastern_stream: Bantu homeland → east through Great Lakes region → south. Waypoints: (10, 6) → (25, 2) → (30, 0) → (33, -2) → (35, -6) → (35, -10). Color: #7c8ec4, type: migration
-- western_stream: Bantu homeland → south through Congo basin. Waypoints: (10, 6) → (15, 2) → (18, -2) → (20, -5) → (22, -8). Color: #c47c7c, type: migration
-- southern_stream: From Great Lakes / E. Africa → south to Limpopo. Waypoints: (33, -6) → (33, -10) → (32, -15) → (30, -20) → (28, -24). Color: #7cc4a8, type: migration
-
-Markers: Nok_Region (7.5, 9.5), Great_Zimbabwe_precursor (30.9, -20.3), Lake_Victoria (33.0, -1.0), Limpopo_River (30.0, -23.5)
-
-### Chapter 9: Medieval African Kingdoms
-Read: docs/curriculum/history/my-first-textbook/chapter_09/summaries/chapter_summary.md
-
-Regions:
-- ghana_empire: Western Sahel, roughly -15 to -5°E, 12-18°N. Color: #c4a87c
-- mali_empire: Larger, encompasses Ghana area + east to Niger bend, roughly -15 to 5°E, 10-20°N. Color: #e8c87c
-- songhai_empire: Niger River bend area, roughly -5 to 10°E, 12-20°N. Color: #c48a7c
-- great_zimbabwe: SE Africa plateau, roughly 28-33°E, -22 to -18°S. Color: #7c8ec4
-- swahili_coast: E. African coast from Mogadishu to Sofala, narrow coastal strip. Color: #7cc4c4
-- kanem_bornu: Lake Chad region, roughly 10-18°E, 10-15°N. Color: #a8c47c
-
-Routes:
-- gold_salt_trade: Sijilmasa (-4.28, 31.28) → south across Sahara → Timbuktu (-3.0, 16.77) → Djenné (-4.55, 13.91). Color: #f0c75e, type: trade
-- indian_ocean_trade: Kilwa (39.52, -8.96) → across Indian Ocean east + north to Mogadishu (45.34, 2.05) → Arabia. Color: #5eaef0, type: trade
-- mansa_musa_hajj: Niani (-11.42, 11.42) → Timbuktu (-3.0, 16.77) → across Sahara → Cairo (31.23, 30.05) → Mecca (39.83, 21.42). Color: #c47cb8, type: journey
-
-Markers: Koumbi_Saleh (-7.97, 15.77), Niani (-11.42, 11.42), Gao (0.08, 16.27), Timbuktu (-3.0, 16.77), Djenne (-4.55, 13.91), Great_Zimbabwe (30.93, -20.27), Kilwa (39.52, -8.96), Sofala (34.74, -20.15), Mogadishu (45.34, 2.05), Mombasa (39.66, -4.05), Njimi (17.0, 13.0)
-
-## After creating all GeoJSON files
-
-1. Update `src/data/geojson/locations.ts` — add ALL new marker locations as named entries (merge with existing, don't overwrite Ch1-5 entries that may already be there)
-2. Update `src/data/geojson/index.ts` — add cases 6-9 to the switch statement, importing the new JSON files
-
-## Color palette guidelines
-- Warm earth tones for kingdoms/empires  
-- Blues for trade routes
-- Reds for conquest/military routes
-- Purples for cultural/religious journeys
-- Greens for territories
-- Use distinguishable colors within each chapter
-
-## Coordinate format
-All coordinates are [longitude, latitude] (GeoJSON standard).
-```
+### What's Remaining
+1. **Phase 16D:** Live WebSocket audio + ScriptPlayer layout integration
+2. **Phase 17:** Cloud Run deployment + Chapter 1 full E2E test
+3. **Phase 18:** Multi-band support (Bands 0-2, 4-5)
+4. **Phase 19:** UI Redesign (library shelf dashboard, page cleanup)
 
 ---
 
-## Stream B: Lesson Script Generation (All Chapters)
+## Phase 16D: Live WebSocket + Audio Integration
 
-### Context
+**1 Jules instance. Can start immediately.**
 
-A CLI generator exists at `scripts/generate_lesson_script.ts`. It reads:
-- Chapter markdown from `docs/curriculum/history/my-first-textbook/chapter_{NN}/`
-- Component data from `docs/curriculum/history/component-data/chapter_{NN}/` (genealogy, timeline, scripture_refs, figures, definitions, comparisons)
-- Pronunciation data from `src/data/pronunciation.json`
-
-Output goes to `docs/curriculum/history/generated_scripts/`.
-
-The generator creates a structured JSON lesson script with timestamped cues for:
-- `speak` — narration text
-- `show_component` — visual component display (now maps to MapLibre tool calls)
-- `pan_map` — camera movement (now maps to `zoom_to`)
-
-### Important: Tool Call Name Update
-
-The generator currently uses legacy tool names. The generated scripts need to use the **new MapLibre tool names**:
-
-| Old Name | New Name |
-|----------|----------|
-| `show_map_overlay` | `highlight_region` |
-| `highlight_route` | `draw_route` |
-| `zoom_map` | `zoom_to` |
-| `show_element` | `place_marker` or `show_figure` |
-| `animate_element` | `draw_route` (animated) |
-| `remove_element` | `clear_canvas` |
-
-### Prompt for Jules Instance B1 (Generator Update + Ch 1–5 Scripts)
+### Prompt for Jules Instance 16D
 
 ```
-You are updating the lesson script generator and generating lesson scripts for Chapters 1-5.
+You are completing the live WebSocket audio integration for an African History curriculum app.
 
-## Step 1: Update the generator
+## Context — Read these files first:
+- src/lib/canvas/useWebSocketCanvas.ts (skeleton — you're completing this)
+- src/lib/canvas/toolCallHandler.ts (complete — dispatches tool calls to TeachingCanvas)
+- src/components/canvas/TeachingCanvas.tsx (MapLibre canvas with imperative API)
+- src/components/player/ScriptPlayer.tsx (current player — you're adding live mode)
+- src/components/player/VoiceIndicator.tsx (exists — wire into player)
+- src/components/player/TranscriptPanel.tsx (exists — wire into player)
+- src/components/player/CanvasActionLog.tsx (exists — wire into player)
+- agent/src/historyExplainerSession.ts (WebSocket message format reference)
+- src/pages/LessonPlayerPage.tsx (page that renders ScriptPlayer)
 
-Read: scripts/generate_lesson_script.ts (full file, 267 lines)
-Read: src/lib/canvas/toolCallHandler.ts (to see the exact tool names the frontend expects)
-Read: src/data/geojson/locations.ts (to see named location keys)
+## What the agent sends via WebSocket:
+The Cloud Run agent sends two types of messages:
+1. JSON tool calls: `{ "type": "tool_call", "tool": "zoom_to", "args": { "location": "memphis" } }`
+2. Model turns: `{ "type": "modelTurn", "parts": [{ "text": "..." }] }` or binary audio chunks
 
-Update the generator so that generated scripts use the new MapLibre tool call names:
-- Instead of `show_map_overlay` → emit `highlight_region` with args { regionId, color, opacity }
-- Instead of `highlight_route` → emit `draw_route` with args { from, to, color, style }
-- Instead of `zoom_map` → emit `zoom_to` with args { location } (using named location keys from locations.ts)
-- Instead of `show_element` for figures → emit `show_figure` with args { name, title, imageUrl }
-- Add `show_scripture` cues when scripture_refs are referenced in narrative
-- Add `show_genealogy` cues when genealogy data is referenced
-- Add `show_timeline` cues when timeline events are referenced
-- Add `clear_canvas` at the start of each new major section
+## Task 1: Complete useWebSocketCanvas.ts
 
-The cue format should be:
-{
-  "type": "tool_call",
-  "tool": "zoom_to",
-  "args": { "location": "memphis" },
-  "timestamp": 0
-}
+Add Web Audio API playback for streaming audio:
+- Create an AudioContext on session start
+- When binary WebSocket messages arrive (audio chunks), decode and play via AudioBufferSourceNode
+- Queue chunks to avoid gaps — use a simple buffer queue
+- Track speaking state for VoiceIndicator (isPlaying = audio is actively playing)
+- Parse model turn text into transcript state
+- Handle reconnection gracefully
 
-## Step 2: Generate Band 3 scripts for Chapters 1-5
-
-Run the updated generator for each:
-npx tsx scripts/generate_lesson_script.ts --chapter 1 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 2 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 3 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 4 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 5 --band 3
-
-Output should appear in docs/curriculum/history/generated_scripts/
-
-## Step 3: Copy generated scripts to src/data/lessons/
-
-Copy each generated script to src/data/lessons/lesson_ch{NN}_band3.json
-These are the files the frontend LessonPlayerPage will load.
-
-## Step 4: Verify structure
-
-Each generated script should have this top-level structure:
-{
-  "id": "lesson_ch{NN}_band3",
-  "chapterId": "ch{NN}",
-  "band": 3,
-  "title": "...",
-  "estimatedMinutes": ...,
-  "pronunciation": { ... },
-  "cues": [
-    { "type": "speak", "text": "...", "timestamp": 0 },
-    { "type": "tool_call", "tool": "zoom_to", "args": { "location": "babel" }, "timestamp": 0 },
-    ...
-  ]
+The hook should accept session config:
+```typescript
+interface SessionConfig {
+  lessonId: string;
+  familyId: string;
+  learnerId: string;
+  band: number;
 }
 ```
 
-### Prompt for Jules Instance B2 (Ch 6–9 Scripts)
+And the WebSocket URL should be constructed from `VITE_AGENT_URL` env var:
+`${agentUrl}/ws/history-explainer?lesson=${lessonId}&family=${familyId}&learner=${learnerId}&band=${band}`
 
-```
-You are generating lesson scripts for Chapters 6-9.
+## Task 2: Add "Live Session" mode to ScriptPlayer
 
-## Prerequisites
-The lesson script generator at scripts/generate_lesson_script.ts has already been updated 
-with MapLibre tool call names by a previous instance.
+ScriptPlayer currently has a "Teaching" phase that plays scripted cues. Add a transition to "Dialogue" phase that uses the live WebSocket:
 
-## Your task
-Run the generator for each chapter:
-npx tsx scripts/generate_lesson_script.ts --chapter 6 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 7 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 8 --band 3
-npx tsx scripts/generate_lesson_script.ts --chapter 9 --band 3
+1. Add a "Go Live" button that appears after the scripted teaching phase completes (or can be triggered manually)
+2. When activated:
+   - Connect via useWebSocketCanvas
+   - Hide scripted controls (play/pause/seek) — the AI is now driving
+   - Show live UI: VoiceIndicator, TranscriptPanel, CanvasActionLog in the sidebar
+   - TeachingCanvas continues to respond to tool calls (same ref)
+3. Layout for live mode:
+   - Main area: TeachingCanvas (same as teaching phase)
+   - Right sidebar (320px, scrollable): TranscriptPanel on top, CanvasActionLog below
+   - Bottom bar: VoiceIndicator (left), "End Session" button (right), elapsed time
+   - Top bar: same as teaching phase but phase pill shows "Dialogue" (purple)
 
-Copy outputs to src/data/lessons/:
-- src/data/lessons/lesson_ch06_band3.json
-- src/data/lessons/lesson_ch07_band3.json
-- src/data/lessons/lesson_ch08_band3.json
-- src/data/lessons/lesson_ch09_band3.json
+## Task 3: Wire microphone input
 
-## Verification
-Each script should:
-1. Use only the new tool names: zoom_to, highlight_region, draw_route, place_marker, show_scripture, show_figure, show_genealogy, show_timeline, clear_canvas, dismiss_overlay
-2. Reference named locations that exist in src/data/geojson/locations.ts
-3. Have pronunciation entries for African/biblical proper nouns
-4. Follow the exact JSON structure from the B1 prompt
+For dialogue mode, the learner needs to speak:
+- Request microphone permission when entering dialogue phase
+- Stream audio to WebSocket as base64 chunks (matching what the agent expects: `{ type: "audio", data: "<base64>" }`)
+- Use MediaRecorder or AudioWorklet for capture
+- Show a mute/unmute toggle in the bottom bar
+- Visual indicator when mic is active
+
+## Build verification
+- `npm run build` must pass
+- Player should render both scripted and live modes
+- Without a running agent, the "Go Live" button should show a connection error gracefully
 ```
 
 ---
 
-## Stream C: Chapter 1 E2E Wiring
+## Phase 17: Chapter 1 E2E Deployment & Test
 
-### Prerequisites
-- Stream A: Ch1 GeoJSON already exists ✅
-- Stream B: Ch1 lesson script generated
+**1 Jules instance. Depends on 16D merge.**
 
-### Prompt for Jules Instance C1
+### Prompt for Jules Instance 17
 
 ```
-You are wiring Chapter 1 for end-to-end playback: lesson loads → map renders → tool calls fire → overlays display.
+You are deploying and testing the Chapter 1 end-to-end lesson flow.
 
-## Read these files first
+## Context — Read these files first:
+- agent/src/server.ts (Express server with WebSocket upgrade)
+- agent/src/gemini.ts (Gemini session wrapper)
+- agent/package.json (dependencies)
 - src/pages/LessonPlayerPage.tsx
 - src/components/player/ScriptPlayer.tsx
-- src/components/canvas/TeachingCanvas.tsx
-- src/lib/canvas/toolCallHandler.ts
-- src/data/geojson/index.ts
-- src/data/lessons/lesson_ch01_band3.json (generated by Stream B)
+- .antigravity/ROADMAP.md (current status)
 
-## Task 1: LessonPlayerPage Integration
+## Task 1: Agent Deployment Preparation
 
-The LessonPlayerPage should:
-1. Parse the chapter number from the route params
-2. Load the lesson script from src/data/lessons/ (static import or dynamic import)
-3. Load chapter GeoJSON via getChapterGeoJSON(chapterNum)
-4. Pass GeoJSON to TeachingCanvas
-5. Pass lesson script to ScriptPlayer
-6. Connect ScriptPlayer's tool call output to toolCallHandler → TeachingCanvas ref
+Ensure the agent is ready for Cloud Run deployment:
 
-## Task 2: ScriptPlayer Tool Call Dispatch
+1. Verify `agent/Dockerfile` exists and is correct:
+   - Node 20 base image
+   - Install dependencies
+   - Expose port 8080 (Cloud Run default)
+   - CMD: `node dist/server.js`
 
-The ScriptPlayer currently has a WebSocket connection for live AI dialogue. For the scripted teaching phase:
-1. When a cue of type "tool_call" is reached in the script timeline, dispatch it through handleToolCall()
-2. The ScriptPlayer should accept a ref to TeachingCanvas and call handleToolCall(canvasRef, cue) directly
-3. For the dialogue phase (after script completes), the WebSocket connection handles live tool calls
+2. Verify `agent/cloudbuild.yaml` or create it:
+   ```yaml
+   steps:
+     - name: 'gcr.io/cloud-builders/docker'
+       args: ['build', '-t', 'gcr.io/$PROJECT_ID/learnlive-agent', './agent']
+     - name: 'gcr.io/cloud-builders/docker'
+       args: ['push', 'gcr.io/$PROJECT_ID/learnlive-agent']
+     - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+       args: ['gcloud', 'run', 'deploy', 'learnlive-agent', '--image', 'gcr.io/$PROJECT_ID/learnlive-agent', '--region', 'us-central1', '--allow-unauthenticated', '--set-secrets', 'GEMINI_API_KEY=GEMINI_API_KEY:latest']
+   ```
 
-Wire it so:
-- Script phase: cue.type === 'tool_call' → handleToolCall(canvas, { type: 'tool_call', tool: cue.tool, args: cue.args })
-- Live phase: WebSocket message → handleToolCall(canvas, parsedMessage)
+3. Add `VITE_AGENT_URL` to the frontend `.env.example`:
+   ```
+   VITE_AGENT_URL=https://learnlive-agent-XXXXX.run.app
+   ```
 
-## Task 3: Lesson Loading
+## Task 2: Progress Saving
 
-Create a simple lesson loader:
-src/data/lessons/index.ts
+Wire lesson completion to save progress:
 
-export async function loadLessonScript(chapterId: string, band: number) {
-  try {
-    const module = await import(`./${chapterId}_band${band}.json`);
-    return module.default;
-  } catch {
-    return null;
-  }
-}
+1. When the scripted teaching phase completes, call the worker API:
+   ```
+   POST /api/progress
+   { learnerId, lessonId, status: 'completed', band }
+   ```
 
-## Task 4: Verify Build
+2. When the dialogue phase ends, update session duration:
+   ```
+   POST /api/sessions
+   { learnerId, lessonId, type: 'dialogue', durationMs }
+   ```
 
-Run `npm run build` and ensure no TypeScript errors.
+3. On the dashboard, reflect completed lessons with a check icon
 
-## Task 5: Route Verification
+## Task 3: Error Handling & Fallback
 
-Ensure App.tsx has a route like:
-<Route path="/lesson/:chapterId" element={<LessonPlayerPage />} />
-or similar that loads LessonPlayerPage with the chapter parameter.
+- If the agent WebSocket fails to connect, show a toast + fallback to scripted-only mode
+- If audio streaming drops, attempt reconnection once before showing error
+- If TeachingCanvas fails to render (MapLibre tile load failure), show a static map image fallback
+- Add retry logic to lesson script loading
+
+## Build verification
+- `npm run build` must pass
+- The flow: Dashboard → tap Chapter 1 → TeachingCanvas renders with map → scripted teaching plays → "Go Live" available (or graceful fallback if no agent)
+```
+
+---
+
+## Phase 18: Multi-Band Support
+
+**2 Jules instances (can run in parallel).**
+
+### Prompt for Jules Instance 18A (Bands 0-1: StorybookPlayer)
+
+```
+You are building the Band 0-1 storybook experience for Chapter 1.
+
+## Context — Read these files first:
+- src/components/player/StorybookPlayer.tsx (existing storybook player)
+- src/lib/player/types.ts (StorybookScript type)
+- docs/curriculum/history/my-first-textbook/chapter_01/ (source text)
+- src/pages/LessonPlayerPage.tsx (route handler)
+
+## Task 1: Generate Band 0 and Band 1 Storybook Scripts
+
+Create JSON storybook scripts for Chapter 1:
+
+### Band 0 (ages 3-5): `public/scripts/lesson_ch01_band0.json`
+- 8-10 pages maximum
+- Each page: one simple sentence + image prompt
+- Story: "Long, long ago, God made everything. He made the sky, the land, and the water..." → Tower of Babel → families spread out → Mizraim went to Egypt, Cush went to Nubia, Phut went to Libya
+- Use proper names (Mizraim, Cush, Phut) — same names as Band 3+
+- Warm, bedtime-story tone
+- Image prompts should describe full-page illustrations (warm, child-friendly, diverse characters)
+
+### Band 1 (ages 6-7): `public/scripts/lesson_ch01_band1.json`
+- 12-15 pages
+- Each page: 2-3 sentences + image prompt
+- More detail: mentions specific places, introduces "Table of Nations" concept
+- Adds 2-3 simple review questions ("Can you remember which son went to Egypt?")
+- Same names and sequence as Band 0 and Band 3
+
+## Task 2: Generate Storybook Illustrations
+
+For each storybook page, generate an illustration using the image generation tool.
+- Style: warm watercolor, diverse African characters, historically inspired but child-friendly
+- Size: 1024x768 (landscape, full-bleed)
+- Save to: `public/images/storybook/ch01/band0_page01.jpg` etc.
+- Update the script JSONs with the correct image paths
+
+## Task 3: Wire into LessonPlayerPage
+
+The existing code already routes Band 0-1 to StorybookPlayer. Verify:
+- `isStorybook = activeLearnerBand <= 1` correctly triggers StorybookPlayer
+- The fetch path `public/scripts/lesson_ch01_band${band}.json` works
+- StorybookPlayer renders the pages with images and text
+- "Read aloud" functionality works (uses browser TTS as fallback)
+
+## Build verification
+- `npm run build` must pass
+- Navigate to /play/ch01 with a Band 0 learner → StorybookPlayer renders with illustrations
+```
+
+### Prompt for Jules Instance 18B (Bands 2, 4-5: Adapted Players)
+
+```
+You are building band-specific lesson experiences for Chapter 1.
+
+## Context — Read these files first:
+- src/data/lessons/lesson_ch01_band3.json (Band 3 script — template)
+- src/lib/player/adaptRawScript.ts (script adapter)
+- src/components/player/ScriptPlayer.tsx (current player)
+- scripts/generate_lesson_script.ts (generator)
+- docs/curriculum/history/my-first-textbook/chapter_01/ (source text)
+
+## Task 1: Generate Band 2 Script (ages 8-9)
+
+Run the lesson script generator with band=2 adaptations:
+- Simplified vocabulary (no "progenitor", use "ancestor" or "father of")
+- Shorter narration segments (max 2 sentences per speak cue)
+- Fewer tool calls (skip show_genealogy, use only zoom_to, highlight_region, place_marker)
+- Slower pacing (longer gaps between cues)
+- Output: `src/data/lessons/lesson_ch02_band2.json` (wait — should be ch01_band2)
+
+Generate `src/data/lessons/lesson_ch01_band2.json`
+
+## Task 2: Generate Band 4 Script (ages 13-17)
+
+Run the generator with band=4 adaptations:
+- Full academic vocabulary
+- Longer narration with analytical connections ("Notice how the Table of Nations in Genesis 10 correlates with...")
+- All tool calls including show_genealogy, show_timeline, show_scripture
+- Add ComparisonView cues comparing biblical and conventional chronology
+- Add Socratic questions embedded in narration ("Why do you think Moses organized the nations this way?")
+- Output: `src/data/lessons/lesson_ch01_band4.json`
+
+## Task 3: Generate Band 5 Script (ages 18+)
+
+Run the generator with band=5 adaptations:
+- Verbatim master text where possible
+- Historiographic commentary ("Scholars like Kenneth Kitchen argue...")
+- Full tool call usage with additional academic overlays
+- Essay prompts at section transitions
+- Seminar-style discussion questions
+- Output: `src/data/lessons/lesson_ch01_band5.json`
+
+## Task 4: Update Lesson Loader
+
+Update `src/data/lessons/index.ts` to include the new band-specific imports:
+```typescript
+const RAW_IMPORTS: Record<string, () => Promise<any>> = {
+  'ch01_band2': () => import('./lesson_ch01_band2.json'),
+  'ch01_band3': () => import('./lesson_ch01_band3.json'),
+  'ch01_band4': () => import('./lesson_ch01_band4.json'),
+  'ch01_band5': () => import('./lesson_ch01_band5.json'),
+  // ... existing ch02-09 band3 entries
+};
+```
+
+## Build verification
+- `npm run build` must pass
+- Band 2 learner sees simplified lesson with fewer visual components
+- Band 4 learner sees full complexity with Socratic questions
+- Band 5 learner sees verbatim text with academic commentary
+```
+
+---
+
+## Phase 19: UI Redesign
+
+**2 Jules instances (can run in parallel after Phase 17).**
+
+### Prompt for Jules Instance 19A (Dashboard Library Shelf)
+
+```
+You are redesigning the Dashboard as a library shelf for an African History curriculum app.
+
+## Context — Read these files first:
+- src/pages/parent/Dashboard.tsx (current dashboard — you're replacing the content area)
+- src/components/layout/AppShell.tsx (layout wrapper — keep as is)
+- src/components/layout/AppSidebar.tsx (sidebar nav — keep as is)
+- src/data/geojson/index.ts (to see available chapters)
+- tailwind.config.ts (design tokens)
+- src/index.css (CSS variables)
+
+## Design Direction
+
+Replace the current accordion-based topic list with a **library shelf** metaphor:
+
+### Layout
+- A warm, textured shelf background (subtle wood grain or leather texture via CSS gradient)
+- 9 book spines arranged on 2 shelves (5 top, 4 bottom) — one per chapter
+- Each "book" is a vertical card (~80px wide, ~200px tall on desktop) with:
+  - Chapter number on the spine
+  - Short title (vertical text or angled)
+  - Color-coded by era/region (use chapter GeoJSON region colors)
+  - Progress indicator (spine fill from bottom)
+  - Subtle glow/highlight on hover
+  - The active/current chapter slightly pulled out from the shelf
+
+### Interactions
+- Click a book → flies out with a framer-motion animation → shows chapter detail card:
+  - Chapter title, description, era badge
+  - List of lessons with completion status
+  - "Start Lesson" / "Continue" button → navigates to `/play/ch{NN}`
+  - "Back to Shelf" button → book slides back
+- The "continue" hero card at the top stays (the one with "Start Live Lesson")
+
+### Mobile
+- On mobile (<768px), books are horizontal scroll with snap points
+- Each book is a card (not spine view) showing chapter art/color + title + progress
+
+### Technical Requirements
+- Use framer-motion for all animations (book pull-out, card expand, page transitions)
+- Use design tokens from index.css (bg-card, text-foreground, etc.)
+- Keep the learner selector and "Start Live Lesson" hero card above the shelf
+- Remove the old Accordion-based topic list
+- The chapter data should come from a static config (not API) since we have all 9 chapters defined
+
+### Chapter metadata
+```typescript
+const CHAPTERS = [
+  { id: 'ch01', num: 1, title: 'Creation, Babel & Table of Nations', era: 'Ancient', color: '#fac775' },
+  { id: 'ch02', num: 2, title: 'Ancient Egypt', era: 'Ancient', color: '#e8a87c' },
+  { id: 'ch03', num: 3, title: 'Kingdom of Kush & Nubia', era: 'Ancient', color: '#c47cb8' },
+  { id: 'ch04', num: 4, title: 'Phoenicians & Carthage', era: 'Classical', color: '#7cc4a8' },
+  { id: 'ch05', num: 5, title: 'Church in Roman Africa', era: 'Classical', color: '#c4a87c' },
+  { id: 'ch06', num: 6, title: 'Aksum & Ethiopian Christianity', era: 'Classical', color: '#c4a87c' },
+  { id: 'ch07', num: 7, title: 'Rise of Islam in Africa', era: 'Medieval', color: '#8ac47c' },
+  { id: 'ch08', num: 8, title: 'Bantu Migrations', era: 'Medieval', color: '#c47c7c' },
+  { id: 'ch09', num: 9, title: 'Medieval African Kingdoms', era: 'Medieval', color: '#e8c87c' },
+];
+```
+
+## Build verification
+- `npm run build` must pass
+- Dashboard renders library shelf on desktop and horizontal scroll on mobile
+- Clicking a book opens the detail card with lessons and play button
+- "Start Live Lesson" hero card still works
+```
+
+### Prompt for Jules Instance 19B (Page Cleanup & Polish)
+
+```
+You are cleaning up deprecated pages and polishing the app.
+
+## Context — Read these files first:
+- src/App.tsx (all routes)
+- src/pages/ (list all pages)
+- src/components/layout/AppShell.tsx
+- src/components/layout/AppSidebar.tsx
+- .antigravity/ROADMAP.md (Phase 19 requirements)
+
+## Task 1: Remove Deprecated Pages
+
+These pages are no longer needed (their functionality is replaced by the Session player):
+
+1. `src/pages/LessonView.tsx` — old lesson wrapper, replaced by `/play/:chapterId`
+2. `src/pages/ReadingView.tsx` — old reading view, replaced by Session player
+3. `src/pages/ExamView.tsx` — old standalone exam, will be integrated into Session dialogue phase
+
+For each:
+- Remove the page file
+- Remove the route from App.tsx
+- Remove any imports
+- Add redirect routes for old URLs:
+  - `/lessons/:lessonId` → `/dashboard` (with toast: "Lessons are now accessed from the dashboard")
+  - `/read/:lessonId` → `/dashboard`
+  - `/exam/:lessonId` → `/dashboard`
+
+## Task 2: Remove Admin Content Tools (Deprecated)
+
+The admin content tools page (`src/pages/admin/ContentTools.tsx`) was for SVG alignment and content management that's no longer needed:
+- Remove the page
+- Remove the route from App.tsx
+- Keep `src/pages/admin/Dashboard.tsx` (admin dashboard with analytics is still useful)
+
+## Task 3: Simplify Onboarding
+
+Read `src/pages/Onboarding.tsx` and simplify to 3 steps:
+1. **Welcome** — "Welcome to Learn Live. Let's set up your family." + parent name input
+2. **Add Learner** — name + age (band auto-calculated from age) + "Add another learner" button
+3. **Ready** — summary of family + "Start Learning" button → navigate to dashboard
+
+Remove any steps related to curriculum selection, subject preferences, or other legacy fields.
+
+## Task 4: Build PostLessonSummary
+
+Create `src/components/player/PostLessonSummary.tsx`:
+- Shows after a lesson completes (both scripted and dialogue phases)
+- Non-blocking — parent can dismiss and go back to dashboard
+- Contents:
+  - "Lesson Complete!" header with celebration animation (confetti or sparkle)
+  - Time spent (total duration)
+  - Topics covered (list of main narration topics)
+  - "Continue to Next Lesson" button
+  - "Back to Dashboard" button
+- Use framer-motion for enter animation
+- Wire into ScriptPlayer as the "Review" phase (phase 3)
+
+## Task 5: Fix forwardRef Warnings
+
+Wrap these page components with React.forwardRef to eliminate console warnings:
+- Index
+- Login
+- Register
+- ForgotPassword
+- ResetPassword
+- Onboarding
+- NotFound
+
+## Build verification
+- `npm run build` must pass with zero errors
+- Old routes redirect gracefully with toasts
+- Onboarding flow is 3 steps
+- PostLessonSummary renders after lesson completion
+- No forwardRef console warnings
 ```
 
 ---
@@ -453,28 +462,29 @@ or similar that loads LessonPlayerPage with the chapter parameter.
 ## Execution Order
 
 ```
-Phase 1 (parallel):
-  └── Jules A1: GeoJSON Ch 2-5
-  └── Jules A2: GeoJSON Ch 6-9
-  └── Jules B1: Generator update + lesson scripts Ch 1-5
-
-Phase 2 (after B1):
-  └── Jules B2: Lesson scripts Ch 6-9
-
-Phase 3 (after A1 + B1):
-  └── Jules C1: Chapter 1 E2E wiring + verification
+Phase 16D (1 instance) ← Start immediately
+    ↓
+Phase 17 (1 instance) ← After 16D merges
+    ↓
+Phase 18A + 18B (2 instances, parallel) ← After 17 merges
+Phase 19A + 19B (2 instances, parallel) ← After 17 merges (can also run parallel with 18)
 ```
+
+Total: 6 Jules instances, 3 sequential gates.
 
 ---
 
-## Verification Checklist
+## Post-Phase 19 Priorities
 
-After all instances complete:
+After these phases complete, the app will have:
+- ✅ Full Chapter 1 experience across all 6 bands
+- ✅ Live AI narration with interactive map
+- ✅ Library shelf dashboard
+- ✅ Clean, polished UI
 
-- [ ] `src/data/geojson/` has 27 JSON files (3 per chapter × 9 chapters)
-- [ ] `src/data/geojson/locations.ts` has ~80+ named locations
-- [ ] `src/data/geojson/index.ts` handles chapters 1-9
-- [ ] `src/data/lessons/` has 9 lesson scripts (band 3 for each chapter)
-- [ ] All lesson scripts use new MapLibre tool names only
-- [ ] `npm run build` passes with zero errors
-- [ ] LessonPlayerPage loads Ch1 → GeoJSON renders on MapLibre → script plays → tool calls fire
+Next priorities (Phase 20+):
+1. **Audio generation** — Pre-generate TTS audio for scripted cues (fallback when agent is unavailable)
+2. **Chapters 2-9 multi-band** — Generate band 0-2 and 4-5 scripts for remaining chapters
+3. **Progress analytics** — Detailed parent dashboard with per-learner progress charts
+4. **Offline mode** — Service worker + cached lesson scripts for offline playback
+5. **Mobile app** — Capacitor wrapper for iOS/Android
