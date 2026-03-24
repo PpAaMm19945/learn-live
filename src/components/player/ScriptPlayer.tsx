@@ -63,6 +63,29 @@ export function ScriptPlayer({
     onComplete: () => console.log('Script Complete'),
   });
 
+  // Bridge: intercept __tool_call__ cues and dispatch to TeachingCanvas
+  const dispatchedToolsRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    for (const [id, params] of visibleComponents.entries()) {
+      if ((params.componentType as string) === '__tool_call__' && !dispatchedToolsRef.current.has(id)) {
+        dispatchedToolsRef.current.add(id);
+        const { tool, args } = params.data as { tool: string; args: Record<string, any> };
+        handleToolCall(canvasRef.current, { type: 'tool_call', tool, args });
+        setLocalToolLog(prev => [...prev, {
+          id: id + '-' + Date.now(),
+          time: new Date(),
+          tool,
+          target: args?.location || args?.regionId || args?.reference || args?.name || '',
+        }]);
+      }
+    }
+  }, [visibleComponents]);
+
+  // Local tool call log for offline/script playback
+  const [localToolLog, setLocalToolLog] = useState<{ id: string; time: Date; tool: string; target: string }[]>([]);
+  const mergedToolLog = [...toolCallLog, ...localToolLog];
+
   useEffect(() => {
     startSession(canvasRef);
     return () => {
