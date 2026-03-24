@@ -33,6 +33,7 @@ export function ScriptPlayer({
   band,
   learnerName,
   lessons,
+  chapterGeoJSON,
   onExit,
 }: ScriptPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
