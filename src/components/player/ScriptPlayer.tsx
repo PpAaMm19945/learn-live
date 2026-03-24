@@ -245,7 +245,7 @@ export function ScriptPlayer({
 
       {/* Main Canvas Area (Left) */}
       <div className="col-start-1 row-start-2 relative overflow-hidden bg-zinc-950">
-        <TeachingCanvas ref={canvasRef} className={`w-full h-full transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`} />
+        <TeachingCanvas ref={canvasRef} chapterGeoJSON={chapterGeoJSON} className={`w-full h-full transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`} />
         <div className="absolute inset-0 pointer-events-none">
           <ComponentRenderer visibleComponents={visibleComponents} band={band} />
         </div>
