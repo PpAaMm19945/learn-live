@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useScriptPlayer } from '@/lib/player/useScriptPlayer';
 import { LessonScript } from '@/lib/player/types';
 import { OverlayControls } from './OverlayControls';
-import { OverlayCaption } from './OverlayCaption';
+// import { OverlayCaption } from './OverlayCaption';
 import { LessonDrawer, LessonDrawerItem } from './LessonDrawer';
 import { ComponentRenderer } from './ComponentRenderer';
 import { useAutoHide } from './useAutoHide';
