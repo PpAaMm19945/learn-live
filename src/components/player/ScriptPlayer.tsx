@@ -273,7 +273,7 @@ export function ScriptPlayer({
 
          {/* Action Log Area */}
          <div className="h-1/3 p-4 bg-zinc-950">
-            <CanvasActionLog logs={toolCallLog} />
+            <CanvasActionLog logs={mergedToolLog} />
          </div>
       </div>
 
