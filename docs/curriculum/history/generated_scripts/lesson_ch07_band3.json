@@ -1,0 +1,1482 @@
+{
+  "version": "1.0",
+  "chapterId": "ch07",
+  "band": 3,
+  "title": "Chapter 7 Lesson",
+  "estimatedDurationMs": 312060,
+  "pronunciationOverrides": {
+    "Aksum": "<phoneme alphabet=\"ipa\" ph=\"ˈɑːksuːm\">Aksum</phoneme>",
+    "Adulis": "<phoneme alphabet=\"ipa\" ph=\"əˈduːlɪs\">Adulis</phoneme>",
+    "Byzantine": "<phoneme alphabet=\"ipa\" ph=\"ˈbɪzəntiːn\">Byzantine</phoneme>",
+    "Aedesius": "<phoneme alphabet=\"ipa\" ph=\"iˈdiːsiəs\">Aedesius</phoneme>",
+    "Alexandria": "<phoneme alphabet=\"ipa\" ph=\"ˌælɪɡˈzændri.ə\">Alexandria</phoneme>",
+    "Ezana": "<phoneme alphabet=\"ipa\" ph=\"ɛˈzɑːnə\">Ezana</phoneme>",
+    "Frumentius": "<phoneme alphabet=\"ipa\" ph=\"fruːˈmɛnʃəs\">Frumentius</phoneme>",
+    "Kaleb": "<phoneme alphabet=\"ipa\" ph=\"ˈkɑːlɛb\">Kaleb</phoneme>",
+    "Zagwe": "<phoneme alphabet=\"ipa\" ph=\"ˈzɑːɡweɪ\">Zagwe</phoneme>",
+    "Beta Israel": "<phoneme alphabet=\"ipa\" ph=\"ˈbeɪtə ˈɪzreɪɛl\">Beta Israel</phoneme>",
+    "Kebra Nagast": "<phoneme alphabet=\"ipa\" ph=\"ˈkɛbrə nəˈɡɑːst\">Kebra Nagast</phoneme>",
+    "D'mt": "<phoneme alphabet=\"ipa\" ph=\"ˈdɑːmət\">D'mt</phoneme>",
+    "Yeha": "<phoneme alphabet=\"ipa\" ph=\"ˈjɛhɑː\">Yeha</phoneme>",
+    "Ge'ez": "<phoneme alphabet=\"ipa\" ph=\"ˈɡiːɛz\">Ge'ez</phoneme>",
+    "Candace": "<phoneme alphabet=\"ipa\" ph=\"ˈkændəsi\">Candace</phoneme>",
+    "Meroe": "<phoneme alphabet=\"ipa\" ph=\"ˈmɛroʊ.i\">Meroe</phoneme>",
+    "Nubia": "<phoneme alphabet=\"ipa\" ph=\"ˈnuːbi.ə\">Nubia</phoneme>",
+    "Athanasius": "<phoneme alphabet=\"ipa\" ph=\"ˌæθəˈneɪʃəs\">Athanasius</phoneme>",
+    "Aragawi": "<phoneme alphabet=\"ipa\" ph=\"ɑːrɑːˈɡɑːwi\">Aragawi</phoneme>",
+    "Debre Damo": "<phoneme alphabet=\"ipa\" ph=\"ˈdɛbrə ˈdɑːmoʊ\">Debre Damo</phoneme>",
+    "Dhu Nuwas": "<phoneme alphabet=\"ipa\" ph=\"duː nuːˈwɑːs\">Dhu Nuwas</phoneme>",
+    "Najran": "<phoneme alphabet=\"ipa\" ph=\"nɑːdʒˈrɑːn\">Najran</phoneme>",
+    "Carthage": "<phoneme alphabet=\"ipa\" ph=\"ˈkɑːrθɪdʒ\">Carthage</phoneme>",
+    "Armah": "<phoneme alphabet=\"ipa\" ph=\"ˈɑːrmə\">Armah</phoneme>",
+    "Lalibela": "<phoneme alphabet=\"ipa\" ph=\"ˌlɑːliˈbɛlə\">Lalibela</phoneme>",
+    "Lasta": "<phoneme alphabet=\"ipa\" ph=\"ˈlɑːstə\">Lasta</phoneme>",
+    "Agaw": "<phoneme alphabet=\"ipa\" ph=\"ˈɑːɡaʊ\">Agaw</phoneme>",
+    "Menelik": "<phoneme alphabet=\"ipa\" ph=\"ˈmɛnəlɪk\">Menelik</phoneme>",
+    "Amhara": "<phoneme alphabet=\"ipa\" ph=\"ɑːmˈhɑːrə\">Amhara</phoneme>",
+    "Arethas": "<phoneme alphabet=\"ipa\" ph=\"əˈriːθəs\">Arethas</phoneme>"
+  },
+  "cues": [
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 0
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 0
+    },
+    {
+      "type": "speak",
+      "text": "**Region focus:** Aksum (northern Ethiopia / Eritrea), the highlands, and Nile–Red Sea littoral contacts",
+      "timestamp": 0
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 1620
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 1620
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 2200
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 2200
+    },
+    {
+      "type": "speak",
+      "text": "This chapter traces the rise of the Aksumite state, the conversion of its elites and institutions to Christianity, the growth of a distinct Ethiopian ecclesial culture (Geʽez language, liturgy, monasticism), Aksum’s political engagements with Arabia and Byzantium, the later decline of Aksumite power, and the survival and reconfiguration of Christianity in the highlands through to c. 900 AD. The narrative is evidence-driven: inscriptions, coinage, royal acts, and monastery records are the primary anchors.",
+      "timestamp": 2200
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 8540
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 8540
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 9120
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 9120
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** c. 100 BC – 300 AD — Aksum emerges as a literate trading polity.",
+      "timestamp": 9120
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 10820
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 10820
+    },
+    {
+      "type": "speak",
+      "text": "* **Geography & economy:** Aksum controlled highland agricultural zones and maritime trade nodes on the Red Sea (Adulis). Trade connected it with Arabia, the Mediterranean, India, and the Nile valley—bringing gold, ivory, incense, textiles, and slaves.\n* **Political structure:** Kingship was centralized, ruling from the highland plateau with satellite fortified towns. Stone stelae, elaborate tombs, and an early coinage system mark Aksum’s political maturity.\n* **Writing & language:** Geʽez becomes the administrative and literary language; its script (derived from South Arabian alphasyllabary) is used in inscriptions and later in liturgical texts.\n* **Diplomatic posture:** Aksum engaged diplomatically with Roman (Byzantine) and South Arabian powers; its navy and army projected influence across the Red Sea.",
+      "timestamp": 10820
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 20440
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 20440
+    },
+    {
+      "type": "speak",
+      "text": "*Design cue:* Map of trade routes (Red Sea ↔ Aksum ↔ India ↔ Mediterranean), photo of Adulis ruins, example of early Aksumite stela.",
+      "timestamp": 20440
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 22780
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 22780
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 23360
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** c. 320–360 AD — conversion of the royal court and baptism of the king.",
+      "timestamp": 23360
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 25060
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 25060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 25060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Ezana",
+        "title": "The Constantine of Africa",
+        "imageUrl": "/assets/images/figures/ezana.jpg"
+      },
+      "timestamp": 25060
+    },
+    {
+      "type": "speak",
+      "text": "* **The tale of Frumentius and Aedesius:** Two young men (often identified as Syrian or Tyrian merchants’ youths in different traditions) take refuge in Aksum after shipwreck; Frumentius remains as an imperial secretary and tutor at court. On his return to the Mediterranean, he appeals to the bishop of Alexandria to send a bishop to Aksum. Frumentius is consecrated (tradition: as *Abuna* / metropolitan) and returns to organize the Church.\n* **King Ezana:** Under the influence of Frumentius, King **Ezana** (mid-4th century) adopts Christianity. Ezana’s inscriptions and coinage (bearing Christian symbols and later an explicit inscription of conversion) are the clearest archaeological witness to this transformation.\n* **Institutional change:** Conversion of the royal household leads to Christian patronage of churches, the introduction of bishops, and the beginning of organized liturgy in Geʽez. The Aksumite Church remains closely tied to the Patriarchate of Alexandria (the Egyptian metropolitan), shaping theology and hierarchy.",
+      "timestamp": 25060
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 37560
+    },
+    {
+      "type": "speak",
+      "text": "*Design cue:* Photograph or drawing of Ezana’s inscriptions (trilingual stela/inscription if possible) and coins showing Christian symbols.",
+      "timestamp": 37560
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 39420
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 39420
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 40000
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** 4th–6th centuries — structural consolidation.",
+      "timestamp": 40000
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 40980
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 40980
+    },
+    {
+      "type": "speak",
+      "text": "* **Abuna & Egyptian connection:** The Aksumite Church is linked ecclesiastically to Alexandria—Aksum’s metropolitan (*Abun/Abba*) often came from Egyptian (Coptic) appointment, cementing liturgical and doctrinal ties.\n* **Liturgy & scripture:** Geʽez translations of biblical and liturgical texts begin to appear (psalms, lectionaries, and later the Pentateuch/whole Bible). The liturgical year, sacraments, and episcopal polity mirror Alexandrian patterns but are adapted to highland rhythms.\n* **Monastic seedbed:** Early ascetic practices and localized monastic communities form—anchoring the faith in remote plateaus and highland valleys, which later become theological and cultural strongholds.",
+      "timestamp": 40980
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 48600
+    },
+    {
+      "type": "speak",
+      "text": "*Sidebar — Material evidence:* Coins, Christian inscriptions, and later manuscript corpora preserve early liturgical language.",
+      "timestamp": 48600
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 50300
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 50300
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 50880
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** c. 520–575 AD — Aksumite military interventions on the Arabian side of the Red Sea and assertions of Christian authority.",
+      "timestamp": 50880
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 53060
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 53060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Kaleb",
+        "title": "Defender of the Faith",
+        "imageUrl": "/assets/images/figures/kaleb.jpg"
+      },
+      "timestamp": 53060
+    },
+    {
+      "type": "speak",
+      "text": "* **King Kaleb (Ella Asbeha):** A powerful 6th-century ruler who launched a military expedition across the Red Sea into southern Arabia (Himyar) to protect Christian communities and punish rulers who persecuted Christians. Classical and Near Eastern sources record Aksumite intervention in Yemen.\n* **Abraha & the Himyarite episode:** The Aksumite presence in Yemen led to temporary political control in the Himyarite kingdom through appointed viceroys; sometimes local rulers like Abraha (a former Aksumite commander who became ruler in Yemen) show the blurred lines between Aksumite influence and Arabian polity.\n* **Byzantine alliance:** Aksum’s acts had echoes in Byzantine policy—shared Christian solidarities against common foes in the Red Sea and Arabian littoral. Aksum’s coinage and inscriptions during this period reflect its high political confidence and Christian identity.",
+      "timestamp": 53060
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 63640
+    },
+    {
+      "type": "speak",
+      "text": "*Design cue:* Illustration of an Aksumite king’s coin and a short map showing Aksumite expedition routes into southern Arabia.",
+      "timestamp": 63640
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 65660
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 65660
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 66240
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** c. 5th–7th centuries — flowering of indigenous monasticism and textual production.",
+      "timestamp": 66240
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 67700
+    },
+    {
+      "type": "speak",
+      "text": "* **The Nine Saints tradition:** From various eastern Christian regions (Syriac/Antiochene/Byzantine origins in tradition), a band of missionaries known as the “Nine Saints” arrive in Ethiopia, founding monasteries, translating Syriac works, and consolidating monastic rules. They are credited with establishing many monastic centers and advancing Geʽez literature.\n* **Monasteries as cultural centers:** Mountain monasteries (remote plateaus and islands like Tana islands later) become centers of manuscript production, liturgical training, and preservation of local history. They anchor the Christian faith in a form deeply interwoven with Ethiopian identity.\n* **Role of women:** Elite women patrons and female monastics contribute to patronage of churches and upkeep of liturgical life.",
+      "timestamp": 67700
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 76760
+    },
+    {
+      "type": "speak",
+      "text": "*Design cue:* Suggested illustration of a cliff monastery or stylized depiction of early Ethiopian monastic activity; callout box listing reputed Nine Saints names (e.g., Abba Aregawi, Abba Pantelewon, etc.).",
+      "timestamp": 76760
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 79580
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 79580
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 80160
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** 4th–7th centuries — doctrinal alignment and distinctive practices.",
+      "timestamp": 80160
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 81380
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 81380
+    },
+    {
+      "type": "speak",
+      "text": "* **Anti-Chalcedonian orientation:** After the Council of Chalcedon (451 AD), much of Egyptian Christianity rejected the council’s formula. The Ethiopian Church—deeply tied to Alexandria—also leaned toward the Miaphysite (non-Chalcedonian) theological tradition, though with local emphases and liturgical particularities.\n* **Syncretic forms:** Pre-Christian highland customs (royal ritual, feast days, and certain liturgical expressions) were absorbed into Christian practice, producing distinctive Ethiopian rites (e.g., extended liturgies, emphasis on the Ark/tabernacle imagery).\n* **Scriptural and liturgical corpus:** Geʽez biblical translations, hymns, and lectionaries develop; unique texts (e.g., local martyrdom accounts, hagiographies) enter the corpus.",
+      "timestamp": 81380
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 89160
+    },
+    {
+      "type": "speak",
+      "text": "*Sidebar — Ritual material culture:* Internal church architecture, processional objects, and the later tradition of the Ark of the Covenant (Tabot) as central to parish identity have roots in this formative period.",
+      "timestamp": 89160
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 92220
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 92220
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 92800
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** c. 600–900 AD — maritime decline and inland consolidation.",
+      "timestamp": 92800
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 94100
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 94100
+    },
+    {
+      "type": "speak",
+      "text": "* **Economic shifts:** The rise of Muslim polities in the Red Sea and Arabian coasts (7th century onwards) redirects trade and isolates Aksum from previous maritime commerce. Loss of control over Adulis and Arabian trade routes results in economic contraction.\n* **Political fragmentation:** Royal centrality weakens; power diffuses to provincial elites and highland polities. Aksum’s international footprint recedes, though ecclesial structures remain.\n* **Religious continuity in isolation:** While political power fades, Christian practice consolidates in highland centers. The Christian kingdom adapts—keeping liturgy, manuscripts, and bishoprics alive despite reduced external contact.\n* **Emergence of local dynasts:** New polities and local ruling houses arise in the peripheries; these will be the seedbeds of later medieval Ethiopian dynasties (Zagwe, Solomonic), though full consolidation lies beyond 900 AD.",
+      "timestamp": 94100
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 104520
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 104520
+    },
+    {
+      "type": "speak",
+      "text": "*Design cue:* Chart showing Aksum’s territorial changes and trade decline; visual of a highland church or rural liturgical scene.",
+      "timestamp": 104520
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 106540
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 106540
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 107120
+    },
+    {
+      "type": "speak",
+      "text": "**Timeline:** 4th–9th centuries — diverse religious communities.",
+      "timestamp": 107120
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 108180
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 108180
+    },
+    {
+      "type": "speak",
+      "text": "* **Beta Israel and Jewish memory:** Jewish communities in the highlands (later known as Beta Israel) appear in medieval memory and traditions; their origins span several hypotheses—trade, migration, and local conversion. They coexist with Christian polities in some regions, sometimes as integrated communities, sometimes as distinct minorities.\n* **Interfaith contact:** Christian Aksum interacts with Jewish, pagan, and later Muslim actors, creating a complex religious geography in the Horn. Religious communities could be allies or competitors depending on political circumstances.\n* **Diplomatic engagement:** Aksumite rulers used religion as part of diplomacy (e.g., Kaleb’s intervention in Himyar), showing how ecclesial identity shaped foreign policy.",
+      "timestamp": 108180
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 116840
+    },
+    {
+      "type": "speak",
+      "text": "*Sidebar — Sources and memory:* Indigenous royal inscriptions, later Ethiopian chronicles, and foreign accounts (Byzantine, Arabian) provide complementary but sometimes conflicting views of religious minorities.",
+      "timestamp": 116840
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 119340
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 119340
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 119920
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 119920
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 119920
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Ezana",
+        "title": "The Constantine of Africa",
+        "imageUrl": "/assets/images/figures/ezana.jpg"
+      },
+      "timestamp": 119920
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Kaleb",
+        "title": "Defender of the Faith",
+        "imageUrl": "/assets/images/figures/kaleb.jpg"
+      },
+      "timestamp": 119920
+    },
+    {
+      "type": "speak",
+      "text": "| Date (approx.)     |                                                                       Event | Key persons                      |\n| ------------------ | --------------------------------------------------------------------------: | -------------------------------- |\n| c. 100 BC – 300 AD |                                           Rise of Aksum as a trading polity | Aksumite rulers                  |\n| c. 320–330s AD     | Frumentius organizes Christian community; consecration linked to Alexandria | Frumentius (Abuna), Aedesius     |\n| mid-4th c.         |                 Reign and conversion of King Ezana (inscriptional evidence) | King Ezana                       |\n| early–mid 6th c.   |                   Kaleb’s expedition to Himyar (Yemen); Abraha’s prominence | King Kaleb (Ella Asbeha), Abraha |\n| 5th–7th c.         |            Arrival/mission work of the “Nine Saints”; spread of monasticism | Abba Aregawi et al.              |\n| 7th c. onward      |                    Red Sea trade decline; Aksum’s political marginalization | —                                |\n| c. 700–900 AD      |               Highland consolidation and survival of Christian institutions | Regional rulers, bishops         |",
+      "timestamp": 119920
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 131540
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 131540
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 132120
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 132120
+    },
+    {
+      "type": "speak",
+      "text": "* Map: Aksum, Adulis, Red Sea routes, Yemen (Himyar) — arrows for Kaleb’s expedition.\n* Image: Ezana’s stela or coin featuring Christian motif.\n* Plate: Example of Geʽez script from a manuscript page (psalm or lectionary).\n* Monastic depiction: stylized elevation or painting of a mountain monastery, with monks copying manuscripts.\n* Timeline banner across the chapter: clear BC/AD markers and the main events above.",
+      "timestamp": 132120
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 137820
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 137820
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 138400
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 138400
+    },
+    {
+      "type": "speak",
+      "text": "* **Inscriptions & coinage:** Ezana’s inscriptions and early Christian motifs on coins are primary archaeological anchors for conversion claims.\n* **Monastic/Patristic echoes:** Writings preserved in Syriac, Coptic, and later Geʽez translations reflect doctrinal influence from Alexandria and Syria.\n* **Ethiopian chronicles:** Later medieval texts (e.g., Kebra Nagast, royal chronicles) preserve traditions (Queen of Sheba, Solomonic descent) that are culturally central but must be handled cautiously in a strictly historical chapter. Mark them as “memory traditions” and cross-check with archaeological evidence.",
+      "timestamp": 138400
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 145300
+    },
+    {
+      "type": "speak",
+      "text": "---",
+      "timestamp": 145300
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 145880
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 145880
+    },
+    {
+      "type": "speak",
+      "text": "* Use short “Timeline” bands at the top of each major subsection.\n* Insert small sidebars labeled **“Biblical / Traditional Intersection”** (e.g., Queen of Sheba legends, Abba Frumentius) making clear distinction between tradition and evidence.\n* Avoid theological polemics — focus on institutional change, material culture, and political implications.\n* Provide **discussion questions** at the chapter end, for example:",
+      "timestamp": 145880
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 151100
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 151100
+    },
+    {
+      "type": "speak",
+      "text": "1. What material evidence most convincingly demonstrates Ezana’s conversion?\n  2. How did Red Sea trade patterns shape the fortunes of Aksum’s Church?\n  3. Compare the role of monasteries in Egypt and Ethiopia during the 4th–7th centuries.",
+      "timestamp": 151100
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 154480
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn how the Aksumite state rose to prominence from its ancient roots. We will explore its transition from the pre-Aksumite D'mt kingdom to a centralized power capable of erecting the largest stone monuments in Africa.",
+      "timestamp": 154480
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 158180
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 158180
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Stelae** — Tall, carved stone shafts erected as monuments. In Aksum, they marked royal tombs and are famous for their \"monkey-head\" architectural style, mimicking timber-frame buildings in stone.",
+      "timestamp": 158180
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 161160
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 161160
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Yeha** — The center of the pre-Aksumite D'mt kingdom. Its well-preserved temple shows the deep historical roots of civilization in the Ethiopian highlands, predating Aksum by centuries.",
+      "timestamp": 161160
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 164060
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 164060
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn how Aksum's strategic location allowed it to dominate international commerce. We'll examine the port of Adulis, the monsoon wind system, and the vast network that connected Ethiopia to India and Rome.",
+      "timestamp": 164060
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 167520
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 167520
+    },
+    {
+      "type": "speak",
+      "text": "From Adulis, Aksumite ships could sail north to Egypt (Roman Empire) or east to Yemen and India. The port was a cosmopolitan melting pot where Greek, Aramaic, and Ge'ez were spoken, and where goods from three continents were exchanged.",
+      "timestamp": 167520
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 171140
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Monsoon Winds** — Seasonal winds in the Indian Ocean that reverse direction twice a year. Ancient sailors used them to travel between India and Africa, making the Red Sea trade network possible.",
+      "timestamp": 171140
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 174440
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "adulis"
+      },
+      "timestamp": 174440
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** ***Periplus of the Erythraean Sea*** — A 1st-century AD Greek sailing guide (periplus) written by an anonymous merchant. It is our most important primary source for the early trade of the Red Sea and Indian Ocean, describing ports like Adulis in detail.",
+      "timestamp": 174440
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 178540
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn about the deep biblical roots claimed by the Ethiopian people. We'll examine the stories of the Queen of Sheba and the Ethiopian Eunuch, separating historical evidence from tradition while affirming the theological significance of both.",
+      "timestamp": 178540
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 182320
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "meroe"
+      },
+      "timestamp": 182320
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Candace** (*Kandake*) — The royal title for the Queen Mothers of the Kingdom of Meroe (Nubia). The mention of this title in Acts 8 helps historians identify the eunuch's likely origin as Meroitic rather than Aksumite.",
+      "timestamp": 182320
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 185940
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Solomonic Dynasty** — The line of Ethiopian kings who claimed descent from King Solomon and the Queen of Sheba. This tradition provided a powerful source of political legitimacy and linked the Ethiopian state directly to the biblical House of David.",
+      "timestamp": 185940
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 189880
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 189880
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 189880
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Ezana",
+        "title": "The Constantine of Africa",
+        "imageUrl": "/assets/images/figures/ezana.jpg"
+      },
+      "timestamp": 189880
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn about the pivotal moment when Aksum officially adopted Christianity. We'll explore the dramatic story of Frumentius and the archaeological evidence left by King Ezana.",
+      "timestamp": 189880
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 192780
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 192780
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 192780
+    },
+    {
+      "type": "speak",
+      "text": "When the king died, Frumentius helped the queen regent rule until Ezana came of age. Having sown the seeds of faith in the young prince's heart, Frumentius traveled to Alexandria (Egypt) around **330 AD**. He asked the great bishop **Athanasius** to send a bishop to the growing Christian community in Aksum. Athanasius, recognizing God's hand, consecrated Frumentius himself as the first *Abuna* (Bishop) of Ethiopia, giving him the name *Kesate Birhan* (\"Revealer of Light\").",
+      "timestamp": 192780
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 199200
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "alexandria"
+      },
+      "timestamp": 199200
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 199200
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Abuna** — \"Our Father,\" the title of the head of the Ethiopian Church. Following the precedent of Frumentius, the *Abuna* was historically an Egyptian monk appointed by the Patriarch of Alexandria, linking the two churches for 1,600 years.",
+      "timestamp": 199200
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 202980
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Ezana Stone** — A stone slab with inscriptions in three languages (Ge'ez, Sabaean, Greek). Like the Rosetta Stone, it was a key to deciphering ancient scripts and provides irrefutable proof of Ezana's conversion.",
+      "timestamp": 202980
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 206360
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn about the \"Nine Saints,\" a group of foreign monks who fled persecution and transformed the Ethiopian Church. We'll explore their role in translating the Bible and founding the monasteries that would preserve the faith for centuries.",
+      "timestamp": 206360
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 210220
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 210220
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 210220
+    },
+    {
+      "type": "speak",
+      "text": "While Frumentius planted the seeds of the Gospel, it was the arrival of the \"Nine Saints\" (*Tsadkan*) in the late 5th century that caused the faith to fully bloom in the hearts of the people. These men were not conquerors or traders, but refugees. They were monks from Syria, Egypt, and Cappadocia who fled the Byzantine Empire after the Council of Chalcedon (451 AD) condemned their Miaphysite theology. Seeking a safe haven where they could practice their faith in peace, they found refuge in Aksum.",
+      "timestamp": 210220
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 217520
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Abba Aragawi",
+        "title": "Founder of Debre Damo",
+        "imageUrl": "/assets/images/figures/abba_aragawi.jpg"
+      },
+      "timestamp": 217520
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Debre Damo** — A 6th-century monastery founded by Abba Aragawi. It is the oldest existing church building in Ethiopia and preserves the Aksumite style of architecture, featuring layers of stone and timber (\"monkey-head\" construction).",
+      "timestamp": 217520
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 220980
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 220980
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Garima Gospels** — The world's oldest surviving illuminated Gospels, kept at the Abba Garima Monastery. Their existence confirms the high level of artistic and literary culture in Aksum during the time of the Nine Saints.",
+      "timestamp": 220980
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 224520
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 224520
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Kaleb",
+        "title": "Defender of the Faith",
+        "imageUrl": "/assets/images/figures/kaleb.jpg"
+      },
+      "timestamp": 224520
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn about the peak of Aksum's power under King Kaleb. We'll explore his massive amphibious invasion of South Arabia, the \"Just War\" theology behind it, and the complex legacy of his general, Abraha.",
+      "timestamp": 224520
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 228060
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 228060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Kaleb",
+        "title": "Defender of the Faith",
+        "imageUrl": "/assets/images/figures/kaleb.jpg"
+      },
+      "timestamp": 228060
+    },
+    {
+      "type": "speak",
+      "text": "By the early 6th century, Aksum had reached the zenith of its power, described by the contemporary merchant Cosmas Indicopleustes as a \"great power\" on par with Rome and Persia. Its most famous ruler, King Kaleb (Ella Asbeha), projected this power across the Red Sea in a campaign that would define the era.",
+      "timestamp": 228060
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 232800
+    },
+    {
+      "type": "speak",
+      "text": "In 525 AD, Kaleb launched his amphibious invasion. The fleet crossed the Red Sea, landing on the Tihama coast near Mocha. Aksumite forces defeated Dhu Nuwas's army, marched inland to capture the capital, Zafar, and liberated Najran. Dhu Nuwas, according to legend, rode his horse into the sea to avoid capture. Kaleb installed a Christian viceroy, Sumyafa Ashwa, to rule Yemen, effectively turning the Red Sea into an Aksumite lake.",
+      "timestamp": 232800
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 238900
+    },
+    {
+      "type": "speak",
+      "text": "This rivalry culminated in the famous \"Year of the Elephant\" (c. 570 AD). Islamic tradition records that Abraha led an army, including a massive war elephant, to destroy the Kaaba. The campaign failed, but it cemented the memory of Aksumite power in the Arab consciousness just before the rise of Islam.",
+      "timestamp": 238900
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 243480
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Najran** — A city in southern Arabia (modern Saudi Arabia) that was a center of Christianity. The massacre of its inhabitants by the Himyarite king Dhu Nuwas in 523 AD sparked the Aksumite invasion.",
+      "timestamp": 243480
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 246940
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "carthage"
+      },
+      "timestamp": 246940
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **War Elephants** — Aksum was one of the few ancient powers after Carthage to use elephants in warfare. Transporting these massive animals across the Red Sea demonstrated Aksum's sophisticated naval logistics.",
+      "timestamp": 246940
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 250160
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn what led to the decline of the Aksumite kingdom's power. We'll explore the complex relationship with early Islam, the environmental factors that weakened the state, and how the Christian faith survived by shifting its center to the mountains.",
+      "timestamp": 250160
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 254180
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 254180
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_scripture",
+      "args": {
+        "reference": "Matthew 25:35",
+        "text": "For I was hungry and you gave me food, I was thirsty and you gave me drink, I was a stranger and you welcomed me...",
+        "connection": "Reflected in the Christian hospitality shown by the Aksumite king during the First Hijra."
+      },
+      "timestamp": 254180
+    },
+    {
+      "type": "speak",
+      "text": "A group of Muslims, including Muhammad's daughter, crossed the Red Sea to Aksum. The Aksumite king, known in Islamic tradition as **Al-Najashi** (likely King Armah or a title for the Negus), received them warmly. When Meccan emissaries arrived demanding their return, the king refused to surrender them. This event, known as the **First Hijra**, is a powerful historical example of Christian hospitality. The king's protection of the vulnerable strangers reflects the spirit of Matthew 25:35: \"I was a stranger and you welcomed me.\" This act secured a long period of peace between Ethiopia and the Islamic world, sparing Aksum the immediate Jihad that consumed North Africa.",
+      "timestamp": 254180
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 263160
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 263160
+    },
+    {
+      "type": "speak",
+      "text": "Cut off from the maritime trade that had fueled its wealth, Aksum's economy collapsed. The gold coins that had circulated for centuries ceased to be minted. The kingdom turned inward, becoming an isolated agrarian society.",
+      "timestamp": 263160
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 266460
+    },
+    {
+      "type": "speak",
+      "text": "In this period of isolation, the monasteries founded by the Nine Saints became the \"arks\" of Ethiopian civilization. They preserved the manuscripts, the liturgy, and the education system. While the empire crumbled, the Church endured, proving that the Kingdom of God does not depend on political power or economic prosperity.",
+      "timestamp": 266460
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 270960
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "aksum"
+      },
+      "timestamp": 270960
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **First Hijra** — The migration of early Muslims to Aksum (c. 615 AD) to escape persecution in Mecca. The Aksumite king's refusal to hand them over is a key event in Islamic-Christian relations.",
+      "timestamp": 270960
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 274340
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "lalibela"
+      },
+      "timestamp": 274340
+    },
+    {
+      "type": "speak",
+      "text": "> **Key Term:** **Zagwe Dynasty** — The medieval dynasty that succeeded the Aksumites. Ruling from the Lasta region, they are famous for constructing the rock-hewn churches of Lalibela, continuing the Aksumite architectural and religious traditions.",
+      "timestamp": 274340
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 277640
+    },
+    {
+      "type": "speak",
+      "text": "In this section you will learn about the \"Beta Israel,\" the ancient Jewish community of Ethiopia. We'll explore their mysterious origins and their unique role in the religious landscape of the Horn of Africa.",
+      "timestamp": 277640
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 280860
+    },
+    {
+      "type": "speak",
+      "text": "The origins of the Beta Israel are debated. Some traditions trace them to the tribe of Dan or the entourage of Menelik I. Others suggest they were indigenous Agaw peoples who adopted Judaism from South Arabian traders. What is certain is that their faith was **pre-Talmudic**. They possessed the *Orit* (the Octateuch in Ge'ez) and practiced animal sacrifice—a rite that mainstream Judaism abandoned after the destruction of the Temple in 70 AD. This suggests their community was separated from the wider Jewish world at a very ancient date, preserving a \"time capsule\" of Old Testament faith.",
+      "timestamp": 280860
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "meroe"
+      },
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Frumentius",
+        "title": "Kesate Birhan (Revealer of Light)",
+        "imageUrl": "/assets/images/figures/frumentius.jpg"
+      },
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Ezana",
+        "title": "The Constantine of Africa",
+        "imageUrl": "/assets/images/figures/ezana.jpg"
+      },
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "Abba Aragawi",
+        "title": "Founder of Debre Damo",
+        "imageUrl": "/assets/images/figures/abba_aragawi.jpg"
+      },
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_figure",
+      "args": {
+        "name": "King Kaleb",
+        "title": "Defender of the Faith",
+        "imageUrl": "/assets/images/figures/kaleb.jpg"
+      },
+      "timestamp": 289040
+    },
+    {
+      "type": "speak",
+      "text": "| Date (Conventional) | Event | Key Figures |\n| :--- | :--- | :--- |\n| **c. 800–400 BC** | **D'mt Kingdom** (Pre-Aksumite civilization at Yeha) | — |\n| **c. 100 AD** | **Rise of Aksum** as a major Red Sea power (*Periplus*) | King Zoscales |\n| **c. 316 AD** | **Frumentius Shipwrecked**; becomes tutor to royal court | Frumentius, Ella Amida |\n| **c. 330 AD** | **Conversion of Aksum**; Frumentius consecrated bishop | King Ezana, Athanasius |\n| **c. 350 AD** | **Conquest of Meroe**; Aksum unites the Nile & Highlands | King Ezana |\n| **c. 480–520 AD** | **The Nine Saints** arrive; Monasticism & Bible translation | Abba Aragawi, Abba Garima |\n| **523 AD** | **Najran Massacre**; Christians martyred in Yemen | Dhu Nuwas, St. Arethas |\n| **525 AD** | **Kaleb’s Expedition**; Aksum conquers Yemen | King Kaleb, Emperor Justin I |\n| **c. 570 AD** | **Year of the Elephant**; Abraha’s failed attack on Mecca | Abraha |\n| **c. 615 AD** | **First Hijra**; Aksum gives refuge to early Muslims | Negus Ashama (Al-Najashi) |\n| **c. 640–700 AD** | **Islamic Expansion**; Aksum loses Red Sea control (Adulis) | — |\n| **c. 900 AD** | **Inland Shift**; Political center moves to Lasta/Amhara | Zagwe Dynasty (later) |",
+      "timestamp": 289040
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 307060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_timeline",
+      "args": {
+        "events": [
+          {
+            "id": "evt_07_001",
+            "title": "D'mt Kingdom Flourishes",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 800–400 BC",
+            "description": "Pre-Aksumite civilization centered at Yeha with ties to South Arabia.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_002",
+            "title": "Rise of Aksum",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 100 AD",
+            "description": "Aksum emerges as a major Red Sea power, noted in the Periplus of the Erythraean Sea.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_003",
+            "title": "Frumentius Shipwrecked",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 316 AD",
+            "description": "Syrian Christians Frumentius and Aedesius survive a shipwreck and enter the royal court.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_004",
+            "title": "Conversion of Aksum",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 330 AD",
+            "description": "King Ezana officially embraces Christianity; Frumentius consecrated bishop by Athanasius.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_005",
+            "title": "Conquest of Meroe",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 350 AD",
+            "description": "Aksum under Ezana conquers the declining kingdom of Meroe (Kush).",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_006",
+            "title": "Arrival of the Nine Saints",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 480–520 AD",
+            "description": "Syrian monks flee Byzantine persecution, translate the Bible, and found monasteries in Ethiopia.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_007",
+            "title": "Najran Massacre",
+            "biblicalDate": "N/A",
+            "conventionalDate": "523 AD",
+            "description": "Jewish king Dhu Nuwas massacres Christians in Najran, sparking international outrage.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_008",
+            "title": "Kaleb’s Expedition",
+            "biblicalDate": "N/A",
+            "conventionalDate": "525 AD",
+            "description": "Aksumite King Kaleb conquers Yemen to protect persecuted Christians.",
+            "scriptureRef": null,
+            "category": "both"
+          },
+          {
+            "id": "evt_07_009",
+            "title": "Year of the Elephant",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 570 AD",
+            "description": "Abraha's failed attack on Mecca.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_010",
+            "title": "First Hijra",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 615 AD",
+            "description": "Aksumite king gives refuge to early Muslims fleeing Mecca.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_07_011",
+            "title": "Inland Shift of Aksum",
+            "biblicalDate": "N/A",
+            "conventionalDate": "c. 900 AD",
+            "description": "Due to Islamic expansion and environmental degradation, the political center moves south to Lasta/Amhara.",
+            "scriptureRef": null,
+            "category": "conventional"
+          }
+        ]
+      },
+      "timestamp": 307060
+    }
+  ]
+}
