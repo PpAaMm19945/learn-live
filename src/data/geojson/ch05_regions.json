@@ -1,0 +1,161 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              8,
+              37
+            ],
+            [
+              12,
+              37
+            ],
+            [
+              12,
+              32
+            ],
+            [
+              8,
+              32
+            ],
+            [
+              8,
+              37
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "africa_proconsularis",
+        "name": "Africa Proconsularis",
+        "color": "#c4a87c",
+        "chapter": 5,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              6,
+              37
+            ],
+            [
+              8,
+              37
+            ],
+            [
+              8,
+              34
+            ],
+            [
+              6,
+              34
+            ],
+            [
+              6,
+              37
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "numidia",
+        "name": "Numidia",
+        "color": "#a8c47c",
+        "chapter": 5,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              20,
+              33
+            ],
+            [
+              25,
+              33
+            ],
+            [
+              25,
+              30
+            ],
+            [
+              20,
+              30
+            ],
+            [
+              20,
+              33
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "cyrenaica",
+        "name": "Cyrenaica",
+        "color": "#7cc4c4",
+        "chapter": 5,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32.65,
+              24
+            ],
+            [
+              33.15,
+              24
+            ],
+            [
+              31.75,
+              29.8
+            ],
+            [
+              32.5,
+              31.2
+            ],
+            [
+              29.5,
+              31.2
+            ],
+            [
+              31.25,
+              29.8
+            ],
+            [
+              32.65,
+              24
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "roman_egypt",
+        "name": "Roman Egypt",
+        "color": "#c48a7c",
+        "chapter": 5,
+        "type": "region"
+      }
+    }
+  ]
+}

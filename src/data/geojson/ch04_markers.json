@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.2,
+          33.27
+        ]
+      },
+      "properties": {
+        "id": "tyre",
+        "name": "Tyre",
+        "chapter": 4,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.37,
+          33.56
+        ]
+      },
+      "properties": {
+        "id": "sidon",
+        "name": "Sidon",
+        "chapter": 4,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.18,
+          36.85
+        ]
+      },
+      "properties": {
+        "id": "carthage",
+        "name": "Carthage",
+        "chapter": 4,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.3,
+          36.3
+        ]
+      },
+      "properties": {
+        "id": "zama",
+        "name": "Zama",
+        "chapter": 4,
+        "type": "battle"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          14.28,
+          32.64
+        ]
+      },
+      "properties": {
+        "id": "leptis_magna",
+        "name": "Leptis Magna",
+        "chapter": 4,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          35.65,
+          34.12
+        ]
+      },
+      "properties": {
+        "id": "byblos",
+        "name": "Byblos",
+        "chapter": 4,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.06,
+          37.06
+        ]
+      },
+      "properties": {
+        "id": "utica",
+        "name": "Utica",
+        "chapter": 4,
+        "type": "city"
+      }
+    }
+  ]
+}

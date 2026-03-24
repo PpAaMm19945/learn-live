@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.18,
+          36.85
+        ]
+      },
+      "properties": {
+        "id": "carthage",
+        "name": "Carthage",
+        "chapter": 5,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.77,
+          36.9
+        ]
+      },
+      "properties": {
+        "id": "hippo_regius",
+        "name": "Hippo Regius",
+        "chapter": 5,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.95,
+          36.28
+        ]
+      },
+      "properties": {
+        "id": "thagaste",
+        "name": "Thagaste",
+        "chapter": 5,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          29.9,
+          31.2
+        ]
+      },
+      "properties": {
+        "id": "alexandria",
+        "name": "Alexandria",
+        "chapter": 5,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          21.85,
+          32.82
+        ]
+      },
+      "properties": {
+        "id": "cyrene",
+        "name": "Cyrene",
+        "chapter": 5,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          8.23,
+          36.38
+        ]
+      },
+      "properties": {
+        "id": "madauros",
+        "name": "Madauros",
+        "chapter": 5,
+        "type": "city"
+      }
+    }
+  ]
+}
