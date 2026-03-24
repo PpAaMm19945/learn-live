@@ -22,6 +22,7 @@ interface ScriptPlayerProps {
   band: number;
   learnerName: string;
   lessons: LessonDrawerItem[];
+  chapterGeoJSON?: GeoJSON.FeatureCollection;
   onExit: () => void;
 }
 
