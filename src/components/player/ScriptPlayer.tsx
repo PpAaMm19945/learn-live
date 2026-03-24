@@ -143,7 +143,7 @@ export function ScriptPlayer({
       }).catch(console.error);
       sessionStartTimeRef.current = 0;
     }
-  }, [endSession, setPhase, learnerId, script.id]);
+  }, [endSession, setPhase, learnerId, script.chapterId]);
 
   useEffect(() => {
     if (wsError) {
