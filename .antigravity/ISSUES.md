@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-03-22
+> **Last updated:** 2026-03-24
 
 ---
 
@@ -16,16 +16,11 @@
 | 38 | SVG overlays not loading (path mismatch `maps/overlays/` vs `assets/maps/overlays/`) | Fixed worker route to use correct R2 prefix | 15 |
 | 39 | Map admin page showing PNG and SVG cards disconnected | Unified into single card per map with embedded SVG status | 15 |
 | 40 | SVG overlays invisible over PNG maps (placeholder rectangles, no real boundaries) | Decision: pivot to MapLibre GL JS | 15 |
+| 41 | MapLibre GL JS Migration | TeachingCanvas built, GeoJSON for all 9 chapters, tool-call handler wired | 16A/B |
 
 ---
 
 ## Open Issues
-
-### 41. MapLibre GL JS Migration
-- **Status:** OPEN — PLANNED (Phase 16)
-- **Description:** The PNG+SVG overlay approach for the teaching canvas is being replaced with MapLibre GL JS. Current SVG overlays are placeholder rectangles that don't trace real geographic boundaries. MapLibre renders vector maps with mathematical polygons — highlight Egypt by calling one function, not by tracing SVGs.
-- **Impact:** Blocks Chapter 1 E2E milestone. All map-related visual components need to target MapLibre instead of SVG overlays.
-- **Plan:** See ROADMAP.md Phase 16.
 
 ### 42. Admin Role Check Uses Client-Side Storage
 - **Status:** OPEN — LOW
@@ -33,9 +28,24 @@
 - **Fix:** Ensure all admin API routes validate role server-side via `has_role()` function.
 
 ### 43. Cloud Run Agent Not Deployed with API Key
-- **Status:** OPEN — MEDIUM
+- **Status:** OPEN — HIGH (blocks Phase 17)
 - **Description:** The Cloud Run agent needs `GEMINI_API_KEY` injected via GCP Secret Manager. Without it, live dialogue and oral examination features are non-functional.
 - **Fix:** Create secret in GCP Secret Manager, update `cloudbuild.yaml`, redeploy.
+
+### 44. Agent Tool Definitions Still Use Legacy Names
+- **Status:** OPEN — HIGH (Phase 16C)
+- **Description:** `agent/src/historyExplainerTools.ts` still uses old tool names (`show_element`, `animate_element`, `remove_element`, `show_map_overlay`, `highlight_route`, `zoom_map`). These need to be replaced with MapLibre-native tools (`zoom_to`, `highlight_region`, `draw_route`, `place_marker`, `show_scripture`, `show_genealogy`, `show_timeline`, `show_figure`, `clear_canvas`).
+- **Blocks:** Phase 17 (live E2E).
+
+### 45. WebSocket Not Yet Wired to TeachingCanvas
+- **Status:** OPEN — HIGH (Phase 16D)
+- **Description:** `useWebSocketCanvas.ts` exists as a skeleton but doesn't connect to Cloud Run agent. Audio streaming and live tool call dispatch are not functional.
+- **Blocks:** Phase 17 (live E2E).
+
+### 46. forwardRef Warnings on Routes/Login
+- **Status:** OPEN — LOW
+- **Description:** Console warnings about Function components not accepting refs. Cosmetic only, non-breaking. Likely caused by React Router v6 passing refs to page components.
+- **Fix:** Wrap affected page components with `React.forwardRef` or suppress.
 
 ---
 
@@ -43,3 +53,4 @@
 - Issue 40 (SVG visibility) led directly to the MapLibre pivot decision.
 - Issues 34–36 were data quality issues from rapid phase execution.
 - All Phase 10 merge conflicts (issues 1–33) were systematic — caused by parallel Jules instances editing the same files.
+- Issues 44 and 45 are the primary blockers for the next milestone (Chapter 1 live E2E).

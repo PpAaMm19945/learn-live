@@ -1,6 +1,6 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-03-22
+> **Last updated:** 2026-03-24
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
@@ -95,10 +95,41 @@
 - Cloud Run band param fix
 - Lesson Script Generator CLI (Node script: chapter markdown + band → LessonScript JSON)
 
-## 2026-03-22 — Repository Cleanup
+## 2026-03-22 — Repository Cleanup & MapLibre Pivot
 - **Decision:** Pivot teaching canvas from PNG+SVG overlays to MapLibre GL JS
 - Reason: SVG overlays are placeholder rectangles, impossible to see, don't trace real boundaries
 - MapLibre renders vector polygons — highlight Egypt by calling one function
 - Deleted ~30 orphaned root scripts/screenshots/legacy prompts
 - Moved math/english/science curriculum data to archive/
 - Consolidated 7+ documentation files into 4 unified docs
+
+## 2026-03-22 — Phase 16A: MapLibre TeachingCanvas
+- Installed `maplibre-gl` package
+- Created `TeachingCanvas.tsx` with MapLibre GL JS wrapper + imperative API (zoomTo, highlightRegion, drawRoute, placeMarker, clearOverlays, flyTo)
+- Overlay panel system: ScriptureCard, GenealogyPanel, TimelineBar, FigureCard (HTML over MapLibre, framer-motion animations)
+- TeachingCanvas.css for MapLibre-specific styles
+- Wired into ScriptPlayer replacing old HistoryCanvas
+
+## 2026-03-22 — Phase 16B: GeoJSON Data (Chapter 1)
+- Created ch01 GeoJSON: regions (Mizraim, Cush, Phut, Canaan), routes (Babel→Egypt/Nubia/Libya), markers (Babel, Memphis, Thebes, Kerma, Cyrene, Sidon)
+- Created `locations.ts` named location registry
+- Created `src/data/geojson/index.ts` loader
+
+## 2026-03-23 — Phase 16B Extended: GeoJSON Chapters 2–9
+- GeoJSON data generated for all remaining chapters (Stream A)
+- 27 new files: regions, routes, markers for chapters 2–9
+- Locations registry updated with all new named locations
+- Index loader updated to serve all 9 chapters
+
+## 2026-03-24 — Lesson Script Generation (Stream B)
+- Updated `scripts/generate_lesson_script.ts` to emit MapLibre-native tool calls (highlight_region, zoom_to, draw_route, etc.)
+- Generated `lesson_ch*_band3.json` for all 9 chapters
+- Placed scripts in `src/data/lessons/`
+
+## 2026-03-24 — E2E Wiring (Stream C)
+- Created `src/lib/player/adaptRawScript.ts` — transforms raw generator JSON into structured LessonScript format
+- Created `src/data/lessons/index.ts` — dynamic lesson loader with adapter integration
+- Updated `ScriptPlayer.tsx` — tool-call bridge intercepts `__tool_call__` cues and dispatches to TeachingCanvas
+- Updated `ComponentRenderer.tsx` — filters out internal `__tool_call__` cues from visual stack
+- Updated `LessonPlayerPage.tsx` — loads chapter GeoJSON, passes to ScriptPlayer
+- TypeScript build verified with zero errors

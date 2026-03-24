@@ -1,6 +1,6 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-03-22
+> **Last updated:** 2026-03-24
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 
 ---
@@ -11,7 +11,7 @@ Learn Live began as a general-purpose math curriculum platform (DAG-based skill 
 
 The math engine, DAG system, and 2,000+ constraint templates are archived in `src/archive/`, `worker/src/archive/`, and `archive/` (root) — not deleted, available for future reactivation.
 
-In March 2026, after building PNG map overlays with SVG alignment tools, the project is pivoting the teaching canvas to **MapLibre GL JS** — a programmable vector map engine that eliminates manual SVG alignment entirely and enables live AI-driven map interactions.
+The teaching canvas uses **MapLibre GL JS** — a programmable vector map engine with live AI-driven map interactions, replacing the earlier PNG+SVG overlay approach.
 
 ---
 
@@ -34,7 +34,7 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 | Content Storage | Cloudflare R2 | Master text, maps, audio, generated assets |
 | AI Bridge | Google Cloud Run (Express) | Gemini Live for narration & oral examination |
 | Content Adaptation | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation |
-| Teaching Canvas | **MapLibre GL JS** (planned) | Programmable vector maps with live AI tool calls |
+| Teaching Canvas | **MapLibre GL JS** | Programmable vector maps with live AI tool calls |
 | Auth | Custom on Workers | Magic link, Google OAuth, email/password, JWT sessions |
 
 ---
@@ -54,17 +54,17 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 
 ## Chapter Content Status
 
-| Ch | Title | Text | Maps | Component Data | Lesson Scripts | Audio |
-|----|-------|------|------|---------------|----------------|-------|
-| 1 | Creation, Babel, & Table of Nations | ✅ | ✅ (in R2) | ✅ | ✅ (band 3) | ❌ |
-| 2 | Ancient Egypt | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 3 | Kingdom of Kush & Nubia | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 4 | Phoenicians & Carthage | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 5 | Church in Roman Africa | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 7 | Rise of Islam in Africa | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 8 | Bantu Migrations | ✅ | ✅ | ✅ | ❌ | ❌ |
-| 9 | Medieval African Kingdoms | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Ch | Title | Text | GeoJSON | Component Data | Lesson Scripts | Audio |
+|----|-------|------|---------|---------------|----------------|-------|
+| 1 | Creation, Babel, & Table of Nations | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 2 | Ancient Egypt | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 3 | Kingdom of Kush & Nubia | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 4 | Phoenicians & Carthage | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 5 | Church in Roman Africa | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 7 | Rise of Islam in Africa | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 8 | Bantu Migrations | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| 9 | Medieval African Kingdoms | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
 
 ---
 
@@ -87,6 +87,10 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 | 13 | SVG map overlays (30 maps), pronunciation dictionary, component data extraction | Mar 18 |
 | 14 | SVG alignment tool (standalone browser tool) | Mar 19 |
 | 15 | Session engine: LessonScript types, useScriptPlayer, ScriptPlayer, StorybookPlayer, 9 visual components, lesson script generator CLI | Mar 20 |
+| 16A | MapLibre TeachingCanvas shell + imperative API + overlay panels | Mar 22 |
+| 16B | Historical GeoJSON data for all 9 chapters (regions, routes, markers) + locations registry | Mar 22–24 |
+| 16-StreamB | Lesson script generator updated for MapLibre tool names; band 3 scripts generated for all 9 chapters | Mar 24 |
+| 16-StreamC | E2E wiring: adaptRawScript adapter, dynamic lesson loader, ScriptPlayer tool-call bridge, ComponentRenderer filtering | Mar 24 |
 
 ---
 
@@ -131,50 +135,28 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 
 ---
 
-## Current Phase: MapLibre Migration + Chapter 1 E2E
+## Current Phase: Live AI Integration + Chapter 1 E2E
 
-### Phase 16: MapLibre Teaching Canvas (4 parallel instances)
-
-**Goal:** Replace HistoryCanvas (SVG/PNG) with a MapLibre GL JS powered TeachingCanvas. The AI controls the map live via tool calls.
-
-#### 16A: MapLibre Integration + TeachingCanvas Shell
-- [ ] Install `maplibre-gl` package
-- [ ] Create `src/components/canvas/TeachingCanvas.tsx` — wraps MapLibre GL JS
-- [ ] Use MapTiler or Protomaps for base tiles (terrain style, muted palette matching app theme)
-- [ ] Default view: Northeast Africa centered, zoom level showing Babel → Libya extent
-- [ ] Expose imperative API: `zoomTo()`, `highlightRegion()`, `drawRoute()`, `placeMarker()`, `clearOverlays()`
-- [ ] Build overlay panel system for scripture cards, genealogy trees, figure cards, timeline (HTML overlays positioned over MapLibre, not SVG)
-- [ ] Wire into `LessonPlayerPage.tsx` replacing the old `HistoryCanvas`
-
-#### 16B: Historical GeoJSON Data (Chapter 1)
-- [ ] Create `src/data/geojson/ch01_regions.geojson` — polygons for Mizraim (Egypt), Cush (Nubia), Phut (Libya), Canaan, Babel marker
-- [ ] Source coordinates from Ancient World Mapping Center + existing map spec descriptions in `docs/curriculum/history/component-data/chapter_01/`
-- [ ] Create `src/data/geojson/ch01_routes.geojson` — LineStrings for Babel→Egypt, Babel→Nubia, Babel→Libya migration routes
-- [ ] Create `src/data/geojson/ch01_markers.geojson` — named cities: Babel, Memphis, Kerma, Thebes, etc.
-- [ ] Each feature has properties: `id`, `name`, `color`, `chapter`, `type` for programmatic access
-- [ ] Create `src/data/geojson/index.ts` — loader that exports chapter GeoJSON by chapter number
-
-#### 16C: Agent Tool-Call Rewrite
-- [ ] Rewrite `agent/src/historyExplainerTools.ts` — replace `show_element`/`animate_element`/`remove_element`/`show_map_overlay`/`highlight_route`/`zoom_map` with MapLibre-native tools: `zoom_to`, `highlight_region`, `draw_route`, `place_marker`, `show_scripture`, `show_genealogy`, `show_timeline`, `show_figure`, `clear_canvas`
+### Phase 16C: Agent Tool-Call Rewrite ← NEXT
+- [ ] Rewrite `agent/src/historyExplainerTools.ts` with MapLibre-native tool definitions
 - [ ] Update `agent/src/historyExplainerSession.ts` — tool call handler maps new tool names to WebSocket messages
-- [ ] Update `buildHistoryExplainerPrompt()` — new instructions reference MapLibre capabilities (e.g., "You can zoom to any named location. Regions are GeoJSON polygons, not canvas elements.")
+- [ ] Update `buildHistoryExplainerPrompt()` — new instructions reference MapLibre capabilities
 - [ ] Keep band-aware prompt sections (band 0-1, 2-3, 4-5)
 
-#### 16D: Frontend Tool-Call Handler + Integration
-- [ ] Create `src/lib/canvas/toolCallHandler.ts` — receives WebSocket tool-call messages, dispatches to TeachingCanvas imperative API
+### Phase 16D: Live WebSocket Integration ← NEXT
 - [ ] Wire WebSocket from Cloud Run agent → `toolCallHandler` → `TeachingCanvas`
-- [ ] Build tool-call activity log (sidebar "Canvas actions" panel showing what the AI is doing)
-- [ ] Build transcript panel (sidebar showing live narration text)
-- [ ] Build waveform/speaking indicator
-- [ ] Update `ScriptPlayer` to use `TeachingCanvas` instead of `HistoryCanvas`
+- [ ] Implement audio streaming via Web Audio API
+- [ ] Build live transcript panel (sidebar showing narration text as it streams)
+- [ ] Build canvas action log (tool calls dispatched to map)
+- [ ] Waveform/speaking indicator
 
 ### Phase 17: Chapter 1 Band 3 End-to-End
-- [ ] Generate real `lesson_ch01_band3.json` with Chapter 1 content referencing new tool names
 - [ ] Wire ScriptPlayer → TeachingCanvas → live Gemini dialogue (Teaching phase uses script, Dialogue phase is live)
 - [ ] Test full flow: lesson plays → map responds → dialogue works → progress saves
 - [ ] Verify all 9 tool calls work end-to-end with Chapter 1 data
+- [ ] Deploy agent to Cloud Run with GEMINI_API_KEY
 
-### Phase 18: Chapter 1 All Bands
+### Phase 18: Multi-Band Support (Chapter 1)
 - [ ] Band 0–1: StorybookPlayer with generated illustrations (no map, simple story)
 - [ ] Band 2: Simplified map interactions (fewer regions, slower zoom, bigger labels)
 - [ ] Band 4–5: Full map complexity + ComparisonView + Socratic dialogue mode
@@ -220,6 +202,12 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 - Philosophy docs: `docs/core-docs/`
 - Agent code: `agent/`
 - Worker routes: `worker/src/routes/`
+- GeoJSON data: `src/data/geojson/`
+- Lesson scripts: `src/data/lessons/`
+- Teaching canvas: `src/components/canvas/TeachingCanvas.tsx`
+- Script player: `src/components/player/ScriptPlayer.tsx`
+- Tool call handler: `src/lib/canvas/toolCallHandler.ts`
+- Script adapter: `src/lib/player/adaptRawScript.ts`
 
 ---
 
