@@ -79,7 +79,7 @@ export function ScriptPlayer({
       fetch(`${workerUrl}/api/progress`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learnerId, lessonId: script.id, status: 'completed', band }),
+        body: JSON.stringify({ learnerId, lessonId: script.chapterId, status: 'completed', band }),
         credentials: 'include'
       }).catch(console.error);
 
