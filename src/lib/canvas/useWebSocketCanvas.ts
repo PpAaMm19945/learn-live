@@ -18,6 +18,7 @@ interface WebSocketCanvasReturn {
   endSession: () => void;
   isMicActive: boolean;
   toggleMic: () => void;
+  error: string | null;
 }
 
 export function useWebSocketCanvas(): WebSocketCanvasReturn {
@@ -26,9 +27,12 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
   const [transcript, setTranscript] = useState('');
   const [toolCallLog, setToolCallLog] = useState<{ id: string; time: Date; tool: string; target: string }[]>([]);
   const [isMicActive, setIsMicActive] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const wsRef = useRef<WebSocket | null>(null);
   const canvasRef = useRef<React.RefObject<TeachingCanvasRef | null> | null>(null);
+  const reconnectAttemptsRef = useRef(0);
+  const configRef = useRef<SessionConfig | null>(null);
 
   // Audio playback state
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -62,6 +66,8 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
 
   const startSession = useCallback(async (ref: React.RefObject<TeachingCanvasRef | null>, config: SessionConfig) => {
     canvasRef.current = ref;
+    configRef.current = config;
+    setError(null);
 
     const agentUrl = import.meta.env.VITE_AGENT_URL || 'ws://localhost:8080';
     const wsUrl = `${agentUrl.replace(/^http/, 'ws')}/ws/history-explainer?lesson=${config.lessonId}&family=${config.familyId}&learner=${config.learnerId}&band=${config.band}`;
@@ -221,15 +227,28 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
       }
     };
 
-    ws.onclose = () => {
+    ws.onclose = (event) => {
       setIsConnected(false);
       cleanupAudio();
+
+      // If disconnected unexpectedly, attempt to reconnect once
+      if (!event.wasClean && reconnectAttemptsRef.current < 1) {
+          reconnectAttemptsRef.current++;
+          setTimeout(() => {
+             if (configRef.current) {
+                startSession(ref, configRef.current);
+             }
+          }, 1000);
+      } else if (!event.wasClean) {
+          setError('Lost connection to the AI narrator. Returning to scripted mode.');
+      }
     };
 
     ws.onerror = (err) => {
        console.error('WebSocket error:', err);
        setIsConnected(false);
        cleanupAudio();
+       setError('Failed to connect to the AI narrator.');
     };
 
     wsRef.current = ws;
@@ -237,9 +256,10 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
 
   const endSession = useCallback(() => {
     if (wsRef.current) {
-      wsRef.current.close();
+      wsRef.current.close(1000, "User ended session");
       wsRef.current = null;
     }
+    reconnectAttemptsRef.current = 0;
     cleanupAudio();
   }, [cleanupAudio]);
 
@@ -268,6 +288,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     startSession,
     endSession,
     isMicActive,
-    toggleMic
+    toggleMic,
+    error
   };
 }

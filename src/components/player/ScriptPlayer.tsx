@@ -15,6 +15,7 @@ import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { VoiceIndicator } from './VoiceIndicator';
 import { TranscriptPanel } from './TranscriptPanel';
 import { CanvasActionLog } from './CanvasActionLog';
+import { useToast } from '@/hooks/use-toast';
 
 interface ScriptPlayerProps {
   script: LessonScript;
@@ -48,12 +49,15 @@ export function ScriptPlayer({
     startSession,
     endSession,
     isMicActive,
-    toggleMic
+    toggleMic,
+    error: wsError
   } = useWebSocketCanvas();
 
   const learnerId = useLearnerStore(s => s.activeLearnerId);
   const familyId = useLearnerStore(s => s.family?.id);
+  const { toast } = useToast();
 
+  const sessionStartTimeRef = useRef<number>(0);
 
   const {
     phase,
@@ -68,7 +72,16 @@ export function ScriptPlayer({
     reset,
   } = useScriptPlayer(script, {
     onAudioCue: (id) => console.log('Simulating Audio Play:', id),
-    onComplete: () => console.log('Script Complete'),
+    onComplete: () => {
+      console.log('Script Complete');
+      const workerUrl = import.meta.env.VITE_WORKER_URL || '';
+      fetch(`${workerUrl}/api/progress`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ learnerId, lessonId: script.id, status: 'completed', band }),
+        credentials: 'include'
+      }).catch(console.error);
+    },
   });
 
   // Bridge: intercept __tool_call__ cues and dispatch to TeachingCanvas
@@ -107,13 +120,37 @@ export function ScriptPlayer({
       band
     });
 
+    sessionStartTimeRef.current = Date.now();
     if (setPhase) setPhase('dialogue');
   }, [learnerId, familyId, pause, startSession, script.id, band, setPhase]);
 
   const handleEndLive = useCallback(() => {
     endSession();
     if (setPhase) setPhase('paused');
-  }, [endSession, setPhase]);
+
+    if (sessionStartTimeRef.current > 0) {
+      const durationMs = Date.now() - sessionStartTimeRef.current;
+      const workerUrl = import.meta.env.VITE_WORKER_URL || '';
+      fetch(`${workerUrl}/api/sessions`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ learnerId, lessonId: script.id, type: 'dialogue', durationMs }),
+        credentials: 'include'
+      }).catch(console.error);
+      sessionStartTimeRef.current = 0;
+    }
+  }, [endSession, setPhase, learnerId, script.id]);
+
+  useEffect(() => {
+    if (wsError) {
+       toast({
+         title: 'Connection Error',
+         description: wsError,
+         variant: 'destructive',
+       });
+       pause();
+    }
+  }, [wsError, pause, toast]);
 
   useEffect(() => {
     return () => {
@@ -319,6 +356,9 @@ export function ScriptPlayer({
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onAskQuestion={() => console.log('Ask question clicked')}
           onSettings={() => console.log('Settings clicked')}
+          onGoLive={(phase === 'complete' || phase === 'paused' || phase === 'playing') ? handleGoLive : undefined}
+          isLive={phase === 'dialogue'}
+          onEndLive={handleEndLive}
         />
       </div>
 
