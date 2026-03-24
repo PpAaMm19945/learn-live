@@ -119,9 +119,9 @@ function renderComponent(componentId: string, params: ShowComponentParams, band:
 }
 
 export function ComponentRenderer({ visibleComponents, band }: ComponentRendererProps) {
-  const entries = Array.from(visibleComponents.entries());
-
-  if (entries.length === 0) return null;
+  // Filter out __tool_call__ pseudo-components (handled by ScriptPlayer bridge)
+  const entries = Array.from(visibleComponents.entries())
+    .filter(([, params]) => (params.componentType as string) !== '__tool_call__');
 
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">

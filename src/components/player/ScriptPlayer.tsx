@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useScriptPlayer } from '@/lib/player/useScriptPlayer';
 import { LessonScript } from '@/lib/player/types';
 import { OverlayControls } from './OverlayControls';
-import { OverlayCaption } from './OverlayCaption';
+// import { OverlayCaption } from './OverlayCaption';
 import { LessonDrawer, LessonDrawerItem } from './LessonDrawer';
 import { ComponentRenderer } from './ComponentRenderer';
 import { useAutoHide } from './useAutoHide';
@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X } from 'lucide-react';
 import { TeachingCanvas, TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { useWebSocketCanvas } from '@/lib/canvas/useWebSocketCanvas';
+import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { VoiceIndicator } from './VoiceIndicator';
 import { TranscriptPanel } from './TranscriptPanel';
 import { CanvasActionLog } from './CanvasActionLog';
@@ -21,6 +22,7 @@ interface ScriptPlayerProps {
   band: number;
   learnerName: string;
   lessons: LessonDrawerItem[];
+  chapterGeoJSON?: GeoJSON.FeatureCollection;
   onExit: () => void;
 }
 
@@ -31,6 +33,7 @@ export function ScriptPlayer({
   band,
   learnerName,
   lessons,
+  chapterGeoJSON,
   onExit,
 }: ScriptPlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,6 +62,29 @@ export function ScriptPlayer({
     onAudioCue: (id) => console.log('Simulating Audio Play:', id),
     onComplete: () => console.log('Script Complete'),
   });
+
+  // Bridge: intercept __tool_call__ cues and dispatch to TeachingCanvas
+  const dispatchedToolsRef = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    if (!canvasRef.current) return;
+    for (const [id, params] of visibleComponents.entries()) {
+      if ((params.componentType as string) === '__tool_call__' && !dispatchedToolsRef.current.has(id)) {
+        dispatchedToolsRef.current.add(id);
+        const { tool, args } = params.data as { tool: string; args: Record<string, any> };
+        handleToolCall(canvasRef.current, { type: 'tool_call', tool, args });
+        setLocalToolLog(prev => [...prev, {
+          id: id + '-' + Date.now(),
+          time: new Date(),
+          tool,
+          target: args?.location || args?.regionId || args?.reference || args?.name || '',
+        }]);
+      }
+    }
+  }, [visibleComponents]);
+
+  // Local tool call log for offline/script playback
+  const [localToolLog, setLocalToolLog] = useState<{ id: string; time: Date; tool: string; target: string }[]>([]);
+  const mergedToolLog = [...toolCallLog, ...localToolLog];
 
   useEffect(() => {
     startSession(canvasRef);
@@ -219,7 +245,7 @@ export function ScriptPlayer({
 
       {/* Main Canvas Area (Left) */}
       <div className="col-start-1 row-start-2 relative overflow-hidden bg-zinc-950">
-        <TeachingCanvas ref={canvasRef} className={`w-full h-full transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`} />
+        <TeachingCanvas ref={canvasRef} chapterGeoJSON={chapterGeoJSON} className={`w-full h-full transition-opacity duration-500 ${phase === 'dialogue' ? 'opacity-30' : 'opacity-100'}`} />
         <div className="absolute inset-0 pointer-events-none">
           <ComponentRenderer visibleComponents={visibleComponents} band={band} />
         </div>
@@ -247,7 +273,7 @@ export function ScriptPlayer({
 
          {/* Action Log Area */}
          <div className="h-1/3 p-4 bg-zinc-950">
-            <CanvasActionLog logs={toolCallLog} />
+            <CanvasActionLog logs={mergedToolLog} />
          </div>
       </div>
 
