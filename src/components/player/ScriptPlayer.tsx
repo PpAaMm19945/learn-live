@@ -304,7 +304,6 @@ export function ScriptPlayer({
             <CanvasActionLog logs={mergedToolLog} />
          </div>
       </div>
-      )}
 
 
 
