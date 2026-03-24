@@ -55,7 +55,7 @@ export function ScriptPlayer({
   } = useWebSocketCanvas();
 
   const learnerId = useLearnerStore(s => s.activeLearnerId);
-  const familyId = useLearnerStore(s => s.family?.id);
+  const familyId = useLearnerStore(s => s.familyId);
   const { toast } = useToast();
 
   const sessionStartTimeRef = useRef<number>(0);
@@ -79,7 +79,7 @@ export function ScriptPlayer({
       fetch(`${workerUrl}/api/progress`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learnerId, lessonId: script.id, status: 'completed', band }),
+        body: JSON.stringify({ learnerId, lessonId: script.chapterId, status: 'completed', band }),
         credentials: 'include'
       }).catch(console.error);
 
@@ -118,7 +118,7 @@ export function ScriptPlayer({
     pause();
 
     startSession(canvasRef, {
-      lessonId: script.id || 'unknown',
+      lessonId: script.chapterId || 'unknown',
       familyId: activeFamilyId,
       learnerId: activeLearnerId,
       band
@@ -126,7 +126,7 @@ export function ScriptPlayer({
 
     sessionStartTimeRef.current = Date.now();
     if (setPhase) setPhase('dialogue');
-  }, [learnerId, familyId, pause, startSession, script.id, band, setPhase]);
+  }, [learnerId, familyId, pause, startSession, script.chapterId, band, setPhase]);
 
   const handleEndLive = useCallback(() => {
     endSession();
@@ -138,12 +138,12 @@ export function ScriptPlayer({
       fetch(`${workerUrl}/api/sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learnerId, lessonId: script.id, type: 'dialogue', durationMs }),
+        body: JSON.stringify({ learnerId, lessonId: script.chapterId, type: 'dialogue', durationMs }),
         credentials: 'include'
       }).catch(console.error);
       sessionStartTimeRef.current = 0;
     }
-  }, [endSession, setPhase, learnerId, script.id]);
+  }, [endSession, setPhase, learnerId, script.chapterId]);
 
   useEffect(() => {
     if (wsError) {
