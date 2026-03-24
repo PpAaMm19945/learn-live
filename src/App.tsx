@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,11 +10,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
 import AdminDashboard from "./pages/admin/Dashboard";
-import ContentTools from "./pages/admin/ContentTools";
 import TopicDetail from "./pages/TopicDetail";
-import LessonView from "./pages/LessonView";
-import ReadingView from "./pages/ReadingView";
-import ExamView from "./pages/ExamView";
 
 import LessonPlayerPage from "./pages/LessonPlayerPage";
 import Onboarding from "./pages/Onboarding";
@@ -28,9 +24,18 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { useUIStore } from "./lib/uiStore";
 import { useAuthStore } from "./lib/auth";
 import { useEffect } from "react";
+import { useToast } from "./hooks/use-toast";
 
 Logger.info("[CORE]", "Application booted");
 const queryClient = new QueryClient();
+
+function RedirectWithToast({ to, message }: { to: string; message: string }) {
+  const { toast } = useToast();
+  useEffect(() => {
+    toast({ title: "Redirected", description: message });
+  }, [toast, message]);
+  return <Navigate to={to} replace />;
+}
 
 const App = () => {
   const setOffline = useUIStore((state) => state.setOffline);
@@ -100,34 +105,10 @@ const App = () => {
                 }
               />
               <Route
-                path="/admin/content"
-                element={
-                  <ProtectedRoute allowedRoles={['admin']}>
-                    <AppShell><ContentTools /></AppShell>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
                 path="/topics/:topicId"
                 element={
                   <ProtectedRoute>
                     <AppShell><TopicDetail /></AppShell>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/lessons/:lessonId"
-                element={
-                  <ProtectedRoute>
-                    <AppShell><LessonView /></AppShell>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/read/:lessonId"
-                element={
-                  <ProtectedRoute>
-                    <AppShell><ReadingView /></AppShell>
                   </ProtectedRoute>
                 }
               />
@@ -137,14 +118,6 @@ const App = () => {
                 element={
                   <ProtectedRoute>
                     <LessonPlayerPage />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/exam/:lessonId"
-                element={
-                  <ProtectedRoute>
-                    <ExamView />
                   </ProtectedRoute>
                 }
               />
@@ -164,6 +137,10 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+
+              <Route path="/lessons/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
+              <Route path="/read/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
+              <Route path="/exam/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>
