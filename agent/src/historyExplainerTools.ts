@@ -122,6 +122,17 @@ export const MAPLIBRE_TEACHING_TOOLS = [
     description: 'Remove all overlays, routes, markers, and panels. Return to clean map.',
     parameters: { type: 'OBJECT', properties: {}, required: [] },
   },
+  {
+    name: 'dismiss_overlay',
+    description: 'Dismiss a specific overlay panel on the map without clearing the entire canvas.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        type: { type: 'STRING', description: 'Type of overlay to dismiss (e.g., "scripture", "figure", "genealogy", "timeline", or "all")' },
+      },
+      required: [],
+    },
+  },
 ];
 
 export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?: { name?: string; age?: number; band?: number }, band: number = 2): string {
@@ -167,6 +178,7 @@ CANVAS USAGE:
 - Use show_genealogy when teaching family trees.
 - Use show_timeline to anchor events in time.
 - Use clear_canvas between major topic transitions.
+- Use dismiss_overlay to hide a specific panel without clearing the entire map.
 - NEVER reference canvas coordinates, pixel positions, or element IDs. Use semantic names only.
 
 LESSON CONTENT TO NARRATE:

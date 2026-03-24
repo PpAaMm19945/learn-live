@@ -65,8 +65,11 @@ export async function handleHistoryExplainerSession(
         if (ws.readyState !== WebSocket.OPEN) return;
 
         if (data.type === 'functionCall') {
-            // Forward raw tool call to frontend
-            ws.send(JSON.stringify({ type: 'tool_call', tool: data.name, args: data.args }));
+            const mappedOp = mapToolCallToMapLibreOp(data.name, data.args);
+            if (mappedOp) {
+                // Forward mapped tool call to frontend
+                ws.send(JSON.stringify(mappedOp));
+            }
 
             // Complete the tool call loop
             gemini.sendToolResponse([{
@@ -103,4 +106,27 @@ export async function handleHistoryExplainerSession(
         console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
         gemini.close();
     });
+}
+
+function mapToolCallToMapLibreOp(name: string, args: any): any | null {
+    switch (name) {
+        case 'zoom_to':
+        case 'highlight_region':
+        case 'draw_route':
+        case 'place_marker':
+        case 'clear_canvas':
+        case 'show_scripture':
+        case 'show_figure':
+        case 'show_genealogy':
+        case 'show_timeline':
+        case 'dismiss_overlay':
+            return {
+                type: 'tool_call',
+                tool: name,
+                args: args
+            };
+        default:
+            console.warn(`[HISTORY_EXPLAINER] Unknown tool call: ${name}`);
+            return null;
+    }
 }
