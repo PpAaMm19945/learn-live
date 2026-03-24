@@ -1,6 +1,8 @@
 import React, { useRef, MouseEvent, TouchEvent } from 'react';
 import { Play, Pause, Settings, HelpCircle, List } from 'lucide-react';
 
+import { Video } from 'lucide-react';
+
 interface OverlayControlsProps {
   isVisible: boolean;
   isPlaying: boolean;
@@ -11,6 +13,9 @@ interface OverlayControlsProps {
   onOpenDrawer: () => void;
   onAskQuestion: () => void;
   onSettings: () => void;
+  onGoLive?: () => void;
+  isLive?: boolean;
+  onEndLive?: () => void;
 }
 
 export function OverlayControls({
@@ -23,6 +28,9 @@ export function OverlayControls({
   onOpenDrawer,
   onAskQuestion,
   onSettings,
+  onGoLive,
+  isLive,
+  onEndLive,
 }: OverlayControlsProps) {
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -100,6 +108,31 @@ export function OverlayControls({
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
+            {isLive ? (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEndLive?.();
+                }}
+                className="px-4 py-2 bg-destructive/90 hover:bg-destructive text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg"
+              >
+                End Live Session
+              </button>
+            ) : (
+              onGoLive && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onGoLive();
+                  }}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg group"
+                  title="Go Live with AI Narrator"
+                >
+                  <Video className="w-4 h-4 mr-2" />
+                  Go Live
+                </button>
+              )
+            )}
             <button
               onClick={(e) => {
                 e.stopPropagation();

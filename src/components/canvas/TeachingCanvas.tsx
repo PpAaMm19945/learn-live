@@ -32,6 +32,7 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const markersRef = useRef<Map<string, maplibregl.Marker>>(new Map());
     const animationRefs = useRef<Map<string, number>>(new Map());
     const [mapLoaded, setMapLoaded] = useState(false);
+    const [mapError, setMapError] = useState(false);
 
     const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}`;
 
@@ -50,6 +51,10 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
 
       map.addControl(new maplibregl.NavigationControl({ showCompass: false, showZoom: true }), 'bottom-right');
       mapRef.current = map;
+
+      map.on('error', () => {
+        setMapError(true);
+      });
 
       map.on('load', () => {
         setMapLoaded(true);
@@ -231,7 +236,17 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     }));
 
     return (
-      <div className={`teaching-canvas-container ${className}`}>
+      <div className={`teaching-canvas-container ${className} relative`}>
+        {mapError && (
+          <div className="absolute inset-0 bg-zinc-900 z-50 flex flex-col items-center justify-center text-center p-8">
+            <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mb-4">
+              <span className="text-3xl">🗺️</span>
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2">Map Unavailable</h3>
+            <p className="text-muted-foreground">Please check your connection or try again later. The script will continue playing.</p>
+          </div>
+        )}
+
         <div ref={mapContainerRef} className="w-full h-full" />
 
         {/* Overlay Panel System */}

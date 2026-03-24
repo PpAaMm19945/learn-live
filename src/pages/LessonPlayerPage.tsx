@@ -78,16 +78,24 @@ export default function LessonPlayerPage() {
         });
     } else {
       // Use the new lesson loader with adapter
-      loadLessonScript(chapterId, activeLearnerBand)
-        .then((adapted) => {
+      const fetchScriptWithRetry = async (attempt = 1): Promise<void> => {
+        try {
+          const adapted = await loadLessonScript(chapterId, activeLearnerBand);
           setScript(adapted);
           setLoading(false);
-        })
-        .catch((err) => {
-          console.error('Failed to load lesson script:', err);
-          setError(err.message);
-          setLoading(false);
-        });
+        } catch (err: any) {
+          if (attempt < 3) {
+            console.log(`Retry attempt ${attempt + 1} for lesson script...`);
+            setTimeout(() => fetchScriptWithRetry(attempt + 1), 1000);
+          } else {
+            console.error('Failed to load lesson script after retries:', err);
+            setError(err.message);
+            setLoading(false);
+          }
+        }
+      };
+
+      fetchScriptWithRetry();
     }
   }, [chapterId, activeLearnerBand, isStorybook]);
 
