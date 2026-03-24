@@ -16,6 +16,7 @@ import { VoiceIndicator } from './VoiceIndicator';
 import { TranscriptPanel } from './TranscriptPanel';
 import { CanvasActionLog } from './CanvasActionLog';
 import { useToast } from '@/hooks/use-toast';
+import { PostLessonSummary } from './PostLessonSummary';
 
 interface ScriptPlayerProps {
   script: LessonScript;
@@ -81,6 +82,9 @@ export function ScriptPlayer({
         body: JSON.stringify({ learnerId, lessonId: script.id, status: 'completed', band }),
         credentials: 'include'
       }).catch(console.error);
+
+      // Auto-transition to review phase when scripted phase completes
+      if (setPhase) setPhase('review');
     },
   });
 
@@ -361,6 +365,20 @@ export function ScriptPlayer({
           onEndLive={handleEndLive}
         />
       </div>
+
+      <AnimatePresence>
+         {phase === 'review' && (
+           <PostLessonSummary
+              isVisible={phase === 'review'}
+              totalTimeMs={script.estimatedDurationMs || currentTimeMs}
+              topicsCovered={[]}
+              onDismiss={() => {
+                if (setPhase) setPhase('paused');
+                onExit();
+              }}
+           />
+         )}
+      </AnimatePresence>
 
       <AnimatePresence>
          {isDrawerOpen && (

@@ -1,22 +1,17 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { stripMarkdown } from '@/lib/textUtils';
 import { useAuthStore } from '@/lib/auth';
-import { IconBook, IconClock, IconAlertCircle, IconRefresh, IconUsers, IconChevronRight } from '@tabler/icons-react';
+import { IconBook, IconClock, IconAlertCircle, IconRefresh, IconUsers, IconChevronRight, IconArrowLeft, IconPlayerPlay } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useEffect } from 'react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { LessonProgress } from '@/components/progress/LessonProgress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { Button } from '@/components/ui/button';
+import { motion, AnimatePresence } from 'framer-motion';
+import { LessonProgress } from '@/components/progress/LessonProgress';
 
 interface Lesson {
   id: string;
@@ -37,6 +32,18 @@ interface Topic {
   lessons?: Lesson[];
 }
 
+const CHAPTERS = [
+  { id: 'ch01', num: 1, title: 'Creation, Babel & Table of Nations', era: 'Ancient', color: '#fac775' },
+  { id: 'ch02', num: 2, title: 'Ancient Egypt', era: 'Ancient', color: '#e8a87c' },
+  { id: 'ch03', num: 3, title: 'Kingdom of Kush & Nubia', era: 'Ancient', color: '#c47cb8' },
+  { id: 'ch04', num: 4, title: 'Phoenicians & Carthage', era: 'Classical', color: '#7cc4a8' },
+  { id: 'ch05', num: 5, title: 'Church in Roman Africa', era: 'Classical', color: '#c4a87c' },
+  { id: 'ch06', num: 6, title: 'Aksum & Ethiopian Christianity', era: 'Classical', color: '#c4a87c' },
+  { id: 'ch07', num: 7, title: 'Rise of Islam in Africa', era: 'Medieval', color: '#8ac47c' },
+  { id: 'ch08', num: 8, title: 'Bantu Migrations', era: 'Medieval', color: '#c47c7c' },
+  { id: 'ch09', num: 9, title: 'Medieval African Kingdoms', era: 'Medieval', color: '#e8c87c' },
+];
+
 export default function Dashboard() {
   const navigate = useNavigate();
   const { name } = useAuthStore();
@@ -52,6 +59,8 @@ export default function Dashboard() {
     hasFamily,
     currentTopicId
   } = useLearnerStore();
+
+  const [selectedChapterId, setSelectedChapterId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isLoaded) {
@@ -158,22 +167,30 @@ export default function Dashboard() {
     }
   }
 
+  const selectedChapter = CHAPTERS.find(c => c.id === selectedChapterId);
+  const selectedTopicData = topics?.find(t => t.title.includes(selectedChapter?.num.toString() || ''));
+
   return (
     <div className="min-h-screen bg-background">
-      <main className="max-w-5xl mx-auto px-4 py-12 space-y-8">
+      <main className="max-w-5xl mx-auto px-4 py-12 space-y-8 relative">
         {/* HERO SECTION */}
         <div className="space-y-6">
           <h2 className="font-display text-3xl leading-tight tracking-tight">Welcome back, {name || 'Parent'}</h2>
 
           {activeLearnerId && (
-            <Card className="bg-card border-border/50 max-w-2xl">
+            <Card className="bg-card border-border/50 max-w-2xl shadow-sm">
               <CardContent className="p-6">
                 <div className="flex flex-col space-y-4">
-                  <div className="flex items-center gap-2">
-                    <IconBook className="h-5 w-5 text-primary" />
-                    <span className="font-display text-lg">
-                      Learning as: {activeLearnerName} <span className="font-sans text-sm text-muted-foreground font-normal">(Band {activeLearnerBand} · {getBandLabel(activeLearnerBand)})</span>
-                    </span>
+                  <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex items-center gap-2">
+                      <IconBook className="h-5 w-5 text-primary" />
+                      <span className="font-display text-lg">
+                        Learning as: {activeLearnerName}
+                      </span>
+                    </div>
+                    <Badge variant="outline" className="text-xs bg-background">
+                      Band {activeLearnerBand} · {getBandLabel(activeLearnerBand)}
+                    </Badge>
                   </div>
 
                   <div className="text-muted-foreground text-sm">
@@ -184,10 +201,10 @@ export default function Dashboard() {
 
                   <div className="flex gap-4 pt-2">
                     <Button
-                      className="bg-primary text-primary-foreground"
+                      className="bg-primary text-primary-foreground shadow-sm hover:shadow-md transition-shadow"
                       onClick={() => navigate('/play/ch01')}
                     >
-                      Start Live Lesson
+                      <IconPlayerPlay className="w-4 h-4 mr-2" /> Start Live Lesson
                     </Button>
                   </div>
                 </div>
@@ -196,21 +213,21 @@ export default function Dashboard() {
           )}
 
           {learners && learners.length > 0 && (
-            <div className="flex items-center gap-3 bg-card p-2 rounded-lg border border-border/50 w-max">
+            <div className="flex items-center gap-3 bg-card p-2 rounded-lg border border-border/50 w-max shadow-sm">
               <IconUsers className="h-5 w-5 text-muted-foreground ml-2" />
               <div className="flex flex-col">
-                <span className="text-xs text-muted-foreground font-medium mb-1">Select Learner</span>
+                <span className="text-xs text-muted-foreground font-medium mb-1">Switch Learner</span>
                 <Select
                   value={activeLearnerId || ''}
                   onValueChange={setActiveLearner}
                 >
-                  <SelectTrigger className="w-[200px] h-8 bg-background">
+                  <SelectTrigger className="w-[200px] h-8 bg-background border-border/50">
                     <SelectValue placeholder="Select a learner" />
                   </SelectTrigger>
                   <SelectContent>
                     {learners.map(learner => (
                       <SelectItem key={learner.id} value={learner.id}>
-                        {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4">Band {learner.band}</Badge>
+                        {learner.name} <Badge variant="outline" className="ml-2 text-[10px] py-0 h-4 bg-muted/50">Band {learner.band}</Badge>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -221,7 +238,7 @@ export default function Dashboard() {
         </div>
 
         {!hasFamily && isLoaded ? (
-          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
+          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card shadow-sm">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
               <IconUsers className="h-8 w-8 text-primary" />
             </div>
@@ -231,143 +248,169 @@ export default function Dashboard() {
               Complete Onboarding
             </Button>
           </div>
-        ) : isLoading ? (
-          <div className="flex flex-col gap-4">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="w-full">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-4">
-                    <Skeleton className="h-8 w-8 rounded-full" />
-                    <div className="flex-grow space-y-2">
-                      <Skeleton className="h-6 w-1/3" />
-                      <div className="flex gap-2">
-                        <Skeleton className="h-4 w-16" />
-                        <Skeleton className="h-4 w-24" />
-                      </div>
-                    </div>
-                  </div>
-                </CardHeader>
-              </Card>
-            ))}
-          </div>
-        ) : isError ? (
-          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl bg-card">
-            <IconAlertCircle className="h-12 w-12 text-destructive mb-4" />
-            <h3 className="font-display text-xl mb-2">Failed to load topics</h3>
-            <p className="text-muted-foreground mb-6">We encountered an error while fetching the curriculum data.</p>
-            <Button onClick={() => refetch()} variant="outline">
-              <IconRefresh className="h-4 w-4 mr-2" />
-              Try Again
-            </Button>
-          </div>
-        ) : !topics || topics.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-16 px-4 text-center border rounded-xl border-dashed bg-card">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-              <IconBook className="h-8 w-8 text-primary" />
-            </div>
-            <h3 className="font-display text-xl mb-2">No topics available yet</h3>
-            <p className="text-muted-foreground max-w-sm mb-6">The curriculum content is being prepared. Check back soon.</p>
-            <Button onClick={() => refetch()} variant="secondary">
-              <IconRefresh className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-          </div>
         ) : (
-          <div className="space-y-6">
-            <h3 className="font-display text-2xl leading-tight border-b pb-2">Curriculum Journey</h3>
-            <Accordion type="single" collapsible className="w-full space-y-4">
-              {topics.map((topic, index) => {
-                const completedLessons = topic.lessons?.filter(l => l.status === 'completed').length || 0;
-                const totalLessons = topic.lesson_count || 0;
+          <div className="mt-12 relative min-h-[500px]">
+             <h3 className="font-display text-2xl leading-tight mb-8">Curriculum Library</h3>
 
-                let lastStudiedDate: Date | null = null;
-                if (topic.lessons) {
-                  for (const lesson of topic.lessons) {
-                    if (lesson.last_studied) {
-                      const d = new Date(lesson.last_studied);
-                      if (!lastStudiedDate || d > lastStudiedDate) {
-                        lastStudiedDate = d;
-                      }
-                    }
-                  }
-                }
-
-                return (
-                  <AccordionItem
-                    key={topic.id}
-                    value={topic.id}
-                    className="bg-card border border-border/50 rounded-xl px-2 overflow-hidden animate-card-enter"
-                    style={{ animationDelay: `${index * 40}ms` }}
-                  >
-                    <AccordionTrigger className="hover:no-underline py-4 px-2">
-                      <div className="flex items-center gap-4 text-left w-full pr-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-display text-xl">
-                          {index + 1}
-                        </div>
-                        <div className="flex-grow">
-                          <h4 className="font-display text-lg leading-tight line-clamp-1">{topic.title}</h4>
-                          <div className="flex flex-wrap items-center gap-2 mt-1">
-                            <Badge variant="secondary" className="flex items-center gap-1 text-xs py-0 h-5">
-                              <IconClock className="w-3 h-3" /> {topic.era}
-                            </Badge>
-                            <span className="text-xs text-muted-foreground flex items-center gap-1">
-                              <span className="w-16 h-1.5 bg-secondary rounded-full overflow-hidden inline-block mr-1">
-                                <span className="h-full bg-primary block" style={{ width: `${totalLessons > 0 ? (completedLessons / totalLessons) * 100 : 0}%` }} />
-                              </span>
-                              {completedLessons} / {totalLessons} lessons complete
-                            </span>
-                            {lastStudiedDate && (
-                              <span className="text-xs text-muted-foreground border-l pl-2 ml-1">
-                                Last studied: {lastStudiedDate.toLocaleDateString()}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="pt-2 pb-6 px-4 border-t border-border/50">
-                      <p className="text-muted-foreground mb-6 max-w-3xl">
-                        {topic.description}
-                      </p>
-
-                      <div className="space-y-3 pl-4 border-l-2 border-primary/20 ml-2">
-                        {topic.lessons && topic.lessons.length > 0 ? (
-                          topic.lessons.map((lesson, lIndex) => (
-                            <div
-                              key={lesson.id}
-                              className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-background hover:bg-accent/10 transition-colors border border-border/50"
-                            >
-                              <div className="absolute -left-[29px] w-4 h-4 rounded-full bg-background border-2 border-primary/40 flex items-center justify-center">
-                                {lesson.status === 'completed' && <div className="w-2 h-2 rounded-full bg-primary" />}
-                              </div>
-                              <div className="flex-grow">
-                                <h5 className="font-display text-base leading-tight">{lIndex + 1}. {stripMarkdown(lesson.title)}</h5>
-                                <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground font-sans">
-                                  <IconClock className="w-3 h-3" /> {lesson.estimated_time || 'N/A'}
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-3">
-                                <LessonProgress status={lesson.status} className="hidden sm:flex" />
-                                <Button
-                                  size="sm"
-                                  onClick={() => navigate(`/lessons/${lesson.id}`)}
-                                >
-                                  View <IconChevronRight className="w-4 h-4 ml-1" />
-                                </Button>
-                              </div>
+             <AnimatePresence mode="wait">
+                {selectedChapterId ? (
+                   <motion.div
+                      key="detail"
+                      initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                      className="w-full max-w-3xl mx-auto"
+                   >
+                      <Button variant="ghost" className="mb-4" onClick={() => setSelectedChapterId(null)}>
+                         <IconArrowLeft className="w-4 h-4 mr-2" /> Back to Shelf
+                      </Button>
+                      <Card className="border-border overflow-hidden shadow-lg">
+                         <div className="h-2 w-full" style={{ backgroundColor: selectedChapter?.color }} />
+                         <CardHeader>
+                            <div className="flex justify-between items-start mb-2">
+                               <Badge style={{ backgroundColor: selectedChapter?.color, color: '#1a1a1a' }} className="font-semibold">
+                                  {selectedChapter?.era}
+                               </Badge>
+                               <span className="text-sm text-muted-foreground font-medium">Chapter {selectedChapter?.num}</span>
                             </div>
-                          ))
-                        ) : (
-                          <div className="text-sm text-muted-foreground py-2">
-                            No lessons available yet.
-                          </div>
-                        )}
+                            <h3 className="text-2xl font-display">{selectedChapter?.title}</h3>
+                            <p className="text-muted-foreground mt-2">
+                               {selectedTopicData?.description || 'Explore the interactive lesson for this chapter.'}
+                            </p>
+                         </CardHeader>
+                         <CardContent>
+                             <div className="space-y-4">
+                               <div className="p-4 border rounded-lg bg-card flex justify-between items-center hover:border-primary/50 transition-colors">
+                                  <div>
+                                     <h4 className="font-medium">Interactive Lesson</h4>
+                                     <p className="text-sm text-muted-foreground">Complete AI-guided narrative with interactive maps.</p>
+                                  </div>
+                                  <Button onClick={() => navigate(`/play/${selectedChapterId}`)}>
+                                     Start <IconChevronRight className="w-4 h-4 ml-1" />
+                                  </Button>
+                               </div>
+
+                               {selectedTopicData?.lessons?.map((lesson, idx) => (
+                                 <div key={lesson.id} className="p-4 border rounded-lg bg-card flex justify-between items-center hover:border-primary/50 transition-colors">
+                                    <div>
+                                       <h4 className="font-medium">{idx + 1}. {stripMarkdown(lesson.title)}</h4>
+                                       <p className="text-sm text-muted-foreground flex items-center mt-1">
+                                          <IconClock className="w-3 h-3 mr-1" /> {lesson.estimated_time || '15 min'}
+                                       </p>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                       <LessonProgress status={lesson.status} className="hidden sm:flex" />
+                                    </div>
+                                 </div>
+                               ))}
+                             </div>
+                         </CardContent>
+                      </Card>
+                   </motion.div>
+                ) : (
+                   <motion.div
+                      key="shelf"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="w-full"
+                   >
+                      {/* Desktop Shelf View */}
+                      <div className="hidden md:block space-y-16 py-8 px-4 relative">
+                         {/* Top Shelf */}
+                         <div className="relative">
+                            <div className="flex justify-center items-end gap-6 z-10 relative px-8">
+                               {CHAPTERS.slice(0, 5).map((chapter, i) => (
+                                  <motion.div
+                                     key={chapter.id}
+                                     whileHover={{ y: -15, scale: 1.05 }}
+                                     whileTap={{ scale: 0.95 }}
+                                     onClick={() => setSelectedChapterId(chapter.id)}
+                                     className="w-[80px] h-[220px] rounded-sm cursor-pointer relative shadow-lg group border-r-2 border-l-2 border-black/10 transition-shadow hover:shadow-xl hover:shadow-primary/20"
+                                     style={{ backgroundColor: chapter.color }}
+                                  >
+                                     <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-white/10" />
+                                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/leather.png')] opacity-30 mix-blend-overlay" />
+                                     <div className="flex flex-col items-center justify-between h-full py-4 relative z-10 text-zinc-900">
+                                        <div className="w-10 h-10 rounded-full border-2 border-zinc-900/40 flex items-center justify-center font-display text-xl font-bold bg-white/20">
+                                           {chapter.num}
+                                        </div>
+                                        <div className="writing-vertical-lr rotate-180 font-bold tracking-wider uppercase text-sm whitespace-nowrap overflow-hidden text-ellipsis h-[120px] leading-tight px-1 text-center">
+                                           {chapter.title}
+                                        </div>
+                                     </div>
+                                  </motion.div>
+                               ))}
+                            </div>
+                            {/* Shelf Board */}
+                            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-b from-[#8B5A2B] to-[#5C3A21] rounded-sm shadow-xl translate-y-full z-0 border-t-2 border-[#A06C3B]" />
+                            <div className="absolute bottom-[-16px] left-2 right-2 h-4 bg-black/20 blur-md translate-y-full z-[-1]" />
+                         </div>
+
+                         {/* Bottom Shelf */}
+                         <div className="relative mt-24">
+                            <div className="flex justify-center items-end gap-6 z-10 relative px-8">
+                               {CHAPTERS.slice(5, 9).map((chapter, i) => (
+                                  <motion.div
+                                     key={chapter.id}
+                                     whileHover={{ y: -15, scale: 1.05 }}
+                                     whileTap={{ scale: 0.95 }}
+                                     onClick={() => setSelectedChapterId(chapter.id)}
+                                     className="w-[80px] h-[220px] rounded-sm cursor-pointer relative shadow-lg group border-r-2 border-l-2 border-black/10 transition-shadow hover:shadow-xl hover:shadow-primary/20"
+                                     style={{ backgroundColor: chapter.color }}
+                                  >
+                                     <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-white/10" />
+                                     <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/leather.png')] opacity-30 mix-blend-overlay" />
+                                     <div className="flex flex-col items-center justify-between h-full py-4 relative z-10 text-zinc-900">
+                                        <div className="w-10 h-10 rounded-full border-2 border-zinc-900/40 flex items-center justify-center font-display text-xl font-bold bg-white/20">
+                                           {chapter.num}
+                                        </div>
+                                        <div className="writing-vertical-lr rotate-180 font-bold tracking-wider uppercase text-sm whitespace-nowrap overflow-hidden text-ellipsis h-[120px] leading-tight px-1 text-center">
+                                           {chapter.title}
+                                        </div>
+                                     </div>
+                                  </motion.div>
+                               ))}
+                            </div>
+                            {/* Shelf Board */}
+                            <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-b from-[#8B5A2B] to-[#5C3A21] rounded-sm shadow-xl translate-y-full z-0 border-t-2 border-[#A06C3B]" />
+                            <div className="absolute bottom-[-16px] left-2 right-2 h-4 bg-black/20 blur-md translate-y-full z-[-1]" />
+                         </div>
                       </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
-            </Accordion>
+
+                      {/* Mobile Horizontal Scroll View */}
+                      <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory pb-8 gap-4 px-2 no-scrollbar">
+                         {CHAPTERS.map(chapter => (
+                            <motion.div
+                               key={chapter.id}
+                               whileTap={{ scale: 0.95 }}
+                               onClick={() => setSelectedChapterId(chapter.id)}
+                               className="min-w-[240px] snap-center shrink-0 cursor-pointer"
+                            >
+                               <Card className="h-full border-border/50 overflow-hidden shadow-sm hover:border-primary/50 transition-colors">
+                                  <div className="h-3 w-full" style={{ backgroundColor: chapter.color }} />
+                                  <CardContent className="p-5 flex flex-col h-full justify-between">
+                                     <div>
+                                        <div className="flex justify-between items-center mb-3">
+                                           <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">{chapter.era}</span>
+                                           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center font-display font-bold">
+                                              {chapter.num}
+                                           </div>
+                                        </div>
+                                        <h4 className="font-display text-lg leading-tight mb-2">{chapter.title}</h4>
+                                     </div>
+                                     <Button variant="secondary" className="w-full mt-4" size="sm">
+                                        View Details
+                                     </Button>
+                                  </CardContent>
+                               </Card>
+                            </motion.div>
+                         ))}
+                      </div>
+                   </motion.div>
+                )}
+             </AnimatePresence>
           </div>
         )}
       </main>
