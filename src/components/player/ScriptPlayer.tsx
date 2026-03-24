@@ -7,7 +7,8 @@ import { LessonDrawer, LessonDrawerItem } from './LessonDrawer';
 import { ComponentRenderer } from './ComponentRenderer';
 import { useAutoHide } from './useAutoHide';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, X } from 'lucide-react';
+import { ArrowLeft, X, Mic, MicOff, PlayCircle } from 'lucide-react';
+import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { useWebSocketCanvas } from '@/lib/canvas/useWebSocketCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
@@ -46,10 +47,17 @@ export function ScriptPlayer({
     toolCallLog,
     startSession,
     endSession,
-  } = useWebSocketCanvas(import.meta.env.VITE_WS_URL || 'ws://localhost:3000');
+    isMicActive,
+    toggleMic
+  } = useWebSocketCanvas();
+
+  const learnerId = useLearnerStore(s => s.activeLearnerId);
+  const familyId = useLearnerStore(s => s.family?.id);
+
 
   const {
     phase,
+    setPhase,
     currentTimeMs,
     activeCues,
     visibleComponents,
@@ -86,12 +94,32 @@ export function ScriptPlayer({
   const [localToolLog, setLocalToolLog] = useState<{ id: string; time: Date; tool: string; target: string }[]>([]);
   const mergedToolLog = [...toolCallLog, ...localToolLog];
 
+  const handleGoLive = useCallback(() => {
+    const activeFamilyId = familyId || 'unknown-family';
+    const activeLearnerId = learnerId || 'unknown-learner';
+
+    pause();
+
+    startSession(canvasRef, {
+      lessonId: script.id || 'unknown',
+      familyId: activeFamilyId,
+      learnerId: activeLearnerId,
+      band
+    });
+
+    if (setPhase) setPhase('dialogue');
+  }, [learnerId, familyId, pause, startSession, script.id, band, setPhase]);
+
+  const handleEndLive = useCallback(() => {
+    endSession();
+    if (setPhase) setPhase('paused');
+  }, [endSession, setPhase]);
+
   useEffect(() => {
-    startSession(canvasRef);
     return () => {
       endSession();
     };
-  }, [startSession, endSession]);
+  }, [endSession]);
 
   const { isVisible: controlsVisible, show: showControls, toggle: toggleControls } = useAutoHide(3000);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -188,7 +216,7 @@ export function ScriptPlayer({
       }`}
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 320px',
+        gridTemplateColumns: phase === 'dialogue' ? '1fr 320px' : '1fr 0px',
         gridTemplateRows: '64px 1fr 80px', // slightly taller top bar to fit content well
       }}
       onMouseMove={handleInteraction}
@@ -276,26 +304,9 @@ export function ScriptPlayer({
             <CanvasActionLog logs={mergedToolLog} />
          </div>
       </div>
+      )}
 
-      {/* Dialogue UI Overlay (Centered over everything) */}
-      <AnimatePresence>
-        {phase === 'dialogue' && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            className="col-span-2 row-span-3 absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
-          >
-             <div className="bg-purple-900/40 border border-purple-500/50 backdrop-blur-lg rounded-3xl p-8 max-w-lg text-center shadow-2xl shadow-purple-900/50 pointer-events-auto">
-                 <div className="w-16 h-16 mx-auto bg-purple-500 rounded-full flex items-center justify-center mb-6 animate-pulse">
-                     <span className="text-3xl">🎤</span>
-                 </div>
-                 <h2 className="text-2xl font-bold text-white mb-2">Listening...</h2>
-                 <p className="text-purple-200">What would you like to know?</p>
-             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
 
       {/* Bottom Controls Area */}
       <div className="col-span-2 row-start-3 bg-black z-40 border-t border-border/50">

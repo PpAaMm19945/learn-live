@@ -183,6 +183,7 @@ export function useScriptPlayer(script: LessonScript | null, options?: UseScript
 
   return {
     phase,
+    setPhase,
     currentTimeMs,
     activeCues,
     visibleComponents,
