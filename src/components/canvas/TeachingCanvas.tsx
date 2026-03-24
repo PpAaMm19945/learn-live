@@ -13,6 +13,11 @@ export interface TeachingCanvasRef {
   removeMarker(markerId: string): void;
   clearOverlays(): void;
   flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }): void;
+  showScripture(reference: string, text: string, connection?: string): void;
+  showFigure(name: string, title: string, imageUrl?: string): void;
+  showGenealogy(rootName: string, nodes: { name: string; parent?: string; descriptor?: string; color?: string }[]): void;
+  showTimeline(events: { year: number; label: string; color?: string }[]): void;
+  dismissOverlay(type: 'scripture' | 'figure' | 'genealogy' | 'timeline' | 'all'): void;
 }
 
 export interface TeachingCanvasProps {
@@ -28,7 +33,7 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const animationRefs = useRef<Map<string, number>>(new Map());
     const [mapLoaded, setMapLoaded] = useState(false);
 
-    const MAP_STYLE = 'https://api.maptiler.com/maps/outdoor-v2/style.json?key=PLACEHOLDER';
+    const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}`;
 
     useEffect(() => {
       if (!mapContainerRef.current) return;
@@ -88,191 +93,8 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
       };
     }, [chapterGeoJSON]);
 
-    useImperativeHandle(ref, () => ({
-      zoomTo(lng: number, lat: number, zoom: number = 5, duration: number = 1000) {
-        mapRef.current?.flyTo({ center: [lng, lat], zoom, duration });
-      },
 
-      highlightRegion(featureId: string, color: string, opacity: number = 0.25) {
-        if (!mapRef.current || !mapLoaded) return;
 
-        // This targets the specific feature using feature-state or filter.
-        // Assuming chapterGeoJSON has properties.id that match featureId
-        // A simple way without feature-state (if IDs aren't numeric) is to use paint property overrides
-        // However, MapLibre's setPaintProperty applies to the whole layer.
-        // To do feature-specific coloring, we'll use a match expression on the fill layer
-
-        const map = mapRef.current;
-        const currentOpacity = map.getPaintProperty('chapter-regions-fill', 'fill-opacity') || 0;
-
-        let newOpacityExpr;
-        if (Array.isArray(currentOpacity) && currentOpacity[0] === 'match') {
-             newOpacityExpr = [...currentOpacity];
-             // Simple state machine: append to existing match
-             newOpacityExpr.splice(newOpacityExpr.length - 1, 0, featureId, opacity);
-        } else {
-             newOpacityExpr = ['match', ['get', 'id'], featureId, opacity, 0];
-        }
-
-        map.setPaintProperty('chapter-regions-fill', 'fill-opacity', newOpacityExpr);
-
-        // Also show the border slightly
-        let newLineExpr;
-        const currentLineOpacity = map.getPaintProperty('chapter-regions-line', 'line-opacity') || 0;
-        if (Array.isArray(currentLineOpacity) && currentLineOpacity[0] === 'match') {
-             newLineExpr = [...currentLineOpacity];
-             newLineExpr.splice(newLineExpr.length - 1, 0, featureId, 0.5);
-        } else {
-             newLineExpr = ['match', ['get', 'id'], featureId, 0.5, 0];
-        }
-        map.setPaintProperty('chapter-regions-line', 'line-opacity', newLineExpr);
-      },
-
-      clearHighlight(featureId: string) {
-        if (!mapRef.current || !mapLoaded) return;
-        const map = mapRef.current;
-        // In a real app we'd remove the specific ID from the match expression,
-        // For simplicity, we can reset all if we only highlight one at a time, or filter it out.
-        // As a quick fix, set the whole layer back to 0 opacity
-        map.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
-        map.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
-      },
-
-      drawRoute(coordinates: [number, number][], color: string, style: 'migration' | 'trade' | 'conquest', animate: boolean = true) {
-        if (!mapRef.current || !mapLoaded) return "";
-        const map = mapRef.current;
-        const routeId = `route-${Date.now()}`;
-
-        let dashArray = [1, 0];
-        let lineWidth = 2;
-        if (style === 'migration') { dashArray = [8, 4]; lineWidth = 2; }
-        else if (style === 'trade') { dashArray = [2, 2]; lineWidth = 1.5; }
-        else if (style === 'conquest') { dashArray = [1, 0]; lineWidth = 3; }
-
-        map.addSource(routeId, {
-          type: 'geojson',
-          data: {
-            type: 'Feature',
-            properties: {},
-            geometry: { type: 'LineString', coordinates }
-          }
-        });
-
-        map.addLayer({
-          id: routeId,
-          type: 'line',
-          source: routeId,
-          layout: {
-            'line-join': 'round',
-            'line-cap': 'round'
-          },
-          paint: {
-            'line-color': color,
-            'line-width': lineWidth,
-            'line-dasharray': dashArray as [number, number]
-          }
-        });
-
-        if (animate && style !== 'conquest') {
-           let step = 0;
-           const animateDashArray = () => {
-               if (!mapRef.current || !mapRef.current.getLayer(routeId)) return;
-               step = (step + 0.2) % (dashArray[0] + dashArray[1]);
-
-               // Using a trick: line-dasharray doesn't support strokeDashoffset directly in MapLibre easily
-               // so we shift the array or use a simple line drawing animation.
-               // For this prompt, it says "use strokeDashoffset animation via requestAnimationFrame"
-               // Since MapLibre JS paint properties don't have strokeDashoffset, we achieve it via line-dasharray manipulation
-               // but it's complex. Let's just use standard MapLibre line-dasharray.
-
-               // Actually MapLibre added `line-dasharray-transition` but not offset.
-               // We will fake animation by updating the GeoJSON coordinates progressively if we want a drawing effect,
-               // or we just leave the dash static if standard CSS-like strokeDashoffset isn't supported in MapLibre.
-               // Wait, the prompt explicitly says: "Route animation: use `strokeDashoffset` animation via `requestAnimationFrame`".
-               // But MapLibre renders to WebGL, there is no SVG `strokeDashoffset` property for `line-dasharray` layer.
-               // We will simulate it or leave standard since we can't inject CSS to WebGL canvas.
-           };
-           // animationRefs.current.set(routeId, requestAnimationFrame(animateDashArray));
-        }
-
-        return routeId;
-      },
-
-      removeRoute(routeId: string) {
-        if (!mapRef.current) return;
-        const map = mapRef.current;
-        if (map.getLayer(routeId)) map.removeLayer(routeId);
-        if (map.getSource(routeId)) map.removeSource(routeId);
-        if (animationRefs.current.has(routeId)) {
-            cancelAnimationFrame(animationRefs.current.get(routeId)!);
-            animationRefs.current.delete(routeId);
-        }
-      },
-
-      placeMarker(lng: number, lat: number, label: string, color: string = '#fac775') {
-        if (!mapRef.current) return "";
-        const map = mapRef.current;
-        const markerId = `marker-${Date.now()}`;
-
-        const el = document.createElement('div');
-        el.className = 'teaching-canvas-marker';
-
-        const dot = document.createElement('div');
-        dot.className = 'teaching-canvas-marker-dot';
-        dot.style.backgroundColor = color;
-
-        const labelEl = document.createElement('div');
-        labelEl.className = 'teaching-canvas-marker-label';
-        labelEl.textContent = label;
-
-        el.appendChild(dot);
-        el.appendChild(labelEl);
-
-        const marker = new maplibregl.Marker({ element: el })
-           .setLngLat([lng, lat])
-           .addTo(map);
-
-        markersRef.current.set(markerId, marker);
-        return markerId;
-      },
-
-      removeMarker(markerId: string) {
-        if (markersRef.current.has(markerId)) {
-            markersRef.current.get(markerId)?.remove();
-            markersRef.current.delete(markerId);
-        }
-      },
-
-      clearOverlays() {
-        if (!mapRef.current || !mapLoaded) return;
-        const map = mapRef.current;
-
-        // Remove all markers
-        markersRef.current.forEach(marker => marker.remove());
-        markersRef.current.clear();
-
-        // Reset highlights
-        if (map.getLayer('chapter-regions-fill')) {
-            map.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
-            map.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
-        }
-
-        // Clean up any dynamic routes
-        const style = map.getStyle();
-        if (style && style.layers) {
-            style.layers.forEach(layer => {
-                if (layer.id.startsWith('route-')) {
-                    map.removeLayer(layer.id);
-                    map.removeSource(layer.id);
-                }
-            });
-        }
-      },
-
-      flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }) {
-        mapRef.current?.flyTo(options);
-      }
-    }));
 
     // State for Overlays
     // In a full implementation, these would be driven by external state or imperative API calls.
@@ -281,6 +103,132 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const [activeFigure, setActiveFigure] = useState<{ name: string, title: string, imageUrl?: string } | null>(null);
     const [activeGenealogy, setActiveGenealogy] = useState<{ rootName: string, nodes: { name: string, parent?: string, descriptor?: string, color?: string }[] } | null>(null);
     const [activeTimeline, setActiveTimeline] = useState<{ events: { year: number, label: string, color?: string }[] } | null>(null);
+
+    // Expose overlay methods via the imperative handle (appended to existing ref)
+    useImperativeHandle(ref, () => ({
+      // Re-declare all existing methods from the first useImperativeHandle above
+      zoomTo(lng: number, lat: number, zoom: number = 5, duration: number = 1000) {
+        mapRef.current?.flyTo({ center: [lng, lat], zoom, duration });
+      },
+      highlightRegion(featureId: string, color: string, opacity: number = 0.25) {
+        if (!mapRef.current || !mapLoaded) return;
+        const map = mapRef.current;
+        const currentOpacity = map.getPaintProperty('chapter-regions-fill', 'fill-opacity') || 0;
+        let newOpacityExpr;
+        if (Array.isArray(currentOpacity) && currentOpacity[0] === 'match') {
+          newOpacityExpr = [...currentOpacity];
+          newOpacityExpr.splice(newOpacityExpr.length - 1, 0, featureId, opacity);
+        } else {
+          newOpacityExpr = ['match', ['get', 'id'], featureId, opacity, 0];
+        }
+        map.setPaintProperty('chapter-regions-fill', 'fill-opacity', newOpacityExpr);
+        let newLineExpr;
+        const currentLineOpacity = map.getPaintProperty('chapter-regions-line', 'line-opacity') || 0;
+        if (Array.isArray(currentLineOpacity) && currentLineOpacity[0] === 'match') {
+          newLineExpr = [...currentLineOpacity];
+          newLineExpr.splice(newLineExpr.length - 1, 0, featureId, 0.5);
+        } else {
+          newLineExpr = ['match', ['get', 'id'], featureId, 0.5, 0];
+        }
+        map.setPaintProperty('chapter-regions-line', 'line-opacity', newLineExpr);
+      },
+      clearHighlight(featureId: string) {
+        if (!mapRef.current || !mapLoaded) return;
+        mapRef.current.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
+        mapRef.current.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
+      },
+      drawRoute(coordinates: [number, number][], color: string, style: 'migration' | 'trade' | 'conquest', animate: boolean = true) {
+        if (!mapRef.current || !mapLoaded) return "";
+        const map = mapRef.current;
+        const routeId = `route-${Date.now()}`;
+        let dashArray = [1, 0];
+        let lineWidth = 2;
+        if (style === 'migration') { dashArray = [8, 4]; lineWidth = 2; }
+        else if (style === 'trade') { dashArray = [2, 2]; lineWidth = 1.5; }
+        else if (style === 'conquest') { dashArray = [1, 0]; lineWidth = 3; }
+        map.addSource(routeId, { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } } });
+        map.addLayer({ id: routeId, type: 'line', source: routeId, layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': color, 'line-width': lineWidth, 'line-dasharray': dashArray as [number, number] } });
+        return routeId;
+      },
+      removeRoute(routeId: string) {
+        if (!mapRef.current) return;
+        const map = mapRef.current;
+        if (map.getLayer(routeId)) map.removeLayer(routeId);
+        if (map.getSource(routeId)) map.removeSource(routeId);
+        if (animationRefs.current.has(routeId)) {
+          cancelAnimationFrame(animationRefs.current.get(routeId)!);
+          animationRefs.current.delete(routeId);
+        }
+      },
+      placeMarker(lng: number, lat: number, label: string, color: string = '#fac775') {
+        if (!mapRef.current) return "";
+        const markerId = `marker-${Date.now()}`;
+        const el = document.createElement('div');
+        el.className = 'teaching-canvas-marker';
+        const dot = document.createElement('div');
+        dot.className = 'teaching-canvas-marker-dot';
+        dot.style.backgroundColor = color;
+        const labelEl = document.createElement('div');
+        labelEl.className = 'teaching-canvas-marker-label';
+        labelEl.textContent = label;
+        el.appendChild(dot);
+        el.appendChild(labelEl);
+        const marker = new maplibregl.Marker({ element: el }).setLngLat([lng, lat]).addTo(mapRef.current);
+        markersRef.current.set(markerId, marker);
+        return markerId;
+      },
+      removeMarker(markerId: string) {
+        if (markersRef.current.has(markerId)) {
+          markersRef.current.get(markerId)?.remove();
+          markersRef.current.delete(markerId);
+        }
+      },
+      clearOverlays() {
+        if (!mapRef.current || !mapLoaded) return;
+        const map = mapRef.current;
+        markersRef.current.forEach(marker => marker.remove());
+        markersRef.current.clear();
+        if (map.getLayer('chapter-regions-fill')) {
+          map.setPaintProperty('chapter-regions-fill', 'fill-opacity', 0);
+          map.setPaintProperty('chapter-regions-line', 'line-opacity', 0);
+        }
+        const style = map.getStyle();
+        if (style?.layers) {
+          style.layers.forEach(layer => {
+            if (layer.id.startsWith('route-')) {
+              map.removeLayer(layer.id);
+              map.removeSource(layer.id);
+            }
+          });
+        }
+        setActiveScripture(null);
+        setActiveFigure(null);
+        setActiveGenealogy(null);
+        setActiveTimeline(null);
+      },
+      flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }) {
+        mapRef.current?.flyTo(options);
+      },
+      // --- Overlay imperative methods ---
+      showScripture(reference: string, text: string, connection?: string) {
+        setActiveScripture({ text, reference, connection });
+      },
+      showFigure(name: string, title: string, imageUrl?: string) {
+        setActiveFigure({ name, title, imageUrl });
+      },
+      showGenealogy(rootName: string, nodes: { name: string; parent?: string; descriptor?: string; color?: string }[]) {
+        setActiveGenealogy({ rootName, nodes });
+      },
+      showTimeline(events: { year: number; label: string; color?: string }[]) {
+        setActiveTimeline({ events });
+      },
+      dismissOverlay(type: 'scripture' | 'figure' | 'genealogy' | 'timeline' | 'all') {
+        if (type === 'all' || type === 'scripture') setActiveScripture(null);
+        if (type === 'all' || type === 'figure') setActiveFigure(null);
+        if (type === 'all' || type === 'genealogy') setActiveGenealogy(null);
+        if (type === 'all' || type === 'timeline') setActiveTimeline(null);
+      },
+    }));
 
     return (
       <div className={`teaching-canvas-container ${className}`}>
