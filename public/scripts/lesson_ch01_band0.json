@@ -1,0 +1,72 @@
+{
+  "version": "1.0",
+  "chapterId": "ch01",
+  "band": 0,
+  "title": "Creation & The Table of Nations",
+  "scenes": [
+    {
+      "id": "scene-01",
+      "imageUrl": "/images/storybook/ch01/band0_page01.jpg",
+      "altText": "God creating the world",
+      "captionText": "Long, long ago, God made everything. He made the bright sun, the tall trees, and the deep blue water.",
+      "highlightedWords": ["God"],
+      "audioFileId": "audio_ch01_band0_01"
+    },
+    {
+      "id": "scene-02",
+      "imageUrl": "/images/storybook/ch01/band0_page02.jpg",
+      "altText": "Adam and Eve in the garden",
+      "captionText": "God made the first people, Adam and Eve. He loved them very much and gave them a beautiful garden to live in.",
+      "highlightedWords": ["Adam", "Eve"],
+      "audioFileId": "audio_ch01_band0_02"
+    },
+    {
+      "id": "scene-03",
+      "imageUrl": "/images/storybook/ch01/band0_page03.jpg",
+      "altText": "People building the Tower of Babel",
+      "captionText": "Many years passed, and there were lots of people in the world. But they forgot about God and wanted to build a very tall tower to show how great they were.",
+      "highlightedWords": ["tower"],
+      "audioFileId": "audio_ch01_band0_03"
+    },
+    {
+      "id": "scene-04",
+      "imageUrl": "/images/storybook/ch01/band0_page04.jpg",
+      "altText": "People confused at Babel",
+      "captionText": "God saw their tall tower. He mixed up their words so they couldn't understand each other anymore! This place was called Babel.",
+      "highlightedWords": ["Babel"],
+      "audioFileId": "audio_ch01_band0_04"
+    },
+    {
+      "id": "scene-05",
+      "imageUrl": "/images/storybook/ch01/band0_page05.jpg",
+      "altText": "Families traveling away from Babel",
+      "captionText": "Because they couldn't talk to each other, the families had to stop building. They packed their things and moved away to find new homes.",
+      "highlightedWords": ["families"],
+      "audioFileId": "audio_ch01_band0_05"
+    },
+    {
+      "id": "scene-06",
+      "imageUrl": "/images/storybook/ch01/band0_page06.jpg",
+      "altText": "Mizraim traveling to Egypt",
+      "captionText": "One family leader was named Mizraim. He traveled far away and settled in a beautiful land with a big river. We call this land Egypt today.",
+      "highlightedWords": ["Mizraim", "Egypt"],
+      "audioFileId": "audio_ch01_band0_06"
+    },
+    {
+      "id": "scene-07",
+      "imageUrl": "/images/storybook/ch01/band0_page07.jpg",
+      "altText": "Cush traveling to Nubia",
+      "captionText": "Another family leader was named Cush. He moved his family to a land just south of Egypt, a place called Nubia.",
+      "highlightedWords": ["Cush", "Nubia"],
+      "audioFileId": "audio_ch01_band0_07"
+    },
+    {
+      "id": "scene-08",
+      "imageUrl": "/images/storybook/ch01/band0_page08.jpg",
+      "altText": "Phut traveling to Libya",
+      "captionText": "A third leader was named Phut. He took his family to live in a wide, sunny place called Libya. God loved all these families in their new homes.",
+      "highlightedWords": ["Phut", "Libya"],
+      "audioFileId": "audio_ch01_band0_08"
+    }
+  ]
+}

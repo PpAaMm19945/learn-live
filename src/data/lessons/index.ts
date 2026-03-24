@@ -6,7 +6,12 @@ import { adaptRawScript } from '@/lib/player/adaptRawScript';
 import type { LessonScript } from '@/lib/player/types';
 
 const RAW_IMPORTS: Record<string, () => Promise<any>> = {
+  'ch01_band0': () => import('./lesson_ch01_band0.json'),
+  'ch01_band1': () => import('./lesson_ch01_band1.json'),
+  'ch01_band2': () => import('./lesson_ch01_band2.json'),
   'ch01_band3': () => import('./lesson_ch01_band3.json'),
+  'ch01_band4': () => import('./lesson_ch01_band4.json'),
+  'ch01_band5': () => import('./lesson_ch01_band5.json'),
   'ch02_band3': () => import('./lesson_ch02_band3.json'),
   'ch03_band3': () => import('./lesson_ch03_band3.json'),
   'ch04_band3': () => import('./lesson_ch04_band3.json'),

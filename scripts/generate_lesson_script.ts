@@ -130,11 +130,18 @@ if (fs.existsSync(locationsFile)) {
 }
 
 // Apply Band rules
-const canShowGenealogy = band >= 1 && genealogy?.trees;
-const canShowTimeline = band >= 2 && timeline?.events;
+const canShowGenealogy = (band === 1 || band >= 3) && genealogy?.trees; // Band 2 skips genealogy per instructions
+const canShowTimeline = band >= 4 && timeline?.events; // Band 4+ has timeline
+const canShowComparisons = band >= 4 && comparisons?.comparisons;
 
-for (const para of paragraphs) {
-  const speakDuration = getDuration(para);
+let sectionCount = 0;
+
+for (let pIdx = 0; pIdx < paragraphs.length; pIdx++) {
+  let para = paragraphs[pIdx];
+
+  if (band <= 2) {
+    para = para.replace(/\bprogenitor\b/gi, 'ancestor').replace(/\bprogenitors\b/gi, 'ancestors');
+  }
 
   // Clear canvas at the start of major section
   addToolCallCue('clear_canvas', {});
@@ -183,14 +190,37 @@ for (const para of paragraphs) {
     }
   }
 
-  // Speak Cue
-  addSpeakCue(para);
+  // Band 4 Additions
+  if (band === 4 && pIdx === 2) {
+    para += " Notice how the Table of Nations in Genesis 10 correlates with ancient geography. Why do you think Moses organized the nations this way?";
+  }
 
-  // Time advances for the speak cue
-  currentTimeMs += speakDuration;
+  // Band 5 Additions
+  if (band === 5 && pIdx === 3) {
+    para += " Scholars like Kenneth Kitchen argue that these early genealogies reflect historically reliable ancient Near Eastern transmission patterns.";
+  }
 
-  // Pause between paragraphs
-  currentTimeMs += 500;
+  if (band === 5 && pIdx % 10 === 9) {
+    para += " Consider this as an essay prompt: How does the dispersion at Babel influence modern interpretations of ancient migrations?";
+  }
+
+  // Speak Cue logic for Band 2 (Shorter segments)
+  if (band === 2) {
+    // split into 2 sentences max per cue
+    const sentences = para.match(/[^\.!\?]+[\.!\?]+/g) || [para];
+    for (let i = 0; i < sentences.length; i += 2) {
+      const chunk = sentences.slice(i, i + 2).join(' ').trim();
+      if (chunk.length > 0) {
+        addSpeakCue(chunk);
+        currentTimeMs += getDuration(chunk) + 1000; // Slower pacing
+      }
+    }
+  } else {
+    // Normal speak cue
+    addSpeakCue(para);
+    currentTimeMs += getDuration(para);
+    currentTimeMs += 500;
+  }
 }
 
 // Add Genealogy / Timeline at the end if applicable
@@ -208,6 +238,14 @@ if (canShowGenealogy && genealogy?.trees && genealogy.trees.length > 0) {
     nodes: tree.nodes
   });
   currentTimeMs += dur;
+}
+
+if (canShowComparisons && comparisons?.comparisons) {
+  addToolCallCue('clear_canvas', {});
+  addToolCallCue('show_comparison', {
+    comparisons: comparisons.comparisons
+  });
+  currentTimeMs += 5000;
 }
 
 if (canShowTimeline && timeline?.events) {
