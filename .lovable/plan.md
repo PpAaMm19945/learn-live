@@ -1,62 +1,44 @@
 
 
-# Audit Report and Loose Ends Fix Plan
+## Audit: Phase 16C through Phase 19
 
-## Issues Found
+### What's Done (Verified Working)
+- **adaptRawScript.ts** — Clean adapter, correctly maps raw generator output to `LessonScript` format
+- **src/data/lessons/index.ts** — Dynamic loader with imports for all 9 chapters (band 3) + ch01 bands 0-5
+- **ComponentRenderer.tsx** — Properly filters `__tool_call__` pseudo-components
+- **toolCallHandler.ts** — All 9 tool types dispatched correctly to TeachingCanvas
+- **LessonPlayerPage.tsx** — GeoJSON loading, chapter metadata for all 9 chapters, routing works
+- **ROADMAP.md** — Accurately reflects completed phases
 
-### 1. MapTiler API Key is "PLACEHOLDER"
-**File**: `src/components/canvas/TeachingCanvas.tsx`, line 31
-**Problem**: `MAP_STYLE` URL uses `key=PLACEHOLDER`. The MapLibre map will fail to load tiles in production. This needs a real MapTiler key injected via environment variable (`VITE_MAPTILER_KEY`).
-**Fix**: Change to `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}` and document the required env var.
+### Build Errors (Must Fix)
 
-### 2. Legacy `primitives/index.ts` imports from `@/archive`
-**File**: `src/lib/canvas/primitives/index.ts`, line 1
-**Problem**: `import { CanvasElement, CanvasOperation } from '@/archive/explainerClient'` — this pulls types from archived code. The entire `primitives/` directory (`MapPrimitives.ts`, `TimelinePrimitives.ts`, `FigurePrimitives.ts`, `EventPrimitives.ts`) is the old SVG-based system that has been replaced by MapLibre's `TeachingCanvas`.
-**Fix**: Move the entire `src/lib/canvas/primitives/` directory to `src/archive/canvas/primitives/`. Nothing in active code imports from it except `HistoryCanvas.tsx` (also legacy).
+There are **6 TypeScript errors** in `ScriptPlayer.tsx`, all simple property mismatches:
 
-### 3. Legacy `HistoryCanvas.tsx` still in active components
-**File**: `src/components/canvas/HistoryCanvas.tsx`
-**Problem**: This is the old SVG-based canvas that renders PNG base maps with SVG elements. It is imported by `NarratedLessonView.tsx`. Both are superseded by `TeachingCanvas.tsx` + `ScriptPlayer.tsx` via `LessonPlayerPage.tsx`.
-**Fix**: Move `HistoryCanvas.tsx` to `src/archive/canvas/`. Move `PlaybackControls.tsx` and `TranscriptBar.tsx` to archive too (replaced by `OverlayControls`, `TranscriptPanel`). Update or archive `NarratedLessonView.tsx` since it uses the old system.
+**Error 1: `s.family?.id` (line 58)**
+- `LearnerState` has `familyId: string | null`, not `family.id`
+- **Fix:** Change `useLearnerStore(s => s.family?.id)` → `useLearnerStore(s => s.familyId)`
 
-### 4. `NarratedLessonView.tsx` uses legacy canvas system
-**File**: `src/pages/NarratedLessonView.tsx`
-**Problem**: Imports `HistoryCanvas`, `PlaybackControls`, `TranscriptBar` — all legacy components. This page duplicates the functionality now in `LessonPlayerPage.tsx`.
-**Fix**: Archive `NarratedLessonView.tsx` to `src/archive/pages/`. Verify no active route points to it.
+**Errors 2-6: `script.id` (lines 82, 121, 129, 141, 146)**
+- `LessonScript` has no `id` field. It has `chapterId`.
+- **Fix:** Replace all `script.id` with `script.chapterId` (5 occurrences)
 
-### 5. WebSocket URL hardcoded to `localhost:3000`
-**File**: `src/components/player/ScriptPlayer.tsx`, line 46
-**Problem**: `useWebSocketCanvas('ws://localhost:3000')` — hardcoded dev URL. Will fail in production.
-**Fix**: Use an environment variable: `import.meta.env.VITE_WS_URL || 'ws://localhost:3000'`.
+### Specific Line Changes
 
-### 6. Console warning: Badge component ref issue
-**Problem**: `Function components cannot be given refs` warning from `Badge` in `Dashboard`. Minor but noisy.
-**Fix**: Wrap `Badge` component with `React.forwardRef` in `src/components/ui/badge.tsx`.
+**File: `src/components/player/ScriptPlayer.tsx`**
 
-### 7. Admin ContentTools still manages PNG/SVG alignment
-**File**: `src/pages/admin/ContentTools.tsx` (625 lines)
-**Problem**: The `MapAlignmentTab` manages PNG/SVG overlay alignment — the exact system being replaced by MapLibre. This is now dead functionality.
-**Fix**: Keep for now but add a deprecation banner at the top of the tab: "This tool manages legacy PNG/SVG maps. The teaching canvas now uses MapLibre GL JS." No code removal needed yet — it still works for reference.
+| Line | Current | Fix |
+|------|---------|-----|
+| 58 | `useLearnerStore(s => s.family?.id)` | `useLearnerStore(s => s.familyId)` |
+| 82 | `lessonId: script.id` | `lessonId: script.chapterId` |
+| 121 | `lessonId: script.id \|\| 'unknown'` | `lessonId: script.chapterId \|\| 'unknown'` |
+| 129 | `script.id, band, setPhase` | `script.chapterId, band, setPhase` |
+| 141 | `lessonId: script.id` | `lessonId: script.chapterId` |
+| 146 | `script.id` | `script.chapterId` |
 
-### 8. `TeachingCanvas` overlay state is internal-only
-**Problem**: The `activeScripture`, `activeFigure`, `activeGenealogy`, `activeTimeline` states in `TeachingCanvas.tsx` are declared but have no imperative API to set them. The `TeachingCanvasRef` interface doesn't expose `showScripture()`, `showFigure()`, etc.
-**Fix**: Add these methods to the `useImperativeHandle` block: `showScripture(ref, text, connection?)`, `showFigure(name, title, imageUrl?)`, `showGenealogy(rootName, nodes)`, `showTimeline(events)`, `dismissOverlay(type)`. Wire them to the existing state setters.
+### No Other Issues Found
 
-## Execution Plan
-
-| Step | Action | Files |
-|------|--------|-------|
-| 1 | Add MapTiler env var support to TeachingCanvas | `TeachingCanvas.tsx` |
-| 2 | Add overlay imperative methods to TeachingCanvasRef | `TeachingCanvas.tsx` |
-| 3 | Add overlay tool calls to toolCallHandler | `toolCallHandler.ts` |
-| 4 | Fix WebSocket URL to use env var | `ScriptPlayer.tsx` |
-| 5 | Archive legacy canvas files | Move `HistoryCanvas.tsx`, `PlaybackControls.tsx`, `TranscriptBar.tsx`, primitives dir, `NarratedLessonView.tsx` to `src/archive/` |
-| 6 | Fix Badge forwardRef warning | `badge.tsx` |
-| 7 | Add deprecation banner to MapAlignmentTab | `ContentTools.tsx` |
-
-## What This Does NOT Touch
-- Worker/backend code (no changes needed)
-- GeoJSON data files (correct and complete for Chapter 1)
-- Player components (`ScriptPlayer`, `StorybookPlayer`, `OverlayControls`, etc.)
-- Documentation (already consolidated)
+- No merge conflict markers anywhere in the codebase
+- GeoJSON data, lesson scripts, adapter, loader, tool handler, and canvas are all properly wired
+- Documentation is up to date
+- The remaining roadmap items (Phase 16C agent rewrite, 16D WebSocket audio, 17 deployment, 18 multi-band, 19 UI redesign) are correctly tracked as TODO
 
