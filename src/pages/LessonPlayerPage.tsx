@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ScriptPlayer } from '@/components/player/ScriptPlayer';
 import { StorybookPlayer } from '@/components/player/StorybookPlayer';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { LessonScript, StorybookScript } from '@/lib/player/types';
 import { LessonDrawerItem } from '@/components/player/LessonDrawer';
+import { loadLessonScript } from '@/data/lessons';
+import { getChapterGeoJSON } from '@/data/geojson';
 
 // Chapter metadata — will eventually come from an API or config
 const CHAPTER_METADATA: Record<string, { title: string; lessons: LessonDrawerItem[] }> = {
@@ -18,6 +20,14 @@ const CHAPTER_METADATA: Record<string, { title: string; lessons: LessonDrawerIte
       { id: '1.5', title: 'Controversies & Corrections', status: 'locked' },
     ],
   },
+  ch02: { title: 'Chapter 2: Egypt — Land of the Pharaohs', lessons: [] },
+  ch03: { title: 'Chapter 3: Cush & Nubia', lessons: [] },
+  ch04: { title: 'Chapter 4: Carthage & North Africa', lessons: [] },
+  ch05: { title: 'Chapter 5: The Church in Africa', lessons: [] },
+  ch06: { title: 'Chapter 6: Islam & the Trans-Saharan World', lessons: [] },
+  ch07: { title: 'Chapter 7: West African Kingdoms', lessons: [] },
+  ch08: { title: 'Chapter 8: East & Southern Africa', lessons: [] },
+  ch09: { title: 'Chapter 9: The Modern Era', lessons: [] },
 };
 
 export default function LessonPlayerPage() {
@@ -35,34 +45,50 @@ export default function LessonPlayerPage() {
   const isStorybook = activeLearnerBand <= 1;
   const chapterMeta = chapterId ? CHAPTER_METADATA[chapterId] : null;
 
+  // Load GeoJSON for the chapter
+  const chapterGeoJSON = useMemo(() => {
+    if (!chapterId) return undefined;
+    const num = parseInt(chapterId.replace('ch', ''), 10);
+    const data = getChapterGeoJSON(num);
+    return data?.regions as GeoJSON.FeatureCollection | undefined;
+  }, [chapterId]);
+
   useEffect(() => {
     if (!chapterId) return;
-
-    const scriptPath = `/scripts/lesson_${chapterId}_band${activeLearnerBand}.json`;
 
     setLoading(true);
     setError(null);
 
-    fetch(scriptPath)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Script not found: ${scriptPath} (${res.status})`);
-        }
-        return res.json();
-      })
-      .then((data) => {
-        if (isStorybook) {
+    if (isStorybook) {
+      // Storybook scripts still use the old fetch path
+      const scriptPath = `/scripts/lesson_${chapterId}_band${activeLearnerBand}.json`;
+      fetch(scriptPath)
+        .then((res) => {
+          if (!res.ok) throw new Error(`Script not found: ${scriptPath} (${res.status})`);
+          return res.json();
+        })
+        .then((data) => {
           setStorybookScript(data as StorybookScript);
-        } else {
-          setScript(data as LessonScript);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to load lesson script:', err);
-        setError(err.message);
-        setLoading(false);
-      });
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error('Failed to load storybook script:', err);
+          setError(err.message);
+          setLoading(false);
+        });
+    } else {
+      // Use the new lesson loader with adapter
+      loadLessonScript(chapterId, activeLearnerBand)
+        .then((adapted) => {
+          setScript(adapted);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error('Failed to load lesson script:', err);
+          setError(err.message);
+          setLoading(false);
+        });
+    }
   }, [chapterId, activeLearnerBand, isStorybook]);
 
   const handleExit = () => {
@@ -75,7 +101,7 @@ export default function LessonPlayerPage() {
       <div className="fixed inset-0 bg-black flex items-center justify-center">
         <div className="flex flex-col items-center space-y-6">
           <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-zinc-400 text-lg font-medium">Loading lesson...</p>
+          <p className="text-muted-foreground text-lg font-medium">Loading lesson...</p>
         </div>
       </div>
     );
@@ -86,19 +112,17 @@ export default function LessonPlayerPage() {
     return (
       <div className="fixed inset-0 bg-black flex items-center justify-center">
         <div className="flex flex-col items-center space-y-6 max-w-md text-center px-6">
-          <div className="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center">
+          <div className="w-16 h-16 bg-destructive/20 rounded-full flex items-center justify-center">
             <span className="text-3xl">⚠️</span>
           </div>
-          <h2 className="text-xl font-bold text-white">Lesson Not Available</h2>
-          <p className="text-zinc-400">
-            {error}
-          </p>
-          <p className="text-zinc-500 text-sm">
+          <h2 className="text-xl font-bold text-foreground">Lesson Not Available</h2>
+          <p className="text-muted-foreground">{error}</p>
+          <p className="text-muted-foreground/70 text-sm">
             This lesson script hasn't been generated for Band {activeLearnerBand} yet.
           </p>
           <button
             onClick={handleExit}
-            className="mt-4 px-6 py-3 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
+            className="mt-4 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors"
           >
             Back to Dashboard
           </button>
@@ -131,6 +155,7 @@ export default function LessonPlayerPage() {
         band={activeLearnerBand}
         learnerName={activeLearnerName || 'Learner'}
         lessons={chapterMeta?.lessons || []}
+        chapterGeoJSON={chapterGeoJSON}
         onExit={handleExit}
       />
     );

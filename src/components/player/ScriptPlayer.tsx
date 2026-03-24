@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, X } from 'lucide-react';
 import { TeachingCanvas, TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { useWebSocketCanvas } from '@/lib/canvas/useWebSocketCanvas';
-import { handleToolCall, ToolCallMessage } from '@/lib/canvas/toolCallHandler';
+import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { VoiceIndicator } from './VoiceIndicator';
 import { TranscriptPanel } from './TranscriptPanel';
 import { CanvasActionLog } from './CanvasActionLog';
