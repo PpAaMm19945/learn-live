@@ -126,7 +126,7 @@ export function ScriptPlayer({
 
     sessionStartTimeRef.current = Date.now();
     if (setPhase) setPhase('dialogue');
-  }, [learnerId, familyId, pause, startSession, script.id, band, setPhase]);
+  }, [learnerId, familyId, pause, startSession, script.chapterId, band, setPhase]);
 
   const handleEndLive = useCallback(() => {
     endSession();
