@@ -1,0 +1,90 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            39.66,
+            15.37
+          ],
+          [
+            45,
+            12
+          ],
+          [
+            55,
+            12
+          ]
+        ]
+      },
+      "properties": {
+        "id": "red_sea_trade",
+        "name": "Red Sea Trade",
+        "color": "#5eaef0",
+        "chapter": 6,
+        "type": "trade"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.2,
+            33.27
+          ],
+          [
+            35,
+            25
+          ],
+          [
+            39.66,
+            15.37
+          ],
+          [
+            38.72,
+            14.13
+          ]
+        ]
+      },
+      "properties": {
+        "id": "frumentius_journey",
+        "name": "Frumentius' Journey",
+        "color": "#f0c75e",
+        "chapter": 6,
+        "type": "journey"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            38.72,
+            14.13
+          ],
+          [
+            39.66,
+            15.37
+          ],
+          [
+            43,
+            14
+          ]
+        ]
+      },
+      "properties": {
+        "id": "aksum_yemen_campaign",
+        "name": "Aksum-Yemen Campaign",
+        "color": "#e85454",
+        "chapter": 6,
+        "type": "conquest"
+      }
+    }
+  ]
+}

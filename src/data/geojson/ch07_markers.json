@@ -1,0 +1,117 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.23,
+          30.05
+        ]
+      },
+      "properties": {
+        "id": "fustat_cairo",
+        "name": "Fustat/Cairo",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10.1,
+          35.67
+        ]
+      },
+      "properties": {
+        "id": "kairouan",
+        "name": "Kairouan",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5,
+          34.03
+        ]
+      },
+      "properties": {
+        "id": "fez",
+        "name": "Fez",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8,
+          31.63
+        ]
+      },
+      "properties": {
+        "id": "marrakesh",
+        "name": "Marrakesh",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3,
+          16.77
+        ]
+      },
+      "properties": {
+        "id": "timbuktu",
+        "name": "Timbuktu",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.78,
+          37.88
+        ]
+      },
+      "properties": {
+        "id": "cordoba",
+        "name": "Córdoba",
+        "chapter": 7,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.28,
+          31.28
+        ]
+      },
+      "properties": {
+        "id": "sijilmasa",
+        "name": "Sijilmasa",
+        "chapter": 7,
+        "type": "city"
+      }
+    }
+  ]
+}

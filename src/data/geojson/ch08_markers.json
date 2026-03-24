@@ -1,0 +1,69 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7.5,
+          9.5
+        ]
+      },
+      "properties": {
+        "id": "nok_region",
+        "name": "Nok Region",
+        "chapter": 8,
+        "type": "site"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.9,
+          -20.3
+        ]
+      },
+      "properties": {
+        "id": "great_zimbabwe_precursor",
+        "name": "Great Zimbabwe (precursor)",
+        "chapter": 8,
+        "type": "site"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33,
+          -1
+        ]
+      },
+      "properties": {
+        "id": "lake_victoria",
+        "name": "Lake Victoria",
+        "chapter": 8,
+        "type": "site"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30,
+          -23.5
+        ]
+      },
+      "properties": {
+        "id": "limpopo_river",
+        "name": "Limpopo River",
+        "chapter": 8,
+        "type": "site"
+      }
+    }
+  ]
+}

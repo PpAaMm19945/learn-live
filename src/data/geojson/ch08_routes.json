@@ -1,0 +1,114 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10,
+            6
+          ],
+          [
+            25,
+            2
+          ],
+          [
+            30,
+            0
+          ],
+          [
+            33,
+            -2
+          ],
+          [
+            35,
+            -6
+          ],
+          [
+            35,
+            -10
+          ]
+        ]
+      },
+      "properties": {
+        "id": "eastern_stream",
+        "name": "Eastern Stream",
+        "color": "#7c8ec4",
+        "chapter": 8,
+        "type": "migration"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10,
+            6
+          ],
+          [
+            15,
+            2
+          ],
+          [
+            18,
+            -2
+          ],
+          [
+            20,
+            -5
+          ],
+          [
+            22,
+            -8
+          ]
+        ]
+      },
+      "properties": {
+        "id": "western_stream",
+        "name": "Western Stream",
+        "color": "#c47c7c",
+        "chapter": 8,
+        "type": "migration"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            33,
+            -6
+          ],
+          [
+            33,
+            -10
+          ],
+          [
+            32,
+            -15
+          ],
+          [
+            30,
+            -20
+          ],
+          [
+            28,
+            -24
+          ]
+        ]
+      },
+      "properties": {
+        "id": "southern_stream",
+        "name": "Southern Stream",
+        "color": "#7cc4a8",
+        "chapter": 8,
+        "type": "migration"
+      }
+    }
+  ]
+}
