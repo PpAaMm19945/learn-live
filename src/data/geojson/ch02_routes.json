@@ -1,0 +1,82 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            34,
+            34
+          ],
+          [
+            31,
+            30.5
+          ]
+        ]
+      },
+      "properties": {
+        "id": "hyksos_invasion",
+        "name": "Hyksos Invasion",
+        "color": "#e85454",
+        "chapter": 2,
+        "type": "conquest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.8,
+            30.8
+          ],
+          [
+            32.5,
+            30
+          ],
+          [
+            33.5,
+            29
+          ]
+        ]
+      },
+      "properties": {
+        "id": "exodus_route",
+        "name": "Exodus Route",
+        "color": "#f0c75e",
+        "chapter": 2,
+        "type": "journey"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.25,
+            29.85
+          ],
+          [
+            32.65,
+            25.7
+          ],
+          [
+            32.9,
+            24.09
+          ]
+        ]
+      },
+      "properties": {
+        "id": "nile_trade",
+        "name": "Nile Trade",
+        "color": "#5eaef0",
+        "chapter": 2,
+        "type": "trade"
+      }
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.4,
+          19.6
+        ]
+      },
+      "properties": {
+        "id": "kerma",
+        "name": "Kerma",
+        "chapter": 3,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.6,
+          18.5
+        ]
+      },
+      "properties": {
+        "id": "napata",
+        "name": "Napata",
+        "chapter": 3,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          31.6,
+          18.53
+        ]
+      },
+      "properties": {
+        "id": "jebel_barkal",
+        "name": "Jebel Barkal",
+        "chapter": 3,
+        "type": "site"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.7,
+          16.9
+        ]
+      },
+      "properties": {
+        "id": "meroe",
+        "name": "Meroë",
+        "chapter": 3,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.3,
+          16.4
+        ]
+      },
+      "properties": {
+        "id": "musawwarat",
+        "name": "Musawwarat",
+        "chapter": 3,
+        "type": "site"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          33.3,
+          16.3
+        ]
+      },
+      "properties": {
+        "id": "naga",
+        "name": "Naga",
+        "chapter": 3,
+        "type": "site"
+      }
+    }
+  ]
+}

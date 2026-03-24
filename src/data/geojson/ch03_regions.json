@@ -1,0 +1,161 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              30.4,
+              19.6
+            ],
+            [
+              31.4,
+              19.6
+            ],
+            [
+              32,
+              18
+            ],
+            [
+              31,
+              18
+            ],
+            [
+              30.4,
+              19.6
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "kerma_kingdom",
+        "name": "Kerma Kingdom",
+        "color": "#c47cb8",
+        "chapter": 3,
+        "type": "kingdom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.6,
+              18.5
+            ],
+            [
+              32.6,
+              18.5
+            ],
+            [
+              33,
+              16
+            ],
+            [
+              32,
+              16
+            ],
+            [
+              31.6,
+              18.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "napata_kingdom",
+        "name": "Napata Kingdom",
+        "color": "#7c8ec4",
+        "chapter": 3,
+        "type": "kingdom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              33.7,
+              17
+            ],
+            [
+              35,
+              17
+            ],
+            [
+              34.5,
+              14
+            ],
+            [
+              33,
+              14
+            ],
+            [
+              33.7,
+              17
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "meroe_kingdom",
+        "name": "Meroë Kingdom",
+        "color": "#c4b87c",
+        "chapter": 3,
+        "type": "kingdom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32.65,
+              24
+            ],
+            [
+              33.15,
+              24
+            ],
+            [
+              31.75,
+              29.8
+            ],
+            [
+              32.5,
+              31.2
+            ],
+            [
+              29.5,
+              31.2
+            ],
+            [
+              31.25,
+              29.8
+            ],
+            [
+              32.65,
+              24
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "egypt_25th_dynasty",
+        "name": "Egypt (25th Dynasty)",
+        "color": "#b87cc4",
+        "chapter": 3,
+        "type": "empire"
+      }
+    }
+  ]
+}
