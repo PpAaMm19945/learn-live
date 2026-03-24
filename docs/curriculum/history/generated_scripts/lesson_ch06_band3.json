@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "chapterId": "ch06",
+  "band": 3,
+  "title": "Chapter 6 Lesson",
+  "estimatedDurationMs": 34760,
+  "pronunciationOverrides": {
+    "Alexandria": "<phoneme alphabet=\"ipa\" ph=\"ˌælɪɡˈzændri.ə\">Alexandria</phoneme>"
+  },
+  "cues": [
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 0
+    },
+    {
+      "type": "speak",
+      "text": "*   **Creation / Fall / Redemption / Providence:**\n    *   God in His sovereignty uses the rise and fall of empires to prepare the way for the Gospel.\n    *   The call to follow Christ sometimes requires radical separation from worldly values, as shown by the desert monks.\n    *   Defending the truth about who Jesus is (Christology) is essential to preserving the integrity of the Gospel message.\n    *   The Church's faithfulness is tested and proven through periods of persecution and cultural pressure.",
+      "timestamp": 0
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 6900
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 6900
+    },
+    {
+      "type": "speak",
+      "text": "**Chapter Summary (≤100 words):**\nThis chapter explores the history of Christianity in Egypt from its integration into the Roman Empire through the Arab conquest. We will examine the intellectual life of Alexandria, the trials of the great persecutions, the birth of monasticism in the desert, and the major theological debates over the nature of Christ at the Councils of Nicaea and Chalcedon. This period forged the distinct identity of the Coptic Church, a story of theological depth, martyrdom, and enduring faith under pressure.",
+      "timestamp": 6900
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 14040
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 14040
+    },
+    {
+      "type": "speak",
+      "text": "**Key Terms:**\n*   **Prefect:** The Roman governor of Egypt, an imperial appointee.\n*   **Syncretism:** The blending of different religious or cultural beliefs.\n*   **Martyr:** A person who dies for their faith; a \"witness.\"\n*   **Asceticism:** A lifestyle of strict self-discipline for spiritual reasons.\n*   **Homoousios:** The key term from the Nicene Creed meaning the Son is \"of the same substance\" as the Father.\n*   **Miaphysitism:** The Christological view, held by the Coptic Church, that Christ has one unified nature that is both divine and human.\n*   **Dhimmi:** A protected non-Muslim subject under Islamic law.",
+      "timestamp": 14040
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 22060
+    },
+    {
+      "type": "tool_call",
+      "tool": "zoom_to",
+      "args": {
+        "location": "egypt"
+      },
+      "timestamp": 22060
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_scripture",
+      "args": {
+        "reference": "Matthew 16:24",
+        "text": "If anyone would come after me, let him deny himself and take up his cross and follow me.",
+        "connection": "Embodies the spirit of the Egyptian martyrs who refused to compromise their allegiance to Christ."
+      },
+      "timestamp": 22060
+    },
+    {
+      "type": "speak",
+      "text": "**Scripture Thread:**\n*   **Acts 2:10:** Shows the presence of Jews from Egypt in Jerusalem at Pentecost, a key link for the Gospel's spread.\n*   **Matthew 16:24:** The call to \"take up one's cross,\" embodied by the martyrs.\n*   **Ephesians 6:12:** The spiritual battle against unseen forces, central to the monastic worldview.\n*   **1 Peter 3:15:** The call to be prepared to defend the faith, exemplified by the Alexandrian theologians.\n*   **1 Peter 2:11:** The identity of the church as \"sojourners and exiles,\" lived out by the Copts under foreign rule.",
+      "timestamp": 22060
+    },
+    {
+      "type": "tool_call",
+      "tool": "clear_canvas",
+      "args": {},
+      "timestamp": 29760
+    },
+    {
+      "type": "tool_call",
+      "tool": "show_timeline",
+      "args": {
+        "events": [
+          {
+            "id": "evt_06_001",
+            "title": "Roman Annexation of Egypt",
+            "biblicalDate": "N/A",
+            "conventionalDate": "30 BC",
+            "description": "Octavian defeats Antony and Cleopatra, making Egypt an imperial province.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_06_002",
+            "title": "Flight to Egypt",
+            "biblicalDate": "c. 4 BC",
+            "conventionalDate": "c. 4 BC",
+            "description": "The Holy Family flees to Egypt to escape King Herod.",
+            "scriptureRef": "Matthew 2:13-15",
+            "category": "biblical"
+          },
+          {
+            "id": "evt_06_003",
+            "title": "Decian Persecution",
+            "biblicalDate": "N/A",
+            "conventionalDate": "250 AD",
+            "description": "Empire-wide persecution requiring libellus certificates of sacrifice.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_06_004",
+            "title": "Era of the Martyrs Begins",
+            "biblicalDate": "N/A",
+            "conventionalDate": "284 AD",
+            "description": "Accession of Diocletian marks the start of the Coptic calendar due to severe persecution.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_06_005",
+            "title": "Council of Nicaea",
+            "biblicalDate": "N/A",
+            "conventionalDate": "325 AD",
+            "description": "First ecumenical council condemns Arianism and affirms the Son is homoousios with the Father.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_06_006",
+            "title": "Council of Chalcedon",
+            "biblicalDate": "N/A",
+            "conventionalDate": "451 AD",
+            "description": "Council defines Christ's two natures; rejected by the Egyptian church leading to the Oriental Orthodox schism.",
+            "scriptureRef": null,
+            "category": "conventional"
+          },
+          {
+            "id": "evt_06_007",
+            "title": "Islamic Conquest of Egypt",
+            "biblicalDate": "N/A",
+            "conventionalDate": "639-641 AD",
+            "description": "Arab forces under 'Amr ibn al-'As conquer Egypt, ending Byzantine rule.",
+            "scriptureRef": null,
+            "category": "conventional"
+          }
+        ]
+      },
+      "timestamp": 29760
+    }
+  ]
+}
