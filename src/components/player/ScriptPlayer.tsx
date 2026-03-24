@@ -118,7 +118,7 @@ export function ScriptPlayer({
     pause();
 
     startSession(canvasRef, {
-      lessonId: script.id || 'unknown',
+      lessonId: script.chapterId || 'unknown',
       familyId: activeFamilyId,
       learnerId: activeLearnerId,
       band
