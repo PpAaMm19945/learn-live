@@ -1,0 +1,82 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            30.4,
+            19.6
+          ],
+          [
+            31.6,
+            18.5
+          ]
+        ]
+      },
+      "properties": {
+        "id": "kerma_napata_expansion",
+        "name": "Kerma Expansion",
+        "color": "#c47cb8",
+        "chapter": 3,
+        "type": "migration"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            31.6,
+            18.5
+          ],
+          [
+            32.65,
+            25.7
+          ],
+          [
+            31.25,
+            29.85
+          ]
+        ]
+      },
+      "properties": {
+        "id": "piye_conquest",
+        "name": "Piye's Conquest",
+        "color": "#e85454",
+        "chapter": 3,
+        "type": "conquest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            37.5,
+            19
+          ],
+          [
+            33.7,
+            16.9
+          ],
+          [
+            38.7,
+            14.1
+          ]
+        ]
+      },
+      "properties": {
+        "id": "meroe_trade",
+        "name": "Meroë Trade Routes",
+        "color": "#5eaef0",
+        "chapter": 3,
+        "type": "trade"
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            7.95,
+            36.28
+          ],
+          [
+            10.18,
+            36.85
+          ],
+          [
+            9.19,
+            45.46
+          ],
+          [
+            7.77,
+            36.9
+          ]
+        ]
+      },
+      "properties": {
+        "id": "augustine_journey",
+        "name": "Augustine's Journey",
+        "color": "#c47cb8",
+        "chapter": 5,
+        "type": "journey"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            29.9,
+            31.2
+          ],
+          [
+            21.85,
+            32.82
+          ],
+          [
+            10.18,
+            36.85
+          ]
+        ]
+      },
+      "properties": {
+        "id": "gospel_spread",
+        "name": "Spread of Gospel",
+        "color": "#f0c75e",
+        "chapter": 5,
+        "type": "journey"
+      }
+    }
+  ]
+}

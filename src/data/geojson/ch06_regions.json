@@ -1,0 +1,116 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              36,
+              16
+            ],
+            [
+              42,
+              16
+            ],
+            [
+              42,
+              12
+            ],
+            [
+              36,
+              12
+            ],
+            [
+              36,
+              16
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "aksumite_empire",
+        "name": "Aksumite Empire",
+        "color": "#c4a87c",
+        "chapter": 6,
+        "type": "empire"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              43,
+              16
+            ],
+            [
+              46,
+              16
+            ],
+            [
+              46,
+              13
+            ],
+            [
+              43,
+              13
+            ],
+            [
+              43,
+              16
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "himyarite_yemen",
+        "name": "Himyarite Yemen",
+        "color": "#a87cc4",
+        "chapter": 6,
+        "type": "territory"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              39,
+              15.5
+            ],
+            [
+              43,
+              15.5
+            ],
+            [
+              43,
+              11
+            ],
+            [
+              39,
+              11
+            ],
+            [
+              39,
+              15.5
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "adulis_trade_zone",
+        "name": "Adulis Trade Zone",
+        "color": "#7cc4c4",
+        "chapter": 6,
+        "type": "region"
+      }
+    }
+  ]
+}

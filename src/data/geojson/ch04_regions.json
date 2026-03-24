@@ -1,0 +1,112 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              35.2,
+              33
+            ],
+            [
+              36,
+              33
+            ],
+            [
+              36,
+              35
+            ],
+            [
+              35.2,
+              35
+            ],
+            [
+              35.2,
+              33
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "phoenicia",
+        "name": "Phoenicia",
+        "color": "#7cc4a8",
+        "chapter": 4,
+        "type": "territory"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10,
+              37
+            ],
+            [
+              11,
+              33
+            ],
+            [
+              20,
+              33
+            ],
+            [
+              10,
+              37
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "carthaginian_territory",
+        "name": "Carthaginian Territory",
+        "color": "#c47c7c",
+        "chapter": 4,
+        "type": "empire"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -2,
+              37
+            ],
+            [
+              3,
+              37
+            ],
+            [
+              3,
+              40
+            ],
+            [
+              -2,
+              40
+            ],
+            [
+              -2,
+              37
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "carthaginian_iberia",
+        "name": "Carthaginian Iberia",
+        "color": "#c49a7c",
+        "chapter": 4,
+        "type": "territory"
+      }
+    }
+  ]
+}

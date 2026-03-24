@@ -58,6 +58,7 @@ let markdownContent = '';
 if (fs.existsSync(chapterDir)) {
   // Read either multiple section files (Ch 1) or a single Chapter_XX.md (Ch 2-9)
   let files = fs.readdirSync(chapterDir).filter(f => f.endsWith('.md') && f.startsWith('section_') && !f.includes('_UPGRADED'));
+  let files = fs.readdirSync(chapterDir).filter(f => f.endsWith('.md') && !f.includes('_UPGRADED'));
 
   // If no md files in root, look in chapters/ subdirectory (Ch 2-9 structure)
   if (files.length === 0) {
@@ -65,6 +66,7 @@ if (fs.existsSync(chapterDir)) {
     if (fs.existsSync(chaptersSubDir)) {
       // Only read the main chapter file, exclude summaries and backups
       const subFiles = fs.readdirSync(chaptersSubDir).filter(f => f.endsWith('.md') && !f.includes('_BACKUP_ORIGINAL') && !f.includes('Summary') && !f.includes('_SECTIONS_ONLY'));
+      const subFiles = fs.readdirSync(chaptersSubDir).filter(f => f.endsWith('.md') && !f.includes('_BACKUP_ORIGINAL'));
       subFiles.sort();
       for (const file of subFiles) {
         markdownContent += fs.readFileSync(path.join(chaptersSubDir, file), 'utf-8') + '\n\n';

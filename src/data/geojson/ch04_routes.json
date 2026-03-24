@@ -1,0 +1,102 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            35.2,
+            33.27
+          ],
+          [
+            25,
+            33
+          ],
+          [
+            15,
+            34
+          ],
+          [
+            10.18,
+            36.85
+          ]
+        ]
+      },
+      "properties": {
+        "id": "tyre_carthage",
+        "name": "Founding of Carthage",
+        "color": "#7cc4a8",
+        "chapter": 4,
+        "type": "journey"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            0,
+            39
+          ],
+          [
+            3,
+            42
+          ],
+          [
+            6,
+            45
+          ],
+          [
+            12,
+            42
+          ]
+        ]
+      },
+      "properties": {
+        "id": "hannibal_route",
+        "name": "Hannibal's Route",
+        "color": "#e85454",
+        "chapter": 4,
+        "type": "conquest"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            10.18,
+            36.85
+          ],
+          [
+            13,
+            37.5
+          ],
+          [
+            9,
+            40
+          ],
+          [
+            0,
+            38
+          ],
+          [
+            10.18,
+            36.85
+          ]
+        ]
+      },
+      "properties": {
+        "id": "punic_trade",
+        "name": "Punic Trade Network",
+        "color": "#5eaef0",
+        "chapter": 4,
+        "type": "trade"
+      }
+    }
+  ]
+}

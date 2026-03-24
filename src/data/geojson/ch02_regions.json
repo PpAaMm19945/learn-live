@@ -1,0 +1,145 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32.65,
+              24
+            ],
+            [
+              33.15,
+              24
+            ],
+            [
+              31.75,
+              29.8
+            ],
+            [
+              31.25,
+              29.8
+            ],
+            [
+              32.65,
+              24
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "upper_egypt",
+        "name": "Upper Egypt",
+        "color": "#e8a87c",
+        "chapter": 2,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              31.25,
+              29.8
+            ],
+            [
+              32.5,
+              31.2
+            ],
+            [
+              29.5,
+              31.2
+            ],
+            [
+              31.25,
+              29.8
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "lower_egypt",
+        "name": "Lower Egypt",
+        "color": "#7cb8e8",
+        "chapter": 2,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              32.5,
+              31.2
+            ],
+            [
+              34.5,
+              31.2
+            ],
+            [
+              34.5,
+              29.5
+            ],
+            [
+              34.2,
+              27.8
+            ],
+            [
+              32.5,
+              31.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "sinai",
+        "name": "Sinai",
+        "color": "#d4a574",
+        "chapter": 2,
+        "type": "territory"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              30.4,
+              29.2
+            ],
+            [
+              31,
+              29.5
+            ],
+            [
+              30.8,
+              29
+            ],
+            [
+              30.4,
+              29.2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "fayum",
+        "name": "Fayum",
+        "color": "#8bc48a",
+        "chapter": 2,
+        "type": "region"
+      }
+    }
+  ]
+}
