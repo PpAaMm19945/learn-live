@@ -55,7 +55,7 @@ export function ScriptPlayer({
   } = useWebSocketCanvas();
 
   const learnerId = useLearnerStore(s => s.activeLearnerId);
-  const familyId = useLearnerStore(s => s.family?.id);
+  const familyId = useLearnerStore(s => s.familyId);
   const { toast } = useToast();
 
   const sessionStartTimeRef = useRef<number>(0);
