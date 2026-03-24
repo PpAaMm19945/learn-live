@@ -1,0 +1,227 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -15,
+              18
+            ],
+            [
+              -5,
+              18
+            ],
+            [
+              -5,
+              12
+            ],
+            [
+              -15,
+              12
+            ],
+            [
+              -15,
+              18
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "ghana_empire",
+        "name": "Ghana Empire",
+        "color": "#c4a87c",
+        "chapter": 9,
+        "type": "empire"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -15,
+              20
+            ],
+            [
+              5,
+              20
+            ],
+            [
+              5,
+              10
+            ],
+            [
+              -15,
+              10
+            ],
+            [
+              -15,
+              20
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "mali_empire",
+        "name": "Mali Empire",
+        "color": "#e8c87c",
+        "chapter": 9,
+        "type": "empire"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -5,
+              20
+            ],
+            [
+              10,
+              20
+            ],
+            [
+              10,
+              12
+            ],
+            [
+              -5,
+              12
+            ],
+            [
+              -5,
+              20
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "songhai_empire",
+        "name": "Songhai Empire",
+        "color": "#c48a7c",
+        "chapter": 9,
+        "type": "empire"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              28,
+              -18
+            ],
+            [
+              33,
+              -18
+            ],
+            [
+              33,
+              -22
+            ],
+            [
+              28,
+              -22
+            ],
+            [
+              28,
+              -18
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "great_zimbabwe",
+        "name": "Great Zimbabwe",
+        "color": "#7c8ec4",
+        "chapter": 9,
+        "type": "kingdom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              38,
+              2
+            ],
+            [
+              42,
+              2
+            ],
+            [
+              40,
+              -20
+            ],
+            [
+              36,
+              -20
+            ],
+            [
+              38,
+              2
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "swahili_coast",
+        "name": "Swahili Coast",
+        "color": "#7cc4c4",
+        "chapter": 9,
+        "type": "region"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              10,
+              15
+            ],
+            [
+              18,
+              15
+            ],
+            [
+              18,
+              10
+            ],
+            [
+              10,
+              10
+            ],
+            [
+              10,
+              15
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "kanem_bornu",
+        "name": "Kanem-Bornu",
+        "color": "#a8c47c",
+        "chapter": 9,
+        "type": "empire"
+      }
+    }
+  ]
+}

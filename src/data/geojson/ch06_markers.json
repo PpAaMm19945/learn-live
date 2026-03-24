@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          38.72,
+          14.13
+        ]
+      },
+      "properties": {
+        "id": "aksum",
+        "name": "Aksum",
+        "chapter": 6,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.66,
+          15.37
+        ]
+      },
+      "properties": {
+        "id": "adulis",
+        "name": "Adulis",
+        "chapter": 6,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.04,
+          12.03
+        ]
+      },
+      "properties": {
+        "id": "lalibela",
+        "name": "Lalibela",
+        "chapter": 6,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          37.47,
+          12.6
+        ]
+      },
+      "properties": {
+        "id": "gondar",
+        "name": "Gondar",
+        "chapter": 6,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.02,
+          14.28
+        ]
+      },
+      "properties": {
+        "id": "yeha",
+        "name": "Yeha",
+        "chapter": 6,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.5,
+          14.7
+        ]
+      },
+      "properties": {
+        "id": "matara",
+        "name": "Matara",
+        "chapter": 6,
+        "type": "city"
+      }
+    }
+  ]
+}
