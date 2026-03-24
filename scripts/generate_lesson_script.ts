@@ -56,11 +56,24 @@ const pronunciations = loadJson(pronunciationFile) || {};
 // Read markdown files
 let markdownContent = '';
 if (fs.existsSync(chapterDir)) {
-  const files = fs.readdirSync(chapterDir).filter(f => f.endsWith('.md') && !f.includes('_UPGRADED'));
-  files.sort();
+  // Read either multiple section files (Ch 1) or a single Chapter_XX.md (Ch 2-9)
+  let files = fs.readdirSync(chapterDir).filter(f => f.endsWith('.md') && !f.includes('_UPGRADED'));
 
-  for (const file of files) {
-    markdownContent += fs.readFileSync(path.join(chapterDir, file), 'utf-8') + '\n\n';
+  // If no md files in root, look in chapters/ subdirectory (Ch 2-9 structure)
+  if (files.length === 0) {
+    const chaptersSubDir = path.join(chapterDir, 'chapters');
+    if (fs.existsSync(chaptersSubDir)) {
+      const subFiles = fs.readdirSync(chaptersSubDir).filter(f => f.endsWith('.md') && !f.includes('_BACKUP_ORIGINAL'));
+      subFiles.sort();
+      for (const file of subFiles) {
+        markdownContent += fs.readFileSync(path.join(chaptersSubDir, file), 'utf-8') + '\n\n';
+      }
+    }
+  } else {
+    files.sort();
+    for (const file of files) {
+      markdownContent += fs.readFileSync(path.join(chapterDir, file), 'utf-8') + '\n\n';
+    }
   }
 } else {
   console.warn(`Chapter directory not found: ${chapterDir}`);
@@ -84,43 +97,68 @@ function getDuration(text: string) {
   return wordCount * 80; // ~150 WPM -> 80ms per word
 }
 
-function addCue(action: string, params: any, durationMs: number = 0) {
-  const idStr = cueIndex.toString().padStart(3, '0');
+// Helper to format cue
+function addToolCallCue(tool: string, args: any) {
   cues.push({
-    id: `${chapterId}_b${band}_cue_${idStr}`,
-    timestampMs: currentTimeMs,
-    durationMs: durationMs,
-    action,
-    params
+    type: 'tool_call',
+    tool,
+    args,
+    timestamp: currentTimeMs
   });
-  cueIndex++;
+}
+
+function addSpeakCue(text: string) {
+  cues.push({
+    type: 'speak',
+    text,
+    timestamp: currentTimeMs
+  });
+}
+
+// Apply Band rules
+// Get Named Locations for Zooming
+const locationsFile = path.join(basePath, 'src/data/geojson/locations.ts');
+let namedLocationKeys: string[] = [];
+if (fs.existsSync(locationsFile)) {
+  const locationsContent = fs.readFileSync(locationsFile, 'utf-8');
+  const match = locationsContent.match(/NAMED_LOCATIONS: Record<string, \[number, number\]> = \{([^}]+)\}/);
+  if (match && match[1]) {
+    namedLocationKeys = match[1].split(',')
+      .map(line => line.split(':')[0].trim())
+      .filter(key => key.length > 0);
+  }
 }
 
 // Apply Band rules
 const canShowGenealogy = band >= 1 && genealogy?.trees;
 const canShowTimeline = band >= 2 && timeline?.events;
-const canShowComparisons = band >= 4 && comparisons?.comparisons;
 
 for (const para of paragraphs) {
   const speakDuration = getDuration(para);
-  const activeComponentIds: string[] = [];
+
+  // Clear canvas at the start of major section
+  addToolCallCue('clear_canvas', {});
+
+  // Check for named locations to zoom
+  for (const locKey of namedLocationKeys) {
+    // Check if the location key (e.g. 'babel', 'memphis', 'nile_delta') is mentioned in the paragraph
+    const normalizedKey = locKey.replace(/_/g, ' ');
+    const regex = new RegExp(`\\b${normalizedKey}\\b`, 'i');
+    if (regex.test(para)) {
+      addToolCallCue('zoom_to', { location: locKey });
+      break; // Only zoom to the first found location per paragraph to avoid jumping around
+    }
+  }
 
   // Scriptures (Band 1+)
   if (band >= 1 && scriptureRefs?.cards) {
     for (const sc of scriptureRefs.cards) {
       if (para.includes(sc.reference) || (sc.text && para.includes(sc.text.substring(0, 15)))) {
-        activeComponentIds.push(sc.id);
-        addCue('show_component', {
-          componentType: 'scripture_card',
-          componentId: sc.id,
-          data: {
-            reference: sc.reference,
-            text: sc.text,
-            connection: sc.connection,
-            band
-          },
-          transition: 'slide_up'
-        }, speakDuration);
+        addToolCallCue('show_scripture', {
+          reference: sc.reference,
+          text: sc.text,
+          connection: sc.connection
+        });
       }
     }
   }
@@ -129,40 +167,11 @@ for (const para of paragraphs) {
   if (band >= 2 && figures?.figures) {
     for (const fig of figures.figures) {
       if (para.includes(fig.name)) {
-        activeComponentIds.push(fig.id);
-        addCue('show_component', {
-          componentType: 'portrait_card',
-          componentId: fig.id,
-          data: {
-            name: fig.name,
-            title: fig.title,
-            dates: fig.dates,
-            imageUrl: `/assets/images/figures/${fig.imageSlug || fig.name.toLowerCase()}.jpg`,
-            quote: fig.quote
-          },
-          transition: 'fade'
-        }, speakDuration);
-      }
-    }
-  }
-
-  // Definitions (Band 2+)
-  if (band >= 2 && definitions?.terms) {
-    for (const def of definitions.terms) {
-      if (para.includes(def.term)) {
-        activeComponentIds.push(def.id);
-        addCue('show_component', {
-          componentType: 'definition_card',
-          componentId: def.id,
-          data: {
-            term: def.term,
-            definition: def.definition,
-            scriptureRef: def.scriptureRef,
-            originalLanguage: def.originalLanguage,
-            band
-          },
-          transition: 'fade'
-        }, speakDuration);
+        addToolCallCue('show_figure', {
+          name: fig.name,
+          title: fig.title,
+          imageUrl: `/assets/images/figures/${fig.imageSlug || fig.name.toLowerCase()}.jpg`
+        });
       }
     }
   }
@@ -175,73 +184,39 @@ for (const para of paragraphs) {
   }
 
   // Speak Cue
-  const speakCueIdStr = cueIndex.toString().padStart(3, '0');
-  addCue('speak', {
-    text: para,
-    audioFileId: `${chapterId}_b${band}_audio_${speakCueIdStr}`
-  }, speakDuration);
+  addSpeakCue(para);
 
   // Time advances for the speak cue
   currentTimeMs += speakDuration;
-
-  // Hide components that were shown during this paragraph
-  for (const compId of activeComponentIds) {
-    addCue('hide_component', {
-      componentId: compId,
-      transition: 'fade'
-    }, 0);
-  }
 
   // Pause between paragraphs
   currentTimeMs += 500;
 }
 
-// Add Genealogy / Timeline / Comparisons at the end if applicable
+// Add Genealogy / Timeline at the end if applicable
 if (canShowGenealogy && genealogy?.trees && genealogy.trees.length > 0) {
+  addToolCallCue('clear_canvas', {});
   const tree = genealogy.trees[0];
   const dur = 5000;
-  addCue('show_component', {
-    componentType: 'genealogy_tree',
-    componentId: `gen_${chapterId}`,
-    data: {
-      treeData: { nodes: tree.nodes },
-      band
-    },
-    transition: 'slide_up'
-  }, dur);
+
+  // Extract root name and nodes from existing tree structure
+  const rootNode = tree.nodes.find((n: any) => !n.parent);
+  const rootName = rootNode ? rootNode.name : "Genealogy";
+
+  addToolCallCue('show_genealogy', {
+    rootName,
+    nodes: tree.nodes
+  });
   currentTimeMs += dur;
 }
 
 if (canShowTimeline && timeline?.events) {
+  addToolCallCue('clear_canvas', {});
   const dur = 5000;
-  addCue('show_component', {
-    componentType: 'dual_timeline',
-    componentId: `time_${chapterId}`,
-    data: {
-      events: timeline.events,
-      mode: band >= 3 ? 'dual' : 'biblical',
-      band
-    },
-    transition: 'fade'
-  }, dur);
+  addToolCallCue('show_timeline', {
+    events: timeline.events
+  });
   currentTimeMs += dur;
-}
-
-if (canShowComparisons && comparisons?.comparisons) {
-  for (const cmp of comparisons.comparisons) {
-    const dur = 6000;
-    addCue('show_component', {
-      componentType: 'comparison_view',
-      componentId: cmp.id,
-      data: {
-        biblicalData: cmp.biblical,
-        conventionalData: cmp.conventional,
-        resolution: cmp.resolution
-      },
-      transition: 'slide_up'
-    }, dur);
-    currentTimeMs += dur;
-  }
 }
 
 const lessonScript = {

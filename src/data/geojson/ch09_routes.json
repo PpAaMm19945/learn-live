@@ -1,0 +1,90 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -4.28,
+            31.28
+          ],
+          [
+            -3,
+            16.77
+          ],
+          [
+            -4.55,
+            13.91
+          ]
+        ]
+      },
+      "properties": {
+        "id": "gold_salt_trade",
+        "name": "Gold-Salt Trade",
+        "color": "#f0c75e",
+        "chapter": 9,
+        "type": "trade"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            39.52,
+            -8.96
+          ],
+          [
+            45.34,
+            2.05
+          ],
+          [
+            55,
+            15
+          ]
+        ]
+      },
+      "properties": {
+        "id": "indian_ocean_trade",
+        "name": "Indian Ocean Trade",
+        "color": "#5eaef0",
+        "chapter": 9,
+        "type": "trade"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -11.42,
+            11.42
+          ],
+          [
+            -3,
+            16.77
+          ],
+          [
+            31.23,
+            30.05
+          ],
+          [
+            39.83,
+            21.42
+          ]
+        ]
+      },
+      "properties": {
+        "id": "mansa_musa_hajj",
+        "name": "Mansa Musa's Hajj",
+        "color": "#c47cb8",
+        "chapter": 9,
+        "type": "journey"
+      }
+    }
+  ]
+}

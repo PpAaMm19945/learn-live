@@ -1,0 +1,181 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7.97,
+          15.77
+        ]
+      },
+      "properties": {
+        "id": "koumbi_saleh",
+        "name": "Koumbi Saleh",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -11.42,
+          11.42
+        ]
+      },
+      "properties": {
+        "id": "niani",
+        "name": "Niani",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0.08,
+          16.27
+        ]
+      },
+      "properties": {
+        "id": "gao",
+        "name": "Gao",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3,
+          16.77
+        ]
+      },
+      "properties": {
+        "id": "timbuktu",
+        "name": "Timbuktu",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4.55,
+          13.91
+        ]
+      },
+      "properties": {
+        "id": "djenne",
+        "name": "Djenné",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          30.93,
+          -20.27
+        ]
+      },
+      "properties": {
+        "id": "great_zimbabwe",
+        "name": "Great Zimbabwe",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.52,
+          -8.96
+        ]
+      },
+      "properties": {
+        "id": "kilwa",
+        "name": "Kilwa",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          34.74,
+          -20.15
+        ]
+      },
+      "properties": {
+        "id": "sofala",
+        "name": "Sofala",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          45.34,
+          2.05
+        ]
+      },
+      "properties": {
+        "id": "mogadishu",
+        "name": "Mogadishu",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          39.66,
+          -4.05
+        ]
+      },
+      "properties": {
+        "id": "mombasa",
+        "name": "Mombasa",
+        "chapter": 9,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17,
+          13
+        ]
+      },
+      "properties": {
+        "id": "njimi",
+        "name": "Njimi",
+        "chapter": 9,
+        "type": "city"
+      }
+    }
+  ]
+}
