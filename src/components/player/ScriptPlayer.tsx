@@ -138,7 +138,7 @@ export function ScriptPlayer({
       fetch(`${workerUrl}/api/sessions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ learnerId, lessonId: script.id, type: 'dialogue', durationMs }),
+        body: JSON.stringify({ learnerId, lessonId: script.chapterId, type: 'dialogue', durationMs }),
         credentials: 'include'
       }).catch(console.error);
       sessionStartTimeRef.current = 0;
