@@ -70,7 +70,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     setError(null);
 
     const agentUrl = import.meta.env.VITE_AGENT_URL || 'ws://localhost:8080';
-    const wsUrl = `${agentUrl.replace(/^http/, 'ws')}/ws/history-explainer?lesson=${config.lessonId}&family=${config.familyId}&learner=${config.learnerId}&band=${config.band}`;
+    const wsUrl = `${agentUrl.replace(/^http/, 'ws')}/v1/agent/history-explainer?lesson=${config.lessonId}&family=${config.familyId}&learner=${config.learnerId}&band=${config.band}`;
 
     const ws = new WebSocket(wsUrl);
 

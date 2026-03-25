@@ -1,44 +1,37 @@
 
 
-## Audit: Phase 16C through Phase 19
+## Fix Map and WebSocket Connection
 
-### What's Done (Verified Working)
-- **adaptRawScript.ts** — Clean adapter, correctly maps raw generator output to `LessonScript` format
-- **src/data/lessons/index.ts** — Dynamic loader with imports for all 9 chapters (band 3) + ch01 bands 0-5
-- **ComponentRenderer.tsx** — Properly filters `__tool_call__` pseudo-components
-- **toolCallHandler.ts** — All 9 tool types dispatched correctly to TeachingCanvas
-- **LessonPlayerPage.tsx** — GeoJSON loading, chapter metadata for all 9 chapters, routing works
-- **ROADMAP.md** — Accurately reflects completed phases
+Two code changes needed to get testing working:
 
-### Build Errors (Must Fix)
+### 1. Add MapTiler API key to `.env.production`
+Add `VITE_MAPTILER_KEY=ANd0GQwsnsg4NcFJKuZS` so the map tiles load. This is a publishable key (used client-side in browsers), so it is safe to store in the codebase.
 
-There are **6 TypeScript errors** in `ScriptPlayer.tsx`, all simple property mismatches:
+### 2. Fix WebSocket path in `useWebSocketCanvas.ts`
+Line 73: change `/ws/history-explainer` to `/v1/agent/history-explainer` to match what the deployed agent server expects.
 
-**Error 1: `s.family?.id` (line 58)**
-- `LearnerState` has `familyId: string | null`, not `family.id`
-- **Fix:** Change `useLearnerStore(s => s.family?.id)` → `useLearnerStore(s => s.familyId)`
+### 3. MapTiler allowed origins
+Your MapTiler key settings show two allowed origins. You should also add:
+- `*.lovable.app` (for Lovable preview testing)
+- Your production domain when you have one
 
-**Errors 2-6: `script.id` (lines 82, 121, 129, 141, 146)**
-- `LessonScript` has no `id` field. It has `chapterId`.
-- **Fix:** Replace all `script.id` with `script.chapterId` (5 occurrences)
+Without these, MapTiler will reject tile requests from the Lovable preview.
 
-### Specific Line Changes
+### Technical details
 
-**File: `src/components/player/ScriptPlayer.tsx`**
+**File: `.env.production`** — add line:
+```
+VITE_MAPTILER_KEY=ANd0GQwsnsg4NcFJKuZS
+```
 
-| Line | Current | Fix |
-|------|---------|-----|
-| 58 | `useLearnerStore(s => s.family?.id)` | `useLearnerStore(s => s.familyId)` |
-| 82 | `lessonId: script.id` | `lessonId: script.chapterId` |
-| 121 | `lessonId: script.id \|\| 'unknown'` | `lessonId: script.chapterId \|\| 'unknown'` |
-| 129 | `script.id, band, setPhase` | `script.chapterId, band, setPhase` |
-| 141 | `lessonId: script.id` | `lessonId: script.chapterId` |
-| 146 | `script.id` | `script.chapterId` |
+**File: `src/lib/canvas/useWebSocketCanvas.ts`** — line 73, change path from:
+```
+/ws/history-explainer?lesson=...
+```
+to:
+```
+/v1/agent/history-explainer?lesson=...
+```
 
-### No Other Issues Found
-
-- No merge conflict markers anywhere in the codebase
-- GeoJSON data, lesson scripts, adapter, loader, tool handler, and canvas are all properly wired
-- Documentation is up to date
-- The remaining roadmap items (Phase 16C agent rewrite, 16D WebSocket audio, 17 deployment, 18 multi-band, 19 UI redesign) are correctly tracked as TODO
+After these changes, redeploy to Cloudflare Pages so the new env vars are baked into the build.
 
