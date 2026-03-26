@@ -360,7 +360,7 @@ export function ScriptPlayer({
           onOpenDrawer={() => setIsDrawerOpen(true)}
           onAskQuestion={() => console.log('Ask question clicked')}
           onSettings={() => console.log('Settings clicked')}
-          onGoLive={(phase === 'complete' || phase === 'paused' || phase === 'playing') ? handleGoLive : undefined}
+          onGoLive={phase !== 'dialogue' && phase !== 'review' ? handleGoLive : undefined}
           isLive={phase === 'dialogue'}
           onEndLive={handleEndLive}
         />
