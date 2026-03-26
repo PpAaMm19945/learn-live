@@ -19,6 +19,7 @@ import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 import { handleGetAsset, handleGetEvidence } from './storage';
 import { handleTtsRoutes } from './tts';
+import { handleCreateSession } from './sessions';
 import { handleMapTransformRoutes } from './mapTransforms';
 
 /**
