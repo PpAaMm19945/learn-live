@@ -146,7 +146,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
             console.error('[WS] ❌ Agent error:', message.error);
             setError(message.error);
             setIsConnected(false);
-            ws.close(1008, 'Agent rejected session');
+            ws.close(3008, 'Agent rejected session');
             return;
           }
 
