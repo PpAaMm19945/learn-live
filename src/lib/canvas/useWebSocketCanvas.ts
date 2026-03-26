@@ -231,6 +231,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     };
 
     ws.onclose = (event) => {
+      console.log(`[WS] 🔌 WebSocket closed: code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean}`);
       setIsConnected(false);
       cleanupAudio();
 
@@ -248,7 +249,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     };
 
     ws.onerror = (err) => {
-       console.error('WebSocket error:', err);
+       console.error('[WS] ❌ WebSocket error:', err);
        setIsConnected(false);
        cleanupAudio();
        setError('Failed to connect to the AI narrator.');
