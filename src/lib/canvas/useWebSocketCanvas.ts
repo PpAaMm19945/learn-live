@@ -84,6 +84,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     }
 
     ws.onopen = async () => {
+      console.log('[WS] ✅ WebSocket connected to agent');
       setIsConnected(true);
 
       // Request microphone permissions
@@ -120,9 +121,10 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
         // Record in 100ms chunks
         mediaRecorder.start(100);
         setIsMicActive(true);
+        console.log('[WS] 🎤 Microphone started');
 
       } catch (err) {
-        console.error('Error accessing microphone:', err);
+        console.error('[WS] ❌ Error accessing microphone:', err);
       }
     };
 
