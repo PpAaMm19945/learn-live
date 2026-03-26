@@ -84,6 +84,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     }
 
     ws.onopen = async () => {
+      console.log('[WS] ✅ WebSocket connected to agent');
       setIsConnected(true);
 
       // Request microphone permissions
@@ -120,13 +121,15 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
         // Record in 100ms chunks
         mediaRecorder.start(100);
         setIsMicActive(true);
+        console.log('[WS] 🎤 Microphone started');
 
       } catch (err) {
-        console.error('Error accessing microphone:', err);
+        console.error('[WS] ❌ Error accessing microphone:', err);
       }
     };
 
     ws.onmessage = async (event) => {
+      console.log('[WS] 📨 Message received:', typeof event.data === 'string' ? event.data.substring(0, 200) : `Blob(${(event.data as Blob).size} bytes)`);
       if (typeof event.data === 'string') {
         try {
           const message = JSON.parse(event.data);
@@ -228,6 +231,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     };
 
     ws.onclose = (event) => {
+      console.log(`[WS] 🔌 WebSocket closed: code=${event.code}, reason=${event.reason}, wasClean=${event.wasClean}`);
       setIsConnected(false);
       cleanupAudio();
 
@@ -245,7 +249,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     };
 
     ws.onerror = (err) => {
-       console.error('WebSocket error:', err);
+       console.error('[WS] ❌ WebSocket error:', err);
        setIsConnected(false);
        cleanupAudio();
        setError('Failed to connect to the AI narrator.');
