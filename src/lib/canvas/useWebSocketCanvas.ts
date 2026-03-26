@@ -68,11 +68,18 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     canvasRef.current = ref;
     configRef.current = config;
     setError(null);
+    setTranscript('');
+    setToolCallLog([]);
 
     const agentUrl = import.meta.env.VITE_AGENT_URL || 'ws://localhost:8080';
-    const wsUrl = `${agentUrl.replace(/^http/, 'ws')}/v1/agent/history-explainer?lesson=${config.lessonId}&family=${config.familyId}&learner=${config.learnerId}&band=${config.band}`;
+    const wsBaseUrl = agentUrl.replace(/^http/, 'ws');
+    const wsUrl = new URL('/v1/agent/history-explainer', wsBaseUrl);
+    wsUrl.searchParams.set('lessonId', config.lessonId);
+    wsUrl.searchParams.set('familyId', config.familyId);
+    wsUrl.searchParams.set('learnerId', config.learnerId);
+    wsUrl.searchParams.set('band', String(config.band));
 
-    const ws = new WebSocket(wsUrl);
+    const ws = new WebSocket(wsUrl.toString());
 
     // Initialize Web Audio API context for playback
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
@@ -85,6 +92,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
 
     ws.onopen = async () => {
       console.log('[WS] ✅ WebSocket connected to agent');
+      reconnectAttemptsRef.current = 0;
       setIsConnected(true);
 
       // Request microphone permissions
@@ -133,6 +141,14 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
       if (typeof event.data === 'string') {
         try {
           const message = JSON.parse(event.data);
+
+          if (message.error) {
+            console.error('[WS] ❌ Agent error:', message.error);
+            setError(message.error);
+            setIsConnected(false);
+            ws.close(1008, 'Agent rejected session');
+            return;
+          }
 
           if (message.type === 'tool_call') {
             if (canvasRef.current?.current) {
