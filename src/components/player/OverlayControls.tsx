@@ -16,6 +16,8 @@ interface OverlayControlsProps {
   onGoLive?: () => void;
   isLive?: boolean;
   onEndLive?: () => void;
+  isConnected?: boolean;
+  isConnecting?: boolean;
 }
 
 export function OverlayControls({
@@ -31,6 +33,8 @@ export function OverlayControls({
   onGoLive,
   isLive,
   onEndLive,
+  isConnected,
+  isConnecting,
 }: OverlayControlsProps) {
   const progressRef = useRef<HTMLDivElement>(null);
 
