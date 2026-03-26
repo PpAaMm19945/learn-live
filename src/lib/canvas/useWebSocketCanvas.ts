@@ -147,9 +147,55 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
             }]);
           } else if (message.type === 'modelTurn') {
             if (message.parts && message.parts.length > 0) {
-              const textPart = message.parts.find((p: any) => p.text);
-              if (textPart) {
-                setTranscript(prev => prev + ' ' + textPart.text);
+              for (const part of message.parts) {
+                // Extract text
+                if (part.text) {
+                  setTranscript(prev => prev + ' ' + part.text);
+                }
+                // Extract inline PCM audio from Gemini Live API
+                if (part.inlineData?.mimeType?.startsWith('audio/pcm') && part.inlineData?.data) {
+                  const audioCtx = audioContextRef.current;
+                  if (audioCtx) {
+                    try {
+                      // Decode base64 PCM to raw bytes
+                      const binaryStr = atob(part.inlineData.data);
+                      const len = binaryStr.length;
+                      const bytes = new Uint8Array(len);
+                      for (let i = 0; i < len; i++) {
+                        bytes[i] = binaryStr.charCodeAt(i);
+                      }
+
+                      // Convert 16-bit PCM to Float32 AudioBuffer (24kHz mono)
+                      const sampleCount = bytes.length / 2;
+                      const audioBuffer = audioCtx.createBuffer(1, sampleCount, 24000);
+                      const channelData = audioBuffer.getChannelData(0);
+                      const dataView = new DataView(bytes.buffer);
+                      for (let i = 0; i < sampleCount; i++) {
+                        const int16 = dataView.getInt16(i * 2, true); // little-endian
+                        channelData[i] = int16 / 32768;
+                      }
+
+                      const source = audioCtx.createBufferSource();
+                      source.buffer = audioBuffer;
+                      source.connect(audioCtx.destination);
+
+                      const currentTime = audioCtx.currentTime;
+                      const startTime = Math.max(currentTime, nextPlayTimeRef.current);
+                      source.start(startTime);
+                      nextPlayTimeRef.current = startTime + audioBuffer.duration;
+
+                      setIsPlaying(true);
+                      source.onended = () => {
+                        if (audioCtx.currentTime >= nextPlayTimeRef.current - 0.1) {
+                          setIsPlaying(false);
+                        }
+                      };
+                      console.log(`[WS] 🔊 Playing PCM audio chunk: ${sampleCount} samples, duration: ${audioBuffer.duration.toFixed(2)}s`);
+                    } catch (e) {
+                      console.error('[WS] ❌ Error decoding PCM audio from modelTurn:', e);
+                    }
+                  }
+                }
               }
             }
           } else if (message.type === 'transcript') {

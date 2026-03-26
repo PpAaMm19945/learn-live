@@ -16,6 +16,8 @@ interface OverlayControlsProps {
   onGoLive?: () => void;
   isLive?: boolean;
   onEndLive?: () => void;
+  isConnected?: boolean;
+  isConnecting?: boolean;
 }
 
 export function OverlayControls({
@@ -31,6 +33,8 @@ export function OverlayControls({
   onGoLive,
   isLive,
   onEndLive,
+  isConnected,
+  isConnecting,
 }: OverlayControlsProps) {
   const progressRef = useRef<HTMLDivElement>(null);
 
@@ -109,15 +113,24 @@ export function OverlayControls({
 
           <div className="flex items-center space-x-2 sm:space-x-4">
             {isLive ? (
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEndLive?.();
-                }}
-                className="px-4 py-2 bg-destructive/90 hover:bg-destructive text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg"
-              >
-                End Live Session
-              </button>
+              <div className="flex items-center space-x-3">
+                {/* YouTube-style LIVE indicator */}
+                <div className="flex items-center space-x-2 bg-zinc-900/80 border border-zinc-700 rounded-full px-3 py-1.5">
+                  <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] animate-pulse' : 'bg-red-500'}`}></span>
+                  <span className="text-xs font-bold uppercase tracking-wider text-zinc-300">
+                    {isConnected ? 'LIVE' : 'Reconnecting...'}
+                  </span>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEndLive?.();
+                  }}
+                  className="px-4 py-2 bg-destructive/90 hover:bg-destructive text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg"
+                >
+                  End Session
+                </button>
+              </div>
             ) : (
               onGoLive && (
                 <button
@@ -125,11 +138,12 @@ export function OverlayControls({
                     e.stopPropagation();
                     onGoLive();
                   }}
-                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg group"
+                  disabled={isConnecting}
+                  className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-purple-800 disabled:cursor-wait text-white rounded-full transition-colors text-sm font-bold flex items-center shadow-lg group"
                   title="Go Live with AI Narrator"
                 >
                   <Video className="w-4 h-4 mr-2" />
-                  Go Live
+                  {isConnecting ? 'Connecting...' : 'Go Live'}
                 </button>
               )
             )}
