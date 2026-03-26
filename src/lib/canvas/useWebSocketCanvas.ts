@@ -129,6 +129,7 @@ export function useWebSocketCanvas(): WebSocketCanvasReturn {
     };
 
     ws.onmessage = async (event) => {
+      console.log('[WS] 📨 Message received:', typeof event.data === 'string' ? event.data.substring(0, 200) : `Blob(${(event.data as Blob).size} bytes)`);
       if (typeof event.data === 'string') {
         try {
           const message = JSON.parse(event.data);
