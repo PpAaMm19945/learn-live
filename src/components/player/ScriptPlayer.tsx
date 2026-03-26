@@ -165,6 +165,13 @@ export function ScriptPlayer({
   const { isVisible: controlsVisible, show: showControls, toggle: toggleControls } = useAutoHide(3000);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const agentStatusText = phase !== 'dialogue'
+    ? 'Idle'
+    : wsError
+      ? 'Error'
+      : isConnected
+        ? 'Live'
+        : 'Connecting...';
 
   // Auto-hide overrides based on phase
   const shouldShowControls = controlsVisible || phase === 'dialogue' || phase === 'review' || phase === 'paused';
@@ -326,6 +333,7 @@ export function ScriptPlayer({
          <div className="p-4 border-b border-border/50 shrink-0 flex items-center justify-between">
             <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Agent Status</span>
             <div className="flex items-center space-x-2">
+               <span className="text-xs text-muted-foreground uppercase tracking-wide">{agentStatusText}</span>
                {isConnected ? (
                   <span className="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
                ) : (

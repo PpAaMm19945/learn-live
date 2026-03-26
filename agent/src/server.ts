@@ -154,9 +154,9 @@ explainerWss.on('connection', async (ws: WebSocket, request) => {
 // ─── History Explainer WebSocket ───
 historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
     const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
-    const lessonId = searchParams.get('lessonId');
-    const familyId = searchParams.get('familyId');
-    const learnerId = searchParams.get('learnerId');
+    const lessonId = searchParams.get('lessonId') || searchParams.get('lesson');
+    const familyId = searchParams.get('familyId') || searchParams.get('family');
+    const learnerId = searchParams.get('learnerId') || searchParams.get('learner');
     const band = parseInt(searchParams.get('band') || '3', 10);
 
     console.log(`[AGENT] History Explainer session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
