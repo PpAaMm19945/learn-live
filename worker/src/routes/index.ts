@@ -19,6 +19,7 @@ import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 import { handleGetAsset, handleGetEvidence } from './storage';
 import { handleTtsRoutes } from './tts';
+import { handleCreateSession } from './sessions';
 import { handleMapTransformRoutes } from './mapTransforms';
 
 /**
@@ -240,6 +241,15 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleUpdateFeedback(request, env, authResult.userId, feedbackMatch[1]);
+    }
+
+    // --- Session Logging ---
+
+    // POST /api/sessions
+    if (path === '/api/sessions' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleCreateSession(request, env);
     }
 
     // --- Storage Routes ---
