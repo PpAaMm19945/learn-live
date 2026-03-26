@@ -363,6 +363,7 @@ export function ScriptPlayer({
           onGoLive={phase !== 'dialogue' && phase !== 'review' ? handleGoLive : undefined}
           isLive={phase === 'dialogue'}
           onEndLive={handleEndLive}
+          isConnected={isConnected}
         />
       </div>
 
