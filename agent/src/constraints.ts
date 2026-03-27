@@ -2,7 +2,11 @@ import { validateConstraint } from './validate';
 
 export async function fetchAndAssembleInstruction(taskId: string): Promise<string> {
     const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
-    const response = await fetch(`${workerUrl}/api/task/${taskId}`);
+    const response = await fetch(`${workerUrl}/api/task/${taskId}`, {
+        headers: {
+            'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+        }
+    });
 
     if (!response.ok) {
         throw new Error(`Failed to fetch task ${taskId} from Worker: ${response.statusText}`);

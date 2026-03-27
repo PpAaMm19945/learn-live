@@ -12,13 +12,20 @@ import {
 import { handleGetLessonMapAssets } from './maps';
 import { handleAuthRoutes } from './auth';
 import { handleCurriculumRoutes } from './curriculum';
-import { handleCreateFamily, handleGetFamily, handleUpdateFamily, handleAddLearner, handleUpdateLearner, handleRemoveLearner } from './family';
+import { handleCreateFamily,
+    handleGetFamily,
+    handleAddLearner,
+    handleUpdateLearner,
+    handleGetFamilyProfiles,
+    handleRemoveLearner,
+    handleUpdateFamily
+} from './family';
 import { handleCreateFeedback, handleListFeedback, handleUpdateFeedback } from './feedback';
 import { handleAnalyticsRoutes } from './analytics';
 import { handleGetWorldContext } from './worldContext';
 import { handleGetGlossary, handleGetGlossaryTerm, handlePostGlossaryTerm } from './glossary';
 import { handleGetAsset, handleGetEvidence } from './storage';
-import { handleTtsRoutes } from './tts';
+import { handleTtsRoutes, handleUserTtsRoutes } from './tts';
 import { handleCreateSession } from './sessions';
 import { handleMapTransformRoutes } from './mapTransforms';
 
@@ -55,6 +62,10 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     }
 
     // --- Glossary Routes ---
+
+    // --- User TTS Routes ---
+    const userTtsResponse = await handleUserTtsRoutes(request, env, corsHeaders);
+    if (userTtsResponse) return userTtsResponse;
 
     // GET /api/glossary
     if (path === '/api/glossary' && method === 'GET') {
@@ -103,6 +114,15 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
     }
 
     // --- Family Routes ---
+
+    // GET /api/family/:familyId/profiles
+    const familyIdMatch = path.match(/^\/api\/family\/([^/]+)\/profiles$/);
+    if (familyIdMatch && method === 'GET') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        const familyId = familyIdMatch[1];
+        return handleGetFamilyProfiles(request, env, familyId);
+    }
 
     // POST /api/family
     if (path === '/api/family' && method === 'POST') {

@@ -16,13 +16,17 @@ export async function handleHistoryExplainerSession(
     // 1. Fetch adapted content as base instruction
     let baseContent = '';
     try {
-        const contentRes = await fetch(`${workerUrl}/api/lessons/${lessonId}/content?band=${band}`);
+        const contentRes = await fetch(`${workerUrl}/api/lessons/${lessonId}/content?band=${band}`, {
+            headers: {
+                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+            }
+        });
         if (contentRes.ok) {
             const contentData = await contentRes.json();
             baseContent = contentData.content || '';
         } else {
              console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}`);
-             ws.send(JSON.stringify({ error: 'Failed to load lesson content' }));
+             ws.send(JSON.stringify({ error: `Failed to load lesson content: ${contentRes.statusText}` }));
              ws.close();
              return;
         }
@@ -36,7 +40,11 @@ export async function handleHistoryExplainerSession(
     // 2. Fetch learner context dynamically from D1
     let learnerContext = { name: 'Learner', age: 7, band: band };
     try {
-        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`);
+        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`, {
+            headers: {
+                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+            }
+        });
         if (profileRes.ok) {
             const profileData = await profileRes.json();
             const learner = profileData.profiles?.find((p: any) => p.id === learnerId);

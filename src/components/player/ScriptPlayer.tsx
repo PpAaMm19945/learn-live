@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useScriptPlayer } from '@/lib/player/useScriptPlayer';
+import { useAudioPlayback } from '@/lib/player/useAudioPlayback';
 import { LessonScript } from '@/lib/player/types';
 import { OverlayControls } from './OverlayControls';
 // import { OverlayCaption } from './OverlayCaption';
@@ -60,6 +61,8 @@ export function ScriptPlayer({
 
   const sessionStartTimeRef = useRef<number>(0);
 
+  const { playAudio, pausePlayback, resumePlayback, isLoading: isAudioLoading } = useAudioPlayback();
+
   const {
     phase,
     setPhase,
@@ -72,7 +75,13 @@ export function ScriptPlayer({
     seek,
     reset,
   } = useScriptPlayer(script, {
-    onAudioCue: (id) => console.log('Simulating Audio Play:', id),
+    onAudioCue: (id) => {
+      console.log('Audio Cue Triggered:', id);
+      const cue = script.cues.find(c => c.id === id);
+      if (cue && cue.action === 'speak') {
+          playAudio(cue.params.audioFileId, cue.params.text);
+      }
+    },
     onComplete: () => {
       console.log('Script Complete');
       const workerUrl = import.meta.env.VITE_WORKER_URL || '';
@@ -152,9 +161,20 @@ export function ScriptPlayer({
          description: wsError,
          variant: 'destructive',
        });
-       pause();
+       if (setPhase) setPhase('paused');
     }
-  }, [wsError, pause, toast]);
+  }, [wsError, setPhase, toast]);
+
+  // Pause the script timer while audio is buffering
+  useEffect(() => {
+    if (phase === 'playing' && isAudioLoading) {
+      pause();
+    } else if (phase === 'paused' && !isAudioLoading && wsError === null) {
+      // Need a way to safely resume if it was paused ONLY for audio loading.
+      // But avoid resuming if manually paused. We'll leave it as a manual play for simplicity or
+      // rely on an internal buffer flag if needed.
+    }
+  }, [isAudioLoading, phase, pause, wsError]);
 
   useEffect(() => {
     return () => {
@@ -296,13 +316,18 @@ export function ScriptPlayer({
 
         <div className="flex items-center space-x-4">
            {/* Phase Pill */}
-           <div className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
-              phase === 'dialogue' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
-              phase === 'review' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
-              'bg-green-500/20 text-green-400 border border-green-500/30'
-           }`}>
-              {phase === 'dialogue' ? 'Dialogue' : phase === 'review' ? 'Review' : 'Teaching'}
-           </div>
+            <div className={`text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider ${
+               phase === 'dialogue' ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' :
+               phase === 'review' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+               'bg-green-500/20 text-green-400 border border-green-500/30'
+            }`}>
+               {phase === 'dialogue' ? 'Dialogue' : phase === 'review' ? 'Review' : 'Teaching'}
+            </div>
+            {wsError && (
+               <div className="bg-destructive/20 text-red-400 border border-destructive/30 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1 max-w-[200px] truncate">
+                 ⚠️ {wsError}
+               </div>
+            )}
 
            <div className="hidden sm:flex items-center bg-zinc-900 border border-border rounded-full px-3 py-1">
                <span className="text-xs font-medium text-zinc-300">{learnerName}</span>

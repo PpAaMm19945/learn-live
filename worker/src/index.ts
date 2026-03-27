@@ -11,6 +11,7 @@ export interface Env {
     GEMINI_API_KEY?: string;
     PILOT_INVITE_CODE?: string;
     GOOGLE_TTS_KEY?: string;
+    AGENT_SERVICE_KEY?: string;
 }
 
 const ALLOWED_ORIGINS = [

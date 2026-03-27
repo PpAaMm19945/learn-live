@@ -48,6 +48,23 @@ export async function handleGetFamily(request: Request, env: Env, userId: string
     }
 }
 
+export async function handleGetFamilyProfiles(request: Request, env: Env, familyId: string): Promise<Response> {
+    try {
+        const { results: profiles } = await env.DB.prepare(
+            'SELECT id, name, birth_date, band, created_at FROM Learners WHERE family_id = ?'
+        ).bind(familyId).all();
+
+        return new Response(JSON.stringify({
+            familyId,
+            profiles
+        }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+
+    } catch (e: any) {
+        console.error('[API] Get family profiles error:', e);
+        return new Response(JSON.stringify({ error: 'Failed to get family profiles', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    }
+}
+
 export async function handleAddLearner(request: Request, env: Env, userId: string): Promise<Response> {
     try {
         const family = await env.DB.prepare(

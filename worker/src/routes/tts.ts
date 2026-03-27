@@ -259,3 +259,103 @@ export async function handleTtsRoutes(
 
     return null;
 }
+
+/**
+ * User-facing TTS routes.
+ */
+export async function handleUserTtsRoutes(
+    request: Request,
+    env: Env,
+    corsHeaders: Record<string, string>
+): Promise<Response | null> {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    const method = request.method;
+
+    if (path === '/api/tts/on-demand' && method === 'POST') {
+        try {
+            if (!env.GOOGLE_TTS_KEY) {
+                return addCors(new Response(JSON.stringify({ error: 'GOOGLE_TTS_KEY not configured' }), {
+                    status: 500, headers: { 'Content-Type': 'application/json' }
+                }), corsHeaders);
+            }
+
+            const body = await request.json() as {
+                text: string;
+                audioFileId: string;
+            };
+
+            if (!body.text || !body.audioFileId) {
+                return addCors(new Response(JSON.stringify({ error: 'Missing text or audioFileId' }), {
+                    status: 400, headers: { 'Content-Type': 'application/json' }
+                }), corsHeaders);
+            }
+
+            const r2Key = `audio/${body.audioFileId}.mp3`;
+
+            // Check if exists first
+            const head = await env.ASSETS_BUCKET.head(r2Key);
+            if (head) {
+                return addCors(new Response(JSON.stringify({
+                    success: true,
+                    audioFileId: body.audioFileId,
+                    r2Key
+                }), {
+                    headers: { 'Content-Type': 'application/json' }
+                }), corsHeaders);
+            }
+
+            // Build TTS request
+            const ttsPayload = {
+                input: { text: body.text.replace(/\*\*/g, '').replace(/[#>_`]/g, '') },
+                voice: {
+                    languageCode: 'en-US',
+                    name: 'en-US-Studio-O',
+                },
+                audioConfig: {
+                    audioEncoding: 'MP3' as const,
+                    speakingRate: 0.95,
+                    pitch: 0,
+                },
+            };
+
+            const ttsRes = await fetch(
+                `https://texttospeech.googleapis.com/v1/text:synthesize?key=${env.GOOGLE_TTS_KEY}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ttsPayload),
+                }
+            );
+
+            if (!ttsRes.ok) {
+                const errText = await ttsRes.text();
+                return addCors(new Response(JSON.stringify({ error: 'TTS generation failed', details: errText }), {
+                    status: ttsRes.status, headers: { 'Content-Type': 'application/json' }
+                }), corsHeaders);
+            }
+
+            const ttsData = await ttsRes.json() as { audioContent: string };
+            const audioBytes = Uint8Array.from(atob(ttsData.audioContent), c => c.charCodeAt(0));
+
+            await env.ASSETS_BUCKET.put(r2Key, audioBytes, {
+                httpMetadata: { contentType: 'audio/mpeg' },
+            });
+
+            return addCors(new Response(JSON.stringify({
+                success: true,
+                audioFileId: body.audioFileId,
+                r2Key,
+            }), {
+                headers: { 'Content-Type': 'application/json' }
+            }), corsHeaders);
+        } catch (e: any) {
+            console.error('[TTS On-Demand Error]', e);
+            return addCors(new Response(JSON.stringify({ error: e.message }), {
+                status: 500, headers: { 'Content-Type': 'application/json' }
+            }), corsHeaders);
+        }
+    }
+
+    return null;
+}

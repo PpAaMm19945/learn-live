@@ -144,7 +144,11 @@ export async function handleExplainerSession(
     const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
     let learnerContext = { name: 'Learner', age: 7, band: 2 };
     try {
-        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`);
+        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`, {
+            headers: {
+                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+            }
+        });
         if (profileRes.ok) {
             const profileData = await profileRes.json();
             const learner = profileData.profiles?.find((p: any) => p.id === learnerId);
