@@ -60,6 +60,8 @@ export function ScriptPlayer({
   const { toast } = useToast();
 
   const sessionStartTimeRef = useRef<number>(0);
+  const pausedForAudioRef = useRef(false);
+  const playRef = useRef<() => void>(() => {});
 
   const { playAudio, pausePlayback, resumePlayback, isLoading: isAudioLoading } = useAudioPlayback();
 
@@ -79,7 +81,24 @@ export function ScriptPlayer({
       console.log('Audio Cue Triggered:', id);
       const cue = script.cues.find(c => c.id === id);
       if (cue && cue.action === 'speak') {
-          playAudio(cue.params.audioFileId, cue.params.text);
+          pause();
+          pausedForAudioRef.current = true;
+          console.log('[PLAYER] Paused script for audio loading');
+          playAudio(cue.params.audioFileId, cue.params.text, {
+            onStarted: () => {
+              console.log('[PLAYER] Audio started, resuming script timer');
+              pausedForAudioRef.current = false;
+              playRef.current();
+            },
+            onEnded: () => {
+              console.log('[PLAYER] Audio cue ended');
+            },
+            onError: (err) => {
+              console.error('[PLAYER] Audio error, resuming script anyway:', err.message);
+              pausedForAudioRef.current = false;
+              playRef.current();
+            },
+          });
       }
     },
     onComplete: () => {
@@ -165,16 +184,10 @@ export function ScriptPlayer({
     }
   }, [wsError, setPhase, toast]);
 
-  // Pause the script timer while audio is buffering
+  // Keep playRef in sync so audio callbacks can resume the timer
   useEffect(() => {
-    if (phase === 'playing' && isAudioLoading) {
-      pause();
-    } else if (phase === 'paused' && !isAudioLoading && wsError === null) {
-      // Need a way to safely resume if it was paused ONLY for audio loading.
-      // But avoid resuming if manually paused. We'll leave it as a manual play for simplicity or
-      // rely on an internal buffer flag if needed.
-    }
-  }, [isAudioLoading, phase, pause, wsError]);
+    playRef.current = play;
+  }, [play]);
 
   useEffect(() => {
     return () => {

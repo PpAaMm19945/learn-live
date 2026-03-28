@@ -16,7 +16,8 @@ export async function handleHistoryExplainerSession(
     // 1. Fetch adapted content as base instruction
     let baseContent = '';
     try {
-        const contentRes = await fetch(`${workerUrl}/api/lessons/${lessonId}/content?band=${band}`, {
+        // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
+        const contentRes = await fetch(`${workerUrl}/api/chapters/${lessonId}/content?band=${band}`, {
             headers: {
                 'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
             }
