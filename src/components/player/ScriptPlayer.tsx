@@ -184,16 +184,10 @@ export function ScriptPlayer({
     }
   }, [wsError, setPhase, toast]);
 
-  // Pause the script timer while audio is buffering
+  // Keep playRef in sync so audio callbacks can resume the timer
   useEffect(() => {
-    if (phase === 'playing' && isAudioLoading) {
-      pause();
-    } else if (phase === 'paused' && !isAudioLoading && wsError === null) {
-      // Need a way to safely resume if it was paused ONLY for audio loading.
-      // But avoid resuming if manually paused. We'll leave it as a manual play for simplicity or
-      // rely on an internal buffer flag if needed.
-    }
-  }, [isAudioLoading, phase, pause, wsError]);
+    playRef.current = play;
+  }, [play]);
 
   useEffect(() => {
     return () => {
