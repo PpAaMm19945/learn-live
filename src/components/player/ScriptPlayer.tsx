@@ -60,6 +60,8 @@ export function ScriptPlayer({
   const { toast } = useToast();
 
   const sessionStartTimeRef = useRef<number>(0);
+  const pausedForAudioRef = useRef(false);
+  const playRef = useRef<() => void>(() => {});
 
   const { playAudio, pausePlayback, resumePlayback, isLoading: isAudioLoading } = useAudioPlayback();
 
