@@ -1,64 +1,74 @@
 import { useState, useRef, useCallback } from 'react';
 
-interface UseAudioPlaybackProps {
-  onEnded?: () => void;
-  onError?: (error: Error) => void;
-}
-
-export function useAudioPlayback({ onEnded, onError }: UseAudioPlaybackProps = {}) {
+export function useAudioPlayback() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const onEndedRef = useRef<(() => void) | null>(null);
+  const onErrorRef = useRef<((error: Error) => void) | null>(null);
+  const onStartedRef = useRef<(() => void) | null>(null);
 
   const initAudio = () => {
     if (!audioRef.current) {
       audioRef.current = new Audio();
       audioRef.current.onended = () => {
         setIsPlaying(false);
-        onEnded?.();
+        onEndedRef.current?.();
       };
       audioRef.current.onerror = (e) => {
         setIsPlaying(false);
         setIsLoading(false);
-        onError?.(new Error('Audio playback failed: ' + (typeof e === 'string' ? e : 'Unknown error')));
+        const err = new Error('Audio playback failed: ' + (typeof e === 'string' ? e : 'Unknown error'));
+        console.error('[AUDIO]', err.message);
+        onErrorRef.current?.(err);
       };
     }
     return audioRef.current;
   };
 
-  const playAudio = useCallback(async (audioFileId: string, text: string) => {
+  const playAudio = useCallback(async (audioFileId: string, text: string, callbacks?: { onStarted?: () => void; onEnded?: () => void; onError?: (e: Error) => void }) => {
     const audio = initAudio();
     setIsLoading(true);
     
-    // 1. Try fetching from R2 directly via Cloudflare Assets
+    // Store callbacks for this specific playback
+    onEndedRef.current = callbacks?.onEnded || null;
+    onErrorRef.current = callbacks?.onError || null;
+    onStartedRef.current = callbacks?.onStarted || null;
+    
     const workerUrl = import.meta.env.VITE_WORKER_URL || '';
     const audioUrl = `${workerUrl}/api/assets/audio/${audioFileId}.mp3`;
     
     try {
-      // Use head to check if exists, wait, just try fetch directly
-      const r2Res = await fetch(audioUrl, { method: 'HEAD' });
+      console.log(`[AUDIO] Checking R2 for ${audioFileId}...`);
+      // Use GET instead of HEAD (CF Workers may reject HEAD)
+      const r2Res = await fetch(audioUrl, { method: 'GET' });
       
       if (r2Res.ok) {
-        audio.src = audioUrl;
-        audio.load();
+        console.log(`[AUDIO] Found in R2, playing...`);
+        const blob = await r2Res.blob();
+        audio.src = URL.createObjectURL(blob);
         await audio.play();
         setIsLoading(false);
         setIsPlaying(true);
+        onStartedRef.current?.();
         return;
       }
 
-      // 2. If 404, call on-demand generator
+      console.log(`[AUDIO] Not in R2 (${r2Res.status}), requesting on-demand TTS...`);
       const genRes = await fetch(`${workerUrl}/api/tts/on-demand`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ audioFileId, text }),
+        credentials: 'include',
       });
 
       if (!genRes.ok) {
-        throw new Error('Failed to generate audio on demand');
+        const errBody = await genRes.text();
+        throw new Error(`TTS on-demand failed (${genRes.status}): ${errBody}`);
       }
 
       const { r2Key } = await genRes.json();
+      console.log(`[AUDIO] Generated, fetching from ${r2Key}...`);
       
       audio.src = `${workerUrl}/api/assets/${r2Key}`;
       audio.load();
@@ -66,15 +76,16 @@ export function useAudioPlayback({ onEnded, onError }: UseAudioPlaybackProps = {
       
       setIsLoading(false);
       setIsPlaying(true);
+      onStartedRef.current?.();
     } catch (e: any) {
       console.error('Audio playback error:', e);
       setIsLoading(false);
       setIsPlaying(false);
-      onError?.(e);
+      onErrorRef.current?.(e);
       // Even on error, we might want to let the script proceed
-      onEnded?.();
+      onEndedRef.current?.();
     }
-  }, [onEnded, onError]);
+  }, []);
 
   const pausePlayback = useCallback(() => {
     if (audioRef.current) {
@@ -95,6 +106,6 @@ export function useAudioPlayback({ onEnded, onError }: UseAudioPlaybackProps = {
     pausePlayback,
     resumePlayback,
     isPlaying,
-    isLoading
+    isLoading,
   };
 }
