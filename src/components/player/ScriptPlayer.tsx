@@ -81,7 +81,24 @@ export function ScriptPlayer({
       console.log('Audio Cue Triggered:', id);
       const cue = script.cues.find(c => c.id === id);
       if (cue && cue.action === 'speak') {
-          playAudio(cue.params.audioFileId, cue.params.text);
+          pause();
+          pausedForAudioRef.current = true;
+          console.log('[PLAYER] Paused script for audio loading');
+          playAudio(cue.params.audioFileId, cue.params.text, {
+            onStarted: () => {
+              console.log('[PLAYER] Audio started, resuming script timer');
+              pausedForAudioRef.current = false;
+              playRef.current();
+            },
+            onEnded: () => {
+              console.log('[PLAYER] Audio cue ended');
+            },
+            onError: (err) => {
+              console.error('[PLAYER] Audio error, resuming script anyway:', err.message);
+              pausedForAudioRef.current = false;
+              playRef.current();
+            },
+          });
       }
     },
     onComplete: () => {
