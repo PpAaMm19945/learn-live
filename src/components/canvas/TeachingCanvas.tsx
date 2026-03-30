@@ -34,7 +34,18 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const [mapLoaded, setMapLoaded] = useState(false);
     const [mapError, setMapError] = useState(false);
 
-    const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER'}`;
+    const maptilerKey = import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER';
+    const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${maptilerKey}`;
+
+    // Diagnostic: log key fingerprint so misconfigurations are immediately visible
+    useEffect(() => {
+      const k = maptilerKey;
+      const fingerprint = k.length > 6 ? `${k.slice(0, 3)}...${k.slice(-3)}` : k;
+      console.log(`[MAP] MapTiler key fingerprint: "${fingerprint}" (length=${k.length}), origin=${window.location.origin}`);
+      if (k === 'PLACEHOLDER' || k.includes('.') || k.includes('/')) {
+        console.error('[MAP] VITE_MAPTILER_KEY looks invalid — should be an alphanumeric API key, not a URL.');
+      }
+    }, []);
 
     useEffect(() => {
       if (!mapContainerRef.current) return;
@@ -52,8 +63,21 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
       map.addControl(new maplibregl.NavigationControl({ showCompass: false, showZoom: true }), 'bottom-right');
       mapRef.current = map;
 
-      map.on('error', () => {
-        setMapError(true);
+      // Only treat style-load/auth failures as fatal; ignore transient tile/sprite 404s
+      map.on('error', (e: any) => {
+        const err = e?.error;
+        const status = err?.status;
+        const message = err?.message || '';
+        console.warn('[MAP] Map error event:', { status, message: message.substring(0, 200) });
+
+        // Fatal: style failed to load or auth rejected (bad key)
+        const isFatal = status === 401 || status === 403 ||
+          message.includes('Failed to fetch style') ||
+          message.includes('Error parsing style');
+        if (isFatal) {
+          console.error('[MAP] Fatal map error — showing "Map Unavailable"');
+          setMapError(true);
+        }
       });
 
       map.on('load', () => {
