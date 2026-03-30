@@ -35,7 +35,8 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
     const [mapError, setMapError] = useState(false);
 
     const maptilerKey = import.meta.env.VITE_MAPTILER_KEY || 'PLACEHOLDER';
-    const MAP_STYLE = `https://api.maptiler.com/maps/outdoor-v2/style.json?key=${maptilerKey}`;
+    // Toner provides a clean, minimal base ideal for historical overlays
+    const MAP_STYLE = `https://api.maptiler.com/maps/toner-v2/style.json?key=${maptilerKey}`;
 
     // Diagnostic: log key fingerprint so misconfigurations are immediately visible
     useEffect(() => {
@@ -46,6 +47,97 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
         console.error('[MAP] VITE_MAPTILER_KEY looks invalid — should be an alphanumeric API key, not a URL.');
       }
     }, []);
+
+    /**
+     * Apply an ancient-manuscript color scheme after the map style loads.
+     * Recolors the toner base to warm parchment/ink tones matching the app's
+     * Laterite (#C4622D) / Amber (#E8A838) / Dark Earth (#5C3D2E) palette.
+     * Hides modern features (highways, railroads, POIs) for a timeless feel.
+     */
+    const applyAncientTheme = (map: maplibregl.Map) => {
+      const style = map.getStyle();
+      if (!style?.layers) return;
+
+      // Modern feature layers to hide completely
+      const hidePatterns = [
+        'road_', 'highway', 'motorway', 'trunk', 'railway', 'rail',
+        'transit', 'poi', 'building', 'aeroway', 'ferry', 'bridge',
+        'tunnel', 'path', 'track',
+      ];
+
+      for (const layer of style.layers) {
+        const id = layer.id.toLowerCase();
+
+        // Hide modern infrastructure
+        const shouldHide = hidePatterns.some(p => id.includes(p));
+        if (shouldHide && !id.includes('label')) {
+          try { map.setLayoutProperty(layer.id, 'visibility', 'none'); } catch {}
+          continue;
+        }
+
+        // Recolor based on layer type
+        try {
+          if (layer.type === 'background') {
+            map.setPaintProperty(layer.id, 'background-color', '#1a1610'); // Dark parchment
+          } else if (layer.type === 'fill') {
+            if (id.includes('water') || id.includes('ocean') || id.includes('sea')) {
+              map.setPaintProperty(layer.id, 'fill-color', '#0d1520'); // Deep ink water
+              map.setPaintProperty(layer.id, 'fill-opacity', 0.9);
+            } else if (id.includes('land') || id.includes('earth') || id.includes('park') || id.includes('green')) {
+              map.setPaintProperty(layer.id, 'fill-color', '#1f1a14'); // Dark earth
+              map.setPaintProperty(layer.id, 'fill-opacity', 0.95);
+            } else if (id.includes('sand') || id.includes('desert') || id.includes('beach')) {
+              map.setPaintProperty(layer.id, 'fill-color', '#2a2118'); // Sandy dark
+            } else if (id.includes('glacier') || id.includes('ice') || id.includes('snow')) {
+              map.setPaintProperty(layer.id, 'fill-color', '#2a2a30'); // Muted ice
+            }
+          } else if (layer.type === 'line') {
+            if (id.includes('water') || id.includes('river') || id.includes('stream')) {
+              map.setPaintProperty(layer.id, 'line-color', '#1a2c3d'); // Dark water lines
+              map.setPaintProperty(layer.id, 'line-opacity', 0.7);
+            } else if (id.includes('border') || id.includes('boundary') || id.includes('admin')) {
+              map.setPaintProperty(layer.id, 'line-color', '#5C3D2E'); // Dark Earth borders
+              map.setPaintProperty(layer.id, 'line-opacity', 0.3);
+              map.setPaintProperty(layer.id, 'line-dasharray', [4, 4]);
+            } else if (id.includes('contour')) {
+              map.setPaintProperty(layer.id, 'line-color', '#2a2218');
+              map.setPaintProperty(layer.id, 'line-opacity', 0.15);
+            }
+          } else if (layer.type === 'symbol') {
+            // Restyle labels to warm parchment tones
+            if (id.includes('country') || id.includes('continent')) {
+              map.setPaintProperty(layer.id, 'text-color', '#C4622D'); // Laterite for major labels
+              map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
+              map.setPaintProperty(layer.id, 'text-halo-width', 1.5);
+            } else if (id.includes('capital') || id.includes('city') || id.includes('place') || id.includes('town')) {
+              map.setPaintProperty(layer.id, 'text-color', '#b8a88a'); // Warm cream
+              map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
+              map.setPaintProperty(layer.id, 'text-halo-width', 1);
+              map.setPaintProperty(layer.id, 'text-opacity', 0.7);
+            } else if (id.includes('water') || id.includes('ocean') || id.includes('sea') || id.includes('lake') || id.includes('river')) {
+              map.setPaintProperty(layer.id, 'text-color', '#4a6a7a'); // Muted blue for water names
+              map.setPaintProperty(layer.id, 'text-halo-color', '#0d1520');
+              map.setPaintProperty(layer.id, 'text-halo-width', 1);
+            } else if (id.includes('mountain') || id.includes('peak') || id.includes('hill')) {
+              map.setPaintProperty(layer.id, 'text-color', '#8a7a6a'); // Muted earth for terrain 
+              map.setPaintProperty(layer.id, 'text-opacity', 0.6);
+            } else {
+              // Default: hide minor modern labels (streets, POIs, etc)
+              if (id.includes('road') || id.includes('poi') || id.includes('address') || id.includes('house')) {
+                map.setLayoutProperty(layer.id, 'visibility', 'none');
+              } else {
+                map.setPaintProperty(layer.id, 'text-color', '#8a7a6a');
+                map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
+                map.setPaintProperty(layer.id, 'text-halo-width', 0.8);
+                map.setPaintProperty(layer.id, 'text-opacity', 0.5);
+              }
+            }
+          }
+        } catch {
+          // Some paint properties may not apply to all layers — safe to ignore
+        }
+      }
+    };
 
     useEffect(() => {
       if (!mapContainerRef.current) return;
@@ -81,6 +173,8 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
       });
 
       map.on('load', () => {
+        // Apply ancient color theme before revealing
+        applyAncientTheme(map);
         setMapLoaded(true);
         if (chapterGeoJSON) {
           map.addSource('chapter-regions', {
