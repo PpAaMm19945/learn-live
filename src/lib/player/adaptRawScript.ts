@@ -8,7 +8,7 @@ interface RawCue {
   text?: string;
   tool?: string;
   args?: Record<string, any>;
-  timestamp: number; // seconds (float)
+  timestamp: number; // milliseconds (e.g. 5560 = 5.56s)
 }
 
 interface RawScript {
@@ -30,23 +30,25 @@ interface RawScript {
  *   can dispatch to TeachingCanvas via toolCallHandler.
  * - Consecutive cues at the same timestamp share that timestamp; duration
  *   extends to the next distinct timestamp.
+ *
+ * NOTE: Raw timestamps are already in milliseconds (matching estimatedDurationMs).
  */
 export function adaptRawScript(raw: RawScript, chapterId: string, band: number): LessonScript {
   const rawCues = raw.cues || [];
 
-  // Collect all unique timestamps to compute durations
+  // Collect all unique timestamps (already in ms) to compute durations
   const timestamps = [...new Set(rawCues.map(c => c.timestamp))].sort((a, b) => a - b);
 
   function getDuration(ts: number): number {
     const idx = timestamps.indexOf(ts);
     if (idx < timestamps.length - 1) {
-      return Math.round((timestamps[idx + 1] - ts) * 1000);
+      return timestamps[idx + 1] - ts; // already in ms, no conversion needed
     }
     return 5000; // default last-cue duration
   }
 
   const cues: Cue[] = rawCues.map((raw, i) => {
-    const tsMs = Math.round(raw.timestamp * 1000);
+    const tsMs = raw.timestamp; // already in ms
     const durMs = getDuration(raw.timestamp);
 
     if (raw.type === 'speak' && raw.text) {
