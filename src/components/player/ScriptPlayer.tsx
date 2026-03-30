@@ -77,9 +77,9 @@ export function ScriptPlayer({
     seek,
     reset,
   } = useScriptPlayer(script, {
-    onAudioCue: (id) => {
-      console.log('Audio Cue Triggered:', id);
-      const cue = script.cues.find(c => c.id === id);
+    onAudioCue: (audioFileId) => {
+      console.log('Audio Cue Triggered:', audioFileId);
+      const cue = script.cues.find(c => c.action === 'speak' && c.params.audioFileId === audioFileId);
       if (cue && cue.action === 'speak') {
           pause();
           pausedForAudioRef.current = true;
