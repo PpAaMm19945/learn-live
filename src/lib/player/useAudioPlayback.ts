@@ -82,8 +82,6 @@ export function useAudioPlayback() {
       setIsLoading(false);
       setIsPlaying(false);
       onErrorRef.current?.(e);
-      // Even on error, we might want to let the script proceed
-      onEndedRef.current?.();
     }
   }, []);
 
