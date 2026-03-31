@@ -141,3 +141,9 @@
 - Created `JULES_PLAN_PHASE21.md` — 6 new prompts for phases 21-25
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
+
+## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
+- Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
+- Replaced the dark gradient over images with a dedicated text area using `--card` background.
+- Added page turn sliding animation using `framer-motion` `AnimatePresence`.
+- Bolded highlighted words with the `--primary` theme color instead of amber glow.
