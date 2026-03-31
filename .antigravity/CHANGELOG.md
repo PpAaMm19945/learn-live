@@ -1,6 +1,6 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-03-24
+> **Last updated:** 2026-03-31
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
@@ -121,15 +121,23 @@
 - Locations registry updated with all new named locations
 - Index loader updated to serve all 9 chapters
 
-## 2026-03-24 — Lesson Script Generation (Stream B)
-- Updated `scripts/generate_lesson_script.ts` to emit MapLibre-native tool calls (highlight_region, zoom_to, draw_route, etc.)
-- Generated `lesson_ch*_band3.json` for all 9 chapters
-- Placed scripts in `src/data/lessons/`
+## 2026-03-24 — Phase 16C: Agent Tool-Call Rewrite
+- Updated `agent/src/historyExplainerTools.ts` with `MAPLIBRE_TEACHING_TOOLS` + `set_scene`
+- Updated `agent/src/historyExplainerSession.ts` — tool call handler maps new tool names
+- Updated `buildHistoryExplainerPrompt()` — MapLibre capabilities + scene balance instructions
 
-## 2026-03-24 — E2E Wiring (Stream C)
-- Created `src/lib/player/adaptRawScript.ts` — transforms raw generator JSON into structured LessonScript format
-- Created `src/data/lessons/index.ts` — dynamic lesson loader with adapter integration
-- Updated `ScriptPlayer.tsx` — tool-call bridge intercepts `__tool_call__` cues and dispatches to TeachingCanvas
-- Updated `ComponentRenderer.tsx` — filters out internal `__tool_call__` cues from visual stack
-- Updated `LessonPlayerPage.tsx` — loads chapter GeoJSON, passes to ScriptPlayer
-- TypeScript build verified with zero errors
+## 2026-03-31 — Phase 20: Live-First Pivot
+- **Decision:** Pivot from static pre-generated script pipeline to live-first architecture
+- Reason: Pre-generated scripts create a bottleneck, can't sync audio/visuals perfectly, and the AI should be the teacher — not a playback engine
+- Deleted 23 legacy files: ScriptPlayer, useScriptPlayer, ComponentRenderer, LessonDrawer, all lesson JSONs, script generators, overlay controls, transcript panel, voice indicator, etc.
+- Created `SessionCanvas.tsx` — full-bleed teaching viewport with kinetic typography as default, scene overlays sliding in/out
+- Created `src/lib/session/types.ts` — SceneMode, AgentMessage, TranscriptChunk, AgentAudio types
+- Created `.antigravity/ARCHITECTURE_LIVE.md` — live-first architecture documentation
+- Added `set_scene` tool to agent — AI explicitly controls transcript/map/image/overlay balance
+- Updated agent system prompt with SCENE CONTROL section — AI balances transcript vs visual ratio based on chapter content
+- Updated `toolCallHandler.ts` — handles `set_scene`, auto-triggers map scene for map-specific tools
+- Updated `LessonPlayerPage.tsx` — routes Band 2+ to SessionCanvas, Band 0-1 to StorybookPlayer
+- Deleted `JULES_PLAN_PHASE17.md` — all 6 prompts referenced deleted infrastructure
+- Created `JULES_PLAN_PHASE21.md` — 6 new prompts for phases 21-25
+- Rewrote both `ROADMAP.md` files for live-first architecture
+- Updated `ISSUES.md` — closed 44/45, added issues 47-51

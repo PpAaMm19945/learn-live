@@ -1,6 +1,6 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-03-24
+> **Last updated:** 2026-03-31
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 
 ---
@@ -11,7 +11,7 @@ Learn Live began as a general-purpose math curriculum platform (DAG-based skill 
 
 The math engine, DAG system, and 2,000+ constraint templates are archived in `src/archive/`, `worker/src/archive/`, and `archive/` (root) — not deleted, available for future reactivation.
 
-The teaching canvas uses **MapLibre GL JS** — a programmable vector map engine with live AI-driven map interactions, replacing the earlier PNG+SVG overlay approach.
+The teaching experience is **live-first**: the Gemini Live API streams audio, tool calls, and transcript simultaneously via WebSocket. The primary visual surface is **kinetic typography** — the AI's narration rendered as bold, animated text. Visual scenes (maps, images, overlays) slide in temporarily via `set_scene` tool calls.
 
 ---
 
@@ -31,10 +31,11 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 |-------|-----------|---------|
 | Frontend | React + Vite + Tailwind + shadcn/ui | Deployed to Cloudflare Pages |
 | Data | Cloudflare D1 (SQLite) | Families, learners, progress, sessions, curriculum |
-| Content Storage | Cloudflare R2 | Master text, maps, audio, generated assets |
-| AI Bridge | Google Cloud Run (Express) | Gemini Live for narration & oral examination |
+| Content Storage | Cloudflare R2 | Master text, maps, audio, golden scripts, generated assets |
+| AI Bridge | Google Cloud Run (Express) | Gemini Live API for narration & oral examination |
 | Content Adaptation | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation |
 | Teaching Canvas | **MapLibre GL JS** | Programmable vector maps with live AI tool calls |
+| Session UI | **SessionCanvas + TranscriptView** | Full-bleed kinetic typography + scene overlays |
 | Auth | Custom on Workers | Magic link, Google OAuth, email/password, JWT sessions |
 
 ---
@@ -43,28 +44,30 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 
 | Band | Ages | Label | Delivery |
 |------|------|-------|----------|
-| 0 | 3–5 | Picture Book | StorybookPlayer. Full-screen illustrations, read-aloud, tap to advance. |
-| 1 | 6–7 | Storybook+ | StorybookPlayer with more detail, simple review questions. |
-| 2 | 8–9 | Adapted Textbook | LessonPlayer. Simplified text, all components. |
-| 3 | 10–12 | Full Textbook | LessonPlayer. Unabridged text, dual timeline, full components. |
-| 4 | 13–17 | Academic | LessonPlayer + ComparisonView. Socratic dialogue, debate mode. |
-| 5 | 18+ | Seminar | LessonPlayer. Verbatim text, student-led seminar, essay prompts. |
+| 0 | 3–5 | Picture Book | StorybookPlayer. Full-screen illustrations, read-aloud, tap to advance. Split-screen layout. |
+| 1 | 6–7 | Storybook+ | StorybookPlayer with more detail, simple review questions. Split-screen layout. |
+| 2 | 8–9 | Adapted Textbook | SessionCanvas (live AI). Larger text, slower pacing, fewer map interactions. |
+| 3 | 10–12 | Full Textbook | SessionCanvas (live AI). Standard kinetic typography, full tool-call set. |
+| 4 | 13–17 | Academic | SessionCanvas (live AI). Denser typography, Socratic dialogue, ComparisonView. |
+| 5 | 18+ | Seminar | SessionCanvas (live AI). Verbatim text, seminar-style, essay prompts. |
 
 ---
 
 ## Chapter Content Status
 
-| Ch | Title | Text | GeoJSON | Component Data | Lesson Scripts | Audio |
-|----|-------|------|---------|---------------|----------------|-------|
-| 1 | Creation, Babel, & Table of Nations | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 2 | Ancient Egypt | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 3 | Kingdom of Kush & Nubia | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 4 | Phoenicians & Carthage | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 5 | Church in Roman Africa | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 7 | Rise of Islam in Africa | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 8 | Bantu Migrations | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
-| 9 | Medieval African Kingdoms | ✅ | ✅ | ✅ | ✅ (band 3) | ❌ |
+| Ch | Title | Text | GeoJSON | Component Data | Live Agent | Illustrations |
+|----|-------|------|---------|---------------|------------|---------------|
+| 1 | Creation, Babel, & Table of Nations | ✅ | ✅ | ✅ | ✅ Ready | 23 (Warm Codex) |
+| 2 | Ancient Egypt | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 3 | Kingdom of Kush & Nubia | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 4 | Phoenicians & Carthage | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 5 | Church in Roman Africa | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 7 | Rise of Islam in Africa | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 8 | Bantu Migrations | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| 9 | Medieval African Kingdoms | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+
+"Live Agent" = GeoJSON + component data + content API ready. The agent generates narration and tool calls in real time — no pre-generated lesson scripts needed.
 
 ---
 
@@ -86,34 +89,35 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 | 12 | Data quality fixes, reading polish, error handling | Mar 18 |
 | 13 | SVG map overlays (30 maps), pronunciation dictionary, component data extraction | Mar 18 |
 | 14 | SVG alignment tool (standalone browser tool) | Mar 19 |
-| 15 | Session engine: LessonScript types, useScriptPlayer, ScriptPlayer, StorybookPlayer, 9 visual components, lesson script generator CLI | Mar 20 |
+| 15 | Session engine: LessonScript types, ScriptPlayer, StorybookPlayer, 9 visual components, lesson script generator CLI | Mar 20 |
 | 16A | MapLibre TeachingCanvas shell + imperative API + overlay panels | Mar 22 |
 | 16B | Historical GeoJSON data for all 9 chapters (regions, routes, markers) + locations registry | Mar 22–24 |
-| 16-StreamB | Lesson script generator updated for MapLibre tool names; band 3 scripts generated for all 9 chapters | Mar 24 |
-| 16-StreamC | E2E wiring: adaptRawScript adapter, dynamic lesson loader, ScriptPlayer tool-call bridge, ComponentRenderer filtering | Mar 24 |
+| 16C | Agent tool-call rewrite: MAPLIBRE_TEACHING_TOOLS, session handler, prompt builder | Mar 24 |
+| 20 | **Live-First Pivot**: Deleted ScriptPlayer pipeline, created SessionCanvas, added `set_scene` tool, updated agent prompt with scene-balance instructions | Mar 31 |
 
 ---
 
 ## Design Principles (Locked)
 
-1. **The canvas is the product.** 70–75% of viewport during lessons.
-2. **One tap to learning.** Dashboard → tap chapter → lesson plays.
-3. **Band 0 is a different app.** StorybookPlayer is completely separate from LessonPlayer.
+1. **The transcript is the home base.** Kinetic typography occupies 60-80% of lesson time. Visual scenes slide in temporarily and recede. The AI actively controls the transcript-vs-visual ratio based on chapter content type.
+2. **One tap to learning.** Dashboard → tap chapter → session begins.
+3. **Band 0 is a different app.** StorybookPlayer is completely separate from SessionCanvas.
 4. **Parents observe, not gatekeep.** No blocking approval gates. Passive summaries.
 5. **The curriculum is a library.** Dashboard feels like a home library shelf.
 6. **Age-appropriate by default.** Band set once per child, everything adapts automatically.
+7. **The AI decides what you see.** Scene balance, pacing, and visual density are all AI-controlled in real time via tool calls.
 
 ---
 
 ## Architecture Decisions (Locked)
 
-1. **MapLibre GL JS replaces PNG+SVG maps** for the teaching canvas. PNG maps kept as reference images in R2.
-2. **Live AI narration replaces pre-recorded audio.** Gemini streams voice + tool calls simultaneously via WebSocket. No pre-synchronization needed.
-3. **9 reusable visual components, built once.** Every chapter uses same components with different data. These now render as MapLibre overlays + HTML panels, not SVG primitives.
-4. **StorybookPlayer is a separate component.** Not a mode switch on LessonPlayer.
-5. **Chapter 1 launches before Chapter 2 is touched.**
-6. **Lesson player is ONE screen with 3 phases:** Teaching → Dialogue → Review.
-7. **The AI is the teacher.** It decides what to show as it speaks — zoom, highlight, draw routes — via tool calls. The lesson script provides structure, but the map interactions are live.
+1. **MapLibre GL JS** for the teaching canvas. Vector polygons, smooth camera flights, animated routes — all driven by GeoJSON + tool calls.
+2. **Live-first, not script-first.** The Gemini Live API streams audio + tool calls simultaneously. No pre-generated lesson scripts. No timestampMs synchronization.
+3. **Transcript-first kinetic typography.** The default visual is animated text. Maps, images, and overlays are temporary scenes invoked via `set_scene`.
+4. **`set_scene` is the key tool.** The AI explicitly controls what the student sees (transcript / map / image / overlay) and must return to transcript after every visual sequence.
+5. **Golden Script workflow.** Successful live sessions are recorded as JSON for zero-latency cached playback. Static content is derived from live, not the other way around.
+6. **StorybookPlayer is a separate component.** Bands 0-1 use split-screen layout with illustrations. Not a mode of SessionCanvas.
+7. **Chapter 1 launches before Chapter 2 is touched.**
 
 ---
 
@@ -123,6 +127,7 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 
 | Tool | What it does |
 |------|-------------|
+| `set_scene(mode)` | Switch visual mode: transcript / map / image / overlay |
 | `zoom_to(region)` | Fly camera to a named location (800ms smooth animation) |
 | `highlight_region(id, color)` | Fill a GeoJSON polygon with translucent color |
 | `draw_route(from, to, style)` | Animate dashed line between named locations (migration/trade/conquest) |
@@ -132,40 +137,20 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 | `show_timeline(events)` | Pop timeline bar across bottom of map |
 | `show_figure(name, image_url)` | Bring up historical figure portrait card |
 | `clear_canvas()` | Remove all overlays, return to clean map |
+| `dismiss_overlay()` | Remove current overlay panel, keep map state |
 
 ---
 
-## Current Phase: Live AI Integration + Chapter 1 E2E
+## Current Phase: Live-First Implementation
 
-### Phase 16C: Agent Tool-Call Rewrite ← NEXT
-- [ ] Rewrite `agent/src/historyExplainerTools.ts` with MapLibre-native tool definitions
-- [ ] Update `agent/src/historyExplainerSession.ts` — tool call handler maps new tool names to WebSocket messages
-- [ ] Update `buildHistoryExplainerPrompt()` — new instructions reference MapLibre capabilities
-- [ ] Keep band-aware prompt sections (band 0-1, 2-3, 4-5)
+See `.antigravity/JULES_PLAN_PHASE21.md` for full Jules prompts.
 
-### Phase 16D: Live WebSocket Integration ← NEXT
-- [ ] Wire WebSocket from Cloud Run agent → `toolCallHandler` → `TeachingCanvas`
-- [ ] Implement audio streaming via Web Audio API
-- [ ] Build live transcript panel (sidebar showing narration text as it streams)
-- [ ] Build canvas action log (tool calls dispatched to map)
-- [ ] Waveform/speaking indicator
-
-### Phase 17: Chapter 1 Band 3 End-to-End
-- [ ] Wire ScriptPlayer → TeachingCanvas → live Gemini dialogue (Teaching phase uses script, Dialogue phase is live)
-- [ ] Test full flow: lesson plays → map responds → dialogue works → progress saves
-- [ ] Verify all 9 tool calls work end-to-end with Chapter 1 data
-- [ ] Deploy agent to Cloud Run with GEMINI_API_KEY
-
-### Phase 18: Multi-Band Support (Chapter 1)
-- [ ] Band 0–1: StorybookPlayer with generated illustrations (no map, simple story)
-- [ ] Band 2: Simplified map interactions (fewer regions, slower zoom, bigger labels)
-- [ ] Band 4–5: Full map complexity + ComparisonView + Socratic dialogue mode
-
-### Phase 19: UI Redesign
-- [ ] Rebuild Dashboard as library shelf
-- [ ] Remove deprecated pages (old ReadingView, LessonView wrapper, standalone ExamView, admin SVG alignment tools)
-- [ ] Build PostLessonSummary (passive, non-blocking)
-- [ ] Simplify onboarding to 3 steps
+### Phase 21: Wire SessionCanvas to Live Agent ← after 22 + 23
+### Phase 22: TranscriptView Kinetic Typography ← PARALLEL
+### Phase 23: Fix Agent WebSocket Connection ← PARALLEL
+### Phase 24A: StorybookPlayer Split-Screen ← PARALLEL
+### Phase 24B: Dashboard & Page Cleanup ← PARALLEL
+### Phase 25: Golden Script Recording ← after 21
 
 ---
 
@@ -191,6 +176,8 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 | DAG dependency resolver | `worker/src/archive/` | If history adds prerequisites |
 | SVG alignment tool | `tools/svg-aligner/` | Reference for manual alignment |
 | PNG map overlays | R2 `assets/maps/` | Kept as reference images |
+| Static lesson scripts | Deleted (were in `src/data/lessons/`) | Replaced by live AI + golden scripts |
+| ScriptPlayer pipeline | Deleted (Phase 20) | Replaced by SessionCanvas |
 
 ---
 
@@ -203,11 +190,13 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 - Agent code: `agent/`
 - Worker routes: `worker/src/routes/`
 - GeoJSON data: `src/data/geojson/`
-- Lesson scripts: `src/data/lessons/`
-- Teaching canvas: `src/components/canvas/TeachingCanvas.tsx`
-- Script player: `src/components/player/ScriptPlayer.tsx`
+- Session canvas: `src/components/session/SessionCanvas.tsx`
+- Session types: `src/lib/session/types.ts`
+- Teaching canvas (MapLibre): `src/components/canvas/TeachingCanvas.tsx`
 - Tool call handler: `src/lib/canvas/toolCallHandler.ts`
-- Script adapter: `src/lib/player/adaptRawScript.ts`
+- Storybook player: `src/components/player/StorybookPlayer.tsx`
+- Live architecture doc: `.antigravity/ARCHITECTURE_LIVE.md`
+- Jules prompts: `.antigravity/JULES_PLAN_PHASE21.md`
 
 ---
 
