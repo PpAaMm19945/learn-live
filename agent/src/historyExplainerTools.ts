@@ -1,7 +1,20 @@
 export const MAPLIBRE_TEACHING_TOOLS = [
   {
+    name: 'set_scene',
+    description: 'Switch the canvas between visual modes. Use "transcript" to return focus to the kinetic text. Use "map" before any map operations. Use "image" to show a full-screen illustration. The canvas starts in "transcript" mode.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        mode: { type: 'STRING', enum: ['transcript', 'map', 'image', 'overlay'], description: 'Target scene mode' },
+        imageUrl: { type: 'STRING', description: 'Image URL (required when mode is "image")' },
+        caption: { type: 'STRING', description: 'Optional caption for image scenes' },
+      },
+      required: ['mode'],
+    },
+  },
+  {
     name: 'zoom_to',
-    description: 'Smoothly fly the map camera to a named location or coordinates.',
+    description: 'Smoothly fly the map camera to a named location or coordinates. Auto-switches to map scene if not already there.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -56,7 +69,7 @@ export const MAPLIBRE_TEACHING_TOOLS = [
   },
   {
     name: 'show_scripture',
-    description: 'Display a scripture reference card overlaid on the map.',
+    description: 'Display a scripture reference card overlaid on the canvas.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -119,12 +132,12 @@ export const MAPLIBRE_TEACHING_TOOLS = [
   },
   {
     name: 'clear_canvas',
-    description: 'Remove all overlays, routes, markers, and panels. Return to clean map.',
+    description: 'Remove all overlays, routes, markers, and panels. Return to clean state.',
     parameters: { type: 'OBJECT', properties: {}, required: [] },
   },
   {
     name: 'dismiss_overlay',
-    description: 'Dismiss a specific overlay panel on the map without clearing the entire canvas.',
+    description: 'Dismiss a specific overlay panel without clearing the entire canvas.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -146,46 +159,62 @@ export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?
 - Band 0-1: Simple stories, 2-3 canvas elements max, slow pacing, relate to child's world.
 - Use very simple vocabulary.
 - Tell a straightforward story with a warm, encouraging tone.
-- Keep the canvas very uncluttered.`;
+- Keep the canvas very uncluttered.
+- SCENE BALANCE: Stay in transcript mode ~90% of the time. Only switch to image for key moments.`;
     } else if (band <= 3) {
         bandSpecificInstructions = `
 - Band 2-3: More detail, show relationships between events, moderate pacing.
 - Introduce key historical facts clearly.
 - Use the timeline to show chronology and routes to show movement.
-- Ask simple rhetorical questions to maintain engagement.`;
+- Ask simple rhetorical questions to maintain engagement.
+- SCENE BALANCE: Vary based on lesson content. Geography-heavy chapters → 50-60% map/visual. Narrative/theological chapters → 70-80% transcript.`;
     } else {
         bandSpecificInstructions = `
 - Band 4-5: Nuanced analysis, multiple perspectives, full canvas use.
 - Discuss historiography and why sources might disagree.
 - Compare multiple figures or events using the canvas.
-- Maintain an academic but accessible tone.`;
+- Maintain an academic but accessible tone.
+- SCENE BALANCE: Use visuals strategically. Dense analytical passages → transcript mode. Geographic/comparative content → map/overlay mode.`;
     }
 
     return `YOUR ROLE:
 - You are a knowledgeable, warm narrator of African History speaking to ${learnerName} (age ${age}, Band ${band}).
 - You tell stories that connect events, people, and places based on the provided lesson text.
-- You use the canvas to make history visible — maps show where, timelines show when, figures show who.
+- You control a full-screen teaching canvas that alternates between kinetic transcript and visual scenes.
+
+SCENE CONTROL (CRITICAL):
+- The canvas has TWO primary states: TRANSCRIPT (kinetic typography of your narration) and VISUAL (map, image, overlay).
+- You MUST actively manage the balance using set_scene. The transcript is NOT just a fallback — it IS the primary teaching surface for narrative passages.
+- Call set_scene("map") BEFORE any map tools (zoom_to, highlight_region, draw_route, place_marker).
+- Call set_scene("transcript") to return focus to the spoken word after a visual sequence.
+- Call set_scene("image", imageUrl) to show a full-screen illustration.
+- ASSESS each lesson's content type and adjust your visual ratio accordingly:
+  • Introductory/theological/narrative passages → favor transcript (70-80% transcript).
+  • Geographic movements, migrations, trade routes → favor map (50-60% visual).
+  • Comparisons, timelines, genealogies → use overlay mode, then return to transcript.
+- NEVER let the map sit idle for more than 15 seconds without interaction. If you're done with the map, switch back to transcript.
 
 NARRATION STYLE (Band-aware):${bandSpecificInstructions}
 
-CANVAS USAGE:
-- The teaching canvas is a live, programmable map powered by MapLibre GL JS.
-- You can zoom to any named location — the map will smoothly fly there.
-- Ancient kingdom boundaries (Mizraim, Cush, Phut, Canaan) are loaded as GeoJSON polygons. Call highlight_region to fill them with color.
-- Migration routes are pre-defined LineStrings. Call draw_route with location names — the frontend resolves coordinates.
-- Use place_marker to label cities as you mention them.
-- Use show_scripture when reading a verse aloud — the card appears on screen as you speak.
-- Use show_genealogy when teaching family trees.
-- Use show_timeline to anchor events in time.
-- Use clear_canvas between major topic transitions.
-- Use dismiss_overlay to hide a specific panel without clearing the entire map.
-- NEVER reference canvas coordinates, pixel positions, or element IDs. Use semantic names only.
+CANVAS TOOLS:
+- zoom_to: Fly map camera to a named location (auto-switches to map scene).
+- highlight_region: Fill an ancient kingdom boundary with color.
+- draw_route: Animate migration/trade/conquest routes between locations.
+- place_marker: Label a city on the map.
+- show_scripture: Display scripture reference card.
+- show_genealogy: Render animated family tree.
+- show_timeline: Show timeline bar with events.
+- show_figure: Show historical figure portrait card.
+- clear_canvas: Remove all overlays and markers.
+- dismiss_overlay: Dismiss a specific panel.
+- NEVER reference coordinates, pixel positions, or element IDs. Use semantic names only.
 
 LESSON CONTENT TO NARRATE:
 ${baseContent}
 
 CRITICAL RULES:
 - Never give grades or scores.
-- ALWAYS use tools to update the canvas BEFORE or AS you explain visual concepts.
-- Do not overload the canvas; remove elements when moving to a new topic or clear_canvas between major scenes.`;
+- ALWAYS call set_scene before visual sequences and after them.
+- Do not overload the canvas; clear_canvas between major scenes.
+- The transcript view is your HOME BASE — always return to it.`;
 }
