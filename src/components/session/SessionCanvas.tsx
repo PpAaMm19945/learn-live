@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
-import type { SceneMode } from '@/lib/session/types';
+import type { SceneMode, TranscriptChunk } from '@/lib/session/types';
+import { TranscriptView } from './TranscriptView';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -19,11 +20,11 @@ interface SessionCanvasProps {
  */
 export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionCanvasProps) {
   const [sceneMode, setSceneMode] = useState<SceneMode>('transcript');
-  const [transcriptLines, setTranscriptLines] = useState<string[]>([]);
+  const [transcriptChunks, setTranscriptChunks] = useState<TranscriptChunk[]>([]);
   const [isConnected, setIsConnected] = useState(false);
 
   // TODO: Wire useSession hook for WebSocket connection
-  // The hook will call setSceneMode, setTranscriptLines, and forward tool calls
+  // The hook will call setSceneMode, setTranscriptChunks, and forward tool calls
 
   return (
     <div className="fixed inset-0 bg-background overflow-hidden select-none flex flex-col">
@@ -48,49 +49,18 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       {/* Main content area */}
       <div className="flex-1 relative">
         {/* Transcript layer — always present, slides behind scenes */}
-        <AnimatePresence>
-          {sceneMode === 'transcript' && (
-            <motion.div
-              key="transcript"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4, ease: 'easeOut' }}
-              className="absolute inset-0 flex items-center justify-center p-8 md:p-16"
-            >
-              <div className="max-w-3xl w-full">
-                {transcriptLines.length === 0 ? (
-                  <div className="text-center space-y-4">
-                    <h1 className="text-4xl md:text-6xl font-bold text-foreground tracking-tight">
-                      Ready to learn
-                    </h1>
-                    <p className="text-lg text-muted-foreground">
-                      Session will begin shortly, {learnerName}.
-                    </p>
-                  </div>
-                ) : (
-                  <div className="space-y-6">
-                    {transcriptLines.map((line, i) => (
-                      <motion.p
-                        key={i}
-                        initial={{ opacity: 0, y: 12 }}
-                        animate={{ opacity: i === transcriptLines.length - 1 ? 1 : 0.4, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className={`text-2xl md:text-4xl font-semibold leading-relaxed tracking-tight ${
-                          i === transcriptLines.length - 1
-                            ? 'text-foreground'
-                            : 'text-muted-foreground/40'
-                        }`}
-                      >
-                        {line}
-                      </motion.p>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            sceneMode === 'transcript' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <TranscriptView
+            chunks={transcriptChunks}
+            band={band}
+            isActive={isConnected}
+            chapterId={chapterId}
+          />
+        </div>
 
         {/* Scene overlay — slides in from right when AI triggers a visual */}
         <AnimatePresence>
