@@ -1,6 +1,6 @@
 # Learn Live — Prompt Execution Log
 
-> **Last updated:** 2026-03-24
+> **Last updated:** 2026-03-31
 > Consolidated record of all Jules/agent prompts executed across all phases.
 
 ---
@@ -97,59 +97,65 @@ All legacy phases executed 2026-02-27. Math curriculum engine, DAG system, const
 - Chapter loader (`index.ts`)
 
 ### 16C: Agent Tool-Call Rewrite ✅
-- `historyExplainerTools.ts` — 9 MapLibre-native tool definitions
+- `historyExplainerTools.ts` — 9 MapLibre-native tool definitions + `set_scene`
 - `historyExplainerSession.ts` — forwards tool calls as JSON to frontend
-- `buildHistoryExplainerPrompt()` — MapLibre canvas usage instructions
-
-### Stream B: Lesson Script Generation ✅
-- Updated `scripts/generate_lesson_script.ts` for MapLibre tool names
-- Generated band 3 scripts for all 9 chapters → `src/data/lessons/`
-
-### Stream C: E2E Wiring ✅
-- `adaptRawScript.ts` — transforms raw JSON → LessonScript format
-- `src/data/lessons/index.ts` — dynamic loader with adapter
-- ScriptPlayer tool-call bridge (`__tool_call__` → TeachingCanvas)
-- ComponentRenderer filters internal cues
+- `buildHistoryExplainerPrompt()` — MapLibre canvas usage instructions + scene balance
 
 ---
 
-## Phase 16D: Live WebSocket + Audio Integration ← NEXT
+## Phase 20: Live-First Pivot ✅ (2026-03-31)
 
-See `JULES_PLAN_PHASE17.md` for full prompt.
+**Architectural pivot from static pre-generated scripts to live AI teaching.**
 
-**Key deliverables:**
-- Complete `useWebSocketCanvas.ts` with Web Audio API streaming
-- Add "Dialogue" phase to ScriptPlayer with live AI narration
-- Wire microphone input for learner speech
-- Integrate VoiceIndicator, TranscriptPanel, CanvasActionLog
+### Deleted (legacy ScriptPlayer pipeline)
+| File | Was |
+|------|-----|
+| `src/components/player/ScriptPlayer.tsx` | Static cue-based lesson player |
+| `src/lib/player/useScriptPlayer.ts` | Timeline-driven cue executor |
+| `src/lib/player/adaptRawScript.ts` | Raw JSON → LessonScript adapter |
+| `src/lib/player/types.ts` | LessonScript, Cue types |
+| `src/data/lessons/*.json` (all 14 files) | Pre-generated lesson scripts |
+| `src/data/lessons/index.ts` | Dynamic lesson loader |
+| `scripts/generate_lesson_script.ts` | Script generation CLI |
+| `scripts/generate_b2_*.py` (5 files) | Band 2 script generators |
+| `src/components/player/ComponentRenderer.tsx` | Legacy component renderer |
+| `src/components/player/LessonDrawer.tsx` | Lesson picker drawer |
+| `src/components/player/OverlayControls.tsx` | Overlay UI controls |
+| `src/components/player/OverlayCaption.tsx` | Overlay caption |
+| `src/components/player/TranscriptPanel.tsx` | Legacy transcript sidebar |
+| `src/components/player/VoiceIndicator.tsx` | Legacy voice indicator |
+| `src/components/player/CanvasActionLog.tsx` | Legacy action log |
+| `src/components/player/useAutoHide.ts` | Auto-hide utility |
+| `src/components/player/PostLessonSummary.tsx` | Post-lesson summary |
+| `src/lib/player/useAudioPlayback.ts` | Audio playback hook |
+
+### Created
+| File | Purpose |
+|------|---------|
+| `src/components/session/SessionCanvas.tsx` | Full-bleed teaching viewport with scene transitions |
+| `src/lib/session/types.ts` | SceneMode, AgentMessage, TranscriptChunk types |
+| `.antigravity/ARCHITECTURE_LIVE.md` | Live-first architecture documentation |
+
+### Modified
+| File | Change |
+|------|--------|
+| `agent/src/historyExplainerTools.ts` | Added `set_scene` tool, scene balance prompt |
+| `agent/src/historyExplainerSession.ts` | Updated for `set_scene` dispatch |
+| `src/lib/canvas/toolCallHandler.ts` | Added `set_scene` handling, auto-scene for map tools |
+| `src/pages/LessonPlayerPage.tsx` | Routes Band 2+ to SessionCanvas |
+| `src/components/player/StorybookPlayer.tsx` | Import path fixes |
 
 ---
 
-## Phase 17: Chapter 1 E2E Deployment ← NEXT
+## Phase 21–25: Live-First Implementation ← NEXT
 
-See `JULES_PLAN_PHASE17.md` for full prompt.
+See `.antigravity/JULES_PLAN_PHASE21.md` for full Jules prompts.
 
-**Key deliverables:**
-- Agent deployment preparation (Dockerfile, cloudbuild.yaml)
-- Progress saving on lesson completion
-- Error handling and fallback modes
-
----
-
-## Phase 18: Multi-Band Support ← PLANNED
-
-See `JULES_PLAN_PHASE17.md` for full prompts.
-
-**Key deliverables:**
-- 18A: Band 0-1 storybook scripts + illustrations for Chapter 1
-- 18B: Band 2, 4, 5 lesson scripts for Chapter 1
-
----
-
-## Phase 19: UI Redesign ← PLANNED
-
-See `JULES_PLAN_PHASE17.md` for full prompts.
-
-**Key deliverables:**
-- 19A: Library shelf dashboard replacing accordion layout
-- 19B: Remove deprecated pages, simplify onboarding, PostLessonSummary
+| Phase | Task | Instances | Dependencies |
+|-------|------|-----------|-------------|
+| 22 | TranscriptView kinetic typography | 1 | None (parallel) |
+| 23 | Fix agent WebSocket connection | 1 | None (parallel) |
+| 24A | StorybookPlayer split-screen layout | 1 | None (parallel) |
+| 24B | Dashboard & page cleanup | 1 | None (parallel) |
+| 21 | Wire SessionCanvas to live agent | 1 | After 22 + 23 |
+| 25 | Golden Script recording | 1 | After 21 |
