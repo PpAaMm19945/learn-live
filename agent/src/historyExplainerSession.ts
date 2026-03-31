@@ -119,6 +119,7 @@ export async function handleHistoryExplainerSession(
 
 function mapToolCallToMapLibreOp(name: string, args: any): any | null {
     switch (name) {
+        case 'set_scene':
         case 'zoom_to':
         case 'highlight_region':
         case 'draw_route':

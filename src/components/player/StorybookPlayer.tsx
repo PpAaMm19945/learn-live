@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StorybookScript } from '@/lib/player/types';
+import type { StorybookScript } from '@/lib/session/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 
