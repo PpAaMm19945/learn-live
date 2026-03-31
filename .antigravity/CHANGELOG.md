@@ -141,3 +141,9 @@
 - Created `JULES_PLAN_PHASE21.md` — 6 new prompts for phases 21-25
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
+
+## 2026-04-01 — Phase 23: Agent WebSocket Fixes
+- Removed legacy `evaluate_constraint` tool from `agent/src/gemini.ts` and moved it to `server.ts` witness session
+- Updated `agent/src/historyExplainerSession.ts` to map Live API `text` and `audio` events to client WS format
+- Updated `agent/src/server.ts` to handle both `/v1/` and `/ws/` routes and parse all required params
+- Added structured `[GEMINI]` and `[WS]` logging for connection tracing

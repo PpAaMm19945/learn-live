@@ -66,14 +66,17 @@ export async function handleHistoryExplainerSession(
     console.log(`[HISTORY_EXPLAINER] System prompt assembled (${systemPrompt.length} chars)`);
 
     // 4. Create Gemini session with MapLibre tools
+    console.log(`[GEMINI] Connecting to Live API...`);
     const gemini = new GeminiSession(systemPrompt, MAPLIBRE_TEACHING_TOOLS);
     await gemini.connect();
+    console.log(`[GEMINI] Session established, model=gemini-2.0-flash-exp`);
 
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
         if (ws.readyState !== WebSocket.OPEN) return;
 
         if (data.type === 'functionCall') {
+            console.log(`[GEMINI] Tool call received: ${data.name}(${JSON.stringify(data.args)})`);
             const mappedOp = mapToolCallToMapLibreOp(data.name, data.args);
             if (mappedOp) {
                 // Forward mapped tool call to frontend
@@ -86,9 +89,24 @@ export async function handleHistoryExplainerSession(
                 name: data.name,
                 response: { success: true }
             }]);
-        } else if (data.type === 'modelTurn') {
-            // Forward voice/text to client
-            ws.send(JSON.stringify(data));
+        } else if (data.type === 'text') {
+            if (data.text) {
+                console.log(`[GEMINI] Transcript: "${data.text.substring(0, 30)}${data.text.length > 30 ? '...' : ''}" (partial)`);
+            }
+            ws.send(JSON.stringify({
+                type: "transcript",
+                text: data.text,
+                isFinal: data.isFinal
+            }));
+        } else if (data.type === 'audio') {
+            console.log(`[GEMINI] Audio chunk: ${data.data.length} bytes`);
+            ws.send(JSON.stringify({
+                type: "audio",
+                data: data.data
+            }));
+        } else if (data.type === 'error') {
+            console.error(`[GEMINI] Error: ${data.message}`);
+            ws.send(JSON.stringify({ type: "error", message: data.message }));
         }
     });
 
@@ -107,11 +125,15 @@ export async function handleHistoryExplainerSession(
     });
 
     ws.on('close', () => {
+        console.log(`[GEMINI] Session ended: reason=client_disconnect`);
+        console.log(`[WS] Client disconnected`);
         console.log(`[HISTORY_EXPLAINER] Session closed — learner: ${learnerId}`);
         gemini.close();
     });
 
     ws.on('error', (err: Error) => {
+        console.log(`[GEMINI] Session ended: reason=error`);
+        console.log(`[WS] Client disconnected with error`);
         console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
         gemini.close();
     });
