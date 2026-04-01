@@ -151,7 +151,7 @@ export function useSession({
 
         // Initialize Audio Context on user interaction (connect)
         if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
         }
 
         setupMicrophone();
