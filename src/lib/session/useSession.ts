@@ -32,8 +32,11 @@ export function useSession({
   const [isMuted, setIsMuted] = useState<boolean>(false);
 
   const wsRef = useRef<WebSocket | null>(null);
-  const reconnectAttempted = useRef<boolean>(false);
+  const reconnectCountRef = useRef<number>(0);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const statusRef = useRef<SessionState['status']>(status);
+
+  const MAX_RECONNECT_RETRIES = 3;
 
   useEffect(() => {
     statusRef.current = status;
@@ -124,8 +127,13 @@ export function useSession({
      }
   }, [band, isMuted]);
 
-  const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void) => {
+  const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void, isReconnect = false) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
+
+    // Reset reconnect count only on user-initiated connects, not auto-reconnects
+    if (!isReconnect) {
+      reconnectCountRef.current = 0;
+    }
 
     setStatus('connecting');
     setError(undefined);
@@ -147,7 +155,8 @@ export function useSession({
       ws.onopen = () => {
         Logger.info('[WS]', 'Connected to agent');
         setStatus('connected');
-        reconnectAttempted.current = false;
+        // NOTE: Do NOT reset reconnectCountRef here — that's what caused the infinite loop.
+        // Count is only reset on explicit user-initiated connect() calls (isReconnect=false).
 
         // Initialize Audio Context on user interaction (connect)
         if (!audioContextRef.current) {
@@ -187,19 +196,23 @@ export function useSession({
       };
 
       ws.onclose = (e) => {
-        Logger.info('[WS]', 'Disconnected from agent');
+        Logger.info('[WS]', `Disconnected from agent (code=${e.code}, reason=${e.reason})`);
 
         if (statusRef.current === 'ended') {
            return; // Normal disconnect
         }
 
-        if (!reconnectAttempted.current && statusRef.current !== 'error') {
-          Logger.info('[WS]', 'Attempting reconnect in 2s...');
-          reconnectAttempted.current = true;
-          setTimeout(() => {
-              connect(onToolCall);
-          }, 2000);
+        if (reconnectCountRef.current < MAX_RECONNECT_RETRIES && statusRef.current !== 'error') {
+          const attempt = reconnectCountRef.current + 1;
+          const delayMs = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
+          Logger.info('[WS]', `Reconnect attempt ${attempt}/${MAX_RECONNECT_RETRIES} in ${delayMs / 1000}s...`);
+          reconnectCountRef.current = attempt;
+          reconnectTimerRef.current = setTimeout(() => {
+              reconnectTimerRef.current = null;
+              connect(onToolCall, onMessage, true);
+          }, delayMs);
         } else {
+          Logger.error('[WS]', `Max reconnect retries (${MAX_RECONNECT_RETRIES}) exhausted.`);
           setStatus('error');
           setError('Lost connection to teacher.');
         }
@@ -215,12 +228,17 @@ export function useSession({
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, status, playAudioChunk, setupMicrophone]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
     setStatus('ended');
     statusRef.current = 'ended'; // Immediately update ref for synchronous access
+    // Clear any pending reconnect timer
+    if (reconnectTimerRef.current) {
+      clearTimeout(reconnectTimerRef.current);
+      reconnectTimerRef.current = null;
+    }
     if (wsRef.current) {
       wsRef.current.onclose = null; // Prevent stale handlers from firing
       wsRef.current.close();
@@ -251,6 +269,11 @@ export function useSession({
   // Cleanup on unmount
   useEffect(() => {
       return () => {
+          // Clear any pending reconnect timer on unmount
+          if (reconnectTimerRef.current) {
+              clearTimeout(reconnectTimerRef.current);
+              reconnectTimerRef.current = null;
+          }
           if (wsRef.current) {
               wsRef.current.onclose = null; // Prevent stale handlers from firing
               wsRef.current.close();

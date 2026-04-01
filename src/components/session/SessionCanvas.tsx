@@ -65,11 +65,22 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
   }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode]);
 
+  // Refs to hold latest callback versions without destabilizing the effect
+  const connectRef = useRef(connect);
+  const handleAgentToolCallRef = useRef(handleAgentToolCall);
+  const recordEventRef = useRef(recordEvent);
+  useEffect(() => { connectRef.current = connect; }, [connect]);
+  useEffect(() => { handleAgentToolCallRef.current = handleAgentToolCall; }, [handleAgentToolCall]);
+  useEffect(() => { recordEventRef.current = recordEvent; }, [recordEvent]);
+
+  // Auto-connect once on mount (or when useFallback toggles off)
+  const hasAutoConnected = useRef(false);
   useEffect(() => {
-    if (status === 'idle' && !useFallback) {
-      connect(handleAgentToolCall, recordEvent);
+    if (!useFallback && !hasAutoConnected.current) {
+      hasAutoConnected.current = true;
+      connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
     }
-  }, [status, connect, handleAgentToolCall, recordEvent, useFallback]);
+  }, [useFallback]);
 
   useEffect(() => {
     if (status === 'connecting' && !useFallback) {
