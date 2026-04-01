@@ -142,6 +142,11 @@
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
 
+## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
+- Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
+- Replaced the dark gradient over images with a dedicated text area using `--card` background.
+- Added page turn sliding animation using `framer-motion` `AnimatePresence`.
+- Bolded highlighted words with the `--primary` theme color instead of amber glow.
 ## 2026-03-31 — Phase 24B: Dashboard & Page Cleanup
 - Checked and confirmed removal of deprecated pages (LessonView, ReadingView, ExamView, ContentTools). Deleted `src/archive/pages/NarratedLessonView.tsx` which was a leftover.
 - Verified orphaned imports for removed components were already cleaned.
