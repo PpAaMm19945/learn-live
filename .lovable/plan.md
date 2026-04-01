@@ -1,137 +1,169 @@
 
+Audit summary:
+- I inspected the new live session stack: `SessionCanvas`, `useSession`, golden-script routes, agent websocket server, and the older `useWebSocketCanvas` implementation.
+- Your logs point to two separate failures happening together:
+  1. the live agent WebSocket is failing before the session ever starts
+  2. the fallback golden-script fetch is hitting the wrong URL and trying to parse an HTML app page as JSON
 
-# Plan: Overhaul `.antigravity/` Documentation for Live-First Pivot
+What is most likely broken right now:
+1. Fallback URL bug on the frontend
+- In `src/components/session/SessionCanvas.tsx`, fallback uses:
+  - `fetch('/api/golden-scripts/${chapterId}/${band}')`
+- But this app usually talks to the worker via `import.meta.env.VITE_WORKER_URL` and many other files already do that.
+- In preview/production, `/api/...` on the frontend host can return the SPA HTML shell, which exactly matches your error:
+  - `Unexpected token '<', "<!doctype "... is not valid JSON`
+- So this is a confirmed bug, independent of GCP.
 
-## What happened
+2. Agent WebSocket still failing at connection/upgrade/service level
+- Frontend connects to:
+  - `wss://learnlive-agent-.../ws/history-explainer?...`
+- Agent server does accept `/ws/history-explainer` in `agent/src/server.ts`.
+- Since the browser reports WebSocket failure before any JSON traffic, the likely causes are:
+  - Cloud Run/service not healthy
+  - upgrade request rejected before websocket session starts
+  - agent crashes early during/after upgrade
+  - environment/config issue in the agent deployment
 
-The codebase has undergone a major architectural pivot (static scripts → live AI teaching), but the `.antigravity/` documentation still describes the old pipeline. References to deleted files (`ScriptPlayer.tsx`, `src/data/lessons/`, `generate_lesson_script.ts`, etc.) are everywhere. The `JULES_PLAN_PHASE17.md` contains 6 prompts that are now entirely obsolete — they reference scripted cues, "Go Live" buttons, and pre-generated lesson JSONs that no longer exist.
+3. There is also a likely next bug in audio format handling
+- `useSession.ts` sends microphone chunks as base64 `audio/webm;codecs=opus` blobs.
+- `agent/src/historyExplainerSession.ts` forwards that payload into `gemini.sendAudio(Buffer.from(msg.data, 'base64'))`
+- `agent/src/gemini.ts` then labels it as:
+  - `mimeType: "audio/pcm;rate=16000"`
+- That is a format mismatch: webm/opus bytes are being declared as PCM.
+- This may not be the first failure you are seeing, but it is very likely the next one once WS opens.
 
-## What needs to happen
+4. Audio playback path may also be wrong
+- `useSession.ts` receives `audio` messages and uses `decodeAudioData(...)`
+- But the agent appears to forward Gemini inline audio chunks directly, which may not be browser-decodable container audio depending on format.
+- The older `useWebSocketCanvas.ts` had explicit PCM handling logic for `audio/pcm`.
+- So after WS is fixed, playback may still fail unless formats are standardized.
 
-### 1. Delete obsolete files
+Manual checks you should run now:
+1. Check the fallback endpoint directly in browser
+- Open:
+  - `{WORKER_URL}/api/golden-scripts/ch01/2`
+- Expected:
+  - JSON response, or a clean JSON 404 like `{ "error": "Golden script not found" }`
+- Bad sign:
+  - HTML page / app shell / Cloudflare error page
+- This confirms whether worker routing is correct.
 
-| File | Why |
-|------|-----|
-| `.antigravity/JULES_PLAN_PHASE17.md` | All 6 prompts reference the deleted ScriptPlayer pipeline. Completely replaced by new phases below. |
+2. Check the exact same path from the frontend host
+- Open:
+  - `https://<preview-host>/api/golden-scripts/ch01/2`
+- Expected right now:
+  - likely HTML, which confirms the relative URL bug in `SessionCanvas.tsx`
 
-### 2. Rewrite `ROADMAP.md` (both root and `.antigravity/`)
+3. Check agent health endpoint
+- Open:
+  - `https://learnlive-agent-3wsr2gnwba-uc.a.run.app/health`
+- Expected:
+  - JSON like `{ status: "ok", service: "learnlive-agent" }`
+- If this fails, the issue is deployment/service-level, not frontend.
 
-Key changes to both copies:
-- **Band Model table**: Replace "LessonPlayer" with "SessionCanvas (live AI)" for Bands 2-5
-- **Chapter Content Status**: Remove "Lesson Scripts" column (deleted), add "Live Agent" column (all chapters ready via content API)
-- **Design Principles**: Update #1 from "The canvas is the product" to "The transcript is the home base" with scene-balance philosophy
-- **Architecture Decisions**: Replace items about ScriptPlayer, 3-phase lessons, and script structure. Add decisions about transcript-first kinetic typography, `set_scene` tool, and golden script workflow
-- **Current Phase section**: Replace phases 16C/D, 17, 18, 19 with new phases 20-24 (below)
-- **Key References**: Remove all deleted file paths (`ScriptPlayer`, `adaptRawScript`, `src/data/lessons/`, etc.), add new ones (`SessionCanvas`, `useWebSocketCanvas`, `session/types.ts`)
-- **MapLibre Tool-Call API table**: Add `set_scene` tool
+4. Check websocket handshake at service edge
+- In DevTools Network, filter for `history-explainer`
+- Retry a session
+- Inspect the failed request details:
+  - status code if present
+  - response headers
+  - response preview/body if any
+- What to record:
+  - 101 = upgraded correctly
+  - 400 = missing params / request malformed
+  - 404 = route not served by Cloud Run
+  - 500/502/503 = backend crash/startup/service issue
+  - HTML error body = proxy/platform error page
 
-### 3. Update `CHANGELOG.md`
+5. Collect GCP logs around one exact attempt
+- Use the timestamp from one failed attempt, e.g. around `2026-04-01T10:26:15Z` to `10:26:33Z`
+- Search for:
+  - `/ws/history-explainer`
+  - `HISTORY_EXPLAINER`
+  - `GEMINI`
+  - `upgrade`
+  - uncaught exceptions
+- What you want to know:
+  - did the request reach `historyExplainerWss.on('connection')`?
+  - did `handleHistoryExplainerSession(...)` start?
+  - did it fail on worker fetches (`/api/chapters/...` or `/api/family/...`)?
+  - did `GeminiSession.connect()` throw?
 
-Add entries for:
-- **2026-03-31 — Live-First Pivot**: Deleted ScriptPlayer pipeline, created SessionCanvas, created `set_scene` tool, updated agent prompt with scene-balance instructions
-- Note which files were deleted and created
+How to interpret GCP logs quickly:
+- If you see no `History Explainer session initiated` log:
+  - request likely never upgraded correctly or never reached the route
+- If you see session initiated, but no `System prompt assembled`:
+  - failure is in content/profile fetch stage
+- If you see `System prompt assembled` and `Connecting to Live API...` but no successful Gemini open:
+  - failure is Gemini API credentials/model/live session setup
+- If you see Gemini connect but frontend still disconnects:
+  - payload/message handling issue after connection
 
-### 4. Update `ISSUES.md`
+High-confidence fixes I would implement next:
+1. Fix frontend fallback URL usage
+- Change `SessionCanvas.tsx` to use worker base URL:
+  - `const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev'`
+  - fetch `${apiUrl}/api/golden-scripts/${chapterId}/${band}`
+- Also guard JSON parsing:
+  - read `res.headers.get('content-type')`
+  - if not JSON, log response text and fail gracefully
 
-- Close issue 44 (already resolved)
-- Close issue 45 (useWebSocketCanvas is now implemented, not a skeleton)
-- Add new issues:
-  - **47**: Agent WebSocket connection broken (blocks live teaching)
-  - **48**: SessionCanvas not yet wired to useSession hook
-  - **49**: TranscriptView kinetic typography component not built
-  - **50**: TeachingCanvas not integrated into SessionCanvas map scene
-  - **51**: StorybookPlayer images are square but canvas expects landscape — needs split-screen layout
+2. Improve fallback diagnostics
+- In fallback fetch, log:
+  - URL used
+  - status code
+  - content-type
+  - first ~200 chars of response text when non-JSON
+- This will stop the unhelpful generic `Unexpected token '<'` loop.
 
-### 5. Update `PROMPTS.md`
+3. Audit Cloud Run websocket ingress config
+- Confirm Cloud Run allows websocket upgrades for this service and that no CDN/proxy layer rewrites the path.
+- Since the route exists in code, infra/path handling is now the top suspect.
 
-- Add Phase 20 (Live-First Pivot) entry documenting all deletions and creations from today
-- Add new phase prompts 21-25 (below)
+4. Normalize audio transport end-to-end
+- Pick one format and keep it consistent:
+  - browser mic capture format
+  - websocket payload
+  - agent `sendAudio`
+  - Gemini declared `mimeType`
+  - frontend playback decoding
+- Right now the system mixes webm/opus, PCM labels, and generic browser decode.
 
-### 6. Write new Jules prompts → `.antigravity/JULES_PLAN_PHASE21.md`
+5. Reuse the older proven websocket audio logic where possible
+- `src/lib/canvas/useWebSocketCanvas.ts` contains more explicit PCM playback handling than the new `useSession.ts`.
+- I would use it as the reference implementation for the repaired live stack.
 
-Six new prompts replacing the obsolete ones, organized for the live-first architecture:
+Recommended manual verification sequence after fixes:
+1. Load `/play/ch01` for a Band 2 learner
+2. Confirm no fallback JSON parse error appears
+3. Confirm websocket request shows either:
+   - successful 101 upgrade, or
+   - a clear non-101 status we can trace
+4. Confirm agent logs show:
+   - session initiated
+   - content fetched
+   - prompt assembled
+   - Gemini connect attempt
+5. If live connection still fails, confirm fallback now:
+   - fetches worker JSON correctly
+   - either replays a golden script or shows clean “not found” behavior
+6. After WS starts working:
+   - verify transcript chunks render
+   - verify `set_scene` changes scene
+   - verify map tools reach `TeachingCanvas`
+   - then test mic/audio separately, because that path is likely still unstable
 
----
+What I would prioritize in the next implementation pass:
+1. Fix `SessionCanvas` fallback URL and response parsing first
+2. Add stronger WS/fallback logging on the client
+3. Use your GCP logs to isolate whether the WS failure is:
+   - before upgrade
+   - during session bootstrap
+   - during Gemini connect
+4. Then repair the audio format contract across frontend ↔ agent ↔ Gemini
 
-**Phase 21: Wire SessionCanvas to Live Agent (1 instance)**
-
-Scope: Connect `SessionCanvas.tsx` to `useWebSocketCanvas.ts`. Wire `handleToolCall` with `onSceneChange` callback to drive `sceneMode` state. Integrate `TeachingCanvas.tsx` into the map scene slot. Handle connection lifecycle (connecting → connected → error → reconnecting). Pass `familyId`, `learnerId`, `band` from learner store.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-**Phase 22: TranscriptView Kinetic Typography (1 instance)**
-
-Scope: Build `src/components/session/TranscriptView.tsx` — the kinetic typography component that renders the AI's narration as bold, animated text. Words appear synchronized with speech (driven by transcript chunks from WebSocket). Age-adaptive: Band 2-3 gets larger text and slower pacing; Band 4-5 gets denser, more academic typography. Framer-motion word-by-word entrance. Previous lines fade to 40% opacity. Replace the inline transcript rendering currently in `SessionCanvas.tsx`.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-**Phase 23: Fix Agent WebSocket Connection (1 instance, agent/ directory)**
-
-Scope: Debug and fix the Gemini Live API connection in `agent/src/gemini.ts`. The `evaluate_constraint` tool declaration is hardcoded alongside history tools — remove it from history sessions. Verify the full loop: client WebSocket → Express upgrade → `handleHistoryExplainerSession` → `GeminiSession.connect()` → Gemini Live API → tool calls + audio back to client. Add structured logging for every stage. Test locally with a real `GEMINI_API_KEY`.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-**Phase 24A: StorybookPlayer Split-Screen Layout (1 instance)**
-
-Scope: Redesign `StorybookPlayer.tsx` for square images. Layout becomes a split-screen: image takes 60% of viewport width (or top 60% on mobile), text/caption occupies the remaining 40% on a solid background with large, readable type. Remove the gradient overlay on images. Keep tap-to-advance, progress dots, and exit button.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-**Phase 24B: Dashboard & Page Cleanup (1 instance)**
-
-Scope: Remove deprecated pages (`LessonView.tsx`, `ReadingView.tsx`, standalone `ExamView.tsx`, admin `ContentTools.tsx`). Add redirect routes with toast messages. Simplify onboarding to 3 steps. Clean up `App.tsx` routes. Remove any remaining imports of deleted player components.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-**Phase 25: Golden Script Recording (1 instance, after 21-23)**
-
-Scope: Add recording infrastructure. When a live session runs successfully, capture the full sequence of `AgentMessage` objects (tool calls + transcript chunks + timing) as a "golden script" JSON. Save via worker API to R2. Add a `useGoldenScript` hook that replays a recorded session with the same timing — no WebSocket needed. This becomes the zero-latency fallback and the path to static content.
-
-Key instruction to Jules: Read `CHANGELOG.md` after completing work and append a dated entry.
-
----
-
-### Execution order for Jules
-
-```text
-Phase 23 (fix agent WS)  ─┐
-Phase 22 (TranscriptView) ─┤── all start immediately (parallel)
-Phase 24A (Storybook)     ─┤
-Phase 24B (Page cleanup)  ─┘
-         ↓
-Phase 21 (wire SessionCanvas) ← after 22 + 23 merge
-         ↓
-Phase 25 (golden script)      ← after 21 merges
-```
-
-Total: 6 instances, 2 sequential gates.
-
-### 7. Keep `antigravity_illustration_brief.md` as-is
-
-Still valid for future chapter illustration work.
-
----
-
-## Summary of file changes
-
-| File | Action |
-|------|--------|
-| `.antigravity/JULES_PLAN_PHASE17.md` | Delete |
-| `.antigravity/ROADMAP.md` | Rewrite with live-first architecture |
-| `ROADMAP.md` (root) | Rewrite to match |
-| `.antigravity/CHANGELOG.md` | Add pivot entry |
-| `.antigravity/ISSUES.md` | Close 44/45, add 47-51 |
-| `.antigravity/PROMPTS.md` | Add Phase 20 entry, reference new plan file |
-| `.antigravity/JULES_PLAN_PHASE21.md` | Create with 6 new prompts |
-| `.antigravity/ARCHITECTURE_LIVE.md` | Keep as-is (already current) |
-
+If you want the next plan revision after you pull GCP logs, I’d structure it around:
+- frontend fallback hardening
+- websocket handshake diagnostics
+- agent bootstrap observability
+- audio transport normalization
