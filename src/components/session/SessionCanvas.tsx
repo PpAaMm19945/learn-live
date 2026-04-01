@@ -129,22 +129,23 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         return;
      }
 
-     try {
-         const res = await fetch('/api/golden-scripts', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify(script)
-         });
+      try {
+          const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+          const res = await fetch(`${apiUrl}/api/golden-scripts`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(script)
+          });
 
-         if (res.ok) {
-            toast.success('Session saved as Golden Script');
-         } else {
-            const err = await res.json();
-            toast.error(err.error || 'Failed to save Golden Script');
-         }
-     } catch (e) {
-         toast.error('Failed to save Golden Script');
-     }
+          if (res.ok) {
+             toast.success('Session saved as Golden Script');
+          } else {
+             const err = await res.json();
+             toast.error(err.error || 'Failed to save Golden Script');
+          }
+      } catch (e) {
+          toast.error('Failed to save Golden Script');
+      }
   };
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : status === 'connected';
