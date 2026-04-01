@@ -1,8 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
-import type { SceneMode, TranscriptChunk } from '@/lib/session/types';
+import { ArrowLeft, Mic, MicOff, PhoneOff } from 'lucide-react';
+import type { SceneMode, TranscriptChunk, AgentToolCall } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
+import { useSession } from '@/lib/session/useSession';
+import { useLearnerStore } from '@/lib/learnerStore';
+import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
+import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -19,15 +23,99 @@ interface SessionCanvasProps {
  * Visual scenes (map, image, overlay) slide over the transcript and recede when dismissed.
  */
 export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionCanvasProps) {
-  const [sceneMode, setSceneMode] = useState<SceneMode>('transcript');
-  const [transcriptChunks, setTranscriptChunks] = useState<TranscriptChunk[]>([]);
-  const [isConnected, setIsConnected] = useState(false);
+  const { familyId, activeLearnerId } = useLearnerStore();
+  const canvasRef = useRef<TeachingCanvasRef>(null);
 
-  // TODO: Wire useSession hook for WebSocket connection
-  // The hook will call setSceneMode, setTranscriptChunks, and forward tool calls
+  const {
+    status,
+    transcriptChunks,
+    sceneMode,
+    error,
+    isMuted,
+    connect,
+    disconnect,
+    toggleMute,
+    setSceneMode
+  } = useSession({
+    chapterId,
+    familyId: familyId || 'anonymous',
+    learnerId: activeLearnerId || 'anonymous',
+    band,
+    agentUrl: import.meta.env.VITE_AGENT_URL || 'http://localhost:8080'
+  });
+
+  const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
+    handleToolCall(canvasRef.current, msg, setSceneMode);
+  }, [setSceneMode]);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      connect(handleAgentToolCall);
+    }
+  }, [status, connect, handleAgentToolCall]);
+
+  const handleEndSession = () => {
+    disconnect();
+    onExit();
+  };
+
+  const isConnected = status === 'connected';
+
+  if (status === 'connecting') {
+    return (
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-muted-foreground animate-pulse">Connecting to your teacher...</p>
+      </div>
+    );
+  }
+
+  if (status === 'error') {
+    return (
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
+        <span className="text-4xl text-destructive">⚠️</span>
+        <h2 className="text-2xl font-bold">Connection Failed</h2>
+        <p className="text-muted-foreground">{error || 'Your teacher is unavailable.'}</p>
+        <div className="flex gap-4">
+          <button
+            onClick={() => connect(handleAgentToolCall)}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+          >
+            Try Again
+          </button>
+          <button
+            onClick={onExit}
+            className="px-6 py-3 bg-muted text-foreground rounded-full hover:bg-muted/80 transition-colors"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (status === 'ended') {
+    return (
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
+        <h2 className="text-3xl font-display font-bold">Session Ended</h2>
+        <p className="text-muted-foreground">Thank you for learning with us today.</p>
+        <button
+          onClick={onExit}
+          className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+        >
+          Back to Dashboard
+        </button>
+      </div>
+    );
+  }
 
   return (
-    <div className="fixed inset-0 bg-background overflow-hidden select-none flex flex-col">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="fixed inset-0 bg-background overflow-hidden select-none flex flex-col"
+    >
       {/* Minimal top bar — fades on inactivity */}
       <div className="absolute top-0 left-0 right-0 p-4 z-50 flex items-center bg-gradient-to-b from-background/80 to-transparent pointer-events-none">
         <button
@@ -73,11 +161,22 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
               transition={{ duration: 0.5, ease: 'easeOut' }}
               className="absolute inset-0 bg-background"
             >
-              {/* Scene content will be rendered here based on sceneMode */}
-              <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                {sceneMode === 'map' && <p>Map scene — TeachingCanvas renders here</p>}
-                {sceneMode === 'image' && <p>Image scene</p>}
-                {sceneMode === 'overlay' && <p>Overlay scene</p>}
+              <div className="w-full h-full bg-background relative z-10">
+                 {/* Map Scene is always mounted so canvasRef works, but only visible when sceneMode === 'map' */}
+                 <div className={`absolute inset-0 ${sceneMode === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                   <TeachingCanvas ref={canvasRef} />
+                 </div>
+
+                 {sceneMode === 'image' && (
+                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
+                       <p>Image scene</p>
+                    </div>
+                 )}
+                 {sceneMode === 'overlay' && (
+                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
+                       <p>Overlay scene</p>
+                    </div>
+                 )}
               </div>
             </motion.div>
           )}
@@ -86,12 +185,33 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
 
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-center pointer-events-none">
-        <div className="px-4 py-2 rounded-full bg-muted/20 backdrop-blur-sm">
-          <p className="text-xs text-muted-foreground tracking-widest uppercase">
-            {sceneMode === 'transcript' ? 'listening' : sceneMode}
-          </p>
+        <div className="flex items-center gap-4 bg-muted/20 backdrop-blur-sm rounded-full px-6 py-3 pointer-events-auto">
+          {band >= 3 && (
+            <button
+              onClick={toggleMute}
+              className={`p-3 rounded-full transition-colors ${
+                isMuted ? 'bg-red-500/20 text-red-500' : 'bg-primary/20 text-primary hover:bg-primary/30'
+              }`}
+            >
+              {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+            </button>
+          )}
+
+          <div className="px-4 py-2">
+            <p className="text-xs text-muted-foreground tracking-widest uppercase">
+              {sceneMode === 'transcript' ? 'listening' : sceneMode}
+            </p>
+          </div>
+
+          <button
+            onClick={handleEndSession}
+            className="p-3 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-full transition-colors"
+            title="End Session"
+          >
+            <PhoneOff className="w-5 h-5" />
+          </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

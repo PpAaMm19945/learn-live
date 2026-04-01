@@ -142,19 +142,30 @@
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
 
+## 2026-04-01 — Phase 21: SessionCanvas Live Agent Wiring
+- Created `useSession` hook connecting via WebSocket to `/ws/history-explainer`.
+- Hook parses `tool_call`, `transcript`, `audio`, and `error` payloads from the Gemini agent.
+- Configured Web Audio API playback for agent's voice, managing seamless contiguous audio chunk queueing.
+- Configured `MediaRecorder` for microphone input, converting `webm/opus` directly to base64 `audio` messages (for bands 3+).
+- Refactored `SessionCanvas` to manage connection states (connecting, error, ended) with dedicated UI flows.
+- Refactored `SessionCanvas` to correctly prevent stale closure re-connect loops by tracking state via refs and clearing the `ws.onclose` listener during unmount.
+
 ## 2026-04-01 — Phase 23: Agent WebSocket Fixes
 - Removed legacy `evaluate_constraint` tool from `agent/src/gemini.ts` and moved it to `server.ts` witness session
 - Updated `agent/src/historyExplainerSession.ts` to map Live API `text` and `audio` events to client WS format
 - Updated `agent/src/server.ts` to handle both `/v1/` and `/ws/` routes and parse all required params
 - Added structured `[GEMINI]` and `[WS]` logging for connection tracing
+
 ## 2026-03-31 — Phase 22: TranscriptView Kinetic Typography
 - Created `src/components/session/TranscriptView.tsx` with kinetic typography and age-adaptive layout for Band 2-3 and Band 4-5.
 - Updated `src/components/session/SessionCanvas.tsx` to integrate `TranscriptView` and replaced `transcriptLines` state with `transcriptChunks: TranscriptChunk[]`.
+
 ## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
 - Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
 - Replaced the dark gradient over images with a dedicated text area using `--card` background.
 - Added page turn sliding animation using `framer-motion` `AnimatePresence`.
 - Bolded highlighted words with the `--primary` theme color instead of amber glow.
+
 ## 2026-03-31 — Phase 24B: Dashboard & Page Cleanup
 - Checked and confirmed removal of deprecated pages (LessonView, ReadingView, ExamView, ContentTools). Deleted `src/archive/pages/NarratedLessonView.tsx` which was a leftover.
 - Verified orphaned imports for removed components were already cleaned.
