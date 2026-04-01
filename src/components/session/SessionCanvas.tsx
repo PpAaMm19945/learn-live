@@ -74,16 +74,28 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   useEffect(() => {
     if (status === 'connecting' && !useFallback) {
       fallbackCheckTimeoutRef.current = window.setTimeout(async () => {
+         const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+         const goldenScriptUrl = `${apiUrl}/api/golden-scripts/${chapterId}/${band}`;
          try {
-           const res = await fetch(`/api/golden-scripts/${chapterId}/${band}`);
+           console.log(`[GOLDEN_SCRIPT] Fetching fallback from ${goldenScriptUrl}`);
+           const res = await fetch(goldenScriptUrl);
+           const contentType = res.headers.get('content-type') || '';
+           if (!contentType.includes('application/json')) {
+              const text = await res.text();
+              console.error(`[GOLDEN_SCRIPT] Non-JSON response (${res.status}, ${contentType}): ${text.substring(0, 200)}`);
+              return;
+           }
            if (res.ok) {
               const data = await res.json();
               setGoldenScriptData(data);
               setUseFallback(true);
               disconnect(); // Stop trying live connection
+           } else {
+              const errData = await res.json();
+              console.warn(`[GOLDEN_SCRIPT] Fallback not available: ${res.status}`, errData);
            }
          } catch (e) {
-           console.error('Fallback failed', e);
+           console.error('[GOLDEN_SCRIPT] Fallback fetch failed', e);
          }
       }, 5000);
     }
@@ -117,22 +129,23 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         return;
      }
 
-     try {
-         const res = await fetch('/api/golden-scripts', {
-             method: 'POST',
-             headers: { 'Content-Type': 'application/json' },
-             body: JSON.stringify(script)
-         });
+      try {
+          const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+          const res = await fetch(`${apiUrl}/api/golden-scripts`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(script)
+          });
 
-         if (res.ok) {
-            toast.success('Session saved as Golden Script');
-         } else {
-            const err = await res.json();
-            toast.error(err.error || 'Failed to save Golden Script');
-         }
-     } catch (e) {
-         toast.error('Failed to save Golden Script');
-     }
+          if (res.ok) {
+             toast.success('Session saved as Golden Script');
+          } else {
+             const err = await res.json();
+             toast.error(err.error || 'Failed to save Golden Script');
+          }
+      } catch (e) {
+          toast.error('Failed to save Golden Script');
+      }
   };
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : status === 'connected';

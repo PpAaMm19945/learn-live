@@ -49,7 +49,7 @@ export function useSession({
 
   const playAudioChunk = useCallback(async (base64Audio: string) => {
     if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
     }
 
     const ctx = audioContextRef.current;
@@ -58,6 +58,7 @@ export function useSession({
     }
 
     try {
+        // Decode base64 to raw bytes
         const binaryStr = atob(base64Audio);
         const len = binaryStr.length;
         const bytes = new Uint8Array(len);
@@ -65,8 +66,15 @@ export function useSession({
             bytes[i] = binaryStr.charCodeAt(i);
         }
 
-        const buffer = bytes.buffer;
-        const audioBuffer = await ctx.decodeAudioData(buffer);
+        // Convert 16-bit PCM to Float32 AudioBuffer (24kHz mono)
+        const sampleCount = bytes.length / 2;
+        const audioBuffer = ctx.createBuffer(1, sampleCount, 24000);
+        const channelData = audioBuffer.getChannelData(0);
+        const dataView = new DataView(bytes.buffer);
+        for (let i = 0; i < sampleCount; i++) {
+            const int16 = dataView.getInt16(i * 2, true); // little-endian
+            channelData[i] = int16 / 32768;
+        }
 
         const source = ctx.createBufferSource();
         source.buffer = audioBuffer;
@@ -74,15 +82,12 @@ export function useSession({
 
         // Schedule playback seamlessly
         const currentTime = ctx.currentTime;
-        if (nextPlayTimeRef.current < currentTime) {
-             nextPlayTimeRef.current = currentTime; // Reset if we fell behind
-        }
-
-        source.start(nextPlayTimeRef.current);
-        nextPlayTimeRef.current += audioBuffer.duration;
+        const startTime = Math.max(currentTime, nextPlayTimeRef.current);
+        source.start(startTime);
+        nextPlayTimeRef.current = startTime + audioBuffer.duration;
 
     } catch (err) {
-        Logger.error('[AUDIO]', 'Failed to decode/play audio chunk', err);
+        Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
     }
   }, []);
 
@@ -146,7 +151,7 @@ export function useSession({
 
         // Initialize Audio Context on user interaction (connect)
         if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
         }
 
         setupMicrophone();
