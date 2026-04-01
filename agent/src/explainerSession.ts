@@ -1,6 +1,7 @@
 import { WebSocket } from 'ws';
 import { GeminiSession } from './gemini';
 import { fetchAndAssembleInstruction } from './constraints';
+import { recordSession } from './rateLimit';
 
 /**
  * Explainer Agent session — bridges Gemini Live API with canvas tool calls.
@@ -170,7 +171,15 @@ export async function handleExplainerSession(
 
     // 4. Create Gemini session with canvas tools
     const gemini = new GeminiSession(systemPrompt, EXPLAINER_TOOLS);
-    await gemini.connect();
+    try {
+        await gemini.connect();
+    } catch (e: any) {
+        console.error(`[EXPLAINER] Gemini connect failed: ${e.message}`);
+        ws.send(JSON.stringify({ error: 'Teacher is temporarily unavailable' }));
+        ws.close();
+        return;
+    }
+    recordSession(familyId);
 
     // 5. Handle Gemini responses — intercept tool calls → canvas ops
     gemini.onResponse((data: any) => {

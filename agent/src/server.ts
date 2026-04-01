@@ -2,7 +2,7 @@ import express from 'express';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
-import { checkRateLimit } from './rateLimit';
+import { checkRateLimit, recordSession } from './rateLimit';
 import { fetchAndAssembleInstruction } from './constraints';
 import { GeminiSession } from './gemini';
 import { handleExplainerSession } from './explainerSession';
@@ -102,7 +102,15 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
             required: ['status', 'summary']
         }
     }]);
-    await geminiSession.connect();
+    try {
+        await geminiSession.connect();
+    } catch (e: any) {
+        console.error(`[AGENT] Gemini connect failed for witness session: ${e.message}`);
+        ws.send(JSON.stringify({ error: 'Teacher is temporarily unavailable' }));
+        ws.close();
+        return;
+    }
+    recordSession(familyId);
 
     geminiSession.onResponse((data: any) => {
         if (ws.readyState === WebSocket.OPEN) {

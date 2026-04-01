@@ -1,6 +1,7 @@
 import { WebSocket } from 'ws';
 import { GeminiSession } from './gemini';
 import { MAPLIBRE_TEACHING_TOOLS, buildHistoryExplainerPrompt } from './historyExplainerTools';
+import { recordSession } from './rateLimit';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
@@ -68,7 +69,15 @@ export async function handleHistoryExplainerSession(
     // 4. Create Gemini session with MapLibre tools
     console.log(`[GEMINI] Connecting to Live API...`);
     const gemini = new GeminiSession(systemPrompt, MAPLIBRE_TEACHING_TOOLS);
-    await gemini.connect();
+    try {
+        await gemini.connect();
+    } catch (e: any) {
+        console.error(`[HISTORY_EXPLAINER] Gemini connect failed: ${e.message}`);
+        ws.send(JSON.stringify({ type: 'error', message: 'Teacher is temporarily unavailable. Please try again later.' }));
+        ws.close();
+        return;
+    }
+    recordSession(familyId);
     console.log(`[GEMINI] Session established, model=gemini-2.0-flash-exp`);
 
     // 5. Handle Gemini responses — intercept tool calls

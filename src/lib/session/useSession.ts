@@ -11,7 +11,7 @@ export interface SessionConfig {
 }
 
 export interface SessionState {
-  status: 'idle' | 'connecting' | 'connected' | 'error' | 'ended';
+  status: 'idle' | 'connecting' | 'reconnecting' | 'connected' | 'error' | 'ended';
   transcriptChunks: TranscriptChunk[];
   sceneMode: SceneMode;
   error?: string;
@@ -135,7 +135,7 @@ export function useSession({
       reconnectCountRef.current = 0;
     }
 
-    setStatus('connecting');
+    setStatus(isReconnect ? 'reconnecting' : 'connecting');
     setError(undefined);
 
     try {
@@ -172,6 +172,16 @@ export function useSession({
 
           if (onMessage) {
               onMessage(msg as AgentMessage);
+          }
+
+          // Handle fatal server errors (e.g. rate limit: { error: 'Daily session limit reached' })
+          // These have no `type` field — just a bare `error` property.
+          if (msg.error && !msg.type) {
+             Logger.error('[WS]', `Server error: ${msg.error}`);
+             setStatus('error');
+             statusRef.current = 'error'; // Prevent reconnect in onclose
+             setError(msg.error);
+             return;
           }
 
           if (msg.type === 'tool_call') {

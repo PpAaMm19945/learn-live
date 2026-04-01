@@ -118,6 +118,37 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     };
   }, [status, useFallback, chapterId, band, disconnect]);
 
+  // Fallback: when agent retries exhaust and status becomes 'error', immediately try golden script
+  useEffect(() => {
+    if (status === 'error' && !useFallback) {
+      const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
+      const goldenScriptUrl = `${apiUrl}/api/golden-scripts/${chapterId}/${band}`;
+      (async () => {
+        try {
+          console.log(`[GOLDEN_SCRIPT] Agent failed, fetching fallback from ${goldenScriptUrl}`);
+          const res = await fetch(goldenScriptUrl);
+          const contentType = res.headers.get('content-type') || '';
+          if (!contentType.includes('application/json')) {
+            const text = await res.text();
+            console.error(`[GOLDEN_SCRIPT] Non-JSON response (${res.status}, ${contentType}): ${text.substring(0, 200)}`);
+            return;
+          }
+          if (res.ok) {
+            const data = await res.json();
+            setGoldenScriptData(data);
+            setUseFallback(true);
+            disconnect();
+          } else {
+            const errData = await res.json();
+            console.warn(`[GOLDEN_SCRIPT] Fallback not available: ${res.status}`, errData);
+          }
+        } catch (e) {
+          console.error('[GOLDEN_SCRIPT] Fallback fetch failed', e);
+        }
+      })();
+    }
+  }, [status, useFallback, chapterId, band, disconnect]);
+
   useEffect(() => {
       if (useFallback && goldenScriptData && goldenScript.status === 'idle') {
           goldenScript.play(handleAgentToolCall);
@@ -159,7 +190,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       }
   };
 
-  const isConnected = useFallback ? goldenScript.status === 'playing' : status === 'connected';
+  const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
   const displaySceneMode = useFallback ? goldenScript.sceneMode : sceneMode;
   const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
 
@@ -244,9 +275,9 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
               Recorded session
             </span>
           )}
-          <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-muted-foreground/30'}`} />
+          <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : status === 'reconnecting' ? 'bg-amber-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
           <span className="text-xs text-muted-foreground">
-            {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (isConnected ? 'Live' : 'Connecting...')}
+            {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting...' : isConnected ? 'Live' : 'Connecting...')}
           </span>
         </div>
       </div>
