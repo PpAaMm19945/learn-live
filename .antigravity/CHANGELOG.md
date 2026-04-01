@@ -171,3 +171,11 @@
 - Verified orphaned imports for removed components were already cleaned.
 - Verified `Onboarding.tsx` was already streamlined to 3 steps (Welcome, Add Learner, Ready).
 - Verified `App.tsx` routes to match the target state, including `RedirectWithToast` for old `/lessons`, `/read`, and `/exam` routes.
+
+## 2026-04-03 — Phase 25: Golden Script Recording
+- Added `RecordedEvent` and `GoldenScript` types to `src/lib/session/types.ts`.
+- Created `useRecorder` hook to track `AgentMessage`s with relative timestamps since session start, ignoring raw base64 audio.
+- Created `useGoldenScript` playback hook to handle cached replay using `requestAnimationFrame`.
+- Added Cloudflare worker API routes `GET /api/golden-scripts` and `POST /api/golden-scripts` wired into `index.ts`.
+- Wired `SessionCanvas` to fallback to cached `GoldenScript` if agent WebSocket connection fails for 5 seconds.
+- Added `Save as Golden Script` feature button for ending successful sessions.
