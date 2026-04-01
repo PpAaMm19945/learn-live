@@ -35,6 +35,20 @@ export interface SceneChange {
 /** Combined message from the agent WebSocket */
 export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | { type: 'modelTurn'; data?: any };
 
+export interface RecordedEvent {
+  timestamp: number;  // ms since session start
+  message: AgentMessage;
+}
+
+export interface GoldenScript {
+  version: '1.0';
+  chapterId: string;
+  band: number;
+  recordedAt: string;  // ISO date
+  durationMs: number;
+  events: RecordedEvent[];
+}
+
 /** StorybookScript — kept for Band 0-1 */
 export interface StorybookScript {
   version: '1.0';

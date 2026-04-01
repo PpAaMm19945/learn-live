@@ -28,6 +28,7 @@ import { handleGetAsset, handleGetEvidence } from './storage';
 import { handleTtsRoutes, handleUserTtsRoutes } from './tts';
 import { handleCreateSession } from './sessions';
 import { handleMapTransformRoutes } from './mapTransforms';
+import { handleSaveGoldenScript, handleGetGoldenScript } from './goldenScripts';
 
 /**
  * Central Route Registry
@@ -270,6 +271,22 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleCreateSession(request, env);
+    }
+
+    // --- Golden Scripts ---
+
+    // POST /api/golden-scripts
+    if (path === '/api/golden-scripts' && method === 'POST') {
+        const authResult = await requireAuth(request, env);
+        if (authResult instanceof Response) return authResult;
+        return handleSaveGoldenScript(request, env);
+    }
+
+    // GET /api/golden-scripts/:chapterId/:band
+    const goldenScriptMatch = path.match(/^\/api\/golden-scripts\/([^/]+)\/([^/]+)$/);
+    if (goldenScriptMatch && method === 'GET') {
+        // Fallback endpoint, auth is not required strictly but we can allow it
+        return handleGetGoldenScript(request, env, goldenScriptMatch[1], goldenScriptMatch[2]);
     }
 
     // --- Storage Routes ---

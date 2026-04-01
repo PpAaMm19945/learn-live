@@ -1,9 +1,12 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Mic, MicOff, PhoneOff } from 'lucide-react';
-import type { SceneMode, TranscriptChunk, AgentToolCall } from '@/lib/session/types';
+import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save } from 'lucide-react';
+import { toast } from 'sonner';
+import type { SceneMode, TranscriptChunk, AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
 import { useSession } from '@/lib/session/useSession';
+import { useRecorder } from '@/lib/session/useRecorder';
+import { useGoldenScript } from '@/lib/session/useGoldenScript';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
@@ -26,6 +29,20 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   const { familyId, activeLearnerId } = useLearnerStore();
   const canvasRef = useRef<TeachingCanvasRef>(null);
 
+  const [useFallback, setUseFallback] = useState(false);
+  const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
+  const fallbackCheckTimeoutRef = useRef<number | null>(null);
+
+  // Recorder hook
+  const { recordEvent, stop: stopRecording } = useRecorder({
+    chapterId,
+    band,
+    recording: !useFallback,
+  });
+
+  // Playback hook (fallback)
+  const goldenScript = useGoldenScript(goldenScriptData);
+
   const {
     status,
     transcriptChunks,
@@ -35,7 +52,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     connect,
     disconnect,
     toggleMute,
-    setSceneMode
+    setSceneMode: setLiveSceneMode
   } = useSession({
     chapterId,
     familyId: familyId || 'anonymous',
@@ -45,23 +62,84 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   });
 
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
-    handleToolCall(canvasRef.current, msg, setSceneMode);
-  }, [setSceneMode]);
+    handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode]);
 
   useEffect(() => {
-    if (status === 'idle') {
-      connect(handleAgentToolCall);
+    if (status === 'idle' && !useFallback) {
+      connect(handleAgentToolCall, recordEvent);
     }
-  }, [status, connect, handleAgentToolCall]);
+  }, [status, connect, handleAgentToolCall, recordEvent, useFallback]);
+
+  useEffect(() => {
+    if (status === 'connecting' && !useFallback) {
+      fallbackCheckTimeoutRef.current = window.setTimeout(async () => {
+         try {
+           const res = await fetch(`/api/golden-scripts/${chapterId}/${band}`);
+           if (res.ok) {
+              const data = await res.json();
+              setGoldenScriptData(data);
+              setUseFallback(true);
+              disconnect(); // Stop trying live connection
+           }
+         } catch (e) {
+           console.error('Fallback failed', e);
+         }
+      }, 5000);
+    }
+
+    return () => {
+       if (fallbackCheckTimeoutRef.current) {
+         clearTimeout(fallbackCheckTimeoutRef.current);
+       }
+    };
+  }, [status, useFallback, chapterId, band, disconnect]);
+
+  useEffect(() => {
+      if (useFallback && goldenScriptData && goldenScript.status === 'idle') {
+          goldenScript.play(handleAgentToolCall);
+      }
+  }, [useFallback, goldenScriptData, goldenScript.status, goldenScript.play, handleAgentToolCall]);
 
   const handleEndSession = () => {
-    disconnect();
+    if (useFallback) {
+      goldenScript.pause();
+    } else {
+      disconnect();
+    }
     onExit();
   };
 
-  const isConnected = status === 'connected';
+  const handleSaveGoldenScript = async () => {
+     const script = stopRecording();
+     if (!script) {
+        toast.error('No events recorded in this session.');
+        return;
+     }
 
-  if (status === 'connecting') {
+     try {
+         const res = await fetch('/api/golden-scripts', {
+             method: 'POST',
+             headers: { 'Content-Type': 'application/json' },
+             body: JSON.stringify(script)
+         });
+
+         if (res.ok) {
+            toast.success('Session saved as Golden Script');
+         } else {
+            const err = await res.json();
+            toast.error(err.error || 'Failed to save Golden Script');
+         }
+     } catch (e) {
+         toast.error('Failed to save Golden Script');
+     }
+  };
+
+  const isConnected = useFallback ? goldenScript.status !== 'error' : status === 'connected';
+  const displaySceneMode = useFallback ? goldenScript.sceneMode : sceneMode;
+  const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
+
+  if (status === 'connecting' && !useFallback) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
@@ -70,7 +148,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     );
   }
 
-  if (status === 'error') {
+  if (status === 'error' && !useFallback) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
         <span className="text-4xl text-destructive">⚠️</span>
@@ -94,17 +172,27 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     );
   }
 
-  if (status === 'ended') {
+  if ((status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended')) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
         <h2 className="text-3xl font-display font-bold">Session Ended</h2>
         <p className="text-muted-foreground">Thank you for learning with us today.</p>
-        <button
-          onClick={onExit}
-          className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-        >
-          Back to Dashboard
-        </button>
+        <div className="flex gap-4">
+          <button
+            onClick={onExit}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+          >
+            Back to Dashboard
+          </button>
+          {!useFallback && (
+            <button
+              onClick={handleSaveGoldenScript}
+              className="px-6 py-3 bg-muted text-foreground flex items-center gap-2 rounded-full hover:bg-muted/80 transition-colors"
+            >
+              <Save className="w-4 h-4" /> Save as Golden Script
+            </button>
+          )}
+        </div>
       </div>
     );
   }
@@ -127,9 +215,14 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         
         {/* Connection indicator */}
         <div className="ml-auto pointer-events-auto flex items-center gap-2">
+          {useFallback && (
+            <span className="px-2 py-1 text-[10px] font-bold tracking-wider uppercase bg-primary/20 text-primary rounded-full mr-2">
+              Recorded session
+            </span>
+          )}
           <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : 'bg-muted-foreground/30'}`} />
           <span className="text-xs text-muted-foreground">
-            {isConnected ? 'Live' : 'Connecting...'}
+            {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (isConnected ? 'Live' : 'Connecting...')}
           </span>
         </div>
       </div>
@@ -139,11 +232,11 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         {/* Transcript layer — always present, slides behind scenes */}
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${
-            sceneMode === 'transcript' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+            displaySceneMode === 'transcript' ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
           <TranscriptView
-            chunks={transcriptChunks}
+            chunks={displayTranscriptChunks}
             band={band}
             isActive={isConnected}
             chapterId={chapterId}
@@ -152,7 +245,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
 
         {/* Scene overlay — slides in from right when AI triggers a visual */}
         <AnimatePresence>
-          {sceneMode !== 'transcript' && (
+          {displaySceneMode !== 'transcript' && (
             <motion.div
               key="scene"
               initial={{ opacity: 0, x: 40 }}
@@ -162,17 +255,17 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
               className="absolute inset-0 bg-background"
             >
               <div className="w-full h-full bg-background relative z-10">
-                 {/* Map Scene is always mounted so canvasRef works, but only visible when sceneMode === 'map' */}
-                 <div className={`absolute inset-0 ${sceneMode === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                 {/* Map Scene is always mounted so canvasRef works, but only visible when displaySceneMode === 'map' */}
+                 <div className={`absolute inset-0 ${displaySceneMode === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                    <TeachingCanvas ref={canvasRef} />
                  </div>
 
-                 {sceneMode === 'image' && (
+                 {displaySceneMode === 'image' && (
                     <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
                        <p>Image scene</p>
                     </div>
                  )}
-                 {sceneMode === 'overlay' && (
+                 {displaySceneMode === 'overlay' && (
                     <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
                        <p>Overlay scene</p>
                     </div>
@@ -186,20 +279,32 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-center pointer-events-none">
         <div className="flex items-center gap-4 bg-muted/20 backdrop-blur-sm rounded-full px-6 py-3 pointer-events-auto">
-          {band >= 3 && (
+          {useFallback ? (
             <button
-              onClick={toggleMute}
-              className={`p-3 rounded-full transition-colors ${
-                isMuted ? 'bg-red-500/20 text-red-500' : 'bg-primary/20 text-primary hover:bg-primary/30'
-              }`}
+              onClick={() => {
+                if (goldenScript.status === 'playing') goldenScript.pause();
+                else goldenScript.play(handleAgentToolCall);
+              }}
+              className="p-3 bg-primary/20 text-primary hover:bg-primary/30 rounded-full transition-colors"
             >
-              {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              {goldenScript.status === 'playing' ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
             </button>
+          ) : (
+            band >= 3 && (
+              <button
+                onClick={toggleMute}
+                className={`p-3 rounded-full transition-colors ${
+                  isMuted ? 'bg-red-500/20 text-red-500' : 'bg-primary/20 text-primary hover:bg-primary/30'
+                }`}
+              >
+                {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
+              </button>
+            )
           )}
 
           <div className="px-4 py-2">
             <p className="text-xs text-muted-foreground tracking-widest uppercase">
-              {sceneMode === 'transcript' ? 'listening' : sceneMode}
+              {displaySceneMode === 'transcript' ? (useFallback ? 'playing' : 'listening') : displaySceneMode}
             </p>
           </div>
 

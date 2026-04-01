@@ -119,7 +119,7 @@ export function useSession({
      }
   }, [band, isMuted]);
 
-  const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void) => {
+  const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) return;
 
     setStatus('connecting');
@@ -155,6 +155,10 @@ export function useSession({
       ws.onmessage = async (event) => {
         try {
           const msg = JSON.parse(event.data);
+
+          if (onMessage) {
+              onMessage(msg as AgentMessage);
+          }
 
           if (msg.type === 'tool_call') {
             const toolMsg = msg as AgentToolCall;
