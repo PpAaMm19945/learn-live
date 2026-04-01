@@ -141,3 +141,9 @@
 - Created `JULES_PLAN_PHASE21.md` — 6 new prompts for phases 21-25
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
+
+## 2026-03-31 — Phase 24B: Dashboard & Page Cleanup
+- Checked and confirmed removal of deprecated pages (LessonView, ReadingView, ExamView, ContentTools). Deleted `src/archive/pages/NarratedLessonView.tsx` which was a leftover.
+- Verified orphaned imports for removed components were already cleaned.
+- Verified `Onboarding.tsx` was already streamlined to 3 steps (Welcome, Add Learner, Ready).
+- Verified `App.tsx` routes to match the target state, including `RedirectWithToast` for old `/lessons`, `/read`, and `/exam` routes.
