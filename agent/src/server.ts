@@ -31,7 +31,19 @@ server.on('upgrade', (request, socket, head) => {
         explainerWss.handleUpgrade(request, socket, head, (ws) => {
             explainerWss.emit('connection', ws, request);
         });
-    } else if (pathname === '/v1/agent/history-explainer') {
+    } else if (pathname === '/v1/agent/history-explainer' || pathname === '/ws/history-explainer') {
+        const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
+        const lessonId = searchParams.get('lessonId') || searchParams.get('lesson') || searchParams.get('chapter');
+        const familyId = searchParams.get('familyId') || searchParams.get('family');
+        const learnerId = searchParams.get('learnerId') || searchParams.get('learner');
+        const band = searchParams.get('band');
+
+        if (!lessonId || !familyId || !learnerId || !band) {
+            socket.write('HTTP/1.1 400 Bad Request\r\n\r\nMissing required query parameters: lessonId (or chapter), familyId, learnerId, band');
+            socket.destroy();
+            return;
+        }
+
         historyExplainerWss.handleUpgrade(request, socket, head, (ws) => {
             historyExplainerWss.emit('connection', ws, request);
         });
@@ -78,7 +90,18 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
         return;
     }
 
-    const geminiSession = new GeminiSession(systemInstruction);
+    const geminiSession = new GeminiSession(systemInstruction, [{
+        name: 'evaluate_constraint',
+        description: 'Evaluate if the physical work meets the required constraint.',
+        parameters: {
+            type: 'OBJECT',
+            properties: {
+                status: { type: 'STRING', enum: ['success', 'failure'] },
+                summary: { type: 'STRING' }
+            },
+            required: ['status', 'summary']
+        }
+    }]);
     await geminiSession.connect();
 
     geminiSession.onResponse((data: any) => {
@@ -154,18 +177,13 @@ explainerWss.on('connection', async (ws: WebSocket, request) => {
 // ─── History Explainer WebSocket ───
 historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
     const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
-    const lessonId = searchParams.get('lessonId') || searchParams.get('lesson');
-    const familyId = searchParams.get('familyId') || searchParams.get('family');
-    const learnerId = searchParams.get('learnerId') || searchParams.get('learner');
+    const lessonId = searchParams.get('lessonId') || searchParams.get('lesson') || searchParams.get('chapter') || 'unknown';
+    const familyId = searchParams.get('familyId') || searchParams.get('family') || 'unknown';
+    const learnerId = searchParams.get('learnerId') || searchParams.get('learner') || 'unknown';
     const band = parseInt(searchParams.get('band') || '3', 10);
 
+    console.log(`[WS] Client connected: chapter=${lessonId} band=${band}`);
     console.log(`[AGENT] History Explainer session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
-
-    if (!lessonId || !familyId) {
-        ws.send(JSON.stringify({ error: 'Missing lessonId or familyId' }));
-        ws.close();
-        return;
-    }
 
     if (!checkRateLimit(familyId)) {
         ws.send(JSON.stringify({ error: 'Daily session limit reached' }));
@@ -173,7 +191,7 @@ historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
         return;
     }
 
-    handleHistoryExplainerSession(ws, lessonId, familyId, learnerId || 'unknown', band);
+    handleHistoryExplainerSession(ws, lessonId, familyId, learnerId, band);
 });
 
 /**

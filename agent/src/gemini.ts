@@ -21,18 +21,6 @@ export class GeminiSession {
                     },
                     tools: [{
                         functionDeclarations: [
-                            {
-                                name: 'evaluate_constraint',
-                                description: 'Evaluate if the physical work meets the required constraint.',
-                                parameters: {
-                                    type: Type.OBJECT,
-                                    properties: {
-                                        status: { type: Type.STRING, enum: ['success', 'failure'] },
-                                        summary: { type: Type.STRING }
-                                    },
-                                    required: ['status', 'summary']
-                                }
-                            },
                             ...(this.extraTools || []).map(t => ({
                                 name: t.name,
                                 description: t.description,
@@ -60,9 +48,48 @@ export class GeminiSession {
                         }
 
                         if (e.serverContent?.modelTurn && this.onResCallback) {
+                            const parts = e.serverContent.modelTurn.parts || [];
+
+                            // Check for text and audio parts specifically for easier handling downstream
+                            let textContent = '';
+                            let audioData = null;
+
+                            for (const part of parts) {
+                                if (part.text) {
+                                    textContent += part.text;
+                                }
+                                if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/')) {
+                                    audioData = part.inlineData.data;
+                                }
+                            }
+
+                            if (textContent) {
+                                this.onResCallback({
+                                    type: 'text',
+                                    text: textContent,
+                                    isFinal: false // The Live API streams text
+                                });
+                            }
+
+                            if (audioData) {
+                                this.onResCallback({
+                                    type: 'audio',
+                                    data: audioData
+                                });
+                            }
+
+                            // Keep raw modelTurn for other potential uses
                             this.onResCallback({
                                 type: 'modelTurn',
-                                parts: e.serverContent.modelTurn.parts
+                                parts: parts
+                            });
+                        }
+
+                        if (e.serverContent?.turnComplete && this.onResCallback) {
+                            this.onResCallback({
+                                type: 'text',
+                                text: '',
+                                isFinal: true
                             });
                         }
                     },
