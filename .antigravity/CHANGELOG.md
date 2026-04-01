@@ -142,6 +142,9 @@
 - Rewrote both `ROADMAP.md` files for live-first architecture
 - Updated `ISSUES.md` — closed 44/45, added issues 47-51
 
+## 2026-03-31 — Phase 22: TranscriptView Kinetic Typography
+- Created `src/components/session/TranscriptView.tsx` with kinetic typography and age-adaptive layout for Band 2-3 and Band 4-5.
+- Updated `src/components/session/SessionCanvas.tsx` to integrate `TranscriptView` and replaced `transcriptLines` state with `transcriptChunks: TranscriptChunk[]`.
 ## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
 - Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
 - Replaced the dark gradient over images with a dedicated text area using `--card` background.
