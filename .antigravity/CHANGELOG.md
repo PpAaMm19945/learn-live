@@ -147,3 +147,16 @@
 - Updated `agent/src/historyExplainerSession.ts` to map Live API `text` and `audio` events to client WS format
 - Updated `agent/src/server.ts` to handle both `/v1/` and `/ws/` routes and parse all required params
 - Added structured `[GEMINI]` and `[WS]` logging for connection tracing
+## 2026-03-31 — Phase 22: TranscriptView Kinetic Typography
+- Created `src/components/session/TranscriptView.tsx` with kinetic typography and age-adaptive layout for Band 2-3 and Band 4-5.
+- Updated `src/components/session/SessionCanvas.tsx` to integrate `TranscriptView` and replaced `transcriptLines` state with `transcriptChunks: TranscriptChunk[]`.
+## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
+- Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
+- Replaced the dark gradient over images with a dedicated text area using `--card` background.
+- Added page turn sliding animation using `framer-motion` `AnimatePresence`.
+- Bolded highlighted words with the `--primary` theme color instead of amber glow.
+## 2026-03-31 — Phase 24B: Dashboard & Page Cleanup
+- Checked and confirmed removal of deprecated pages (LessonView, ReadingView, ExamView, ContentTools). Deleted `src/archive/pages/NarratedLessonView.tsx` which was a leftover.
+- Verified orphaned imports for removed components were already cleaned.
+- Verified `Onboarding.tsx` was already streamlined to 3 steps (Welcome, Add Learner, Ready).
+- Verified `App.tsx` routes to match the target state, including `RedirectWithToast` for old `/lessons`, `/read`, and `/exam` routes.
