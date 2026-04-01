@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { SceneMode, TranscriptChunk, AgentToolCall } from './types';
+import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage } from './types';
 import { Logger } from '@/lib/Logger';
 
 export interface SessionConfig {

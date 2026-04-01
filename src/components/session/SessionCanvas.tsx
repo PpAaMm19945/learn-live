@@ -135,7 +135,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
      }
   };
 
-  const isConnected = useFallback ? goldenScript.status !== 'error' : status === 'connected';
+  const isConnected = useFallback ? goldenScript.status === 'playing' : status === 'connected';
   const displaySceneMode = useFallback ? goldenScript.sceneMode : sceneMode;
   const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
 
