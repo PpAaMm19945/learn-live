@@ -10,6 +10,11 @@ import { handleHistoryExplainerSession } from './historyExplainerSession';
 
 dotenv.config();
 
+if (!process.env.AGENT_SERVICE_KEY) {
+    console.error('[FATAL] AGENT_SERVICE_KEY is not set. Refusing to start.');
+    process.exit(1);
+}
+
 const app = express();
 const server = createServer(app);
 const witnessWss = new WebSocketServer({ noServer: true });
