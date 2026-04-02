@@ -33,6 +33,11 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
 
+  const [noResponseWarning, setNoResponseWarning] = useState(false);
+  const [noResponseError, setNoResponseError] = useState(false);
+  const noResponseWarningTimeoutRef = useRef<number | null>(null);
+  const noResponseErrorTimeoutRef = useRef<number | null>(null);
+
   // Recorder hook
   const { recordEvent, stop: stopRecording } = useRecorder({
     chapterId,
@@ -72,6 +77,37 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   useEffect(() => { connectRef.current = connect; }, [connect]);
   useEffect(() => { handleAgentToolCallRef.current = handleAgentToolCall; }, [handleAgentToolCall]);
   useEffect(() => { recordEventRef.current = recordEvent; }, [recordEvent]);
+
+  // Monitor for silent connect with no chunks
+  useEffect(() => {
+    if (useFallback) return;
+
+    if (status === 'connected' && transcriptChunks.length === 0) {
+      noResponseWarningTimeoutRef.current = window.setTimeout(() => {
+        setNoResponseWarning(true);
+      }, 15000);
+
+      noResponseErrorTimeoutRef.current = window.setTimeout(() => {
+        setNoResponseError(true);
+        disconnect();
+      }, 30000);
+    } else if (transcriptChunks.length > 0) {
+      if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
+      if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
+      setNoResponseWarning(false);
+      setNoResponseError(false);
+    } else {
+      if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
+      if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
+      setNoResponseWarning(false);
+      // DO NOT clear noResponseError so it persists when disconnect() is called
+    }
+
+    return () => {
+      if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
+      if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
+    };
+  }, [status, transcriptChunks.length, useFallback, disconnect]);
 
   // Auto-connect once on mount (or when useFallback toggles off), gated by context readiness
   const hasAutoConnected = useRef(false);
@@ -220,7 +256,39 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         <p className="text-muted-foreground">{error || 'Your teacher is unavailable.'}</p>
         <div className="flex gap-4">
           <button
-            onClick={() => connect(handleAgentToolCall)}
+            onClick={() => {
+              setNoResponseError(false);
+              setNoResponseWarning(false);
+              connect(handleAgentToolCall);
+            }}
+            className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
+          >
+            Try Again
+          </button>
+          <button
+            onClick={onExit}
+            className="px-6 py-3 bg-muted text-foreground rounded-full hover:bg-muted/80 transition-colors"
+          >
+            Go Back
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (noResponseError && !useFallback) {
+    return (
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
+        <span className="text-4xl text-amber-500">⏳</span>
+        <h2 className="text-2xl font-bold">Something went wrong</h2>
+        <p className="text-muted-foreground">Your teacher is taking too long to respond.</p>
+        <div className="flex gap-4">
+          <button
+            onClick={() => {
+              setNoResponseError(false);
+              setNoResponseWarning(false);
+              connect(handleAgentToolCall);
+            }}
             className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
           >
             Try Again
@@ -295,10 +363,17 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       <div className="flex-1 relative">
         {/* Transcript layer — always present, slides behind scenes */}
         <div
-          className={`absolute inset-0 transition-opacity duration-500 ${
+          className={`absolute inset-0 transition-opacity duration-500 flex flex-col ${
             displaySceneMode === 'transcript' ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
+          {noResponseWarning && (
+            <div className="absolute top-16 left-0 right-0 flex justify-center z-20 pointer-events-none">
+              <div className="bg-amber-500/20 text-amber-600 dark:text-amber-400 px-4 py-2 rounded-full backdrop-blur-md text-sm font-medium animate-pulse border border-amber-500/30">
+                Your teacher is taking longer than expected...
+              </div>
+            </div>
+          )}
           <TranscriptView
             chunks={displayTranscriptChunks}
             band={band}
@@ -368,7 +443,15 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
 
           <div className="px-4 py-2">
             <p className="text-xs text-muted-foreground tracking-widest uppercase">
-              {displaySceneMode === 'transcript' ? (useFallback ? 'playing' : 'listening') : displaySceneMode}
+              {useFallback
+                ? (goldenScript.status === 'playing' ? 'playing' : 'paused')
+                : status === 'connecting'
+                  ? 'CONNECTING...'
+                  : status === 'reconnecting'
+                    ? 'RECONNECTING...'
+                    : status === 'connected' && displayTranscriptChunks.length === 0
+                      ? 'WAITING FOR TEACHER'
+                      : 'LISTENING'}
             </p>
           </div>
 

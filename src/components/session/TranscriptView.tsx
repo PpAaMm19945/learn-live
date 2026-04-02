@@ -14,8 +14,8 @@ interface TranscriptViewProps {
  * The primary visual surface, replacing static subtitles.
  */
 export function TranscriptView({ chunks, band, isActive, chapterId }: TranscriptViewProps) {
-  // Determine if we are in a resting state (no chunks and not active)
-  const isResting = chunks.length === 0 && !isActive;
+  // Determine if we are in a resting state (no chunks)
+  const isResting = chunks.length === 0;
 
   // Process chunks into sentences.
   // We assume words are separated by spaces, and sentences end with a final chunk.
@@ -72,9 +72,33 @@ export function TranscriptView({ chunks, band, isActive, chapterId }: Transcript
                 {/* Fallback to display formatted chapterId if no explicit title is provided here, e.g. "ch01" -> "Chapter 01" */}
                 {chapterId.replace(/^ch/, 'Chapter ')}
               </motion.h1>
-              <p className="text-lg text-muted-foreground">
-                Waiting for your teacher...
-              </p>
+              <div className="flex flex-col items-center gap-2">
+                {isActive ? (
+                  <>
+                    <div className="flex space-x-1 mb-2">
+                      {[0, 1, 2].map((i) => (
+                        <motion.div
+                          key={i}
+                          className="w-2 h-2 bg-muted-foreground rounded-full"
+                          animate={{ y: [0, -6, 0] }}
+                          transition={{
+                            duration: 0.6,
+                            repeat: Infinity,
+                            delay: i * 0.15,
+                          }}
+                        />
+                      ))}
+                    </div>
+                    <p className="text-lg text-muted-foreground">
+                      Your teacher is preparing...
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-lg text-muted-foreground">
+                    Waiting for your teacher...
+                  </p>
+                )}
+              </div>
             </motion.div>
           ) : (
             <motion.div
