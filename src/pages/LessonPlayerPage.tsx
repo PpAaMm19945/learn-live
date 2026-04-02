@@ -9,6 +9,7 @@ export default function LessonPlayerPage() {
   const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
 
+  const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
   const activeLearnerBand = useLearnerStore((s) => s.activeLearnerBand);
   const activeLearnerName = useLearnerStore((s) => s.activeLearnerName);
 
@@ -19,6 +20,12 @@ export default function LessonPlayerPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!activeLearnerId) {
+       // If accessed directly without an active learner context, return to dashboard
+       navigate('/dashboard', { replace: true });
+       return;
+    }
+
     if (!chapterId || !isStorybook) return;
 
     setLoading(true);

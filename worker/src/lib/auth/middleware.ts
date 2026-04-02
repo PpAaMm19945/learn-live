@@ -33,13 +33,29 @@ export async function requireAuth(
     env: Env
 ): Promise<Response | AuthUser> {
     const serviceKey = request.headers.get('X-Service-Key');
+
+    // Auth Diagnostic
+    const hasServiceKey = !!serviceKey;
+    const hasEnvKey = !!env.AGENT_SERVICE_KEY;
+    const matches = serviceKey === env.AGENT_SERVICE_KEY;
+    if (hasServiceKey || hasEnvKey) {
+        console.log(`[AUTH DIAGNOSTIC] X-Service-Key provided: ${hasServiceKey}, env.AGENT_SERVICE_KEY exists: ${hasEnvKey}, match: ${matches}`);
+    }
+
     if (serviceKey && env.AGENT_SERVICE_KEY && serviceKey === env.AGENT_SERVICE_KEY) {
         return { userId: 'service-agent', email: 'agent@system' };
     }
 
+    if (serviceKey && (!env.AGENT_SERVICE_KEY || serviceKey !== env.AGENT_SERVICE_KEY)) {
+        return new Response(JSON.stringify({ error: 'Unauthorized', code: 'SERVICE_KEY_MISMATCH' }), {
+            status: 401,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
     const user = await authenticateRequest(request, env);
     if (!user) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        return new Response(JSON.stringify({ error: 'Unauthorized', code: 'MISSING_USER_SESSION' }), {
             status: 401,
             headers: { 'Content-Type': 'application/json' },
         });

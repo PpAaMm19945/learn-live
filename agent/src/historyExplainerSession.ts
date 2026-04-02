@@ -13,6 +13,8 @@ export async function handleHistoryExplainerSession(
     console.log(`[HISTORY_EXPLAINER] Session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
 
     const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
+    const agentServiceKey = process.env.AGENT_SERVICE_KEY;
+    console.log(`[AUTH DIAGNOSTIC] process.env.AGENT_SERVICE_KEY exists: ${!!agentServiceKey}, length: ${agentServiceKey?.length || 0}`);
 
     // 1. Fetch adapted content as base instruction
     let baseContent = '';
@@ -20,14 +22,17 @@ export async function handleHistoryExplainerSession(
         // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
         const contentRes = await fetch(`${workerUrl}/api/chapters/${lessonId}/content?band=${band}`, {
             headers: {
-                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+                'X-Service-Key': agentServiceKey || ''
             }
         });
         if (contentRes.ok) {
             const contentData = await contentRes.json();
-            baseContent = contentData.content || '';
+            // Map the structured sections into a single plain-text string
+            const sections = contentData.sections || [];
+            baseContent = `${contentData.title || ''}\n\n` + sections.map((s: any) => s.content || '').join('\n\n');
         } else {
-             console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}`);
+             const errorText = await contentRes.text();
+             console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}, body: ${errorText.substring(0, 200)}`);
              ws.send(JSON.stringify({ error: `Failed to load lesson content: ${contentRes.statusText}` }));
              ws.close();
              return;
