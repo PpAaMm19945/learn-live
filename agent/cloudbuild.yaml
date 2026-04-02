@@ -39,7 +39,7 @@ steps:
       - '--min-instances=0'
       - '--max-instances=5'
       - '--set-env-vars=NODE_ENV=production,WORKER_API_URL=https://learn-live.antmwes104-1.workers.dev'
-      - '--set-secrets=GEMINI_API_KEY=GEMINI_API_KEY:latest,AGENT_SERVICE_KEY=AGENT_SERVICE_KEY:latest'
+      - '--set-secrets=GEMINI_API_KEY=GEMINI_API_KEY:latest'
 
 images:
   - 'gcr.io/$PROJECT_ID/${_SERVICE_NAME}'
