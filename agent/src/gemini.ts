@@ -16,7 +16,7 @@ export class GeminiSession {
             this.session = await ai.live.connect({
                 model: "gemini-2.0-flash-exp",
                 config: {
-                    responseModalities: ["AUDIO"],
+                    responseModalities: ["AUDIO"] as any,
                     systemInstruction: {
                         parts: [{ text: this.systemInstruction }]
                     },
@@ -52,7 +52,7 @@ export class GeminiSession {
                             let textContent = '';
                             let audioData = null;
                             let hasModelTurn = false;
-                            let parts = [];
+                            let parts: any[] = [];
 
                             if (e.serverContent.modelTurn) {
                                 hasModelTurn = true;
@@ -68,8 +68,9 @@ export class GeminiSession {
                             }
 
                             // Capture transcript from audio output modalities if present
-                            if (e.serverContent.outputTranscription?.parts) {
-                                for (const part of e.serverContent.outputTranscription.parts) {
+                            const outputTranscription = (e.serverContent as any).outputTranscription;
+                            if (outputTranscription?.parts) {
+                                for (const part of outputTranscription.parts) {
                                     if (part.text) {
                                         textContent += part.text;
                                     }
@@ -130,14 +131,12 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.send({
-                clientContent: {
-                    turns: [{
-                        role: "user",
-                        parts: [{ text }]
-                    }],
-                    turnComplete: true
-                }
+            this.session.sendClientContent({
+                turns: [{
+                    role: "user",
+                    parts: [{ text }]
+                }],
+                turnComplete: true
             });
         } catch (e) {
             console.error('[AGENT] Error sending text:', e);
@@ -149,12 +148,12 @@ export class GeminiSession {
 
         try {
             // Send Base64 encoded audio chunk
-            this.session.sendRealtimeInput([
-                {
+            this.session.sendRealtimeInput({
+                media: {
                     mimeType: "audio/pcm;rate=16000",
                     data: chunk.toString("base64")
                 }
-            ]);
+            });
         } catch (e) {
             console.error('[AGENT] Error sending audio chunk:', e);
         }
@@ -164,10 +163,12 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendRealtimeInput([{
-                mimeType: "image/jpeg",
-                data: base64Frame
-            }]);
+            this.session.sendRealtimeInput({
+                media: {
+                    mimeType: "image/jpeg",
+                    data: base64Frame
+                }
+            });
         } catch (e) {
             console.error('[AGENT] Error sending image frame:', e);
         }
@@ -178,10 +179,7 @@ export class GeminiSession {
 
         try {
             this.session.sendToolResponse({
-                functionResponses: functionResponses.map(r => ({
-                    ...r,
-                    scheduling: "SILENT"
-                }))
+                functionResponses: functionResponses
             });
         } catch (e) {
             console.error('[AGENT] Error sending tool response:', e);
