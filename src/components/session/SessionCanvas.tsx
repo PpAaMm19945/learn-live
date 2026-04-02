@@ -55,8 +55,8 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     setSceneMode: setLiveSceneMode
   } = useSession({
     chapterId,
-    familyId: familyId || 'anonymous',
-    learnerId: activeLearnerId || 'anonymous',
+    familyId: familyId || '',
+    learnerId: activeLearnerId || '',
     band,
     agentUrl: import.meta.env.VITE_AGENT_URL || 'http://localhost:8080'
   });
@@ -73,14 +73,14 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   useEffect(() => { handleAgentToolCallRef.current = handleAgentToolCall; }, [handleAgentToolCall]);
   useEffect(() => { recordEventRef.current = recordEvent; }, [recordEvent]);
 
-  // Auto-connect once on mount (or when useFallback toggles off)
+  // Auto-connect once on mount (or when useFallback toggles off), gated by context readiness
   const hasAutoConnected = useRef(false);
   useEffect(() => {
-    if (!useFallback && !hasAutoConnected.current) {
+    if (!useFallback && !hasAutoConnected.current && familyId && activeLearnerId) {
       hasAutoConnected.current = true;
       connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
     }
-  }, [useFallback]);
+  }, [useFallback, familyId, activeLearnerId]);
 
   useEffect(() => {
     if (status === 'connecting' && !useFallback) {
@@ -193,6 +193,15 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
   const displaySceneMode = useFallback ? goldenScript.sceneMode : sceneMode;
   const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
+
+  if (!familyId || !activeLearnerId) {
+    return (
+      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-muted-foreground animate-pulse">Preparing your session...</p>
+      </div>
+    );
+  }
 
   if (status === 'connecting' && !useFallback) {
     return (

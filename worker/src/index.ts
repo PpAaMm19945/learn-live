@@ -30,7 +30,7 @@ function getCorsHeaders(request: Request): Record<string, string> {
     return {
         'Access-Control-Allow-Origin': isAllowed ? origin : ALLOWED_ORIGINS[0],
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Service-Key',
         'Access-Control-Allow-Credentials': 'true',
     };
 }

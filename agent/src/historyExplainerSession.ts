@@ -18,16 +18,26 @@ export async function handleHistoryExplainerSession(
     let baseContent = '';
     try {
         // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
+        const serviceKey = process.env.AGENT_SERVICE_KEY || '';
+        console.log(`[HISTORY_EXPLAINER] Fetching chapter content. Service key length: ${serviceKey.length}, exists: ${!!serviceKey}`);
+
         const contentRes = await fetch(`${workerUrl}/api/chapters/${lessonId}/content?band=${band}`, {
             headers: {
-                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+                'X-Service-Key': serviceKey
             }
         });
         if (contentRes.ok) {
             const contentData = await contentRes.json();
-            baseContent = contentData.content || '';
+            if (contentData.sections && Array.isArray(contentData.sections)) {
+                baseContent = contentData.sections.map((section: any) => {
+                    return `Chapter: ${contentData.title || ''}\nSection Title: ${section.title || ''}\nContent: ${section.adaptedContent || ''}`;
+                }).join('\n\n');
+            } else {
+                baseContent = contentData.content || ''; // Fallback just in case
+            }
         } else {
-             console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}`);
+             const errorBody = await contentRes.text();
+             console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}, response: ${errorBody.substring(0, 200)}`);
              ws.send(JSON.stringify({ error: `Failed to load lesson content: ${contentRes.statusText}` }));
              ws.close();
              return;
