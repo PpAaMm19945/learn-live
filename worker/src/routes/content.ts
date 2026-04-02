@@ -104,7 +104,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
 
         const { results: lessons } = await env.DB.prepare(
             'SELECT id, title, difficulty_band, narrative_text FROM Lessons WHERE topic_id = ? ORDER BY difficulty_band ASC'
-        ).bind(chapterId).all();
+        ).bind(topicId).all();
 
         if (lessons.length === 0) {
             return new Response(JSON.stringify({
