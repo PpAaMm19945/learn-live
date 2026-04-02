@@ -13,9 +13,12 @@ export interface WorldContextEntry {
 
 export async function handleGetWorldContext(request: Request, env: Env, chapterId: string): Promise<Response> {
   try {
+    // Normalize: frontend sends "ch01", DB stores "topic_ch01"
+    const topicId = chapterId.startsWith('topic_') ? chapterId : `topic_${chapterId}`;
+
     const stmt = env.DB.prepare(
       `SELECT * FROM World_Context WHERE chapter_id = ? ORDER BY start_year ASC`
-    ).bind(chapterId);
+    ).bind(topicId);
 
     const { results } = await stmt.all<WorldContextEntry>();
 
