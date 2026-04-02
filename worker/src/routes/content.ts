@@ -97,7 +97,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
     }
 
     try {
-        const topic = await env.DB.prepare('SELECT id, title FROM Topics WHERE id = ?').bind(chapterId).first<any>();
+        const topic = await env.DB.prepare('SELECT id, title FROM Topics WHERE id = ?').bind(topicId).first<any>();
         if (!topic) {
              return new Response(JSON.stringify({ error: 'Chapter not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
