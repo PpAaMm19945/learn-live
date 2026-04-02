@@ -84,6 +84,8 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
          return new Response(JSON.stringify({ error: 'Invalid route' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     const chapterId = chapterIdMatch[1];
+    // Normalize: frontend sends "ch01", DB stores "topic_ch01"
+    const topicId = chapterId.startsWith('topic_') ? chapterId : `topic_${chapterId}`;
 
     let band = 5;
     const bandParam = url.searchParams.get('band');
@@ -95,14 +97,14 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
     }
 
     try {
-        const topic = await env.DB.prepare('SELECT id, title FROM Topics WHERE id = ?').bind(chapterId).first<any>();
+        const topic = await env.DB.prepare('SELECT id, title FROM Topics WHERE id = ?').bind(topicId).first<any>();
         if (!topic) {
              return new Response(JSON.stringify({ error: 'Chapter not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
         }
 
         const { results: lessons } = await env.DB.prepare(
             'SELECT id, title, difficulty_band, narrative_text FROM Lessons WHERE topic_id = ? ORDER BY difficulty_band ASC'
-        ).bind(chapterId).all();
+        ).bind(topicId).all();
 
         if (lessons.length === 0) {
             return new Response(JSON.stringify({
