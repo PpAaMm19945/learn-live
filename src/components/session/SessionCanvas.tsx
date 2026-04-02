@@ -243,7 +243,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-muted-foreground animate-pulse">Connecting to your teacher...</p>
+        <p className="text-muted-foreground animate-pulse">Starting your lesson...</p>
       </div>
     );
   }

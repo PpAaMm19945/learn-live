@@ -90,6 +90,10 @@ export async function handleHistoryExplainerSession(
     recordSession(familyId);
     console.log(`[GEMINI] Session established, model=gemini-2.0-flash-exp`);
 
+    // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
+    console.log(`[GEMINI] Sending initial kickoff prompt...`);
+    gemini.sendText("Greet the learner by name, begin teaching the chapter, and start with one short spoken introduction.");
+
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
         if (ws.readyState !== WebSocket.OPEN) return;

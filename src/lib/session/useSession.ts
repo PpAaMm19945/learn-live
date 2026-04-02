@@ -47,7 +47,9 @@ export function useSession({
   const nextPlayTimeRef = useRef<number>(0);
 
   // Microphone Capture State
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioInputContextRef = useRef<AudioContext | null>(null);
+  const processorRef = useRef<ScriptProcessorNode | null>(null);
+  const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
   const playAudioChunk = useCallback(async (base64Audio: string) => {
@@ -101,26 +103,43 @@ export function useSession({
          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
          streamRef.current = stream;
 
-         const mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm;codecs=opus' });
-         mediaRecorderRef.current = mediaRecorder;
+         const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+         // Setup AudioContext for 16kHz
+         const audioContext = new AudioContextClass({ sampleRate: 16000 });
+         audioInputContextRef.current = audioContext;
 
-         mediaRecorder.ondataavailable = async (e) => {
-            if (e.data.size > 0 && wsRef.current?.readyState === WebSocket.OPEN && !isMuted) {
-                // Convert Blob to Base64
-                const reader = new FileReader();
-                reader.readAsDataURL(e.data);
-                reader.onloadend = () => {
-                    const base64data = reader.result?.toString().split(',')[1];
-                    if (base64data) {
-                        wsRef.current?.send(JSON.stringify({ type: 'audio', data: base64data }));
-                    }
-                };
-            }
+         const source = audioContext.createMediaStreamSource(stream);
+         sourceRef.current = source;
+
+         // ScriptProcessorNode is deprecated but highly compatible for basic raw PCM extraction
+         const processor = audioContext.createScriptProcessor(4096, 1, 1);
+         processorRef.current = processor;
+
+         processor.onaudioprocess = (e) => {
+             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted) {
+                 const inputData = e.inputBuffer.getChannelData(0);
+                 const pcmData = new Int16Array(inputData.length);
+                 for (let i = 0; i < inputData.length; i++) {
+                     let s = Math.max(-1, Math.min(1, inputData[i]));
+                     pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+                 }
+
+                 // Convert Int16Array to Base64
+                 const buffer = new Uint8Array(pcmData.buffer);
+                 let binary = '';
+                 for (let i = 0; i < buffer.byteLength; i++) {
+                     binary += String.fromCharCode(buffer[i]);
+                 }
+                 const base64data = btoa(binary);
+
+                 wsRef.current?.send(JSON.stringify({ type: 'audio', data: base64data }));
+             }
          };
 
-         // Capture chunks every 250ms for low latency streaming
-         mediaRecorder.start(250);
-         Logger.info('[AUDIO]', 'Microphone connected and recording started.');
+         source.connect(processor);
+         processor.connect(audioContext.destination);
+
+         Logger.info('[AUDIO]', 'Microphone connected and 16kHz PCM recording started.');
 
      } catch (err) {
          Logger.error('[AUDIO]', 'Failed to setup microphone', err);
@@ -258,9 +277,17 @@ export function useSession({
        audioContextRef.current.close();
        audioContextRef.current = null;
     }
-    if (mediaRecorderRef.current) {
-        mediaRecorderRef.current.stop();
-        mediaRecorderRef.current = null;
+    if (processorRef.current) {
+        processorRef.current.disconnect();
+        processorRef.current = null;
+    }
+    if (sourceRef.current) {
+        sourceRef.current.disconnect();
+        sourceRef.current = null;
+    }
+    if (audioInputContextRef.current) {
+        audioInputContextRef.current.close();
+        audioInputContextRef.current = null;
     }
     if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
@@ -293,8 +320,14 @@ export function useSession({
               audioContextRef.current.close();
               audioContextRef.current = null;
           }
-          if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
-             mediaRecorderRef.current.stop();
+          if (processorRef.current) {
+              processorRef.current.disconnect();
+          }
+          if (sourceRef.current) {
+              sourceRef.current.disconnect();
+          }
+          if (audioInputContextRef.current) {
+              audioInputContextRef.current.close();
           }
           if (streamRef.current) {
              streamRef.current.getTracks().forEach(track => track.stop());

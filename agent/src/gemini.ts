@@ -16,6 +16,7 @@ export class GeminiSession {
             this.session = await ai.live.connect({
                 model: "gemini-2.0-flash-exp",
                 config: {
+                    responseModalities: ["AUDIO"],
                     systemInstruction: {
                         parts: [{ text: this.systemInstruction }]
                     },
@@ -47,19 +48,31 @@ export class GeminiSession {
                             }
                         }
 
-                        if (e.serverContent?.modelTurn && this.onResCallback) {
-                            const parts = e.serverContent.modelTurn.parts || [];
-
-                            // Check for text and audio parts specifically for easier handling downstream
+                        if (e.serverContent && this.onResCallback) {
                             let textContent = '';
                             let audioData = null;
+                            let hasModelTurn = false;
+                            let parts = [];
 
-                            for (const part of parts) {
-                                if (part.text) {
-                                    textContent += part.text;
+                            if (e.serverContent.modelTurn) {
+                                hasModelTurn = true;
+                                parts = e.serverContent.modelTurn.parts || [];
+                                for (const part of parts) {
+                                    if (part.text) {
+                                        textContent += part.text;
+                                    }
+                                    if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/')) {
+                                        audioData = part.inlineData.data;
+                                    }
                                 }
-                                if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/')) {
-                                    audioData = part.inlineData.data;
+                            }
+
+                            // Capture transcript from audio output modalities if present
+                            if (e.serverContent.outputTranscription?.parts) {
+                                for (const part of e.serverContent.outputTranscription.parts) {
+                                    if (part.text) {
+                                        textContent += part.text;
+                                    }
                                 }
                             }
 
@@ -78,11 +91,13 @@ export class GeminiSession {
                                 });
                             }
 
-                            // Keep raw modelTurn for other potential uses
-                            this.onResCallback({
-                                type: 'modelTurn',
-                                parts: parts
-                            });
+                            if (hasModelTurn) {
+                                // Keep raw modelTurn for other potential uses
+                                this.onResCallback({
+                                    type: 'modelTurn',
+                                    parts: parts
+                                });
+                            }
                         }
 
                         if (e.serverContent?.turnComplete && this.onResCallback) {
@@ -109,6 +124,24 @@ export class GeminiSession {
 
     onResponse(callback: (data: any) => void) {
         this.onResCallback = callback;
+    }
+
+    sendText(text: string) {
+        if (!this.session) return;
+
+        try {
+            this.session.send({
+                clientContent: {
+                    turns: [{
+                        role: "user",
+                        parts: [{ text }]
+                    }],
+                    turnComplete: true
+                }
+            });
+        } catch (e) {
+            console.error('[AGENT] Error sending text:', e);
+        }
     }
 
     sendAudio(chunk: Buffer) {
