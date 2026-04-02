@@ -30,6 +30,7 @@ export function useSession({
   const [sceneMode, setSceneMode] = useState<SceneMode>('transcript');
   const [error, setError] = useState<string>();
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectCountRef = useRef<number>(0);
@@ -174,6 +175,7 @@ export function useSession({
       ws.onopen = () => {
         Logger.info('[WS]', 'Connected to agent');
         setStatus('connected');
+        setHasReceivedMessage(false);
         // NOTE: Do NOT reset reconnectCountRef here — that's what caused the infinite loop.
         // Count is only reset on explicit user-initiated connect() calls (isReconnect=false).
 
@@ -188,6 +190,7 @@ export function useSession({
       ws.onmessage = async (event) => {
         try {
           const msg = JSON.parse(event.data);
+          setHasReceivedMessage(true);
 
           if (onMessage) {
               onMessage(msg as AgentMessage);
@@ -341,6 +344,7 @@ export function useSession({
     sceneMode,
     error,
     isMuted,
+    hasReceivedMessage,
     connect,
     disconnect,
     toggleMute,

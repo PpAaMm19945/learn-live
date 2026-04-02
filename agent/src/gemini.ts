@@ -5,6 +5,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export class GeminiSession {
     private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;
+    private messageQueue: any[] = [];
 
     constructor(private systemInstruction: string, private extraTools?: any[]) { }
 
@@ -17,6 +18,7 @@ export class GeminiSession {
                 model: "gemini-2.0-flash-exp",
                 config: {
                     responseModalities: ["AUDIO"] as any,
+                    outputAudioTranscription: {},
                     systemInstruction: {
                         parts: [{ text: this.systemInstruction }]
                     },
@@ -35,20 +37,28 @@ export class GeminiSession {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
                     onmessage: (e) => {
+                        console.log('[GEMINI] Message received:', Object.keys(e).join(', '));
+
+                        const deliver = (msg: any) => {
+                            if (this.onResCallback) {
+                                this.onResCallback(msg);
+                            } else {
+                                this.messageQueue.push(msg);
+                            }
+                        };
+
                         if (e.toolCall && e.toolCall.functionCalls) {
                             for (const call of e.toolCall.functionCalls) {
-                                if (this.onResCallback) {
-                                    this.onResCallback({
-                                        type: 'functionCall',
-                                        id: call.id,
-                                        name: call.name,
-                                        args: call.args
-                                    });
-                                }
+                                deliver({
+                                    type: 'functionCall',
+                                    id: call.id,
+                                    name: call.name,
+                                    args: call.args
+                                });
                             }
                         }
 
-                        if (e.serverContent && this.onResCallback) {
+                        if (e.serverContent) {
                             let textContent = '';
                             let audioData = null;
                             let hasModelTurn = false;
@@ -78,7 +88,7 @@ export class GeminiSession {
                             }
 
                             if (textContent) {
-                                this.onResCallback({
+                                deliver({
                                     type: 'text',
                                     text: textContent,
                                     isFinal: false // The Live API streams text
@@ -86,7 +96,7 @@ export class GeminiSession {
                             }
 
                             if (audioData) {
-                                this.onResCallback({
+                                deliver({
                                     type: 'audio',
                                     data: audioData
                                 });
@@ -94,15 +104,15 @@ export class GeminiSession {
 
                             if (hasModelTurn) {
                                 // Keep raw modelTurn for other potential uses
-                                this.onResCallback({
+                                deliver({
                                     type: 'modelTurn',
                                     parts: parts
                                 });
                             }
                         }
 
-                        if (e.serverContent?.turnComplete && this.onResCallback) {
-                            this.onResCallback({
+                        if (e.serverContent?.turnComplete) {
+                            deliver({
                                 type: 'text',
                                 text: '',
                                 isFinal: true
@@ -125,6 +135,10 @@ export class GeminiSession {
 
     onResponse(callback: (data: any) => void) {
         this.onResCallback = callback;
+        while (this.messageQueue.length > 0) {
+            const msg = this.messageQueue.shift();
+            callback(msg);
+        }
     }
 
     sendText(text: string) {

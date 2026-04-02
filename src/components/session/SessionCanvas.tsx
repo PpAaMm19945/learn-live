@@ -54,6 +54,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     sceneMode,
     error,
     isMuted,
+    hasReceivedMessage,
     connect,
     disconnect,
     toggleMute,
@@ -82,16 +83,16 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   useEffect(() => {
     if (useFallback) return;
 
-    if (status === 'connected' && transcriptChunks.length === 0) {
+    if (status === 'connected' && !hasReceivedMessage) {
       noResponseWarningTimeoutRef.current = window.setTimeout(() => {
         setNoResponseWarning(true);
-      }, 15000);
+      }, 25000);
 
       noResponseErrorTimeoutRef.current = window.setTimeout(() => {
         setNoResponseError(true);
         disconnect();
-      }, 30000);
-    } else if (transcriptChunks.length > 0) {
+      }, 45000);
+    } else if (hasReceivedMessage) {
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
       if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
       setNoResponseWarning(false);
@@ -107,7 +108,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
       if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
     };
-  }, [status, transcriptChunks.length, useFallback, disconnect]);
+  }, [status, hasReceivedMessage, useFallback, disconnect]);
 
   // Auto-connect once on mount (or when useFallback toggles off), gated by context readiness
   const hasAutoConnected = useRef(false);
