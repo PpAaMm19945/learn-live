@@ -40,7 +40,16 @@ export default function LessonPlayerPage() {
 
   const handleExit = () => navigate('/dashboard');
 
-  if (loading) {
+  const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
+
+  // Before attempting to show the player, ensure we have a learner selected
+  useEffect(() => {
+    if (!loading && !activeLearnerId) {
+       navigate('/dashboard');
+    }
+  }, [loading, activeLearnerId, navigate]);
+
+  if (loading || !activeLearnerId) {
     return (
       <div className="fixed inset-0 bg-background flex items-center justify-center">
         <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
