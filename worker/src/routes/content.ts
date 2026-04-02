@@ -84,6 +84,8 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
          return new Response(JSON.stringify({ error: 'Invalid route' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
     }
     const chapterId = chapterIdMatch[1];
+    // Normalize: frontend sends "ch01", DB stores "topic_ch01"
+    const topicId = chapterId.startsWith('topic_') ? chapterId : `topic_${chapterId}`;
 
     let band = 5;
     const bandParam = url.searchParams.get('band');
