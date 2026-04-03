@@ -87,7 +87,6 @@ export async function handleHistoryExplainerSession(
     }
 
     // 3. Build rich system prompt (or minimal hello-world prompt for debugging)
-    const helloWorldMode = process.env.GEMINI_LIVE_HELLO_WORLD === '1';
     const systemPrompt = helloWorldMode
         ? 'You are a friendly teacher. Say hello, ask if the learner is ready, and wait for their reply.'
         : buildHistoryExplainerPrompt(baseContent, learnerContext, band);
