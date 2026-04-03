@@ -75,9 +75,21 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   const connectRef = useRef(connect);
   const handleAgentToolCallRef = useRef(handleAgentToolCall);
   const recordEventRef = useRef(recordEvent);
+  const lastAutoConnectKeyRef = useRef<string | null>(null);
   useEffect(() => { connectRef.current = connect; }, [connect]);
   useEffect(() => { handleAgentToolCallRef.current = handleAgentToolCall; }, [handleAgentToolCall]);
   useEffect(() => { recordEventRef.current = recordEvent; }, [recordEvent]);
+
+  const restartLiveSession = useCallback(() => {
+    setNoResponseError(false);
+    setNoResponseWarning(false);
+    disconnect();
+
+    // Allow the disconnect state transition to settle before reconnecting.
+    window.setTimeout(() => {
+      connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
+    }, 100);
+  }, [disconnect]);
 
   // Monitor for silent connect with no chunks
   useEffect(() => {
@@ -90,7 +102,6 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
 
       noResponseErrorTimeoutRef.current = window.setTimeout(() => {
         setNoResponseError(true);
-        disconnect();
       }, 45000);
     } else if (hasReceivedMessage) {
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
@@ -108,14 +119,18 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
       if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
     };
-  }, [status, hasReceivedMessage, useFallback, disconnect]);
+  }, [status, hasReceivedMessage, useFallback]);
 
   // Auto-connect on mount (or when useFallback toggles off), gated by context readiness
   useEffect(() => {
     if (!useFallback && familyId && activeLearnerId) {
-      connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
+      const connectKey = `${familyId}:${activeLearnerId}:${chapterId}:${band}`;
+      if (lastAutoConnectKeyRef.current !== connectKey) {
+        lastAutoConnectKeyRef.current = connectKey;
+        connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
+      }
     }
-  }, [useFallback, familyId, activeLearnerId]);
+  }, [useFallback, familyId, activeLearnerId, chapterId, band]);
 
   useEffect(() => {
     if (status === 'connecting' && !useFallback) {
@@ -255,11 +270,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         <p className="text-muted-foreground">{error || 'Your teacher is unavailable.'}</p>
         <div className="flex gap-4">
           <button
-            onClick={() => {
-              setNoResponseError(false);
-              setNoResponseWarning(false);
-              connect(handleAgentToolCall);
-            }}
+            onClick={restartLiveSession}
             className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
           >
             Try Again
@@ -283,11 +294,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
         <p className="text-muted-foreground">Your teacher is taking too long to respond.</p>
         <div className="flex gap-4">
           <button
-            onClick={() => {
-              setNoResponseError(false);
-              setNoResponseWarning(false);
-              connect(handleAgentToolCall);
-            }}
+            onClick={restartLiveSession}
             className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
           >
             Try Again

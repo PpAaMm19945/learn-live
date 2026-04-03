@@ -13,31 +13,34 @@ export class GeminiSession {
         console.log('[AGENT] Connecting to Gemini Live API');
         try {
             console.log('[AGENT] Started session with instruction: ', this.systemInstruction.substring(0, 50));
+            const liveConfig: any = {
+                responseModalities: ["AUDIO"],
+                outputAudioTranscription: {},
+                systemInstruction: {
+                    parts: [{ text: this.systemInstruction }]
+                },
+                tools: [{
+                    functionDeclarations: [
+                        ...(this.extraTools || []).map(t => ({
+                            name: t.name,
+                            description: t.description,
+                            parameters: t.parameters,
+                        })),
+                    ]
+                }]
+            };
 
             this.session = await ai.live.connect({
                 model: "gemini-2.0-flash-exp",
-                config: {
-                    responseModalities: ["AUDIO"] as any,
-                    outputAudioTranscription: {},
-                    systemInstruction: {
-                        parts: [{ text: this.systemInstruction }]
-                    },
-                    tools: [{
-                        functionDeclarations: [
-                            ...(this.extraTools || []).map(t => ({
-                                name: t.name,
-                                description: t.description,
-                                parameters: t.parameters,
-                            })),
-                        ]
-                    }]
-                },
+                config: liveConfig,
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
                     onmessage: (e) => {
-                        console.log('[GEMINI] Message received:', Object.keys(e).join(', '));
+                        console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
+
+                        const payload = this.unwrapPayload(e);
 
                         const deliver = (msg: any) => {
                             if (this.onResCallback) {
@@ -47,8 +50,9 @@ export class GeminiSession {
                             }
                         };
 
-                        if (e.toolCall && e.toolCall.functionCalls) {
-                            for (const call of e.toolCall.functionCalls) {
+                        const toolCall = payload?.toolCall;
+                        if (toolCall && toolCall.functionCalls) {
+                            for (const call of toolCall.functionCalls) {
                                 deliver({
                                     type: 'functionCall',
                                     id: call.id,
@@ -58,15 +62,16 @@ export class GeminiSession {
                             }
                         }
 
-                        if (e.serverContent) {
+                        const serverContent = payload?.serverContent;
+                        if (serverContent) {
                             let textContent = '';
                             let audioData = null;
                             let hasModelTurn = false;
                             let parts: any[] = [];
 
-                            if (e.serverContent.modelTurn) {
+                            if (serverContent.modelTurn) {
                                 hasModelTurn = true;
-                                parts = e.serverContent.modelTurn.parts || [];
+                                parts = serverContent.modelTurn.parts || [];
                                 for (const part of parts) {
                                     if (part.text) {
                                         textContent += part.text;
@@ -78,7 +83,7 @@ export class GeminiSession {
                             }
 
                             // Capture transcript from audio output modalities if present
-                            const outputTranscription = (e.serverContent as any).outputTranscription;
+                            const outputTranscription = (serverContent as any).outputTranscription;
                             if (outputTranscription?.parts) {
                                 for (const part of outputTranscription.parts) {
                                     if (part.text) {
@@ -111,7 +116,7 @@ export class GeminiSession {
                             }
                         }
 
-                        if (e.serverContent?.turnComplete) {
+                        if (serverContent?.turnComplete) {
                             deliver({
                                 type: 'text',
                                 text: '',
@@ -206,5 +211,28 @@ export class GeminiSession {
             this.session.close();
             this.session = null;
         }
+    }
+
+    private unwrapPayload(event: any): any {
+        if (!event) return {};
+        if (event.serverContent || event.toolCall) return event;
+
+        const candidates = [event.data, event.message, event.payload];
+        for (const candidate of candidates) {
+            if (!candidate) continue;
+
+            if (typeof candidate === 'string') {
+                try {
+                    const parsed = JSON.parse(candidate);
+                    if (parsed?.serverContent || parsed?.toolCall) return parsed;
+                } catch {
+                    // Ignore non-JSON payloads
+                }
+            } else if (candidate.serverContent || candidate.toolCall) {
+                return candidate;
+            }
+        }
+
+        return event;
     }
 }
