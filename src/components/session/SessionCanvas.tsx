@@ -110,11 +110,9 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     };
   }, [status, hasReceivedMessage, useFallback, disconnect]);
 
-  // Auto-connect once on mount (or when useFallback toggles off), gated by context readiness
-  const hasAutoConnected = useRef(false);
+  // Auto-connect on mount (or when useFallback toggles off), gated by context readiness
   useEffect(() => {
-    if (!useFallback && !hasAutoConnected.current && familyId && activeLearnerId) {
-      hasAutoConnected.current = true;
+    if (!useFallback && familyId && activeLearnerId) {
       connectRef.current(handleAgentToolCallRef.current, recordEventRef.current);
     }
   }, [useFallback, familyId, activeLearnerId]);
