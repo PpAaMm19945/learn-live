@@ -87,7 +87,9 @@ export async function handleHistoryExplainerSession(
     const gemini = new GeminiSession(systemPrompt, MAPLIBRE_TEACHING_TOOLS);
     let hasGeminiResponse = false;
     const geminiSilenceTimeoutMs = Number(process.env.GEMINI_FIRST_RESPONSE_TIMEOUT_MS || 60000);
+    const geminiKickoffNudgeMs = Number(process.env.GEMINI_KICKOFF_NUDGE_MS || 12000);
     let geminiSilenceTimer: ReturnType<typeof setTimeout> | null = null;
+    let geminiKickoffNudgeTimer: ReturnType<typeof setTimeout> | null = null;
     try {
         await gemini.connect();
     } catch (e: any) {
@@ -107,6 +109,10 @@ export async function handleHistoryExplainerSession(
         if (geminiSilenceTimer) {
             clearTimeout(geminiSilenceTimer);
             geminiSilenceTimer = null;
+        }
+        if (geminiKickoffNudgeTimer) {
+            clearTimeout(geminiKickoffNudgeTimer);
+            geminiKickoffNudgeTimer = null;
         }
 
         if (data.type === 'functionCall') {
@@ -146,7 +152,13 @@ export async function handleHistoryExplainerSession(
 
     // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
     console.log(`[GEMINI] Sending initial kickoff prompt...`);
-    gemini.sendText("Greet the learner by name, begin teaching the chapter, and start with one short spoken introduction.");
+    gemini.sendText("Start now. Greet the learner by name and give one short introduction sentence before using any tool.");
+    geminiKickoffNudgeTimer = setTimeout(() => {
+        if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
+            console.warn(`[GEMINI] No early response after ${geminiKickoffNudgeMs}ms. Sending kickoff nudge.`);
+            gemini.sendText("Reply immediately with one short plain sentence to confirm you are live. Do not call tools yet.");
+        }
+    }, geminiKickoffNudgeMs);
     geminiSilenceTimer = setTimeout(() => {
         if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
             console.warn(`[GEMINI] No response within ${geminiSilenceTimeoutMs}ms after kickoff.`);
@@ -172,6 +184,7 @@ export async function handleHistoryExplainerSession(
     });
 
     ws.on('close', () => {
+        if (geminiKickoffNudgeTimer) clearTimeout(geminiKickoffNudgeTimer);
         if (geminiSilenceTimer) clearTimeout(geminiSilenceTimer);
         console.log(`[GEMINI] Session ended: reason=client_disconnect`);
         console.log(`[WS] Client disconnected`);
@@ -180,6 +193,7 @@ export async function handleHistoryExplainerSession(
     });
 
     ws.on('error', (err: Error) => {
+        if (geminiKickoffNudgeTimer) clearTimeout(geminiKickoffNudgeTimer);
         if (geminiSilenceTimer) clearTimeout(geminiSilenceTimer);
         console.log(`[GEMINI] Session ended: reason=error`);
         console.log(`[WS] Client disconnected with error`);

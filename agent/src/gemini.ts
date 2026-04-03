@@ -13,8 +13,13 @@ export class GeminiSession {
         console.log('[AGENT] Connecting to Gemini Live API');
         try {
             console.log('[AGENT] Started session with instruction: ', this.systemInstruction.substring(0, 50));
+            const responseModalities = (process.env.GEMINI_RESPONSE_MODALITIES || 'TEXT,AUDIO')
+                .split(',')
+                .map((m) => m.trim().toUpperCase())
+                .filter(Boolean);
+
             const liveConfig: any = {
-                responseModalities: ["AUDIO"],
+                responseModalities,
                 outputAudioTranscription: {},
                 systemInstruction: {
                     parts: [{ text: this.systemInstruction }]
@@ -41,6 +46,15 @@ export class GeminiSession {
                         console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
 
                         const payload = this.unwrapPayload(e);
+                        if (payload?.setupComplete) {
+                            console.log('[GEMINI] Setup complete event received.');
+                        }
+                        if (payload?.serverContent?.interrupted) {
+                            console.log('[GEMINI] Model turn interrupted.');
+                        }
+                        if (payload?.serverContent?.turnComplete) {
+                            console.log('[GEMINI] Model turn complete.');
+                        }
 
                         const deliver = (msg: any) => {
                             if (this.onResCallback) {
