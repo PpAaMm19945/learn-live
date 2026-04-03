@@ -16,6 +16,7 @@ export async function handleHistoryExplainerSession(
 
     // 1. Fetch adapted content as base instruction
     let baseContent = '';
+    const MAX_BASE_CONTENT_CHARS = Number(process.env.MAX_BASE_CONTENT_CHARS || 14000);
     try {
         // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
         const serviceKey = process.env.AGENT_SERVICE_KEY || '';
@@ -34,6 +35,11 @@ export async function handleHistoryExplainerSession(
                 }).join('\n\n');
             } else {
                 baseContent = contentData.content || ''; // Fallback just in case
+            }
+
+            if (baseContent.length > MAX_BASE_CONTENT_CHARS) {
+                console.warn(`[HISTORY_EXPLAINER] Base content too large (${baseContent.length} chars). Truncating to ${MAX_BASE_CONTENT_CHARS}.`);
+                baseContent = `${baseContent.substring(0, MAX_BASE_CONTENT_CHARS)}\n\n[Content truncated for faster live session startup.]`;
             }
         } else {
              const errorBody = await contentRes.text();
@@ -79,6 +85,9 @@ export async function handleHistoryExplainerSession(
     // 4. Create Gemini session with MapLibre tools
     console.log(`[GEMINI] Connecting to Live API...`);
     const gemini = new GeminiSession(systemPrompt, MAPLIBRE_TEACHING_TOOLS);
+    let hasGeminiResponse = false;
+    const geminiSilenceTimeoutMs = Number(process.env.GEMINI_FIRST_RESPONSE_TIMEOUT_MS || 60000);
+    let geminiSilenceTimer: ReturnType<typeof setTimeout> | null = null;
     try {
         await gemini.connect();
     } catch (e: any) {
@@ -93,6 +102,12 @@ export async function handleHistoryExplainerSession(
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
         if (ws.readyState !== WebSocket.OPEN) return;
+        hasGeminiResponse = true;
+
+        if (geminiSilenceTimer) {
+            clearTimeout(geminiSilenceTimer);
+            geminiSilenceTimer = null;
+        }
 
         if (data.type === 'functionCall') {
             console.log(`[GEMINI] Tool call received: ${data.name}(${JSON.stringify(data.args)})`);
@@ -132,6 +147,15 @@ export async function handleHistoryExplainerSession(
     // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
     console.log(`[GEMINI] Sending initial kickoff prompt...`);
     gemini.sendText("Greet the learner by name, begin teaching the chapter, and start with one short spoken introduction.");
+    geminiSilenceTimer = setTimeout(() => {
+        if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
+            console.warn(`[GEMINI] No response within ${geminiSilenceTimeoutMs}ms after kickoff.`);
+            ws.send(JSON.stringify({
+                type: 'error',
+                message: 'Teacher is taking longer than expected. Please try again.'
+            }));
+        }
+    }, geminiSilenceTimeoutMs);
 
     // 6. Handle incoming audio from learner
     ws.on('message', (raw: string) => {
@@ -148,6 +172,7 @@ export async function handleHistoryExplainerSession(
     });
 
     ws.on('close', () => {
+        if (geminiSilenceTimer) clearTimeout(geminiSilenceTimer);
         console.log(`[GEMINI] Session ended: reason=client_disconnect`);
         console.log(`[WS] Client disconnected`);
         console.log(`[HISTORY_EXPLAINER] Session closed — learner: ${learnerId}`);
@@ -155,6 +180,7 @@ export async function handleHistoryExplainerSession(
     });
 
     ws.on('error', (err: Error) => {
+        if (geminiSilenceTimer) clearTimeout(geminiSilenceTimer);
         console.log(`[GEMINI] Session ended: reason=error`);
         console.log(`[WS] Client disconnected with error`);
         console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);

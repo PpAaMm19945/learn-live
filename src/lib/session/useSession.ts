@@ -148,7 +148,13 @@ export function useSession({
   }, [band, isMuted]);
 
   const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void, isReconnect = false) => {
-    if (wsRef.current?.readyState === WebSocket.OPEN) return;
+    if (
+      wsRef.current?.readyState === WebSocket.OPEN ||
+      wsRef.current?.readyState === WebSocket.CONNECTING
+    ) {
+      Logger.info('[WS]', 'Connect skipped: socket already open or connecting');
+      return;
+    }
 
     // Reset reconnect count only on user-initiated connects, not auto-reconnects
     if (!isReconnect) {
@@ -173,6 +179,11 @@ export function useSession({
       wsRef.current = ws;
 
       ws.onopen = () => {
+        if (wsRef.current !== ws) {
+          Logger.warn('[WS]', 'Ignoring stale socket onopen event');
+          ws.close();
+          return;
+        }
         Logger.info('[WS]', 'Connected to agent');
         setStatus('connected');
         setHasReceivedMessage(false);
@@ -188,6 +199,10 @@ export function useSession({
       };
 
       ws.onmessage = async (event) => {
+        if (wsRef.current !== ws) {
+          Logger.warn('[WS]', 'Ignoring message from stale socket');
+          return;
+        }
         try {
           const msg = JSON.parse(event.data);
           setHasReceivedMessage(true);
@@ -228,6 +243,11 @@ export function useSession({
       };
 
       ws.onclose = (e) => {
+        if (wsRef.current !== ws) {
+          Logger.info('[WS]', 'Ignoring close event from stale socket');
+          return;
+        }
+        wsRef.current = null;
         Logger.info('[WS]', `Disconnected from agent (code=${e.code}, reason=${e.reason})`);
 
         if (statusRef.current === 'ended') {
@@ -251,6 +271,7 @@ export function useSession({
       };
 
       ws.onerror = (e) => {
+         if (wsRef.current !== ws) return;
          Logger.error('[WS]', 'WebSocket error', e);
          // onclose will handle setting error state
       };
