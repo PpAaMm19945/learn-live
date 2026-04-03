@@ -11,71 +11,79 @@ export async function handleHistoryExplainerSession(
     band: number
 ) {
     console.log(`[HISTORY_EXPLAINER] Session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
+    const helloWorldMode = process.env.GEMINI_LIVE_HELLO_WORLD !== '0';
+    if (helloWorldMode) {
+        console.warn('[HISTORY_EXPLAINER] Hello-world mode is ACTIVE (set GEMINI_LIVE_HELLO_WORLD=0 to disable).');
+    }
 
     const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
 
     // 1. Fetch adapted content as base instruction
     let baseContent = '';
     const MAX_BASE_CONTENT_CHARS = Number(process.env.MAX_BASE_CONTENT_CHARS || 14000);
-    try {
-        // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
-        const serviceKey = process.env.AGENT_SERVICE_KEY || '';
-        console.log(`[HISTORY_EXPLAINER] Fetching chapter content. Service key length: ${serviceKey.length}, exists: ${!!serviceKey}`);
+    if (!helloWorldMode) {
+        try {
+            // lessonId here is actually a chapterId (e.g. "ch01"), so use the chapter content endpoint
+            const serviceKey = process.env.AGENT_SERVICE_KEY || '';
+            console.log(`[HISTORY_EXPLAINER] Fetching chapter content. Service key length: ${serviceKey.length}, exists: ${!!serviceKey}`);
 
-        const contentRes = await fetch(`${workerUrl}/api/chapters/${lessonId}/content?band=${band}`, {
-            headers: {
-                'X-Service-Key': serviceKey
-            }
-        });
-        if (contentRes.ok) {
-            const contentData = await contentRes.json();
-            if (contentData.sections && Array.isArray(contentData.sections)) {
-                baseContent = contentData.sections.map((section: any) => {
-                    return `Chapter: ${contentData.title || ''}\nSection Title: ${section.title || ''}\nContent: ${section.adaptedContent || ''}`;
-                }).join('\n\n');
+            const contentRes = await fetch(`${workerUrl}/api/chapters/${lessonId}/content?band=${band}`, {
+                headers: {
+                    'X-Service-Key': serviceKey
+                }
+            });
+            if (contentRes.ok) {
+                const contentData = await contentRes.json();
+                if (contentData.sections && Array.isArray(contentData.sections)) {
+                    baseContent = contentData.sections.map((section: any) => {
+                        return `Chapter: ${contentData.title || ''}\nSection Title: ${section.title || ''}\nContent: ${section.adaptedContent || ''}`;
+                    }).join('\n\n');
+                } else {
+                    baseContent = contentData.content || ''; // Fallback just in case
+                }
+
+                if (baseContent.length > MAX_BASE_CONTENT_CHARS) {
+                    console.warn(`[HISTORY_EXPLAINER] Base content too large (${baseContent.length} chars). Truncating to ${MAX_BASE_CONTENT_CHARS}.`);
+                    baseContent = `${baseContent.substring(0, MAX_BASE_CONTENT_CHARS)}\n\n[Content truncated for faster live session startup.]`;
+                }
             } else {
-                baseContent = contentData.content || ''; // Fallback just in case
+                const errorBody = await contentRes.text();
+                console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}, response: ${errorBody.substring(0, 200)}`);
+                ws.send(JSON.stringify({ error: `Failed to load lesson content: ${contentRes.statusText}` }));
+                ws.close();
+                return;
             }
-
-            if (baseContent.length > MAX_BASE_CONTENT_CHARS) {
-                console.warn(`[HISTORY_EXPLAINER] Base content too large (${baseContent.length} chars). Truncating to ${MAX_BASE_CONTENT_CHARS}.`);
-                baseContent = `${baseContent.substring(0, MAX_BASE_CONTENT_CHARS)}\n\n[Content truncated for faster live session startup.]`;
-            }
-        } else {
-             const errorBody = await contentRes.text();
-             console.warn(`[HISTORY_EXPLAINER] Failed to fetch adapted content, status: ${contentRes.status}, response: ${errorBody.substring(0, 200)}`);
-             ws.send(JSON.stringify({ error: `Failed to load lesson content: ${contentRes.statusText}` }));
-             ws.close();
-             return;
+        } catch (e: any) {
+            console.error(`[HISTORY_EXPLAINER] Error fetching adapted content: ${e.message}`);
+            ws.send(JSON.stringify({ error: 'Failed to load lesson content' }));
+            ws.close();
+            return;
         }
-    } catch (e: any) {
-        console.error(`[HISTORY_EXPLAINER] Error fetching adapted content: ${e.message}`);
-        ws.send(JSON.stringify({ error: 'Failed to load lesson content' }));
-        ws.close();
-        return;
     }
 
     // 2. Fetch learner context dynamically from D1
     let learnerContext = { name: 'Learner', age: 7, band: band };
-    try {
-        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`, {
-            headers: {
-                'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+    if (!helloWorldMode) {
+        try {
+            const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`, {
+                headers: {
+                    'X-Service-Key': process.env.AGENT_SERVICE_KEY || ''
+                }
+            });
+            if (profileRes.ok) {
+                const profileData = await profileRes.json();
+                const learner = profileData.profiles?.find((p: any) => p.id === learnerId);
+                if (learner) {
+                    learnerContext = {
+                        name: learner.name || 'Learner',
+                        age: learner.age || 7,
+                        band: band, // Use the requested band
+                    };
+                }
             }
-        });
-        if (profileRes.ok) {
-            const profileData = await profileRes.json();
-            const learner = profileData.profiles?.find((p: any) => p.id === learnerId);
-            if (learner) {
-                learnerContext = {
-                    name: learner.name || 'Learner',
-                    age: learner.age || 7,
-                    band: band, // Use the requested band
-                };
-            }
+        } catch (e: any) {
+            console.warn(`[HISTORY_EXPLAINER] Failed to fetch learner profile, using defaults: ${e.message}`);
         }
-    } catch (e: any) {
-        console.warn(`[HISTORY_EXPLAINER] Failed to fetch learner profile, using defaults: ${e.message}`);
     }
 
     // 3. Build rich system prompt (or minimal hello-world prompt for debugging)
