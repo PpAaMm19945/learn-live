@@ -17,6 +17,11 @@ export class GeminiSession {
                 .split(',')
                 .map((m) => m.trim().toUpperCase())
                 .filter(Boolean);
+            const functionDeclarations = (this.extraTools || []).map(t => ({
+                name: t.name,
+                description: t.description,
+                parameters: t.parameters,
+            }));
 
             const liveConfig: any = {
                 responseModalities,
@@ -24,16 +29,10 @@ export class GeminiSession {
                 systemInstruction: {
                     parts: [{ text: this.systemInstruction }]
                 },
-                tools: [{
-                    functionDeclarations: [
-                        ...(this.extraTools || []).map(t => ({
-                            name: t.name,
-                            description: t.description,
-                            parameters: t.parameters,
-                        })),
-                    ]
-                }]
             };
+            if (functionDeclarations.length > 0) {
+                liveConfig.tools = [{ functionDeclarations }];
+            }
 
             this.session = await ai.live.connect({
                 model: "gemini-2.0-flash-exp",

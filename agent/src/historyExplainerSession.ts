@@ -78,13 +78,19 @@ export async function handleHistoryExplainerSession(
         console.warn(`[HISTORY_EXPLAINER] Failed to fetch learner profile, using defaults: ${e.message}`);
     }
 
-    // 3. Build rich system prompt
-    const systemPrompt = buildHistoryExplainerPrompt(baseContent, learnerContext, band);
+    // 3. Build rich system prompt (or minimal hello-world prompt for debugging)
+    const helloWorldMode = process.env.GEMINI_LIVE_HELLO_WORLD === '1';
+    const systemPrompt = helloWorldMode
+        ? 'You are a friendly teacher. Say hello, ask if the learner is ready, and wait for their reply.'
+        : buildHistoryExplainerPrompt(baseContent, learnerContext, band);
     console.log(`[HISTORY_EXPLAINER] System prompt assembled (${systemPrompt.length} chars)`);
+    if (helloWorldMode) {
+        console.warn('[HISTORY_EXPLAINER] GEMINI_LIVE_HELLO_WORLD=1 enabled: tools disabled and prompt minimized for live API diagnostics.');
+    }
 
     // 4. Create Gemini session with MapLibre tools
     console.log(`[GEMINI] Connecting to Live API...`);
-    const gemini = new GeminiSession(systemPrompt, MAPLIBRE_TEACHING_TOOLS);
+    const gemini = new GeminiSession(systemPrompt, helloWorldMode ? [] : MAPLIBRE_TEACHING_TOOLS);
     let hasGeminiResponse = false;
     const geminiSilenceTimeoutMs = Number(process.env.GEMINI_FIRST_RESPONSE_TIMEOUT_MS || 60000);
     const geminiKickoffNudgeMs = Number(process.env.GEMINI_KICKOFF_NUDGE_MS || 12000);
@@ -152,11 +158,19 @@ export async function handleHistoryExplainerSession(
 
     // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
     console.log(`[GEMINI] Sending initial kickoff prompt...`);
-    gemini.sendText("Start now. Greet the learner by name and give one short introduction sentence before using any tool.");
+    gemini.sendText(
+        helloWorldMode
+            ? "Say: Hello! I'm your teacher for today. Are you ready to learn?"
+            : "Start now. Greet the learner by name and give one short introduction sentence before using any tool."
+    );
     geminiKickoffNudgeTimer = setTimeout(() => {
         if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
             console.warn(`[GEMINI] No early response after ${geminiKickoffNudgeMs}ms. Sending kickoff nudge.`);
-            gemini.sendText("Reply immediately with one short plain sentence to confirm you are live. Do not call tools yet.");
+            gemini.sendText(
+                helloWorldMode
+                    ? 'Reply immediately with exactly: "Hello! I can hear you."'
+                    : "Reply immediately with one short plain sentence to confirm you are live. Do not call tools yet."
+            );
         }
     }, geminiKickoffNudgeMs);
     geminiSilenceTimer = setTimeout(() => {
