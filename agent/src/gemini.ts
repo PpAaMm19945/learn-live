@@ -40,15 +40,13 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-exp",
+                model: "gemini-2.0-flash-live",
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
                     onmessage: (e: any) => {
-                        console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
-
                         const payload = e;
                         if (payload?.setupComplete) {
                             console.log('[GEMINI] Setup complete — session ready for input.');
