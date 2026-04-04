@@ -184,6 +184,19 @@ export class GeminiSession {
         }
     }
 
+    sendClientContent(text: string) {
+        if (!this.session) return;
+
+        try {
+            this.session.sendClientContent({
+                turns: [{ role: 'user', parts: [{ text }] }],
+                turnComplete: true
+            });
+        } catch (e) {
+            console.error('[AGENT] Error sending client content:', e);
+        }
+    }
+
     sendAudio(chunk: Buffer) {
         if (!this.session) return;
 
