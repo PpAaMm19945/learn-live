@@ -6,8 +6,16 @@ export class GeminiSession {
     private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;
     private messageQueue: any[] = [];
+    private setupCompleteResolve: (() => void) | null = null;
+    private setupPromise: Promise<void>;
+    private setupTimeout: ReturnType<typeof setTimeout> | null = null;
+    private isSetupComplete = false;
 
-    constructor(private systemInstruction: string, private extraTools?: any[]) { }
+    constructor(private systemInstruction: string, private extraTools?: any[]) {
+        this.setupPromise = new Promise((resolve) => {
+            this.setupCompleteResolve = resolve;
+        });
+    }
 
     async connect() {
         console.log('[AGENT] Connecting to Gemini Live API');
@@ -28,11 +36,9 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-exp",
+                model: "gemini-2.0-flash-live-001",
                 config: liveConfig,
-                systemInstruction: {
-                    parts: [{ text: this.systemInstruction }]
-                },
+                systemInstruction: this.systemInstruction,
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
@@ -42,7 +48,8 @@ export class GeminiSession {
 
                         const payload = this.unwrapPayload(e);
                         if (payload?.setupComplete) {
-                            console.log('[GEMINI] Setup complete event received.');
+                            console.log('[GEMINI] Setup complete — session ready for input.');
+                            this.markSetupComplete();
                         }
                         if (payload?.serverContent?.interrupted) {
                             console.log('[GEMINI] Model turn interrupted.');
@@ -133,8 +140,8 @@ export class GeminiSession {
                             });
                         }
                     },
-                    onclose: () => {
-                        console.log('[AGENT] Gemini Live WebSocket closed.');
+                    onclose: (event: any) => {
+                        console.log('[AGENT] Gemini Live WebSocket closed.', 'code:', event?.code, 'reason:', event?.reason);
                     },
                     onerror: (err: any) => {
                         console.error('[AGENT] Gemini Live WebSocket error:', err);
@@ -143,10 +150,20 @@ export class GeminiSession {
             };
 
             this.session = await ai.live.connect(connectParams);
+            this.setupTimeout = setTimeout(() => {
+                if (!this.isSetupComplete) {
+                    console.warn('[GEMINI] setupComplete not received within 15s');
+                    this.markSetupComplete();
+                }
+            }, 15000);
 
         } catch (error) {
             console.error('[AGENT] Error connecting to Gemini', error);
         }
+    }
+
+    async waitForReady(): Promise<void> {
+        await this.setupPromise;
     }
 
     onResponse(callback: (data: any) => void) {
@@ -218,10 +235,25 @@ export class GeminiSession {
 
     close() {
         console.log('[AGENT] Closing Gemini session');
+        if (this.setupTimeout) {
+            clearTimeout(this.setupTimeout);
+            this.setupTimeout = null;
+        }
         if (this.session) {
             this.session.close();
             this.session = null;
         }
+    }
+
+    private markSetupComplete() {
+        if (this.isSetupComplete) return;
+        this.isSetupComplete = true;
+        if (this.setupTimeout) {
+            clearTimeout(this.setupTimeout);
+            this.setupTimeout = null;
+        }
+        this.setupCompleteResolve?.();
+        this.setupCompleteResolve = null;
     }
 
     private unwrapPayload(event: any): any {

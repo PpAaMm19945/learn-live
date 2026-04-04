@@ -26,6 +26,7 @@ export async function handleHistoryExplainerSession(
     let geminiKickoffNudgeTimer: ReturnType<typeof setTimeout> | null = null;
     try {
         await gemini.connect();
+        await gemini.waitForReady();
     } catch (e: any) {
         console.error(`[HISTORY_EXPLAINER] Gemini connect failed: ${e.message}`);
         ws.send(JSON.stringify({ type: 'error', message: 'Teacher is temporarily unavailable. Please try again later.' }));
@@ -33,7 +34,7 @@ export async function handleHistoryExplainerSession(
         return;
     }
     recordSession(familyId);
-    console.log(`[GEMINI] Session established, model=gemini-2.0-flash-exp`);
+    console.log(`[GEMINI] Session established, model=gemini-2.0-flash-live-001`);
 
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
@@ -85,7 +86,7 @@ export async function handleHistoryExplainerSession(
     });
 
     // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
-    console.log(`[GEMINI] Sending initial kickoff prompt...`);
+    console.log('[GEMINI] Session ready, sending kickoff...');
     gemini.sendText("Say: Hello! I'm your teacher for today. Are you ready to learn?");
     geminiKickoffNudgeTimer = setTimeout(() => {
         if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
