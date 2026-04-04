@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -6,47 +6,73 @@ export class GeminiSession {
     private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;
     private messageQueue: any[] = [];
+    private setupCompleteResolve: (() => void) | null = null;
+    private setupPromise: Promise<void>;
+    private isSetupComplete = false;
 
-    constructor(private systemInstruction: string, private extraTools?: any[]) { }
+    constructor(private systemInstruction: string, private extraTools?: any[]) {
+        this.setupPromise = new Promise((resolve) => {
+            this.setupCompleteResolve = resolve;
+        });
+    }
+
+    private resetSetupPromise() {
+        this.isSetupComplete = false;
+        this.setupPromise = new Promise((resolve) => {
+            this.setupCompleteResolve = resolve;
+        });
+    }
 
     async connect() {
         console.log('[AGENT] Connecting to Gemini Live API');
         try {
+            this.resetSetupPromise();
             console.log('[AGENT] Started session with instruction: ', this.systemInstruction.substring(0, 50));
-            const responseModalities = (process.env.GEMINI_RESPONSE_MODALITIES || 'TEXT,AUDIO')
-                .split(',')
-                .map((m) => m.trim().toUpperCase())
-                .filter(Boolean);
             const functionDeclarations = (this.extraTools || []).map(t => ({
                 name: t.name,
                 description: t.description,
                 parameters: t.parameters,
             }));
+            const setupTimeoutMs = Number(process.env.GEMINI_SETUP_TIMEOUT_MS || 15000);
+            let setupTimeout: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+                if (!this.isSetupComplete) {
+                    console.warn(`[GEMINI] setupComplete not received within ${setupTimeoutMs}ms`);
+                    this.setupCompleteResolve?.();
+                    this.setupCompleteResolve = null;
+                }
+            }, setupTimeoutMs);
 
             const liveConfig: any = {
-                responseModalities,
+                responseModalities: ['AUDIO'],
                 outputAudioTranscription: {},
-                systemInstruction: {
-                    parts: [{ text: this.systemInstruction }]
-                },
             };
             if (functionDeclarations.length > 0) {
                 liveConfig.tools = [{ functionDeclarations }];
             }
 
-            this.session = await ai.live.connect({
-                model: "gemini-2.0-flash-exp",
+            const connectParams: any = {
+                model: "gemini-2.0-flash-live-001",
                 config: liveConfig,
+                systemInstruction: this.systemInstruction,
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
-                    onmessage: (e) => {
+                    onmessage: (e: any) => {
                         console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
 
                         const payload = this.unwrapPayload(e);
                         if (payload?.setupComplete) {
-                            console.log('[GEMINI] Setup complete event received.');
+                            if (!this.isSetupComplete) {
+                                this.isSetupComplete = true;
+                                if (setupTimeout) {
+                                    clearTimeout(setupTimeout);
+                                    setupTimeout = null;
+                                }
+                                console.log('[GEMINI] Setup complete — session ready for input.');
+                                this.setupCompleteResolve?.();
+                                this.setupCompleteResolve = null;
+                            }
                         }
                         if (payload?.serverContent?.interrupted) {
                             console.log('[GEMINI] Model turn interrupted.');
@@ -137,14 +163,24 @@ export class GeminiSession {
                             });
                         }
                     },
-                    onclose: () => {
-                        console.log('[AGENT] Gemini Live WebSocket closed.');
+                    onclose: (event: any) => {
+                        console.log('[AGENT] Gemini Live WebSocket closed.', 'code:', event?.code, 'reason:', event?.reason);
+                        if (setupTimeout) {
+                            clearTimeout(setupTimeout);
+                            setupTimeout = null;
+                        }
+                        if (!this.isSetupComplete) {
+                            this.setupCompleteResolve?.();
+                            this.setupCompleteResolve = null;
+                        }
                     },
-                    onerror: (err) => {
+                    onerror: (err: any) => {
                         console.error('[AGENT] Gemini Live WebSocket error:', err);
                     }
                 }
-            });
+            };
+
+            this.session = await ai.live.connect(connectParams);
 
         } catch (error) {
             console.error('[AGENT] Error connecting to Gemini', error);
@@ -157,6 +193,10 @@ export class GeminiSession {
             const msg = this.messageQueue.shift();
             callback(msg);
         }
+    }
+
+    async waitForReady(): Promise<void> {
+        await this.setupPromise;
     }
 
     sendText(text: string) {
