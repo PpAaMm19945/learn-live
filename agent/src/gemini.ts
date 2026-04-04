@@ -36,9 +36,9 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-live-2.5-flash-preview",
+                model: "gemini-2.4-flash-live",
                 config: liveConfig,
-                systemInstruction: this.systemInstruction,
+                systemInstruction: { parts: [{ text: this.systemInstruction }] },
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
@@ -66,18 +66,6 @@ export class GeminiSession {
                             }
                         };
 
-                        const toolCall = payload?.toolCall;
-                        if (toolCall && toolCall.functionCalls) {
-                            for (const call of toolCall.functionCalls) {
-                                deliver({
-                                    type: 'functionCall',
-                                    id: call.id,
-                                    name: call.name,
-                                    args: call.args
-                                });
-                            }
-                        }
-
                         const serverContent = payload?.serverContent;
                         if (serverContent) {
                             let textContent = '';
@@ -94,6 +82,14 @@ export class GeminiSession {
                                     }
                                     if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/')) {
                                         audioData = part.inlineData.data;
+                                    }
+                                    if (part.functionCall) {
+                                        deliver({
+                                            type: 'functionCall',
+                                            id: part.functionCall.id,
+                                            name: part.functionCall.name,
+                                            args: part.functionCall.args
+                                        });
                                     }
                                 }
                             }
@@ -178,7 +174,7 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendRealtimeInput({ text });
+            this.session.sendRealtimeInput([{ text }]);
         } catch (e) {
             console.error('[AGENT] Error sending text:', e);
         }
@@ -202,12 +198,12 @@ export class GeminiSession {
 
         try {
             // Send Base64 encoded audio chunk
-            this.session.sendRealtimeInput({
-                audio: {
+            this.session.sendRealtimeInput([{
+                media: {
                     mimeType: "audio/pcm;rate=16000",
                     data: chunk.toString("base64")
                 }
-            });
+            }]);
         } catch (e) {
             console.error('[AGENT] Error sending audio chunk:', e);
         }
@@ -217,12 +213,12 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendRealtimeInput({
-                video: {
+            this.session.sendRealtimeInput([{
+                media: {
                     mimeType: "image/jpeg",
                     data: base64Frame
                 }
-            });
+            }]);
         } catch (e) {
             console.error('[AGENT] Error sending image frame:', e);
         }
@@ -242,12 +238,18 @@ export class GeminiSession {
 
     close() {
         console.log('[AGENT] Closing Gemini session');
+        this.onResCallback = null;
+        this.messageQueue = [];
         if (this.setupTimeout) {
             clearTimeout(this.setupTimeout);
             this.setupTimeout = null;
         }
         if (this.session) {
-            this.session.close();
+            try {
+                this.session.close();
+            } catch (e) {
+                console.error('[AGENT] Error closing Gemini session:', e);
+            }
             this.session = null;
         }
     }
