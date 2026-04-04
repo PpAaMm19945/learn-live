@@ -34,7 +34,7 @@ export async function handleHistoryExplainerSession(
         return;
     }
     recordSession(familyId);
-    console.log(`[GEMINI] Session established, model=gemini-live-2.5-flash-preview`);
+    console.log(`[GEMINI] Session established, model=gemini-2.0-flash-live`);
 
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
