@@ -40,7 +40,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-exp",
+                model: "gemini-2.0-flash-live",
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
@@ -49,16 +49,17 @@ export class GeminiSession {
                     onmessage: (e: any) => {
                         console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
 
-                        const payload = e;
-                        if (payload?.setupComplete) {
+                        if (e.setupComplete) {
                             console.log('[GEMINI] Setup complete — session ready for input.');
                             this.markSetupComplete();
                         }
-                        if (payload?.serverContent?.interrupted) {
-                            console.log('[GEMINI] Model turn interrupted.');
-                        }
-                        if (payload?.serverContent?.turnComplete) {
-                            console.log('[GEMINI] Model turn complete.');
+                        if (e.serverContent) {
+                            if (e.serverContent.interrupted) {
+                                console.log('[GEMINI] Model turn interrupted.');
+                            }
+                            if (e.serverContent.turnComplete) {
+                                console.log('[GEMINI] Model turn complete.');
+                            }
                         }
 
                         const deliver = (msg: any) => {
@@ -69,16 +70,16 @@ export class GeminiSession {
                             }
                         };
 
-                        if (payload?.toolCall) {
+                        if (e.toolCall) {
                             deliver({
                                 type: 'functionCall',
-                                id: payload.toolCall.id,
-                                name: payload.toolCall.name,
-                                args: payload.toolCall.args
+                                id: e.toolCall.id,
+                                name: e.toolCall.name,
+                                args: e.toolCall.args
                             });
                         }
 
-                        const serverContent = payload?.serverContent;
+                        const serverContent = e.serverContent;
                         if (serverContent) {
                             let textContent = '';
                             let audioData = null;
