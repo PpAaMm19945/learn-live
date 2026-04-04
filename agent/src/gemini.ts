@@ -1,6 +1,9 @@
 import { GoogleGenAI } from '@google/genai';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY,
+    httpOptions: { apiVersion: 'v1alpha' }
+});
 
 export class GeminiSession {
     private session: any = null;
@@ -30,6 +33,7 @@ export class GeminiSession {
             const liveConfig: any = {
                 responseModalities: ['AUDIO'],
                 outputAudioTranscription: {},
+                systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };
             if (functionDeclarations.length > 0) {
                 liveConfig.tools = [{ functionDeclarations }];
@@ -38,7 +42,6 @@ export class GeminiSession {
             const connectParams: any = {
                 model: "gemini-2.0-flash-exp",
                 config: liveConfig,
-                systemInstruction: { parts: [{ text: this.systemInstruction }] },
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
