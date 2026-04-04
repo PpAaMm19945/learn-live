@@ -36,7 +36,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-live-001",
+                model: "gemini-live-2.5-flash-preview",
                 config: liveConfig,
                 systemInstruction: this.systemInstruction,
                 callbacks: {
@@ -178,13 +178,7 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendClientContent({
-                turns: [{
-                    role: "user",
-                    parts: [{ text }]
-                }],
-                turnComplete: true
-            });
+            this.session.sendRealtimeInput({ text });
         } catch (e) {
             console.error('[AGENT] Error sending text:', e);
         }
@@ -196,7 +190,7 @@ export class GeminiSession {
         try {
             // Send Base64 encoded audio chunk
             this.session.sendRealtimeInput({
-                media: {
+                audio: {
                     mimeType: "audio/pcm;rate=16000",
                     data: chunk.toString("base64")
                 }
@@ -211,7 +205,7 @@ export class GeminiSession {
 
         try {
             this.session.sendRealtimeInput({
-                media: {
+                video: {
                     mimeType: "image/jpeg",
                     data: base64Frame
                 }
