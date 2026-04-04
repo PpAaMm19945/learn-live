@@ -36,7 +36,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.4-flash-live",
+                model: "gemini-2.0-flash-exp",
                 config: liveConfig,
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
                 callbacks: {
@@ -46,7 +46,7 @@ export class GeminiSession {
                     onmessage: (e: any) => {
                         console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
 
-                        const payload = this.unwrapPayload(e);
+                        const payload = e;
                         if (payload?.setupComplete) {
                             console.log('[GEMINI] Setup complete — session ready for input.');
                             this.markSetupComplete();
@@ -65,6 +65,15 @@ export class GeminiSession {
                                 this.messageQueue.push(msg);
                             }
                         };
+
+                        if (payload?.toolCall) {
+                            deliver({
+                                type: 'functionCall',
+                                id: payload.toolCall.id,
+                                name: payload.toolCall.name,
+                                args: payload.toolCall.args
+                            });
+                        }
 
                         const serverContent = payload?.serverContent;
                         if (serverContent) {
@@ -174,7 +183,7 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendRealtimeInput([{ text }]);
+            this.session.sendRealtimeInput({ text });
         } catch (e) {
             console.error('[AGENT] Error sending text:', e);
         }
@@ -185,8 +194,7 @@ export class GeminiSession {
 
         try {
             this.session.sendClientContent({
-                turns: [{ role: 'user', parts: [{ text }] }],
-                turnComplete: true
+                turns: [{ role: 'user', parts: [{ text }] }]
             });
         } catch (e) {
             console.error('[AGENT] Error sending client content:', e);
@@ -198,12 +206,12 @@ export class GeminiSession {
 
         try {
             // Send Base64 encoded audio chunk
-            this.session.sendRealtimeInput([{
+            this.session.sendRealtimeInput({
                 media: {
                     mimeType: "audio/pcm;rate=16000",
                     data: chunk.toString("base64")
                 }
-            }]);
+            });
         } catch (e) {
             console.error('[AGENT] Error sending audio chunk:', e);
         }
@@ -213,12 +221,12 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendRealtimeInput([{
+            this.session.sendRealtimeInput({
                 media: {
                     mimeType: "image/jpeg",
                     data: base64Frame
                 }
-            }]);
+            });
         } catch (e) {
             console.error('[AGENT] Error sending image frame:', e);
         }
@@ -265,26 +273,4 @@ export class GeminiSession {
         this.setupCompleteResolve = null;
     }
 
-    private unwrapPayload(event: any): any {
-        if (!event) return {};
-        if (event.serverContent || event.toolCall) return event;
-
-        const candidates = [event.data, event.message, event.payload];
-        for (const candidate of candidates) {
-            if (!candidate) continue;
-
-            if (typeof candidate === 'string') {
-                try {
-                    const parsed = JSON.parse(candidate);
-                    if (parsed?.serverContent || parsed?.toolCall) return parsed;
-                } catch {
-                    // Ignore non-JSON payloads
-                }
-            } else if (candidate.serverContent || candidate.toolCall) {
-                return candidate;
-            }
-        }
-
-        return event;
-    }
 }
