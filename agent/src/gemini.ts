@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -13,10 +13,6 @@ export class GeminiSession {
         console.log('[AGENT] Connecting to Gemini Live API');
         try {
             console.log('[AGENT] Started session with instruction: ', this.systemInstruction.substring(0, 50));
-            const responseModalities = (process.env.GEMINI_RESPONSE_MODALITIES || 'TEXT,AUDIO')
-                .split(',')
-                .map((m) => m.trim().toUpperCase())
-                .filter(Boolean);
             const functionDeclarations = (this.extraTools || []).map(t => ({
                 name: t.name,
                 description: t.description,
@@ -24,24 +20,24 @@ export class GeminiSession {
             }));
 
             const liveConfig: any = {
-                responseModalities,
+                responseModalities: ['AUDIO'],
                 outputAudioTranscription: {},
-                systemInstruction: {
-                    parts: [{ text: this.systemInstruction }]
-                },
             };
             if (functionDeclarations.length > 0) {
                 liveConfig.tools = [{ functionDeclarations }];
             }
 
-            this.session = await ai.live.connect({
+            const connectParams: any = {
                 model: "gemini-2.0-flash-exp",
                 config: liveConfig,
+                systemInstruction: {
+                    parts: [{ text: this.systemInstruction }]
+                },
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
-                    onmessage: (e) => {
+                    onmessage: (e: any) => {
                         console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
 
                         const payload = this.unwrapPayload(e);
@@ -140,11 +136,13 @@ export class GeminiSession {
                     onclose: () => {
                         console.log('[AGENT] Gemini Live WebSocket closed.');
                     },
-                    onerror: (err) => {
+                    onerror: (err: any) => {
                         console.error('[AGENT] Gemini Live WebSocket error:', err);
                     }
                 }
-            });
+            };
+
+            this.session = await ai.live.connect(connectParams);
 
         } catch (error) {
             console.error('[AGENT] Error connecting to Gemini', error);
