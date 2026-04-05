@@ -31,7 +31,7 @@ export class GeminiSession {
             }));
 
             const liveConfig: any = {
-                responseModalities: ['AUDIO', 'TEXT'] as any,
+                responseModalities: ['AUDIO'] as any,
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };
@@ -40,7 +40,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-live",
+                model: "gemini-2.5-flash-native-audio-latest",
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
