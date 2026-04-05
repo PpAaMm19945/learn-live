@@ -31,7 +31,7 @@ export class GeminiSession {
             }));
 
             const liveConfig: any = {
-                responseModalities: ['AUDIO'],
+                responseModalities: ['AUDIO'] as any,
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };
@@ -40,14 +40,14 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.0-flash-live",
+                model: "gemini-2.5-flash-native-audio-latest",
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
                         console.log('[AGENT] Gemini Live WebSocket opened.');
                     },
                     onmessage: (e: any) => {
-                        console.log('[GEMINI] Message received:', Object.keys(e || {}).join(', '));
+                        console.log('[GEMINI] Message received:', JSON.stringify(e));
 
                         if (e.setupComplete) {
                             console.log('[GEMINI] Setup complete — session ready for input.');
@@ -79,16 +79,15 @@ export class GeminiSession {
                             });
                         }
 
-                        const serverContent = e.serverContent;
-                        if (serverContent) {
+                        if (e.serverContent) {
                             let textContent = '';
                             let audioData = null;
                             let hasModelTurn = false;
                             let parts: any[] = [];
 
-                            if (serverContent.modelTurn) {
+                            if (e.serverContent.modelTurn) {
                                 hasModelTurn = true;
-                                parts = serverContent.modelTurn.parts || [];
+                                parts = e.serverContent.modelTurn.parts || [];
                                 for (const part of parts) {
                                     if (part.text) {
                                         textContent += part.text;
@@ -108,7 +107,7 @@ export class GeminiSession {
                             }
 
                             // Capture transcript from audio output modalities if present
-                            const outputTranscription = (serverContent as any).outputTranscription;
+                            const outputTranscription = (e.serverContent as any).outputTranscription;
                             if (outputTranscription?.parts) {
                                 for (const part of outputTranscription.parts) {
                                     if (part.text) {
@@ -141,7 +140,7 @@ export class GeminiSession {
                             }
                         }
 
-                        if (serverContent?.turnComplete) {
+                        if (e.serverContent?.turnComplete) {
                             deliver({
                                 type: 'text',
                                 text: '',
