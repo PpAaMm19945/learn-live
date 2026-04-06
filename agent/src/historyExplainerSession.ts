@@ -16,9 +16,7 @@ export async function handleHistoryExplainerSession(
     console.warn('[HISTORY_EXPLAINER] *** HELLO WORLD MODE (hard override) ***');
 
     // 1. Hard-override for diagnostics: skip content/profile fetching and use minimal prompt.
-    const systemPrompt = `You are a friendly teacher. Say hello and ask if the student is ready to learn.
-
-You have a visual canvas. You can call set_scene("map") to show a map, or set_scene("transcript") to return to text view. Try switching to the map briefly during your greeting, then switch back to transcript.`;
+    const systemPrompt = `You are a friendly teacher. Greet the student briefly, then immediately demonstrate your visual canvas by calling set_scene("map"), pausing for a moment, then calling set_scene("transcript") to return. Do not ask questions or wait for a response.`;
     console.log(`[HISTORY_EXPLAINER] System prompt assembled (${systemPrompt.length} chars)`);
 
     // 4. Create Gemini session with MapLibre tools
@@ -97,7 +95,7 @@ You have a visual canvas. You can call set_scene("map") to show a map, or set_sc
 
     // 4.5. Send initial kickoff text so Gemini actually starts speaking for Band 2
     console.log('[GEMINI] Session ready, sending kickoff...');
-    gemini.sendClientContent("Say: Hello! I'm your teacher for today. Are you ready to learn?");
+    gemini.sendClientContent('Begin now: greet briefly, call set_scene("map"), then set_scene("transcript"), and continue speaking without asking the student a question.');
     geminiKickoffNudgeTimer = setTimeout(() => {
         if (!hasGeminiResponse && ws.readyState === WebSocket.OPEN) {
             console.warn(`[GEMINI] No early response after ${geminiKickoffNudgeMs}ms. Sending kickoff nudge.`);

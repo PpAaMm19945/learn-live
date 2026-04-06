@@ -191,11 +191,6 @@ export function useSession({
         // NOTE: Do NOT reset reconnectCountRef here — that's what caused the infinite loop.
         // Count is only reset on explicit user-initiated connect() calls (isReconnect=false).
 
-        // Initialize Audio Context on user interaction (connect)
-        if (!audioContextRef.current) {
-            audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
-        }
-
         setupMicrophone();
       };
 
