@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import type { SceneMode, TranscriptChunk, AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
 import { ThinkingBanner } from './ThinkingBanner';
+import { ToolActivityBanner } from './ToolActivityBanner';
 import { useSession } from '@/lib/session/useSession';
 import { useRecorder } from '@/lib/session/useRecorder';
 import { useGoldenScript } from '@/lib/session/useGoldenScript';
@@ -54,9 +55,13 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     transcriptChunks,
     thinkingText,
     sceneMode,
+    sceneModeBadge,
+    lastToolCall,
+    recentToolCalls,
     error,
     isMuted,
     hasReceivedMessage,
+    isAudioCatchingUp,
     connect,
     disconnect,
     toggleMute,
@@ -383,6 +388,12 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
             </div>
           )}
           <ThinkingBanner thinkingText={thinkingText} />
+          <ToolActivityBanner
+            sceneMode={displaySceneMode}
+            sceneModeBadge={sceneModeBadge}
+            lastToolCall={lastToolCall}
+            recentToolCalls={recentToolCalls}
+          />
           <TranscriptView
             chunks={displayTranscriptChunks}
             band={band}
@@ -462,6 +473,9 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
                       ? 'WAITING FOR TEACHER'
                       : 'LISTENING'}
             </p>
+            {isAudioCatchingUp && (
+              <p className="text-[10px] text-amber-500 tracking-wide mt-1">AUDIO CATCHING UP…</p>
+            )}
           </div>
 
           <button

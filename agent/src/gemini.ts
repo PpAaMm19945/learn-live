@@ -40,7 +40,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-2.5-flash-native-audio-latest",
+                model: 'gemini-2.5-flash-native-audio-latest',
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
@@ -80,7 +80,7 @@ export class GeminiSession {
                         }
 
                         if (e.serverContent) {
-                            let textContent = '';
+                            let spokenText = '';
                             let audioData = null;
                             let hasModelTurn = false;
                             let parts: any[] = [];
@@ -90,7 +90,7 @@ export class GeminiSession {
                                 parts = e.serverContent.modelTurn.parts || [];
                                 for (const part of parts) {
                                     if (part.text) {
-                                        textContent += part.text;
+                                        spokenText += part.text;
                                     }
                                     if (part.inlineData && part.inlineData.mimeType && part.inlineData.mimeType.startsWith('audio/')) {
                                         audioData = part.inlineData.data;
@@ -106,42 +106,25 @@ export class GeminiSession {
                                 }
                             }
 
-                            // Capture transcript from audio output modalities if present
+                            // outputTranscription is treated as diagnostics/thinking only.
                             const outputTranscription = (e.serverContent as any).outputTranscription;
                             if (outputTranscription?.parts) {
                                 for (const part of outputTranscription.parts) {
-                                    if (part.text) {
-                                        const thinkingRegex = /\*\*([^*]+)\*\*/g;
-                                        let match;
-                                        let lastIndex = 0;
-
-                                        while ((match = thinkingRegex.exec(part.text)) !== null) {
-                                            const before = part.text.slice(lastIndex, match.index).trim();
-                                            if (before) {
-                                                textContent += `${textContent ? ' ' : ''}${before}`;
-                                            }
-
-                                            deliver({
-                                                type: 'thinking',
-                                                text: match[1].trim(),
-                                                isFinal: false
-                                            });
-                                            lastIndex = thinkingRegex.lastIndex;
-                                        }
-
-                                        const remainder = part.text.slice(lastIndex).trim();
-                                        if (remainder) {
-                                            textContent += `${textContent ? ' ' : ''}${remainder}`;
-                                        }
-                                    }
+                                    const thought = part?.text?.trim();
+                                    if (!thought) continue;
+                                    deliver({
+                                        type: 'thinking',
+                                        text: thought,
+                                        isFinal: false
+                                    });
                                 }
                             }
 
-                            if (textContent) {
+                            if (spokenText) {
                                 deliver({
                                     type: 'text',
-                                    text: textContent,
-                                    isFinal: false // The Live API streams text
+                                    text: spokenText,
+                                    isFinal: false
                                 });
                             }
 
@@ -153,10 +136,9 @@ export class GeminiSession {
                             }
 
                             if (hasModelTurn) {
-                                // Keep raw modelTurn for other potential uses
                                 deliver({
                                     type: 'modelTurn',
-                                    parts: parts
+                                    parts
                                 });
                             }
                         }
@@ -232,8 +214,8 @@ export class GeminiSession {
             // Send Base64 encoded audio chunk
             this.session.sendRealtimeInput({
                 media: {
-                    mimeType: "audio/pcm;rate=16000",
-                    data: chunk.toString("base64")
+                    mimeType: 'audio/pcm;rate=16000',
+                    data: chunk.toString('base64')
                 }
             });
         } catch (e) {
@@ -247,7 +229,7 @@ export class GeminiSession {
         try {
             this.session.sendRealtimeInput({
                 media: {
-                    mimeType: "image/jpeg",
+                    mimeType: 'image/jpeg',
                     data: base64Frame
                 }
             });
@@ -260,30 +242,21 @@ export class GeminiSession {
         if (!this.session) return;
 
         try {
-            this.session.sendToolResponse({
-                functionResponses: functionResponses
-            });
+            this.session.sendToolResponse({ functionResponses });
         } catch (e) {
             console.error('[AGENT] Error sending tool response:', e);
         }
     }
 
     close() {
-        console.log('[AGENT] Closing Gemini session');
-        this.onResCallback = null;
-        this.messageQueue = [];
         if (this.setupTimeout) {
             clearTimeout(this.setupTimeout);
             this.setupTimeout = null;
         }
-        if (this.session) {
-            try {
-                this.session.close();
-            } catch (e) {
-                console.error('[AGENT] Error closing Gemini session:', e);
-            }
-            this.session = null;
+        if (this.session && typeof this.session.close === 'function') {
+            this.session.close();
         }
+        this.session = null;
     }
 
     private markSetupComplete() {
@@ -296,5 +269,4 @@ export class GeminiSession {
         this.setupCompleteResolve?.();
         this.setupCompleteResolve = null;
     }
-
 }
