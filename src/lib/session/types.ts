@@ -26,6 +26,12 @@ export interface AgentAudio {
   data: string; // base64
 }
 
+/** Model internal reasoning text streamed separately from spoken transcript */
+export interface AgentThinking {
+  type: 'thinking';
+  text: string;
+}
+
 /** Scene mode change from set_scene tool */
 export interface SceneChange {
   mode: SceneMode;
@@ -33,7 +39,7 @@ export interface SceneChange {
 }
 
 /** Combined message from the agent WebSocket */
-export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | { type: 'modelTurn'; data?: any };
+export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | AgentThinking | { type: 'modelTurn'; data?: any };
 
 export interface RecordedEvent {
   timestamp: number;  // ms since session start

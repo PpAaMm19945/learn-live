@@ -14,6 +14,15 @@ export class GeminiSession {
     private setupTimeout: ReturnType<typeof setTimeout> | null = null;
     private isSetupComplete = false;
 
+    private isThinkingChunk(text: string): boolean {
+        const trimmed = text.trim();
+        if (!trimmed) return false;
+
+        if (/^\*\*.+\*\*$/.test(trimmed)) return true;
+        const markerMatches = trimmed.match(/\*\*/g);
+        return Boolean(markerMatches && markerMatches.length >= 2);
+    }
+
     constructor(private systemInstruction: string, private extraTools?: any[]) {
         this.setupPromise = new Promise((resolve) => {
             this.setupCompleteResolve = resolve;
@@ -111,7 +120,15 @@ export class GeminiSession {
                             if (outputTranscription?.parts) {
                                 for (const part of outputTranscription.parts) {
                                     if (part.text) {
-                                        textContent += part.text;
+                                        if (this.isThinkingChunk(part.text)) {
+                                            deliver({
+                                                type: 'thinking',
+                                                text: part.text,
+                                                isFinal: false
+                                            });
+                                        } else {
+                                            textContent += part.text;
+                                        }
                                     }
                                 }
                             }

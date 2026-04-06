@@ -28,6 +28,7 @@ export function useSession({
   const [status, setStatus] = useState<SessionState['status']>('idle');
   const [transcriptChunks, setTranscriptChunks] = useState<TranscriptChunk[]>([]);
   const [sceneMode, setSceneMode] = useState<SceneMode>('transcript');
+  const [thinkingText, setThinkingText] = useState<string>('');
   const [error, setError] = useState<string>();
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
@@ -229,7 +230,10 @@ export function useSession({
             if (onToolCall) {
                 onToolCall(toolMsg);
             }
+          } else if (msg.type === 'thinking') {
+            setThinkingText((prev) => `${prev}${msg.text}`);
           } else if (msg.type === 'transcript') {
+            setThinkingText('');
             setTranscriptChunks((prev) => [...prev, msg as TranscriptChunk]);
           } else if (msg.type === 'audio') {
             await playAudioChunk(msg.data);
@@ -362,6 +366,7 @@ export function useSession({
   return {
     status,
     transcriptChunks,
+    thinkingText,
     sceneMode,
     error,
     isMuted,

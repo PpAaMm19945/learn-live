@@ -1,6 +1,9 @@
 import { WebSocket } from 'ws';
 import { GeminiSession } from './gemini';
 import { recordSession } from './rateLimit';
+import { MAPLIBRE_TEACHING_TOOLS } from './historyExplainerTools';
+
+const SET_SCENE_TOOL = MAPLIBRE_TEACHING_TOOLS.filter((tool) => tool.name === 'set_scene');
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
@@ -13,12 +16,14 @@ export async function handleHistoryExplainerSession(
     console.warn('[HISTORY_EXPLAINER] *** HELLO WORLD MODE (hard override) ***');
 
     // 1. Hard-override for diagnostics: skip content/profile fetching and use minimal prompt.
-    const systemPrompt = 'You are a friendly teacher. Say hello and ask if the student is ready to learn.';
+    const systemPrompt = `You are a friendly teacher. Say hello and ask if the student is ready to learn.
+
+You have a visual canvas. You can call set_scene("map") to show a map, or set_scene("transcript") to return to text view. Try switching to the map briefly during your greeting, then switch back to transcript.`;
     console.log(`[HISTORY_EXPLAINER] System prompt assembled (${systemPrompt.length} chars)`);
 
     // 4. Create Gemini session with MapLibre tools
     console.log(`[GEMINI] Connecting to Live API...`);
-    const gemini = new GeminiSession(systemPrompt, []);
+    const gemini = new GeminiSession(systemPrompt, SET_SCENE_TOOL);
     let hasGeminiResponse = false;
     const geminiSilenceTimeoutMs = Number(process.env.GEMINI_FIRST_RESPONSE_TIMEOUT_MS || 60000);
     const geminiKickoffNudgeMs = Number(process.env.GEMINI_KICKOFF_NUDGE_MS || 12000);
@@ -34,7 +39,7 @@ export async function handleHistoryExplainerSession(
         return;
     }
     recordSession(familyId);
-    console.log(`[GEMINI] Session established, model=gemini-2.0-flash-live`);
+    console.log(`[GEMINI] Session established, model=gemini-2.5-flash-native-audio-latest`);
 
     // 5. Handle Gemini responses — intercept tool calls
     gemini.onResponse((data: any) => {
@@ -64,6 +69,11 @@ export async function handleHistoryExplainerSession(
                 name: data.name,
                 response: { success: true }
             }]);
+        } else if (data.type === 'thinking') {
+            ws.send(JSON.stringify({
+                type: 'thinking',
+                text: data.text
+            }));
         } else if (data.type === 'text') {
             if (data.text) {
                 console.log(`[GEMINI] Transcript: "${data.text.substring(0, 30)}${data.text.length > 30 ? '...' : ''}" (partial)`);

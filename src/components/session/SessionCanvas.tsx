@@ -4,6 +4,7 @@ import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save } from 'lucide-reac
 import { toast } from 'sonner';
 import type { SceneMode, TranscriptChunk, AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
+import { ThinkingBanner } from './ThinkingBanner';
 import { useSession } from '@/lib/session/useSession';
 import { useRecorder } from '@/lib/session/useRecorder';
 import { useGoldenScript } from '@/lib/session/useGoldenScript';
@@ -51,6 +52,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   const {
     status,
     transcriptChunks,
+    thinkingText,
     sceneMode,
     error,
     isMuted,
@@ -380,6 +382,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
               </div>
             </div>
           )}
+          <ThinkingBanner thinkingText={thinkingText} />
           <TranscriptView
             chunks={displayTranscriptChunks}
             band={band}
