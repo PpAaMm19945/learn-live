@@ -14,15 +14,6 @@ export class GeminiSession {
     private setupTimeout: ReturnType<typeof setTimeout> | null = null;
     private isSetupComplete = false;
 
-    private isThinkingChunk(text: string): boolean {
-        const trimmed = text.trim();
-        if (!trimmed) return false;
-
-        if (/^\*\*.+\*\*$/.test(trimmed)) return true;
-        const markerMatches = trimmed.match(/\*\*/g);
-        return Boolean(markerMatches && markerMatches.length >= 2);
-    }
-
     constructor(private systemInstruction: string, private extraTools?: any[]) {
         this.setupPromise = new Promise((resolve) => {
             this.setupCompleteResolve = resolve;
@@ -120,14 +111,27 @@ export class GeminiSession {
                             if (outputTranscription?.parts) {
                                 for (const part of outputTranscription.parts) {
                                     if (part.text) {
-                                        if (this.isThinkingChunk(part.text)) {
+                                        const thinkingRegex = /\*\*([^*]+)\*\*/g;
+                                        let match;
+                                        let lastIndex = 0;
+
+                                        while ((match = thinkingRegex.exec(part.text)) !== null) {
+                                            const before = part.text.slice(lastIndex, match.index).trim();
+                                            if (before) {
+                                                textContent += `${textContent ? ' ' : ''}${before}`;
+                                            }
+
                                             deliver({
                                                 type: 'thinking',
-                                                text: part.text,
+                                                text: match[1].trim(),
                                                 isFinal: false
                                             });
-                                        } else {
-                                            textContent += part.text;
+                                            lastIndex = thinkingRegex.lastIndex;
+                                        }
+
+                                        const remainder = part.text.slice(lastIndex).trim();
+                                        if (remainder) {
+                                            textContent += `${textContent ? ' ' : ''}${remainder}`;
                                         }
                                     }
                                 }
