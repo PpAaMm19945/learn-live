@@ -1,6 +1,6 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-03-31
+> **Last updated:** 2026-04-07
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
@@ -40,142 +40,59 @@
 ## 2026-03-12 — Phase 6: Explainer Canvas
 - History canvas primitives: MapOverlay, Timeline, FigurePrimitives, EventPrimitives
 - Agent integration via historyExplainerSession.ts
-- **Fix:** Framer Motion easing typing required `as const`
-- **Fix:** Archived explainerClient.ts import path corrected
 
 ## 2026-03-13 — Phase 7: Worker Cleanup
 - Monolithic worker/src/index.ts (~1300 lines) split into modular routes
 - Families table (008_families.sql) with Learners child table
-- **Decision during merge:** Accepted Instance B's family schema over Instance A's
 
 ## 2026-03-14 — Phase 8: Pilot Readiness
-- Content pipeline scripts: prepare-content, upload-to-r2, seed-curriculum
-- Admin analytics with usage metrics, engagement charts
-- Open registration (no invite codes), multi-step onboarding wizard with band calculator
-- Activity logging wired into all handlers (login, content view, lesson complete, exam)
-- Feedback widget + admin feedback management
+- Content pipeline scripts, admin analytics, onboarding wizard with band calculator
+- Activity logging, feedback widget
 
 ## 2026-03-15 — Phase 9: Content Expansion
-- Glossary system (012_glossary.sql) with full API
-- World history context sidebars (013_world_context.sql)
-- DashboardLayout component created for consistent layout
+- Glossary system, world history context sidebars
 
 ## 2026-03-16 — Phase 10: UI/UX Overhaul
-- Global learner store (Zustand) replacing scattered localStorage reads
-- Unified AppShell with sidebar (desktop) + bottom nav (mobile)
-- BandSelector replaced with read-only BandBadge
-- react-markdown added for content rendering
+- Global learner store (Zustand), unified AppShell
 
 ## 2026-03-17 — Phase 11: Post-Merge Cleanup
-- Removed redundant headers from pages inside AppShell
-- Progress page placeholder at /progress
-- currentTopicId added to learnerStore for continue-learning
-- **Fix:** loadFamily() crash resilience — no longer throws on API failure
-- **Fix:** stripMarkdown() utility for raw markdown in titles
+- Progress page, loadFamily() crash resilience, stripMarkdown() utility
 
 ## 2026-03-18 — Phase 12: Data Quality
-- Pending D1 migration 014 resolved
-- Reading experience polish
-- Dashboard continue-learning enhancement
-- Error handling for edge cases
+- D1 migration 014, reading polish, error handling
 
 ## 2026-03-18 — Phase 13: Content Production
-- 30 SVG map overlays generated across 6 batches
-- Pronunciation dictionary for all 9 chapters
-- Component data extracted: genealogy, timeline, definitions, figures, scripture, comparisons
+- 30 SVG map overlays, pronunciation dictionary, component data extraction
 
 ## 2026-03-19 — Phase 14: SVG Alignment Tool
-- Standalone browser tool for manual SVG-to-PNG alignment
-- Drag/scale/rotate controls with JSON export
 
 ## 2026-03-20 — Phase 15: Session Engine
-- LessonScript TypeScript types and useScriptPlayer hook
-- ScriptPlayer (YouTube-style controls) + StorybookPlayer (tap-to-advance)
-- 9 visual components: MapOverlay, SceneImage, GenealogyTree, DualTimeline, ScriptureCard, PortraitCard, DefinitionCard, RouteAnimation, ComparisonView
-- Cloud Run band param fix
-- Lesson Script Generator CLI (Node script: chapter markdown + band → LessonScript JSON)
+- LessonScript types, ScriptPlayer, StorybookPlayer, 9 visual components, generator CLI
 
-## 2026-03-22 — Repository Cleanup & MapLibre Pivot
-- **Decision:** Pivot teaching canvas from PNG+SVG overlays to MapLibre GL JS
-- Reason: SVG overlays are placeholder rectangles, impossible to see, don't trace real boundaries
-- MapLibre renders vector polygons — highlight Egypt by calling one function
-- Deleted ~30 orphaned root scripts/screenshots/legacy prompts
-- Moved math/english/science curriculum data to archive/
-- Consolidated 7+ documentation files into 4 unified docs
-
-## 2026-03-22 — Phase 16A: MapLibre TeachingCanvas
-- Installed `maplibre-gl` package
-- Created `TeachingCanvas.tsx` with MapLibre GL JS wrapper + imperative API (zoomTo, highlightRegion, drawRoute, placeMarker, clearOverlays, flyTo)
-- Overlay panel system: ScriptureCard, GenealogyPanel, TimelineBar, FigureCard (HTML over MapLibre, framer-motion animations)
-- TeachingCanvas.css for MapLibre-specific styles
-- Wired into ScriptPlayer replacing old HistoryCanvas
-
-## 2026-03-22 — Phase 16B: GeoJSON Data (Chapter 1)
-- Created ch01 GeoJSON: regions (Mizraim, Cush, Phut, Canaan), routes (Babel→Egypt/Nubia/Libya), markers (Babel, Memphis, Thebes, Kerma, Cyrene, Sidon)
-- Created `locations.ts` named location registry
-- Created `src/data/geojson/index.ts` loader
-
-## 2026-03-23 — Phase 16B Extended: GeoJSON Chapters 2–9
-- GeoJSON data generated for all remaining chapters (Stream A)
-- 27 new files: regions, routes, markers for chapters 2–9
-- Locations registry updated with all new named locations
-- Index loader updated to serve all 9 chapters
-
-## 2026-03-24 — Phase 16C: Agent Tool-Call Rewrite
-- Updated `agent/src/historyExplainerTools.ts` with `MAPLIBRE_TEACHING_TOOLS` + `set_scene`
-- Updated `agent/src/historyExplainerSession.ts` — tool call handler maps new tool names
-- Updated `buildHistoryExplainerPrompt()` — MapLibre capabilities + scene balance instructions
+## 2026-03-22 — Phase 16: MapLibre Teaching Canvas
+- 16A: MapLibre GL JS wrapper, overlay panels, imperative API
+- 16B: GeoJSON data for all 9 chapters (27 files)
+- 16C: Agent tool-call rewrite with MAPLIBRE_TEACHING_TOOLS
 
 ## 2026-03-31 — Phase 20: Live-First Pivot
-- **Decision:** Pivot from static pre-generated script pipeline to live-first architecture
-- Reason: Pre-generated scripts create a bottleneck, can't sync audio/visuals perfectly, and the AI should be the teacher — not a playback engine
-- Deleted 23 legacy files: ScriptPlayer, useScriptPlayer, ComponentRenderer, LessonDrawer, all lesson JSONs, script generators, overlay controls, transcript panel, voice indicator, etc.
-- Created `SessionCanvas.tsx` — full-bleed teaching viewport with kinetic typography as default, scene overlays sliding in/out
-- Created `src/lib/session/types.ts` — SceneMode, AgentMessage, TranscriptChunk, AgentAudio types
-- Created `.antigravity/ARCHITECTURE_LIVE.md` — live-first architecture documentation
-- Added `set_scene` tool to agent — AI explicitly controls transcript/map/image/overlay balance
-- Updated agent system prompt with SCENE CONTROL section — AI balances transcript vs visual ratio based on chapter content
-- Updated `toolCallHandler.ts` — handles `set_scene`, auto-triggers map scene for map-specific tools
-- Updated `LessonPlayerPage.tsx` — routes Band 2+ to SessionCanvas, Band 0-1 to StorybookPlayer
-- Deleted `JULES_PLAN_PHASE17.md` — all 6 prompts referenced deleted infrastructure
-- Created `JULES_PLAN_PHASE21.md` — 6 new prompts for phases 21-25
-- Rewrote both `ROADMAP.md` files for live-first architecture
-- Updated `ISSUES.md` — closed 44/45, added issues 47-51
+- **Decision:** Pivot from static scripts to live AI teaching via Gemini Live API
+- Deleted 23 legacy files (ScriptPlayer pipeline)
+- Created SessionCanvas, session types, ARCHITECTURE_LIVE.md
+- Added set_scene tool to agent
 
-## 2026-04-01 — Phase 21: SessionCanvas Live Agent Wiring
-- Created `useSession` hook connecting via WebSocket to `/ws/history-explainer`.
-- Hook parses `tool_call`, `transcript`, `audio`, and `error` payloads from the Gemini agent.
-- Configured Web Audio API playback for agent's voice, managing seamless contiguous audio chunk queueing.
-- Configured `MediaRecorder` for microphone input, converting `webm/opus` directly to base64 `audio` messages (for bands 3+).
-- Refactored `SessionCanvas` to manage connection states (connecting, error, ended) with dedicated UI flows.
-- Refactored `SessionCanvas` to correctly prevent stale closure re-connect loops by tracking state via refs and clearing the `ws.onclose` listener during unmount.
+## 2026-04-01 — Phases 21–25: Live-First Implementation
+- Phase 21: useSession hook, WebSocket connection, audio playback, microphone capture
+- Phase 22: TranscriptView kinetic typography
+- Phase 23: Agent WebSocket fixes, structured logging
+- Phase 24A: StorybookPlayer split-screen redesign
+- Phase 24B: Dashboard & page cleanup
+- Phase 25: Golden Script recording infrastructure
 
-## 2026-04-01 — Phase 23: Agent WebSocket Fixes
-- Removed legacy `evaluate_constraint` tool from `agent/src/gemini.ts` and moved it to `server.ts` witness session
-- Updated `agent/src/historyExplainerSession.ts` to map Live API `text` and `audio` events to client WS format
-- Updated `agent/src/server.ts` to handle both `/v1/` and `/ws/` routes and parse all required params
-- Added structured `[GEMINI]` and `[WS]` logging for connection tracing
-
-## 2026-03-31 — Phase 22: TranscriptView Kinetic Typography
-- Created `src/components/session/TranscriptView.tsx` with kinetic typography and age-adaptive layout for Band 2-3 and Band 4-5.
-- Updated `src/components/session/SessionCanvas.tsx` to integrate `TranscriptView` and replaced `transcriptLines` state with `transcriptChunks: TranscriptChunk[]`.
-
-## 2026-04-01 — Phase 24A: StorybookPlayer Redesign
-- Redesigned `StorybookPlayer.tsx` to use a split-screen layout on desktop and stacked layout on mobile.
-- Replaced the dark gradient over images with a dedicated text area using `--card` background.
-- Added page turn sliding animation using `framer-motion` `AnimatePresence`.
-- Bolded highlighted words with the `--primary` theme color instead of amber glow.
-
-## 2026-03-31 — Phase 24B: Dashboard & Page Cleanup
-- Checked and confirmed removal of deprecated pages (LessonView, ReadingView, ExamView, ContentTools). Deleted `src/archive/pages/NarratedLessonView.tsx` which was a leftover.
-- Verified orphaned imports for removed components were already cleaned.
-- Verified `Onboarding.tsx` was already streamlined to 3 steps (Welcome, Add Learner, Ready).
-- Verified `App.tsx` routes to match the target state, including `RedirectWithToast` for old `/lessons`, `/read`, and `/exam` routes.
-
-## 2026-04-03 — Phase 25: Golden Script Recording
-- Added `RecordedEvent` and `GoldenScript` types to `src/lib/session/types.ts`.
-- Created `useRecorder` hook to track `AgentMessage`s with relative timestamps since session start, ignoring raw base64 audio.
-- Created `useGoldenScript` playback hook to handle cached replay using `requestAnimationFrame`.
-- Added Cloudflare worker API routes `GET /api/golden-scripts` and `POST /api/golden-scripts` wired into `index.ts`.
-- Wired `SessionCanvas` to fallback to cached `GoldenScript` if agent WebSocket connection fails for 5 seconds.
-- Added `Save as Golden Script` feature button for ending successful sessions.
+## 2026-04-07 — Beat Sequencer Pivot
+- **Decision:** Pivot from Gemini Live narration to Beat Sequencer architecture
+- **Reason:** Gemini Live audio-native model cannot produce structured text, reliable tool calls, or clean transcripts. It is designed for conversational ping-pong, not 10–15 minute autonomous narration.
+- **What stays:** Entire frontend (SessionCanvas, TranscriptView, TeachingCanvas, useSession, toolCallHandler), WebSocket protocol, GeoJSON data, content manifest
+- **What changes:** Agent side — replace GeminiSession Live with BeatSequencer using regular generateContent streaming API. Gemini Live reserved for student Q&A only (Band 3+).
+- Archived: `ARCHITECTURE_LIVE.md` → `.antigravity/archive/`, `JULES_PLAN_PHASE21.md` → `.antigravity/archive/`
+- Updated: ROADMAP.md with 6-phase Beat Sequencer plan, ISSUES.md with architectural diagnosis (issues 52–56)
+- New roadmap phases: Phase 1 (isolation tests) → Phase 2 (beat schema) → Phase 3 (beat sequencer) → Phase 4 (live Q&A) → Phase 5 (content pipeline) → Phase 6 (integration)
