@@ -1,7 +1,8 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-03-31
+> **Last updated:** 2026-04-07
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
+> **Previous roadmap archived:** `.antigravity/archive/roadmap-live-agent-approach.md`
 
 ---
 
@@ -10,8 +11,6 @@
 Learn Live began as a general-purpose math curriculum platform (DAG-based skill progression, constraint templates, repetition arcs). In March 2026 it pivoted to a **focused African History curriculum** — one 9-chapter university-level textbook, AI-adapted for ages 3–18+ across 6 bands.
 
 The math engine, DAG system, and 2,000+ constraint templates are archived in `src/archive/`, `worker/src/archive/`, and `archive/` (root) — not deleted, available for future reactivation.
-
-The teaching experience is **live-first**: the Gemini Live API streams audio, tool calls, and transcript simultaneously via WebSocket. The primary visual surface is **kinetic typography** — the AI's narration rendered as bold, animated text. Visual scenes (maps, images, overlays) slide in temporarily via `set_scene` tool calls.
 
 ---
 
@@ -25,6 +24,67 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 
 ---
 
+## The Architectural Pivot (April 2026)
+
+### What failed
+
+The previous roadmap (Phases 20–25) assumed the Gemini Live API (`gemini-2.5-flash-native-audio-latest` with `responseModalities: ['AUDIO']`) would handle all lesson narration in a single autonomous session. After implementation and testing, we discovered:
+
+1. **No structured text output.** The audio-native model does not produce text in `modelTurn.parts`. The only text is `outputAudioTranscription` — a speech-to-text transcription of what the model spoke, not structured output suitable for tool calls or clean transcripts.
+2. **Unreliable tool calls.** The audio model is designed for conversational ping-pong, not 10–15 minute autonomous narration with interleaved tool calls.
+3. **No transcript.** The `**bold**` regex in `gemini.ts` was catching the model's natural emphasis markers in the audio transcription, misclassifying them as "thinking" tokens and stripping spoken content.
+4. **Fragile kickoff pattern.** Sending one kickoff message and hoping the model narrates for 15 minutes is fighting the Live API's conversational design.
+
+### What works
+
+The entire frontend is correct and complete:
+
+- `SessionCanvas.tsx` — full-bleed immersive viewport with scene transitions
+- `TranscriptView.tsx` — kinetic typography with band-adaptive styling
+- `TeachingCanvas.tsx` — MapLibre GL JS map with imperative API
+- `toolCallHandler.ts` — routes tool calls to TeachingCanvas + `set_scene`
+- `useSession.ts` — WebSocket connection, audio playback (24kHz PCM), microphone capture, reconnection
+- `useRecorder.ts` / `useGoldenScript.ts` — golden script recording and playback
+
+All 11 MapLibre teaching tools work. The WebSocket message protocol (`tool_call`, `transcript`, `audio`) is stable. The content manifest has all 9 chapters with sections, key dates, key figures, and Think It Through questions. GeoJSON data (regions, routes, markers) exists for all 9 chapters.
+
+### The new architecture
+
+```
+Frontend → WebSocket → Agent (Beat Sequencer)
+                         │
+                    For each beat:
+                         │
+                    Gemini Regular API (generateContent, streaming)
+                         │ ─── one focused call per beat
+                         │
+                    Streamed text → transcript messages to client
+                    Tool calls   → tool_call messages to client
+                    TTS audio    → audio messages to client
+                         │
+                    Beat complete → next beat
+                         
+                    When student interrupts (Band 3+):
+                         │
+                    Gemini Live (short conversation)
+                         │
+                    Conversation ends → resume beat sequence
+```
+
+**Key differences from the old approach:**
+
+| Concern | Old (Gemini Live) | New (Beat Sequencer) |
+|---------|-------------------|---------------------|
+| Narration | One autonomous Live session | One `generateContent` call per beat |
+| Tool calls | Model decides autonomously | Pre-planned per beat + model can add |
+| Transcript | Audio transcription (unreliable) | Direct text streaming (reliable) |
+| Audio | Native audio model output | TTS from narration text |
+| Student Q&A | Same Live session | Separate Live session, opened on demand |
+| Pacing | Model controls everything | Sequencer controls pacing, model narrates |
+| Failure mode | Entire lesson fails | One beat fails, retry or skip |
+
+---
+
 ## Architecture
 
 | Layer | Technology | Purpose |
@@ -32,9 +92,10 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 | Frontend | React + Vite + Tailwind + shadcn/ui | Deployed to Cloudflare Pages |
 | Data | Cloudflare D1 (SQLite) | Families, learners, progress, sessions, curriculum |
 | Content Storage | Cloudflare R2 | Master text, maps, audio, golden scripts, generated assets |
-| AI Bridge | Google Cloud Run (Express) | Gemini Live API for narration & oral examination |
-| Content Adaptation | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation |
-| Teaching Canvas | **MapLibre GL JS** | Programmable vector maps with live AI tool calls |
+| AI Narrator | Google Cloud Run (Express) | **Beat Sequencer** — iterates beats, streams narration via regular Gemini API |
+| AI Conversation | Gemini Live API | **On-demand only** — student Q&A when learner raises hand (Band 3+) |
+| Content Adaptation | Gemini 2.5 Flash | Band-specific narration, quiz generation |
+| Teaching Canvas | **MapLibre GL JS** | Programmable vector maps with tool calls |
 | Session UI | **SessionCanvas + TranscriptView** | Full-bleed kinetic typography + scene overlays |
 | Auth | Custom on Workers | Magic link, Google OAuth, email/password, JWT sessions |
 
@@ -46,28 +107,28 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 |------|------|-------|----------|
 | 0 | 3–5 | Picture Book | StorybookPlayer. Full-screen illustrations, read-aloud, tap to advance. Split-screen layout. |
 | 1 | 6–7 | Storybook+ | StorybookPlayer with more detail, simple review questions. Split-screen layout. |
-| 2 | 8–9 | Adapted Textbook | SessionCanvas (live AI). Larger text, slower pacing, fewer map interactions. |
-| 3 | 10–12 | Full Textbook | SessionCanvas (live AI). Standard kinetic typography, full tool-call set. |
-| 4 | 13–17 | Academic | SessionCanvas (live AI). Denser typography, Socratic dialogue, ComparisonView. |
-| 5 | 18+ | Seminar | SessionCanvas (live AI). Verbatim text, seminar-style, essay prompts. |
+| 2 | 8–9 | Adapted Textbook | SessionCanvas (Beat Sequencer). Larger text, slower pacing, fewer tool calls. Listen-only. |
+| 3 | 10–12 | Full Textbook | SessionCanvas (Beat Sequencer). Standard kinetic typography, full tool-call set. Can raise hand for Q&A. |
+| 4 | 13–17 | Academic | SessionCanvas (Beat Sequencer). Denser typography, Socratic check-ins. Can raise hand. |
+| 5 | 18+ | Seminar | SessionCanvas (Beat Sequencer). Verbatim text, seminar-style, essay prompts. Can raise hand. |
 
 ---
 
 ## Chapter Content Status
 
-| Ch | Title | Text | GeoJSON | Component Data | Live Agent | Illustrations |
-|----|-------|------|---------|---------------|------------|---------------|
-| 1 | Creation, Babel, & Table of Nations | ✅ | ✅ | ✅ | ✅ Ready | 23 (Warm Codex) |
-| 2 | Ancient Egypt | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 3 | Kingdom of Kush & Nubia | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 4 | Phoenicians & Carthage | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 5 | Church in Roman Africa | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 7 | Rise of Islam in Africa | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 8 | Bantu Migrations | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
-| 9 | Medieval African Kingdoms | ✅ | ✅ | ✅ | ✅ Ready | ❌ |
+| Ch | Title | Text | GeoJSON | Sections | Beat Schema | Illustrations |
+|----|-------|------|---------|----------|-------------|---------------|
+| 1 | The Sovereign Hand: A Biblical Foundation | ✅ | ✅ | 5 (1.1–1.5) | ❌ Phase 2 | 23 (Warm Codex) |
+| 2 | The Story of Egypt | ✅ | ✅ | 9 | ❌ | ❌ |
+| 3 | The Lands of Phut — Carthage, Numidia, Desert Kingdoms | ✅ | ✅ | 5 | ❌ | ❌ |
+| 4 | The Lands of Cush | ✅ | ✅ | TBD | ❌ | ❌ |
+| 5 | Church in Roman Africa | ✅ | ✅ | TBD | ❌ | ❌ |
+| 6 | Aksum & Ethiopian Christianity | ✅ | ✅ | TBD | ❌ | ❌ |
+| 7 | Rise of Islam in Africa | ✅ | ✅ | TBD | ❌ | ❌ |
+| 8 | Bantu Migrations | ✅ | ✅ | TBD | ❌ | ❌ |
+| 9 | Medieval African Kingdoms | ✅ | ✅ | TBD | ❌ | ❌ |
 
-"Live Agent" = GeoJSON + component data + content API ready. The agent generates narration and tool calls in real time — no pre-generated lesson scripts needed.
+**Section = Lesson.** Each numbered section (1.1, 1.2, etc.) is one lesson of 10–15 minutes. Each lesson has 4–8 teaching beats.
 
 ---
 
@@ -89,41 +150,395 @@ Parents using established curricula (Saxon, Classical Conversations, etc.) repor
 | 12 | Data quality fixes, reading polish, error handling | Mar 18 |
 | 13 | SVG map overlays (30 maps), pronunciation dictionary, component data extraction | Mar 18 |
 | 14 | SVG alignment tool (standalone browser tool) | Mar 19 |
-| 15 | Session engine: LessonScript types, ScriptPlayer, StorybookPlayer, 9 visual components, lesson script generator CLI | Mar 20 |
+| 15 | Session engine: LessonScript types, ScriptPlayer, StorybookPlayer, 9 visual components | Mar 20 |
 | 16A | MapLibre TeachingCanvas shell + imperative API + overlay panels | Mar 22 |
 | 16B | Historical GeoJSON data for all 9 chapters (regions, routes, markers) + locations registry | Mar 22–24 |
 | 16C | Agent tool-call rewrite: MAPLIBRE_TEACHING_TOOLS, session handler, prompt builder | Mar 24 |
-| 20 | **Live-First Pivot**: Deleted ScriptPlayer pipeline, created SessionCanvas, added `set_scene` tool, updated agent prompt with scene-balance instructions | Mar 31 |
+| 20 | **Live-First Pivot**: Deleted ScriptPlayer pipeline, created SessionCanvas, added `set_scene` tool | Mar 31 |
+| 21 | Wired SessionCanvas to useSession hook, integrated TeachingCanvas, golden script fallback | Apr 1–3 |
+| 22 | TranscriptView kinetic typography component | Apr 1 |
+| 23 | Agent WebSocket connection fix, structured logging, kickoff/nudge timers | Apr 1–3 |
+
+---
+
+## Current Phase Plan: Beat Sequencer Architecture
+
+### Execution Order
+
+```
+Phase 1 (isolation tests)
+    ↓
+Phase 2 (beat schema) ← human + agent
+    ↓
+Phase 3 (beat sequencer) ← agent side
+    ↓
+Phase 4 (live Q&A handler) ← agent side
+    ↓
+Phase 5 (content pipeline) ← agent + worker
+    ↓
+Phase 6 (integration + polish) ← full stack
+```
+
+All phases are **strictly sequential**. Each phase must be verified working before the next begins. No parallel work.
+
+---
+
+### Phase 1 — Three Isolation Tests
+
+**Goal:** Verify the three foundational capabilities independently, in isolation, before building anything on top of them.
+
+**Owner:** Agent (developer)
+
+**Files to create:**
+
+| File | Purpose |
+|------|---------|
+| `agent/tests/test-narration.ts` | Throwaway script: sends Ch1 §1.1 text to regular Gemini `generateContent` streaming API with Band 3 system prompt. Prints streamed text + any tool call suggestions to console. |
+| `agent/tests/test-fake-toolcall.ts` | Throwaway script: starts agent server, connects via wscat, sends a hardcoded `{ type: "tool_call", tool: "zoom_to", args: { location: "nile_delta" } }` message to the frontend WebSocket. Verifies map responds. |
+| `agent/tests/test-audio-playback.ts` | Throwaway script: sends a minimal prompt to Gemini (any model), captures one audio chunk, base64-encodes it, and sends it over WebSocket as `{ type: "audio", data: "<base64>" }`. Verifies browser plays audio. |
+
+**Definition of done:**
+
+- [ ] **Test A (narration):** `npx tsx agent/tests/test-narration.ts` produces multi-paragraph narration of Section 1.1 content at Band 3 level. Output includes recognizable tool call suggestions (e.g., the model recommends showing a timeline or zooming to a location). **Pass/fail documented.**
+- [ ] **Test B (tool calls):** A hardcoded `tool_call` message sent over WebSocket causes `TeachingCanvas` to execute the operation (map flies to location, or region highlights). Verified by eye in the browser. **Pass/fail documented.**
+- [ ] **Test C (audio):** An audio chunk sent over WebSocket plays audibly in the browser through the existing `playAudioChunk` pipeline in `useSession.ts`. **Pass/fail documented.**
+- [ ] Results recorded in `agent/tests/RESULTS.md` with date, pass/fail, and any notes.
+
+---
+
+### Phase 2 — Beat Data Schema
+
+**Goal:** Design the data schema that defines how a section is broken into teaching beats. Produce one fully worked example for Chapter 1, Section 1.1.
+
+**Owner:** Human (schema design, Reformed theology, askpuritans.com consultation) + Agent (documentation)
+
+**Files to create:**
+
+| File | Purpose |
+|------|---------|
+| `docs/curriculum/history/beat-schema.md` | Schema definition + one complete worked example |
+
+**Beat schema (required fields):**
+
+```json
+{
+  "beatId": "ch01_s01_b01",
+  "sectionId": "ch01_s01",
+  "sequence": 1,
+  "title": "History's True Beginning",
+  "contentText": "The paragraph(s) the AI should narrate for this beat",
+  "sceneMode": "transcript",
+  "toolSequence": [
+    {
+      "tool": "show_scripture",
+      "args": { "reference": "Genesis 1:1", "text": "In the beginning..." },
+      "timing": "after_first_paragraph"
+    },
+    {
+      "tool": "show_timeline",
+      "args": { "events": [{ "year": -4004, "label": "Creation" }] },
+      "timing": "after_second_paragraph"
+    }
+  ],
+  "estimatedDurationSec": 90,
+  "bandOverrides": {
+    "2": { "contentText": "Simplified version for younger learners..." },
+    "5": { "contentText": "Full academic text with additional analysis..." }
+  },
+  "reformedReflection": {
+    "source": "askpuritans.com",
+    "theologian": "Jonathan Edwards",
+    "insight": "Edwards on God's sovereignty in ordering history...",
+    "applicationPrompt": "How does this view change how you see the Fall?"
+  },
+  "realLifeApplication": "Consider how the brokenness described in Genesis 3 manifests in your community...",
+  "researchPrompt": "Research one example of the Creation-Fall-Redemption framework applied to a modern event",
+  "homework": {
+    "reading": "Westminster Shorter Catechism Q.17-19",
+    "writing": "Write a 200-word reflection on how the Fall affects our approach to studying history",
+    "discussion": "Discuss with your family: what's the difference between studying history to memorize facts and studying it to see God's hand?"
+  }
+}
+```
+
+**Section-level wrapper:**
+
+```json
+{
+  "sectionId": "ch01_s01",
+  "chapterId": "ch01",
+  "heading": "1.1 In the Beginning: God, Man, and the Meaning of History",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 720,
+  "thinkItThrough": ["...existing questions from content manifest..."],
+  "beats": [ /* ordered array of beat objects */ ]
+}
+```
+
+**The worked example must include:**
+
+- Section 1.1 ("In the Beginning: God, Man, and the Meaning of History") broken into its complete beat sequence (approximately 5–7 beats)
+- Each beat with: the exact contentText extracted from the content manifest, the sceneMode, the pre-planned toolSequence with timing hints, estimated duration
+- At least one beat with a `reformedReflection` field (manually sourced from askpuritans.com)
+- At least one beat with `realLifeApplication`, `researchPrompt`, and `homework`
+- A final beat for the "Think It Through" comprehension questions
+- Notes on how the schema handles large sections that require splitting across two lessons
+
+**Definition of done:**
+
+- [ ] `docs/curriculum/history/beat-schema.md` exists with complete schema documentation
+- [ ] One fully worked example: Chapter 1, Section 1.1 as a complete beat sequence
+- [ ] Schema covers all 11 tool types in `historyExplainerTools.ts`
+- [ ] Schema reviewed and approved by human author before Phase 3 begins
+
+---
+
+### Phase 3 — Beat Sequencer (Agent Side)
+
+**Goal:** Replace the current "open Gemini Live and pray" pattern with a Beat Sequencer that iterates through beats and makes one focused `generateContent` streaming call per beat.
+
+**Owner:** Agent (developer)
+
+**Files to create or modify:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `agent/src/beatSequencer.ts` | **NEW** | Core sequencer class: loads beats, iterates, makes one API call per beat |
+| `agent/src/textNarrator.ts` | **NEW** | Wrapper around `generateContent` streaming — sends beat content + band prompt, returns streamed text + tool calls |
+| `agent/src/historyExplainerSession.ts` | **MODIFY** | Replace hello-world diagnostic with BeatSequencer instantiation |
+| `agent/src/gemini.ts` | **MODIFY** | Add a `narrateBeat()` method using `generateContent` (streaming) alongside existing Live session support |
+| `agent/src/historyExplainerTools.ts` | **KEEP** | Tool definitions and prompt builder — no changes needed |
+
+**BeatSequencer behavior:**
+
+1. Receives the section's beat array on session start
+2. Iterates through beats in order
+3. For each beat:
+   - Sends `set_scene` tool call if the beat's `sceneMode` differs from the current mode
+   - Calls `textNarrator.narrateBeat(beat, band, previousContext)` — a single `generateContent` streaming call
+   - Forwards streamed text as `{ type: "transcript", text, isFinal }` messages to client WebSocket
+   - Forwards any tool calls as `{ type: "tool_call", tool, args }` messages to client WebSocket
+   - Fires pre-planned `toolSequence` entries at the specified timing points
+   - Marks beat complete when the streaming call finishes
+   - Pauses briefly (configurable inter-beat delay, default 500ms) before starting next beat
+4. Exposes `pause()` — stops after current beat completes (does not interrupt mid-beat)
+5. Exposes `resume()` — continues from next beat
+6. Sends `{ type: "lesson_complete" }` when all beats are finished
+
+**WebSocket protocol — no changes:**
+
+The message types sent to the client remain identical: `tool_call`, `transcript`, `audio`, `thinking`, `error`. The frontend does not know or care whether messages come from a Beat Sequencer or a Live session.
+
+**Audio strategy for Phase 3:**
+
+- **Initial implementation:** Text-only narration (no audio). The transcript is the primary surface.
+- **Follow-up (can be added incrementally):** Pipe narration text through Google Cloud TTS or Gemini audio generation, forward PCM chunks as `{ type: "audio", data }` messages. This is a separate concern and must not block Phase 3 completion.
+
+**Definition of done:**
+
+- [ ] `agent/src/beatSequencer.ts` and `agent/src/textNarrator.ts` exist and compile (`cd agent && npm run build`)
+- [ ] `historyExplainerSession.ts` instantiates a BeatSequencer with hardcoded test beats (Section 1.1 from Phase 2 example)
+- [ ] Connecting via wscat produces a stream of `transcript` messages with Section 1.1 narration, interspersed with `tool_call` messages
+- [ ] `pause()` and `resume()` work (tested via a control message from the client)
+- [ ] A `lesson_complete` message is sent when all beats are finished
+- [ ] Structured logging at every stage: `[SEQUENCER] Beat 1/6: "History's True Beginning"`, `[NARRATOR] Streaming started`, `[TOOL] Pre-planned: show_scripture(...)`, etc.
+
+---
+
+### Phase 4 — Live Handler for Student Q&A
+
+**Goal:** Build a thin wrapper that activates Gemini Live only when a student raises their hand (Band 3+), handles a short conversational exchange, then returns control to the Beat Sequencer.
+
+**Owner:** Agent (developer)
+
+**Files to create or modify:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `agent/src/liveHandler.ts` | **NEW** | Opens a short Gemini Live session with lesson context, forwards audio bidirectionally, closes on conversation end |
+| `agent/src/beatSequencer.ts` | **MODIFY** | Add `onInterrupt(handler)` callback, pause sequencer when student interrupts |
+| `agent/src/historyExplainerSession.ts` | **MODIFY** | Wire `raise_hand` client message to LiveHandler |
+| `agent/src/gemini.ts` | **KEEP** | Existing `GeminiSession` class used by LiveHandler (no changes) |
+
+**LiveHandler behavior:**
+
+1. Activated when the client sends `{ type: "raise_hand" }` (or when the sequencer reaches a comprehension-check beat)
+2. The Beat Sequencer calls `pause()` automatically
+3. LiveHandler opens a Gemini Live session with context:
+   - Current beat title and content
+   - Recent transcript (last 3 beats)
+   - Band-appropriate system prompt
+   - "The student has a question about the lesson. Answer briefly, then say 'Let's continue with the lesson.'"
+4. Audio from the student's microphone (already captured by `useSession.ts`) is forwarded to the Live session
+5. Audio from the Live session is forwarded to the client as `{ type: "audio", data }` messages
+6. Transcript from the Live session is forwarded as `{ type: "transcript", text, isFinal }` messages
+7. When the Live session ends (student stops speaking, model says "let's continue," or timeout after 2 minutes), LiveHandler:
+   - Closes the Live session
+   - Sends `{ type: "qa_complete" }` to client
+   - Signals the Beat Sequencer to `resume()`
+
+**Frontend changes (minimal):**
+
+- Add a "Raise Hand" button in SessionCanvas (only visible for Band 3+)
+- On press, send `{ type: "raise_hand" }` over WebSocket
+- On `qa_complete` message, visual indicator returns to normal
+
+**Definition of done:**
+
+- [ ] `agent/src/liveHandler.ts` exists and compiles
+- [ ] Sending `{ type: "raise_hand" }` over wscat during a running session pauses the sequencer, opens a Live session, and audio flows bidirectionally
+- [ ] The Live session closes after a natural conversation ending or 2-minute timeout
+- [ ] The Beat Sequencer resumes from the next beat after Q&A completes
+- [ ] Band 2 and below: `raise_hand` messages are ignored (listen-only mode)
+
+---
+
+### Phase 5 — Content Pipeline
+
+**Goal:** Wire the agent to fetch real chapter/section content from the Worker API before starting a session. Remove all hardcoded test content.
+
+**Owner:** Agent (developer) + Worker (developer)
+
+**Files to create or modify:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `agent/src/contentFetcher.ts` | **NEW** | Fetches section content + beat schema from Worker API, caches for session duration |
+| `agent/src/historyExplainerSession.ts` | **MODIFY** | Replace hardcoded beats with content from `contentFetcher` |
+| `worker/src/routes/content.ts` | **MODIFY** | Add or verify endpoint: `GET /api/chapters/:chapterId/sections/:sectionId/beats` |
+| `worker/db/migrations/xxx_beat_schema.sql` | **NEW** (if needed) | D1 table for beat data, or serve from R2 JSON |
+
+**Content flow:**
+
+```
+Client connects with ?chapter=ch01&section=s01&band=3
+    → Agent calls Worker: GET /api/chapters/ch01/sections/s01/beats?band=3
+    → Worker returns beat array from D1/R2
+    → Agent feeds beats to BeatSequencer
+    → Lesson begins
+```
+
+**Content storage decision (to be made in this phase):**
+
+- **Option A:** Beat JSON files stored in R2 at `beats/ch01/s01.json`, served by Worker
+- **Option B:** Beat data stored in D1 tables, queried by Worker
+- **Recommendation:** Option A (R2 JSON files) for simplicity — beat data is authored content, not user-generated data. It changes infrequently and benefits from the content manifest pattern already established.
+
+**Definition of done:**
+
+- [ ] `contentFetcher.ts` exists and compiles
+- [ ] The hello-world system prompt in `historyExplainerSession.ts` is permanently removed
+- [ ] Connecting with `?chapter=ch01&section=s01&band=3` fetches real Section 1.1 beats and narrates them
+- [ ] Connecting with a non-existent section returns a graceful error message to the client
+- [ ] The Worker endpoint is deployed and reachable from the Cloud Run agent
+- [ ] Service-to-service auth (`AGENT_SERVICE_KEY`) is used for the Worker API call
+
+---
+
+### Phase 6 — Frontend Integration and Polish
+
+**Goal:** Verify the full lesson flow end-to-end. Address any gaps identified during testing. This phase starts only after Phases 1–5 are confirmed working.
+
+**Owner:** Full stack (developer)
+
+**Files to modify:**
+
+| File | Action | Purpose |
+|------|--------|---------|
+| `src/pages/LessonPlayerPage.tsx` | **MODIFY** | Pass section ID (not just chapter ID) to SessionCanvas |
+| `src/components/session/SessionCanvas.tsx` | **MODIFY** | Handle `lesson_complete` message, show wrap-up screen with homework/research prompts |
+| `src/components/session/SessionCanvas.tsx` | **MODIFY** | Add "Raise Hand" button for Band 3+ |
+| `src/lib/session/useSession.ts` | **MODIFY** | Handle `qa_complete` message type |
+| `src/pages/Dashboard.tsx` | **MODIFY** | Show sections within chapters (lesson picker), not just chapter-level entry |
+
+**End-to-end flow to verify:**
+
+```
+Dashboard → Student taps Chapter 1 → Section list appears
+    → Student taps "1.1 In the Beginning"
+    → SessionCanvas opens, connects to agent
+    → Agent fetches Section 1.1 beats from Worker
+    → Beat 1 narrates: transcript text streams in, kinetic typography animates
+    → Beat 2: set_scene("map") fires, map appears, zoom_to("babel")
+    → Beat 3: set_scene("transcript"), narration continues
+    → Beat 4: show_scripture("Genesis 1:1") fires
+    → Beat 5: Think It Through questions display
+    → Student (Band 3+) raises hand → Q&A exchange → resume
+    → All beats complete → lesson_complete screen with homework
+    → Student returns to dashboard → section marked complete
+```
+
+**Definition of done:**
+
+- [ ] Full flow above works without errors for Chapter 1, Section 1.1 at Band 3
+- [ ] `lesson_complete` message triggers wrap-up screen with homework/research prompts
+- [ ] "Raise Hand" button appears for Band 3+ and opens Q&A exchange
+- [ ] Dashboard shows section-level lesson list for each chapter
+- [ ] Section completion is recorded in D1 via Worker API
+- [ ] `npm run build` passes with zero errors
+- [ ] `cd agent && npm run build` passes with zero errors
+
+---
+
+## Deferred Work (Not in current plan)
+
+These items are important but are not blockers for the first working lesson:
+
+| Item | Notes |
+|------|-------|
+| **TTS audio narration** | Pipe narration text through Google Cloud TTS. Can be added to Phase 3 incrementally after text narration works. |
+| **Golden Script re-verification** | `useRecorder.ts` and `useGoldenScript.ts` exist but were never tested with real content. Re-verify after Phase 6. |
+| **StorybookPlayer split-screen (Phase 24A)** | Layout redesign for Band 0-1. Independent of Beat Sequencer. Can proceed in parallel. |
+| **Dashboard & page cleanup (Phase 24B)** | Remove deprecated pages, simplify onboarding. Independent. Can proceed in parallel. |
+| **Beat schemas for Chapters 2–9** | Phase 2 produces only Chapter 1, Section 1.1. Remaining sections are authored incrementally. |
+| **Reformed theology enrichment** | `reformedReflection` fields populated via manual askpuritans.com consultation. Human-authored per section. |
+| **Illustrations for Chapters 2–9** | Only Chapter 1 has illustrations (23 Warm Codex). Others are pending. |
 
 ---
 
 ## Design Principles (Locked)
 
-1. **The transcript is the home base.** Kinetic typography occupies 60-80% of lesson time. Visual scenes slide in temporarily and recede. The AI actively controls the transcript-vs-visual ratio based on chapter content type.
-2. **One tap to learning.** Dashboard → tap chapter → session begins.
+1. **The transcript is the home base.** Kinetic typography occupies 60-80% of lesson time. Visual scenes slide in temporarily and recede. The sequencer controls the transcript-vs-visual ratio based on beat data.
+2. **One tap to learning.** Dashboard → tap chapter → tap section → lesson begins.
 3. **Band 0 is a different app.** StorybookPlayer is completely separate from SessionCanvas.
 4. **Parents observe, not gatekeep.** No blocking approval gates. Passive summaries.
 5. **The curriculum is a library.** Dashboard feels like a home library shelf.
 6. **Age-appropriate by default.** Band set once per child, everything adapts automatically.
-7. **The AI decides what you see.** Scene balance, pacing, and visual density are all AI-controlled in real time via tool calls.
+7. **The sequencer is the director.** Pacing, scene transitions, tool calls, and beat progression are controlled by the Beat Sequencer, not by the AI autonomously. The AI narrates one beat at a time within the structure the sequencer provides.
 
 ---
 
-## Architecture Decisions (Locked)
+## Architecture Decisions (Locked — Updated April 2026)
 
 1. **MapLibre GL JS** for the teaching canvas. Vector polygons, smooth camera flights, animated routes — all driven by GeoJSON + tool calls.
-2. **Live-first, not script-first.** The Gemini Live API streams audio + tool calls simultaneously. No pre-generated lesson scripts. No timestampMs synchronization.
-3. **Transcript-first kinetic typography.** The default visual is animated text. Maps, images, and overlays are temporary scenes invoked via `set_scene`.
-4. **`set_scene` is the key tool.** The AI explicitly controls what the student sees (transcript / map / image / overlay) and must return to transcript after every visual sequence.
-5. **Golden Script workflow.** Successful live sessions are recorded as JSON for zero-latency cached playback. Static content is derived from live, not the other way around.
-6. **StorybookPlayer is a separate component.** Bands 0-1 use split-screen layout with illustrations. Not a mode of SessionCanvas.
-7. **Chapter 1 launches before Chapter 2 is touched.**
+2. **Beat-first, not live-first.** The regular Gemini streaming API (`generateContent`) handles narration — one focused call per teaching beat. No autonomous 15-minute Live sessions for narration.
+3. **Gemini Live is for conversation only.** It activates on student interrupt (Band 3+) for short Q&A exchanges, then closes. It is never the primary narration engine.
+4. **Transcript-first kinetic typography.** The default visual is animated text. Maps, images, and overlays are temporary scenes invoked via `set_scene`.
+5. **`set_scene` is the key tool.** Both pre-planned (in beat data) and AI-generated tool calls control what the student sees.
+6. **Sections are lessons.** Each numbered section (1.1, 1.2, etc.) from the content manifest is one lesson. Large sections may be split. The section is the unit of scheduling, progress tracking, and content delivery.
+7. **Golden Script workflow.** Successful Beat Sequencer sessions are recorded as JSON for zero-latency cached playback. Static content is derived from live, not the other way around.
+8. **StorybookPlayer is a separate component.** Bands 0-1 use split-screen layout with illustrations. Not a mode of SessionCanvas.
+9. **Chapter 1 launches before Chapter 2 is touched.**
+10. **Reformed perspective is human-authored.** `reformedReflection` fields are manually curated using askpuritans.com — never AI-generated theology.
+
+---
+
+## Theological Guardrails (Non-Negotiable)
+
+1. Never remove or downplay scripture references
+2. Never present the Curse of Ham as legitimate theology
+3. Band 0 storybook uses same names, sequence, and emotional beats as full text
+4. Only vocabulary and length change between bands — never the theology, never the facts
+5. Dates from evolutionary model always tagged `(conventional estimate)`
+6. Dates from biblical model always tagged `(biblical chronology)`
+7. Band 4–5 system prompt: "The Biblical chronology is the authoritative framework. Teach it as true."
+8. Reformed theological reflections are manually sourced from askpuritans.com and vetted by the human author — never generated by the AI
 
 ---
 
 ## MapLibre Tool-Call API
 
-The AI controls the canvas via these tool calls, fired through the WebSocket alongside audio:
+The AI narrates and the sequencer fires these tool calls via WebSocket:
 
 | Tool | What it does |
 |------|-------------|
@@ -141,59 +556,6 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 
 ---
 
-## Current Phase: Live-First Implementation
-
-### Phase 21: Wire SessionCanvas to Live Agent ← NEXT (after 22 + 23)
-- [ ] Connect `SessionCanvas.tsx` to `useSession` WebSocket hook
-- [ ] Wire `handleToolCall` with `onSceneChange` callback
-- [ ] Integrate `TeachingCanvas.tsx` into the map scene slot
-- [ ] Handle connection lifecycle (connecting → connected → error → reconnecting)
-- [ ] Pass learner context from Zustand store
-
-### Phase 22: TranscriptView Kinetic Typography ← PARALLEL
-- [ ] Build `src/components/session/TranscriptView.tsx`
-- [ ] Word-by-word entrance animation (framer-motion)
-- [ ] Age-adaptive styling (Band 2-3: larger text; Band 4-5: denser)
-- [ ] Previous lines fade to 40% opacity
-- [ ] Replace inline transcript rendering in SessionCanvas
-
-### Phase 23: Fix Agent WebSocket Connection ← PARALLEL
-- [ ] Debug Gemini Live API connection in `agent/src/gemini.ts`
-- [ ] Remove legacy `evaluate_constraint` tool from history sessions
-- [ ] Verify full loop: client WS → Express → Gemini → tool calls + audio → client
-- [ ] Add structured logging for every stage
-
-### Phase 24A: StorybookPlayer Split-Screen ← PARALLEL
-- [ ] Split-screen: image 60% / text 40% (top/bottom on mobile)
-- [ ] Remove gradient overlay on images
-- [ ] Keep tap-to-advance, progress dots, exit button
-
-### Phase 24B: Dashboard & Page Cleanup ← PARALLEL
-- [ ] Remove deprecated pages (LessonView, ReadingView, ExamView, ContentTools)
-- [ ] Add redirect routes with toast messages
-- [ ] Simplify onboarding to 3 steps
-- [ ] Clean up App.tsx routes
-
-### Phase 25: Golden Script Recording ← AFTER 21
-- [ ] Record `AgentMessage[]` with timing during live sessions
-- [ ] Save golden scripts to R2 via worker API
-- [ ] `useGoldenScript` hook for cached replay without WebSocket
-- [ ] Fallback: if agent unreachable, play golden script
-
----
-
-## Theological Guardrails (Non-Negotiable)
-
-1. Never remove or downplay scripture references
-2. Never present the Curse of Ham as legitimate theology
-3. Band 0 storybook uses same names, sequence, and emotional beats as full text
-4. Only vocabulary and length change between bands — never the theology, never the facts
-5. Dates from evolutionary model always tagged `(conventional estimate)`
-6. Dates from biblical model always tagged `(biblical chronology)`
-7. Band 4–5 system prompt: "The Biblical chronology is the authoritative framework. Teach it as true."
-
----
-
 ## Archived Systems
 
 | System | Location | Reactivation Path |
@@ -204,15 +566,19 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 | DAG dependency resolver | `worker/src/archive/` | If history adds prerequisites |
 | SVG alignment tool | `tools/svg-aligner/` | Reference for manual alignment |
 | PNG map overlays | R2 `assets/maps/` | Kept as reference images |
-| Static lesson scripts | Deleted (were in `src/data/lessons/`) | Replaced by live AI + golden scripts |
+| Static lesson scripts | Deleted (were in `src/data/lessons/`) | Replaced by Beat Sequencer |
 | ScriptPlayer pipeline | Deleted (Phase 20) | Replaced by SessionCanvas |
+| Live-agent-first roadmap | `.antigravity/archive/roadmap-live-agent-approach.md` | Reference for Phase 20–23 decisions |
+| Jules phase prompts | `.antigravity/JULES_PLAN_PHASE21.md` | Reference for Phase 21–25 implementation |
 
 ---
 
 ## Key References
 
 - Master textbook: `docs/curriculum/history/my-first-textbook/`
+- Content manifest: `worker/scripts/output/content-manifest.json`
 - Component data: `docs/curriculum/history/component-data/`
+- Beat schema (Phase 2): `docs/curriculum/history/beat-schema.md` (to be created)
 - Pronunciation dictionary: `src/data/pronunciation.json`
 - Philosophy docs: `docs/core-docs/`
 - Agent code: `agent/`
@@ -223,8 +589,8 @@ The AI controls the canvas via these tool calls, fired through the WebSocket alo
 - Teaching canvas (MapLibre): `src/components/canvas/TeachingCanvas.tsx`
 - Tool call handler: `src/lib/canvas/toolCallHandler.ts`
 - Storybook player: `src/components/player/StorybookPlayer.tsx`
-- Live architecture doc: `.antigravity/ARCHITECTURE_LIVE.md`
-- Jules prompts: `.antigravity/JULES_PLAN_PHASE21.md`
+- Architecture doc: `.antigravity/ARCHITECTURE_LIVE.md` (to be updated)
+- Archived roadmap: `.antigravity/archive/roadmap-live-agent-approach.md`
 
 ---
 
