@@ -589,7 +589,7 @@ The AI narrates and the sequencer fires these tool calls via WebSocket:
 - Teaching canvas (MapLibre): `src/components/canvas/TeachingCanvas.tsx`
 - Tool call handler: `src/lib/canvas/toolCallHandler.ts`
 - Storybook player: `src/components/player/StorybookPlayer.tsx`
-- Architecture doc: `.antigravity/ARCHITECTURE_LIVE.md` (to be updated)
+- Architecture doc (archived): `.antigravity/archive/ARCHITECTURE_LIVE.md`
 - Archived roadmap: `.antigravity/archive/roadmap-live-agent-approach.md`
 
 ---
