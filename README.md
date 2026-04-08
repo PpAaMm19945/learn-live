@@ -30,13 +30,14 @@ Written from a 1689 Reformed Baptist perspective with Young Earth Creation (YEC)
 
 | Layer | Technology | Role |
 |-------|-----------|------|
-| **Frontend** | React 18 · Vite · Tailwind CSS · Zustand | Deployed to Cloudflare Pages |
-| **Data** | Cloudflare D1 (SQLite) | Families, learners, progress, sessions, curriculum |
-| **Content Storage**| Cloudflare R2 | Master text, maps, audio, generated assets |
-| **AI Bridge** | Google Cloud Run · Express | Gemini Live for narration & oral examination |
-| **Content Engine** | Gemini 2.5 Flash | RAG-based band adaptation, quiz generation |
-| **Teaching Canvas**| MapLibre GL JS | Programmable vector maps with live AI tool calls |
-| **Auth** | Custom on Workers | Magic link, Google OAuth, email/password, JWT |
+| **Frontend** | React 18 · Vite · MapLibre | Deterministic Beat-Sequenced Player (Band 2-5). |
+| **Logic** | Beat Sequencer (Agent) | Orchestrates narration, TTS, and map synchronization. |
+| **Interaction** | Live Q&A Handler (Agent) | Short Gemini Live bursts for student questions (Band 3+). |
+| **Data** | Cloudflare D1 (SQLite) | Profiles, Learner State, and Curriculum Index. |
+| **Content** | Cloudflare R2 | R2-backed JSON "Beats" served via Worker API. |
+| **AI Bridge** | Google Cloud Run · Node.js | Multi-service agent using GenAI REST and Live APIs. |
+| **Synthesis** | Google Cloud TTS | High-fidelity 24kHz PCM audio generation for lessons. |
+| **Teaching Canvas**| MapLibre GL JS | Historically accurate map replacement (Ancient Theme). |
 
 ---
 

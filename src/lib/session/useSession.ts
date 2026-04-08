@@ -32,6 +32,7 @@ export function useSession({
   const [error, setError] = useState<string>();
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
+  const [isQAActive, setIsQAActive] = useState<boolean>(false);
 
   // Beat Sequencer State Machine
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
@@ -246,6 +247,12 @@ export function useSession({
             setTranscriptChunks((prev) => [...prev, msg as TranscriptChunk]);
           } else if (msg.type === 'audio') {
             await playAudioChunk(msg.data);
+          } else if (msg.type === 'qa_complete') {
+            Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
+            setIsQAActive(false);
+          } else if (msg.type === 'lesson_complete') {
+            Logger.info('[WS]', 'Lesson finished.');
+            setStatus('ended');
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              setError(msg.message);
@@ -331,6 +338,14 @@ export function useSession({
         streamRef.current = null;
     }
   }, []);
+  
+  const sendRaiseHand = useCallback(() => {
+    if (wsRef.current?.readyState === WebSocket.OPEN && band >= 3) {
+        Logger.info('[WS]', 'Sending raise_hand request');
+        wsRef.current.send(JSON.stringify({ type: 'raise_hand' }));
+        setIsQAActive(true);
+    }
+  }, [band]);
 
   const toggleMute = useCallback(() => {
     setIsMuted((prev) => {
@@ -417,9 +432,11 @@ export function useSession({
     sceneMode,
     error,
     isMuted,
+    isQAActive,
     hasReceivedMessage,
     connect,
     disconnect,
+    sendRaiseHand,
     toggleMute,
     setSceneMode
   };

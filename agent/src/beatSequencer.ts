@@ -1,5 +1,5 @@
 import { WebSocket } from 'ws';
-import { ContentLoader, Beat, SectionManifest } from './content';
+import { Beat, SectionManifest } from './content';
 import { GenAINarrator } from './gemini';
 import { TTSService } from './tts';
 
@@ -9,6 +9,7 @@ export class BeatSequencer {
     private currentBeatIndex = 0;
     private manifest: SectionManifest | null = null;
     private isPaused = false;
+    private completedBeats: Beat[] = [];
 
     constructor(
         private ws: WebSocket,
@@ -19,14 +20,9 @@ export class BeatSequencer {
         this.tts = new TTSService();
     }
 
-    async start(chapterId: string, sectionId: string) {
-        console.log(`[SEQUENCER] Starting lesson: ${chapterId} / ${sectionId} (Band ${this.band})`);
-        
-        this.manifest = await ContentLoader.loadSection(chapterId, sectionId);
-        if (!this.manifest) {
-            this.sendError("Failed to load lesson content.");
-            return;
-        }
+    async start(manifest: SectionManifest) {
+        console.log(`[SEQUENCER] Starting lesson: ${manifest.chapterId} / ${manifest.sectionId} (Band ${this.band})`);
+        this.manifest = manifest;
 
         await this.runLoop();
     }
@@ -59,7 +55,10 @@ export class BeatSequencer {
 
     private async processBeat(beat: Beat) {
         // 1. Get adapted text
-        const baseText = ContentLoader.getBeatForBand(beat, this.band);
+        let baseText = beat.contentText;
+        if (beat.bandOverrides && beat.bandOverrides[this.band.toString()]) {
+            baseText = beat.bandOverrides[this.band.toString()].contentText;
+        }
         
         // Use Gemini to "narrate" the text in a teaching voice for the specific band
         const prompt = `Narrate the following history content for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth. Content: "${baseText}"`;
@@ -85,6 +84,23 @@ export class BeatSequencer {
 
         // 4. Send to client
         this.sendMessage(payload);
+
+        // Record for context
+        this.completedBeats.push(beat);
+    }
+
+    getContext() {
+        const currentBeat = this.manifest?.beats[this.currentBeatIndex] || null;
+        const recentTranscript = this.completedBeats
+            .slice(-3)
+            .map(b => b.contentText)
+            .join(' ');
+
+        return {
+            currentBeatTitle: currentBeat?.title || 'Unknown',
+            currentBeatContent: currentBeat?.contentText || '',
+            recentTranscript
+        };
     }
 
     pause() {

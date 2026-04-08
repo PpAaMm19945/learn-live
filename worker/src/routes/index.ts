@@ -1,6 +1,6 @@
 import { Env } from '../index';
 import { requireAuth } from '../lib/auth/middleware';
-import { handleGetAdaptedContent, handleGetChapterContent } from './content';
+import { handleGetAdaptedContent, handleGetChapterContent, handleGetBeatData } from './content';
 import { handleUploadArtifact, handleVerifyArtifact, handleListArtifacts } from './artifacts';
 import {
     handleStartExam,
@@ -104,6 +104,12 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleGetChapterContent(request, env, authResult.userId);
+    }
+
+    // GET /api/chapters/:chapterId/sections/:sectionId/beats
+    if (path.match(/^\/api\/chapters\/[^/]+\/sections\/[^/]+\/beats$/) && method === 'GET') {
+        // Service-to-service auth is handled inside handleGetBeatData
+        return handleGetBeatData(request, env);
     }
 
     // GET /api/chapters/:chapterId/world-context

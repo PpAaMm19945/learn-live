@@ -74,6 +74,47 @@ export async function handleGetAdaptedContent(request: Request, env: Env, userId
     }
 }
 
+export async function handleGetBeatData(request: Request, env: Env): Promise<Response> {
+    const url = new URL(request.url);
+    const match = url.pathname.match(/^\/api\/chapters\/([^/]+)\/sections\/([^/]+)\/beats$/);
+
+    if (!match) {
+        return new Response(JSON.stringify({ error: 'Invalid route' }), { status: 400, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    const [_, chapterId, sectionId] = match;
+
+    // Service-to-Service Auth
+    const serviceKey = request.headers.get('X-Service-Key');
+    if (!env.AGENT_SERVICE_KEY || serviceKey !== env.AGENT_SERVICE_KEY) {
+        console.warn(`[CONTENT] Unauthorized beat request for ${sectionId}`);
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+    }
+
+    try {
+        const objectKey = `beats/${chapterId}/${sectionId}.json`;
+        const object = await env.ASSETS_BUCKET.get(objectKey);
+
+        if (!object) {
+            console.warn(`[CONTENT] Beat file not found in R2: ${objectKey}`);
+            return new Response(JSON.stringify({ error: 'Section manifest not found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+        }
+
+        const data = await object.json();
+        
+        return new Response(JSON.stringify(data), {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=3600'
+            }
+        });
+    } catch (e: any) {
+        console.error('[CONTENT] R2 Fetch Error:', e);
+        return new Response(JSON.stringify({ error: 'Failed to fetch beat data', details: e.message }), { status: 500, headers: { 'Content-Type': 'application/json' } });
+    }
+}
+
 import { adaptContent } from '../lib/content/adapt';
 
 export async function handleGetChapterContent(request: Request, env: Env, userId: string): Promise<Response> {
@@ -115,7 +156,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
             }), { status: 200, headers: { 'Content-Type': 'application/json' } });
         }
 
-        const lessonIds = lessons.map(l => l.id as string);
+        const lessonIds = lessons.map((l: any) => l.id as string);
         const placeholders = lessonIds.map(() => '?').join(',');
 
         // Query adapted content for all lessons in the chapter in one go
@@ -129,7 +170,7 @@ export async function handleGetChapterContent(request: Request, env: Env, userId
             adaptedMap.set((content as any).lesson_id, content);
         }
 
-        const sections = await Promise.all(lessons.map(async (lesson: any) => {
+        const sections = await Promise.all(lessons.map(async (lesson: { id: string, title?: string, narrative_text?: string }) => {
             let adaptedContent: any = adaptedMap.get(lesson.id);
 
             // If cache miss, fallback to master text

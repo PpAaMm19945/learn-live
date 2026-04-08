@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save } from 'lucide-react';
+import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand } from 'lucide-react';
 import { toast } from 'sonner';
 import type { SceneMode, TranscriptChunk, AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
@@ -56,10 +56,12 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
     sceneMode,
     error,
     isMuted,
+    isQAActive,
     hasReceivedMessage,
     connect,
     disconnect,
     toggleMute,
+    sendRaiseHand,
     setSceneMode: setLiveSceneMode
   } = useSession({
     chapterId,
@@ -473,6 +475,40 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
           </button>
         </div>
       </div>
+
+      {/* Floating Raise Hand Button — Band 3+ only */}
+      {!useFallback && band >= 3 && status === 'connected' && (
+        <div className="absolute bottom-24 right-8 z-50">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={sendRaiseHand}
+            className={`p-5 rounded-full shadow-2xl transition-all duration-300 flex items-center gap-3 ${
+              isQAActive 
+                ? 'bg-amber-500 text-white ring-4 ring-amber-500/30' 
+                : 'bg-white/90 hover:bg-white text-primary backdrop-blur-md border border-primary/10'
+            }`}
+          >
+            {isQAActive ? (
+              <>
+                <div className="relative">
+                  <Hand className="w-6 h-6 animate-bounce" />
+                  <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+                  </span>
+                </div>
+                <span className="font-bold text-sm">Listening...</span>
+              </>
+            ) : (
+              <>
+                <Hand className="w-6 h-6" />
+                <span className="font-semibold text-sm">Raise Hand</span>
+              </>
+            )}
+          </motion.button>
+        </div>
+      )}
     </motion.div>
   );
 }

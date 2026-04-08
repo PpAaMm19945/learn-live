@@ -48,12 +48,24 @@ export interface BeatPayload {
 }
 
 /** Combined message from the agent WebSocket */
-export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | AgentThinking | BeatPayload | { type: 'modelTurn'; data?: any };
+export type AgentMessage = 
+  | AgentToolCall 
+  | TranscriptChunk 
+  | AgentAudio 
+  | AgentThinking 
+  | BeatPayload 
+  | { type: 'modelTurn'; data?: any }
+  | { type: 'qa_complete' }
+  | { type: 'lesson_complete' }
+  | { type: 'error'; message: string };
 
-export interface RecordedEvent {
-  timestamp: number;  // ms since session start
-  message: AgentMessage;
-}
+/** Messages sent from client to agent */
+export type ClientMessage =
+  | { type: 'audio'; data: string } // base64 PCM
+  | { type: 'raise_hand' }
+  | { type: 'pause' }
+  | { type: 'resume' }
+  | { type: 'image'; data: string }; // base64 jpeg
 
 export interface GoldenScript {
   version: '1.0';

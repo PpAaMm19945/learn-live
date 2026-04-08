@@ -1,5 +1,7 @@
 import { WebSocket } from 'ws';
 import { BeatSequencer } from './beatSequencer';
+import { LiveQAHandler } from './liveHandler';
+import { ContentFetcher } from './contentFetcher';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 
 export async function handleHistoryExplainerSession(
@@ -11,8 +13,11 @@ export async function handleHistoryExplainerSession(
 ) {
     console.log(`[HISTORY_EXPLAINER] Session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
 
+    const workerUrl = process.env.WORKER_API_URL || 'local';
+    const serviceKey = process.env.AGENT_SERVICE_KEY || '';
+    const fetcher = new ContentFetcher(workerUrl, serviceKey);
+
     // Build the specialized system instruction based on the learner's band
-    // The "baseContent" for the system instruction will be the core curriculum guidelines
     const curriculumGuidelines = `
 THEOLOGICAL GUARDRAILS:
 1. Never remove or downplay scripture references.
@@ -22,29 +27,60 @@ THEOLOGICAL GUARDRAILS:
 5. Dates from biblical models must be tagged as "(biblical chronology)".
 `;
     const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines, { band }, band);
-    console.log(`[HISTORY_EXPLAINER] BeatSequencer system instruction prepared.`);
 
-    // Create and start the BeatSequencer
+    // Create handlers
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
+    const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
+    let isQAActive = false;
 
     // Extract chapter and section from lessonId (format: ch01_s01)
     const [chapterId, sectionId] = lessonId.split('_');
 
     try {
+        // Hydrate content from Worker (or local docs)
+        const manifest = await fetcher.fetchSection(chapterId, sectionId);
+        
+        if (!manifest) {
+            throw new Error(`Content not found for ${chapterId} / ${sectionId}`);
+        }
+
         // Start the automated lesson sequence
-        // This will orchestrate Gemini narration -> TTS synthesis -> client playback
-        await sequencer.start(chapterId, sectionId);
+        await sequencer.start(manifest);
     } catch (err: any) {
-        console.error(`[HISTORY_EXPLAINER] Sequencer failed: ${err.message}`);
+        console.error(`[HISTORY_EXPLAINER] Session setup failed: ${err.message}`);
         if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ type: 'error', message: 'Lesson failed to load.' }));
+            ws.send(JSON.stringify({ type: 'error', message: err.message }));
         }
     }
 
-    ws.on('message', (raw: string) => {
+    ws.on('message', async (raw: string) => {
         try {
             const msg = JSON.parse(raw.toString());
-            if (msg.type === 'pause') {
+            
+            if (msg.type === 'raise_hand') {
+                if (band < 3) {
+                    console.warn(`[HISTORY_EXPLAINER] raise_hand ignored for Band ${band}`);
+                    return;
+                }
+                if (isQAActive) return;
+
+                console.log(`[HISTORY_EXPLAINER] Student raised hand. Pausing lesson.`);
+                isQAActive = true;
+                sequencer.pause();
+                
+                // Start Q&A
+                await liveHandler.startQA(sequencer.getContext());
+                
+                // Q&A ended
+                console.log(`[HISTORY_EXPLAINER] Q&A complete. Resuming lesson.`);
+                isQAActive = false;
+                sequencer.resume();
+
+            } else if (msg.type === 'audio' && isQAActive) {
+                // Forward student microphone to Gemini Live
+                liveHandler.sendAudio(msg.data);
+
+            } else if (msg.type === 'pause') {
                 sequencer.pause();
             } else if (msg.type === 'resume') {
                 sequencer.resume();
@@ -56,12 +92,14 @@ THEOLOGICAL GUARDRAILS:
 
     ws.on('close', () => {
         console.log(`[HISTORY_EXPLAINER] Session closed — learner: ${learnerId}`);
-        sequencer.pause(); // Stop sequencer on disconnect
+        sequencer.pause();
+        liveHandler.stopQA();
     });
 
     ws.on('error', (err: Error) => {
         console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
         sequencer.pause();
+        liveHandler.stopQA();
     });
 }
 
