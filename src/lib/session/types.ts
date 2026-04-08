@@ -56,8 +56,9 @@ export type AgentMessage =
   | BeatPayload 
   | { type: 'modelTurn'; data?: any }
   | { type: 'qa_complete' }
+  | { type: 'qa_started' }
   | { type: 'lesson_complete' }
-  | { type: 'error'; message: string };
+  | { type: 'error'; message: string; code?: string };
 
 /** Messages sent from client to agent */
 export type ClientMessage =

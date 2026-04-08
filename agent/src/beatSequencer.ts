@@ -9,7 +9,9 @@ export class BeatSequencer {
     private currentBeatIndex = 0;
     private manifest: SectionManifest | null = null;
     private isPaused = false;
+    private isStopped = false;
     private completedBeats: Beat[] = [];
+    private loopPromise: Promise<void> | null = null;
 
     constructor(
         private ws: WebSocket,
@@ -20,19 +22,26 @@ export class BeatSequencer {
         this.tts = new TTSService();
     }
 
-    async start(manifest: SectionManifest) {
+    start(manifest: SectionManifest): Promise<void> {
         console.log(`[SEQUENCER] Starting lesson: ${manifest.chapterId} / ${manifest.sectionId} (Band ${this.band})`);
         this.manifest = manifest;
+        this.isStopped = false;
 
-        await this.runLoop();
+        if (!this.loopPromise) {
+            this.loopPromise = this.runLoop().finally(() => {
+                this.loopPromise = null;
+            });
+        }
+
+        return this.loopPromise;
     }
 
     private async runLoop() {
         if (!this.manifest) return;
 
-        while (this.currentBeatIndex < this.manifest.beats.length) {
+        while (!this.isStopped && this.currentBeatIndex < this.manifest.beats.length) {
             if (this.isPaused) {
-                await new Promise(resolve => setTimeout(resolve, 500));
+                await new Promise(resolve => setTimeout(resolve, 120));
                 continue;
             }
 
@@ -40,36 +49,36 @@ export class BeatSequencer {
             console.log(`[SEQUENCER] Processing Beat ${this.currentBeatIndex + 1}/${this.manifest.beats.length}: ${beat.title}`);
 
             await this.processBeat(beat);
-            
+
+            if (this.isStopped) {
+                break;
+            }
+
             this.currentBeatIndex++;
-            
-            // Short gap between beats
+
             if (this.currentBeatIndex < this.manifest.beats.length) {
                 await new Promise(resolve => setTimeout(resolve, 800));
             }
         }
 
-        console.log('[SEQUENCER] Lesson complete.');
-        this.sendMessage({ type: 'lesson_complete' });
+        if (!this.isStopped && this.currentBeatIndex >= this.manifest.beats.length) {
+            console.log('[SEQUENCER] Lesson complete.');
+            this.sendMessage({ type: 'lesson_complete' });
+        }
     }
 
     private async processBeat(beat: Beat) {
-        // 1. Get adapted text
         let baseText = beat.contentText;
         if (beat.bandOverrides && beat.bandOverrides[this.band.toString()]) {
             baseText = beat.bandOverrides[this.band.toString()].contentText;
         }
-        
-        // Use Gemini to "narrate" the text in a teaching voice for the specific band
+
         const prompt = `Narrate the following history content for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth. Content: "${baseText}"`;
         const narratedText = await this.narrator.narrate(prompt) || baseText;
 
-        // 2. Synthesize audio
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
-        const audioBase64 = await this.tts.synthesize(narratedText) || "";
+        const audioBase64 = await this.tts.synthesize(narratedText) || '';
 
-        // 3. Construct Beat Payload
-        // Note: toolSequence is already pre-planned in the JSON
         const payload = {
             type: 'beat_payload',
             beatId: beat.beatId,
@@ -82,10 +91,7 @@ export class BeatSequencer {
             }))
         };
 
-        // 4. Send to client
         this.sendMessage(payload);
-
-        // Record for context
         this.completedBeats.push(beat);
     }
 
@@ -109,17 +115,28 @@ export class BeatSequencer {
     }
 
     resume() {
+        if (this.isStopped) {
+            return;
+        }
         this.isPaused = false;
         console.log('[SEQUENCER] Resumed');
+    }
+
+    stop() {
+        this.isStopped = true;
+        this.isPaused = false;
+        console.log('[SEQUENCER] Stopped');
+    }
+
+    async waitUntilStopped() {
+        if (this.loopPromise) {
+            await this.loopPromise;
+        }
     }
 
     private sendMessage(msg: any) {
         if (this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(JSON.stringify(msg));
         }
-    }
-
-    private sendError(message: string) {
-        this.sendMessage({ type: 'error', message });
     }
 }

@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
 import { Logger } from '@/lib/Logger';
+import { resolveLessonIdentifier } from './sessionParams';
 
 export interface SessionConfig {
   chapterId: string;
@@ -183,7 +184,10 @@ export function useSession({
       const wsUrl = new URL(agentUrl);
       wsUrl.protocol = wsUrl.protocol === 'https:' ? 'wss:' : 'ws:';
       wsUrl.pathname = '/ws/history-explainer';
-      wsUrl.searchParams.set('chapter', chapterId);
+      const resolvedLesson = resolveLessonIdentifier(chapterId);
+      wsUrl.searchParams.set('chapterId', resolvedLesson.chapterId);
+      wsUrl.searchParams.set('sectionId', resolvedLesson.sectionId);
+      wsUrl.searchParams.set('lessonId', resolvedLesson.lessonId);
       wsUrl.searchParams.set('family', familyId);
       wsUrl.searchParams.set('learner', learnerId);
       wsUrl.searchParams.set('band', band.toString());
@@ -250,12 +254,18 @@ export function useSession({
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
             setIsQAActive(false);
+          } else if (msg.type === 'qa_started') {
+            Logger.info('[WS]', 'Q&A session started.');
+            setIsQAActive(true);
           } else if (msg.type === 'lesson_complete') {
             Logger.info('[WS]', 'Lesson finished.');
             setStatus('ended');
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              setError(msg.message);
+             if (msg.code === 'QA_NOT_ALLOWED') {
+               setIsQAActive(false);
+             }
           }
         } catch (err) {
           Logger.error('[WS]', 'Failed to parse message', err);
@@ -343,7 +353,6 @@ export function useSession({
     if (wsRef.current?.readyState === WebSocket.OPEN && band >= 3) {
         Logger.info('[WS]', 'Sending raise_hand request');
         wsRef.current.send(JSON.stringify({ type: 'raise_hand' }));
-        setIsQAActive(true);
     }
   }, [band]);
 

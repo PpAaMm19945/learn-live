@@ -3,21 +3,20 @@ import { BeatSequencer } from './beatSequencer';
 import { LiveQAHandler } from './liveHandler';
 import { ContentFetcher } from './contentFetcher';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
+import type { HistorySessionParams } from './historySessionContract';
+import { HistorySessionController } from './historySessionController';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
-    lessonId: string,
-    familyId: string,
-    learnerId: string,
-    band: number
+    params: HistorySessionParams
 ) {
-    console.log(`[HISTORY_EXPLAINER] Session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
+    const { chapterId, sectionId, learnerId, band, canonicalLessonId } = params;
+    console.log(`[HISTORY_EXPLAINER] Session initiated — learner: ${learnerId}, lesson: ${canonicalLessonId}, band: ${band}`);
 
     const workerUrl = process.env.WORKER_API_URL || 'local';
     const serviceKey = process.env.AGENT_SERVICE_KEY || '';
     const fetcher = new ContentFetcher(workerUrl, serviceKey);
 
-    // Build the specialized system instruction based on the learner's band
     const curriculumGuidelines = `
 THEOLOGICAL GUARDRAILS:
 1. Never remove or downplay scripture references.
@@ -28,101 +27,126 @@ THEOLOGICAL GUARDRAILS:
 `;
     const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines, { band }, band);
 
-    // Create handlers
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
-    let isQAActive = false;
+    const controller = new HistorySessionController(band);
 
-    // Extract chapter and section from lessonId (format: ch01_s01)
-    const [chapterId, sectionId] = lessonId.split('_');
+    let sessionClosing = false;
 
-    try {
-        // Hydrate content from Worker (or local docs)
-        const manifest = await fetcher.fetchSection(chapterId, sectionId);
-        
-        if (!manifest) {
-            throw new Error(`Content not found for ${chapterId} / ${sectionId}`);
+    const cleanupSession = async () => {
+        if (sessionClosing) {
+            return;
         }
 
-        // Start the automated lesson sequence
-        await sequencer.start(manifest);
-    } catch (err: any) {
-        console.error(`[HISTORY_EXPLAINER] Session setup failed: ${err.message}`);
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ type: 'error', message: err.message }));
-        }
-    }
+        sessionClosing = true;
+        controller.close();
+        liveHandler.stopQA();
+        sequencer.stop();
+        await sequencer.waitUntilStopped();
+    };
 
     ws.on('message', async (raw: string) => {
         try {
             const msg = JSON.parse(raw.toString());
-            
+
             if (msg.type === 'raise_hand') {
-                if (band < 3) {
-                    console.warn(`[HISTORY_EXPLAINER] raise_hand ignored for Band ${band}`);
+                const decision = controller.canAcceptRaiseHand();
+                if (!decision.accepted) {
+                    if (decision.reason === 'band_restricted') {
+                        if (ws.readyState === WebSocket.OPEN) {
+                            ws.send(JSON.stringify({
+                                type: 'error',
+                                code: 'QA_NOT_ALLOWED',
+                                message: 'Live Q&A is only available for Band 3 and above.'
+                            }));
+                        }
+                    }
                     return;
                 }
-                if (isQAActive) return;
 
                 console.log(`[HISTORY_EXPLAINER] Student raised hand. Pausing lesson.`);
-                isQAActive = true;
                 sequencer.pause();
-                
-                // Start Q&A
-                await liveHandler.startQA(sequencer.getContext());
-                
-                // Q&A ended
-                console.log(`[HISTORY_EXPLAINER] Q&A complete. Resuming lesson.`);
-                isQAActive = false;
-                sequencer.resume();
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({ type: 'qa_started' }));
+                }
 
-            } else if (msg.type === 'audio' && isQAActive) {
-                // Forward student microphone to Gemini Live
-                liveHandler.sendAudio(msg.data);
-
+                liveHandler.startQA(sequencer.getContext())
+                    .then(() => {
+                        const { shouldResumeLesson } = controller.completeQA();
+                        if (shouldResumeLesson) {
+                            console.log('[HISTORY_EXPLAINER] Q&A complete. Resuming lesson.');
+                            sequencer.resume();
+                        }
+                    })
+                    .catch((err) => {
+                        console.error('[HISTORY_EXPLAINER] Q&A session failed:', err);
+                        const { shouldResumeLesson } = controller.completeQA();
+                        if (shouldResumeLesson) {
+                            sequencer.resume();
+                        }
+                    });
+            } else if (msg.type === 'audio') {
+                if (controller.snapshot().isQAActive) {
+                    liveHandler.sendAudio(msg.data);
+                }
             } else if (msg.type === 'pause') {
+                controller.forcePause();
                 sequencer.pause();
             } else if (msg.type === 'resume') {
-                sequencer.resume();
+                if (!controller.snapshot().isQAActive) {
+                    sequencer.resume();
+                }
             }
         } catch (e) {
             console.error('[HISTORY_EXPLAINER] Bad message from client:', e);
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'error',
+                    code: 'BAD_CLIENT_MESSAGE',
+                    message: 'Malformed message payload.'
+                }));
+            }
         }
     });
 
     ws.on('close', () => {
         console.log(`[HISTORY_EXPLAINER] Session closed — learner: ${learnerId}`);
-        sequencer.pause();
-        liveHandler.stopQA();
+        void cleanupSession();
     });
 
     ws.on('error', (err: Error) => {
         console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
-        sequencer.pause();
-        liveHandler.stopQA();
+        void cleanupSession();
     });
-}
 
-function mapToolCallToMapLibreOp(name: string, args: any): any | null {
-    switch (name) {
-        case 'set_scene':
-        case 'zoom_to':
-        case 'highlight_region':
-        case 'draw_route':
-        case 'place_marker':
-        case 'clear_canvas':
-        case 'show_scripture':
-        case 'show_figure':
-        case 'show_genealogy':
-        case 'show_timeline':
-        case 'dismiss_overlay':
-            return {
-                type: 'tool_call',
-                tool: name,
-                args: args
-            };
-        default:
-            console.warn(`[HISTORY_EXPLAINER] Unknown tool call: ${name}`);
-            return null;
+    try {
+        const manifest = await fetcher.fetchSection(chapterId, sectionId);
+
+        if (!manifest) {
+            throw new Error(`Content not found for chapter=${chapterId} section=${sectionId}`);
+        }
+
+        sequencer.start(manifest).catch((err) => {
+            console.error('[HISTORY_EXPLAINER] Sequencer run failed:', err);
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({
+                    type: 'error',
+                    code: 'SEQUENCER_FAILURE',
+                    message: 'Lesson playback failed unexpectedly.'
+                }));
+            }
+            void cleanupSession();
+        });
+    } catch (err: any) {
+        const message = err instanceof Error ? err.message : 'Failed to load lesson content';
+        console.error(`[HISTORY_EXPLAINER] Session setup failed: ${message}`);
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'error',
+                code: 'CONTENT_FETCH_FAILED',
+                message
+            }));
+        }
+        await cleanupSession();
     }
 }
