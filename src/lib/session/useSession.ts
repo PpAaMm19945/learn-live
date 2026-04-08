@@ -31,7 +31,7 @@ export function useSession({
   const [sceneMode, setSceneMode] = useState<SceneMode>('transcript');
   const [thinkingText, setThinkingText] = useState<string>('');
   const [error, setError] = useState<string>();
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(band >= 3);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
 
@@ -130,7 +130,7 @@ export function useSession({
          processorRef.current = processor;
 
          processor.onaudioprocess = (e) => {
-             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted) {
+             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted && isQAActive) {
                  const inputData = e.inputBuffer.getChannelData(0);
                  const pcmData = new Int16Array(inputData.length);
                  for (let i = 0; i < inputData.length; i++) {
@@ -158,7 +158,7 @@ export function useSession({
      } catch (err) {
          Logger.error('[AUDIO]', 'Failed to setup microphone', err);
      }
-  }, [band, isMuted]);
+  }, [band, isMuted, isQAActive]);
 
   const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void, isReconnect = false) => {
     if (
@@ -254,18 +254,28 @@ export function useSession({
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
             setIsQAActive(false);
+            setIsMuted(true);
           } else if (msg.type === 'qa_started') {
             Logger.info('[WS]', 'Q&A session started.');
             setIsQAActive(true);
+            setIsMuted(false);
           } else if (msg.type === 'lesson_complete') {
             Logger.info('[WS]', 'Lesson finished.');
             setStatus('ended');
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              setError(msg.message);
+
              if (msg.code === 'QA_NOT_ALLOWED') {
                setIsQAActive(false);
+               setIsMuted(true);
+               return;
              }
+
+             // Treat all other agent error packets as fatal so UI exits
+             // the indefinite "Your teacher is preparing..." state.
+             setStatus('error');
+             statusRef.current = 'error';
           }
         } catch (err) {
           Logger.error('[WS]', 'Failed to parse message', err);
