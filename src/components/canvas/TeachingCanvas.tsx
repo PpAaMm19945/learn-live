@@ -104,16 +104,25 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
               map.setPaintProperty(layer.id, 'line-opacity', 0.15);
             }
           } else if (layer.type === 'symbol') {
-            // Restyle labels to warm parchment tones
-            if (id.includes('country') || id.includes('continent')) {
+            // Strictly hide all modern political, administrative, and populated place labels to enforce historical accuracy.
+            // Only allow natural, topological features to be labeled by the base map.
+            const isModernLabel = id.includes('country') || id.includes('capital') || 
+                                  id.includes('city') || id.includes('town') || 
+                                  id.includes('place') || id.includes('poi') || 
+                                  id.includes('address') || id.includes('suburb') ||
+                                  id.includes('state') || id.includes('admin') ||
+                                  id.includes('village');
+
+            if (isModernLabel) {
+              try { map.setLayoutProperty(layer.id, 'visibility', 'none'); } catch {}
+              continue;
+            }
+
+            // Restyle natural/ancient layers to warm parchment tones
+            if (id.includes('continent')) {
               map.setPaintProperty(layer.id, 'text-color', '#C4622D'); // Laterite for major labels
               map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
               map.setPaintProperty(layer.id, 'text-halo-width', 1.5);
-            } else if (id.includes('capital') || id.includes('city') || id.includes('place') || id.includes('town')) {
-              map.setPaintProperty(layer.id, 'text-color', '#b8a88a'); // Warm cream
-              map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
-              map.setPaintProperty(layer.id, 'text-halo-width', 1);
-              map.setPaintProperty(layer.id, 'text-opacity', 0.7);
             } else if (id.includes('water') || id.includes('ocean') || id.includes('sea') || id.includes('lake') || id.includes('river')) {
               map.setPaintProperty(layer.id, 'text-color', '#4a6a7a'); // Muted blue for water names
               map.setPaintProperty(layer.id, 'text-halo-color', '#0d1520');
@@ -122,15 +131,11 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
               map.setPaintProperty(layer.id, 'text-color', '#8a7a6a'); // Muted earth for terrain 
               map.setPaintProperty(layer.id, 'text-opacity', 0.6);
             } else {
-              // Default: hide minor modern labels (streets, POIs, etc)
-              if (id.includes('road') || id.includes('poi') || id.includes('address') || id.includes('house')) {
-                map.setLayoutProperty(layer.id, 'visibility', 'none');
-              } else {
-                map.setPaintProperty(layer.id, 'text-color', '#8a7a6a');
-                map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
-                map.setPaintProperty(layer.id, 'text-halo-width', 0.8);
-                map.setPaintProperty(layer.id, 'text-opacity', 0.5);
-              }
+              // Default styling for anything we didn't catch (but keep faded)
+              map.setPaintProperty(layer.id, 'text-color', '#8a7a6a');
+              map.setPaintProperty(layer.id, 'text-halo-color', '#1a1610');
+              map.setPaintProperty(layer.id, 'text-halo-width', 0.8);
+              map.setPaintProperty(layer.id, 'text-opacity', 0.3);
             }
           }
         } catch {

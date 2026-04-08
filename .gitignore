@@ -26,3 +26,8 @@ dist-ssr
 worker/.wrangler/
 google-cloud-sdk/
 google-cloud-cli-linux-x86_64.tar.gz
+
+# Environment files (contain API keys)
+.env
+.env.local
+.env.*.local

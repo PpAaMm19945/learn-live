@@ -38,8 +38,17 @@ export interface SceneChange {
   args?: Record<string, any>;
 }
 
+/** A complete grouped beat payload from the Sequencer */
+export interface BeatPayload {
+  type: 'beat_payload';
+  beatId: string;
+  text: string;
+  audioData: string; // base64
+  toolCalls: AgentToolCall[];
+}
+
 /** Combined message from the agent WebSocket */
-export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | AgentThinking | { type: 'modelTurn'; data?: any };
+export type AgentMessage = AgentToolCall | TranscriptChunk | AgentAudio | AgentThinking | BeatPayload | { type: 'modelTurn'; data?: any };
 
 export interface RecordedEvent {
   timestamp: number;  // ms since session start

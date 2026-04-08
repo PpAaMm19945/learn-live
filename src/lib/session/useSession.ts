@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage } from './types';
+import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
 import { Logger } from '@/lib/Logger';
 
 export interface SessionConfig {
@@ -32,6 +32,12 @@ export function useSession({
   const [error, setError] = useState<string>();
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
+
+  // Beat Sequencer State Machine
+  type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
+  const [beatState, setBeatState] = useState<BeatState>('IDLE');
+  const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
+  const onToolCallRef = useRef<((msg: AgentToolCall) => void) | undefined>(undefined);
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectCountRef = useRef<number>(0);
@@ -88,13 +94,17 @@ export function useSession({
         source.connect(ctx.destination);
 
         // Schedule playback seamlessly
-        const currentTime = ctx.currentTime;
-        const startTime = Math.max(currentTime, nextPlayTimeRef.current);
-        source.start(startTime);
-        nextPlayTimeRef.current = startTime + audioBuffer.duration;
+        return new Promise<void>((resolve) => {
+            const currentTime = ctx.currentTime;
+            const startTime = Math.max(currentTime, nextPlayTimeRef.current);
+            source.onended = () => resolve();
+            source.start(startTime);
+            nextPlayTimeRef.current = startTime + audioBuffer.duration;
+        });
 
     } catch (err) {
         Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
+        return Promise.resolve(); // resolve so queue doesn't get stuck forever
     }
   }, []);
 
@@ -161,6 +171,8 @@ export function useSession({
     if (!isReconnect) {
       reconnectCountRef.current = 0;
     }
+    
+    onToolCallRef.current = onToolCall;
 
     setStatus(isReconnect ? 'reconnecting' : 'connecting');
     setError(undefined);
@@ -217,7 +229,9 @@ export function useSession({
              return;
           }
 
-          if (msg.type === 'tool_call') {
+          if (msg.type === 'beat_payload') {
+             setBeatQueue(prev => [...prev, msg as BeatPayload]);
+          } else if (msg.type === 'tool_call') {
             const toolMsg = msg as AgentToolCall;
             if (toolMsg.tool === 'set_scene') {
                setSceneMode(toolMsg.args.mode as SceneMode);
@@ -357,6 +371,44 @@ export function useSession({
           }
       }
   }, []);
+
+  // The Beat Sequencer Processor Loop
+  useEffect(() => {
+    if (beatState === 'IDLE' && beatQueue.length > 0) {
+      const currentBeat = beatQueue[0];
+      setBeatQueue(prev => prev.slice(1));
+      
+      setBeatState('LOADING_BEAT');
+      
+      // 1. Fire Tools (Synchronously triggers map flies/highlights)
+      setBeatState('EXECUTING_TOOLS');
+      currentBeat.toolCalls.forEach(tool => {
+        if (tool.tool === 'set_scene') {
+           setSceneMode(tool.args.mode as SceneMode);
+        }
+        if (onToolCallRef.current) {
+            onToolCallRef.current(tool);
+        }
+      });
+      
+      // 2. Append text to transcript
+      setTranscriptChunks(prev => [
+        ...prev, 
+        { type: 'transcript', text: currentBeat.text, isFinal: true }
+      ]);
+      setThinkingText('');
+      
+      // 3. Play Audio and block until promise resolves
+      setBeatState('PLAYING_AUDIO');
+      playAudioChunk(currentBeat.audioData).then(() => {
+         // Audio finished, beat boundary completes, ready for next
+         setBeatState('IDLE'); 
+      }).catch(err => {
+         Logger.error('[WS]', 'Audio play failed in beat queue', err);
+         setBeatState('IDLE'); // Recover state
+      });
+    }
+  }, [beatState, beatQueue, playAudioChunk]);
 
   return {
     status,

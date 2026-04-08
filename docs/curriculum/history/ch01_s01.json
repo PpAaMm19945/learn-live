@@ -1,0 +1,142 @@
+{
+  "sectionId": "ch01_s01",
+  "chapterId": "ch01",
+  "heading": "1.1 In the Beginning: God, Man, and the Meaning of History",
+  "totalBeats": 4,
+  "estimatedTotalDurationSec": 240,
+  "thinkItThrough": [
+    "What is the ultimate starting point for understanding all of history?",
+    "Why does the textbook call Genesis 3 the 'fracture of creation'?",
+    "How does the account of Babel set the stage for African history?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch01_s01_b01",
+      "sequence": 1,
+      "title": "History's True Beginning",
+      "contentText": "In the beginning, God created the heavens and the earth. This is not merely a theological statement — it is the opening line of history itself. Before there were empires, before there were migrations, before the first city rose beside the first river, God spoke the universe into being. Every chapter of human history that follows is a chapter in His story.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 1:1",
+            "text": "In the beginning, God created the heavens and the earth."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              {
+                "year": -4004,
+                "label": "Creation (Ussher Chronology)",
+                "color": "#fac775"
+              }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 30,
+      "reformedReflection": {
+        "source": "Foundational Truths",
+        "theologian": "John Calvin",
+        "insight": "History is the theater of God's glory.",
+        "applicationPrompt": "If God is the author of history, how should that change the way we view historical timelines?"
+      }
+    },
+    {
+      "beatId": "ch01_s01_b02",
+      "sequence": 2,
+      "title": "The Fracture of Creation",
+      "contentText": "But the story of creation is also the story of fracture. In Genesis 3, humanity chose autonomy over obedience, and the consequences rippled through every dimension of existence. Death entered. Relationships fractured. The ground itself was cursed. This is not ancient mythology — it is the diagnosis that explains everything that follows in human history.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 3",
+            "text": "The Fall of Man"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 30,
+      "reformedReflection": {
+        "source": "Total Depravity & The Fall",
+        "theologian": "Saint Augustine",
+        "insight": "Augustine emphasized that the Fall affected every faculty of man, leaving him incapable of submitting to God.",
+        "applicationPrompt": "Looking at history, where do you see the clearest evidence of the 'fracture' described in Genesis 3?"
+      }
+    },
+    {
+      "beatId": "ch01_s01_b03",
+      "sequence": 3,
+      "title": "God's Unfolding Plan",
+      "contentText": "Yet even in judgment, God revealed mercy. The protoevangelium of Genesis 3:15 — 'He shall bruise your head, and you shall bruise his heel' — is the first announcement of redemption. From this point forward, all of history moves toward the fulfillment of this promise.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 3:15",
+            "text": "He shall bruise your head, and you shall bruise his heel."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 20,
+      "realLifeApplication": "Consider how the promise of redemption anchors us even when historical events seem dark.",
+      "homework": {
+        "reading": "Westminster Shorter Catechism Q.18-20",
+        "writing": "Describe the Protoevangelium and its significance to all of human history."
+      }
+    },
+    {
+      "beatId": "ch01_s01_b04",
+      "sequence": 4,
+      "title": "Judgment and Mercy at Babel",
+      "contentText": "The account of Babel is the pivot point for African history. When God scattered the nations and confused their languages, He was not merely punishing pride. He was setting the stage for the peopling of the entire earth — including Africa. The sons of Ham — Mizraim, Cush, Phut, and Canaan — went forth to establish the civilizations we will study in this course.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": {
+            "location": "babel"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "mizraim"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "cush"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "phut"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 45,
+      "reformedReflection": {
+        "source": "Providence in the Scattering",
+        "theologian": "Reformed Theology",
+        "insight": "Babel was judgment on man's pride to build a centralized autonomous empire, but it resulted in the fulfilling of the original command to fill the earth.",
+        "applicationPrompt": "How does studying the lineage of the sons of Ham help us connect Biblical history directly to African history?"
+      }
+    }
+  ]
+}
