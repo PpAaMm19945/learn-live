@@ -7,6 +7,7 @@ import { fetchAndAssembleInstruction } from './constraints';
 import { GeminiSession } from './gemini';
 import { handleExplainerSession } from './explainerSession';
 import { handleHistoryExplainerSession } from './historyExplainerSession';
+import { resolveHistorySessionParams, HistorySessionParamError } from './historySessionContract';
 
 dotenv.config();
 
@@ -38,13 +39,11 @@ server.on('upgrade', (request, socket, head) => {
         });
     } else if (pathname === '/v1/agent/history-explainer' || pathname === '/ws/history-explainer') {
         const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
-        const lessonId = searchParams.get('lessonId') || searchParams.get('lesson') || searchParams.get('chapter');
-        const familyId = searchParams.get('familyId') || searchParams.get('family');
-        const learnerId = searchParams.get('learnerId') || searchParams.get('learner');
-        const band = searchParams.get('band');
-
-        if (!lessonId || !familyId || !learnerId || !band) {
-            socket.write('HTTP/1.1 400 Bad Request\r\n\r\nMissing required query parameters: lessonId (or chapter), familyId, learnerId, band');
+        try {
+            resolveHistorySessionParams(searchParams);
+        } catch (err) {
+            const message = err instanceof Error ? err.message : 'Invalid history session query parameters';
+            socket.write(`HTTP/1.1 400 Bad Request\r\n\r\n${message}`);
             socket.destroy();
             return;
         }
@@ -190,21 +189,24 @@ explainerWss.on('connection', async (ws: WebSocket, request) => {
 // ─── History Explainer WebSocket ───
 historyExplainerWss.on('connection', async (ws: WebSocket, request) => {
     const { searchParams } = new URL(request.url || '', `http://${request.headers.host}`);
-    const lessonId = searchParams.get('lessonId') || searchParams.get('lesson') || searchParams.get('chapter') || 'unknown';
-    const familyId = searchParams.get('familyId') || searchParams.get('family') || 'unknown';
-    const learnerId = searchParams.get('learnerId') || searchParams.get('learner') || 'unknown';
-    const band = parseInt(searchParams.get('band') || '3', 10);
+    try {
+        const params = resolveHistorySessionParams(searchParams);
+        console.log(`[WS] Client connected: lesson=${params.canonicalLessonId} band=${params.band}`);
+        console.log(`[AGENT] History Explainer session initiated — learner: ${params.learnerId}, lesson: ${params.canonicalLessonId}, band: ${params.band}`);
 
-    console.log(`[WS] Client connected: chapter=${lessonId} band=${band}`);
-    console.log(`[AGENT] History Explainer session initiated — learner: ${learnerId}, lesson: ${lessonId}, band: ${band}`);
+        if (!checkRateLimit(params.familyId)) {
+            ws.send(JSON.stringify({ error: 'Daily session limit reached' }));
+            ws.close();
+            return;
+        }
 
-    if (!checkRateLimit(familyId)) {
-        ws.send(JSON.stringify({ error: 'Daily session limit reached' }));
+        handleHistoryExplainerSession(ws, params);
+    } catch (err) {
+        const message = err instanceof Error ? err.message : 'Invalid history session query parameters';
+        const code = err instanceof HistorySessionParamError ? err.code : 'INVALID_HISTORY_PARAMS';
+        ws.send(JSON.stringify({ type: 'error', code, message }));
         ws.close();
-        return;
     }
-
-    handleHistoryExplainerSession(ws, lessonId, familyId, learnerId, band);
 });
 
 /**
