@@ -5,6 +5,54 @@ const ai = new GoogleGenAI({
     httpOptions: { apiVersion: 'v1alpha' }
 });
 
+/**
+ * Narrator using the Gemini REST API for stable, structured content generation.
+ * Bypasses SDK versioning issues for simple generateContent calls.
+ */
+export class GenAINarrator {
+    private apiKey: string;
+    private model = "gemini-2.0-flash-exp"; // Reliable model for narration
+    private endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent`;
+
+    constructor(private systemInstruction: string) {
+        this.apiKey = process.env.GEMINI_API_KEY || '';
+    }
+
+    async narrate(prompt: string): Promise<string> {
+        if (!this.apiKey) return "";
+
+        const payload = {
+            system_instruction: { parts: [{ text: this.systemInstruction }] },
+            contents: [{ parts: [{ text: prompt }] }],
+            generationConfig: {
+                temperature: 0.4, // Keep it grounded for teaching
+                topP: 0.95,
+                maxOutputTokens: 2048,
+            }
+        };
+
+        try {
+            const response = await fetch(`${this.endpoint}?key=${this.apiKey}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                const err = await response.text();
+                console.error('[NARRATOR] Gemini REST error:', err);
+                return "";
+            }
+
+            const data = await response.json() as any;
+            return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+        } catch (error) {
+            console.error('[NARRATOR] Gemini Fetch failed:', error);
+            return "";
+        }
+    }
+}
+
 export class GeminiSession {
     private session: any = null;
     private onResCallback: ((data: any) => void) | null = null;

@@ -118,7 +118,7 @@ Frontend → WebSocket → Agent (Beat Sequencer)
 
 | Ch | Title | Text | GeoJSON | Sections | Beat Schema | Illustrations |
 |----|-------|------|---------|----------|-------------|---------------|
-| 1 | The Sovereign Hand: A Biblical Foundation | ✅ | ✅ | 5 (1.1–1.5) | ❌ Phase 2 | 23 (Warm Codex) |
+| 1 | The Sovereign Hand: A Biblical Foundation | ✅ | ✅ | 5 (1.1–1.5) | ✅ Phase 2 | 23 (Warm Codex) |
 | 2 | The Story of Egypt | ✅ | ✅ | 9 | ❌ | ❌ |
 | 3 | The Lands of Phut — Carthage, Numidia, Desert Kingdoms | ✅ | ✅ | 5 | ❌ | ❌ |
 | 4 | The Lands of Cush | ✅ | ✅ | TBD | ❌ | ❌ |
