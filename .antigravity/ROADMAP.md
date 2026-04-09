@@ -1,6 +1,6 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-04-07
+> **Last updated:** 2026-04-09
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 > **Previous roadmap archived:** `.antigravity/archive/roadmap-live-agent-approach.md`
 

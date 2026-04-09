@@ -64,6 +64,10 @@ export function useSession({
   const streamRef = useRef<MediaStream | null>(null);
 
   const playAudioChunk = useCallback(async (base64Audio: string) => {
+    if (!base64Audio || base64Audio.trim().length === 0) {
+      return Promise.resolve();
+    }
+
     if (!audioContextRef.current) {
         audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
     }

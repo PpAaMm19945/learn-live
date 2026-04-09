@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-07
+> **Last updated:** 2026-04-09
 
 ---
 
@@ -22,26 +22,19 @@
 | 44 | Agent Tool Definitions Still Use Legacy Names | Resolved in Phase 16C | 16C |
 | 45 | WebSocket Not Yet Wired to TeachingCanvas | Resolved in Phase 20 | 20 |
 | 46 | forwardRef Warnings on Routes/Login | LOW — cosmetic | — |
-| 47 | Agent WebSocket Connection Broken | Resolved in Phase 23 (connection works, but architecture was wrong) | 23 |
+| 47 | Agent WebSocket Connection Broken | Resolved in Phase 23 | 23 |
 | 48 | SessionCanvas Not Wired to useSession Hook | Resolved in Phase 21 | 21 |
 | 49 | TranscriptView Kinetic Typography Not Built | Resolved in Phase 22 | 22 |
 | 50 | TeachingCanvas Not Integrated into SessionCanvas | Resolved in Phase 21 | 21 |
 | 51 | StorybookPlayer Images Assume Landscape Layout | Resolved in Phase 24A | 24A |
+| 52 | Gemini Live API Cannot Serve as Lesson Narrator | Beat Sequencer architecture replaces Live narration | Phase 3 |
+| 53 | Thinking Text Mixed with Transcript | Eliminated — Beat Sequencer uses `generateContent` (clean text), no `outputAudioTranscription` parsing | Phase 3 |
+| 57 | `RecordedEvent` type missing from `types.ts` | Added interface to `types.ts` | Phase 6 |
+| 58 | Empty PCM audio chunks cause `createBuffer(0)` errors | Added empty-string guard in `playAudioChunk` | Phase 6 |
 
 ---
 
 ## Open Issues
-
-### 52. Gemini Live API Cannot Serve as Lesson Narrator
-- **Status:** OPEN — CRITICAL (architectural)
-- **Description:** The audio-native model (`gemini-2.5-flash-native-audio-latest` with `responseModalities: ['AUDIO']`) does not produce structured text, reliable tool calls, or clean transcripts. `outputAudioTranscription` is speech-to-text of what the model spoke — not structured output. The model is designed for conversational ping-pong, not 10–15 minute autonomous narration. This was the root cause of all Phase 21–23 testing failures.
-- **Fix:** Beat Sequencer architecture (Phases 1–6 of new roadmap). Regular `generateContent` streaming API for narration, Gemini Live reserved for student Q&A only.
-
-### 53. Thinking Text Mixed with Transcript
-- **Status:** OPEN — HIGH
-- **Description:** The `**bold**` regex in `gemini.ts` catches the model's natural emphasis markers in audio transcription, misclassifying them as "thinking" tokens. Remaining non-bold text from `outputAudioTranscription` leaks into the transcript view.
-- **Root cause:** `outputAudioTranscription` is not a structured output — it's a speech transcript that includes the model's formatting habits. There is no reliable way to separate "thinking" from "spoken" in this stream.
-- **Fix:** Eliminated by Beat Sequencer — regular `generateContent` produces clean text output. No `outputAudioTranscription` parsing needed.
 
 ### 54. Audio Playback Lag / Delayed Speech
 - **Status:** OPEN — MEDIUM
@@ -58,9 +51,15 @@
 - **Description:** `useSession.ts` line 102: `if (band < 3) return;` — Band 2 learners are listen-only. This is correct for the Beat Sequencer model (no Q&A for young learners). The agent prompt must not ask questions that require verbal response from Band 2.
 - **Fix:** Handled by Beat Sequencer prompt design — narration-only for Band 2, no Socratic pauses.
 
+### 59. Session Shows "Session Ended" Prematurely
+- **Status:** OPEN — HIGH
+- **Description:** Lesson text appears cut off; the canvas shows "Session Ended" before all beats have been displayed or audio has finished. The `lesson_complete` message from the agent may arrive before the frontend beat queue has drained.
+- **Fix:** Investigate race condition between `lesson_complete` signal and beat queue processing. The `pendingLessonCompleteRef` mechanism should defer the end screen, but it may not be waiting for audio playback to finish.
+
 ---
 
 ## Notes
-- Issues 52–53 are the architectural diagnosis that triggered the Beat Sequencer pivot.
+- Issues 52–53 are the architectural diagnosis that triggered the Beat Sequencer pivot. Now resolved.
 - Issues 47–51 are now resolved but the underlying architecture was wrong — working connections to a broken narration model.
 - Issue 54 will be re-evaluated once TTS audio replaces native audio model output.
+- Issues 57–58 were build/runtime bugs fixed in Phase 6.
