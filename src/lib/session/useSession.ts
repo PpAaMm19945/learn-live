@@ -45,6 +45,7 @@ export function useSession({
   const reconnectCountRef = useRef<number>(0);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const statusRef = useRef<SessionState['status']>(status);
+  const pendingLessonCompleteRef = useRef<boolean>(false);
 
   const MAX_RECONNECT_RETRIES = 3;
 
@@ -81,8 +82,18 @@ export function useSession({
             bytes[i] = binaryStr.charCodeAt(i);
         }
 
+        // Ignore empty or malformed PCM frames (can happen for terminal heartbeat packets).
+        if (bytes.length < 2) {
+            Logger.warn('[AUDIO]', 'Skipping empty PCM audio chunk');
+            return Promise.resolve();
+        }
+
         // Convert 16-bit PCM to Float32 AudioBuffer (24kHz mono)
-        const sampleCount = bytes.length / 2;
+        const sampleCount = Math.floor(bytes.length / 2);
+        if (sampleCount <= 0) {
+            Logger.warn('[AUDIO]', 'Skipping PCM audio chunk with no decodable samples');
+            return Promise.resolve();
+        }
         const audioBuffer = ctx.createBuffer(1, sampleCount, 24000);
         const channelData = audioBuffer.getChannelData(0);
         const dataView = new DataView(bytes.buffer);
@@ -177,6 +188,7 @@ export function useSession({
     onToolCallRef.current = onToolCall;
 
     setStatus(isReconnect ? 'reconnecting' : 'connecting');
+    pendingLessonCompleteRef.current = false;
     setError(undefined);
 
     try {
@@ -260,8 +272,8 @@ export function useSession({
             setIsQAActive(true);
             setIsMuted(false);
           } else if (msg.type === 'lesson_complete') {
-            Logger.info('[WS]', 'Lesson finished.');
-            setStatus('ended');
+            Logger.info('[WS]', 'Lesson finished signal received.');
+            pendingLessonCompleteRef.current = true;
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              setError(msg.message);
@@ -328,6 +340,7 @@ export function useSession({
     setStatus('ended');
     statusRef.current = 'ended'; // Immediately update ref for synchronous access
     // Clear any pending reconnect timer
+    pendingLessonCompleteRef.current = false;
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
       reconnectTimerRef.current = null;
@@ -378,6 +391,7 @@ export function useSession({
   useEffect(() => {
       return () => {
           // Clear any pending reconnect timer on unmount
+          pendingLessonCompleteRef.current = false;
           if (reconnectTimerRef.current) {
               clearTimeout(reconnectTimerRef.current);
               reconnectTimerRef.current = null;
@@ -443,6 +457,16 @@ export function useSession({
       });
     }
   }, [beatState, beatQueue, playAudioChunk]);
+  
+  // Finalize lesson only after queued beats/audio have finished playing.
+  useEffect(() => {
+    if (pendingLessonCompleteRef.current && beatQueue.length === 0 && beatState === 'IDLE') {
+      Logger.info('[WS]', 'Applying delayed lesson completion after audio queue drained.');
+      setStatus('ended');
+      statusRef.current = 'ended';
+      pendingLessonCompleteRef.current = false;
+    }
+  }, [beatQueue.length, beatState]);
 
   return {
     status,
