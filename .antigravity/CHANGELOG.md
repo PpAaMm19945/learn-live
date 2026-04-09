@@ -1,6 +1,6 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-07
+> **Last updated:** 2026-04-09
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
@@ -95,4 +95,17 @@
 - **What changes:** Agent side — replace GeminiSession Live with BeatSequencer using regular generateContent streaming API. Gemini Live reserved for student Q&A only (Band 3+).
 - Archived: `ARCHITECTURE_LIVE.md` → `.antigravity/archive/`, `JULES_PLAN_PHASE21.md` → `.antigravity/archive/`
 - Updated: ROADMAP.md with 6-phase Beat Sequencer plan, ISSUES.md with architectural diagnosis (issues 52–56)
-- New roadmap phases: Phase 1 (isolation tests) → Phase 2 (beat schema) → Phase 3 (beat sequencer) → Phase 4 (live Q&A) → Phase 5 (content pipeline) → Phase 6 (integration)
+
+## 2026-04-08 — Phases 3–4: Beat Sequencer & Live Q&A Complete
+- Beat Sequencer (`beatSequencer.ts`) iterates beats, calls Gemini `generateContent` per beat, streams transcript + tool calls
+- ContentLoader, TTSService, ContentFetcher implemented
+- HistorySessionController state machine manages sequencer ↔ live Q&A transitions
+- LiveHandler (`liveHandler.ts`) opens short Gemini Live sessions for Band 3+ Q&A on `raise_hand`
+- Agent deployed to Cloud Run
+
+## 2026-04-09 — Phase 6: Frontend Bug Fixes & Audit
+- Fixed missing `RecordedEvent` type in `types.ts` (Issue 57 — build blocker)
+- Fixed empty PCM audio chunks causing `createBuffer(0)` errors in `playAudioChunk` (Issue 58)
+- Resolved Issues 52, 53 (architectural — superseded by Beat Sequencer)
+- Identified Issue 59: premature "Session Ended" — beat queue race condition
+- Full phase audit: Phases 1–4 verified complete, Phase 5 partial, Phase 6 in progress

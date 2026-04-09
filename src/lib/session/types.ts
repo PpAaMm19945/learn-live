@@ -68,6 +68,11 @@ export type ClientMessage =
   | { type: 'resume' }
   | { type: 'image'; data: string }; // base64 jpeg
 
+export interface RecordedEvent {
+  timestamp: number;
+  message: AgentMessage;
+}
+
 export interface GoldenScript {
   version: '1.0';
   chapterId: string;
