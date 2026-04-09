@@ -11,7 +11,7 @@ const ai = new GoogleGenAI({
  */
 export class GenAINarrator {
     private apiKey: string;
-    private model = "gemini-2.0-flash-exp"; // Reliable model for narration
+    private model = "gemini-2.0-flash";
     private endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent`;
 
     constructor(private systemInstruction: string) {
