@@ -52,9 +52,14 @@
 - **Fix:** Handled by Beat Sequencer prompt design — narration-only for Band 2, no Socratic pauses.
 
 ### 59. Session Shows "Session Ended" Prematurely
-- **Status:** OPEN — HIGH
-- **Description:** Lesson text appears cut off; the canvas shows "Session Ended" before all beats have been displayed or audio has finished. The `lesson_complete` message from the agent may arrive before the frontend beat queue has drained.
-- **Fix:** Investigate race condition between `lesson_complete` signal and beat queue processing. The `pendingLessonCompleteRef` mechanism should defer the end screen, but it may not be waiting for audio playback to finish.
+- **Status:** RESOLVED
+- **Description:** Lesson text appeared cut off; the canvas showed "Session Ended" before all beats were displayed. Root cause: `GenAINarrator` used deprecated model `gemini-2.0-flash-exp` which returned 404 on every `generateContent` call, causing the sequencer to produce no narration and immediately signal `lesson_complete`.
+- **Fix:** Upgraded `GenAINarrator` model to `gemini-3-flash-preview` and `GeminiSession` Live model to `gemini-3.1-flash-live-preview`. Requires agent redeploy.
+
+### 60. Gemini Model Upgrade — 2.x → 3.x
+- **Status:** RESOLVED
+- **Description:** Both AI models were outdated. `gemini-2.0-flash-exp` (REST narration) returned 404. `gemini-2.5-flash-native-audio-latest` (Live Q&A) was functional but superseded.
+- **Fix:** `GenAINarrator` → `gemini-3-flash-preview`, `GeminiSession` → `gemini-3.1-flash-live-preview`. Both use `v1beta` endpoint.
 
 ---
 

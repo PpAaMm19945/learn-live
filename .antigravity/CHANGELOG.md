@@ -103,9 +103,11 @@
 - LiveHandler (`liveHandler.ts`) opens short Gemini Live sessions for Band 3+ Q&A on `raise_hand`
 - Agent deployed to Cloud Run
 
-## 2026-04-09 — Phase 6: Frontend Bug Fixes & Audit
+## 2026-04-09 — Phase 6: Frontend Bug Fixes, Audit & Model Upgrade
 - Fixed missing `RecordedEvent` type in `types.ts` (Issue 57 — build blocker)
 - Fixed empty PCM audio chunks causing `createBuffer(0)` errors in `playAudioChunk` (Issue 58)
 - Resolved Issues 52, 53 (architectural — superseded by Beat Sequencer)
-- Identified Issue 59: premature "Session Ended" — beat queue race condition
+- **Root cause of Issue 59 found**: `gemini-2.0-flash-exp` model returns 404, causing empty narration → premature `lesson_complete`
+- **Model upgrade (Issue 60)**: `GenAINarrator` → `gemini-3-flash-preview`, `GeminiSession` Live → `gemini-3.1-flash-live-preview`
 - Full phase audit: Phases 1–4 verified complete, Phase 5 partial, Phase 6 in progress
+- **Action required:** Redeploy agent to Cloud Run
