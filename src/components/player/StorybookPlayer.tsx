@@ -23,7 +23,6 @@ export function StorybookPlayer({ script, onExit, onComplete }: StorybookPlayerP
   useEffect(() => {
     preloadAhead(allImageUrls, currentSceneIndex, 2);
   }, [currentSceneIndex]);
-  const isLastScene = currentSceneIndex === script.scenes.length - 1;
 
   const handleAdvance = () => {
     if (isLastScene) {
