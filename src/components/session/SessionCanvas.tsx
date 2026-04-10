@@ -54,6 +54,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   // Playback hook (fallback)
   const goldenScript = useGoldenScript(goldenScriptData);
 
+  const addDebug = useCallback((category: DebugEvent['category'], label: string, detail?: string) => {
+    setDebugEvents(prev => [...prev.slice(-200), createDebugEvent(category, label, detail)]);
+  }, []);
+
   const {
     status,
     transcriptChunks,
@@ -73,7 +77,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     familyId: familyId || '',
     learnerId: activeLearnerId || '',
     band,
-    agentUrl: import.meta.env.VITE_AGENT_URL || 'http://localhost:8080'
+    agentUrl: import.meta.env.VITE_AGENT_URL || 'http://localhost:8080',
+    onDebug: addDebug
   });
 
   const addDebug = useCallback((category: DebugEvent['category'], label: string, detail?: string) => {

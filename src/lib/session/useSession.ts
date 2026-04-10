@@ -3,13 +3,16 @@ import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPaylo
 import { Logger } from '@/lib/Logger';
 import { stripToolCallText } from './textFilter';
 import { resolveLessonIdentifier } from './sessionParams';
+import type { DebugEvent } from '@/components/session/DebugDrawer';
+import { createDebugEvent } from '@/components/session/DebugDrawer';
 
 export interface SessionConfig {
   chapterId: string;
   familyId: string;
   learnerId: string;
   band: number;
-  agentUrl: string; // from VITE_AGENT_URL
+  agentUrl: string;
+  onDebug?: (evt: DebugEvent) => void;
 }
 
 export interface SessionState {
@@ -25,7 +28,8 @@ export function useSession({
   familyId,
   learnerId,
   band,
-  agentUrl
+  agentUrl,
+  onDebug
 }: SessionConfig) {
   const [status, setStatus] = useState<SessionState['status']>('idle');
   const [transcriptChunks, setTranscriptChunks] = useState<TranscriptChunk[]>([]);
@@ -42,6 +46,12 @@ export function useSession({
   const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
   const [currentBeatText, setCurrentBeatText] = useState<string | null>(null);
   const onToolCallRef = useRef<((msg: AgentToolCall) => void) | undefined>(undefined);
+  const onDebugRef = useRef(onDebug);
+  useEffect(() => { onDebugRef.current = onDebug; }, [onDebug]);
+
+  const debug = useCallback((category: DebugEvent['category'], label: string, detail?: string) => {
+    onDebugRef.current?.(createDebugEvent(category, label, detail));
+  }, []);
 
   const wsRef = useRef<WebSocket | null>(null);
   const reconnectCountRef = useRef<number>(0);
@@ -80,7 +90,6 @@ export function useSession({
     }
 
     try {
-        // Decode base64 to raw bytes
         const binaryStr = atob(base64Audio);
         const len = binaryStr.length;
         const bytes = new Uint8Array(len);
@@ -88,13 +97,11 @@ export function useSession({
             bytes[i] = binaryStr.charCodeAt(i);
         }
 
-        // Ignore empty or malformed PCM frames (can happen for terminal heartbeat packets).
         if (bytes.length < 2) {
             Logger.warn('[AUDIO]', 'Skipping empty PCM audio chunk');
             return Promise.resolve();
         }
 
-        // Convert 16-bit PCM to Float32 AudioBuffer (24kHz mono)
         const sampleCount = Math.floor(bytes.length / 2);
         if (sampleCount <= 0) {
             Logger.warn('[AUDIO]', 'Skipping PCM audio chunk with no decodable samples');
@@ -104,7 +111,7 @@ export function useSession({
         const channelData = audioBuffer.getChannelData(0);
         const dataView = new DataView(bytes.buffer);
         for (let i = 0; i < sampleCount; i++) {
-            const int16 = dataView.getInt16(i * 2, true); // little-endian
+            const int16 = dataView.getInt16(i * 2, true);
             channelData[i] = int16 / 32768;
         }
 
@@ -112,7 +119,6 @@ export function useSession({
         source.buffer = audioBuffer;
         source.connect(ctx.destination);
 
-        // Schedule playback seamlessly
         return new Promise<void>((resolve) => {
             const currentTime = ctx.currentTime;
             const startTime = Math.max(currentTime, nextPlayTimeRef.current);
@@ -123,26 +129,24 @@ export function useSession({
 
     } catch (err) {
         Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
-        return Promise.resolve(); // resolve so queue doesn't get stuck forever
+        return Promise.resolve();
     }
   }, []);
 
   const setupMicrophone = useCallback(async () => {
-     if (band < 3) return; // Only bands 3+ get microphone capability
+     if (band < 3) return;
 
      try {
          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
          streamRef.current = stream;
 
          const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-         // Setup AudioContext for 16kHz
          const audioContext = new AudioContextClass({ sampleRate: 16000 });
          audioInputContextRef.current = audioContext;
 
          const source = audioContext.createMediaStreamSource(stream);
          sourceRef.current = source;
 
-         // ScriptProcessorNode is deprecated but highly compatible for basic raw PCM extraction
          const processor = audioContext.createScriptProcessor(4096, 1, 1);
          processorRef.current = processor;
 
@@ -155,7 +159,6 @@ export function useSession({
                      pcmData[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
                  }
 
-                 // Convert Int16Array to Base64
                  const buffer = new Uint8Array(pcmData.buffer);
                  let binary = '';
                  for (let i = 0; i < buffer.byteLength; i++) {
@@ -171,11 +174,13 @@ export function useSession({
          processor.connect(audioContext.destination);
 
          Logger.info('[AUDIO]', 'Microphone connected and 16kHz PCM recording started.');
+         debug('audio', 'Microphone connected (16kHz PCM)');
 
      } catch (err) {
          Logger.error('[AUDIO]', 'Failed to setup microphone', err);
+         debug('error', 'Microphone setup failed', String(err));
      }
-  }, [band, isMuted, isQAActive]);
+  }, [band, isMuted, isQAActive, debug]);
 
   const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void, isReconnect = false) => {
     if (
@@ -186,7 +191,6 @@ export function useSession({
       return;
     }
 
-    // Reset reconnect count only on user-initiated connects, not auto-reconnects
     if (!isReconnect) {
       reconnectCountRef.current = 0;
     }
@@ -197,8 +201,9 @@ export function useSession({
     pendingLessonCompleteRef.current = false;
     setError(undefined);
 
+    debug('connection', isReconnect ? 'Reconnecting to agent...' : 'Connecting to agent...');
+
     try {
-      // Replace http with ws
       const wsUrl = new URL(agentUrl);
       wsUrl.protocol = wsUrl.protocol === 'https:' ? 'wss:' : 'ws:';
       wsUrl.pathname = '/ws/history-explainer';
@@ -223,8 +228,7 @@ export function useSession({
         Logger.info('[WS]', 'Connected to agent');
         setStatus('connected');
         setHasReceivedMessage(false);
-        // NOTE: Do NOT reset reconnectCountRef here — that's what caused the infinite loop.
-        // Count is only reset on explicit user-initiated connect() calls (isReconnect=false).
+        debug('connection', 'Connected to agent');
 
         setupMicrophone();
       };
@@ -242,22 +246,27 @@ export function useSession({
               onMessage(msg as AgentMessage);
           }
 
-          // Handle fatal server errors (e.g. rate limit: { error: 'Daily session limit reached' })
-          // These have no `type` field — just a bare `error` property.
           if (msg.error && !msg.type) {
              Logger.error('[WS]', `Server error: ${msg.error}`);
+             debug('error', `Server error: ${msg.error}`);
              setStatus('error');
-             statusRef.current = 'error'; // Prevent reconnect in onclose
+             statusRef.current = 'error';
              setError(msg.error);
              return;
           }
 
           if (msg.type === 'beat_payload') {
-             setBeatQueue(prev => [...prev, msg as BeatPayload]);
+             const beat = msg as BeatPayload;
+             const toolNames = beat.toolCalls?.map((t: any) => t.tool).join(', ') || 'none';
+             const hasAudio = beat.audioData && beat.audioData.trim().length > 10;
+             debug('beat', `Beat queued (${beat.toolCalls?.length || 0} tools)`, `tools: [${toolNames}] | audio: ${hasAudio ? 'yes' : 'no'} | text: "${(beat.text || '').slice(0, 60)}..."`);
+             setBeatQueue(prev => [...prev, beat]);
           } else if (msg.type === 'tool_call') {
             const toolMsg = msg as AgentToolCall;
+            debug('tool_call', `${toolMsg.tool}(${JSON.stringify(toolMsg.args)})`, `Direct tool call (outside beat)`);
             if (toolMsg.tool === 'set_scene') {
                setSceneMode(toolMsg.args.mode as SceneMode);
+               debug('scene', `Scene → ${toolMsg.args.mode}`, `via direct tool_call`);
             }
             if (onToolCall) {
                 onToolCall(toolMsg);
@@ -267,23 +276,28 @@ export function useSession({
           } else if (msg.type === 'transcript') {
             setThinkingText('');
             setTranscriptChunks((prev) => [...prev, msg as TranscriptChunk]);
+            debug('beat', `Transcript chunk`, `"${(msg.text || '').slice(0, 80)}..."`);
           } else if (msg.type === 'audio') {
+            debug('audio', `Audio chunk received (${((msg.data || '').length / 1024).toFixed(1)}KB base64)`);
             await playAudioChunk(msg.data);
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
+            debug('qa', 'Q&A session complete — resuming lesson');
             setIsQAActive(false);
             setIsMuted(true);
           } else if (msg.type === 'qa_started') {
             Logger.info('[WS]', 'Q&A session started.');
+            debug('qa', 'Q&A session started');
             setIsQAActive(true);
             setIsMuted(false);
           } else if (msg.type === 'lesson_complete') {
             Logger.info('[WS]', 'Lesson finished signal received.');
+            debug('beat', 'lesson_complete received', `Queue: ${beatQueue.length} beats remaining`);
             pendingLessonCompleteRef.current = true;
-            // Immediately block reconnection — lesson is done
             statusRef.current = 'ended';
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
+             debug('error', `Agent error: ${msg.message}`, msg.code ? `code: ${msg.code}` : undefined);
              setError(msg.message);
 
              if (msg.code === 'QA_NOT_ALLOWED') {
@@ -292,13 +306,17 @@ export function useSession({
                return;
              }
 
-             // Treat all other agent error packets as fatal so UI exits
-             // the indefinite "Your teacher is preparing..." state.
              setStatus('error');
              statusRef.current = 'error';
+          } else if (msg.type === 'debug') {
+            // Server-side debug messages (future)
+            debug('connection', `[server] ${msg.message}`);
+          } else {
+            debug('connection', `Unknown msg type: ${msg.type}`, JSON.stringify(msg).slice(0, 200));
           }
         } catch (err) {
           Logger.error('[WS]', 'Failed to parse message', err);
+          debug('error', 'Failed to parse WS message', String(err));
         }
       };
 
@@ -309,15 +327,17 @@ export function useSession({
         }
         wsRef.current = null;
         Logger.info('[WS]', `Disconnected from agent (code=${e.code}, reason=${e.reason})`);
+        debug('connection', `Disconnected (code=${e.code})`, e.reason || undefined);
 
         if (statusRef.current === 'ended') {
-           return; // Normal disconnect
+           return;
         }
 
         if (reconnectCountRef.current < MAX_RECONNECT_RETRIES && statusRef.current !== 'error') {
           const attempt = reconnectCountRef.current + 1;
-          const delayMs = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
+          const delayMs = Math.pow(2, attempt) * 1000;
           Logger.info('[WS]', `Reconnect attempt ${attempt}/${MAX_RECONNECT_RETRIES} in ${delayMs / 1000}s...`);
+          debug('connection', `Reconnect ${attempt}/${MAX_RECONNECT_RETRIES} in ${delayMs / 1000}s`);
           reconnectCountRef.current = attempt;
           reconnectTimerRef.current = setTimeout(() => {
               reconnectTimerRef.current = null;
@@ -325,6 +345,7 @@ export function useSession({
           }, delayMs);
         } else {
           Logger.error('[WS]', `Max reconnect retries (${MAX_RECONNECT_RETRIES}) exhausted.`);
+          debug('error', `Reconnect retries exhausted (${MAX_RECONNECT_RETRIES})`);
           setStatus('error');
           setError('Lost connection to teacher.');
         }
@@ -333,28 +354,29 @@ export function useSession({
       ws.onerror = (e) => {
          if (wsRef.current !== ws) return;
          Logger.error('[WS]', 'WebSocket error', e);
-         // onclose will handle setting error state
+         debug('error', 'WebSocket error');
       };
 
     } catch (err) {
       Logger.error('[WS]', 'Failed to setup WebSocket', err);
+      debug('error', 'Failed to setup WebSocket', String(err));
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
+    debug('connection', 'Disconnecting (user/system)');
     setStatus('ended');
-    statusRef.current = 'ended'; // Immediately update ref for synchronous access
-    // Clear any pending reconnect timer
+    statusRef.current = 'ended';
     pendingLessonCompleteRef.current = false;
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
       reconnectTimerRef.current = null;
     }
     if (wsRef.current) {
-      wsRef.current.onclose = null; // Prevent stale handlers from firing
+      wsRef.current.onclose = null;
       wsRef.current.close();
       wsRef.current = null;
     }
@@ -378,34 +400,37 @@ export function useSession({
         streamRef.current.getTracks().forEach(track => track.stop());
         streamRef.current = null;
     }
-  }, []);
+  }, [debug]);
   
   const sendRaiseHand = useCallback(() => {
     if (wsRef.current?.readyState === WebSocket.OPEN && band >= 3) {
         Logger.info('[WS]', 'Sending raise_hand request');
+        debug('qa', 'raise_hand sent');
         wsRef.current.send(JSON.stringify({ type: 'raise_hand' }));
+    } else {
+        debug('error', 'raise_hand failed — WS not open or band < 3');
     }
-  }, [band]);
+  }, [band, debug]);
 
   const toggleMute = useCallback(() => {
     setIsMuted((prev) => {
         const newState = !prev;
         Logger.info('[AUDIO]', `Microphone ${newState ? 'muted' : 'unmuted'}`);
+        debug('audio', `Microphone ${newState ? 'muted' : 'unmuted'}`);
         return newState;
     });
-  }, []);
+  }, [debug]);
 
   // Cleanup on unmount
   useEffect(() => {
       return () => {
-          // Clear any pending reconnect timer on unmount
           pendingLessonCompleteRef.current = false;
           if (reconnectTimerRef.current) {
               clearTimeout(reconnectTimerRef.current);
               reconnectTimerRef.current = null;
           }
           if (wsRef.current) {
-              wsRef.current.onclose = null; // Prevent stale handlers from firing
+              wsRef.current.onclose = null;
               wsRef.current.close();
               wsRef.current = null;
           }
@@ -435,55 +460,50 @@ export function useSession({
       setBeatQueue(prev => prev.slice(1));
       
       setBeatState('LOADING_BEAT');
+      debug('beat', `Processing beat`, `tools: ${currentBeat.toolCalls?.length || 0} | text: "${(currentBeat.text || '').slice(0, 50)}..."`);
       
-      // 1. Fire Tools (Synchronously triggers map flies/highlights)
+      // 1. Fire Tools
       setBeatState('EXECUTING_TOOLS');
 
-      // IMPORTANT: Set image URL BEFORE switching scene mode to avoid race condition
-      // where ImageScene renders with an empty URL
       const beatSceneMode = (currentBeat as any).sceneMode as SceneMode | undefined;
       
-      // Pre-extract image URL from tool calls before firing them
       for (const tool of currentBeat.toolCalls) {
         if (tool.tool === 'set_scene' && tool.args?.mode === 'image' && tool.args?.imageUrl) {
-          // This will be picked up by handleAgentToolCall in SessionCanvas
-          // but we need it set before sceneMode changes
+          // pre-extract — handled by handleAgentToolCall
         }
       }
 
-      // Fire tool calls first — these set imageSceneUrl via handleAgentToolCall
       currentBeat.toolCalls.forEach(tool => {
+        debug('tool_call', `${tool.tool}(${JSON.stringify(tool.args)})`, `via beat sequencer`);
         if (onToolCallRef.current) {
             onToolCallRef.current(tool);
         }
-        // Only set scene mode from non-set_scene tools
-        // set_scene is handled by the tool call handler
         if (tool.tool !== 'set_scene') {
           // other tools like zoom_to auto-switch to map via toolCallHandler
         }
       });
 
-      // NOW switch scene mode — after tool calls have set imageSceneUrl
+      // Switch scene mode after tool calls
       if (beatSceneMode && beatSceneMode !== 'transcript') {
+        debug('scene', `Scene → ${beatSceneMode}`, `via beat sceneMode field`);
         setSceneMode(beatSceneMode as SceneMode);
       }
 
-      // Also fire set_scene from tool calls (which may set sceneMode too)
       currentBeat.toolCalls.forEach(tool => {
         if (tool.tool === 'set_scene') {
+          debug('scene', `Scene → ${tool.args.mode}`, `via set_scene tool call`);
           setSceneMode(tool.args.mode as SceneMode);
         }
       });
       
-      // 2. Play Audio — show transcript synced to it
+      // 2. Play Audio
       setBeatState('PLAYING_AUDIO');
 
-      // Clean the text — strip any tool call syntax that leaked into narration
       const cleanText = stripToolCallText(currentBeat.text || '');
-
       const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
 
       if (hasAudio) {
+        debug('audio', `Playing audio (${((currentBeat.audioData || '').length / 1024).toFixed(1)}KB)`);
         setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
@@ -492,12 +512,15 @@ export function useSession({
         setThinkingText('');
 
         playAudioChunk(currentBeat.audioData).then(() => {
+          debug('audio', 'Audio playback complete — beat IDLE');
           setBeatState('IDLE');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
+          debug('error', 'Audio playback failed', String(err));
           setBeatState('IDLE');
         });
       } else if (window.speechSynthesis && cleanText) {
+        debug('audio', `Browser TTS fallback (${cleanText.split(/\s+/).length} words)`);
         setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
@@ -507,10 +530,19 @@ export function useSession({
 
         const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.rate = 0.95;
-        utterance.onend = () => setBeatState('IDLE');
-        utterance.onerror = () => setBeatState('IDLE');
+        utterance.onend = () => {
+          debug('audio', 'Browser TTS complete — beat IDLE');
+          setBeatState('IDLE');
+        };
+        utterance.onerror = () => {
+          debug('error', 'Browser TTS error');
+          setBeatState('IDLE');
+        };
         window.speechSynthesis.speak(utterance);
       } else {
+        const words = (cleanText || '').split(/\s+/).length;
+        const dwellMs = Math.max(3000, (words / 150) * 60 * 1000);
+        debug('audio', `No audio — dwelling ${Math.round(dwellMs / 1000)}s (${words} words)`);
         setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
@@ -518,23 +550,25 @@ export function useSession({
         ]);
         setThinkingText('');
 
-        const words = (cleanText || '').split(/\s+/).length;
-        const dwellMs = Math.max(3000, (words / 150) * 60 * 1000);
         Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);
-        setTimeout(() => setBeatState('IDLE'), dwellMs);
+        setTimeout(() => {
+          debug('audio', 'Dwell complete — beat IDLE');
+          setBeatState('IDLE');
+        }, dwellMs);
       }
     }
-  }, [beatState, beatQueue, playAudioChunk]);
+  }, [beatState, beatQueue, playAudioChunk, debug]);
   
   // Finalize lesson only after queued beats/audio have finished playing.
   useEffect(() => {
     if (pendingLessonCompleteRef.current && beatQueue.length === 0 && beatState === 'IDLE') {
       Logger.info('[WS]', 'Applying delayed lesson completion after audio queue drained.');
+      debug('beat', 'Lesson ended (queue drained)');
       setStatus('ended');
       statusRef.current = 'ended';
       pendingLessonCompleteRef.current = false;
     }
-  }, [beatQueue.length, beatState]);
+  }, [beatQueue.length, beatState, debug]);
 
   return {
     status,
