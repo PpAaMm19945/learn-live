@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import type { StorybookScript } from '@/lib/session/types';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { resolveImageUrl, preloadAhead } from '@/lib/r2Assets';
+import { R2Image } from '@/components/ui/R2Image';
 
 interface StorybookPlayerProps {
   script: StorybookScript;
