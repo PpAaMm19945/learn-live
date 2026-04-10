@@ -374,6 +374,13 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         
         {/* Connection indicator */}
         <div className="ml-auto pointer-events-auto flex items-center gap-2">
+          <button
+            onClick={() => setDebugOpen(prev => !prev)}
+            className="p-2 bg-muted/40 hover:bg-muted/60 backdrop-blur-md rounded-full text-foreground/50 hover:text-foreground transition-colors"
+            title="Toggle Debug Panel"
+          >
+            <Bug className="w-4 h-4" />
+          </button>
           {useFallback && (
             <span className="px-2 py-1 text-[10px] font-bold tracking-wider uppercase bg-primary/20 text-primary rounded-full mr-2">
               Recorded session
