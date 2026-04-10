@@ -531,6 +531,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           </motion.button>
         </div>
       )}
+
+      {/* Debug Drawer */}
+      <DebugDrawer events={debugEvents} isOpen={debugOpen} onToggle={() => setDebugOpen(false)} />
     </motion.div>
   );
 }
