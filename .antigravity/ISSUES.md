@@ -90,9 +90,10 @@
 - **Fix (agent):** Pre-process the next beat while current beat audio is playing. Pipeline architecture.
 
 ### 72. Need Agent Debug Drawer
-- **Status:** OPEN — MEDIUM (DX)
-- **Description:** No way to observe agent state, tool calls, beat progress, or errors from the frontend during a session. Makes debugging extremely difficult.
-- **Fix (frontend):** Add a collapsible debug drawer that streams and displays agent messages (tool_call, beat_payload metadata, errors, connection state).
+- **Status:** RESOLVED — Phase 7
+- **Description:** No way to observe agent state, tool calls, beat progress, or errors from the frontend during a session.
+- **Resolution:** `DebugDrawer.tsx` fully wired with category filters, expandable details, copy-all, and ~25 debug event emissions from `useSession.ts` covering connection, beats, tools, audio, Q&A, scenes, and errors. Toggle via Bug icon in session top bar.
+- **Future:** Agent should emit `{ type: 'debug', message: '...' }` WebSocket messages for server-side visibility (Gemini retries, TTS progress, narrator prompts).
 
 ---
 
