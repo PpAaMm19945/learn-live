@@ -1,6 +1,6 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-04-09
+> **Last updated:** 2026-04-10
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 > **Previous roadmap archived:** `.antigravity/archive/roadmap-live-agent-approach.md`
 
@@ -92,9 +92,10 @@ Frontend → WebSocket → Agent (Beat Sequencer)
 | Frontend | React + Vite + Tailwind + shadcn/ui | Deployed to Cloudflare Pages |
 | Data | Cloudflare D1 (SQLite) | Families, learners, progress, sessions, curriculum |
 | Content Storage | Cloudflare R2 | Master text, maps, audio, golden scripts, generated assets |
-| AI Narrator | Google Cloud Run (Express) | **Beat Sequencer** — iterates beats, streams narration via regular Gemini API |
-| AI Conversation | Gemini Live API | **On-demand only** — student Q&A when learner raises hand (Band 3+) |
-| Content Adaptation | Gemini 2.5 Flash | Band-specific narration, quiz generation |
+| AI Narrator | Google Cloud Run (Express) | **Beat Sequencer** — iterates beats, narrates with Gemini 3 Flash, packages text + tool calls + audio per beat |
+| AI Conversation | Gemini 3.1 Flash Live API | **On-demand only** — student Q&A when learner raises hand (Band 3+) |
+| Speech Synthesis | Gemini TTS | `gemini-2.5-flash-preview-tts` for beat audio, with browser speech fallback if server audio is empty |
+| Content Adaptation | Gemini Flash family | Band-specific narration, quiz generation |
 | Teaching Canvas | **MapLibre GL JS** | Programmable vector maps with tool calls |
 | Session UI | **SessionCanvas + TranscriptView** | Full-bleed kinetic typography + scene overlays |
 | Auth | Custom on Workers | Magic link, Google OAuth, email/password, JWT sessions |
@@ -478,6 +479,33 @@ Dashboard → Student taps Chapter 1 → Section list appears
 - [ ] `npm run build` passes with zero errors
 - [ ] `cd agent && npm run build` passes with zero errors
 
+### Phase 6 — Current Runtime Status (2026-04-10)
+
+**What is now working:**
+
+- ✅ Beat audio is now present in real lesson runs (Gemini TTS migration succeeded)
+- ✅ WebSocket connects and stays up through the lesson
+- ✅ The client receives the lesson-finished signal
+
+**What user testing exposed next:**
+
+1. **Transcript / audio are not telling the same truth.** The transcript needs to follow the actual audible pacing, not jump ahead of the spoken beat.
+2. **Visual teaching layer is not appearing.** User screenshots show literal tool syntax such as `show_scripture(...)`, `show_timeline(...)`, and `set_scene("image", ...)` rendered inside the transcript instead of driving `TeachingCanvas` / overlays.
+3. **Beat continuity is broken.** From the learner's perspective, the narrator pauses and then restarts with a greeting and recap as if each beat were a fresh lesson.
+4. **Lesson termination is not trustworthy.** The ending feels broken, and at least one real run appeared to restart from the beginning after completion.
+
+**Interpretation:**
+
+The silent-audio blocker is resolved. The remaining failures are now **session orchestration failures** — synchronization, tool-channel separation, continuity prompting, and terminal-state handling.
+
+### Immediate Stabilization Backlog (Locked Next Order)
+
+1. **Restore tool-channel separation.** Spoken narration must never contain literal tool commands. `toolCalls` from `beat_payload` must be the only path that drives scenes, overlays, and map actions.
+2. **Make audio the pacing authority.** Transcript progression, beat completion, and tool timing must key off actual audio start/end (or explicit dwell fallback), not immediate text receipt alone.
+3. **Enforce same-lesson continuity across beats.** Every beat prompt must explicitly continue an in-progress lesson and forbid greetings, reintroductions, and recap openings unless the beat is intentionally a recap beat.
+4. **Make completion terminal and idempotent.** Once `lesson_complete` is received, clear queues, cancel timers, stop replay loops, and prevent reconnect/restart logic from reopening the same lesson state.
+5. **Only after runtime stabilization:** wire the full teaching philosophy pipeline (`docs/TEACHING_PHILOSOPHY.md`) into lesson preparation. The philosophy is now defined; the runtime must become trustworthy enough to carry it.
+
 ---
 
 ## Deferred Work (Not in current plan)
@@ -486,7 +514,7 @@ These items are important but are not blockers for the first working lesson:
 
 | Item | Notes |
 |------|-------|
-| **TTS audio narration** | Pipe narration text through Google Cloud TTS. Can be added to Phase 3 incrementally after text narration works. |
+| **LessonPreparer philosophical pipeline** | The multi-phase theological framing / critique pipeline from `docs/TEACHING_PHILOSOPHY.md` should begin only after Phase 6 stabilization removes restart, sync, and scene-rendering bugs. |
 | **Golden Script re-verification** | `useRecorder.ts` and `useGoldenScript.ts` exist but were never tested with real content. Re-verify after Phase 6. |
 | **StorybookPlayer split-screen (Phase 24A)** | Layout redesign for Band 0-1. Independent of Beat Sequencer. Can proceed in parallel. |
 | **Dashboard & page cleanup (Phase 24B)** | Remove deprecated pages, simplify onboarding. Independent. Can proceed in parallel. |
@@ -580,6 +608,7 @@ The AI narrates and the sequencer fires these tool calls via WebSocket:
 - Component data: `docs/curriculum/history/component-data/`
 - Beat schema (Phase 2): `docs/curriculum/history/beat-schema.md` (to be created)
 - Pronunciation dictionary: `src/data/pronunciation.json`
+- Teaching philosophy: `docs/TEACHING_PHILOSOPHY.md`
 - Philosophy docs: `docs/core-docs/`
 - Agent code: `agent/`
 - Worker routes: `worker/src/routes/`

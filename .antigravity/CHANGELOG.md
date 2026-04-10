@@ -1,6 +1,6 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-09
+> **Last updated:** 2026-04-10
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
@@ -119,3 +119,9 @@
 - Frontend fallback: browser `speechSynthesis` speaks beat text if server audio is empty
 - Frontend dwell time: if no speech synthesis available, text dwells on screen proportional to word count
 - **Action required:** Redeploy agent to Cloud Run
+
+## 2026-04-10 — Phase 6C: Full Lesson Runtime Audit
+- Audio confirmed working in real user lesson runs end-to-end
+- User captured a full beat-by-beat session showing four remaining blockers: transcript/audio desync, no visual scene rendering, beat-to-beat greeting/recap resets, and broken lesson ending / apparent restart
+- **Decision:** Prioritize runtime stabilization before implementing the full teaching-philosophy-driven LessonPreparer pipeline
+- Updated `.antigravity/ROADMAP.md` and `.antigravity/ISSUES.md` to make the current blockers and next engineering order explicit
