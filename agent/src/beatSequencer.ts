@@ -11,6 +11,7 @@ export class BeatSequencer {
     private isPaused = false;
     private isStopped = false;
     private completedBeats: Beat[] = [];
+    private previousNarratedText = '';
     private loopPromise: Promise<void> | null = null;
 
     constructor(
@@ -73,8 +74,26 @@ export class BeatSequencer {
             baseText = beat.bandOverrides[this.band.toString()].contentText;
         }
 
-        const prompt = `Narrate the following history content for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth. Content: "${baseText}"`;
+        const totalBeats = this.manifest?.beats.length || 1;
+        const beatIndex = this.currentBeatIndex + 1;
+        const isFirst = beatIndex === 1;
+        const isLast = beatIndex === totalBeats;
+
+        // Build a continuity-aware prompt
+        let prompt = '';
+        
+        if (isFirst) {
+            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Be warm and authoritative. Do not introduce yourself or say "welcome" — start directly with the content.\n\nContent: "${baseText}"`;
+        } else {
+            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the same tone and energy as the previous segment.\n\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
+        }
+
+        if (isLast) {
+            prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
+        }
+
         const narratedText = await this.narrator.narrate(prompt) || baseText;
+        this.previousNarratedText = narratedText;
 
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
         const audioBase64 = await this.tts.synthesize(narratedText) || '';
@@ -92,6 +111,7 @@ export class BeatSequencer {
             beatId: beat.beatId,
             text: narratedText,
             audioData: audioBase64,
+            sceneMode: beat.sceneMode || 'transcript',
             toolCalls: beat.toolSequence.map(t => ({
                 type: 'tool_call',
                 tool: t.tool,
