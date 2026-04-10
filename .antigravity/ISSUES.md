@@ -61,6 +61,11 @@
 - **Description:** Both AI models were outdated. `gemini-2.0-flash-exp` (REST narration) returned 404. `gemini-2.5-flash-native-audio-latest` (Live Q&A) was functional but superseded.
 - **Fix:** `GenAINarrator` → `gemini-3-flash-preview`, `GeminiSession` → `gemini-3.1-flash-live-preview`. Both use `v1beta` endpoint.
 
+### 61. No Audio — Google Cloud TTS Key Missing
+- **Status:** RESOLVED
+- **Description:** `GOOGLE_TTS_KEY` was never added to Cloud Run secrets. TTS returned null for every call, causing beats to fire instantly with no pacing, leading to premature lesson end.
+- **Fix:** Replaced Google Cloud TTS entirely with Gemini TTS (`gemini-2.5-flash-preview-tts`) using existing `GEMINI_API_KEY`. Added dwell-time safety net in both agent (beat sequencer) and frontend (browser `speechSynthesis` fallback + text dwell).
+
 ---
 
 ## Notes
