@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
 import { Logger } from '@/lib/Logger';
+import { stripToolCallText } from './textFilter';
 import { resolveLessonIdentifier } from './sessionParams';
 
 export interface SessionConfig {
