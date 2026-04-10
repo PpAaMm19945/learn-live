@@ -11,7 +11,6 @@ export const NAMED_LOCATIONS: Record<string, [number, number]> = {
   cyrene: [21.85, 32.82],
   canaan: [35.0, 32.0],
   sidon: [35.37, 33.56],
-  egypt: [31.0, 27.0], // Alias for draw_route targets
 
   // Chapter 2
   amarna: [30.9, 27.65],
