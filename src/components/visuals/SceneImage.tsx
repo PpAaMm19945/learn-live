@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { R2Image } from '@/components/ui/R2Image';
 
 export interface SceneImageProps {
   imageUrl: string;
@@ -20,10 +21,12 @@ export const SceneImage: React.FC<SceneImageProps> = ({
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <img
+      <R2Image
         src={imageUrl}
         alt={altText}
         className="absolute inset-0 w-full h-full object-cover"
+        wrapperClassName="absolute inset-0"
+        showSkeleton
       />
       {caption && (
         <div className="absolute bottom-16 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent text-center z-10">
