@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-09
+> **Last updated:** 2026-04-10
 
 ---
 
@@ -36,10 +36,11 @@
 
 ## Open Issues
 
-### 54. Audio Playback Lag / Delayed Speech
-- **Status:** OPEN — MEDIUM
-- **Description:** Audio chunks queue up and play minutes after the corresponding transcript appears. The `nextPlayTimeRef` scheduling in `useSession.ts` allows unbounded drift.
-- **Fix:** Add a lag guardrail in `playAudioChunk` — if `nextPlayTimeRef` exceeds `currentTime + threshold`, reset to `currentTime`. Will be re-verified after Beat Sequencer produces audio via TTS.
+### 54. Transcript / Audio Synchronization Drift
+- **Status:** OPEN — HIGH
+- **Description:** Audio is now present, but the transcript still needs to be adjusted to the audible pacing. The learner sees text advancing independently of the spoken beat, so the visual truth and audio truth diverge.
+- **Likely cause:** `beat_payload` text is rendered immediately while audio playback and/or dwell continue asynchronously. The older `nextPlayTimeRef` drift risk in `useSession.ts` may still contribute when audio queues back up.
+- **Fix:** Make audio completion (or explicit dwell fallback) the pacing authority for beat advancement. Add the lag guardrail in `playAudioChunk`, and ensure transcript progression is keyed to actual playback lifecycle rather than immediate receipt alone.
 
 ### 55. Transcript Not Scrollable
 - **Status:** OPEN — MEDIUM
@@ -50,6 +51,24 @@
 - **Status:** OPEN — LOW (by design)
 - **Description:** `useSession.ts` line 102: `if (band < 3) return;` — Band 2 learners are listen-only. This is correct for the Beat Sequencer model (no Q&A for young learners). The agent prompt must not ask questions that require verbal response from Band 2.
 - **Fix:** Handled by Beat Sequencer prompt design — narration-only for Band 2, no Socratic pauses.
+
+### 62. Visual Tool Calls Not Rendering; Commands Leak Into Transcript
+- **Status:** OPEN — HIGH
+- **Description:** In real lesson runs, the visual teaching layer is not appearing. User screenshots show literal command text such as `show_scripture("Genesis 1:1")`, `show_timeline([...])`, and `set_scene("image", ...)` inside the transcript surface instead of visible scene changes.
+- **Likely cause:** Broken separation between narration text and visual instruction channel — either the model is emitting tool syntax as plain text, the frontend is not dispatching `toolCalls` from `beat_payload`, or `set_scene` / canvas execution is failing at runtime.
+- **Fix:** Audit the beat payload pipeline end-to-end. Spoken text must never contain executable tool syntax. `toolCalls` must be dispatched separately and `set_scene` must switch visual mode before map / overlay tools execute.
+
+### 63. Beat Continuity Broken — Fresh Greeting / Recap Each Beat
+- **Status:** OPEN — HIGH
+- **Description:** From the learner's perspective, the narrator pauses and then starts again with a greeting and recap, as if each beat were a new lesson on a different day. This breaks immersion and makes the lesson feel stitched together.
+- **Likely cause:** Each beat is narrated too independently, without hard continuity guardrails. The prompt likely allows or encourages reorientation language on every beat.
+- **Fix:** Add explicit same-lesson continuity instructions to the narrator prompt: no greetings, no fresh introductions, no summary reset, and no recap unless the beat is intentionally marked as recap / wrap-up. Include concise prior-beat context so the next beat can continue naturally.
+
+### 64. Lesson Ending Broken / Apparent Restart After Completion
+- **Status:** OPEN — HIGH
+- **Description:** The ending is not landing correctly. In at least one full run, the agent appeared to restart from the beginning after the lesson finished. User evidence also shows the client receiving a lesson-finished signal.
+- **Likely cause:** `lesson_complete` is arriving, but frontend session state, queued beats/audio, reconnect logic, or replay state is not being treated as terminal and idempotent.
+- **Fix:** Make `lesson_complete` a hard terminal state. Clear beat/audio queues, cancel timers and animation frames, prevent stale reconnect/restart logic from reopening playback, and verify that the end screen consumes the terminal state exactly once.
 
 ### 59. Session Shows "Session Ended" Prematurely
 - **Status:** RESOLVED
@@ -71,5 +90,6 @@
 ## Notes
 - Issues 52–53 are the architectural diagnosis that triggered the Beat Sequencer pivot. Now resolved.
 - Issues 47–51 are now resolved but the underlying architecture was wrong — working connections to a broken narration model.
-- Issue 54 will be re-evaluated once TTS audio replaces native audio model output.
+- Issue 54 is now a user-visible transcript/audio truthfulness problem, not merely a silent-audio problem.
+- Issues 62–64 were captured from a full real-user lesson run after audio was restored; these are the current Phase 6 blockers.
 - Issues 57–58 were build/runtime bugs fixed in Phase 6.
