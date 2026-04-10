@@ -39,6 +39,7 @@ export function useSession({
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
   const [beatState, setBeatState] = useState<BeatState>('IDLE');
   const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
+  const [currentBeatText, setCurrentBeatText] = useState<string | null>(null);
   const onToolCallRef = useRef<((msg: AgentToolCall) => void) | undefined>(undefined);
 
   const wsRef = useRef<WebSocket | null>(null);
