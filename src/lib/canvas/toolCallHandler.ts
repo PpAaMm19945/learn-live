@@ -2,6 +2,20 @@ import type { TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { NAMED_LOCATIONS } from '@/data/geojson/locations';
 import type { SceneMode } from '@/lib/session/types';
 
+/** Approximate center coordinates for ancient regions (fallback when no GeoJSON polygons) */
+const REGION_CENTERS: Record<string, [number, number]> = {
+  mizraim: [31.0, 27.0],    // Egypt
+  cush: [31.0, 18.0],       // Ethiopia/Nubia  
+  phut: [20.0, 32.0],       // Libya/North Africa
+  canaan: [35.0, 32.0],     // Canaan
+  babel: [44.4, 32.5],      // Mesopotamia
+  egypt: [31.0, 27.0],
+  nubia: [31.0, 18.0],
+  ethiopia: [38.7, 9.0],
+  carthage: [10.18, 36.85],
+  aksum: [38.72, 14.13],
+};
+
 export interface ToolCallMessage {
   type: 'tool_call';
   tool: string;
@@ -10,7 +24,6 @@ export interface ToolCallMessage {
 
 /**
  * Handle a tool call from the agent.
- * Returns a SceneMode if set_scene was called, otherwise null.
  */
 export function handleToolCall(
   canvas: TeachingCanvasRef | null,
@@ -41,9 +54,19 @@ export function handleToolCall(
       }
       break;
     }
-    case 'highlight_region':
+    case 'highlight_region': {
+      // Try GeoJSON polygon highlight first
       canvas.highlightRegion(message.args.regionId, message.args.color, message.args.opacity);
+      
+      // Fallback: place a labeled marker at the region center if no GeoJSON polygon exists
+      const regionId = message.args.regionId?.toLowerCase();
+      const center = REGION_CENTERS[regionId];
+      if (center) {
+        const label = message.args.regionId.charAt(0).toUpperCase() + message.args.regionId.slice(1);
+        canvas.placeMarker(center[0], center[1], label, message.args.color || '#fac775');
+      }
       break;
+    }
     case 'draw_route': {
       const fromCoords = NAMED_LOCATIONS[message.args.from];
       const toCoords = NAMED_LOCATIONS[message.args.to];

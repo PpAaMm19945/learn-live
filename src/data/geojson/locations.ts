@@ -5,6 +5,7 @@ export const NAMED_LOCATIONS: Record<string, [number, number]> = {
   memphis: [31.25, 29.85],
   thebes: [32.65, 25.7],
   cush: [31.0, 18.0],
+  cush_region: [31.0, 18.0], // Alias for draw_route targets
   kerma: [30.4, 19.6],
   phut: [20.0, 32.0],
   cyrene: [21.85, 32.82],

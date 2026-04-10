@@ -25,31 +25,50 @@ export class GenAINarrator {
             system_instruction: { parts: [{ text: this.systemInstruction }] },
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
-                temperature: 0.4, // Keep it grounded for teaching
+                temperature: 0.4,
                 topP: 0.95,
                 maxOutputTokens: 2048,
             }
         };
 
-        try {
-            const response = await fetch(`${this.endpoint}?key=${this.apiKey}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+        const MAX_RETRIES = 3;
+        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                const response = await fetch(`${this.endpoint}?key=${this.apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
-            if (!response.ok) {
-                const err = await response.text();
-                console.error('[NARRATOR] Gemini REST error:', err);
+                if (response.status === 503 || response.status === 429) {
+                    const delayMs = Math.pow(2, attempt) * 1000; // 2s, 4s, 8s
+                    console.warn(`[NARRATOR] Gemini ${response.status} — retry ${attempt}/${MAX_RETRIES} in ${delayMs / 1000}s`);
+                    await new Promise(resolve => setTimeout(resolve, delayMs));
+                    continue;
+                }
+
+                if (!response.ok) {
+                    const err = await response.text();
+                    console.error('[NARRATOR] Gemini REST error:', err);
+                    return "";
+                }
+
+                const data = await response.json() as any;
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                
+                // Strip any tool call syntax that leaked into narrator output
+                return text.replace(/\b(set_scene|dismiss_overlay|show_scripture|zoom_to|highlight_region|draw_route|place_marker|clear_canvas|show_figure|show_genealogy|show_timeline)\s*\([^)]*\)\s*/g, '').trim();
+            } catch (error) {
+                console.error(`[NARRATOR] Gemini Fetch failed (attempt ${attempt}):`, error);
+                if (attempt < MAX_RETRIES) {
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+                    continue;
+                }
                 return "";
             }
-
-            const data = await response.json() as any;
-            return data.candidates?.[0]?.content?.parts?.[0]?.text || "";
-        } catch (error) {
-            console.error('[NARRATOR] Gemini Fetch failed:', error);
-            return "";
         }
+        console.error(`[NARRATOR] All ${MAX_RETRIES} retries exhausted.`);
+        return "";
     }
 }
 

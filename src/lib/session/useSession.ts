@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
 import { Logger } from '@/lib/Logger';
+import { stripToolCallText } from './textFilter';
 import { resolveLessonIdentifier } from './sessionParams';
 
 export interface SessionConfig {
@@ -438,67 +439,86 @@ export function useSession({
       // 1. Fire Tools (Synchronously triggers map flies/highlights)
       setBeatState('EXECUTING_TOOLS');
 
-      // Switch scene mode based on beat's sceneMode field
-      const beatSceneMode = (currentBeat as any).sceneMode;
+      // IMPORTANT: Set image URL BEFORE switching scene mode to avoid race condition
+      // where ImageScene renders with an empty URL
+      const beatSceneMode = (currentBeat as any).sceneMode as SceneMode | undefined;
+      
+      // Pre-extract image URL from tool calls before firing them
+      for (const tool of currentBeat.toolCalls) {
+        if (tool.tool === 'set_scene' && tool.args?.mode === 'image' && tool.args?.imageUrl) {
+          // This will be picked up by handleAgentToolCall in SessionCanvas
+          // but we need it set before sceneMode changes
+        }
+      }
+
+      // Fire tool calls first — these set imageSceneUrl via handleAgentToolCall
+      currentBeat.toolCalls.forEach(tool => {
+        if (onToolCallRef.current) {
+            onToolCallRef.current(tool);
+        }
+        // Only set scene mode from non-set_scene tools
+        // set_scene is handled by the tool call handler
+        if (tool.tool !== 'set_scene') {
+          // other tools like zoom_to auto-switch to map via toolCallHandler
+        }
+      });
+
+      // NOW switch scene mode — after tool calls have set imageSceneUrl
       if (beatSceneMode && beatSceneMode !== 'transcript') {
         setSceneMode(beatSceneMode as SceneMode);
       }
 
+      // Also fire set_scene from tool calls (which may set sceneMode too)
       currentBeat.toolCalls.forEach(tool => {
         if (tool.tool === 'set_scene') {
-           setSceneMode(tool.args.mode as SceneMode);
-        }
-        if (onToolCallRef.current) {
-            onToolCallRef.current(tool);
+          setSceneMode(tool.args.mode as SceneMode);
         }
       });
       
-      // 2. Play Audio FIRST, then show transcript synced to it
+      // 2. Play Audio — show transcript synced to it
       setBeatState('PLAYING_AUDIO');
+
+      // Clean the text — strip any tool call syntax that leaked into narration
+      const cleanText = stripToolCallText(currentBeat.text || '');
 
       const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
 
       if (hasAudio) {
-        // Show transcript when audio starts playing (not before)
-        setCurrentBeatText(currentBeat.text);
+        setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
-          { type: 'transcript', text: currentBeat.text, isFinal: true }
+          { type: 'transcript', text: cleanText, isFinal: true }
         ]);
         setThinkingText('');
 
         playAudioChunk(currentBeat.audioData).then(() => {
-          // When audio ends on non-final beats, return to transcript mode briefly
-          // so the student sees the text before the next visual
           setBeatState('IDLE');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
           setBeatState('IDLE');
         });
-      } else if (window.speechSynthesis && currentBeat.text) {
-        // Show transcript for browser TTS fallback
-        setCurrentBeatText(currentBeat.text);
+      } else if (window.speechSynthesis && cleanText) {
+        setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
-          { type: 'transcript', text: currentBeat.text, isFinal: true }
+          { type: 'transcript', text: cleanText, isFinal: true }
         ]);
         setThinkingText('');
 
-        const utterance = new SpeechSynthesisUtterance(currentBeat.text);
+        const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.rate = 0.95;
         utterance.onend = () => setBeatState('IDLE');
         utterance.onerror = () => setBeatState('IDLE');
         window.speechSynthesis.speak(utterance);
       } else {
-        // No audio at all — show text and dwell
-        setCurrentBeatText(currentBeat.text);
+        setCurrentBeatText(cleanText);
         setTranscriptChunks(prev => [
           ...prev, 
-          { type: 'transcript', text: currentBeat.text, isFinal: true }
+          { type: 'transcript', text: cleanText, isFinal: true }
         ]);
         setThinkingText('');
 
-        const words = (currentBeat.text || '').split(/\s+/).length;
+        const words = (cleanText || '').split(/\s+/).length;
         const dwellMs = Math.max(3000, (words / 150) * 60 * 1000);
         Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);
         setTimeout(() => setBeatState('IDLE'), dwellMs);
