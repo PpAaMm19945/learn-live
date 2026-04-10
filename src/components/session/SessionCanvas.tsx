@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand } from 'lucide-react';
+import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand, Bug } from 'lucide-react';
 import { toast } from 'sonner';
 import type { SceneMode, TranscriptChunk, AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
 import { ThinkingBanner } from './ThinkingBanner';
+import { DebugDrawer, createDebugEvent, type DebugEvent } from './DebugDrawer';
 import { useSession } from '@/lib/session/useSession';
 import { useRecorder } from '@/lib/session/useRecorder';
 import { useGoldenScript } from '@/lib/session/useGoldenScript';
@@ -32,7 +33,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const canvasRef = useRef<TeachingCanvasRef>(null);
   const [imageSceneUrl, setImageSceneUrl] = useState<string>('');
   const [imageSceneCaption, setImageSceneCaption] = useState<string>('');
-
+  const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
+  const [debugOpen, setDebugOpen] = useState(false);
   const [useFallback, setUseFallback] = useState(false);
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
@@ -74,14 +76,21 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     agentUrl: import.meta.env.VITE_AGENT_URL || 'http://localhost:8080'
   });
 
+  const addDebug = useCallback((category: DebugEvent['category'], label: string, detail?: string) => {
+    setDebugEvents(prev => [...prev.slice(-200), createDebugEvent(category, label, detail)]);
+  }, []);
+
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
-    // Intercept set_scene("image") to capture imageUrl
+    addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || ''})`, JSON.stringify(msg.args));
+    
+    // Intercept set_scene("image") to capture imageUrl BEFORE scene mode switches
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
       setImageSceneUrl(msg.args.imageUrl || '');
       setImageSceneCaption(msg.args.caption || '');
+      addDebug('scene', `Image: ${msg.args.imageUrl}`, msg.args.caption);
     }
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
-  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode]);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug]);
 
   // Refs to hold latest callback versions without destabilizing the effect
   const connectRef = useRef(connect);
