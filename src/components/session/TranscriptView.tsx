@@ -10,41 +10,25 @@ interface TranscriptViewProps {
 }
 
 /**
- * TranscriptView — kinetic typography component for the AI's narration.
- * The primary visual surface, replacing static subtitles.
+ * TranscriptView — SRT-style subtitle display for the AI's narration.
+ * Shows only the last 2-3 sentences at a time. Older sentences fade out.
  */
 export function TranscriptView({ chunks, band, isActive, chapterId }: TranscriptViewProps) {
-  // Determine if we are in a resting state (no chunks)
   const isResting = chunks.length === 0;
 
-  // Process chunks into sentences.
-  // We assume words are separated by spaces, and sentences end with a final chunk.
-  // We'll group them into sentences based on the `isFinal` flag.
+  // Split all chunk text into real sentences using punctuation
   const sentences = useMemo(() => {
-    const result: string[][] = [];
-    let currentSentence: string[] = [];
+    const fullText = chunks.map(c => c.text.trim()).filter(Boolean).join(' ');
+    if (!fullText) return [];
 
-    for (const chunk of chunks) {
-      // Split chunk text into words, filter out empty strings
-      const words = chunk.text.trim().split(/\s+/).filter(Boolean);
-      currentSentence.push(...words);
+    // Split on sentence-ending punctuation, keeping the punctuation attached
+    const raw = fullText.match(/[^.!?]+[.!?]+[\s]*/g);
+    if (!raw) return [fullText.trim()];
 
-      if (chunk.isFinal) {
-        result.push([...currentSentence]);
-        currentSentence = [];
-      }
-    }
-
-    // Add any remaining words that haven't been finalized yet
-    if (currentSentence.length > 0) {
-      result.push(currentSentence);
-    }
-
-    return result;
+    return raw.map(s => s.trim()).filter(Boolean);
   }, [chunks]);
 
-  const isBand23 = band >= 2 && band <= 3;
-  const isBand45 = band >= 4 && band <= 5;
+  const maxVisible = band <= 3 ? 2 : 3;
 
   return (
     <div className="relative w-full h-full flex items-center justify-center bg-background overflow-hidden px-4 md:px-8">
@@ -56,67 +40,16 @@ export function TranscriptView({ chunks, band, isActive, chapterId }: Transcript
       <div className="w-full max-w-[720px] relative z-0">
         <AnimatePresence mode="wait">
           {isResting ? (
-            <motion.div
-              key="resting"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-center space-y-4"
-            >
-              <motion.h1
-                animate={{ scale: [1, 1.02, 1] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="text-4xl md:text-5xl font-display font-bold text-foreground/40 tracking-tight"
-              >
-                {/* Fallback to display formatted chapterId if no explicit title is provided here, e.g. "ch01" -> "Chapter 01" */}
-                {chapterId.replace(/^ch/, 'Chapter ')}
-              </motion.h1>
-              <div className="flex flex-col items-center gap-2">
-                {isActive ? (
-                  <>
-                    <div className="flex space-x-1 mb-2">
-                      {[0, 1, 2].map((i) => (
-                        <motion.div
-                          key={i}
-                          className="w-2 h-2 bg-muted-foreground rounded-full"
-                          animate={{ y: [0, -6, 0] }}
-                          transition={{
-                            duration: 0.6,
-                            repeat: Infinity,
-                            delay: i * 0.15,
-                          }}
-                        />
-                      ))}
-                    </div>
-                    <p className="text-lg text-muted-foreground">
-                      Your teacher is preparing...
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-lg text-muted-foreground">
-                    Waiting for your teacher...
-                  </p>
-                )}
-              </div>
-            </motion.div>
+            <RestingState chapterId={chapterId} isActive={isActive} />
           ) : (
             <motion.div
               key="active"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col space-y-6"
+              className="flex flex-col items-center justify-center space-y-4"
             >
-              {isBand23 && (
-                <Band23Layout sentences={sentences} />
-              )}
-              {isBand45 && (
-                <Band45Layout sentences={sentences} />
-              )}
-              {!isBand23 && !isBand45 && (
-                <Band23Layout sentences={sentences} />
-              )}
+              <SubtitleDisplay sentences={sentences} maxVisible={maxVisible} band={band} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -125,55 +58,37 @@ export function TranscriptView({ chunks, band, isActive, chapterId }: Transcript
   );
 }
 
-// Layout for Band 2-3 (Ages 8-12)
-// - Font: system serif at 2rem (32px) / line-height: 1.8
-// - Max 6-8 words visible at once (larger chunks, fewer on screen) -> we can just show current sentence but maybe truncate to last N words? Actually the prompt says "Each new sentence replaces the previous". So we just show the LAST sentence.
-function Band23Layout({ sentences }: { sentences: string[][] }) {
+/** SRT-style subtitle display — shows last N sentences, older ones fade */
+function SubtitleDisplay({ sentences, maxVisible, band }: { sentences: string[]; maxVisible: number; band: number }) {
   if (sentences.length === 0) return null;
 
-  // Show only the very last sentence
-  const currentSentence = sentences[sentences.length - 1];
+  const visible = sentences.slice(-maxVisible);
+  const startIndex = Math.max(0, sentences.length - maxVisible);
+
+  const fontSize = band <= 3 ? 'text-[1.75rem] md:text-[2rem]' : 'text-[1.25rem] md:text-[1.5rem]';
+  const leading = band <= 3 ? 'leading-[1.7]' : 'leading-[1.6]';
 
   return (
-    <div className="text-[2rem] leading-[1.8] font-display font-medium text-foreground text-center">
-      <AnimatedSentence words={currentSentence} stagger={0.08} duration={0.15} />
-    </div>
-  );
-}
-
-// Layout for Band 4-5 (Ages 13+)
-// - Font: system serif at 1.5rem (24px) / line-height: 1.6
-// - Up to 3 sentences visible (most recent on top or bottom? Prompt says "Up to 3 sentences visible (most recent on top)"). Wait, standard reading is top-to-bottom. If most recent is on top, they read upwards? Let's just render them as blocks. The prompt specifically requested "Up to 3 sentences visible (most recent on top)" or maybe it meant recent at the bottom. Let's stack them.
-// Wait, prompt: "Up to 3 sentences visible (most recent on top)". Let's follow that. Actually, standard chat usually puts recent on bottom. But if it says "most recent on top", we'll reverse the last 3.
-function Band45Layout({ sentences }: { sentences: string[][] }) {
-  if (sentences.length === 0) return null;
-
-  // Get up to 3 most recent sentences
-  const recentSentences = sentences.slice(-3).reverse(); // reversing to put most recent on top
-
-  return (
-    <div className="flex flex-col space-y-6">
-      <AnimatePresence>
-        {recentSentences.map((words, index) => {
-          // index 0 is the most recent (since we reversed)
-          const isMostRecent = index === 0;
+    <div className="flex flex-col space-y-3">
+      <AnimatePresence mode="popLayout">
+        {visible.map((sentence, i) => {
+          const absoluteIndex = startIndex + i;
+          const isNewest = i === visible.length - 1;
 
           return (
-            <motion.div
-              key={sentences.length - 1 - index} // use absolute index as key
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: isMostRecent ? 1 : 0.4, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="text-[1.5rem] leading-[1.6] font-display font-medium text-center"
+            <motion.p
+              key={absoluteIndex}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{
+                opacity: isNewest ? 1 : 0.35,
+                y: 0,
+              }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className={`${fontSize} ${leading} font-display font-medium text-center text-foreground`}
             >
-              <AnimatedSentence
-                words={words}
-                stagger={isMostRecent ? 0.08 : 0} // Only stagger the most recent one
-                duration={0.15}
-                className={isMostRecent ? "text-foreground" : "text-foreground"}
-              />
-            </motion.div>
+              {sentence}
+            </motion.p>
           );
         })}
       </AnimatePresence>
@@ -181,24 +96,51 @@ function Band45Layout({ sentences }: { sentences: string[][] }) {
   );
 }
 
-function AnimatedSentence({ words, stagger, duration, className = "" }: { words: string[], stagger: number, duration: number, className?: string }) {
+/** Resting state — chapter title + waiting indicator */
+function RestingState({ chapterId, isActive }: { chapterId: string; isActive: boolean }) {
   return (
-    <span className={className}>
-      {words.map((word, i) => (
-        <motion.span
-          key={`${i}-${word}`}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: duration,
-            delay: i * stagger,
-            ease: "easeOut"
-          }}
-          className="inline-block mr-[0.3em]"
-        >
-          {word}
-        </motion.span>
-      ))}
-    </span>
+    <motion.div
+      key="resting"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="text-center space-y-4"
+    >
+      <motion.h1
+        animate={{ scale: [1, 1.02, 1] }}
+        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+        className="text-4xl md:text-5xl font-display font-bold text-foreground/40 tracking-tight"
+      >
+        {chapterId.replace(/^ch/, 'Chapter ')}
+      </motion.h1>
+      <div className="flex flex-col items-center gap-2">
+        {isActive ? (
+          <>
+            <div className="flex space-x-1 mb-2">
+              {[0, 1, 2].map((i) => (
+                <motion.div
+                  key={i}
+                  className="w-2 h-2 bg-muted-foreground rounded-full"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{
+                    duration: 0.6,
+                    repeat: Infinity,
+                    delay: i * 0.15,
+                  }}
+                />
+              ))}
+            </div>
+            <p className="text-lg text-muted-foreground">
+              Your teacher is preparing...
+            </p>
+          </>
+        ) : (
+          <p className="text-lg text-muted-foreground">
+            Waiting for your teacher...
+          </p>
+        )}
+      </div>
+    </motion.div>
   );
 }
