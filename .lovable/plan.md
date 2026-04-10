@@ -1,89 +1,76 @@
 
 
-# Audit & Fix Plan — All Phases Complete, Two Live Issues
+# Fix Plan: No Audio + Instant Lesson End
 
-## Phase Audit Summary
+## Root Cause (Confirmed)
 
-| Phase | Name | Status | Verdict |
-|-------|------|--------|---------|
-| 1 | Isolation Tests | ✅ Complete | All 3 tests pass. Results documented. |
-| 2 | Beat Data Schema | ✅ Complete | `beat-schema.md` exists with schema definition. `ch01_s01.json` authored. |
-| 3 | Beat Sequencer (Agent) | ✅ Complete | `beatSequencer.ts`, `content.ts`, `tts.ts`, `contentFetcher.ts`, `historySessionController.ts`, `liveHandler.ts` all implemented. `historyExplainerSession.ts` wired to sequencer. Agent builds and deploys. |
-| 4 | Live Q&A Handler | ✅ Complete | `liveHandler.ts` exists, `raise_hand` flow wired in session, `HistorySessionController` manages state. |
-| 5 | Content Pipeline | Partial | `contentFetcher.ts` reads local files; Worker API endpoint not yet built. |
-| 6 | Frontend Integration | Partial | SessionCanvas works but has two active bugs (see below). |
+There are **two compounding failures** causing the 2-second lesson:
 
-**Correction needed:** Root `ROADMAP.md` says Phase 4 is "Next" but Phase 4 code is already implemented. The status table is stale.
+1. **Missing `GOOGLE_TTS_KEY` secret in Cloud Run deployment.** The `cloudbuild.yaml` only injects `GEMINI_API_KEY` and `AGENT_SERVICE_KEY`. The TTS service logs `GOOGLE_TTS_KEY is missing` on startup and returns `null` for every call. The sequencer converts this to `''` (empty string).
 
----
+2. **No dwell time for beats without audio.** When `audioData` is empty, the frontend's `playAudioChunk` returns instantly (thanks to the guard we added). All 4 beats fire in rapid succession (~200ms total), then `lesson_complete` arrives, the queue drains, and the session ends.
 
-## Two Active Bugs
+The narrator model (`gemini-3-flash-preview`) is confirmed valid and working -- the text IS being generated and sent. You just never see it because the beats fly by with no audio pacing.
 
-### Bug 1: Build Error — Missing `RecordedEvent` type (BLOCKS BUILD)
+## Solution: Replace Google Cloud TTS with Gemini TTS
 
-`src/lib/session/types.ts` line 77 references `RecordedEvent` but it is never defined. `useRecorder.ts` imports it.
+Instead of fixing the `GOOGLE_TTS_KEY` issue (which requires a separate Google Cloud API, a separate billing account, and a separate secret), we will **replace `tts.ts` entirely** with Gemini's own TTS model (`gemini-2.5-flash-preview-tts`). This uses the **same `GEMINI_API_KEY`** you already have deployed -- no new secrets needed.
 
-**Fix:** Add the interface to `types.ts` before the `GoldenScript` interface:
+Benefits:
+- Eliminates the `GOOGLE_TTS_KEY` dependency entirely
+- Higher quality voices (30 options including warm narrator voices like `Sulafat`, `Charon`, `Orus`)
+- Uses the same API key already deployed to Cloud Run
+- Returns base64 PCM audio at 24kHz -- exactly what the frontend already expects
 
-```typescript
-export interface RecordedEvent {
-  timestamp: number;
-  message: AgentMessage;
+## Changes
+
+### 1. Rewrite `agent/src/tts.ts` -- Use Gemini TTS
+Replace the Google Cloud TTS service with `gemini-2.5-flash-preview-tts`:
+
+```text
+- Model: gemini-2.5-flash-preview-tts
+- Endpoint: v1beta REST generateContent
+- Voice: Sulafat (warm) or Charon (informative)
+- Output: base64 PCM 24kHz mono (same as current frontend expects)
+- Auth: GEMINI_API_KEY (already deployed)
+```
+
+The REST call shape (from official docs):
+```
+POST /v1beta/models/gemini-2.5-flash-preview-tts:generateContent
+{
+  contents: [{ parts: [{ text: "Narrate: ..." }] }],
+  generationConfig: {
+    responseModalities: ["AUDIO"],
+    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Charon" } } }
+  }
 }
 ```
 
-### Bug 2: Empty PCM Audio Chunks (Console errors, no audio playback)
+Response: `candidates[0].content.parts[0].inlineData.data` = base64 PCM.
 
-The agent sends `beat_payload` messages with `audioData` as base64. When the TTS service fails or returns empty data, `audioData` is an empty string `''`. The `playAudioChunk` function decodes `atob('')` which produces 0 bytes, passes the `bytes.length < 2` guard (0 < 2 is true), and correctly returns early with a warning — **but the error logs show it reaching `createBuffer` with 0 frames**, meaning the guard is not catching all cases.
+### 2. Add beat dwell time in `agent/src/beatSequencer.ts`
+Even with TTS working, add a safety net: if `audioBase64` is empty after synthesis, compute a minimum dwell time from text length (~150 WPM reading pace) and `await sleep(dwellMs)` before sending the beat payload. This prevents the instant-drain scenario if TTS ever fails again.
 
-Looking at the code path: the beat queue processor at line 451 calls `playAudioChunk(currentBeat.audioData)`. But there's also the legacy `msg.type === 'audio'` handler at line 265 which calls `playAudioChunk(msg.data)`. The agent may be sending both `beat_payload` AND separate `audio` messages, or the `audioData` field contains a base64 string that decodes to an odd number of bytes (1 byte = 0 samples after `Math.floor(1/2)`).
+### 3. Add browser `speechSynthesis` fallback in `src/lib/session/useSession.ts`
+If `audioData` is empty in a `beat_payload`, use the browser's built-in `speechSynthesis.speak()` as a last-resort fallback. The `playAudioChunk` promise resolves when the utterance ends, keeping beat pacing intact.
 
-**Fix:** Add an early return at the top of `playAudioChunk` for empty/whitespace strings:
+### 4. Remove `GOOGLE_TTS_KEY` references
+- Remove the warning in the old `tts.ts` constructor
+- Remove from `cloudbuild.yaml` (it was never there, but clean up any docs referencing it)
 
-```typescript
-const playAudioChunk = useCallback(async (base64Audio: string) => {
-    if (!base64Audio || base64Audio.trim().length === 0) {
-        return Promise.resolve();
-    }
-    // ... rest of function
+### 5. Update `.antigravity/` documentation
+- `ISSUES.md`: Add Issue 61 (Gemini TTS migration), resolve Issue 58
+- `CHANGELOG.md`: Log the TTS provider switch
+- `ROADMAP.md`: Update Phase 6 status
+
+## After Implementation
+
+You will need to **redeploy the agent** to Cloud Run:
+```bash
+cd agent
+gcloud builds submit --config=cloudbuild.yaml --project=learn-live-488609
 ```
 
----
-
-## `.antigravity/` File Updates Needed
-
-### 1. `ROADMAP.md` (canonical)
-- Update "Last updated" to 2026-04-09
-- Mark Phases 4 as complete (code exists and is wired)
-- Mark Phase 5 as "Partial — local file loading works, Worker API not built"
-- Mark Phase 6 as "In Progress — two bugs to fix"
-
-### 2. Root `ROADMAP.md`
-- Update Phase 4 row to "✅ Complete"
-- Update Phase 6 row to "In Progress"
-
-### 3. `ISSUES.md`
-- Update "Last updated" to 2026-04-09
-- Mark Issue 52 as **Resolved** (Beat Sequencer replaces Live narration)
-- Mark Issue 53 as **Resolved** (no more `outputAudioTranscription` parsing)
-- Add **Issue 57**: `RecordedEvent` type missing from `types.ts` — build-breaking
-- Add **Issue 58**: Empty PCM audio chunks cause `createBuffer(0)` errors — `playAudioChunk` needs empty-string guard
-- Add **Issue 59**: Session shows "Session Ended" prematurely with lesson text cut off — likely the lesson_complete message arrives before all beats are processed, or the beat queue drains before audio finishes
-
-### 4. `CHANGELOG.md`
-- Add entry for April 9: Phase 3-4 implementation complete, Beat Sequencer deployed, two frontend bugs identified
-
-### 5. `PROMPTS.md`
-- Add Phase 6 bug-fix prompts for Issues 57-59
-
----
-
-## Implementation Steps
-
-1. **Add `RecordedEvent` interface** to `src/lib/session/types.ts` — fixes build error
-2. **Add empty-string guard** to `playAudioChunk` in `src/lib/session/useSession.ts` — fixes audio errors
-3. **Update `.antigravity/ROADMAP.md`** — mark phases 1-4 complete, 5 partial, 6 in progress
-4. **Update root `ROADMAP.md`** — sync phase table
-5. **Update `.antigravity/ISSUES.md`** — resolve 52-53, add 57-59
-6. **Update `.antigravity/CHANGELOG.md`** — add April 9 entry
+No new secrets are required -- the existing `GEMINI_API_KEY` powers both narration and TTS.
 
