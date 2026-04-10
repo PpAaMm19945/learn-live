@@ -79,6 +79,14 @@ export class BeatSequencer {
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
         const audioBase64 = await this.tts.synthesize(narratedText) || '';
 
+        // Dwell time safety net: if no audio, wait based on reading pace (~150 WPM)
+        if (!audioBase64) {
+            const wordCount = narratedText.split(/\s+/).length;
+            const dwellMs = Math.max(3000, (wordCount / 150) * 60 * 1000);
+            console.log(`[SEQUENCER] No audio for beat ${beat.beatId}. Dwelling ${Math.round(dwellMs / 1000)}s for ${wordCount} words.`);
+            await new Promise(resolve => setTimeout(resolve, dwellMs));
+        }
+
         const payload = {
             type: 'beat_payload',
             beatId: beat.beatId,

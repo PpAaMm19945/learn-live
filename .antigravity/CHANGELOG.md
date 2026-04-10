@@ -111,3 +111,11 @@
 - **Model upgrade (Issue 60)**: `GenAINarrator` → `gemini-3-flash-preview`, `GeminiSession` Live → `gemini-3.1-flash-live-preview`
 - Full phase audit: Phases 1–4 verified complete, Phase 5 partial, Phase 6 in progress
 - **Action required:** Redeploy agent to Cloud Run
+
+## 2026-04-10 — Phase 6B: TTS Provider Migration & Pacing Hardening
+- **TTS pivot (Issue 61)**: Replaced Google Cloud TTS (`GOOGLE_TTS_KEY`) with Gemini TTS (`gemini-2.5-flash-preview-tts`) — uses existing `GEMINI_API_KEY`, no new secrets
+- Voice: `Charon` (warm informative narrator)
+- Beat Sequencer dwell time: if TTS fails, agent waits ~150 WPM reading pace before advancing
+- Frontend fallback: browser `speechSynthesis` speaks beat text if server audio is empty
+- Frontend dwell time: if no speech synthesis available, text dwells on screen proportional to word count
+- **Action required:** Redeploy agent to Cloud Run

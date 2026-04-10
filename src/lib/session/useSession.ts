@@ -450,15 +450,32 @@ export function useSession({
       ]);
       setThinkingText('');
       
-      // 3. Play Audio and block until promise resolves
+      // 3. Play Audio (or browser speechSynthesis fallback) and block until done
       setBeatState('PLAYING_AUDIO');
-      playAudioChunk(currentBeat.audioData).then(() => {
-         // Audio finished, beat boundary completes, ready for next
-         setBeatState('IDLE'); 
-      }).catch(err => {
-         Logger.error('[WS]', 'Audio play failed in beat queue', err);
-         setBeatState('IDLE'); // Recover state
-      });
+
+      const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
+
+      if (hasAudio) {
+        playAudioChunk(currentBeat.audioData).then(() => {
+          setBeatState('IDLE');
+        }).catch(err => {
+          Logger.error('[WS]', 'Audio play failed in beat queue', err);
+          setBeatState('IDLE');
+        });
+      } else if (window.speechSynthesis && currentBeat.text) {
+        // Browser TTS fallback — keeps pacing even without server audio
+        const utterance = new SpeechSynthesisUtterance(currentBeat.text);
+        utterance.rate = 0.95;
+        utterance.onend = () => setBeatState('IDLE');
+        utterance.onerror = () => setBeatState('IDLE');
+        window.speechSynthesis.speak(utterance);
+      } else {
+        // No audio at all — dwell based on text length (~150 WPM)
+        const words = (currentBeat.text || '').split(/\s+/).length;
+        const dwellMs = Math.max(3000, (words / 150) * 60 * 1000);
+        Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);
+        setTimeout(() => setBeatState('IDLE'), dwellMs);
+      }
     }
   }, [beatState, beatQueue, playAudioChunk]);
   
