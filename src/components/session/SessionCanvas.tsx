@@ -11,6 +11,7 @@ import { useGoldenScript } from '@/lib/session/useGoldenScript';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
+import { ImageScene } from './ImageScene';
 
 interface SessionCanvasProps {
   chapterId: string;
