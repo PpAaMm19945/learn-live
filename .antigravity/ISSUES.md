@@ -28,63 +28,76 @@
 | 50 | TeachingCanvas Not Integrated into SessionCanvas | Resolved in Phase 21 | 21 |
 | 51 | StorybookPlayer Images Assume Landscape Layout | Resolved in Phase 24A | 24A |
 | 52 | Gemini Live API Cannot Serve as Lesson Narrator | Beat Sequencer architecture replaces Live narration | Phase 3 |
-| 53 | Thinking Text Mixed with Transcript | Eliminated — Beat Sequencer uses `generateContent` (clean text), no `outputAudioTranscription` parsing | Phase 3 |
-| 57 | `RecordedEvent` type missing from `types.ts` | Added interface to `types.ts` | Phase 6 |
-| 58 | Empty PCM audio chunks cause `createBuffer(0)` errors | Added empty-string guard in `playAudioChunk` | Phase 6 |
+| 53 | Thinking Text Mixed with Transcript | Eliminated — Beat Sequencer uses `generateContent` (clean text) | Phase 3 |
+| 54 | Transcript / Audio Synchronization Drift | Moved transcript append to AFTER audio playback begins | Phase 6 |
+| 55 | Transcript Not Scrollable | SRT-style subtitle paradigm (2-3 sentence window) | Phase 6 |
+| 57 | `RecordedEvent` type missing from `types.ts` | Added interface | Phase 6 |
+| 58 | Empty PCM audio chunks cause `createBuffer(0)` errors | Added empty-string guard | Phase 6 |
+| 59 | Session Shows "Session Ended" Prematurely | Upgraded Gemini model + pending completion queue | Phase 6 |
+| 60 | Gemini Model Upgrade — 2.x → 3.x | `gemini-3-flash-preview` + `gemini-3.1-flash-live-preview` | Phase 6 |
+| 61 | No Audio — Google Cloud TTS Key Missing | Replaced with Gemini TTS + dwell-time fallback | Phase 6 |
+| 62 | Visual Tool Calls Not Rendering | `ImageScene` component + beat `sceneMode` field | Phase 6C |
+| 63 | Beat Continuity Broken — Fresh Greeting Each Beat | Anti-greeting prompt with beat context | Phase 6C |
+| 64 | Lesson Ending / Apparent Restart After Completion | `statusRef.current = 'ended'` immediately on `lesson_complete` | Phase 6C |
 
 ---
 
 ## Open Issues
 
-### 54. Transcript / Audio Synchronization Drift
-- **Status:** RESOLVED
-- **Description:** Text appeared instantly when beat_payload arrived, before audio started. Learner saw text 30-60s ahead of narration.
-- **Fix:** Moved transcript append to AFTER audio playback begins. Text now syncs with what the teacher is saying.
+### 65. Tool Call Text Leaking Into Transcript
+- **Status:** OPEN — HIGH
+- **Description:** Screenshot shows "dismiss_overlay() set_scene("transcript")" appearing as literal text in the student transcript. When the Gemini narrator succeeds, it sometimes includes tool call syntax in its narration output because the system prompt mentions tool names.
+- **Evidence:** Screenshot image-116.png — tool call names visible in transcript overlay text.
+- **Fix (agent):** Strip tool-call patterns (`set_scene(...)`, `dismiss_overlay()`, etc.) from narrated text before sending to frontend. Add explicit prompt instruction: "Never output tool call names in your narration."
+- **Fix (frontend):** Add a client-side regex filter to strip any remaining tool call text from transcript chunks.
 
-### 55. Transcript Not Scrollable
+### 66. Image Scenes Not Displaying
+- **Status:** OPEN — HIGH
+- **Description:** Beats 1-3 have `sceneMode: "image"` with storybook URLs but images never appear. Only transcript text is shown throughout the lesson.
+- **Root Cause:** Race condition in beat processor — `sceneMode` is set to `"image"` before `imageSceneUrl` is populated. The `handleAgentToolCall` intercepts `set_scene("image")` and sets `imageSceneUrl`, but React batching means the scene mode switch happens before the URL state updates.
+- **Evidence:** Screenshots image-120, image-121, image-122 — all show transcript text only, no images.
+- **Fix:** Set `imageSceneUrl` synchronously before `sceneMode` switches to `"image"`. Restructure beat processor tool call handling.
+
+### 67. Map Highlights Not Rendering
 - **Status:** OPEN — MEDIUM
-- **Description:** `TranscriptView` replaces text rather than scrolling. Long sessions have no way to review earlier content.
-- **Fix:** Phase 6 (Frontend Integration & Polish) — add scrollable transcript history.
+- **Description:** The MapLibre map appears on beat 4 but `highlight_region("mizraim")`, `highlight_region("cush")`, etc. produce no visible effect. The `zoom_to("babel")` works because it uses `NAMED_LOCATIONS` coordinates.
+- **Root Cause:** `canvas.highlightRegion(regionId)` expects GeoJSON polygon layers for each named region. No GeoJSON data exists for ancient regions like "mizraim", "cush", "phut", "canaan".
+- **Evidence:** Screenshot image-117 — dark map with no highlighted regions.
+- **Fix:** Either load GeoJSON polygons for ancient regions, or implement fallback marker-based highlighting using `NAMED_LOCATIONS` coordinates with labeled circles/markers.
 
-### 56. No Microphone for Band 2
-- **Status:** OPEN — LOW (by design)
-- **Description:** Band 2 learners are listen-only. Correct for Beat Sequencer model.
+### 68. Gemini Narrator 503 — No Retry Logic
+- **Status:** OPEN — HIGH
+- **Description:** Gemini REST API returns 503 "high demand" errors frequently. `GenAINarrator.narrate()` returns null on first failure, falling back to raw curriculum text with no retry.
+- **Evidence:** Agent logs show 503 errors on beats 1, 2 of multiple sessions. Raw text fallback loses age-band adaptation.
+- **Impact:** Raw curriculum text used instead of age-adapted narration. Continuity prompt (anti-greeting rules) is bypassed.
+- **Fix (agent):** Add exponential backoff retry (3 attempts, 2s/4s/8s) for 503 errors in `GenAINarrator`.
 
-### 62. Visual Tool Calls Not Rendering
-- **Status:** RESOLVED
-- **Description:** Image scene was a placeholder `<p>Image scene</p>`. Beat JSON had 3/4 beats as transcript-only (inverted 80/20 ratio).
-- **Fix:** Implemented `ImageScene` component for full-bleed image display. Updated beat JSON: beats 1-3 now show storybook illustrations, beat 4 uses interactive map. Beat `sceneMode` field now drives scene switching automatically.
+### 69. Raise Hand / Q&A Silently Fails
+- **Status:** OPEN — MEDIUM
+- **Description:** When student raises hand, the agent pauses the lesson and starts a Gemini Live session for Q&A. If the Live API fails (503, connection error, or timeout), the Q&A session silently ends via `stopQA()` after the 10-second silence timeout. No error is shown to the student. The lesson continues on the next beat.
+- **Evidence:** User report: "It just listens... after a few moments, the lesson just continued."
+- **Fix (agent):** Send `{ type: 'qa_error', message: '...' }` to client when Q&A fails to start. Frontend should show a toast notification.
 
-### 63. Beat Continuity Broken — Fresh Greeting / Recap Each Beat
-- **Status:** RESOLVED
-- **Description:** Narrator greeted and recapped on every beat as if starting a new lesson.
-- **Fix:** Rewrote narrator prompt with beat index/total context, previous beat text, and hard anti-greeting rules: "Do NOT greet, welcome, introduce yourself, or recap."
+### 70. No End-of-Lesson Quiz or Summary
+- **Status:** OPEN — LOW (Feature Request)
+- **Description:** Lesson ends abruptly with "Session Ended" screen. No quiz, recap, or "Think It Through" questions are presented, despite `thinkItThrough` data existing in the section manifest.
+- **Fix:** After `lesson_complete`, display the `thinkItThrough` questions from the manifest before showing the ended screen.
 
-### 64. Lesson Ending Broken / Apparent Restart After Completion
-- **Status:** RESOLVED
-- **Description:** `lesson_complete` fired but `statusRef` wasn't set immediately, allowing `onclose` to trigger reconnection → new lesson.
-- **Fix:** Set `statusRef.current = 'ended'` immediately when `lesson_complete` is received, blocking all reconnect attempts.
+### 71. Long Pauses Between Beats
+- **Status:** OPEN — MEDIUM
+- **Description:** Each beat is processed sequentially: narrate (Gemini REST, 2-30s) → TTS (10-20s) → send → wait 800ms → next beat. Total processing time per beat: 15-60 seconds. Student hears silence during processing.
+- **Evidence:** Agent logs show 30-60s gaps between beats. User report: "the pauses are long."
+- **Fix (agent):** Pre-process the next beat while current beat audio is playing. Pipeline architecture.
 
-### 59. Session Shows "Session Ended" Prematurely
-- **Status:** RESOLVED
-- **Description:** Lesson text appeared cut off; the canvas showed "Session Ended" before all beats were displayed. Root cause: `GenAINarrator` used deprecated model `gemini-2.0-flash-exp` which returned 404 on every `generateContent` call, causing the sequencer to produce no narration and immediately signal `lesson_complete`.
-- **Fix:** Upgraded `GenAINarrator` model to `gemini-3-flash-preview` and `GeminiSession` Live model to `gemini-3.1-flash-live-preview`. Requires agent redeploy.
-
-### 60. Gemini Model Upgrade — 2.x → 3.x
-- **Status:** RESOLVED
-- **Description:** Both AI models were outdated. `gemini-2.0-flash-exp` (REST narration) returned 404. `gemini-2.5-flash-native-audio-latest` (Live Q&A) was functional but superseded.
-- **Fix:** `GenAINarrator` → `gemini-3-flash-preview`, `GeminiSession` → `gemini-3.1-flash-live-preview`. Both use `v1beta` endpoint.
-
-### 61. No Audio — Google Cloud TTS Key Missing
-- **Status:** RESOLVED
-- **Description:** `GOOGLE_TTS_KEY` was never added to Cloud Run secrets. TTS returned null for every call, causing beats to fire instantly with no pacing, leading to premature lesson end.
-- **Fix:** Replaced Google Cloud TTS entirely with Gemini TTS (`gemini-2.5-flash-preview-tts`) using existing `GEMINI_API_KEY`. Added dwell-time safety net in both agent (beat sequencer) and frontend (browser `speechSynthesis` fallback + text dwell).
+### 72. Need Agent Debug Drawer
+- **Status:** OPEN — MEDIUM (DX)
+- **Description:** No way to observe agent state, tool calls, beat progress, or errors from the frontend during a session. Makes debugging extremely difficult.
+- **Fix (frontend):** Add a collapsible debug drawer that streams and displays agent messages (tool_call, beat_payload metadata, errors, connection state).
 
 ---
 
 ## Notes
-- Issues 52–53 are the architectural diagnosis that triggered the Beat Sequencer pivot. Now resolved.
-- Issues 47–51 are now resolved but the underlying architecture was wrong — working connections to a broken narration model.
-- Issue 54 is now a user-visible transcript/audio truthfulness problem, not merely a silent-audio problem.
-- Issues 62–64 were captured from a full real-user lesson run after audio was restored; these are the current Phase 6 blockers.
-- Issues 57–58 were build/runtime bugs fixed in Phase 6.
+- Issues 65-69 are the current Phase 7 blockers.
+- Issues 68, 69, 71 require agent redeployment.
+- Issues 65 (partial), 66, 67, 72 can be fixed frontend-only.
+- Issue 70 is a feature request, not a bug.
