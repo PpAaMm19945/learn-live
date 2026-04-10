@@ -1,76 +1,86 @@
 
 
-# Fix Plan: No Audio + Instant Lesson End
+# Plan: Wire the Debug Drawer as a Live Agent Activity Feed
 
-## Root Cause (Confirmed)
+## What You Asked For
+A real-time, timestamped activity log that shows exactly what the agent is doing, when, and how -- similar to Lovable's own activity feed where you can see file reads, writes, and tool calls streaming in. This will let you diagnose every issue (map highlights, image scenes, transcript timing, raise hand) by seeing the raw event flow instead of guessing.
 
-There are **two compounding failures** causing the 2-second lesson:
+## Current State
+- `DebugDrawer.tsx` exists with full UI (categories, badges, timestamps, auto-scroll)
+- `createDebugEvent()` helper exists
+- `SessionCanvas.tsx` has `debugEvents` state and an `addDebug()` helper
+- **Problem**: Only tool calls are logged via `handleAgentToolCall`. Nothing else feeds into the drawer -- no beat arrivals, no audio playback events, no connection state changes, no scene transitions, no errors.
 
-1. **Missing `GOOGLE_TTS_KEY` secret in Cloud Run deployment.** The `cloudbuild.yaml` only injects `GEMINI_API_KEY` and `AGENT_SERVICE_KEY`. The TTS service logs `GOOGLE_TTS_KEY is missing` on startup and returns `null` for every call. The sequencer converts this to `''` (empty string).
+## What Gets Wired (Frontend-Only, No Agent Redeploy)
 
-2. **No dwell time for beats without audio.** When `audioData` is empty, the frontend's `playAudioChunk` returns instantly (thanks to the guard we added). All 4 beats fire in rapid succession (~200ms total), then `lesson_complete` arrives, the queue drains, and the session ends.
+### Step 1: Instrument `useSession.ts` to emit debug events
 
-The narrator model (`gemini-3-flash-preview`) is confirmed valid and working -- the text IS being generated and sent. You just never see it because the beats fly by with no audio pacing.
+Add an `onDebug` callback parameter to `useSession` (same pattern as `onToolCall`). Fire it at every significant moment:
 
-## Solution: Replace Google Cloud TTS with Gemini TTS
+| Event | Category | Example Label |
+|-------|----------|--------------|
+| WebSocket connected | `connection` | `Connected to agent` |
+| WebSocket disconnected | `connection` | `Disconnected (code=1007)` |
+| Reconnect attempt | `connection` | `Reconnect 2/3 in 4s` |
+| Beat payload received | `beat` | `Beat ch01_s01_b02 queued (3 tools)` |
+| Beat processing started | `beat` | `Processing beat: The Fracture of Creation` |
+| Tool calls fired | `tool_call` | `set_scene("image", imageUrl=...)` |
+| Scene mode changed | `scene` | `Scene: transcript → image` |
+| Audio playback started | `audio` | `Playing audio (24000 samples)` |
+| Audio playback ended | `audio` | `Audio complete, beat IDLE` |
+| SpeechSynthesis fallback | `audio` | `Browser TTS fallback (142 words)` |
+| No audio dwell | `audio` | `No audio — dwelling 8s` |
+| Transcript chunk appended | `beat` | `Transcript: "In the beginning..."` (first 60 chars) |
+| QA started | `qa` | `Q&A session started` |
+| QA completed | `qa` | `Q&A session complete` |
+| Lesson complete received | `beat` | `lesson_complete received` |
+| Lesson complete applied | `beat` | `Lesson ended (queue drained)` |
+| Error from agent | `error` | `Agent error: SEQUENCER_FAILURE` |
+| Raise hand sent | `qa` | `raise_hand sent` |
+| Mute toggled | `audio` | `Microphone muted` |
 
-Instead of fixing the `GOOGLE_TTS_KEY` issue (which requires a separate Google Cloud API, a separate billing account, and a separate secret), we will **replace `tts.ts` entirely** with Gemini's own TTS model (`gemini-2.5-flash-preview-tts`). This uses the **same `GEMINI_API_KEY`** you already have deployed -- no new secrets needed.
+This is done by adding `onDebug?: (evt: DebugEvent) => void` to the hook's config, and calling it inline at each point -- no architectural change, just ~25 one-liner insertions.
 
-Benefits:
-- Eliminates the `GOOGLE_TTS_KEY` dependency entirely
-- Higher quality voices (30 options including warm narrator voices like `Sulafat`, `Charon`, `Orus`)
-- Uses the same API key already deployed to Cloud Run
-- Returns base64 PCM audio at 24kHz -- exactly what the frontend already expects
+### Step 2: Wire `SessionCanvas.tsx` to pass `addDebug` into `useSession`
 
-## Changes
+Currently `useSession` doesn't accept a debug callback. We'll add it so that `SessionCanvas` passes its existing `addDebug` function through, making every internal event flow into the drawer automatically.
 
-### 1. Rewrite `agent/src/tts.ts` -- Use Gemini TTS
-Replace the Google Cloud TTS service with `gemini-2.5-flash-preview-tts`:
+Also add debug events for:
+- `handleAgentToolCall` (already done, but enhance with more detail)
+- Scene mode transitions
+- Image URL/caption updates
+- Raise hand button pressed
 
-```text
-- Model: gemini-2.5-flash-preview-tts
-- Endpoint: v1beta REST generateContent
-- Voice: Sulafat (warm) or Charon (informative)
-- Output: base64 PCM 24kHz mono (same as current frontend expects)
-- Auth: GEMINI_API_KEY (already deployed)
-```
+### Step 3: Enhance the Debug Drawer UI slightly
 
-The REST call shape (from official docs):
-```
-POST /v1beta/models/gemini-2.5-flash-preview-tts:generateContent
-{
-  contents: [{ parts: [{ text: "Narrate: ..." }] }],
-  generationConfig: {
-    responseModalities: ["AUDIO"],
-    speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Charon" } } }
-  }
-}
-```
+- Add a **category filter row** at the top (toggleable chips for tool_call, beat, scene, audio, qa, connection, error) so you can isolate what you care about
+- Add an **event counter per category** in the filter chips
+- Make detail text **expandable on click** instead of truncated, so you can see full tool call args or full error messages
+- Add a **"Copy All"** button to export the event log as JSON for sharing
 
-Response: `candidates[0].content.parts[0].inlineData.data` = base64 PCM.
+### Step 4: Add a `debug` message type to the agent protocol (future, documented)
 
-### 2. Add beat dwell time in `agent/src/beatSequencer.ts`
-Even with TTS working, add a safety net: if `audioBase64` is empty after synthesis, compute a minimum dwell time from text length (~150 WPM reading pace) and `await sleep(dwellMs)` before sending the beat payload. This prevents the instant-drain scenario if TTS ever fails again.
+Document in `ISSUES.md` that the agent should eventually emit `{ type: 'debug', message: '...' }` for server-side events (Gemini retries, TTS progress, narrator prompt sent). For now, the frontend instrumentation covers everything the client can observe.
 
-### 3. Add browser `speechSynthesis` fallback in `src/lib/session/useSession.ts`
-If `audioData` is empty in a `beat_payload`, use the browser's built-in `speechSynthesis.speak()` as a last-resort fallback. The `playAudioChunk` promise resolves when the utterance ends, keeping beat pacing intact.
+## Files Changed
 
-### 4. Remove `GOOGLE_TTS_KEY` references
-- Remove the warning in the old `tts.ts` constructor
-- Remove from `cloudbuild.yaml` (it was never there, but clean up any docs referencing it)
+| File | Change |
+|------|--------|
+| `src/lib/session/useSession.ts` | Add `onDebug` callback, ~25 debug event emissions |
+| `src/components/session/SessionCanvas.tsx` | Pass `addDebug` into `useSession`, add raise-hand/scene debug calls |
+| `src/components/session/DebugDrawer.tsx` | Add category filter chips, expandable details, copy button |
+| `.antigravity/ISSUES.md` | Update issue 72 as RESOLVED, add note about server-side debug channel |
 
-### 5. Update `.antigravity/` documentation
-- `ISSUES.md`: Add Issue 61 (Gemini TTS migration), resolve Issue 58
-- `CHANGELOG.md`: Log the TTS provider switch
-- `ROADMAP.md`: Update Phase 6 status
+## What This Does NOT Fix
 
-## After Implementation
+This is purely observability tooling. It does not fix:
+- Map highlight rendering (Issue 67)
+- Image scene race condition (Issue 66) 
+- Beat pauses (Issue 71)
+- Raise hand failures (Issue 69)
 
-You will need to **redeploy the agent** to Cloud Run:
-```bash
-cd agent
-gcloud builds submit --config=cloudbuild.yaml --project=learn-live-488609
-```
+But it gives you the exact data to diagnose all of them. After one lesson with the drawer open, you'll know exactly which tool calls fire, when scenes switch, whether images URLs are populated, and what happens when you raise your hand.
 
-No new secrets are required -- the existing `GEMINI_API_KEY` powers both narration and TTS.
+## Estimated Scope
+~200 lines of changes across 4 files. Frontend-only, no agent redeploy needed.
 
