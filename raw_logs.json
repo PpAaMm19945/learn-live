@@ -1,0 +1,2026 @@
+[
+  {
+    "insertId": "69d8f48500042059a4d33100",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T13:00:53.277863246Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b02",
+    "timestamp": "2026-04-10T13:00:53.270425Z"
+  },
+  {
+    "insertId": "69d8f48500041ccf976c1548",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "}",
+    "timestamp": "2026-04-10T13:00:53.269519Z"
+  },
+  {
+    "insertId": "69d8f48500041ccce9cdb428",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  }",
+    "timestamp": "2026-04-10T13:00:53.269516Z"
+  },
+  {
+    "insertId": "69d8f48500041cca7a9e5874",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"status\": \"UNAVAILABLE\"",
+    "timestamp": "2026-04-10T13:00:53.269514Z"
+  },
+  {
+    "insertId": "69d8f48500041cc72504af44",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",",
+    "timestamp": "2026-04-10T13:00:53.269511Z"
+  },
+  {
+    "insertId": "69d8f48500041cc3afcab721",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"code\": 503,",
+    "timestamp": "2026-04-10T13:00:53.269507Z"
+  },
+  {
+    "insertId": "69d8f48500041cbf831b4da6",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  \"error\": {",
+    "timestamp": "2026-04-10T13:00:53.269503Z"
+  },
+  {
+    "insertId": "69d8f48500041cad3df748a0",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T13:00:53.276881780Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[NARRATOR] Gemini REST error: {",
+    "timestamp": "2026-04-10T13:00:53.269485Z"
+  },
+  {
+    "insertId": "69d8f445000adfa91c6cc111",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:49.831793391Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 2/4: The Fracture of Creation",
+    "timestamp": "2026-04-10T12:59:49.712617Z"
+  },
+  {
+    "insertId": "69d8f444000cb8b1a014f9f3",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:49.166095358Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 357 chars → 1631424 base64 chars",
+    "timestamp": "2026-04-10T12:59:48.833713Z"
+  },
+  {
+    "insertId": "69d8f44100028a90f77d5388",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:45.500696079Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 1133 chars → 3277504 base64 chars",
+    "timestamp": "2026-04-10T12:59:45.166544Z"
+  },
+  {
+    "insertId": "69d8f438000840bbc06fd1af",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:36.843744614Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b01",
+    "timestamp": "2026-04-10T12:59:36.540859Z"
+  },
+  {
+    "insertId": "69d8f43800084079277d4d85",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "}",
+    "timestamp": "2026-04-10T12:59:36.540793Z"
+  },
+  {
+    "insertId": "69d8f43800084076dc01728a",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  }",
+    "timestamp": "2026-04-10T12:59:36.540790Z"
+  },
+  {
+    "insertId": "69d8f438000840724b71a70a",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"status\": \"UNAVAILABLE\"",
+    "timestamp": "2026-04-10T12:59:36.540786Z"
+  },
+  {
+    "insertId": "69d8f4380008406ecd7a3394",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",",
+    "timestamp": "2026-04-10T12:59:36.540782Z"
+  },
+  {
+    "insertId": "69d8f43800084067bd9aeaa3",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"code\": 503,",
+    "timestamp": "2026-04-10T12:59:36.540775Z"
+  },
+  {
+    "insertId": "69d8f43800084063e16b05c9",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  \"error\": {",
+    "timestamp": "2026-04-10T12:59:36.540771Z"
+  },
+  {
+    "insertId": "69d8f4380008404bfe23bec7",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:59:36.546741297Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[NARRATOR] Gemini REST error: {",
+    "timestamp": "2026-04-10T12:59:36.540747Z"
+  },
+  {
+    "insertId": "69d8f43700069b734195906c",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 1/4: History's True Beginning",
+    "timestamp": "2026-04-10T12:59:35.433011Z"
+  },
+  {
+    "insertId": "69d8f43700069b538d0d4954",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Starting lesson: ch01 / ch01_s01 (Band 3)",
+    "timestamp": "2026-04-10T12:59:35.432979Z"
+  },
+  {
+    "insertId": "69d8f4370002e18c1310811b",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[CONTENT_FETCHER] Fetching from worker: https://learn-live.antmwes104-1.workers.dev/api/chapters/ch01/sections/s01/beats",
+    "timestamp": "2026-04-10T12:59:35.188812Z"
+  },
+  {
+    "insertId": "69d8f4370002e0f7cffb8d4f",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[HISTORY_EXPLAINER] Session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:59:35.188663Z"
+  },
+  {
+    "insertId": "69d8f4370002e0b17967c3c4",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[AGENT] History Explainer session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:59:35.188593Z"
+  },
+  {
+    "insertId": "69d8f4370002e0a1fcb737d7",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:35.511389835Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[WS] Client connected: lesson=ch01_s01 band=3",
+    "timestamp": "2026-04-10T12:59:35.188577Z"
+  },
+  {
+    "insertId": "69d8f436000cc9ab6552a654",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:34.843582296Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Stopped",
+    "timestamp": "2026-04-10T12:59:34.838059Z"
+  },
+  {
+    "insertId": "69d8f436000cc99b8daf4f4f",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:34.843582296Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[HISTORY_EXPLAINER] Session closed — learner: test-learner-band-3",
+    "timestamp": "2026-04-10T12:59:34.838043Z"
+  },
+  {
+    "insertId": "69d8f423000430383c24c1cc",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:59:15.279715182Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b01",
+    "timestamp": "2026-04-10T12:59:15.274488Z"
+  },
+  {
+    "insertId": "69d8f40400031bad22011c97",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:44.217592123Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 1/4: History's True Beginning",
+    "timestamp": "2026-04-10T12:58:44.203693Z"
+  },
+  {
+    "insertId": "69d8f40400031b9da52d6e8b",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:44.217592123Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Starting lesson: ch01 / ch01_s01 (Band 3)",
+    "timestamp": "2026-04-10T12:58:44.203677Z"
+  },
+  {
+    "insertId": "69d8f403000d6360dc62810d",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:44.217592123Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[CONTENT_FETCHER] Fetching from worker: https://learn-live.antmwes104-1.workers.dev/api/chapters/ch01/sections/s01/beats",
+    "timestamp": "2026-04-10T12:58:43.877408Z"
+  },
+  {
+    "insertId": "69d8f403000d61d01ce535a7",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:43.883393997Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[HISTORY_EXPLAINER] Session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:58:43.877008Z"
+  },
+  {
+    "insertId": "69d8f403000d61cda4c44076",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:43.883393997Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[AGENT] History Explainer session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:58:43.877005Z"
+  },
+  {
+    "insertId": "69d8f403000d61b3144be4d3",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:58:43.883393997Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[WS] Client connected: lesson=ch01_s01 band=3",
+    "timestamp": "2026-04-10T12:58:43.876979Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "50.972383s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "102.219.103.99",
+      "requestMethod": "GET",
+      "requestSize": "828",
+      "requestUrl": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app/ws/history-explainer?chapterId=ch01&sectionId=s01&lessonId=ch01_s01&family=family_e705220f-74fb-45d2-8964-3d0f3fed67d4&learner=test-learner-band-3&band=3",
+      "responseSize": "93",
+      "serverIp": "34.143.75.2",
+      "status": 101,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+    },
+    "insertId": "69d8f436000cc8e39db7bb3e",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-04-10T12:59:34.843602755Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "spanId": "681f8de9a3eb80fd",
+    "timestamp": "2026-04-10T12:58:43.854207Z",
+    "trace": "projects/learn-live-488609/traces/5f05cfe9d31d08419de5f5a55ceb1838",
+    "traceSampled": true
+  },
+  {
+    "insertId": "69d8f1fb00098897e33f83fa",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:50:03.964268634Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Stopped",
+    "timestamp": "2026-04-10T12:50:03.624791Z"
+  },
+  {
+    "insertId": "69d8f1fb0009879f6c5d5dce",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:50:03.632942226Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[HISTORY_EXPLAINER] Session closed — learner: test-learner-band-3",
+    "timestamp": "2026-04-10T12:50:03.624543Z"
+  },
+  {
+    "insertId": "69d8f1a10002314adc437519",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:48:33.347036095Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Lesson complete.",
+    "timestamp": "2026-04-10T12:48:33.143690Z"
+  },
+  {
+    "insertId": "69d8f1a10000237cc856cced",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:48:33.017679667Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 1526 chars → 5284544 base64 chars",
+    "timestamp": "2026-04-10T12:48:33.009084Z"
+  },
+  {
+    "insertId": "69d8f16e000ced44d1823d4a",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:47:42.851856566Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b04",
+    "timestamp": "2026-04-10T12:47:42.847172Z"
+  },
+  {
+    "insertId": "69d8f12f000c6976d6f352a3",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:46:39.873006614Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 4/4: Judgment and Mercy at Babel",
+    "timestamp": "2026-04-10T12:46:39.813430Z"
+  },
+  {
+    "insertId": "69d8f12e000d3cd68c20a914",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:46:38.874253539Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 1058 chars → 3548864 base64 chars",
+    "timestamp": "2026-04-10T12:46:38.867542Z"
+  },
+  {
+    "insertId": "69d8f11a0009878428758707",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:46:18.633492961Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b03",
+    "timestamp": "2026-04-10T12:46:18.624516Z"
+  },
+  {
+    "insertId": "69d8f0fe000cb81c7efc7630",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:50.969740720Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 3/4: God's Unfolding Plan",
+    "timestamp": "2026-04-10T12:45:50.833564Z"
+  },
+  {
+    "insertId": "69d8f0fd000eb9969be1de11",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:49.968949778Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 355 chars → 1546944 base64 chars",
+    "timestamp": "2026-04-10T12:45:49.965014Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf21f715fb55d",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:37.790980207Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b02",
+    "timestamp": "2026-04-10T12:45:37.782879Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1f92dd8e298",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "}",
+    "timestamp": "2026-04-10T12:45:37.782841Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1f7ae33c71c",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  }",
+    "timestamp": "2026-04-10T12:45:37.782839Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1f4e8cc2f52",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"status\": \"UNAVAILABLE\"",
+    "timestamp": "2026-04-10T12:45:37.782836Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1f13596d8cd",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",",
+    "timestamp": "2026-04-10T12:45:37.782833Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1ed0145784f",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"code\": 503,",
+    "timestamp": "2026-04-10T12:45:37.782829Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1eaa184ca55",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  \"error\": {",
+    "timestamp": "2026-04-10T12:45:37.782826Z"
+  },
+  {
+    "insertId": "69d8f0f1000bf1d7bf4103a0",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:37.791565209Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[NARRATOR] Gemini REST error: {",
+    "timestamp": "2026-04-10T12:45:37.782807Z"
+  },
+  {
+    "insertId": "69d8f0e4000458eb54dd1c93",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:24.448285743Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 2/4: The Fracture of Creation",
+    "timestamp": "2026-04-10T12:45:24.284907Z"
+  },
+  {
+    "insertId": "69d8f0e30006c3fe54e3ca30",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:23.449354589Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[TTS] Synthesized 357 chars → 1651904 base64 chars",
+    "timestamp": "2026-04-10T12:45:23.443390Z"
+  },
+  {
+    "insertId": "69d8f0d1000c58a9a1bce9bd",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "}",
+    "timestamp": "2026-04-10T12:45:05.809129Z"
+  },
+  {
+    "insertId": "69d8f0d1000c58a5e30d5967",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  }",
+    "timestamp": "2026-04-10T12:45:05.809125Z"
+  },
+  {
+    "insertId": "69d8f0d1000c58a153cdb212",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"status\": \"UNAVAILABLE\"",
+    "timestamp": "2026-04-10T12:45:05.809121Z"
+  },
+  {
+    "insertId": "69d8f0d1000c589cc4cf168c",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",",
+    "timestamp": "2026-04-10T12:45:05.809116Z"
+  },
+  {
+    "insertId": "69d8f0d1000c58964d7cb85d",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "    \"code\": 503,",
+    "timestamp": "2026-04-10T12:45:05.809110Z"
+  },
+  {
+    "insertId": "69d8f0d1000c589129e22d34",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "  \"error\": {",
+    "timestamp": "2026-04-10T12:45:05.809105Z"
+  },
+  {
+    "insertId": "69d8f0d1000c5875bba01254",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstderr",
+    "receiveTimestamp": "2026-04-10T12:45:05.815448840Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[NARRATOR] Gemini REST error: {",
+    "timestamp": "2026-04-10T12:45:05.809077Z"
+  },
+  {
+    "insertId": "69d8f0d1000c584cc703498c",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:05.963592025Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Synthesizing audio for beat: ch01_s01_b01",
+    "timestamp": "2026-04-10T12:45:05.809036Z"
+  },
+  {
+    "insertId": "69d8f0cf000336398f97dc9d",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:03.298327806Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Processing Beat 1/4: History's True Beginning",
+    "timestamp": "2026-04-10T12:45:03.210489Z"
+  },
+  {
+    "insertId": "69d8f0cf0003348caf3ef000",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:03.298327806Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[SEQUENCER] Starting lesson: ch01 / ch01_s01 (Band 3)",
+    "timestamp": "2026-04-10T12:45:03.210060Z"
+  },
+  {
+    "insertId": "69d8f0ce000997b25ff904cd",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:02.967789556Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[CONTENT_FETCHER] Fetching from worker: https://learn-live.antmwes104-1.workers.dev/api/chapters/ch01/sections/s01/beats",
+    "timestamp": "2026-04-10T12:45:02.628658Z"
+  },
+  {
+    "insertId": "69d8f0ce0009943491ed100f",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:02.967789556Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[HISTORY_EXPLAINER] Session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:45:02.627764Z"
+  },
+  {
+    "insertId": "69d8f0ce000991566ffd19c2",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:02.635739175Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[AGENT] History Explainer session initiated — learner: test-learner-band-3, lesson: ch01_s01, band: 3",
+    "timestamp": "2026-04-10T12:45:02.627030Z"
+  },
+  {
+    "insertId": "69d8f0ce00099112733d5936",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:45:02.635739175Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[WS] Client connected: lesson=ch01_s01 band=3",
+    "timestamp": "2026-04-10T12:45:02.626962Z"
+  },
+  {
+    "httpRequest": {
+      "latency": "301.001635s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "102.219.103.99",
+      "requestMethod": "GET",
+      "requestSize": "822",
+      "requestUrl": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app/ws/history-explainer?chapterId=ch01&sectionId=s01&lessonId=ch01_s01&family=family_e705220f-74fb-45d2-8964-3d0f3fed67d4&learner=test-learner-band-3&band=3",
+      "responseSize": "12037077",
+      "serverIp": "34.143.75.2",
+      "status": 101,
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36"
+    },
+    "insertId": "69d8f1fb00097bf85bc9ee34",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-04-10T12:50:03.630653738Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "spanId": "47d2d110bc9781cf",
+    "timestamp": "2026-04-10T12:45:02.609847Z",
+    "trace": "projects/learn-live-488609/traces/a957ac29053e2407a28db0f94202f114",
+    "traceSampled": true
+  },
+  {
+    "httpRequest": {
+      "latency": "0.035496167s",
+      "protocol": "HTTP/1.1",
+      "remoteIp": "0.0.0.0",
+      "requestMethod": "GET",
+      "requestSize": "277",
+      "requestUrl": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app/health",
+      "responseSize": "241",
+      "serverIp": "34.143.78.2",
+      "status": 200,
+      "userAgent": "curl/8.5.0"
+    },
+    "insertId": "69d8ef9c00051980972cc038",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Frequests",
+    "receiveTimestamp": "2026-04-10T12:39:56.341306333Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "spanId": "192b7bbb61717155",
+    "timestamp": "2026-04-10T12:39:56.292272Z",
+    "trace": "projects/learn-live-488609/traces/b8d5c1eb85178adb515ff28fdbdaf48b",
+    "traceSampled": true
+  },
+  {
+    "insertId": "-rpwj7rdk57g",
+    "logName": "projects/learn-live-488609/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/learn-live-488609/services/learnlive-agent",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Service",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Service",
+        "metadata": {
+          "annotations": {
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "564.0.0",
+            "run.googleapis.com/ingress": "all",
+            "run.googleapis.com/ingress-status": "all",
+            "run.googleapis.com/maxScale": "20",
+            "run.googleapis.com/operation-id": "c57bbeb5-8cfb-46d2-8280-1ac32c184069",
+            "run.googleapis.com/urls": "[\"https://learnlive-agent-80318907598.us-central1.run.app\",\"https://learnlive-agent-3wsr2gnwba-uc.a.run.app\"]",
+            "serving.knative.dev/creator": "80318907598-compute@developer.gserviceaccount.com",
+            "serving.knative.dev/lastModifier": "80318907598-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-03-25T13:36:55.607754Z",
+          "generation": 69,
+          "labels": {
+            "cloud.googleapis.com/location": "us-central1"
+          },
+          "name": "learnlive-agent",
+          "namespace": "80318907598",
+          "resourceVersion": "AAZPGmfmbeY",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/80318907598/services/learnlive-agent",
+          "uid": "13d681df-b3ed-462f-9c0c-0e31c007c232"
+        },
+        "spec": {
+          "template": {
+            "metadata": {
+              "annotations": {
+                "autoscaling.knative.dev/maxScale": "5",
+                "run.googleapis.com/client-name": "gcloud",
+                "run.googleapis.com/client-version": "564.0.0",
+                "run.googleapis.com/sessionAffinity": "true",
+                "run.googleapis.com/startup-cpu-boost": "true"
+              },
+              "labels": {
+                "client.knative.dev/nonce": "yleooyljim",
+                "run.googleapis.com/startupProbeType": "Default"
+              }
+            },
+            "spec": {
+              "containerConcurrency": 80,
+              "containers": [
+                {
+                  "env": [
+                    {
+                      "name": "NODE_ENV",
+                      "value": "production"
+                    },
+                    {
+                      "name": "WORKER_API_URL",
+                      "value": "https://learn-live.antmwes104-1.workers.dev"
+                    },
+                    {
+                      "name": "GEMINI_API_KEY",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "GEMINI_API_KEY"
+                        }
+                      }
+                    },
+                    {
+                      "name": "AGENT_SERVICE_KEY",
+                      "valueFrom": {
+                        "secretKeyRef": {
+                          "key": "latest",
+                          "name": "AGENT_SERVICE_KEY"
+                        }
+                      }
+                    }
+                  ],
+                  "image": "gcr.io/learn-live-488609/learnlive-agent",
+                  "ports": [
+                    {
+                      "containerPort": 8080,
+                      "name": "http1"
+                    }
+                  ],
+                  "resources": {
+                    "limits": {
+                      "cpu": "1",
+                      "memory": "512Mi"
+                    }
+                  },
+                  "startupProbe": {
+                    "failureThreshold": 1,
+                    "periodSeconds": 240,
+                    "tcpSocket": {
+                      "port": 8080
+                    },
+                    "timeoutSeconds": 240
+                  }
+                }
+              ],
+              "serviceAccountName": "80318907598-compute@developer.gserviceaccount.com",
+              "timeoutSeconds": 300
+            }
+          },
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100
+            }
+          ]
+        },
+        "status": {
+          "address": {
+            "url": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app"
+          },
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-04-10T12:38:11.162598Z",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-04-10T12:38:05.910228Z",
+              "status": "True",
+              "type": "ConfigurationsReady"
+            },
+            {
+              "lastTransitionTime": "2026-04-10T12:38:11.085917Z",
+              "status": "True",
+              "type": "RoutesReady"
+            }
+          ],
+          "latestCreatedRevisionName": "learnlive-agent-00067-qw9",
+          "latestReadyRevisionName": "learnlive-agent-00067-qw9",
+          "observedGeneration": 69,
+          "traffic": [
+            {
+              "latestRevision": true,
+              "percent": 100,
+              "revisionName": "learnlive-agent-00067-qw9"
+            }
+          ],
+          "url": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app"
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "message": "Ready condition status changed to True for Service learnlive-agent."
+      }
+    },
+    "receiveTimestamp": "2026-04-10T12:38:11.568189577Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-04-10T12:38:11.182404Z"
+  },
+  {
+    "insertId": "-6xa47pdapam",
+    "logName": "projects/learn-live-488609/logs/cloudaudit.googleapis.com%2Fsystem_event",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "methodName": "/Services.ReplaceService",
+      "resourceName": "namespaces/learn-live-488609/revisions/learnlive-agent-00067-qw9",
+      "response": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.Revision",
+        "apiVersion": "serving.knative.dev/v1",
+        "kind": "Revision",
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "5",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "564.0.0",
+            "run.googleapis.com/operation-id": "c57bbeb5-8cfb-46d2-8280-1ac32c184069",
+            "run.googleapis.com/sessionAffinity": "true",
+            "run.googleapis.com/startup-cpu-boost": "true",
+            "serving.knative.dev/creator": "80318907598-compute@developer.gserviceaccount.com"
+          },
+          "creationTimestamp": "2026-04-10T12:38:03.747680Z",
+          "generation": 1,
+          "labels": {
+            "client.knative.dev/nonce": "yleooyljim",
+            "cloud.googleapis.com/location": "us-central1",
+            "run.googleapis.com/startupProbeType": "Default",
+            "serving.knative.dev/configuration": "learnlive-agent",
+            "serving.knative.dev/configurationGeneration": "67",
+            "serving.knative.dev/route": "learnlive-agent",
+            "serving.knative.dev/service": "learnlive-agent",
+            "serving.knative.dev/serviceUid": "13d681df-b3ed-462f-9c0c-0e31c007c232"
+          },
+          "name": "learnlive-agent-00067-qw9",
+          "namespace": "80318907598",
+          "ownerReferences": [
+            {
+              "apiVersion": "serving.knative.dev/v1",
+              "blockOwnerDeletion": true,
+              "controller": true,
+              "kind": "Configuration",
+              "name": "learnlive-agent",
+              "uid": "52afd2d7-622a-4e2a-9a55-e9ee90799210"
+            }
+          ],
+          "resourceVersion": "AAZPGmfRG88",
+          "selfLink": "/apis/serving.knative.dev/v1/namespaces/80318907598/revisions/learnlive-agent-00067-qw9",
+          "uid": "109a41a3-3f80-4f8a-ad98-f4c726f1abab"
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "NODE_ENV",
+                  "value": "production"
+                },
+                {
+                  "name": "WORKER_API_URL",
+                  "value": "https://learn-live.antmwes104-1.workers.dev"
+                },
+                {
+                  "name": "GEMINI_API_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "GEMINI_API_KEY"
+                    }
+                  }
+                },
+                {
+                  "name": "AGENT_SERVICE_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "AGENT_SERVICE_KEY"
+                    }
+                  }
+                }
+              ],
+              "image": "gcr.io/learn-live-488609/learnlive-agent@sha256:b0ecdb1383e063f89ab93e2893be2e2e30704432beca01112e27d301e93dd4ae",
+              "name": "learnlive-agent-1",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1",
+                  "memory": "512Mi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "80318907598-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        },
+        "status": {
+          "conditions": [
+            {
+              "lastTransitionTime": "2026-04-10T12:38:09.765327Z",
+              "message": "Deploying revision succeeded in 6.02s.",
+              "status": "True",
+              "type": "Ready"
+            },
+            {
+              "lastTransitionTime": "2026-04-10T12:38:09.720401Z",
+              "message": "Containers became healthy.",
+              "status": "True",
+              "type": "ContainerHealthy"
+            },
+            {
+              "lastTransitionTime": "2026-04-10T12:38:05.804437Z",
+              "message": "Container image import completed in 1.28s.",
+              "status": "True",
+              "type": "ContainerReady"
+            },
+            {
+              "lastTransitionTime": "2026-04-10T12:38:08.406203Z",
+              "message": "Provisioning imported containers completed in 2.6s. Checking container health. This will wait for up to 4m for the configured startup probe, including an initial delay of 0s.",
+              "status": "True",
+              "type": "ResourcesAvailable"
+            }
+          ],
+          "containerStatuses": [
+            {
+              "imageDigest": "gcr.io/learn-live-488609/learnlive-agent@sha256:b0ecdb1383e063f89ab93e2893be2e2e30704432beca01112e27d301e93dd4ae",
+              "name": "learnlive-agent-1"
+            }
+          ],
+          "imageDigest": "gcr.io/learn-live-488609/learnlive-agent@sha256:b0ecdb1383e063f89ab93e2893be2e2e30704432beca01112e27d301e93dd4ae",
+          "logUrl": "https://console.cloud.google.com/logs/viewer?project=learn-live-488609&resource=cloud_run_revision/service_name/learnlive-agent/revision_name/learnlive-agent-00067-qw9&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22learnlive-agent%22%0Aresource.labels.revision_name%3D%22learnlive-agent-00067-qw9%22",
+          "observedGeneration": 1
+        }
+      },
+      "serviceName": "run.googleapis.com",
+      "status": {
+        "message": "Ready condition status changed to True for Revision learnlive-agent-00067-qw9 with message: Deploying revision succeeded in 6.02s."
+      }
+    },
+    "receiveTimestamp": "2026-04-10T12:38:11.028252336Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "timestamp": "2026-04-10T12:38:09.775457Z"
+  },
+  {
+    "insertId": "69d8ef31000ad4590e49539c",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-04-10T12:38:09.873474673Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Default STARTUP TCP probe succeeded after 1 attempt for container \"learnlive-agent-1\" on port 8080.",
+    "timestamp": "2026-04-10T12:38:09.709721Z"
+  },
+  {
+    "insertId": "69d8ef31000ad0478bb64136",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fstdout",
+    "receiveTimestamp": "2026-04-10T12:38:09.715522771Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "textPayload": "[AGENT] Server running on port 8080",
+    "timestamp": "2026-04-10T12:38:09.708679Z"
+  },
+  {
+    "insertId": "69d8ef3000082b66e7caff50",
+    "labels": {
+      "instanceId": "008c15ff085398d261f46cb1e23ba8f1f7daad5bd21ff31daf1fc1ad345f9f3dd480824e5efafd27007bd9a64536891a1702ee5038de45407368b92057126c4ca5e5eca76f03d68703952682840102",
+      "scaling_reason": "DEPLOYMENT_ROLLOUT"
+    },
+    "logName": "projects/learn-live-488609/logs/run.googleapis.com%2Fvarlog%2Fsystem",
+    "receiveTimestamp": "2026-04-10T12:38:08.540309461Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "learnlive-agent",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "learnlive-agent-00067-qw9",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "INFO",
+    "textPayload": "Starting new instance. Reason: DEPLOYMENT_ROLLOUT - Instance started due to traffic shifting between revisions due to deployment, traffic split adjustment, or deployment health check.",
+    "timestamp": "2026-04-10T12:38:08.535398Z"
+  },
+  {
+    "insertId": "1i4oxqxdnv97",
+    "logName": "projects/learn-live-488609/logs/cloudaudit.googleapis.com%2Factivity",
+    "protoPayload": {
+      "@type": "type.googleapis.com/google.cloud.audit.AuditLog",
+      "authenticationInfo": {
+        "oauthInfo": {
+          "oauthClientId": "111687034988548088746"
+        },
+        "principalEmail": "80318907598-compute@developer.gserviceaccount.com",
+        "principalSubject": "serviceAccount:80318907598-compute@developer.gserviceaccount.com"
+      },
+      "authorizationInfo": [
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/learn-live-488609/services/learnlive-agent",
+          "resourceAttributes": {}
+        },
+        {
+          "granted": true,
+          "permission": "run.services.update",
+          "permissionType": "ADMIN_WRITE",
+          "resource": "namespaces/learn-live-488609/services/learnlive-agent",
+          "resourceAttributes": {
+            "name": "namespaces/learn-live-488609/services/learnlive-agent",
+            "service": "run.googleapis.com/",
+            "type": "run.googleapis.com/Service"
+          }
+        }
+      ],
+      "methodName": "google.cloud.run.v1.Services.ReplaceService",
+      "request": {
+        "@type": "type.googleapis.com/google.cloud.run.v1.ReplaceServiceRequest",
+        "name": "namespaces/learn-live-488609/services/learnlive-agent",
+        "service": {
+          "apiVersion": "serving.knative.dev/v1",
+          "kind": "Service",
+          "metadata": {
+            "annotations": {
+              "run.googleapis.com/client-name": "gcloud",
+              "run.googleapis.com/client-version": "564.0.0",
+              "run.googleapis.com/ingress": "all",
+              "run.googleapis.com/ingress-status": "all",
+              "run.googleapis.com/maxScale": "20",
+              "run.googleapis.com/operation-id": "652d96c9-57b1-4073-be65-12dac40cee95",
+              "run.googleapis.com/urls": "[\"https://learnlive-agent-80318907598.us-central1.run.app\",\"https://learnlive-agent-3wsr2gnwba-uc.a.run.app\"]",
+              "serving.knative.dev/creator": "80318907598-compute@developer.gserviceaccount.com",
+              "serving.knative.dev/lastModifier": "80318907598-compute@developer.gserviceaccount.com"
+            },
+            "creationTimestamp": "2026-03-25T13:36:55.607754Z",
+            "generation": 68,
+            "labels": {
+              "cloud.googleapis.com/location": "us-central1"
+            },
+            "name": "learnlive-agent",
+            "namespace": "80318907598",
+            "resourceVersion": "AAZPF73QEo0",
+            "selfLink": "/apis/serving.knative.dev/v1/namespaces/80318907598/services/learnlive-agent",
+            "uid": "13d681df-b3ed-462f-9c0c-0e31c007c232"
+          },
+          "spec": {
+            "template": {
+              "metadata": {
+                "annotations": {
+                  "autoscaling.knative.dev/maxScale": "5",
+                  "run.googleapis.com/client-name": "gcloud",
+                  "run.googleapis.com/client-version": "564.0.0",
+                  "run.googleapis.com/sessionAffinity": "true",
+                  "run.googleapis.com/startup-cpu-boost": "true"
+                },
+                "labels": {
+                  "client.knative.dev/nonce": "yleooyljim",
+                  "run.googleapis.com/startupProbeType": "Default"
+                }
+              },
+              "spec": {
+                "containerConcurrency": 80,
+                "containers": [
+                  {
+                    "image": "gcr.io/learn-live-488609/learnlive-agent",
+                    "resources": {
+                      "limits": {
+                        "cpu": "1",
+                        "memory": "512Mi"
+                      }
+                    }
+                  }
+                ],
+                "serviceAccountName": "80318907598-compute@developer.gserviceaccount.com",
+                "timeoutSeconds": 300
+              }
+            },
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100
+              }
+            ]
+          },
+          "status": {
+            "conditions": [
+              {
+                "lastTransitionTime": "2026-04-10T09:27:27.636109Z",
+                "status": "True",
+                "type": "Ready"
+              },
+              {
+                "lastTransitionTime": "2026-04-10T09:27:26.331176Z",
+                "status": "True",
+                "type": "ConfigurationsReady"
+              },
+              {
+                "lastTransitionTime": "2026-04-10T09:27:27.601822Z",
+                "status": "True",
+                "type": "RoutesReady"
+              }
+            ],
+            "latestCreatedRevisionName": "learnlive-agent-00066-z92",
+            "latestReadyRevisionName": "learnlive-agent-00066-z92",
+            "observedGeneration": 68,
+            "traffic": [
+              {
+                "latestRevision": true,
+                "percent": 100,
+                "revisionName": "learnlive-agent-00066-z92"
+              }
+            ],
+            "url": "https://learnlive-agent-3wsr2gnwba-uc.a.run.app"
+          }
+        }
+      },
+      "requestMetadata": {
+        "callerIp": "34.150.200.156",
+        "callerSuppliedUserAgent": "google-cloud-sdk gcloud/564.0.0 command/gcloud.run.deploy invocation-id/611590e371dc4e9d885b565437677858 environment/GCE environment-version/None client-os/LINUX client-os-ver/5.10.0 client-pltf-arch/x86_64 interactive/False from-script/False python/3.13.11 term/  (Linux 5.10.0-32-cloud-amd64),gzip(gfe)",
+        "destinationAttributes": {},
+        "requestAttributes": {
+          "auth": {},
+          "time": "2026-04-10T12:38:03.686362Z"
+        }
+      },
+      "resourceLocation": {
+        "currentLocations": [
+          "us-central1"
+        ]
+      },
+      "resourceName": "namespaces/learn-live-488609/services/learnlive-agent",
+      "serviceName": "run.googleapis.com",
+      "status": {}
+    },
+    "receiveTimestamp": "2026-04-10T12:38:04.167885245Z",
+    "resource": {
+      "labels": {
+        "configuration_name": "",
+        "location": "us-central1",
+        "project_id": "learn-live-488609",
+        "revision_name": "",
+        "service_name": "learnlive-agent"
+      },
+      "type": "cloud_run_revision"
+    },
+    "severity": "NOTICE",
+    "timestamp": "2026-04-10T12:38:03.462397Z"
+  }
+]
