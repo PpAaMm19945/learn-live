@@ -15,27 +15,16 @@
       "sequence": 1,
       "title": "History's True Beginning",
       "contentText": "In the beginning, God created the heavens and the earth. This is not merely a theological statement — it is the opening line of history itself. Before there were empires, before there were migrations, before the first city rose beside the first river, God spoke the universe into being. Every chapter of human history that follows is a chapter in His story.",
-      "sceneMode": "transcript",
+      "sceneMode": "image",
       "toolSequence": [
         {
-          "tool": "show_scripture",
-          "args": {
-            "reference": "Genesis 1:1",
-            "text": "In the beginning, God created the heavens and the earth."
-          },
+          "tool": "set_scene",
+          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page01.jpg", "caption": "In the beginning, God created the heavens and the earth." },
           "syncTrigger": "start_of_beat"
         },
         {
-          "tool": "show_timeline",
-          "args": {
-            "events": [
-              {
-                "year": -4004,
-                "label": "Creation (Ussher Chronology)",
-                "color": "#fac775"
-              }
-            ]
-          },
+          "tool": "show_scripture",
+          "args": { "reference": "Genesis 1:1", "text": "In the beginning, God created the heavens and the earth." },
           "syncTrigger": "start_of_beat"
         }
       ],
@@ -52,14 +41,16 @@
       "sequence": 2,
       "title": "The Fracture of Creation",
       "contentText": "But the story of creation is also the story of fracture. In Genesis 3, humanity chose autonomy over obedience, and the consequences rippled through every dimension of existence. Death entered. Relationships fractured. The ground itself was cursed. This is not ancient mythology — it is the diagnosis that explains everything that follows in human history.",
-      "sceneMode": "transcript",
+      "sceneMode": "image",
       "toolSequence": [
         {
+          "tool": "set_scene",
+          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page03.jpg", "caption": "The Fall — Genesis 3" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
           "tool": "show_scripture",
-          "args": {
-            "reference": "Genesis 3",
-            "text": "The Fall of Man"
-          },
+          "args": { "reference": "Genesis 3", "text": "The Fall of Man" },
           "syncTrigger": "start_of_beat"
         }
       ],
@@ -76,13 +67,25 @@
       "sequence": 3,
       "title": "God's Unfolding Plan",
       "contentText": "Yet even in judgment, God revealed mercy. The protoevangelium of Genesis 3:15 — 'He shall bruise your head, and you shall bruise his heel' — is the first announcement of redemption. From this point forward, all of history moves toward the fulfillment of this promise.",
-      "sceneMode": "transcript",
+      "sceneMode": "image",
       "toolSequence": [
         {
+          "tool": "set_scene",
+          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page05.jpg", "caption": "The Promise of Redemption" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
           "tool": "show_scripture",
+          "args": { "reference": "Genesis 3:15", "text": "He shall bruise your head, and you shall bruise his heel." },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
           "args": {
-            "reference": "Genesis 3:15",
-            "text": "He shall bruise your head, and you shall bruise his heel."
+            "events": [
+              { "year": -4004, "label": "Creation (Ussher Chronology)", "color": "#fac775" },
+              { "year": -3900, "label": "The Fall & Promise of Redemption", "color": "#e57373" }
+            ]
           },
           "syncTrigger": "start_of_beat"
         }
@@ -101,41 +104,35 @@
       "contentText": "The account of Babel is the pivot point for African history. When God scattered the nations and confused their languages, He was not merely punishing pride. He was setting the stage for the peopling of the entire earth — including Africa. The sons of Ham — Mizraim, Cush, Phut, and Canaan — went forth to establish the civilizations we will study in this course.",
       "sceneMode": "map",
       "toolSequence": [
+        { "tool": "set_scene", "args": { "mode": "map" }, "syncTrigger": "start_of_beat" },
+        { "tool": "zoom_to", "args": { "location": "babel" }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "mizraim", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "cush", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "phut", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "canaan", "color": "#ce93d8" }, "syncTrigger": "start_of_beat" },
         {
-          "tool": "zoom_to",
+          "tool": "show_genealogy",
           "args": {
-            "location": "babel"
+            "rootName": "Ham",
+            "nodes": [
+              { "name": "Ham", "descriptor": "Son of Noah", "color": "#ffb74d" },
+              { "name": "Mizraim", "parent": "Ham", "descriptor": "Egypt", "color": "#fac775" },
+              { "name": "Cush", "parent": "Ham", "descriptor": "Ethiopia & Nubia", "color": "#81c784" },
+              { "name": "Phut", "parent": "Ham", "descriptor": "Libya & North Africa", "color": "#64b5f6" },
+              { "name": "Canaan", "parent": "Ham", "descriptor": "Canaan", "color": "#ce93d8" }
+            ]
           },
           "syncTrigger": "start_of_beat"
         },
-        {
-          "tool": "highlight_region",
-          "args": {
-            "regionId": "mizraim"
-          },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "highlight_region",
-          "args": {
-            "regionId": "cush"
-          },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "highlight_region",
-          "args": {
-            "regionId": "phut"
-          },
-          "syncTrigger": "start_of_beat"
-        }
+        { "tool": "draw_route", "args": { "from": "babel", "to": "egypt", "style": "migration", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
+        { "tool": "draw_route", "args": { "from": "babel", "to": "cush_region", "style": "migration", "color": "#81c784" }, "syncTrigger": "start_of_beat" }
       ],
       "estimatedDurationSec": 45,
       "reformedReflection": {
-        "source": "Providence in the Scattering",
-        "theologian": "Reformed Theology",
-        "insight": "Babel was judgment on man's pride to build a centralized autonomous empire, but it resulted in the fulfilling of the original command to fill the earth.",
-        "applicationPrompt": "How does studying the lineage of the sons of Ham help us connect Biblical history directly to African history?"
+        "source": "The Table of Nations",
+        "theologian": "Genesis 10",
+        "insight": "God assigned every nation its boundaries and its appointed time. Africa was never an afterthought.",
+        "applicationPrompt": "How does the Table of Nations reshape how we view the history of African civilizations?"
       }
     }
   ]

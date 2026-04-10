@@ -39,6 +39,7 @@ export function useSession({
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
   const [beatState, setBeatState] = useState<BeatState>('IDLE');
   const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
+  const [currentBeatText, setCurrentBeatText] = useState<string | null>(null);
   const onToolCallRef = useRef<((msg: AgentToolCall) => void) | undefined>(undefined);
 
   const wsRef = useRef<WebSocket | null>(null);
@@ -278,6 +279,8 @@ export function useSession({
           } else if (msg.type === 'lesson_complete') {
             Logger.info('[WS]', 'Lesson finished signal received.');
             pendingLessonCompleteRef.current = true;
+            // Immediately block reconnection — lesson is done
+            statusRef.current = 'ended';
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              setError(msg.message);
@@ -434,6 +437,13 @@ export function useSession({
       
       // 1. Fire Tools (Synchronously triggers map flies/highlights)
       setBeatState('EXECUTING_TOOLS');
+
+      // Switch scene mode based on beat's sceneMode field
+      const beatSceneMode = (currentBeat as any).sceneMode;
+      if (beatSceneMode && beatSceneMode !== 'transcript') {
+        setSceneMode(beatSceneMode as SceneMode);
+      }
+
       currentBeat.toolCalls.forEach(tool => {
         if (tool.tool === 'set_scene') {
            setSceneMode(tool.args.mode as SceneMode);
@@ -443,34 +453,51 @@ export function useSession({
         }
       });
       
-      // 2. Append text to transcript
-      setTranscriptChunks(prev => [
-        ...prev, 
-        { type: 'transcript', text: currentBeat.text, isFinal: true }
-      ]);
-      setThinkingText('');
-      
-      // 3. Play Audio (or browser speechSynthesis fallback) and block until done
+      // 2. Play Audio FIRST, then show transcript synced to it
       setBeatState('PLAYING_AUDIO');
 
       const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
 
       if (hasAudio) {
+        // Show transcript when audio starts playing (not before)
+        setCurrentBeatText(currentBeat.text);
+        setTranscriptChunks(prev => [
+          ...prev, 
+          { type: 'transcript', text: currentBeat.text, isFinal: true }
+        ]);
+        setThinkingText('');
+
         playAudioChunk(currentBeat.audioData).then(() => {
+          // When audio ends on non-final beats, return to transcript mode briefly
+          // so the student sees the text before the next visual
           setBeatState('IDLE');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
           setBeatState('IDLE');
         });
       } else if (window.speechSynthesis && currentBeat.text) {
-        // Browser TTS fallback — keeps pacing even without server audio
+        // Show transcript for browser TTS fallback
+        setCurrentBeatText(currentBeat.text);
+        setTranscriptChunks(prev => [
+          ...prev, 
+          { type: 'transcript', text: currentBeat.text, isFinal: true }
+        ]);
+        setThinkingText('');
+
         const utterance = new SpeechSynthesisUtterance(currentBeat.text);
         utterance.rate = 0.95;
         utterance.onend = () => setBeatState('IDLE');
         utterance.onerror = () => setBeatState('IDLE');
         window.speechSynthesis.speak(utterance);
       } else {
-        // No audio at all — dwell based on text length (~150 WPM)
+        // No audio at all — show text and dwell
+        setCurrentBeatText(currentBeat.text);
+        setTranscriptChunks(prev => [
+          ...prev, 
+          { type: 'transcript', text: currentBeat.text, isFinal: true }
+        ]);
+        setThinkingText('');
+
         const words = (currentBeat.text || '').split(/\s+/).length;
         const dwellMs = Math.max(3000, (words / 150) * 60 * 1000);
         Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);

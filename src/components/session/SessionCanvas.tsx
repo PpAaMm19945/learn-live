@@ -11,6 +11,7 @@ import { useGoldenScript } from '@/lib/session/useGoldenScript';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
+import { ImageScene } from './ImageScene';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -26,9 +27,11 @@ interface SessionCanvasProps {
  * The AI agent controls scene transitions via set_scene tool calls.
  * Visual scenes (map, image, overlay) slide over the transcript and recede when dismissed.
  */
-export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionCanvasProps) {
+export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
   const canvasRef = useRef<TeachingCanvasRef>(null);
+  const [imageSceneUrl, setImageSceneUrl] = useState<string>('');
+  const [imageSceneCaption, setImageSceneCaption] = useState<string>('');
 
   const [useFallback, setUseFallback] = useState(false);
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
@@ -72,6 +75,11 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
   });
 
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
+    // Intercept set_scene("image") to capture imageUrl
+    if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
+      setImageSceneUrl(msg.args.imageUrl || '');
+      setImageSceneCaption(msg.args.caption || '');
+    }
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
   }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode]);
 
@@ -411,9 +419,7 @@ export function SessionCanvas({ chapterId, band, learnerName, onExit }: SessionC
                  </div>
 
                  {displaySceneMode === 'image' && (
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
-                       <p>Image scene</p>
-                    </div>
+                    <ImageScene imageUrl={imageSceneUrl} caption={imageSceneCaption} />
                  )}
                  {displaySceneMode === 'overlay' && (
                     <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
