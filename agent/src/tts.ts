@@ -1,19 +1,22 @@
 export interface TTSOptions {
   voiceName?: string;
   speakingRate?: number;
-  pitch?: number;
-  sampleRateHertz?: number;
 }
 
+/**
+ * Gemini-powered TTS using gemini-2.5-flash-preview-tts.
+ * Uses the same GEMINI_API_KEY as the narrator — no extra secrets needed.
+ */
 export class TTSService {
   private apiKey: string;
-  private endpoint = 'https://texttospeech.googleapis.com/v1/text:synthesize';
+  private endpoint: string;
 
   constructor() {
-    this.apiKey = process.env.GOOGLE_TTS_KEY || '';
+    this.apiKey = process.env.GEMINI_API_KEY || '';
     if (!this.apiKey) {
-      console.warn('[TTS] GOOGLE_TTS_KEY is missing. Audio synthesis will fail.');
+      console.warn('[TTS] GEMINI_API_KEY is missing. Audio synthesis will fail.');
     }
+    this.endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${this.apiKey}`;
   }
 
   async synthesize(text: string, options: TTSOptions = {}): Promise<string | null> {
@@ -21,23 +24,24 @@ export class TTSService {
 
     // Clean text: strip markdown
     const cleanText = text.replace(/\*\*/g, '').replace(/[#_`>]/g, '');
+    if (!cleanText.trim()) return null;
 
     const payload = {
-      input: { text: cleanText },
-      voice: {
-        languageCode: 'en-US',
-        name: options.voiceName || 'en-US-Studio-O' // Warm male narrator
-      },
-      audioConfig: {
-        audioEncoding: 'LINEAR16',
-        speakingRate: options.speakingRate || 0.95,
-        pitch: options.pitch || 0,
-        sampleRateHertz: options.sampleRateHertz || 24000
+      contents: [{ parts: [{ text: cleanText }] }],
+      generationConfig: {
+        responseModalities: ['AUDIO'],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: {
+              voiceName: options.voiceName || 'Charon'
+            }
+          }
+        }
       }
     };
 
     try {
-      const response = await fetch(`${this.endpoint}?key=${this.apiKey}`, {
+      const response = await fetch(this.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -45,12 +49,19 @@ export class TTSService {
 
       if (!response.ok) {
         const error = await response.text();
-        console.error('[TTS] API error:', error);
+        console.error('[TTS] Gemini TTS API error:', response.status, error);
         return null;
       }
 
-      const data = await response.json() as { audioContent: string };
-      return data.audioContent; // Base64 string
+      const data = await response.json() as any;
+      const audioData = data?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+      if (!audioData) {
+        console.error('[TTS] No audio data in Gemini TTS response');
+        return null;
+      }
+
+      console.log(`[TTS] Synthesized ${cleanText.length} chars → ${audioData.length} base64 chars`);
+      return audioData; // Base64 PCM string
     } catch (e) {
       console.error('[TTS] Fetch failed:', e);
       return null;
