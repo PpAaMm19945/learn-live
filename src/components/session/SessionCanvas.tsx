@@ -419,9 +419,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                  </div>
 
                  {displaySceneMode === 'image' && (
-                    <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
-                       <p>Image scene</p>
-                    </div>
+                    <ImageScene imageUrl={imageSceneUrl} caption={imageSceneCaption} />
                  )}
                  {displaySceneMode === 'overlay' && (
                     <div className="absolute inset-0 flex items-center justify-center text-muted-foreground bg-background">
