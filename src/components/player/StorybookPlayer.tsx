@@ -18,6 +18,13 @@ export function StorybookPlayer({ script, onExit, onComplete }: StorybookPlayerP
   const scene = script.scenes[currentSceneIndex];
   const isLastScene = currentSceneIndex === script.scenes.length - 1;
 
+  // Preload upcoming images from R2
+  const allImageUrls = script.scenes.map((s) => resolveImageUrl(s.imageUrl));
+  useEffect(() => {
+    preloadAhead(allImageUrls, currentSceneIndex, 2);
+  }, [currentSceneIndex]);
+  const isLastScene = currentSceneIndex === script.scenes.length - 1;
+
   const handleAdvance = () => {
     if (isLastScene) {
       onComplete();
@@ -124,20 +131,11 @@ export function StorybookPlayer({ script, onExit, onComplete }: StorybookPlayerP
           {/* Image Area */}
           <div className="h-[55%] md:h-full md:w-[60%] bg-background flex items-center justify-center p-4 md:p-8">
             <div className="relative aspect-square max-w-full max-h-full flex items-center justify-center shadow-lg border border-border rounded-xl overflow-hidden bg-void/5">
-              {/* Fallback text */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-30 pointer-events-none">
-                <span className="text-foreground font-mono text-sm px-4 text-center">
-                  [Image: {scene.imageUrl}]
-                </span>
-              </div>
-
-              <img
+              <R2Image
                 src={scene.imageUrl}
                 alt={scene.altText}
                 className="relative z-10 w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
-                }}
+                wrapperClassName="w-full h-full"
               />
             </div>
           </div>
