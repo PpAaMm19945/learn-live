@@ -124,4 +124,11 @@
 - Audio confirmed working in real user lesson runs end-to-end
 - User captured a full beat-by-beat session showing four remaining blockers: transcript/audio desync, no visual scene rendering, beat-to-beat greeting/recap resets, and broken lesson ending / apparent restart
 - **Decision:** Prioritize runtime stabilization before implementing the full teaching-philosophy-driven LessonPreparer pipeline
-- Updated `.antigravity/ROADMAP.md` and `.antigravity/ISSUES.md` to make the current blockers and next engineering order explicit
+
+## 2026-04-10 — Phase 6C: Runtime Stabilization Fixes
+- **Issue 54 (transcript sync):** Text now appends when audio starts, not when beat_payload arrives
+- **Issue 62 (visuals):** New `ImageScene` component renders full-bleed storybook images; beat JSON updated to 80/20 visual ratio (3 image beats + 1 map beat)
+- **Issue 63 (continuity):** Narrator prompt rewritten with beat index, previous text context, and hard anti-greeting/recap rules
+- **Issue 64 (restart loop):** `statusRef` set to `'ended'` immediately on `lesson_complete`, blocking reconnection
+- **PROMPTS.md:** Collapsed from 916 lines to ~80 lines; all completed phases summarized as one-liners
+- **Action required:** Redeploy agent to Cloud Run
