@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { R2Image } from '@/components/ui/R2Image';
+import { resolveImageUrl } from '@/lib/r2Assets';
 
 interface ImageSceneProps {
   imageUrl: string;
@@ -9,6 +11,7 @@ interface ImageSceneProps {
 /**
  * ImageScene — full-bleed image display for the teaching canvas.
  * Used when the AI calls set_scene("image", { imageUrl, caption }).
+ * Uses R2Image for progressive loading with skeleton shimmer.
  */
 export function ImageScene({ imageUrl, caption }: ImageSceneProps) {
   return (
@@ -20,14 +23,11 @@ export function ImageScene({ imageUrl, caption }: ImageSceneProps) {
       className="absolute inset-0 flex flex-col items-center justify-center bg-background"
     >
       <div className="relative w-full h-full flex items-center justify-center p-4">
-        <img
+        <R2Image
           src={imageUrl}
           alt={caption || 'Lesson illustration'}
           className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-          onError={(e) => {
-            // Hide broken images gracefully
-            (e.target as HTMLImageElement).style.display = 'none';
-          }}
+          wrapperClassName="w-full h-full flex items-center justify-center"
         />
       </div>
       {caption && (
