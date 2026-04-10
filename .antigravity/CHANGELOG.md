@@ -5,7 +5,18 @@
 
 ---
 
-## 2026-02-27 — Legacy Math Platform
+## 2026-04-10 — Phase 7: Runtime Stabilization & Debug Tooling
+- Documented 8 new issues (65-72) from live session analysis with agent logs
+- **#65 Fix:** Strip tool-call text from transcript (client + agent filter)
+- **#66 Fix:** Image scene race condition — set imageSceneUrl before sceneMode switch
+- **#67 Fix:** Fallback marker-based region highlighting when no GeoJSON polygons
+- **#68 Fix:** Narrator retry with exponential backoff (3 attempts) for 503/429
+- Added `cush_region` alias to NAMED_LOCATIONS for draw_route targets
+- Built Agent Debug Drawer — slide-out panel showing tool calls, beats, errors
+- Created `textFilter.ts` for stripping tool call syntax from narration
+- **Pending agent deploy:** Narrator retry + tool-call stripping on server side
+
+---
 - Built math curriculum engine with DAG system, 377 constraint templates across 5 strands
 - Evidence Witness (Gemini Live bidi-streaming agent) for watching children do math
 - Split Judgment Model, AI Permission Rules, Noise Injection system
