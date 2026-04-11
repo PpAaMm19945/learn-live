@@ -336,30 +336,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     );
   }
 
-  if ((status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended')) {
-    return (
-      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-6 px-6 text-center">
-        <h2 className="text-3xl font-display font-bold">Session Ended</h2>
-        <p className="text-muted-foreground">Thank you for learning with us today.</p>
-        <div className="flex gap-4">
-          <button
-            onClick={onExit}
-            className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors"
-          >
-            Back to Dashboard
-          </button>
-          {!useFallback && (
-            <button
-              onClick={handleSaveGoldenScript}
-              className="px-6 py-3 bg-muted text-foreground flex items-center gap-2 rounded-full hover:bg-muted/80 transition-colors"
-            >
-              <Save className="w-4 h-4" /> Save as Golden Script
-            </button>
-          )}
-        </div>
-      </div>
-    );
-  }
+  const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
   return (
     <motion.div
