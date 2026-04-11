@@ -78,30 +78,30 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
         // Recolor based on layer type
         try {
           if (layer.type === 'background') {
-            map.setPaintProperty(layer.id, 'background-color', '#1a1610'); // Dark parchment
+            map.setPaintProperty(layer.id, 'background-color', '#2e2820'); // Warm parchment base
           } else if (layer.type === 'fill') {
             if (id.includes('water') || id.includes('ocean') || id.includes('sea')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#0d1520'); // Deep ink water
-              map.setPaintProperty(layer.id, 'fill-opacity', 0.9);
+              map.setPaintProperty(layer.id, 'fill-color', '#1a2e40'); // Deep but visible water
+              map.setPaintProperty(layer.id, 'fill-opacity', 0.85);
             } else if (id.includes('land') || id.includes('earth') || id.includes('park') || id.includes('green')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#1f1a14'); // Dark earth
-              map.setPaintProperty(layer.id, 'fill-opacity', 0.95);
+              map.setPaintProperty(layer.id, 'fill-color', '#352e24'); // Warm earth
+              map.setPaintProperty(layer.id, 'fill-opacity', 0.9);
             } else if (id.includes('sand') || id.includes('desert') || id.includes('beach')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#2a2118'); // Sandy dark
+              map.setPaintProperty(layer.id, 'fill-color', '#3d3228'); // Sandy warm
             } else if (id.includes('glacier') || id.includes('ice') || id.includes('snow')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#2a2a30'); // Muted ice
+              map.setPaintProperty(layer.id, 'fill-color', '#3a3a42'); // Muted ice
             }
           } else if (layer.type === 'line') {
             if (id.includes('water') || id.includes('river') || id.includes('stream')) {
-              map.setPaintProperty(layer.id, 'line-color', '#1a2c3d'); // Dark water lines
+              map.setPaintProperty(layer.id, 'line-color', '#2a4a60'); // Visible water lines
               map.setPaintProperty(layer.id, 'line-opacity', 0.7);
             } else if (id.includes('border') || id.includes('boundary') || id.includes('admin')) {
-              map.setPaintProperty(layer.id, 'line-color', '#5C3D2E'); // Dark Earth borders
-              map.setPaintProperty(layer.id, 'line-opacity', 0.3);
+              map.setPaintProperty(layer.id, 'line-color', '#8a6a4a'); // Warm borders
+              map.setPaintProperty(layer.id, 'line-opacity', 0.35);
               map.setPaintProperty(layer.id, 'line-dasharray', [4, 4]);
             } else if (id.includes('contour')) {
-              map.setPaintProperty(layer.id, 'line-color', '#2a2218');
-              map.setPaintProperty(layer.id, 'line-opacity', 0.15);
+              map.setPaintProperty(layer.id, 'line-color', '#3a3228');
+              map.setPaintProperty(layer.id, 'line-opacity', 0.2);
             }
           } else if (layer.type === 'symbol') {
             // Strictly hide all modern political, administrative, and populated place labels to enforce historical accuracy.
