@@ -17,10 +17,11 @@ interface SceneControlsProps {
 const SCENES: WorkbenchSceneMode[] = ['transcript', 'map', 'image', 'timeline'];
 
 const IMAGE_PRESETS: { label: string; url: string; caption: string }[] = [
-  { label: 'Nile Valley (R2)', url: '/storybook/ch01/nile_valley.webp', caption: 'The fertile Nile Valley' },
-  { label: 'Tower of Babel (R2)', url: '/storybook/ch01/tower_of_babel.webp', caption: 'The Tower of Babel' },
-  { label: 'Migration Routes (R2)', url: '/storybook/ch01/migration_routes.webp', caption: 'Ancient migration paths' },
-  { label: 'African Kingdoms (R2)', url: '/storybook/ch01/african_kingdoms.webp', caption: 'Early African kingdoms' },
+  { label: 'Creation (R2 Band0)', url: 'assets/storybook/ch01/band0_page01.jpg', caption: 'God creating the world' },
+  { label: 'Tower of Babel (R2 Band0)', url: 'assets/storybook/ch01/band0_page03.jpg', caption: 'People building the Tower of Babel' },
+  { label: 'Mizraim to Egypt (R2 Band0)', url: 'assets/storybook/ch01/band0_page06.jpg', caption: 'Mizraim traveling to Egypt' },
+  { label: 'Cush to Nubia (R2 Band0)', url: 'assets/storybook/ch01/band0_page07.jpg', caption: 'Cush traveling to Nubia' },
+  { label: 'Phut to Libya (R2 Band0)', url: 'assets/storybook/ch01/band0_page08.jpg', caption: 'Phut traveling to Libya' },
   { label: 'External test (Unsplash)', url: 'https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800', caption: 'External image test' },
 ];
 
