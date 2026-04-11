@@ -85,8 +85,12 @@ export function useSession({
     }
 
     const ctx = audioContextRef.current;
+    Logger.info('[AUDIO]', `AudioContext state: ${ctx.state}, currentTime: ${ctx.currentTime.toFixed(2)}`);
+    
     if (ctx.state === 'suspended') {
+        Logger.info('[AUDIO]', 'Resuming suspended AudioContext...');
         await ctx.resume();
+        Logger.info('[AUDIO]', `AudioContext after resume: ${ctx.state}`);
     }
 
     try {
@@ -115,6 +119,9 @@ export function useSession({
             channelData[i] = int16 / 32768;
         }
 
+        const durationSec = audioBuffer.duration;
+        Logger.info('[AUDIO]', `PCM decoded: ${sampleCount} samples, ${durationSec.toFixed(1)}s duration`);
+
         const source = ctx.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(ctx.destination);
@@ -122,9 +129,34 @@ export function useSession({
         return new Promise<void>((resolve) => {
             const currentTime = ctx.currentTime;
             const startTime = Math.max(currentTime, nextPlayTimeRef.current);
-            source.onended = () => resolve();
-            source.start(startTime);
-            nextPlayTimeRef.current = startTime + audioBuffer.duration;
+            const delay = startTime - currentTime;
+            
+            if (delay > 1) {
+              Logger.warn('[AUDIO]', `Audio scheduled ${delay.toFixed(1)}s in the future — resetting to now`);
+              nextPlayTimeRef.current = currentTime;
+            }
+            const actualStart = delay > 1 ? currentTime : startTime;
+
+            let resolved = false;
+            source.onended = () => {
+              if (!resolved) {
+                resolved = true;
+                resolve();
+              }
+            };
+            
+            // Safety timeout: if onended never fires, force-resolve after expected duration + 5s buffer
+            const safetyMs = (durationSec + 5) * 1000;
+            setTimeout(() => {
+              if (!resolved) {
+                Logger.warn('[AUDIO]', `Safety timeout after ${(safetyMs / 1000).toFixed(0)}s — forcing beat advance`);
+                resolved = true;
+                resolve();
+              }
+            }, safetyMs);
+            
+            source.start(actualStart);
+            nextPlayTimeRef.current = actualStart + durationSec;
         });
 
     } catch (err) {
