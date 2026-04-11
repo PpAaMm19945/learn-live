@@ -13,6 +13,7 @@ import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { ImageScene } from './ImageScene';
+import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -35,6 +36,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const [imageSceneCaption, setImageSceneCaption] = useState<string>('');
   const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
   const [debugOpen, setDebugOpen] = useState(false);
+  const [overlays, setOverlays] = useState<OverlayState>(EMPTY_OVERLAYS);
   const [useFallback, setUseFallback] = useState(false);
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
@@ -85,6 +87,13 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     onDebug: handleDebugEvent
   });
 
+  const dismissOverlay = useCallback((type: keyof OverlayState | 'all') => {
+    setOverlays(prev => {
+      if (type === 'all') return EMPTY_OVERLAYS;
+      return { ...prev, [type]: null };
+    });
+  }, []);
+
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
     addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || ''})`, JSON.stringify(msg.args));
     
@@ -94,8 +103,35 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       setImageSceneCaption(msg.args.caption || '');
       addDebug('scene', `Image: ${msg.args.imageUrl}`, msg.args.caption);
     }
+
+    // Intercept overlay tools — render at SessionCanvas level so they're visible in ALL scene modes
+    if (msg.tool === 'show_scripture') {
+      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection } }));
+      addDebug('scene', `Scripture: ${msg.args.reference}`);
+      return;
+    }
+    if (msg.tool === 'show_figure') {
+      setOverlays(prev => ({ ...prev, figure: { name: msg.args.name, title: msg.args.title, imageUrl: msg.args.imageUrl } }));
+      addDebug('scene', `Figure: ${msg.args.name}`);
+      return;
+    }
+    if (msg.tool === 'show_genealogy') {
+      setOverlays(prev => ({ ...prev, genealogy: { rootName: msg.args.rootName, nodes: msg.args.nodes } }));
+      addDebug('scene', `Genealogy: ${msg.args.rootName}`);
+      return;
+    }
+    if (msg.tool === 'show_timeline') {
+      setOverlays(prev => ({ ...prev, timeline: { events: msg.args.events } }));
+      addDebug('scene', `Timeline: ${msg.args.events?.length} events`);
+      return;
+    }
+    if (msg.tool === 'dismiss_overlay') {
+      dismissOverlay(msg.args?.type || 'all');
+      return;
+    }
+
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
-  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug]);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay]);
 
   // Refs to hold latest callback versions without destabilizing the effect
   const connectRef = useRef(connect);
@@ -429,6 +465,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           )}
         </AnimatePresence>
       </div>
+
+      {/* Canvas Overlays — always visible regardless of scene mode */}
+      <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} />
 
       {/* Bottom status bar */}
       <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-center pointer-events-none">
