@@ -12,6 +12,7 @@ import { useGoldenScript } from '@/lib/session/useGoldenScript';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
+import { resolveImageUrl } from '@/lib/r2Assets';
 import { ImageScene } from './ImageScene';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 
@@ -99,9 +100,11 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     
     // Intercept set_scene("image") to capture imageUrl BEFORE scene mode switches
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
-      setImageSceneUrl(msg.args.imageUrl || '');
+      const rawUrl = msg.args.imageUrl || '';
+      const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
+      setImageSceneUrl(resolvedUrl);
       setImageSceneCaption(msg.args.caption || '');
-      addDebug('scene', `Image: ${msg.args.imageUrl}`, msg.args.caption);
+      addDebug('scene', `Image: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
     }
 
     // Intercept overlay tools — render at SessionCanvas level so they're visible in ALL scene modes

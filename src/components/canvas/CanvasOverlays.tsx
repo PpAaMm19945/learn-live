@@ -125,20 +125,20 @@ export function CanvasOverlays({ overlays, onDismiss }: CanvasOverlaysProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ type: 'spring', damping: 20, stiffness: 120 }}
-            className="absolute bottom-28 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-6 py-4 md:max-w-2xl md:w-[70%] pointer-events-auto"
+            className="absolute bottom-36 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-6 py-5 md:max-w-2xl md:w-[70%] pointer-events-auto"
             onClick={() => onDismiss?.('timeline')}
           >
-            <div className="relative w-full flex items-center justify-between min-h-[48px]">
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-border -translate-y-1/2 rounded-full z-0" />
+            <div className="relative w-full flex items-center justify-between min-h-[80px] pt-2 pb-6">
+              <div className="absolute top-[18px] left-0 right-0 h-1 bg-border rounded-full z-0" />
               {overlays.timeline.events.map((event, i) => (
-                <div key={i} className="relative z-10 flex flex-col items-center group cursor-default">
+                <div key={i} className="relative z-10 flex flex-col items-center cursor-default">
                   <div
-                    className="w-4 h-4 rounded-full border-2 border-card shadow-sm transition-transform group-hover:scale-125"
+                    className="w-5 h-5 rounded-full border-2 border-card shadow-md"
                     style={{ backgroundColor: event.color || '#5dcaa5' }}
                   />
-                  <div className="absolute top-full mt-2 flex flex-col items-center opacity-0 group-hover:opacity-100 transition-opacity bg-card border border-border px-3 py-1.5 rounded-md shadow-lg whitespace-nowrap">
+                  <div className="mt-2 flex flex-col items-center whitespace-nowrap">
                     <span className="text-xs font-bold text-primary">{Math.abs(event.year)} {event.year < 0 ? 'BC' : 'AD'}</span>
-                    <span className="text-sm text-foreground">{event.label}</span>
+                    <span className="text-[11px] text-foreground/80 max-w-[100px] text-center truncate">{event.label}</span>
                   </div>
                 </div>
               ))}
