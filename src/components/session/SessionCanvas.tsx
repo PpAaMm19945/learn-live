@@ -12,6 +12,7 @@ import { useGoldenScript } from '@/lib/session/useGoldenScript';
 import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
+import { resolveImageUrl } from '@/lib/r2Assets';
 import { ImageScene } from './ImageScene';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 
