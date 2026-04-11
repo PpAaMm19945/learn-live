@@ -2,8 +2,8 @@
   "sectionId": "ch01_s01",
   "chapterId": "ch01",
   "heading": "1.1 In the Beginning: God, Man, and the Meaning of History",
-  "totalBeats": 4,
-  "estimatedTotalDurationSec": 240,
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 420,
   "thinkItThrough": [
     "What is the ultimate starting point for understanding all of history?",
     "Why does the textbook call Genesis 3 the 'fracture of creation'?",
@@ -17,123 +17,102 @@
       "contentText": "In the beginning, God created the heavens and the earth. This is not merely a theological statement — it is the opening line of history itself. Before there were empires, before there were migrations, before the first city rose beside the first river, God spoke the universe into being. Every chapter of human history that follows is a chapter in His story.",
       "sceneMode": "image",
       "toolSequence": [
-        {
-          "tool": "set_scene",
-          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page01.jpg", "caption": "In the beginning, God created the heavens and the earth." },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "show_scripture",
-          "args": { "reference": "Genesis 1:1", "text": "In the beginning, God created the heavens and the earth." },
-          "syncTrigger": "start_of_beat"
-        }
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/creation.jpg", "caption": "In the beginning, God created the heavens and the earth." }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_scripture", "args": { "reference": "Genesis 1:1", "text": "In the beginning, God created the heavens and the earth.", "connection": "The absolute starting point of ALL history." }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_timeline", "args": { "events": [{ "year": -4004, "label": "Creation (Ussher)", "color": "#fac775" }] }, "syncTrigger": "start_of_beat" }
       ],
-      "estimatedDurationSec": 30,
-      "reformedReflection": {
-        "source": "Foundational Truths",
-        "theologian": "John Calvin",
-        "insight": "History is the theater of God's glory.",
-        "applicationPrompt": "If God is the author of history, how should that change the way we view historical timelines?"
-      }
+      "estimatedDurationSec": 40
     },
     {
       "beatId": "ch01_s01_b02",
       "sequence": 2,
-      "title": "The Fracture of Creation",
-      "contentText": "But the story of creation is also the story of fracture. In Genesis 3, humanity chose autonomy over obedience, and the consequences rippled through every dimension of existence. Death entered. Relationships fractured. The ground itself was cursed. This is not ancient mythology — it is the diagnosis that explains everything that follows in human history.",
-      "sceneMode": "image",
+      "title": "What History Means",
+      "contentText": "History is not a random sequence of events. It is a narrative with a divine Author, a definite beginning, and a promised end. To study history is to study the unfolding plan of God for all nations and all peoples.",
+      "sceneMode": "overlay",
       "toolSequence": [
-        {
-          "tool": "set_scene",
-          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page03.jpg", "caption": "The Fall — Genesis 3" },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "show_scripture",
-          "args": { "reference": "Genesis 3", "text": "The Fall of Man" },
-          "syncTrigger": "start_of_beat"
-        }
+        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_slide", "args": { "title": "What Is History?", "body": "History is not random chaos — it is a narrative with a divine Author.", "bullets": ["A definite beginning — Creation", "A divine plan — Providence", "A promised end — Redemption", "Every nation has a role in this story"], "layout": "center" }, "syncTrigger": "start_of_beat" }
       ],
-      "estimatedDurationSec": 30,
-      "reformedReflection": {
-        "source": "Total Depravity & The Fall",
-        "theologian": "Saint Augustine",
-        "insight": "Augustine emphasized that the Fall affected every faculty of man, leaving him incapable of submitting to God.",
-        "applicationPrompt": "Looking at history, where do you see the clearest evidence of the 'fracture' described in Genesis 3?"
-      }
+      "estimatedDurationSec": 30
     },
     {
       "beatId": "ch01_s01_b03",
       "sequence": 3,
-      "title": "God's Unfolding Plan",
-      "contentText": "Yet even in judgment, God revealed mercy. The protoevangelium of Genesis 3:15 — 'He shall bruise your head, and you shall bruise his heel' — is the first announcement of redemption. From this point forward, all of history moves toward the fulfillment of this promise.",
+      "title": "The Fracture of Creation",
+      "contentText": "But the story of creation is also the story of fracture. In Genesis 3, humanity chose autonomy over obedience, and the consequences rippled through every dimension of existence. Death entered. Relationships fractured. The ground itself was cursed. This is not ancient mythology — it is the diagnosis that explains everything that follows in human history.",
       "sceneMode": "image",
       "toolSequence": [
-        {
-          "tool": "set_scene",
-          "args": { "mode": "image", "imageUrl": "/images/storybook/ch01/band1_page05.jpg", "caption": "The Promise of Redemption" },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "show_scripture",
-          "args": { "reference": "Genesis 3:15", "text": "He shall bruise your head, and you shall bruise his heel." },
-          "syncTrigger": "start_of_beat"
-        },
-        {
-          "tool": "show_timeline",
-          "args": {
-            "events": [
-              { "year": -4004, "label": "Creation (Ussher Chronology)", "color": "#fac775" },
-              { "year": -3900, "label": "The Fall & Promise of Redemption", "color": "#e57373" }
-            ]
-          },
-          "syncTrigger": "start_of_beat"
-        }
+        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/fall_of_man.jpg", "caption": "The Fall — Genesis 3" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_comparison", "args": { "title": "Before vs. After the Fall", "columnA": { "heading": "Before the Fall", "points": ["Perfect communion with God", "Harmony in creation", "No death or suffering", "Meaningful work without toil"] }, "columnB": { "heading": "After the Fall", "points": ["Separation from God", "Fractured relationships", "Death enters the world", "Cursed ground, painful labor"] } }, "syncTrigger": "start_of_beat" }
       ],
-      "estimatedDurationSec": 20,
-      "realLifeApplication": "Consider how the promise of redemption anchors us even when historical events seem dark.",
-      "homework": {
-        "reading": "Westminster Shorter Catechism Q.18-20",
-        "writing": "Describe the Protoevangelium and its significance to all of human history."
-      }
+      "estimatedDurationSec": 50
     },
     {
       "beatId": "ch01_s01_b04",
       "sequence": 4,
-      "title": "Judgment and Mercy at Babel",
-      "contentText": "The account of Babel is the pivot point for African history. When God scattered the nations and confused their languages, He was not merely punishing pride. He was setting the stage for the peopling of the entire earth — including Africa. The sons of Ham — Mizraim, Cush, Phut, and Canaan — went forth to establish the civilizations we will study in this course.",
+      "title": "The Protoevangelium",
+      "contentText": "Yet even in judgment, God revealed mercy. The protoevangelium of Genesis 3:15 — 'He shall bruise your head, and you shall bruise his heel' — is the first announcement of redemption. From this point forward, all of history moves toward the fulfillment of this promise.",
+      "sceneMode": "image",
+      "toolSequence": [
+        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/promise_of_redemption.jpg", "caption": "The Promise of Redemption — Genesis 3:15" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_key_term", "args": { "term": "Protoevangelium", "definition": "The first announcement of the Gospel — God's promise that a descendant of the woman would crush the serpent's head.", "pronunciation": "pro-toh-eh-VAN-gel-ee-um", "etymology": "Greek: protos (first) + evangelion (good news)" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_scripture", "args": { "reference": "Genesis 3:15", "text": "He shall bruise your head, and you shall bruise his heel.", "connection": "The first promise of redemption — the seed of the woman will defeat the serpent." }, "syncTrigger": "start_of_beat" }
+      ],
+      "estimatedDurationSec": 45
+    },
+    {
+      "beatId": "ch01_s01_b05",
+      "sequence": 5,
+      "title": "A Reflection Point",
+      "contentText": "Let us pause and consider: if history has a divine Author, and if the Fall fractured everything, then every nation's story is both a story of brokenness AND a story of God's unfolding plan. Africa is no exception.",
+      "sceneMode": "overlay",
+      "toolSequence": [
+        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_question", "args": { "question": "If God is the Author of history, what does that mean for the story of Africa?", "context": "Think about what you've learned so far: Creation, the Fall, and the Promise.", "type": "reflection" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_quote", "args": { "text": "History is the theater of God's glory — and Africa is one of its grandest stages.", "attribution": "John Calvin (adapted)", "date": "16th century" }, "syncTrigger": "start_of_beat" }
+      ],
+      "estimatedDurationSec": 30
+    },
+    {
+      "beatId": "ch01_s01_b06",
+      "sequence": 6,
+      "title": "The Tower of Babel and the Scattering",
+      "contentText": "The account of Babel is the pivot point for African history. When God scattered the nations and confused their languages, He was not merely punishing pride. He was setting the stage for the peopling of the entire earth — including Africa.",
+      "sceneMode": "image",
+      "toolSequence": [
+        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/tower_of_babel.jpg", "caption": "The Tower of Babel — the scattering of nations" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_timeline", "args": { "events": [{ "year": -4004, "label": "Creation", "color": "#fac775" }, { "year": -3900, "label": "The Fall", "color": "#e57373" }, { "year": -2242, "label": "Tower of Babel", "color": "#64b5f6" }, { "year": -2200, "label": "Nations Scatter", "color": "#81c784" }] }, "syncTrigger": "start_of_beat" }
+      ],
+      "estimatedDurationSec": 45
+    },
+    {
+      "beatId": "ch01_s01_b07",
+      "sequence": 7,
+      "title": "The Sons of Ham — Africa's Founders",
+      "contentText": "The sons of Ham — Mizraim, Cush, Phut, and Canaan — went forth from Babel to establish the civilizations we will study in this course. Mizraim settled the Nile Delta and founded what we call Egypt. Cush moved south into Ethiopia and Nubia. Phut went west into Libya and North Africa. Canaan settled the eastern Mediterranean coast. These are not legends — these are the founders of Africa's greatest civilizations.",
       "sceneMode": "map",
       "toolSequence": [
+        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
         { "tool": "set_scene", "args": { "mode": "map" }, "syncTrigger": "start_of_beat" },
-        { "tool": "zoom_to", "args": { "location": "babel" }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "mizraim", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "cush", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "phut", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "canaan", "color": "#ce93d8" }, "syncTrigger": "start_of_beat" },
-        {
-          "tool": "show_genealogy",
-          "args": {
-            "rootName": "Ham",
-            "nodes": [
-              { "name": "Ham", "descriptor": "Son of Noah", "color": "#ffb74d" },
-              { "name": "Mizraim", "parent": "Ham", "descriptor": "Egypt", "color": "#fac775" },
-              { "name": "Cush", "parent": "Ham", "descriptor": "Ethiopia & Nubia", "color": "#81c784" },
-              { "name": "Phut", "parent": "Ham", "descriptor": "Libya & North Africa", "color": "#64b5f6" },
-              { "name": "Canaan", "parent": "Ham", "descriptor": "Canaan", "color": "#ce93d8" }
-            ]
-          },
-          "syncTrigger": "start_of_beat"
-        },
+        { "tool": "zoom_to", "args": { "location": "babel", "zoom": 4 }, "syncTrigger": "start_of_beat" },
+        { "tool": "place_marker", "args": { "location": "babel", "label": "Babel — Starting Point", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "mizraim", "color": "#fac775", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "cush", "color": "#81c784", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "phut", "color": "#64b5f6", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
+        { "tool": "highlight_region", "args": { "regionId": "canaan", "color": "#ce93d8", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
+        { "tool": "place_marker", "args": { "location": "egypt", "label": "Mizraim (Egypt)", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
+        { "tool": "place_marker", "args": { "location": "nubia", "label": "Cush (Nubia)", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
+        { "tool": "place_marker", "args": { "location": "canaan", "label": "Canaan", "color": "#ce93d8" }, "syncTrigger": "start_of_beat" },
         { "tool": "draw_route", "args": { "from": "babel", "to": "egypt", "style": "migration", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
-        { "tool": "draw_route", "args": { "from": "babel", "to": "cush_region", "style": "migration", "color": "#81c784" }, "syncTrigger": "start_of_beat" }
+        { "tool": "draw_route", "args": { "from": "babel", "to": "cush_region", "style": "migration", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_genealogy", "args": { "rootName": "Ham", "nodes": [{ "name": "Ham", "descriptor": "Son of Noah", "color": "#ffb74d" }, { "name": "Mizraim", "parent": "Ham", "descriptor": "Egypt", "color": "#fac775" }, { "name": "Cush", "parent": "Ham", "descriptor": "Ethiopia & Nubia", "color": "#81c784" }, { "name": "Phut", "parent": "Ham", "descriptor": "Libya & North Africa", "color": "#64b5f6" }, { "name": "Canaan", "parent": "Ham", "descriptor": "Canaan", "color": "#ce93d8" }] }, "syncTrigger": "start_of_beat" },
+        { "tool": "show_question", "args": { "question": "How does the Table of Nations reshape how we view the history of African civilizations?", "type": "reflection" }, "syncTrigger": "start_of_beat" }
       ],
-      "estimatedDurationSec": 45,
-      "reformedReflection": {
-        "source": "The Table of Nations",
-        "theologian": "Genesis 10",
-        "insight": "God assigned every nation its boundaries and its appointed time. Africa was never an afterthought.",
-        "applicationPrompt": "How does the Table of Nations reshape how we view the history of African civilizations?"
-      }
+      "estimatedDurationSec": 60
     }
   ]
 }
