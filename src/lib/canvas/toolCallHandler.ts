@@ -3,7 +3,7 @@ import { NAMED_LOCATIONS } from '@/data/geojson/locations';
 import type { SceneMode } from '@/lib/session/types';
 
 /** Approximate center coordinates for ancient regions (fallback when no GeoJSON polygons) */
-const REGION_CENTERS: Record<string, [number, number]> = {
+export const REGION_CENTERS: Record<string, [number, number]> = {
   mizraim: [31.0, 27.0],    // Egypt
   cush: [31.0, 18.0],       // Ethiopia/Nubia  
   phut: [20.0, 32.0],       // Libya/North Africa
