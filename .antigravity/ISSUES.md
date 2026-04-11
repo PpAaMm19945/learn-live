@@ -58,12 +58,13 @@
 - **Evidence:** Screenshots image-120, image-121, image-122 — all show transcript text only, no images.
 - **Fix:** Set `imageSceneUrl` synchronously before `sceneMode` switches to `"image"`. Restructure beat processor tool call handling.
 
-### 67. Map Highlights Not Rendering
-- **Status:** OPEN — MEDIUM
-- **Description:** The MapLibre map appears on beat 4 but `highlight_region("mizraim")`, `highlight_region("cush")`, etc. produce no visible effect. The `zoom_to("babel")` works because it uses `NAMED_LOCATIONS` coordinates.
-- **Root Cause:** `canvas.highlightRegion(regionId)` expects GeoJSON polygon layers for each named region. No GeoJSON data exists for ancient regions like "mizraim", "cush", "phut", "canaan".
-- **Evidence:** Screenshot image-117 — dark map with no highlighted regions.
-- **Fix:** Either load GeoJSON polygons for ancient regions, or implement fallback marker-based highlighting using `NAMED_LOCATIONS` coordinates with labeled circles/markers.
+### 67. Map Highlights Not Rendering — `getPaintProperty` Crash
+- **Status:** PARTIALLY FIXED — Phase 7+
+- **Description:** `highlight_region("canaan")` etc. crash with `Cannot read properties of undefined (reading 'getPaintProperty')` because the `chapter-regions-fill` layer only exists when `chapterGeoJSON` is passed to `TeachingCanvas`. Neither the Workbench nor SessionCanvas currently provide GeoJSON.
+- **Root Cause:** `highlightRegion()` called `map.getPaintProperty()` on a non-existent layer. No guard check.
+- **Fix applied:** Added `map.getLayer('chapter-regions-fill')` guard — now returns silently instead of crashing, and the fallback marker from `toolCallHandler` still renders.
+- **Remaining:** To actually highlight polygonal regions, GeoJSON data for ancient regions (Canaan, Mizraim, Cush, Phut) must be created and passed as `chapterGeoJSON`. Without it, only the fallback marker + label renders.
+- **Evidence:** Admin workbench logs show repeated `getPaintProperty` errors for every `highlight_region` call.
 
 ### 68. Gemini Narrator 503 — No Retry Logic
 - **Status:** OPEN — HIGH
@@ -106,9 +107,9 @@
 - **Resolution:** Lightened all base colors by ~40%: background `#2e2820`, land `#352e24`, water `#1a2e40`, borders `#8a6a4a`.
 
 ### 75. Debug Drawer Hidden Behind Lesson Complete Overlay
-- **Status:** RESOLVED — Phase 7
-- **Description:** DebugDrawer z-index was `z-[100]`, same or lower than lesson-complete overlay. Could not copy logs after lesson ended.
-- **Resolution:** Raised to `z-[9999]`.
+- **Status:** RESOLVED — Phase 7+
+- **Description:** Lesson-complete screen used an early `return` with `fixed inset-0`, completely replacing the component tree and hiding the debug drawer.
+- **Resolution:** Moved lesson-complete into an `AnimatePresence` overlay at `z-[90]` inside the main layout. Debug drawer at `z-[9999]` renders alongside it. Bug icon in top bar remains clickable.
 
 ### 76. No Image Test Presets in Canvas Workbench
 - **Status:** RESOLVED — Phase 7
