@@ -78,30 +78,30 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
         // Recolor based on layer type
         try {
           if (layer.type === 'background') {
-            map.setPaintProperty(layer.id, 'background-color', '#2e2820'); // Warm parchment base
+            map.setPaintProperty(layer.id, 'background-color', '#4a3f33'); // Lightened parchment base
           } else if (layer.type === 'fill') {
             if (id.includes('water') || id.includes('ocean') || id.includes('sea')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#1a2e40'); // Deep but visible water
-              map.setPaintProperty(layer.id, 'fill-opacity', 0.85);
-            } else if (id.includes('land') || id.includes('earth') || id.includes('park') || id.includes('green')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#352e24'); // Warm earth
+              map.setPaintProperty(layer.id, 'fill-color', '#2a4a68'); // Brighter visible water
               map.setPaintProperty(layer.id, 'fill-opacity', 0.9);
+            } else if (id.includes('land') || id.includes('earth') || id.includes('park') || id.includes('green')) {
+              map.setPaintProperty(layer.id, 'fill-color', '#5a4d3c'); // Lighter warm earth
+              map.setPaintProperty(layer.id, 'fill-opacity', 0.95);
             } else if (id.includes('sand') || id.includes('desert') || id.includes('beach')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#3d3228'); // Sandy warm
+              map.setPaintProperty(layer.id, 'fill-color', '#5e5040'); // Lighter sandy warm
             } else if (id.includes('glacier') || id.includes('ice') || id.includes('snow')) {
-              map.setPaintProperty(layer.id, 'fill-color', '#3a3a42'); // Muted ice
+              map.setPaintProperty(layer.id, 'fill-color', '#5a5a62'); // Lighter muted ice
             }
           } else if (layer.type === 'line') {
             if (id.includes('water') || id.includes('river') || id.includes('stream')) {
-              map.setPaintProperty(layer.id, 'line-color', '#2a4a60'); // Visible water lines
-              map.setPaintProperty(layer.id, 'line-opacity', 0.7);
+              map.setPaintProperty(layer.id, 'line-color', '#3a6a88'); // Brighter water lines
+              map.setPaintProperty(layer.id, 'line-opacity', 0.8);
             } else if (id.includes('border') || id.includes('boundary') || id.includes('admin')) {
-              map.setPaintProperty(layer.id, 'line-color', '#8a6a4a'); // Warm borders
-              map.setPaintProperty(layer.id, 'line-opacity', 0.35);
+              map.setPaintProperty(layer.id, 'line-color', '#a88a5a'); // Brighter warm borders
+              map.setPaintProperty(layer.id, 'line-opacity', 0.45);
               map.setPaintProperty(layer.id, 'line-dasharray', [4, 4]);
             } else if (id.includes('contour')) {
-              map.setPaintProperty(layer.id, 'line-color', '#3a3228');
-              map.setPaintProperty(layer.id, 'line-opacity', 0.2);
+              map.setPaintProperty(layer.id, 'line-color', '#5a4d3c');
+              map.setPaintProperty(layer.id, 'line-opacity', 0.25);
             }
           } else if (layer.type === 'symbol') {
             // Strictly hide all modern political, administrative, and populated place labels to enforce historical accuracy.
@@ -281,6 +281,16 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
         else if (style === 'conquest') { dashArray = [1, 0]; lineWidth = 3; }
         map.addSource(routeId, { type: 'geojson', data: { type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates } } });
         map.addLayer({ id: routeId, type: 'line', source: routeId, layout: { 'line-join': 'round', 'line-cap': 'round' }, paint: { 'line-color': color, 'line-width': lineWidth, 'line-dasharray': dashArray as [number, number] } });
+
+        // Auto-fit the map to show the entire route with padding
+        const lngs = coordinates.map(c => c[0]);
+        const lats = coordinates.map(c => c[1]);
+        const bounds = new maplibregl.LngLatBounds(
+          [Math.min(...lngs), Math.min(...lats)],
+          [Math.max(...lngs), Math.max(...lats)]
+        );
+        map.fitBounds(bounds, { padding: 80, duration: 1000, maxZoom: 7 });
+
         return routeId;
       },
       removeRoute(routeId: string) {
