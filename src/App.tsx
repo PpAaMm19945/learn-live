@@ -9,7 +9,7 @@ import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/parent/Dashboard";
-import AdminDashboard from "./pages/admin/Dashboard";
+import CanvasWorkbench from "./pages/admin/CanvasWorkbench";
 import TopicDetail from "./pages/TopicDetail";
 
 import LessonPlayerPage from "./pages/LessonPlayerPage";
@@ -100,7 +100,7 @@ const App = () => {
                 path="/admin"
                 element={
                   <ProtectedRoute allowedRoles={['admin']}>
-                    <AppShell><AdminDashboard /></AppShell>
+                    <AppShell><CanvasWorkbench /></AppShell>
                   </ProtectedRoute>
                 }
               />
