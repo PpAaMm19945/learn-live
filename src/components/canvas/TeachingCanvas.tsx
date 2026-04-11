@@ -241,6 +241,11 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
       highlightRegion(featureId: string, color: string, opacity: number = 0.25) {
         if (!mapRef.current || !mapLoaded) return;
         const map = mapRef.current;
+        // Guard: layers only exist if chapterGeoJSON was provided
+        if (!map.getLayer('chapter-regions-fill')) {
+          console.warn('[MAP] highlight_region skipped — no chapter-regions-fill layer (no GeoJSON loaded)');
+          return;
+        }
         const currentOpacity = map.getPaintProperty('chapter-regions-fill', 'fill-opacity') || 0;
         let newOpacityExpr;
         if (Array.isArray(currentOpacity) && currentOpacity[0] === 'match') {

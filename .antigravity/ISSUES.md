@@ -58,12 +58,13 @@
 - **Evidence:** Screenshots image-120, image-121, image-122 — all show transcript text only, no images.
 - **Fix:** Set `imageSceneUrl` synchronously before `sceneMode` switches to `"image"`. Restructure beat processor tool call handling.
 
-### 67. Map Highlights Not Rendering
-- **Status:** OPEN — MEDIUM
-- **Description:** The MapLibre map appears on beat 4 but `highlight_region("mizraim")`, `highlight_region("cush")`, etc. produce no visible effect. The `zoom_to("babel")` works because it uses `NAMED_LOCATIONS` coordinates.
-- **Root Cause:** `canvas.highlightRegion(regionId)` expects GeoJSON polygon layers for each named region. No GeoJSON data exists for ancient regions like "mizraim", "cush", "phut", "canaan".
-- **Evidence:** Screenshot image-117 — dark map with no highlighted regions.
-- **Fix:** Either load GeoJSON polygons for ancient regions, or implement fallback marker-based highlighting using `NAMED_LOCATIONS` coordinates with labeled circles/markers.
+### 67. Map Highlights Not Rendering — `getPaintProperty` Crash
+- **Status:** PARTIALLY FIXED — Phase 7+
+- **Description:** `highlight_region("canaan")` etc. crash with `Cannot read properties of undefined (reading 'getPaintProperty')` because the `chapter-regions-fill` layer only exists when `chapterGeoJSON` is passed to `TeachingCanvas`. Neither the Workbench nor SessionCanvas currently provide GeoJSON.
+- **Root Cause:** `highlightRegion()` called `map.getPaintProperty()` on a non-existent layer. No guard check.
+- **Fix applied:** Added `map.getLayer('chapter-regions-fill')` guard — now returns silently instead of crashing, and the fallback marker from `toolCallHandler` still renders.
+- **Remaining:** To actually highlight polygonal regions, GeoJSON data for ancient regions (Canaan, Mizraim, Cush, Phut) must be created and passed as `chapterGeoJSON`. Without it, only the fallback marker + label renders.
+- **Evidence:** Admin workbench logs show repeated `getPaintProperty` errors for every `highlight_region` call.
 
 ### 68. Gemini Narrator 503 — No Retry Logic
 - **Status:** OPEN — HIGH
@@ -106,9 +107,9 @@
 - **Resolution:** Lightened all base colors by ~40%: background `#2e2820`, land `#352e24`, water `#1a2e40`, borders `#8a6a4a`.
 
 ### 75. Debug Drawer Hidden Behind Lesson Complete Overlay
-- **Status:** RESOLVED — Phase 7
-- **Description:** DebugDrawer z-index was `z-[100]`, same or lower than lesson-complete overlay. Could not copy logs after lesson ended.
-- **Resolution:** Raised to `z-[9999]`.
+- **Status:** RESOLVED — Phase 7+
+- **Description:** Lesson-complete screen used an early `return` with `fixed inset-0`, completely replacing the component tree and hiding the debug drawer.
+- **Resolution:** Moved lesson-complete into an `AnimatePresence` overlay at `z-[90]` inside the main layout. Debug drawer at `z-[9999]` renders alongside it. Bug icon in top bar remains clickable.
 
 ### 76. No Image Test Presets in Canvas Workbench
 - **Status:** RESOLVED — Phase 7
@@ -130,10 +131,27 @@
 - **Description:** Debug drawer shows SCENE events only for `map` transitions. Image scenes are not triggering SCENE debug events, confirming the race condition in Issue 66 where `sceneMode` changes but `imageSceneUrl` is not yet set.
 - **Evidence:** User screenshots — purple SCENE badge only appears for map transitions.
 
+### 80. Multi-Tool Coordination Missing
+- **Status:** OPEN — HIGH
+- **Description:** Individual tools work (`zoom_to`, `draw_route`, `place_marker`) but they don't compose well. A route is drawn without zooming to show the full extent. A marker is placed without zooming in. The agent fires tools independently without spatial awareness.
+- **Evidence:** Admin workbench testing confirms individual tools work, but manual composition (zoom + highlight + route) is needed.
+- **Fix (agent):** Agent system prompt should instruct coordinated tool calls — e.g., `zoom_to` with appropriate zoom level before/after `draw_route`. Frontend could also auto-fit bounds after `draw_route`.
+
+### 81. Scripture/Timeline/Figure Overlays Not Visible
+- **Status:** OPEN — HIGH
+- **Description:** `show_scripture`, `show_timeline`, `show_figure`, `show_genealogy` tools dispatch without error in the workbench log but produce no visible output. The overlay rendering in `TeachingCanvas` may not be connected to the DOM, or state is not triggering a re-render.
+- **Evidence:** Workbench logs show `dispatched` for all overlay tools, but canvas area shows only the map. Session logs show `show_scripture` and `show_timeline` fired but nothing appears.
+- **Root Cause:** Needs investigation — likely the overlay state (`scripture`, `timeline`, etc.) is set via `useImperativeHandle` but the JSX rendering those overlays may be missing or conditionally hidden.
+
+### 82. GeoJSON Data Needed for Ancient Regions
+- **Status:** OPEN — MEDIUM
+- **Description:** To enable proper polygonal region highlighting (filled, bordered areas on the map), GeoJSON `FeatureCollection` data must be created for ancient regions: Canaan, Mizraim (Egypt), Cush (Nubia), Phut (Libya), Babel (Mesopotamia), Aksum, Carthage.
+- **Notes:** Without this, `highlight_region` only places a fallback marker. Polygons would enable proper filled highlighting with opacity.
+
 ---
 
 ## Notes
-- Issues 65-69, 79 are the current Phase 7 blockers.
+- Issues 65, 66, 79, 80, 81 are the current critical blockers.
 - Issues 68, 69, 71 require agent redeployment.
-- Issues 65 (partial), 66, 67, 79 can be fixed frontend-only.
-- Issues 70, 77, 78 are feature requests.
+- Issues 65 (partial), 66, 67, 79, 81 can be fixed frontend-only.
+- Issues 70, 77, 78, 82 are feature requests or data tasks.
