@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -24,13 +25,35 @@ const LEVEL_STYLES: Record<LogLevel, string> = {
   error: 'bg-red-500/15 text-red-500 border-red-500/30',
 };
 
+function fallbackCopy(text: string): Promise<void> {
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(text);
+  }
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.cssText = 'position:fixed;left:-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  return Promise.resolve();
+}
+
 export function ToolCallLog({ entries, onClear }: ToolCallLogProps) {
+  const [copyLabel, setCopyLabel] = useState('Copy All');
+
   const copyAll = async () => {
     const formatted = entries
       .map((entry) => `${entry.timestamp} ${entry.level.toUpperCase()} ${entry.label} ${entry.args ? JSON.stringify(entry.args) : ''} ${entry.result || ''}`)
       .join('\n');
 
-    await navigator.clipboard.writeText(formatted);
+    try {
+      await fallbackCopy(formatted);
+      setCopyLabel('Copied!');
+    } catch {
+      setCopyLabel('Failed');
+    }
+    setTimeout(() => setCopyLabel('Copy All'), 2000);
   };
 
   return (
@@ -38,7 +61,7 @@ export function ToolCallLog({ entries, onClear }: ToolCallLogProps) {
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold">Tool Call Log</h3>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={copyAll} disabled={!entries.length}>Copy All</Button>
+          <Button variant="outline" size="sm" onClick={copyAll} disabled={!entries.length}>{copyLabel}</Button>
           <Button variant="outline" size="sm" onClick={onClear} disabled={!entries.length}>Clear Log</Button>
         </div>
       </div>

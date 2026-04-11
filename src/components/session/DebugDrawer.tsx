@@ -84,10 +84,36 @@ export function DebugDrawer({ events, isOpen, onToggle }: DebugDrawerProps) {
     });
   }, []);
 
+  const [copyFeedback, setCopyFeedback] = useState('');
+
   const copyAll = useCallback(() => {
-    const json = JSON.stringify(events, null, 2);
-    navigator.clipboard.writeText(json).then(() => {
-      // Brief visual feedback via title change would be nice but keep it simple
+    const formatted = events.map(e => {
+      const t = new Date(e.timestamp).toLocaleTimeString('en-US', { hour12: false });
+      const ms = String(e.timestamp % 1000).padStart(3, '0');
+      return `${t}.${ms} [${e.category.toUpperCase()}] ${e.label}${e.detail ? '\n  ' + e.detail : ''}`;
+    }).join('\n');
+
+    // Fallback for contexts where clipboard API is blocked
+    const doCopy = (text: string) => {
+      if (navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.cssText = 'position:fixed;left:-9999px';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      return Promise.resolve();
+    };
+
+    doCopy(formatted).then(() => {
+      setCopyFeedback('Copied!');
+      setTimeout(() => setCopyFeedback(''), 2000);
+    }).catch(() => {
+      setCopyFeedback('Failed');
+      setTimeout(() => setCopyFeedback(''), 2000);
     });
   }, [events]);
 
@@ -102,7 +128,7 @@ export function DebugDrawer({ events, isOpen, onToggle }: DebugDrawerProps) {
   const filtered = events.filter(e => activeFilters.has(e.category));
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 w-96 bg-black/95 backdrop-blur-lg border-l border-white/10 z-[100] flex flex-col text-xs font-mono">
+    <div className="fixed right-0 top-0 bottom-0 w-96 bg-black/95 backdrop-blur-lg border-l border-white/10 z-[9999] flex flex-col text-xs font-mono">
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-white/10">
         <span className="text-white/80 font-bold tracking-wider uppercase text-[10px]">
@@ -111,9 +137,9 @@ export function DebugDrawer({ events, isOpen, onToggle }: DebugDrawerProps) {
         <div className="flex items-center gap-2">
           <button
             onClick={copyAll}
-            className="text-white/40 hover:text-white/80 transition-colors text-[10px] uppercase tracking-wider px-2 py-1 border border-white/10 rounded hover:border-white/30"
+            className={`transition-colors text-[10px] uppercase tracking-wider px-2 py-1 border rounded ${copyFeedback === 'Copied!' ? 'text-green-400 border-green-500/40' : 'text-white/40 hover:text-white/80 border-white/10 hover:border-white/30'}`}
           >
-            Copy All
+            {copyFeedback || 'Copy All'}
           </button>
           <button
             onClick={onToggle}

@@ -95,10 +95,45 @@
 - **Resolution:** `DebugDrawer.tsx` fully wired with category filters, expandable details, copy-all, and ~25 debug event emissions from `useSession.ts` covering connection, beats, tools, audio, Q&A, scenes, and errors. Toggle via Bug icon in session top bar.
 - **Future:** Agent should emit `{ type: 'debug', message: '...' }` WebSocket messages for server-side visibility (Gemini retries, TTS progress, narrator prompts).
 
+### 73. Copy Buttons Fail in Preview/Iframe Contexts
+- **Status:** RESOLVED — Phase 7
+- **Description:** Both DebugDrawer and ToolCallLog "Copy All" buttons use `navigator.clipboard.writeText()` which silently fails in cross-origin iframes and non-HTTPS contexts.
+- **Resolution:** Added `document.execCommand('copy')` fallback + visual feedback ("Copied!" / "Failed").
+
+### 74. Map Theme Too Dark — Regions/Land Invisible
+- **Status:** RESOLVED — Phase 7
+- **Description:** The `applyAncientTheme` recoloring made background `#1a1610` and land `#1f1a14` — nearly indistinguishable. Regions, borders, and terrain features invisible.
+- **Resolution:** Lightened all base colors by ~40%: background `#2e2820`, land `#352e24`, water `#1a2e40`, borders `#8a6a4a`.
+
+### 75. Debug Drawer Hidden Behind Lesson Complete Overlay
+- **Status:** RESOLVED — Phase 7
+- **Description:** DebugDrawer z-index was `z-[100]`, same or lower than lesson-complete overlay. Could not copy logs after lesson ended.
+- **Resolution:** Raised to `z-[9999]`.
+
+### 76. No Image Test Presets in Canvas Workbench
+- **Status:** RESOLVED — Phase 7
+- **Description:** SceneControls only had a raw URL input — no way to quickly test R2 image loading.
+- **Resolution:** Added dropdown with R2 storybook paths and an external Unsplash test URL.
+
+### 77. Transcript Should Use Card-Based Layout
+- **Status:** OPEN — MEDIUM (Feature Request)
+- **Description:** User suggests transcript chunks should display as cards rather than streaming text, to better sync with audio and enable timestamped review.
+- **Notes:** Would require reworking `TranscriptView.tsx` to render discrete beat-aligned cards with timestamps. Could aid audio sync debugging.
+
+### 78. Agent Thinking/Reasoning Not Visible
+- **Status:** OPEN — LOW (Feature Request)
+- **Description:** User wants to see the agent's internal reasoning/thinking steps in the debug feed.
+- **Notes:** Requires agent to emit `{ type: 'debug', category: 'thinking', message: '...' }` messages. Frontend DebugDrawer already supports arbitrary categories.
+
+### 79. Scene Transitions Only Firing for Map
+- **Status:** OPEN — HIGH
+- **Description:** Debug drawer shows SCENE events only for `map` transitions. Image scenes are not triggering SCENE debug events, confirming the race condition in Issue 66 where `sceneMode` changes but `imageSceneUrl` is not yet set.
+- **Evidence:** User screenshots — purple SCENE badge only appears for map transitions.
+
 ---
 
 ## Notes
-- Issues 65-69 are the current Phase 7 blockers.
+- Issues 65-69, 79 are the current Phase 7 blockers.
 - Issues 68, 69, 71 require agent redeployment.
-- Issues 65 (partial), 66, 67, 72 can be fixed frontend-only.
-- Issue 70 is a feature request, not a bug.
+- Issues 65 (partial), 66, 67, 79 can be fixed frontend-only.
+- Issues 70, 77, 78 are feature requests.
