@@ -94,7 +94,16 @@ export class BeatSequencer {
             prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
         }
 
-        const narratedText = await this.narrator.narrate(prompt) || baseText;
+        let narratedText = await this.narrator.narrate(prompt) || baseText;
+        
+        // Strip any JSON/code blocks that leaked into the narration
+        narratedText = narratedText
+            .replace(/```(?:json)?\s*[\s\S]*?```/gi, '')
+            .replace(/\[\s*\{\s*"(?:command|action|actions)"\s*:[\s\S]*?\}\s*\]/g, '')
+            .replace(/\{\s*"(?:command|action)"\s*:[\s\S]*?\}/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim() || baseText;
+        
         this.previousNarratedText = narratedText;
 
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
