@@ -82,17 +82,28 @@ export class BeatSequencer {
         // Build a continuity-aware prompt
         let prompt = '';
         
+        const jsonGuard = `\n\nCRITICAL OUTPUT RULES:\n- Your response must be ONLY plain narration text — spoken words for the student.\n- NEVER include JSON, code blocks, markdown fences, tool commands, function calls, or any structured data.\n- Do NOT output anything like \`\`\`json, set_scene(), show_scripture(), or [{"command":...}].\n- If you feel the urge to include stage directions or visual cues, suppress it — those are handled separately.\n`;
+
         if (isFirst) {
-            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Be warm and authoritative. Do not introduce yourself or say "welcome" — start directly with the content.\n\nContent: "${baseText}"`;
+            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Be warm and authoritative. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}\nContent: "${baseText}"`;
         } else {
-            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the same tone and energy as the previous segment.\n\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
+            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the same tone and energy as the previous segment.${jsonGuard}\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Be warm and authoritative. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
         }
 
         if (isLast) {
             prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
         }
 
-        const narratedText = await this.narrator.narrate(prompt) || baseText;
+        let narratedText = await this.narrator.narrate(prompt) || baseText;
+        
+        // Strip any JSON/code blocks that leaked into the narration
+        narratedText = narratedText
+            .replace(/```(?:json)?\s*[\s\S]*?```/gi, '')
+            .replace(/\[\s*\{\s*"(?:command|action|actions)"\s*:[\s\S]*?\}\s*\]/g, '')
+            .replace(/\{\s*"(?:command|action)"\s*:[\s\S]*?\}/g, '')
+            .replace(/\s{2,}/g, ' ')
+            .trim() || baseText;
+        
         this.previousNarratedText = narratedText;
 
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
