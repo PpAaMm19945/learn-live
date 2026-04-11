@@ -531,7 +531,12 @@ export function useSession({
       // 2. Play Audio
       setBeatState('PLAYING_AUDIO');
 
-      const cleanText = stripToolCallText(currentBeat.text || '');
+      let cleanText = stripToolCallText(currentBeat.text || '');
+      // If the narrator returned only JSON (stripped to empty), use a placeholder so the transcript still advances
+      if (!cleanText && currentBeat.text && currentBeat.text.trim().length > 0) {
+        debug('beat', 'Beat text was entirely JSON — using fallback marker');
+        cleanText = '…';
+      }
       const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
 
       if (hasAudio) {

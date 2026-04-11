@@ -125,7 +125,7 @@ export function CanvasOverlays({ overlays, onDismiss }: CanvasOverlaysProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 30 }}
             transition={{ type: 'spring', damping: 20, stiffness: 120 }}
-            className="absolute bottom-24 left-1/2 -translate-x-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-8 py-4 max-w-3xl w-[85%] pointer-events-auto"
+            className="absolute bottom-28 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-6 py-4 md:max-w-2xl md:w-[70%] pointer-events-auto"
             onClick={() => onDismiss?.('timeline')}
           >
             <div className="relative w-full flex items-center justify-between min-h-[48px]">
