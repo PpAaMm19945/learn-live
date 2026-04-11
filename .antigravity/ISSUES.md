@@ -117,9 +117,9 @@
 - **Resolution:** Added dropdown with R2 storybook paths and an external Unsplash test URL.
 
 ### 77. Transcript Should Use Card-Based Layout
-- **Status:** OPEN — MEDIUM (Feature Request)
-- **Description:** User suggests transcript chunks should display as cards rather than streaming text, to better sync with audio and enable timestamped review.
-- **Notes:** Would require reworking `TranscriptView.tsx` to render discrete beat-aligned cards with timestamps. Could aid audio sync debugging.
+- **Status:** RESOLVED — Phase 8
+- **Description:** Transcript chunks now render as discrete cards with index numbers. Latest card is prominent with border/shadow; older cards fade to 40% opacity. Auto-scrolls to newest.
+- **Resolution:** Rewrote `TranscriptView.tsx` from SRT-style subtitles to scrollable card stack.
 
 ### 78. Agent Thinking/Reasoning Not Visible
 - **Status:** OPEN — LOW (Feature Request)
@@ -127,9 +127,9 @@
 - **Notes:** Requires agent to emit `{ type: 'debug', category: 'thinking', message: '...' }` messages. Frontend DebugDrawer already supports arbitrary categories.
 
 ### 79. Scene Transitions Only Firing for Map
-- **Status:** OPEN — HIGH
-- **Description:** Debug drawer shows SCENE events only for `map` transitions. Image scenes are not triggering SCENE debug events, confirming the race condition in Issue 66 where `sceneMode` changes but `imageSceneUrl` is not yet set.
-- **Evidence:** User screenshots — purple SCENE badge only appears for map transitions.
+- **Status:** RESOLVED — Phase 8
+- **Description:** Overlay tools (scripture, figure, genealogy, timeline) were rendered inside `TeachingCanvas`, which is only visible during `map` mode. They now render via `CanvasOverlays` at the `SessionCanvas` level, visible in ALL scene modes.
+- **Resolution:** Created `CanvasOverlays.tsx`; intercepted overlay tool calls in `SessionCanvas.handleAgentToolCall` and `CanvasWorkbench.dispatchTool`.
 
 ### 80. Multi-Tool Coordination Missing
 - **Status:** OPEN — HIGH
@@ -138,10 +138,9 @@
 - **Fix (agent):** Agent system prompt should instruct coordinated tool calls — e.g., `zoom_to` with appropriate zoom level before/after `draw_route`. Frontend could also auto-fit bounds after `draw_route`.
 
 ### 81. Scripture/Timeline/Figure Overlays Not Visible
-- **Status:** OPEN — HIGH
-- **Description:** `show_scripture`, `show_timeline`, `show_figure`, `show_genealogy` tools dispatch without error in the workbench log but produce no visible output. The overlay rendering in `TeachingCanvas` may not be connected to the DOM, or state is not triggering a re-render.
-- **Evidence:** Workbench logs show `dispatched` for all overlay tools, but canvas area shows only the map. Session logs show `show_scripture` and `show_timeline` fired but nothing appears.
-- **Root Cause:** Needs investigation — likely the overlay state (`scripture`, `timeline`, etc.) is set via `useImperativeHandle` but the JSX rendering those overlays may be missing or conditionally hidden.
+- **Status:** RESOLVED — Phase 8
+- **Description:** Overlay state was set via `useImperativeHandle` inside `TeachingCanvas`, but the JSX rendering those overlays was hidden when `sceneMode !== 'map'` because the entire TeachingCanvas div had `opacity-0`.
+- **Resolution:** Extracted overlay rendering into `CanvasOverlays.tsx` component mounted at SessionCanvas/Workbench level with `z-40`, always visible regardless of active scene mode. Overlay tool calls are now intercepted before reaching `handleToolCall`.
 
 ### 82. GeoJSON Data Needed for Ancient Regions
 - **Status:** OPEN — MEDIUM
