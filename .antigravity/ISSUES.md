@@ -131,10 +131,27 @@
 - **Description:** Debug drawer shows SCENE events only for `map` transitions. Image scenes are not triggering SCENE debug events, confirming the race condition in Issue 66 where `sceneMode` changes but `imageSceneUrl` is not yet set.
 - **Evidence:** User screenshots — purple SCENE badge only appears for map transitions.
 
+### 80. Multi-Tool Coordination Missing
+- **Status:** OPEN — HIGH
+- **Description:** Individual tools work (`zoom_to`, `draw_route`, `place_marker`) but they don't compose well. A route is drawn without zooming to show the full extent. A marker is placed without zooming in. The agent fires tools independently without spatial awareness.
+- **Evidence:** Admin workbench testing confirms individual tools work, but manual composition (zoom + highlight + route) is needed.
+- **Fix (agent):** Agent system prompt should instruct coordinated tool calls — e.g., `zoom_to` with appropriate zoom level before/after `draw_route`. Frontend could also auto-fit bounds after `draw_route`.
+
+### 81. Scripture/Timeline/Figure Overlays Not Visible
+- **Status:** OPEN — HIGH
+- **Description:** `show_scripture`, `show_timeline`, `show_figure`, `show_genealogy` tools dispatch without error in the workbench log but produce no visible output. The overlay rendering in `TeachingCanvas` may not be connected to the DOM, or state is not triggering a re-render.
+- **Evidence:** Workbench logs show `dispatched` for all overlay tools, but canvas area shows only the map. Session logs show `show_scripture` and `show_timeline` fired but nothing appears.
+- **Root Cause:** Needs investigation — likely the overlay state (`scripture`, `timeline`, etc.) is set via `useImperativeHandle` but the JSX rendering those overlays may be missing or conditionally hidden.
+
+### 82. GeoJSON Data Needed for Ancient Regions
+- **Status:** OPEN — MEDIUM
+- **Description:** To enable proper polygonal region highlighting (filled, bordered areas on the map), GeoJSON `FeatureCollection` data must be created for ancient regions: Canaan, Mizraim (Egypt), Cush (Nubia), Phut (Libya), Babel (Mesopotamia), Aksum, Carthage.
+- **Notes:** Without this, `highlight_region` only places a fallback marker. Polygons would enable proper filled highlighting with opacity.
+
 ---
 
 ## Notes
-- Issues 65-69, 79 are the current Phase 7 blockers.
+- Issues 65, 66, 79, 80, 81 are the current critical blockers.
 - Issues 68, 69, 71 require agent redeployment.
-- Issues 65 (partial), 66, 67, 79 can be fixed frontend-only.
-- Issues 70, 77, 78 are feature requests.
+- Issues 65 (partial), 66, 67, 79, 81 can be fixed frontend-only.
+- Issues 70, 77, 78, 82 are feature requests or data tasks.
