@@ -217,6 +217,15 @@ CANVAS TOOLS:
 - dismiss_overlay: Dismiss a specific panel.
 - NEVER reference coordinates, pixel positions, or element IDs. Use semantic names only.
 
+MAP POPULATION RULE (MANDATORY):
+- EVERY time you switch to map scene, the map MUST have visible content. A blank map is NEVER acceptable.
+- When you mention ANY place by name (city, region, kingdom, river delta, etc.), you MUST call place_marker for it.
+- When zooming to a location, ALWAYS pair zoom_to with at least one place_marker at that location.
+- When discussing a region (e.g., Egypt, Canaan, Cush), call BOTH highlight_region AND place_marker for key cities within it.
+- When discussing movement between places, call draw_route AND place_marker at BOTH endpoints.
+- Combine multiple tool calls in the same beat: zoom_to + place_marker + highlight_region together.
+- If you are on the map scene and narrating, there should ALWAYS be markers, highlights, or routes visible.
+
 LESSON CONTENT TO NARRATE:
 ${baseContent}
 
