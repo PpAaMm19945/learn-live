@@ -142,15 +142,25 @@
 - **Description:** Overlay state was set via `useImperativeHandle` inside `TeachingCanvas`, but the JSX rendering those overlays was hidden when `sceneMode !== 'map'` because the entire TeachingCanvas div had `opacity-0`.
 - **Resolution:** Extracted overlay rendering into `CanvasOverlays.tsx` component mounted at SessionCanvas/Workbench level with `z-40`, always visible regardless of active scene mode. Overlay tool calls are now intercepted before reaching `handleToolCall`.
 
-### 82. GeoJSON Data Needed for Ancient Regions
-- **Status:** OPEN — MEDIUM
-- **Description:** To enable proper polygonal region highlighting (filled, bordered areas on the map), GeoJSON `FeatureCollection` data must be created for ancient regions: Canaan, Mizraim (Egypt), Cush (Nubia), Phut (Libya), Babel (Mesopotamia), Aksum, Carthage.
-- **Notes:** Without this, `highlight_region` only places a fallback marker. Polygons would enable proper filled highlighting with opacity.
+### 83. Gemini Narrator Leaks JSON Into Beat Text
+- **Status:** RESOLVED — Phase 9
+- **Description:** The Gemini narrator returns raw JSON command blocks (```json [...] ```) as the `text` field in beat payloads for beats 2+. This causes: (a) transcript cards showing no text (stripped to empty), (b) TTS speaking JSON gibberish, (c) session appearing stuck.
+- **Evidence:** Debug logs show `text: "```json\n[\n  {\n    \"command\": \"set_scene\"..."` for beats 2 and 3.
+- **Resolution:** Added explicit JSON-guard instructions to the narrator prompt. Added server-side regex stripping of JSON from narrator output. Added frontend fallback marker ('…') when stripped text is empty.
+
+### 84. Timeline Overlay Clipped by Viewport Edge
+- **Status:** RESOLVED — Phase 9
+- **Description:** The timeline overlay at `bottom-24 left-1/2 w-[85%]` was getting cut off on narrower viewports and when the debug drawer was open.
+- **Resolution:** Changed to responsive positioning with `left-4 right-4 md:left-1/2 md:w-[70%]` and `bottom-28` to clear the status bar.
+
+### 85. Session Stops Advancing After Beat 3
+- **Status:** OPEN — HIGH (agent-side investigation needed)
+- **Description:** After 3 beats play successfully, no more beats arrive from the agent. The frontend shows "beat IDLE" but no new `beat_payload` messages come over WebSocket. Likely the agent's Gemini narration call hangs or errors silently on beat 4+.
+- **Investigation:** Check agent logs for errors after beat 3. May be related to #83 — if the narrator returns pure JSON, the TTS may fail, causing the agent to hang.
 
 ---
 
 ## Notes
-- Issues 65, 66, 79, 80, 81 are the current critical blockers.
-- Issues 68, 69, 71 require agent redeployment.
-- Issues 65 (partial), 66, 67, 79, 81 can be fixed frontend-only.
-- Issues 70, 77, 78, 82 are feature requests or data tasks.
+- Issue 85 is the current critical blocker (agent-side).
+- Issues 80, 82 remain open for future work.
+- Issue 83 fix requires agent redeployment.
