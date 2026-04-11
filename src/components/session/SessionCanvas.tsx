@@ -100,8 +100,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     // Intercept set_scene("image") to capture imageUrl BEFORE scene mode switches
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
       const rawUrl = msg.args.imageUrl || '';
-      // Resolve R2 paths so images from the agent actually load
-      const { resolveImageUrl } = await import('@/lib/r2Assets');
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
       setImageSceneUrl(resolvedUrl);
       setImageSceneCaption(msg.args.caption || '');
