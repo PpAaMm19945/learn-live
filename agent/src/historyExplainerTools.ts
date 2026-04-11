@@ -1,7 +1,11 @@
+// ── Tool Definitions ──────────────────────────────────────────────────
+// Describes every tool the AI narrator can invoke on the teaching canvas.
+
 export const MAPLIBRE_TEACHING_TOOLS = [
+  // ── Scene Control ──
   {
     name: 'set_scene',
-    description: 'Switch the canvas between visual modes. Use "transcript" to return focus to the kinetic text. Use "map" before any map operations. Use "image" to show a full-screen illustration. The canvas starts in "transcript" mode.',
+    description: 'Switch the canvas between visual modes. "transcript" = kinetic text, "map" = interactive map, "image" = full-screen illustration, "overlay" = blank canvas for overlays.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -12,9 +16,11 @@ export const MAPLIBRE_TEACHING_TOOLS = [
       required: ['mode'],
     },
   },
+
+  // ── Map Tools ──
   {
     name: 'zoom_to',
-    description: 'Smoothly fly the map camera to a named location or coordinates. Auto-switches to map scene if not already there.',
+    description: 'Fly the map camera to a named location. Auto-switches to map scene.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -33,7 +39,7 @@ export const MAPLIBRE_TEACHING_TOOLS = [
     parameters: {
       type: 'OBJECT',
       properties: {
-        regionId: { type: 'STRING', description: 'Region ID matching GeoJSON feature (e.g., "mizraim", "cush", "phut", "canaan")' },
+        regionId: { type: 'STRING', description: 'Region ID (e.g., "mizraim", "cush", "phut", "canaan")' },
         color: { type: 'STRING', description: 'Fill color (e.g., "#fac775")' },
         opacity: { type: 'NUMBER', description: 'Fill opacity 0-1 (default: 0.25)' },
       },
@@ -46,10 +52,10 @@ export const MAPLIBRE_TEACHING_TOOLS = [
     parameters: {
       type: 'OBJECT',
       properties: {
-        from: { type: 'STRING', description: 'Starting location ID (e.g., "babel")' },
-        to: { type: 'STRING', description: 'Ending location ID (e.g., "egypt")' },
+        from: { type: 'STRING', description: 'Starting location ID' },
+        to: { type: 'STRING', description: 'Ending location ID' },
         style: { type: 'STRING', enum: ['migration', 'trade', 'conquest'] },
-        color: { type: 'STRING', description: 'Route color (default: uses destination region color)' },
+        color: { type: 'STRING', description: 'Route color' },
       },
       required: ['from', 'to', 'style'],
     },
@@ -67,6 +73,8 @@ export const MAPLIBRE_TEACHING_TOOLS = [
       required: ['location', 'label'],
     },
   },
+
+  // ── Knowledge Overlays ──
   {
     name: 'show_scripture',
     description: 'Display a scripture reference card overlaid on the canvas.',
@@ -130,6 +138,92 @@ export const MAPLIBRE_TEACHING_TOOLS = [
       required: ['name', 'title'],
     },
   },
+
+  // ── NEW: Richer Teaching Tools ──
+  {
+    name: 'show_key_term',
+    description: 'Display a vocabulary card with definition, pronunciation, and optional etymology. Use when introducing important historical, theological, or geographic terms.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        term: { type: 'STRING', description: 'The vocabulary word or phrase' },
+        definition: { type: 'STRING', description: 'Clear, age-appropriate definition' },
+        pronunciation: { type: 'STRING', description: 'Phonetic pronunciation guide (e.g., "pro-toh-eh-VAN-gel-ee-um")' },
+        etymology: { type: 'STRING', description: 'Word origin (e.g., "Greek: protos (first) + evangelion (good news)")' },
+      },
+      required: ['term', 'definition'],
+    },
+  },
+  {
+    name: 'show_comparison',
+    description: 'Display a two-column comparison table. Use for contrasting concepts, before/after, cause/effect, or two civilizations.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        title: { type: 'STRING', description: 'Comparison title (e.g., "Before vs After the Fall")' },
+        columnA: {
+          type: 'OBJECT',
+          properties: {
+            heading: { type: 'STRING' },
+            points: { type: 'ARRAY', items: { type: 'STRING' } },
+          },
+          required: ['heading', 'points'],
+        },
+        columnB: {
+          type: 'OBJECT',
+          properties: {
+            heading: { type: 'STRING' },
+            points: { type: 'ARRAY', items: { type: 'STRING' } },
+          },
+          required: ['heading', 'points'],
+        },
+      },
+      required: ['title', 'columnA', 'columnB'],
+    },
+  },
+  {
+    name: 'show_question',
+    description: 'Display a thinking question card. Use at key transition points to provoke reflection, check understanding, or pose rhetorical questions.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        question: { type: 'STRING', description: 'The question to display' },
+        context: { type: 'STRING', description: 'Optional hint or framing context' },
+        type: { type: 'STRING', enum: ['rhetorical', 'reflection', 'check'], description: 'Question type (default: rhetorical)' },
+      },
+      required: ['question'],
+    },
+  },
+  {
+    name: 'show_quote',
+    description: 'Display a dramatic quote from a historical figure, theologian, or primary source.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        text: { type: 'STRING', description: 'The quote text' },
+        attribution: { type: 'STRING', description: 'Who said/wrote it' },
+        date: { type: 'STRING', description: 'When (e.g., "354-430 AD")' },
+      },
+      required: ['text', 'attribution'],
+    },
+  },
+  {
+    name: 'show_slide',
+    description: 'Display a structured content slide with title, body text, bullet points, and/or image. Use for presenting organized information, summaries, or visual-text combinations.',
+    parameters: {
+      type: 'OBJECT',
+      properties: {
+        title: { type: 'STRING', description: 'Slide title' },
+        body: { type: 'STRING', description: 'Main body text (1-3 sentences)' },
+        bullets: { type: 'ARRAY', items: { type: 'STRING' }, description: 'Bullet points (3-5 items)' },
+        imageUrl: { type: 'STRING', description: 'Optional illustration URL' },
+        layout: { type: 'STRING', enum: ['center', 'left', 'split'], description: 'Layout style (default: center)' },
+      },
+      required: ['title'],
+    },
+  },
+
+  // ── Canvas Management ──
   {
     name: 'clear_canvas',
     description: 'Remove all overlays, routes, markers, and panels. Return to clean state.',
@@ -141,13 +235,14 @@ export const MAPLIBRE_TEACHING_TOOLS = [
     parameters: {
       type: 'OBJECT',
       properties: {
-        type: { type: 'STRING', description: 'Type of overlay to dismiss (e.g., "scripture", "figure", "genealogy", "timeline", or "all")' },
+        type: { type: 'STRING', description: 'Type of overlay to dismiss (scripture, figure, genealogy, timeline, keyTerm, comparison, question, quote, slide, or "all")' },
       },
       required: [],
     },
   },
 ];
 
+// ── System Prompt Builder ────────────────────────────────────────────
 export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?: { name?: string; age?: number; band?: number }, band: number = 2): string {
     const learnerName = learnerContext?.name || 'the learner';
     const age = learnerContext?.age || 7;
@@ -156,75 +251,106 @@ export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?
 
     if (band <= 1) {
         bandSpecificInstructions = `
-- Band 0-1: Simple stories, 2-3 canvas elements max, slow pacing, relate to child's world.
-- Use very simple vocabulary.
-- Tell a straightforward story with a warm, encouraging tone.
-- Keep the canvas very uncluttered.
-- SCENE BALANCE: Stay in transcript mode ~90% of the time. Only switch to image for key moments.`;
+- Band 0-1: Simple stories, gentle pacing, relate to child's world.
+- Use very simple vocabulary. Explain every term.
+- Tell a straightforward story with warmth but ENERGY.
+- Use show_slide and show_key_term heavily — keep visuals simple but constant.
+- IMAGE RULE: Show an illustration for 80% of beats. Transcript alone ≤ 20%.`;
     } else if (band <= 3) {
         bandSpecificInstructions = `
 - Band 2-3: More detail, show relationships between events, moderate pacing.
 - Introduce key historical facts clearly.
-- Use the timeline to show chronology and routes to show movement.
-- Ask simple rhetorical questions to maintain engagement.
-- SCENE BALANCE: Vary based on lesson content. Geography-heavy chapters → 50-60% map/visual. Narrative/theological chapters → 70-80% transcript.`;
+- Use the full tool palette: timeline, comparison, key terms, quotes, genealogy.
+- Ask rhetorical questions using show_question to maintain engagement.
+- IMAGE RULE: Alternate between image, map, and slide scenes. Transcript alone ≤ 20%.`;
     } else {
         bandSpecificInstructions = `
 - Band 4-5: Nuanced analysis, multiple perspectives, full canvas use.
 - Discuss historiography and why sources might disagree.
-- Compare multiple figures or events using the canvas.
-- Maintain an academic but accessible tone.
-- SCENE BALANCE: Use visuals strategically. Dense analytical passages → transcript mode. Geographic/comparative content → map/overlay mode.`;
+- Compare multiple figures or events using show_comparison.
+- Use show_quote for primary source engagement.
+- IMAGE RULE: Dense visual layering — slides with maps, comparisons with timelines. Transcript alone ≤ 15%.`;
     }
 
     return `YOUR ROLE:
-- You are a knowledgeable, BOLD, and AUTHORITATIVE narrator of African History speaking to ${learnerName} (age ${age}, Band ${band}).
-- You tell stories that connect events, people, and places based on the provided lesson text.
-- You control a full-screen teaching canvas that alternates between kinetic transcript and visual scenes.
+You are a COMMANDING, AUTHORITATIVE narrator of African History — a world-class university lecturer speaking to ${learnerName} (age ${age}, Band ${band}).
+You control a full-screen teaching canvas with a rich set of visual tools.
 
-VOICE & DELIVERY (APPLIES TO EVERY SEGMENT):
-- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university lecturer commanding a hall.
-- Do NOT whisper, murmur, or use a soft bedtime-story tone. EVER.
-- Project confidence and conviction in every sentence across ALL beats of the lesson.
+════════════════════════════════════════════════════════
+VOICE & DELIVERY — NON-NEGOTIABLE FOR EVERY SINGLE BEAT
+════════════════════════════════════════════════════════
+- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate professor who LOVES this subject.
+- Do NOT whisper, murmur, use a soft bedtime-story tone, or narrate gently. EVER.
+- Project confidence and conviction in EVERY sentence from first word to last.
 - Use declarative statements. Be direct. Speak as one who KNOWS the subject deeply.
-- Vary your pacing for emphasis but ALWAYS maintain commanding presence.
-- This voice direction is NON-NEGOTIABLE and must remain consistent from the first word to the last.
+- Vary pacing for emphasis but ALWAYS maintain commanding presence and energy.
+- You are TEACHING, not reading a bedtime story. This is a LECTURE HALL, not a library.
+- THIS INSTRUCTION OVERRIDES ALL OTHER TONE GUIDANCE. MAINTAIN THIS ENERGY ACROSS ALL BEATS.
 
-SCENE CONTROL (CRITICAL):
-- The canvas has TWO primary states: TRANSCRIPT (kinetic typography of your narration) and VISUAL (map, image, overlay).
-- You MUST actively manage the balance using set_scene. The transcript is NOT just a fallback — it IS the primary teaching surface for narrative passages.
-- Call set_scene("map") BEFORE any map tools (zoom_to, highlight_region, draw_route, place_marker).
-- Call set_scene("transcript") to return focus to the spoken word after a visual sequence.
-- Call set_scene("image", imageUrl) to show a full-screen illustration.
-- ASSESS each lesson's content type and adjust your visual ratio accordingly:
-  • Introductory/theological/narrative passages → favor transcript (70-80% transcript).
-  • Geographic movements, migrations, trade routes → favor map (50-60% visual).
-  • Comparisons, timelines, genealogies → use overlay mode, then return to transcript.
-- NEVER let the map sit idle for more than 15 seconds without interaction. If you're done with the map, switch back to transcript.
+════════════════════════════════════
+THE 80/20 VISUAL RULE — CRITICAL
+════════════════════════════════════
+The canvas is your PRIMARY teaching surface — NOT your voice alone.
+- 80% of lesson time MUST feature visual scenes (images, maps, slides, overlays).
+- Transcript-only mode (kinetic text) should occupy NO MORE than 20% of the lesson.
+- NEVER narrate for more than 15 seconds without a visual element on screen.
+- When in doubt, USE A VISUAL. A slide, an image, a comparison — ANYTHING is better than bare transcript.
 
-NARRATION STYLE (Band-aware):${bandSpecificInstructions}
+VISUAL PRIORITY ORDER (prefer higher):
+  1. Image Scene (set_scene "image") — full-bleed illustration, most immersive
+  2. Slide (show_slide) — structured content with title + bullets/body
+  3. Map Scene (set_scene "map" + markers/routes/highlights) — geographic content
+  4. Overlay combinations — scripture + timeline, comparison + map, etc.
+  5. Transcript — LAST RESORT, only for brief transitions
 
-CANVAS TOOLS:
-- zoom_to: Fly map camera to a named location (auto-switches to map scene).
-- highlight_region: Fill an ancient kingdom boundary with color.
-- draw_route: Animate migration/trade/conquest routes between locations.
-- place_marker: Label a city on the map.
-- show_scripture: Display scripture reference card.
-- show_genealogy: Render animated family tree.
-- show_timeline: Show timeline bar with events.
-- show_figure: Show historical figure portrait card.
-- clear_canvas: Remove all overlays and markers.
-- dismiss_overlay: Dismiss a specific panel.
-- NEVER reference coordinates, pixel positions, or element IDs. Use semantic names only.
+═══════════════════════════════
+CANVAS TOOLS — YOUR FULL PALETTE
+═══════════════════════════════
+SCENE CONTROL:
+- set_scene("image", imageUrl, caption) — Show full-screen illustration. USE THIS LIBERALLY.
+- set_scene("map") — Switch to interactive map. ALWAYS follow with zoom_to + place_marker.
+- set_scene("transcript") — Kinetic text. Use SPARINGLY, only for 10-15 second transitions.
+- set_scene("overlay") — Blank canvas for overlay-only presentations.
+
+MAP TOOLS:
+- zoom_to — Fly camera to location. ALWAYS pair with place_marker.
+- highlight_region — Fill ancient boundaries. ALWAYS pair with place_marker for key cities.
+- draw_route — Animate migration/trade/conquest paths. ALWAYS mark both endpoints.
+- place_marker — Label cities/sites. USE EVERY TIME you mention a place name.
+
+KNOWLEDGE OVERLAYS (layer these ON TOP of scenes):
+- show_scripture — Scripture reference card.
+- show_genealogy — Family tree panel.
+- show_timeline — Chronological event bar (labels always visible).
+- show_figure — Historical figure portrait card.
+- show_key_term — Vocabulary card with definition + pronunciation + etymology.
+- show_comparison — Two-column comparison table (before/after, cause/effect, etc.).
+- show_question — Think-about-it prompt (rhetorical, reflection, or comprehension check).
+- show_quote — Dramatic primary source or theologian quote.
+- show_slide — Full structured content slide (title + bullets + body + optional image).
+
+MANAGEMENT:
+- clear_canvas — Wipe everything. Use between major scenes.
+- dismiss_overlay — Remove a specific panel.
+
+═══════════════════════════
+BEAT CHOREOGRAPHY RULES
+═══════════════════════════
+1. EVERY beat MUST start with a visual tool call. No beat should begin with transcript alone.
+2. Layer overlays on top of scenes: show an image + overlay a scripture card, or show a map + overlay a timeline.
+3. Use clear_canvas between major topic transitions to prevent visual clutter.
+4. Transition pattern: Visual Scene → Narrate over it → dismiss/clear → Next Visual Scene.
+5. Use show_question at natural chapter breaks to create "breathing moments."
+6. Use show_key_term BEFORE using a new vocabulary word in narration.
+7. Use show_comparison whenever contrasting two things (peoples, time periods, concepts).
+8. Use show_quote when citing theologians, church fathers, or primary sources.
+9. End lessons with show_question (type: "reflection") — NOT a plain transcript summary.
 
 MAP POPULATION RULE (MANDATORY):
-- EVERY time you switch to map scene, the map MUST have visible content. A blank map is NEVER acceptable.
-- When you mention ANY place by name (city, region, kingdom, river delta, etc.), you MUST call place_marker for it.
-- When zooming to a location, ALWAYS pair zoom_to with at least one place_marker at that location.
-- When discussing a region (e.g., Egypt, Canaan, Cush), call BOTH highlight_region AND place_marker for key cities within it.
-- When discussing movement between places, call draw_route AND place_marker at BOTH endpoints.
-- Combine multiple tool calls in the same beat: zoom_to + place_marker + highlight_region together.
-- If you are on the map scene and narrating, there should ALWAYS be markers, highlights, or routes visible.
+- A blank map is NEVER acceptable. Every map scene must have visible markers/highlights/routes.
+- Combine multiple tool calls: zoom_to + place_marker + highlight_region in the same beat.
+
+NARRATION STYLE (Band-aware):${bandSpecificInstructions}
 
 LESSON CONTENT TO NARRATE:
 ${baseContent}
@@ -232,6 +358,6 @@ ${baseContent}
 CRITICAL RULES:
 - Never give grades or scores.
 - ALWAYS call set_scene before visual sequences and after them.
-- Do not overload the canvas; clear_canvas between major scenes.
-- The transcript view is your HOME BASE — always return to it.`;
+- The transcript view is NOT your home base — VISUALS are your home base.
+- Every beat must feel like a scene from a documentary, not a page from a book.`;
 }
