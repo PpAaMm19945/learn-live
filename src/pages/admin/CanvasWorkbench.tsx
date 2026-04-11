@@ -12,6 +12,7 @@ import { ToolPanel } from '@/components/admin/ToolPanel';
 import { MapPresets } from '@/components/admin/MapPresets';
 import { SceneControls, type WorkbenchSceneMode } from '@/components/admin/SceneControls';
 import { ToolCallLog, type ToolLogEntry } from '@/components/admin/ToolCallLog';
+import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 
 export default function CanvasWorkbench() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export default function CanvasWorkbench() {
   const [imageUrl, setImageUrl] = useState('');
   const [caption, setCaption] = useState('');
   const [toolLog, setToolLog] = useState<ToolLogEntry[]>([]);
+  const [overlays, setOverlays] = useState<OverlayState>(EMPTY_OVERLAYS);
 
   const latest = useMemo(() => toolLog[toolLog.length - 1], [toolLog]);
 
@@ -50,8 +52,39 @@ export default function CanvasWorkbench() {
     addLog({ level: 'info', label: 'Scene changed', result: `now ${mode}` });
   };
 
+  const dismissOverlay = (type: keyof OverlayState | 'all') => {
+    setOverlays(prev => type === 'all' ? EMPTY_OVERLAYS : { ...prev, [type]: null });
+  };
+
   const dispatchTool = (message: ToolCallMessage) => {
     try {
+      // Intercept overlay tools to render at workbench level (visible in all scene modes)
+      if (message.tool === 'show_scripture') {
+        setOverlays(prev => ({ ...prev, scripture: { reference: message.args.reference, text: message.args.text, connection: message.args.connection } }));
+        addLog({ level: 'tool', label: message.tool, args: message.args, result: 'overlay shown' });
+        return;
+      }
+      if (message.tool === 'show_figure') {
+        setOverlays(prev => ({ ...prev, figure: { name: message.args.name, title: message.args.title, imageUrl: message.args.imageUrl } }));
+        addLog({ level: 'tool', label: message.tool, args: message.args, result: 'overlay shown' });
+        return;
+      }
+      if (message.tool === 'show_genealogy') {
+        setOverlays(prev => ({ ...prev, genealogy: { rootName: message.args.rootName, nodes: message.args.nodes } }));
+        addLog({ level: 'tool', label: message.tool, args: message.args, result: 'overlay shown' });
+        return;
+      }
+      if (message.tool === 'show_timeline') {
+        setOverlays(prev => ({ ...prev, timeline: { events: message.args.events } }));
+        addLog({ level: 'tool', label: message.tool, args: message.args, result: 'overlay shown' });
+        return;
+      }
+      if (message.tool === 'dismiss_overlay') {
+        dismissOverlay(message.args?.type || 'all');
+        addLog({ level: 'tool', label: message.tool, args: message.args, result: 'overlay dismissed' });
+        return;
+      }
+
       handleToolCall(canvasRef.current, message, (mode, args) => handleSceneChange(mode as WorkbenchSceneMode, args));
       addLog({ level: 'tool', label: message.tool, args: message.args, result: 'dispatched' });
     } catch (error) {
@@ -116,6 +149,7 @@ export default function CanvasWorkbench() {
               <TeachingCanvas ref={canvasRef} className="h-full w-full" />
             </div>
             {sceneMode === 'image' && <ImageScene imageUrl={imageUrl} caption={caption} />}
+            <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} />
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
