@@ -215,10 +215,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   // Monitor for silent connect
   useEffect(() => {
     if (useFallback) return;
-    if (status === 'connected' && !hasReceivedMessage) {
-      noResponseWarningTimeoutRef.current = window.setTimeout(() => setNoResponseWarning(true), 25000);
-      noResponseErrorTimeoutRef.current = window.setTimeout(() => setNoResponseError(true), 45000);
-    } else if (hasReceivedMessage) {
+    // Pipeline status messages count as "receiving" — extend timeouts significantly
+    const isPipelineActive = !!pipelineStatus;
+    if (status === 'connected' && !hasReceivedMessage && !isPipelineActive) {
+      noResponseWarningTimeoutRef.current = window.setTimeout(() => setNoResponseWarning(true), 60000);
+      noResponseErrorTimeoutRef.current = window.setTimeout(() => setNoResponseError(true), 120000);
+    } else if (hasReceivedMessage || isPipelineActive) {
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
       if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
       setNoResponseWarning(false);
@@ -232,7 +234,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       if (noResponseWarningTimeoutRef.current) clearTimeout(noResponseWarningTimeoutRef.current);
       if (noResponseErrorTimeoutRef.current) clearTimeout(noResponseErrorTimeoutRef.current);
     };
-  }, [status, hasReceivedMessage, useFallback]);
+  }, [status, hasReceivedMessage, useFallback, pipelineStatus]);
 
   // Auto-connect
   useEffect(() => {
@@ -446,7 +448,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           )}
           <ThinkingBanner thinkingText={thinkingText} />
           <div className="flex-1 min-h-0 overflow-y-auto">
-            <TranscriptView chunks={displayTranscriptChunks} band={band} isActive={isConnected} chapterId={chapterId} />
+            <TranscriptView chunks={displayTranscriptChunks} band={band} isActive={isConnected} chapterId={chapterId} pipelineStatus={pipelineStatus} />
           </div>
 
           {/* Bottom controls — inside the right panel */}
