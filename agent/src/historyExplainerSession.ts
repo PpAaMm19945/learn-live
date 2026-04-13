@@ -2,6 +2,7 @@ import { WebSocket } from 'ws';
 import { BeatSequencer } from './beatSequencer';
 import { LiveQAHandler } from './liveHandler';
 import { ContentFetcher } from './contentFetcher';
+import { LessonPreparer } from './lessonPreparer';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
