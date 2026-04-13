@@ -15,6 +15,7 @@ import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { resolveImageUrl } from '@/lib/r2Assets';
 import { ImageScene } from './ImageScene';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
+import { AutoScrollMap } from './AutoScrollMap';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -23,7 +24,6 @@ interface SessionCanvasProps {
   onExit: () => void;
 }
 
-// All overlay tool names that SessionCanvas intercepts
 const OVERLAY_TOOLS = [
   'show_scripture', 'show_figure', 'show_genealogy', 'show_timeline',
   'show_key_term', 'show_comparison', 'show_question', 'show_quote', 'show_slide',
@@ -41,6 +41,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
 
+  // Default visual is always the chapter map
+  const [activeVisual, setActiveVisual] = useState<'map' | 'image' | 'maplibre'>('map');
+  const [chapterMapUrl, setChapterMapUrl] = useState<string>('');
+
   const [noResponseWarning, setNoResponseWarning] = useState(false);
   const [noResponseError, setNoResponseError] = useState(false);
   const noResponseWarningTimeoutRef = useRef<number | null>(null);
@@ -48,6 +52,24 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const { recordEvent, stop: stopRecording } = useRecorder({ chapterId, band, recording: !useFallback });
   const goldenScript = useGoldenScript(goldenScriptData);
+
+  // Load chapter map on mount
+  useEffect(() => {
+    const chapterNum = chapterId.replace('ch', '');
+    // Try to resolve from R2 assets registry
+    const mapKey = `assets/maps/ch${chapterNum}_map.jpg`;
+    const resolved = resolveImageUrl(mapKey);
+    setChapterMapUrl(resolved);
+  }, [chapterId]);
+
+  // Auto-dismiss overlays after a duration
+  const overlayTimerRef = useRef<Record<string, number>>({});
+  const scheduleAutoDismiss = useCallback((type: keyof OverlayState, durationMs: number = 8000) => {
+    if (overlayTimerRef.current[type]) clearTimeout(overlayTimerRef.current[type]);
+    overlayTimerRef.current[type] = window.setTimeout(() => {
+      setOverlays(prev => ({ ...prev, [type]: null }));
+    }, durationMs);
+  }, []);
 
   const handleDebugEvent = useCallback((evt: DebugEvent) => {
     setDebugEvents(prev => [...prev.slice(-200), evt]);
@@ -81,58 +103,83 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
     addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || msg.args?.term || ''})`, JSON.stringify(msg.args));
     
-    // Intercept set_scene("image")
+    // Intercept set_scene("image") — show image in left panel
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
       const rawUrl = msg.args.imageUrl || '';
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
       setImageSceneUrl(resolvedUrl);
       setImageSceneCaption(msg.args.caption || '');
+      setActiveVisual('image');
       addDebug('scene', `Image: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
+      return;
     }
 
-    // Intercept ALL overlay tools — render at SessionCanvas level so they persist across scene modes
+    // Intercept set_scene("map") — switch to maplibre interactive
+    if (msg.tool === 'set_scene' && msg.args?.mode === 'map') {
+      setActiveVisual('maplibre');
+      addDebug('scene', 'MapLibre active');
+      return;
+    }
+
+    // Intercept set_scene("transcript") — return to chapter map
+    if (msg.tool === 'set_scene' && msg.args?.mode === 'transcript') {
+      setActiveVisual('map');
+      addDebug('scene', 'Back to chapter map');
+      return;
+    }
+
+    // Overlay tools — render in designated spots with auto-dismiss
     if (msg.tool === 'show_scripture') {
       setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection } }));
+      scheduleAutoDismiss('scripture', 10000);
       addDebug('scene', `Scripture: ${msg.args.reference}`);
       return;
     }
     if (msg.tool === 'show_figure') {
       setOverlays(prev => ({ ...prev, figure: { name: msg.args.name, title: msg.args.title, imageUrl: msg.args.imageUrl } }));
+      scheduleAutoDismiss('figure', 8000);
       addDebug('scene', `Figure: ${msg.args.name}`);
       return;
     }
     if (msg.tool === 'show_genealogy') {
       setOverlays(prev => ({ ...prev, genealogy: { rootName: msg.args.rootName, nodes: msg.args.nodes } }));
+      scheduleAutoDismiss('genealogy', 12000);
       addDebug('scene', `Genealogy: ${msg.args.rootName}`);
       return;
     }
     if (msg.tool === 'show_timeline') {
       setOverlays(prev => ({ ...prev, timeline: { events: msg.args.events } }));
+      scheduleAutoDismiss('timeline', 12000);
       addDebug('scene', `Timeline: ${msg.args.events?.length} events`);
       return;
     }
     if (msg.tool === 'show_key_term') {
       setOverlays(prev => ({ ...prev, keyTerm: { term: msg.args.term, definition: msg.args.definition, pronunciation: msg.args.pronunciation, etymology: msg.args.etymology } }));
+      scheduleAutoDismiss('keyTerm', 8000);
       addDebug('scene', `Key Term: ${msg.args.term}`);
       return;
     }
     if (msg.tool === 'show_comparison') {
       setOverlays(prev => ({ ...prev, comparison: { title: msg.args.title, columnA: msg.args.columnA, columnB: msg.args.columnB } }));
+      scheduleAutoDismiss('comparison', 12000);
       addDebug('scene', `Comparison: ${msg.args.title}`);
       return;
     }
     if (msg.tool === 'show_question') {
       setOverlays(prev => ({ ...prev, question: { question: msg.args.question, context: msg.args.context, type: msg.args.type } }));
+      scheduleAutoDismiss('question', 10000);
       addDebug('scene', `Question: ${msg.args.question?.slice(0, 50)}`);
       return;
     }
     if (msg.tool === 'show_quote') {
       setOverlays(prev => ({ ...prev, quote: { text: msg.args.text, attribution: msg.args.attribution, date: msg.args.date } }));
+      scheduleAutoDismiss('quote', 10000);
       addDebug('scene', `Quote: ${msg.args.attribution}`);
       return;
     }
     if (msg.tool === 'show_slide') {
       setOverlays(prev => ({ ...prev, slide: { title: msg.args.title, body: msg.args.body, bullets: msg.args.bullets, imageUrl: msg.args.imageUrl, layout: msg.args.layout } }));
+      scheduleAutoDismiss('slide', 15000);
       addDebug('scene', `Slide: ${msg.args.title}`);
       return;
     }
@@ -141,10 +188,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
 
-    handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
-  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay]);
+    // Map tools (zoom_to, place_marker, draw_route) — auto-switch to maplibre
+    if (['zoom_to', 'place_marker', 'draw_route', 'highlight_region'].includes(msg.tool)) {
+      setActiveVisual('maplibre');
+    }
 
-  // Refs to hold latest callback versions without destabilizing the effect
+    handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss]);
+
+  // Refs to hold latest callback versions
   const connectRef = useRef(connect);
   const handleAgentToolCallRef = useRef(handleAgentToolCall);
   const recordEventRef = useRef(recordEvent);
@@ -162,7 +214,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     }, 100);
   }, [disconnect]);
 
-  // Monitor for silent connect with no chunks
+  // Monitor for silent connect
   useEffect(() => {
     if (useFallback) return;
     if (status === 'connected' && !hasReceivedMessage) {
@@ -202,22 +254,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         const apiUrl = import.meta.env.VITE_WORKER_URL || 'https://learn-live.antmwes104-1.workers.dev';
         const goldenScriptUrl = `${apiUrl}/api/golden-scripts/${chapterId}/${band}`;
         try {
-          console.log(`[GOLDEN_SCRIPT] Fetching fallback from ${goldenScriptUrl}`);
           const res = await fetch(goldenScriptUrl);
           const contentType = res.headers.get('content-type') || '';
-          if (!contentType.includes('application/json')) {
-            const text = await res.text();
-            console.error(`[GOLDEN_SCRIPT] Non-JSON response (${res.status}, ${contentType}): ${text.substring(0, 200)}`);
-            return;
-          }
+          if (!contentType.includes('application/json')) return;
           if (res.ok) {
             const data = await res.json();
             setGoldenScriptData(data);
             setUseFallback(true);
             disconnect();
-          } else {
-            const errData = await res.json();
-            console.warn(`[GOLDEN_SCRIPT] Fallback not available: ${res.status}`, errData);
           }
         } catch (e) {
           console.error('[GOLDEN_SCRIPT] Fallback fetch failed', e);
@@ -234,22 +278,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       const goldenScriptUrl = `${apiUrl}/api/golden-scripts/${chapterId}/${band}`;
       (async () => {
         try {
-          console.log(`[GOLDEN_SCRIPT] Agent failed, fetching fallback from ${goldenScriptUrl}`);
           const res = await fetch(goldenScriptUrl);
           const contentType = res.headers.get('content-type') || '';
-          if (!contentType.includes('application/json')) {
-            const text = await res.text();
-            console.error(`[GOLDEN_SCRIPT] Non-JSON response (${res.status}, ${contentType}): ${text.substring(0, 200)}`);
-            return;
-          }
+          if (!contentType.includes('application/json')) return;
           if (res.ok) {
             const data = await res.json();
             setGoldenScriptData(data);
             setUseFallback(true);
             disconnect();
-          } else {
-            const errData = await res.json();
-            console.warn(`[GOLDEN_SCRIPT] Fallback not available: ${res.status}`, errData);
           }
         } catch (e) {
           console.error('[GOLDEN_SCRIPT] Fallback fetch failed', e);
@@ -282,9 +318,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   };
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
-  const displaySceneMode = useFallback ? goldenScript.sceneMode : sceneMode;
   const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
 
+  // Loading states
   if (!familyId || !activeLearnerId) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
@@ -340,102 +376,109 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       transition={{ duration: 1 }}
       className="fixed inset-0 bg-background overflow-hidden select-none flex flex-col"
     >
-      {/* Minimal top bar */}
-      <div className="absolute top-0 left-0 right-0 p-4 z-50 flex items-center bg-gradient-to-b from-background/80 to-transparent pointer-events-none">
-        <button onClick={onExit} className="p-3 bg-muted/40 hover:bg-muted/60 backdrop-blur-md rounded-full text-foreground transition-colors pointer-events-auto">
-          <ArrowLeft className="w-5 h-5" />
+      {/* ── Top bar ── */}
+      <div className="h-12 flex items-center px-4 bg-card/80 backdrop-blur-sm border-b border-border/50 z-50 flex-shrink-0">
+        <button onClick={onExit} className="p-2 hover:bg-muted/60 rounded-full text-foreground transition-colors">
+          <ArrowLeft className="w-4 h-4" />
         </button>
-        <div className="ml-auto pointer-events-auto flex items-center gap-2">
-          <button onClick={() => setDebugOpen(prev => !prev)} className="p-2 bg-muted/40 hover:bg-muted/60 backdrop-blur-md rounded-full text-foreground/50 hover:text-foreground transition-colors" title="Toggle Debug Panel">
-            <Bug className="w-4 h-4" />
+        <div className="ml-auto flex items-center gap-2">
+          <button onClick={() => setDebugOpen(prev => !prev)} className="p-1.5 hover:bg-muted/60 rounded-full text-foreground/40 hover:text-foreground transition-colors" title="Debug">
+            <Bug className="w-3.5 h-3.5" />
           </button>
           {useFallback && (
-            <span className="px-2 py-1 text-[10px] font-bold tracking-wider uppercase bg-primary/20 text-primary rounded-full mr-2">Recorded session</span>
+            <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-primary/20 text-primary rounded-full">Recorded</span>
           )}
           <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : status === 'reconnecting' ? 'bg-amber-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
-          <span className="text-xs text-muted-foreground">
-            {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting...' : isConnected ? 'Live' : 'Connecting...')}
+          <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
+            {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting' : isConnected ? 'Live' : 'Connecting')}
           </span>
         </div>
       </div>
 
-      {/* Main content area */}
-      <div className="flex-1 relative">
-        {/* Transcript layer — always present, slides behind scenes */}
-        <div className={`absolute inset-0 transition-opacity duration-500 flex flex-col ${displaySceneMode === 'transcript' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-          {noResponseWarning && (
-            <div className="absolute top-16 left-0 right-0 flex justify-center z-20 pointer-events-none">
-              <div className="bg-amber-500/20 text-amber-600 dark:text-amber-400 px-4 py-2 rounded-full backdrop-blur-md text-sm font-medium animate-pulse border border-amber-500/30">
-                Your teacher is taking longer than expected...
+      {/* ── Split layout: Visual (left) | Transcript (right) ── */}
+      <div className="flex-1 flex flex-col md:flex-row min-h-0">
+        
+        {/* LEFT PANEL — Visual area (60% on desktop, 55% on mobile) */}
+        <div className="h-[55%] md:h-full md:w-[60%] relative bg-void/5 flex-shrink-0 overflow-hidden">
+          
+          {/* Layer 1: Auto-scrolling chapter map (default) */}
+          <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            {chapterMapUrl ? (
+              <AutoScrollMap src={chapterMapUrl} alt={`Chapter ${chapterId} map`} />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-muted/20">
+                <p className="text-muted-foreground text-sm">Loading map...</p>
               </div>
+            )}
+          </div>
+
+          {/* Layer 2: MapLibre interactive (when AI triggers map tools) */}
+          <div className={`absolute inset-0 transition-opacity duration-500 ${activeVisual === 'maplibre' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <TeachingCanvas ref={canvasRef} />
+          </div>
+
+          {/* Layer 3: Full-bleed image (when AI shows an illustration) */}
+          <AnimatePresence>
+            {activeVisual === 'image' && imageSceneUrl && (
+              <motion.div
+                key="image-scene"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.6 }}
+                className="absolute inset-0"
+              >
+                <ImageScene imageUrl={imageSceneUrl} caption={imageSceneCaption} />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Overlays — positioned within the visual panel, no X buttons */}
+          <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} compact />
+        </div>
+
+        {/* RIGHT PANEL — Transcript (40% on desktop, 45% on mobile) */}
+        <div className="h-[45%] md:h-full md:w-[40%] bg-card flex flex-col min-h-0 border-l border-border/30">
+          {noResponseWarning && (
+            <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20">
+              <p className="text-amber-600 dark:text-amber-400 text-xs font-medium animate-pulse">
+                Your teacher is taking longer than expected...
+              </p>
             </div>
           )}
           <ThinkingBanner thinkingText={thinkingText} />
-          <TranscriptView chunks={displayTranscriptChunks} band={band} isActive={isConnected} chapterId={chapterId} />
-        </div>
-
-        {/* Scene overlay — slides in when AI triggers a visual */}
-        <AnimatePresence>
-          {displaySceneMode !== 'transcript' && (
-            <motion.div key="scene" initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 40 }} transition={{ duration: 0.5, ease: 'easeOut' }} className="absolute inset-0 bg-background">
-              <div className="w-full h-full bg-background relative z-10">
-                <div className={`absolute inset-0 ${displaySceneMode === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                  <TeachingCanvas ref={canvasRef} />
-                </div>
-                {displaySceneMode === 'image' && <ImageScene imageUrl={imageSceneUrl} caption={imageSceneCaption} />}
-                {displaySceneMode === 'overlay' && (
-                  <div className="absolute inset-0 bg-background" />
-                )}
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Canvas Overlays — always visible regardless of scene mode */}
-      <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} />
-
-      {/* Bottom status bar */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-center pointer-events-none">
-        <div className="flex items-center gap-4 bg-muted/20 backdrop-blur-sm rounded-full px-6 py-3 pointer-events-auto">
-          {useFallback ? (
-            <button onClick={() => { if (goldenScript.status === 'playing') goldenScript.pause(); else goldenScript.play(handleAgentToolCall); }} className="p-3 bg-primary/20 text-primary hover:bg-primary/30 rounded-full transition-colors">
-              {goldenScript.status === 'playing' ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-            </button>
-          ) : (
-            band >= 3 && (
-              <button onClick={toggleMute} className={`p-3 rounded-full transition-colors ${isMuted ? 'bg-red-500/20 text-red-500' : 'bg-primary/20 text-primary hover:bg-primary/30'}`}>
-                {isMuted ? <MicOff className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
-              </button>
-            )
-          )}
-          <div className="px-4 py-2">
-            <p className="text-xs text-muted-foreground tracking-widest uppercase">
-              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING...' : status === 'reconnecting' ? 'RECONNECTING...' : status === 'connected' && displayTranscriptChunks.length === 0 ? 'WAITING FOR TEACHER' : 'LISTENING'}
-            </p>
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <TranscriptView chunks={displayTranscriptChunks} band={band} isActive={isConnected} chapterId={chapterId} />
           </div>
-          <button onClick={handleEndSession} className="p-3 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-full transition-colors" title="End Session">
-            <PhoneOff className="w-5 h-5" />
-          </button>
+
+          {/* Bottom controls — inside the right panel */}
+          <div className="flex-shrink-0 px-4 py-3 border-t border-border/30 flex items-center justify-center gap-3 bg-card">
+            {useFallback ? (
+              <button onClick={() => { if (goldenScript.status === 'playing') goldenScript.pause(); else goldenScript.play(handleAgentToolCall); }} className="p-2.5 bg-primary/15 text-primary hover:bg-primary/25 rounded-full transition-colors">
+                {goldenScript.status === 'playing' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              </button>
+            ) : (
+              band >= 3 && (
+                <button onClick={toggleMute} className={`p-2.5 rounded-full transition-colors ${isMuted ? 'bg-red-500/15 text-red-500' : 'bg-primary/15 text-primary hover:bg-primary/25'}`}>
+                  {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+                </button>
+              )
+            )}
+            <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
+              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayTranscriptChunks.length === 0 ? 'WAITING' : 'LISTENING'}
+            </span>
+            {!useFallback && band >= 3 && status === 'connected' && (
+              <motion.button whileTap={{ scale: 0.9 }} onClick={sendRaiseHand}
+                className={`p-2.5 rounded-full transition-all ${isQAActive ? 'bg-amber-500 text-white ring-2 ring-amber-500/30' : 'bg-muted/60 text-foreground/60 hover:bg-muted'}`}>
+                <Hand className="w-4 h-4" />
+              </motion.button>
+            )}
+            <button onClick={handleEndSession} className="p-2.5 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-full transition-colors" title="End Session">
+              <PhoneOff className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
-
-      {/* Floating Raise Hand Button */}
-      {!useFallback && band >= 3 && status === 'connected' && (
-        <div className="absolute bottom-24 right-8 z-50">
-          <motion.button whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }} onClick={sendRaiseHand}
-            className={`p-5 rounded-full shadow-2xl transition-all duration-300 flex items-center gap-3 ${isQAActive ? 'bg-amber-500 text-white ring-4 ring-amber-500/30' : 'bg-white/90 hover:bg-white text-primary backdrop-blur-md border border-primary/10'}`}>
-            {isQAActive ? (
-              <>
-                <div className="relative"><Hand className="w-6 h-6 animate-bounce" /><span className="absolute -top-1 -right-1 flex h-3 w-3"><span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span><span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span></span></div>
-                <span className="font-bold text-sm">Listening...</span>
-              </>
-            ) : (
-              <><Hand className="w-6 h-6" /><span className="font-semibold text-sm">Raise Hand</span></>
-            )}
-          </motion.button>
-        </div>
-      )}
 
       {/* Lesson Ended Overlay */}
       <AnimatePresence>
