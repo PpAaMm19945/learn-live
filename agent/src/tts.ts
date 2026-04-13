@@ -37,8 +37,16 @@ export class TTSService {
             prebuiltVoiceConfig: {
               voiceName: options.voiceName || 'Charon'
             }
-          }
+          },
+          // Lock speaking rate for consistency across all beats
+          speakingRate: options.speakingRate || 1.0
         }
+      },
+      // System instruction to maintain consistent voice character
+      system_instruction: {
+        parts: [{
+          text: 'You are a commanding, authoritative university lecturer delivering a history lesson. Speak with STRONG, BOLD energy — like a passionate professor who deeply knows and loves this subject. Maintain this exact tone and energy level consistently throughout. Never whisper, soften, or use a gentle bedtime-story voice. Project confidence and conviction in every sentence.'
+        }]
       }
     };
 
