@@ -80,7 +80,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   }, [handleDebugEvent]);
 
   const {
-    status, transcriptChunks, thinkingText, sceneMode, error,
+    status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
     isMuted, isQAActive, hasReceivedMessage,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode

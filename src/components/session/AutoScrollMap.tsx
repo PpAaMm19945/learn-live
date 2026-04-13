@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { R2Image } from '@/components/ui/R2Image';
+
 
 interface AutoScrollMapProps {
   src: string;

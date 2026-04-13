@@ -28,11 +28,14 @@ export const EMPTY_OVERLAYS: OverlayState = {
 interface CanvasOverlaysProps {
   overlays: OverlayState;
   onDismiss?: (type: keyof OverlayState | 'all') => void;
+  /** When true, renders in compact mode within the visual panel — no X buttons, smaller cards */
+  compact?: boolean;
 }
 
 const spring = { type: 'spring' as const, damping: 22, stiffness: 140 };
 
-export function CanvasOverlays({ overlays, onDismiss }: CanvasOverlaysProps) {
+export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysProps) {
+  const clickHandler = compact ? undefined : onDismiss;
   return (
     <div className="absolute inset-0 pointer-events-none z-40">
       <AnimatePresence>
