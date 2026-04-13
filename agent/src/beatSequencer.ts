@@ -79,15 +79,43 @@ export class BeatSequencer {
         const isFirst = beatIndex === 1;
         const isLast = beatIndex === totalBeats;
 
-        // Build a continuity-aware prompt
+        // Extract pipeline context if available (from LessonPreparer)
+        const pipelineCtx = (beat as any)._pipelineContext;
+        const beatRole = pipelineCtx?.beatRole || 'human_story';
+        const theFrame = pipelineCtx?.theologicalFrame;
+        const lessonArch = pipelineCtx?.lessonArchitecture;
+        const studentProf = pipelineCtx?.studentProfile;
+
+        // Build a continuity-aware prompt with pipeline enrichment
         let prompt = '';
         
         const jsonGuard = `\n\nCRITICAL OUTPUT RULES:\n- Your response must be ONLY plain narration text — spoken words for the student.\n- NEVER include JSON, code blocks, markdown fences, tool commands, function calls, or any structured data.\n- Do NOT output anything like \`\`\`json, set_scene(), show_scripture(), or [{"command":...}].\n- If you feel the urge to include stage directions or visual cues, suppress it — those are handled separately.\n`;
 
+        const voiceGuard = `\n\nVOICE CONSISTENCY (NON-NEGOTIABLE):\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- Do NOT whisper, murmur, or use a quiet storytelling voice. EVER.\n- Project confidence and conviction in EVERY sentence.\n- This instruction OVERRIDES all other tone guidance.\n`;
+
+        // Pipeline-aware context injection
+        let pipelineContext = '';
+        if (theFrame) {
+            pipelineContext += `\nTHEOLOGICAL FRAME: God is ${theFrame.whatGodIsDoing}. Covenant principle: ${theFrame.covenantPrinciple}.`;
+            if (theFrame.africaConnection) pipelineContext += ` Africa connection: ${theFrame.africaConnection}.`;
+        }
+        if (lessonArch && beatRole === 'hook') {
+            pipelineContext += `\nLESSON HOOK APPROACH: ${lessonArch.hook}`;
+        }
+        if (lessonArch && beatRole === 'theological_turn') {
+            pipelineContext += `\nTHEOLOGICAL TURN: ${lessonArch.theologicalTurn}. This must emerge naturally from the story — never announced.`;
+        }
+        if (lessonArch && beatRole === 'living_question') {
+            pipelineContext += `\nLIVING QUESTION: End with this question posed to the student: "${lessonArch.livingQuestion}". Pose it and stop. Do NOT answer it.`;
+        }
+        if (studentProf) {
+            pipelineContext += `\nSTUDENT: Emotional register: ${studentProf.emotionalRegister}. Vocabulary ceiling: ${studentProf.vocabularyCeiling}.`;
+        }
+
         if (isFirst) {
-            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}\nContent: "${baseText}"`;
+            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}${voiceGuard}${pipelineContext}\nContent: "${baseText}"`;
         } else {
-            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the SAME strong, authoritative tone and energy as the previous segment.${jsonGuard}\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
+            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the SAME strong, authoritative tone and energy as the previous segment.${jsonGuard}${voiceGuard}${pipelineContext}\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
         }
 
         if (isLast) {
