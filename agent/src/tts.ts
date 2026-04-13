@@ -38,8 +38,8 @@ export class TTSService {
               voiceName: options.voiceName || 'Charon'
             }
           },
-          // Lock speaking rate for consistency across all beats
-          speakingRate: options.speakingRate || 1.0
+          // Note: speakingRate is NOT supported by gemini-2.5-flash-preview-tts
+          // Speed consistency is maintained via the system instruction voice character
         }
       },
       // System instruction to maintain consistent voice character
