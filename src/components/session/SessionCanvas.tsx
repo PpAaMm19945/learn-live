@@ -79,7 +79,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const {
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
-    isMuted, isQAActive, hasReceivedMessage,
+    isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode
   } = useSession({
