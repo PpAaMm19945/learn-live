@@ -80,15 +80,18 @@ export class LessonPreparer {
   private narrator: GenAINarrator;
   private band: number;
   private chapterId: string;
+  private sendStatus: (step: string, detail?: string) => void;
 
   constructor(
     private systemInstruction: string,
     band: number,
-    chapterId: string
+    chapterId: string,
+    sendStatus?: (step: string, detail?: string) => void
   ) {
     this.narrator = new GenAINarrator(systemInstruction);
     this.band = band;
     this.chapterId = chapterId;
+    this.sendStatus = sendStatus || (() => {});
   }
 
   /**
@@ -99,22 +102,27 @@ export class LessonPreparer {
     console.log(`[PREPARER] Starting 5-phase pipeline for ${manifest.sectionId} (Band ${this.band})`);
 
     // Phase 0: Profile Intake
+    this.sendStatus('phase_0', 'Assessing student level…');
     const profile = await this.phase0ProfileIntake(manifest);
     console.log(`[PREPARER] Phase 0 complete — register: ${profile.emotionalRegister}`);
 
     // Phase 1: Theological Framing
+    this.sendStatus('phase_1', 'Building theological framework…');
     const frame = await this.phase1TheologicalFraming(manifest, profile);
     console.log(`[PREPARER] Phase 1 complete — God is: ${frame.whatGodIsDoing.slice(0, 80)}...`);
 
     // Phase 2: Lesson Architecture
+    this.sendStatus('phase_2', 'Designing lesson structure…');
     const plan = await this.phase2LessonArchitecture(manifest, profile, frame);
     console.log(`[PREPARER] Phase 2 complete — hook: ${plan.hook.slice(0, 60)}...`);
 
     // Phase 3: Draft Generation — enrich each beat
+    this.sendStatus('phase_3', 'Writing your lesson…');
     const enrichedBeats = await this.phase3DraftGeneration(manifest, profile, frame, plan);
     console.log(`[PREPARER] Phase 3 complete — ${enrichedBeats.length} beats drafted`);
 
     // Phase 4: Critique
+    this.sendStatus('phase_4', 'Final review…');
     const critique = await this.phase4Critique(enrichedBeats, profile, frame, plan);
     console.log(`[PREPARER] Phase 4 complete — verdict: ${critique.verdict}`);
 
