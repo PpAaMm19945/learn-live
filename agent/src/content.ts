@@ -23,6 +23,11 @@ export interface SectionManifest {
   heading: string;
   totalBeats: number;
   beats: Beat[];
+  thinkItThrough?: string[];
+  reformedReflection?: {
+    source: string;
+    text: string;
+  };
 }
 
 export class ContentLoader {
