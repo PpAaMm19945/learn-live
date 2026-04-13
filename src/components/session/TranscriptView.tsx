@@ -7,6 +7,7 @@ interface TranscriptViewProps {
   band: number;
   isActive: boolean;
   chapterId: string;
+  pipelineStatus?: { step: string; detail?: string } | null;
 }
 
 /**
@@ -14,7 +15,7 @@ interface TranscriptViewProps {
  * Each beat/chunk renders as a discrete card. The latest card is prominent,
  * older cards fade and stack above. Auto-scrolls to the newest card.
  */
-export function TranscriptView({ chunks, band, isActive, chapterId }: TranscriptViewProps) {
+export function TranscriptView({ chunks, band, isActive, chapterId, pipelineStatus }: TranscriptViewProps) {
   const isResting = chunks.length === 0;
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -43,7 +44,7 @@ export function TranscriptView({ chunks, band, isActive, chapterId }: Transcript
         <div className="max-w-[680px] mx-auto space-y-4">
           <AnimatePresence mode="popLayout">
             {isResting ? (
-              <RestingState chapterId={chapterId} isActive={isActive} />
+              <RestingState chapterId={chapterId} isActive={isActive} pipelineStatus={pipelineStatus} />
             ) : (
               cards.map((card, i) => {
                 const isLatest = i === cards.length - 1;
@@ -131,9 +132,37 @@ const WARMUP_FACTS = [
   { emoji: '✝️', text: 'Augustine of Hippo — one of Christianity\'s greatest theologians — was African.' },
 ];
 
-/** Resting state — chapter title + rotating educational facts */
-function RestingState({ chapterId, isActive }: { chapterId: string; isActive: boolean }) {
+/** Pipeline step labels for user-friendly display */
+const PIPELINE_LABELS: Record<string, { label: string; progress: number }> = {
+  loading: { label: 'Loading content', progress: 10 },
+  preparing: { label: 'Analyzing context', progress: 20 },
+  phase_0: { label: 'Assessing your level', progress: 30 },
+  phase_1: { label: 'Building framework', progress: 45 },
+  phase_2: { label: 'Designing lesson', progress: 60 },
+  phase_3: { label: 'Writing narration', progress: 75 },
+  phase_4: { label: 'Final review', progress: 90 },
+  ready: { label: 'Starting lesson', progress: 100 },
+  fallback: { label: 'Adjusting plan', progress: 85 },
+};
+
+/** Resting state — chapter title + pipeline progress or rotating facts */
+function RestingState({ chapterId, isActive, pipelineStatus }: { 
+  chapterId: string; 
+  isActive: boolean; 
+  pipelineStatus?: { step: string; detail?: string } | null;
+}) {
   const [factIndex, setFactIndex] = useState(() => Math.floor(Math.random() * WARMUP_FACTS.length));
+  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
+
+  // Track completed pipeline steps
+  useEffect(() => {
+    if (pipelineStatus?.step) {
+      setCompletedSteps(prev => {
+        if (prev.includes(pipelineStatus.step)) return prev;
+        return [...prev, pipelineStatus.step];
+      });
+    }
+  }, [pipelineStatus?.step]);
 
   useEffect(() => {
     if (!isActive) return;
@@ -144,6 +173,8 @@ function RestingState({ chapterId, isActive }: { chapterId: string; isActive: bo
   }, [isActive]);
 
   const fact = WARMUP_FACTS[factIndex];
+  const currentPipeline = pipelineStatus?.step ? PIPELINE_LABELS[pipelineStatus.step] : null;
+  const hasPipeline = !!currentPipeline;
 
   return (
     <motion.div
@@ -152,7 +183,7 @@ function RestingState({ chapterId, isActive }: { chapterId: string; isActive: bo
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="text-center space-y-6 pt-24"
+      className="text-center space-y-6 pt-16"
     >
       <motion.h1
         animate={{ scale: [1, 1.02, 1] }}
@@ -164,24 +195,65 @@ function RestingState({ chapterId, isActive }: { chapterId: string; isActive: bo
 
       {isActive ? (
         <div className="space-y-5">
-          {/* Pulsing dots */}
-          <div className="flex space-x-1 justify-center mb-3">
-            {[0, 1, 2].map((i) => (
-              <motion.div
-                key={i}
-                className="w-2 h-2 bg-primary/60 rounded-full"
-                animate={{ y: [0, -6, 0] }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  delay: i * 0.15,
-                }}
-              />
-            ))}
-          </div>
-          <p className="text-sm text-muted-foreground/70 tracking-wide uppercase">
-            Preparing your lesson…
-          </p>
+          {/* Pipeline progress indicator */}
+          {hasPipeline ? (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-4"
+            >
+              {/* Progress bar */}
+              <div className="max-w-xs mx-auto">
+                <div className="h-1.5 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-primary rounded-full"
+                    initial={{ width: '5%' }}
+                    animate={{ width: `${currentPipeline.progress}%` }}
+                    transition={{ duration: 0.8, ease: 'easeOut' }}
+                  />
+                </div>
+              </div>
+
+              {/* Current step */}
+              <p className="text-sm text-foreground/60 font-medium">
+                {pipelineStatus?.detail || currentPipeline.label}
+              </p>
+
+              {/* Completed steps trail */}
+              <div className="flex flex-wrap justify-center gap-2 max-w-sm mx-auto">
+                {completedSteps.map(step => {
+                  const info = PIPELINE_LABELS[step];
+                  if (!info || step === pipelineStatus?.step) return null;
+                  return (
+                    <span key={step} className="text-[10px] text-muted-foreground/40 flex items-center gap-1">
+                      <span className="text-primary/60">✓</span> {info.label}
+                    </span>
+                  );
+                })}
+              </div>
+            </motion.div>
+          ) : (
+            <>
+              {/* Pulsing dots (no pipeline info yet) */}
+              <div className="flex space-x-1 justify-center mb-3">
+                {[0, 1, 2].map((i) => (
+                  <motion.div
+                    key={i}
+                    className="w-2 h-2 bg-primary/60 rounded-full"
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{
+                      duration: 0.6,
+                      repeat: Infinity,
+                      delay: i * 0.15,
+                    }}
+                  />
+                ))}
+              </div>
+              <p className="text-sm text-muted-foreground/70 tracking-wide uppercase">
+                Connecting to your teacher…
+              </p>
+            </>
+          )}
 
           {/* Rotating educational fact */}
           <AnimatePresence mode="wait">
