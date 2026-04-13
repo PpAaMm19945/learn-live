@@ -75,6 +75,22 @@ export function useSession({
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
+  // Pre-warm AudioContext on first user gesture (called from connect)
+  const ensureAudioContext = useCallback(() => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+      Logger.info('[AUDIO]', `AudioContext created: state=${audioContextRef.current.state}`);
+    }
+    // Resume immediately — this is called from a user click handler so it should succeed
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume().then(() => {
+        Logger.info('[AUDIO]', 'AudioContext pre-warmed to running');
+      }).catch(err => {
+        Logger.warn('[AUDIO]', 'AudioContext pre-warm failed', err);
+      });
+    }
+  }, []);
+
   const playAudioChunk = useCallback(async (base64Audio: string) => {
     if (!base64Audio || base64Audio.trim().length === 0) {
       return Promise.resolve();
@@ -89,9 +105,24 @@ export function useSession({
     
     if (ctx.state === 'suspended') {
         Logger.info('[AUDIO]', 'Resuming suspended AudioContext...');
-        await ctx.resume();
-        Logger.info('[AUDIO]', `AudioContext after resume: ${ctx.state}`);
+        // Guard resume() with a timeout so we don't hang forever
+        try {
+          await Promise.race([
+            ctx.resume(),
+            new Promise<void>((_, reject) => setTimeout(() => reject(new Error('AudioContext.resume() timed out')), 3000))
+          ]);
+          Logger.info('[AUDIO]', `AudioContext after resume: ${ctx.state}`);
+        } catch (err) {
+          Logger.warn('[AUDIO]', 'AudioContext resume failed/timed out — attempting fresh context', err);
+          // Create a brand new AudioContext
+          try { ctx.close(); } catch (_) {}
+          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+          await audioContextRef.current.resume();
+          Logger.info('[AUDIO]', `Fresh AudioContext state: ${audioContextRef.current.state}`);
+        }
     }
+
+    const activeCtx = audioContextRef.current;
 
     try {
         const binaryStr = atob(base64Audio);
