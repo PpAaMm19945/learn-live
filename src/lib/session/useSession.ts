@@ -264,6 +264,9 @@ export function useSession({
     pendingLessonCompleteRef.current = false;
     setError(undefined);
 
+    // Pre-warm AudioContext on user gesture to avoid autoplay policy hang
+    ensureAudioContext();
+
     debug('connection', isReconnect ? 'Reconnecting to agent...' : 'Connecting to agent...');
 
     try {
