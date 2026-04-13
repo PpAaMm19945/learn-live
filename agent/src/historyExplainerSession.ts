@@ -4,6 +4,7 @@ import { LiveQAHandler } from './liveHandler';
 import { ContentFetcher } from './contentFetcher';
 import { LessonPreparer } from './lessonPreparer';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
+import { buildMapContextForAgent } from './mapRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 
@@ -26,7 +27,9 @@ THEOLOGICAL GUARDRAILS:
 4. Dates from evolutionary models must be tagged as "(conventional estimate)".
 5. Dates from biblical models must be tagged as "(biblical chronology)".
 `;
-    const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines, { band }, band);
+    // Inject map context so the agent knows which maps are available
+    const mapContext = buildMapContextForAgent(chapterId);
+    const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines + mapContext, { band }, band);
 
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
