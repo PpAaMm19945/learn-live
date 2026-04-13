@@ -429,7 +429,7 @@ export function useSession({
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
