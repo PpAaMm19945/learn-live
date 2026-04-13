@@ -48,7 +48,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
             className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto"
-            onClick={() => onDismiss?.('scripture')}
+            onClick={() => clickHandler?.('scripture')}
           >
             <div className="flex items-start gap-3">
               <span className="text-2xl mt-0.5 opacity-60">📖</span>
@@ -78,7 +78,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, x: -20, y: -20 }}
             transition={spring}
             className="absolute top-20 left-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-4 flex items-center space-x-4 max-w-sm pointer-events-auto"
-            onClick={() => onDismiss?.('figure')}
+            onClick={() => clickHandler?.('figure')}
           >
             <div className="w-16 h-16 rounded-full bg-muted flex-shrink-0 border-2 border-primary overflow-hidden">
               {overlays.figure.imageUrl ? (
@@ -103,7 +103,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, x: 20, y: -20 }}
             transition={spring}
             className="absolute top-20 right-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-6 min-w-[250px] max-w-xs pointer-events-auto"
-            onClick={() => onDismiss?.('genealogy')}
+            onClick={() => clickHandler?.('genealogy')}
           >
             <h3 className="text-foreground font-bold text-lg border-b border-border pb-2 mb-4 text-center">
               Family of {overlays.genealogy.rootName}
@@ -136,7 +136,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, y: 30 }}
             transition={spring}
             className="absolute bottom-28 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-6 py-5 md:max-w-2xl md:w-[70%] pointer-events-auto"
-            onClick={() => onDismiss?.('timeline')}
+            onClick={() => clickHandler?.('timeline')}
           >
             <div className="relative w-full flex items-center justify-between min-h-[80px] pt-2 pb-6">
               <div className="absolute top-[18px] left-0 right-0 h-1 bg-border rounded-full z-0" />
@@ -165,7 +165,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, y: -30 }}
             transition={spring}
             className="absolute top-20 left-1/2 -translate-x-1/2 bg-card/95 backdrop-blur-md border border-border border-t-4 border-t-accent rounded-xl shadow-2xl p-5 max-w-sm w-[90%] md:w-auto pointer-events-auto"
-            onClick={() => onDismiss?.('keyTerm')}
+            onClick={() => clickHandler?.('keyTerm')}
           >
             <div className="flex items-start gap-3">
               <span className="text-2xl mt-0.5">📚</span>
@@ -198,7 +198,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, scale: 0.9 }}
             transition={spring}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-6 max-w-lg w-[92%] pointer-events-auto"
-            onClick={() => onDismiss?.('comparison')}
+            onClick={() => clickHandler?.('comparison')}
           >
             <h3 className="text-foreground font-bold text-lg text-center mb-4 border-b border-border pb-3">
               {overlays.comparison.title}
@@ -241,7 +241,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={spring}
             className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-primary/10 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 max-w-md w-[90%] pointer-events-auto"
-            onClick={() => onDismiss?.('question')}
+            onClick={() => clickHandler?.('question')}
           >
             <div className="flex items-start gap-3">
               <span className="text-3xl">🤔</span>
@@ -269,7 +269,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, scale: 0.9 }}
             transition={spring}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-8 max-w-lg w-[90%] pointer-events-auto text-center"
-            onClick={() => onDismiss?.('quote')}
+            onClick={() => clickHandler?.('quote')}
           >
             <span className="text-5xl text-primary/30 font-serif leading-none block mb-2">"</span>
             <p className="text-foreground text-lg md:text-xl italic leading-relaxed font-display">
@@ -293,7 +293,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
             exit={{ opacity: 0, y: 30 }}
             transition={spring}
             className="absolute inset-4 md:inset-12 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl pointer-events-auto flex overflow-hidden"
-            onClick={() => onDismiss?.('slide')}
+            onClick={() => clickHandler?.('slide')}
           >
             {overlays.slide.layout === 'split' && overlays.slide.imageUrl ? (
               <>
