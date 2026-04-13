@@ -39,6 +39,7 @@ export function useSession({
   const [isMuted, setIsMuted] = useState<boolean>(band >= 3);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
+  const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
 
   // Beat Sequencer State Machine
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
@@ -337,10 +338,15 @@ export function useSession({
             if (onToolCall) {
                 onToolCall(toolMsg);
             }
+          } else if (msg.type === 'pipeline_status') {
+            Logger.info('[WS]', `Pipeline: ${msg.step} — ${msg.detail || ''}`);
+            debug('connection', `Pipeline: ${msg.step}`, msg.detail);
+            setPipelineStatus({ step: msg.step, detail: msg.detail });
           } else if (msg.type === 'thinking') {
             setThinkingText((prev) => `${prev}${msg.text}`);
           } else if (msg.type === 'transcript') {
             setThinkingText('');
+            setPipelineStatus(null); // Clear pipeline status once lesson starts
             setTranscriptChunks((prev) => [...prev, msg as TranscriptChunk]);
             debug('beat', `Transcript chunk`, `"${(msg.text || '').slice(0, 80)}..."`);
           } else if (msg.type === 'audio') {
@@ -650,6 +656,7 @@ export function useSession({
     isMuted,
     isQAActive,
     hasReceivedMessage,
+    pipelineStatus,
     connect,
     disconnect,
     sendRaiseHand,
