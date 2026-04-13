@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { resolveImageUrl } from '@/lib/r2Assets';
+import { resolveImageCandidates } from '@/lib/r2Assets';
 
 interface R2ImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   /** Path — can be legacy local, R2 key, or full URL */
@@ -26,12 +26,15 @@ export const R2Image: React.FC<R2ImageProps> = ({
   ...props
 }) => {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [candidateIndex, setCandidateIndex] = useState(0);
   const imgRef = useRef<HTMLImageElement>(null);
-  const resolvedUrl = resolveImageUrl(src);
+  const candidates = resolveImageCandidates(src);
+  const resolvedUrl = candidates[candidateIndex] || src;
 
   // Reset status when src changes
   useEffect(() => {
     setStatus('loading');
+    setCandidateIndex(0);
   }, [src]);
 
   return (
@@ -56,7 +59,14 @@ export const R2Image: React.FC<R2ImageProps> = ({
         alt={alt}
         loading="lazy"
         onLoad={() => setStatus('loaded')}
-        onError={() => setStatus('error')}
+        onError={() => {
+          if (candidateIndex < candidates.length - 1) {
+            setCandidateIndex((prev) => prev + 1);
+            setStatus('loading');
+            return;
+          }
+          setStatus('error');
+        }}
         className={cn(
           'transition-opacity duration-500',
           status === 'loaded' ? 'opacity-100' : 'opacity-0',

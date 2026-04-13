@@ -11,17 +11,17 @@ interface MapEntry {
 }
 
 const MAP_ENTRIES: MapEntry[] = [
-  { r2Key: 'assets/maps/Map 001.png', primaryChapters: ['ch01'] },
-  { r2Key: 'assets/maps/Map 002.png', primaryChapters: ['ch02'] },
-  { r2Key: 'assets/maps/Map 003.png', primaryChapters: ['ch03'] },
-  { r2Key: 'assets/maps/Map 004.png', primaryChapters: ['ch04'] },
-  { r2Key: 'assets/maps/Map 005.png', primaryChapters: ['ch05'] },
-  { r2Key: 'assets/maps/Map 006.png', primaryChapters: ['ch06'] },
-  { r2Key: 'assets/maps/Map 007.png', primaryChapters: ['ch07'] },
-  { r2Key: 'assets/maps/Map 008.png', primaryChapters: ['ch08'] },
-  { r2Key: 'assets/maps/Map 009.png', primaryChapters: ['ch09'] },
-  { r2Key: 'assets/maps/Map 010.png', primaryChapters: ['ch10'] },
-  { r2Key: 'assets/maps/Map 011.png', primaryChapters: [] }, // overview fallback
+  { r2Key: 'assets/maps/map_001_post_babel_dispersion.png', primaryChapters: ['ch01'] },
+  { r2Key: 'assets/maps/map_002_ancient_egypt_overview.png', primaryChapters: ['ch02'] },
+  { r2Key: 'assets/maps/map_004_north_africa_regional_overview.png', primaryChapters: ['ch03'] },
+  { r2Key: 'assets/maps/map_015_meroe_red_sea_trade.png', primaryChapters: ['ch04'] },
+  { r2Key: 'assets/maps/map_016_kaleb_expedition.png', primaryChapters: ['ch05'] },
+  { r2Key: 'assets/maps/map_024_early_iron_age.png', primaryChapters: ['ch06'] },
+  { r2Key: 'assets/maps/map_028_red_sea_world.png', primaryChapters: ['ch07'] },
+  { r2Key: 'assets/maps/map_031_nilotic_migrations.png', primaryChapters: ['ch08'] },
+  { r2Key: 'assets/maps/map_033_zagwe_dynasty.png', primaryChapters: ['ch09'] },
+  { r2Key: 'assets/maps/map_027_zimbabwean_plateau.png', primaryChapters: ['ch10'] },
+  { r2Key: 'assets/maps/map_001_post_babel_dispersion.png', primaryChapters: [] }, // overview fallback
 ];
 
 /**

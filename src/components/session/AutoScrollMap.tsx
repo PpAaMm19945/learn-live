@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
+import { resolveImageCandidates } from '@/lib/r2Assets';
 
 
 interface AutoScrollMapProps {
@@ -25,7 +26,15 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   const [isUserDragging, setIsUserDragging] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [maxScroll, setMaxScroll] = useState(0);
+  const [candidateIndex, setCandidateIndex] = useState(0);
   const dragStartRef = useRef({ x: 0, scrollX: 0 });
+  const srcCandidates = resolveImageCandidates(src);
+  const activeSrc = srcCandidates[candidateIndex] || src;
+
+  useEffect(() => {
+    setCandidateIndex(0);
+    setImgLoaded(false);
+  }, [src]);
 
   const computeMaxScroll = useCallback(() => {
     if (!containerRef.current || !imgRef.current) return;
@@ -114,9 +123,14 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
     >
       <img
         ref={imgRef}
-        src={src}
+        src={activeSrc}
         alt={alt}
         onLoad={() => setImgLoaded(true)}
+        onError={() => {
+          if (candidateIndex < srcCandidates.length - 1) {
+            setCandidateIndex((prev) => prev + 1);
+          }
+        }}
         className="h-full w-auto max-w-none select-none"
         style={{ 
           willChange: 'transform',
