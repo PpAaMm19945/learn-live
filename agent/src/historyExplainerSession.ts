@@ -123,7 +123,15 @@ THEOLOGICAL GUARDRAILS:
         void cleanupSession();
     });
 
+    // Helper to send pipeline status updates to the frontend
+    const sendStatus = (step: string, detail?: string) => {
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'pipeline_status', step, detail }));
+        }
+    };
+
     try {
+        sendStatus('loading', 'Fetching lesson content…');
         const manifest = await fetcher.fetchSection(chapterId, sectionId);
 
         if (!manifest) {
@@ -131,16 +139,18 @@ THEOLOGICAL GUARDRAILS:
         }
 
         // Run the 5-phase Lesson Preparer pipeline to enrich beats
-        const preparer = new LessonPreparer(systemInstruction, band, chapterId);
+        sendStatus('preparing', 'Analyzing student context…');
+        const preparer = new LessonPreparer(systemInstruction, band, chapterId, sendStatus);
         let preparedManifest = manifest;
         try {
             preparedManifest = await preparer.prepare(manifest);
             console.log(`[HISTORY_EXPLAINER] Lesson Preparer pipeline complete for ${sectionId}`);
         } catch (prepErr) {
             console.warn(`[HISTORY_EXPLAINER] Lesson Preparer failed, using raw manifest:`, prepErr);
-            // Fall back to raw manifest — the lesson still runs
+            sendStatus('fallback', 'Using standard lesson plan…');
         }
 
+        sendStatus('ready', 'Starting lesson…');
         sequencer.start(preparedManifest).catch((err) => {
             console.error('[HISTORY_EXPLAINER] Sequencer run failed:', err);
             if (ws.readyState === WebSocket.OPEN) {

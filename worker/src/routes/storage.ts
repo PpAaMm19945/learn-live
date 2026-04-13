@@ -2,7 +2,9 @@ import { Env } from '../index';
 import { r2Helper } from '../lib/r2';
 
 export async function handleGetAsset(request: Request, env: Env, key: string): Promise<Response> {
-    const file = await r2Helper.getFile(env.ASSETS_BUCKET, key);
+    // Decode URL-encoded characters (e.g., %20 → space) so R2 key matches stored filename
+    const decodedKey = decodeURIComponent(key);
+    const file = await r2Helper.getFile(env.ASSETS_BUCKET, decodedKey);
     if (!file) {
         return new Response('Asset not found', { status: 404 });
     }
