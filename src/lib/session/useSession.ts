@@ -55,6 +55,7 @@ export function useSession({
   }, []);
 
   const wsRef = useRef<WebSocket | null>(null);
+  const resumeTokenRef = useRef<string | null>(null);
   const reconnectCountRef = useRef<number>(0);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const statusRef = useRef<SessionState['status']>(status);

@@ -2,6 +2,15 @@ import { WebSocket } from 'ws';
 import { Beat, SectionManifest } from './content';
 import { GenAINarrator } from './gemini';
 import { TTSService } from './tts';
+import { buildNarrationPrompt } from './historyExplainerTools';
+
+interface PreparedBeat {
+    beat: Beat;
+    narratedText: string;
+    audioBase64: string;
+    toolCalls: any[];
+    sceneMode: string;
+}
 
 export class BeatSequencer {
     private narrator: GenAINarrator;
@@ -13,6 +22,13 @@ export class BeatSequencer {
     private completedBeats: Beat[] = [];
     private previousNarratedText = '';
     private loopPromise: Promise<void> | null = null;
+
+    // Look-ahead buffer
+    private preparedBuffer: PreparedBeat[] = [];
+    private isProducing = false;
+
+    // Checkpoint callback for session store
+    public onCheckpoint?: (beatIndex: number, narratedText: string, beatId: string) => void;
 
     private extractBeatImage(content: string): { imagePath: string; alt: string } | null {
         const match = content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
@@ -33,8 +49,14 @@ export class BeatSequencer {
     }
 
     start(manifest: SectionManifest): Promise<void> {
-        console.log(`[SEQUENCER] Starting lesson: ${manifest.chapterId} / ${manifest.sectionId} (Band ${this.band})`);
+        return this.startFromIndex(manifest, 0, '');
+    }
+
+    startFromIndex(manifest: SectionManifest, fromIndex: number, previousText: string): Promise<void> {
+        console.log(`[SEQUENCER] Starting lesson: ${manifest.chapterId} / ${manifest.sectionId} (Band ${this.band}) from beat ${fromIndex}`);
         this.manifest = manifest;
+        this.currentBeatIndex = fromIndex;
+        this.previousNarratedText = previousText;
         this.isStopped = false;
 
         if (!this.loopPromise) {
@@ -49,6 +71,9 @@ export class BeatSequencer {
     private async runLoop() {
         if (!this.manifest) return;
 
+        // Start producing the first beat ahead
+        this.produceAhead();
+
         while (!this.isStopped && this.currentBeatIndex < this.manifest.beats.length) {
             if (this.isPaused) {
                 await new Promise(resolve => setTimeout(resolve, 120));
@@ -56,20 +81,41 @@ export class BeatSequencer {
             }
 
             const beat = this.manifest.beats[this.currentBeatIndex];
-            console.log(`[SEQUENCER] Processing Beat ${this.currentBeatIndex + 1}/${this.manifest.beats.length}: ${beat.title}`);
+            console.log(`[SEQUENCER] Delivering Beat ${this.currentBeatIndex + 1}/${this.manifest.beats.length}: ${beat.title}`);
 
-            await this.processBeat(beat);
-
-            if (this.isStopped) {
-                break;
+            // Wait for prepared beat from buffer, or prepare inline
+            let prepared = this.preparedBuffer.shift();
+            if (!prepared || prepared.beat.beatId !== beat.beatId) {
+                // Buffer miss — prepare inline (first beat, or buffer was stale)
+                console.log(`[SEQUENCER] Buffer miss for beat ${beat.beatId} — preparing inline`);
+                prepared = await this.prepareBeat(beat);
             }
 
-            this.currentBeatIndex++;
+            this.deliverBeat(prepared);
 
-            if (this.currentBeatIndex < this.manifest.beats.length) {
-                // Brief natural pause between beats — short enough to feel continuous
-                // but long enough for the student to register the transition
-                await new Promise(resolve => setTimeout(resolve, 400));
+            // Checkpoint for resume
+            this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
+
+            // Wait for audio playback duration before advancing
+            // Approximate: audioBase64 length / 1.33 = bytes, / 2 = samples, / 24000 = seconds
+            let waitMs = 400;
+            if (prepared.audioBase64 && prepared.audioBase64.length > 10) {
+                const approxBytes = prepared.audioBase64.length * 0.75;
+                const approxSamples = approxBytes / 2;
+                const approxSeconds = approxSamples / 24000;
+                waitMs = Math.max(400, approxSeconds * 1000);
+            } else {
+                // Dwell based on word count
+                const words = (prepared.narratedText || '').split(/\s+/).length;
+                waitMs = Math.max(3000, (words / 150) * 60 * 1000);
+            }
+
+            // Start producing next beat while we wait
+            this.currentBeatIndex++;
+            this.produceAhead();
+
+            if (!this.isStopped) {
+                await new Promise(resolve => setTimeout(resolve, waitMs));
             }
         }
 
@@ -79,59 +125,57 @@ export class BeatSequencer {
         }
     }
 
-    private async processBeat(beat: Beat) {
+    private produceAhead() {
+        if (this.isProducing || this.isStopped || !this.manifest) return;
+        
+        // Determine next beat to prepare
+        const nextIndex = this.currentBeatIndex + this.preparedBuffer.length + (this.preparedBuffer.length === 0 ? 0 : 1);
+        if (nextIndex >= this.manifest.beats.length) return;
+
+        // Only buffer 1-2 ahead
+        if (this.preparedBuffer.length >= 2) return;
+
+        this.isProducing = true;
+        const beat = this.manifest.beats[nextIndex];
+        
+        this.prepareBeat(beat).then(prepared => {
+            if (!this.isStopped) {
+                this.preparedBuffer.push(prepared);
+            }
+            this.isProducing = false;
+            // Try to produce more
+            this.produceAhead();
+        }).catch(err => {
+            console.error(`[SEQUENCER] Look-ahead preparation failed for beat ${beat.beatId}:`, err);
+            this.isProducing = false;
+        });
+    }
+
+    private async prepareBeat(beat: Beat): Promise<PreparedBeat> {
         let baseText = beat.contentText;
         if (beat.bandOverrides && beat.bandOverrides[this.band.toString()]) {
             baseText = beat.bandOverrides[this.band.toString()].contentText;
         }
 
         const totalBeats = this.manifest?.beats.length || 1;
-        const beatIndex = this.currentBeatIndex + 1;
-        const isFirst = beatIndex === 1;
-        const isLast = beatIndex === totalBeats;
+        const beatIndex = this.completedBeats.length + 1;
+        const isFirst = beatIndex === 1 && this.completedBeats.length === 0;
+        const isLast = (this.currentBeatIndex + 1) >= totalBeats || beatIndex === totalBeats;
 
         // Extract pipeline context if available (from LessonPreparer)
         const pipelineCtx = (beat as any)._pipelineContext;
-        const beatRole = pipelineCtx?.beatRole || 'human_story';
-        const theFrame = pipelineCtx?.theologicalFrame;
-        const lessonArch = pipelineCtx?.lessonArchitecture;
-        const studentProf = pipelineCtx?.studentProfile;
 
-        // Build a continuity-aware prompt with pipeline enrichment
-        let prompt = '';
-        
-        const jsonGuard = `\n\nCRITICAL OUTPUT RULES:\n- Your response must be ONLY plain narration text — spoken words for the student.\n- NEVER include JSON, code blocks, markdown fences, tool commands, function calls, or any structured data.\n- Do NOT output anything like \`\`\`json, set_scene(), show_scripture(), or [{"command":...}].\n- If you feel the urge to include stage directions or visual cues, suppress it — those are handled separately.\n`;
-
-        const voiceGuard = `\n\nVOICE CONSISTENCY (NON-NEGOTIABLE):\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- Do NOT whisper, murmur, or use a quiet storytelling voice. EVER.\n- Project confidence and conviction in EVERY sentence.\n- This instruction OVERRIDES all other tone guidance.\n`;
-
-        // Pipeline-aware context injection
-        let pipelineContext = '';
-        if (theFrame) {
-            pipelineContext += `\nTHEOLOGICAL FRAME: God is ${theFrame.whatGodIsDoing}. Covenant principle: ${theFrame.covenantPrinciple}.`;
-            if (theFrame.africaConnection) pipelineContext += ` Africa connection: ${theFrame.africaConnection}.`;
-        }
-        if (lessonArch && beatRole === 'hook') {
-            pipelineContext += `\nLESSON HOOK APPROACH: ${lessonArch.hook}`;
-        }
-        if (lessonArch && beatRole === 'theological_turn') {
-            pipelineContext += `\nTHEOLOGICAL TURN: ${lessonArch.theologicalTurn}. This must emerge naturally from the story — never announced.`;
-        }
-        if (lessonArch && beatRole === 'living_question') {
-            pipelineContext += `\nLIVING QUESTION: End with this question posed to the student: "${lessonArch.livingQuestion}". Pose it and stop. Do NOT answer it.`;
-        }
-        if (studentProf) {
-            pipelineContext += `\nSTUDENT: Emotional register: ${studentProf.emotionalRegister}. Vocabulary ceiling: ${studentProf.vocabularyCeiling}.`;
-        }
-
-        if (isFirst) {
-            prompt = `You are beginning a lesson. Narrate the following content for age-band ${this.band}. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}${voiceGuard}${pipelineContext}\nContent: "${baseText}"`;
-        } else {
-            prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the SAME strong, authoritative tone and energy as the previous segment.${jsonGuard}${voiceGuard}${pipelineContext}\nPrevious segment ended with: "${this.previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${this.band}. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
-        }
-
-        if (isLast) {
-            prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
-        }
+        // Build narration prompt using the clean narration-only builder
+        const prompt = buildNarrationPrompt({
+            baseText,
+            band: this.band,
+            beatIndex,
+            totalBeats,
+            isFirst,
+            isLast,
+            previousNarratedText: this.previousNarratedText,
+            pipelineContext: pipelineCtx,
+        });
 
         const extractedImage = this.extractBeatImage(baseText);
         let narratedText = await this.narrator.narrate(prompt) || baseText;
@@ -150,8 +194,6 @@ export class BeatSequencer {
         console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId}`);
         const audioBase64 = await this.tts.synthesize(narratedText) || '';
 
-        // If TTS failed, log it but send the beat immediately — the frontend
-        // will use browser speechSynthesis or a dwell-time fallback.
         if (!audioBase64) {
             console.warn(`[SEQUENCER] No audio for beat ${beat.beatId} — frontend will use browser TTS fallback`);
         }
@@ -180,17 +222,24 @@ export class BeatSequencer {
             });
         }
 
+        const sceneMode = extractedImage && !hasVisualTool ? 'image' : (beat.sceneMode || 'transcript');
+
+        this.completedBeats.push(beat);
+
+        return { beat, narratedText, audioBase64, toolCalls, sceneMode };
+    }
+
+    private deliverBeat(prepared: PreparedBeat) {
         const payload = {
             type: 'beat_payload',
-            beatId: beat.beatId,
-            text: narratedText,
-            audioData: audioBase64,
-            sceneMode: extractedImage && !hasVisualTool ? 'image' : (beat.sceneMode || 'transcript'),
-            toolCalls
+            beatId: prepared.beat.beatId,
+            text: prepared.narratedText,
+            audioData: prepared.audioBase64,
+            sceneMode: prepared.sceneMode,
+            toolCalls: prepared.toolCalls,
         };
 
         this.sendMessage(payload);
-        this.completedBeats.push(beat);
     }
 
     getContext() {
@@ -223,6 +272,7 @@ export class BeatSequencer {
     stop() {
         this.isStopped = true;
         this.isPaused = false;
+        this.preparedBuffer = [];
         console.log('[SEQUENCER] Stopped');
     }
 

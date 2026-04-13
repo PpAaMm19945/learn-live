@@ -242,7 +242,7 @@ export const MAPLIBRE_TEACHING_TOOLS = [
   },
 ];
 
-// ── System Prompt Builder ────────────────────────────────────────────
+// ── System Prompt Builder (full tool-aware — used for LessonPreparer / future tool planner) ──
 export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?: { name?: string; age?: number; band?: number }, band: number = 2): string {
     const learnerName = learnerContext?.name || 'the learner';
     const age = learnerContext?.age || 7;
@@ -360,4 +360,65 @@ CRITICAL RULES:
 - ALWAYS call set_scene before visual sequences and after them.
 - The transcript view is NOT your home base — VISUALS are your home base.
 - Every beat must feel like a scene from a documentary, not a page from a book.`;
+}
+
+// ── Narration-Only Prompt Builder (used by BeatSequencer — no tool references) ──
+export interface NarrationPromptParams {
+    baseText: string;
+    band: number;
+    beatIndex: number;
+    totalBeats: number;
+    isFirst: boolean;
+    isLast: boolean;
+    previousNarratedText: string;
+    pipelineContext?: {
+        lessonArchitecture?: { hook?: string; theologicalTurn?: string; livingQuestion?: string };
+        theologicalFrame?: { whatGodIsDoing?: string; covenantPrinciple?: string; africaConnection?: string };
+        studentProfile?: { emotionalRegister?: string; vocabularyCeiling?: string };
+        beatRole?: string;
+    };
+}
+
+export function buildNarrationPrompt(params: NarrationPromptParams): string {
+    const { baseText, band, beatIndex, totalBeats, isFirst, isLast, previousNarratedText, pipelineContext } = params;
+
+    const jsonGuard = `\n\nCRITICAL OUTPUT RULES:\n- Your response must be ONLY plain narration text — spoken words for the student.\n- NEVER include JSON, code blocks, markdown fences, tool commands, function calls, or any structured data.\n- Do NOT output anything like \`\`\`json, set_scene(), show_scripture(), or [{"command":...}].\n- If you feel the urge to include stage directions or visual cues, suppress it — those are handled separately.\n`;
+
+    const voiceGuard = `\n\nVOICE CONSISTENCY (NON-NEGOTIABLE):\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- Do NOT whisper, murmur, or use a quiet storytelling voice. EVER.\n- Project confidence and conviction in EVERY sentence.\n- This instruction OVERRIDES all other tone guidance.\n`;
+
+    // Pipeline-aware context injection
+    let pipeCtx = '';
+    if (pipelineContext) {
+        const { theologicalFrame: theFrame, lessonArchitecture: lessonArch, studentProfile: studentProf, beatRole } = pipelineContext;
+        if (theFrame) {
+            pipeCtx += `\nTHEOLOGICAL FRAME: God is ${theFrame.whatGodIsDoing}. Covenant principle: ${theFrame.covenantPrinciple}.`;
+            if (theFrame.africaConnection) pipeCtx += ` Africa connection: ${theFrame.africaConnection}.`;
+        }
+        if (lessonArch && beatRole === 'hook') {
+            pipeCtx += `\nLESSON HOOK APPROACH: ${lessonArch.hook}`;
+        }
+        if (lessonArch && beatRole === 'theological_turn') {
+            pipeCtx += `\nTHEOLOGICAL TURN: ${lessonArch.theologicalTurn}. This must emerge naturally from the story — never announced.`;
+        }
+        if (lessonArch && beatRole === 'living_question') {
+            pipeCtx += `\nLIVING QUESTION: End with this question posed to the student: "${lessonArch.livingQuestion}". Pose it and stop. Do NOT answer it.`;
+        }
+        if (studentProf) {
+            pipeCtx += `\nSTUDENT: Emotional register: ${studentProf.emotionalRegister}. Vocabulary ceiling: ${studentProf.vocabularyCeiling}.`;
+        }
+    }
+
+    let prompt: string;
+
+    if (isFirst) {
+        prompt = `You are beginning a lesson. Narrate the following content for age-band ${band}. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}${voiceGuard}${pipeCtx}\nContent: "${baseText}"`;
+    } else {
+        prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the SAME strong, authoritative tone and energy as the previous segment.${jsonGuard}${voiceGuard}${pipeCtx}\nPrevious segment ended with: "${previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${band}. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
+    }
+
+    if (isLast) {
+        prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
+    }
+
+    return prompt;
 }

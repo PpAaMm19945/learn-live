@@ -3,17 +3,15 @@ import { Beat, SectionManifest } from './content';
 import { MAPLIBRE_TEACHING_TOOLS } from './historyExplainerTools';
 
 /**
- * LessonPreparer — The 5-phase pipeline that transforms raw curriculum content
+ * LessonPreparer — Collapsed pipeline that transforms raw curriculum content
  * into teaching-ready beat payloads, following docs/TEACHING_PHILOSOPHY.md.
  *
- * Phases:
- *   0. Profile Intake   — Assess student context
- *   1. Theological Framing — Answer the "what is God doing?" question
- *   2. Lesson Architecture — Build the Hook → Story → Turn → Question structure
- *   3. Draft Generation  — Produce beat scripts with tool choreography
- *   4. Critique          — Self-review against guardrails; revise if needed
+ * Phases (collapsed for latency):
+ *   0-2. Combined: Profile + Theological Framing + Lesson Architecture (single AI call)
+ *   3.   Context Infusion — tag each beat with pipeline metadata (no AI call)
+ *   4.   Critique (optional — skipped for bands 0-2)
  *
- * All internal reasoning (Phases 0–4) is invisible to the student.
+ * All internal reasoning is invisible to the student.
  * Only the final beat payloads reach the Beat Sequencer.
  */
 
@@ -95,39 +93,32 @@ export class LessonPreparer {
   }
 
   /**
-   * Run the full 5-phase pipeline on a section manifest.
+   * Run the collapsed pipeline on a section manifest.
    * Returns an enriched manifest with AI-prepared beat content.
    */
   async prepare(manifest: SectionManifest): Promise<SectionManifest> {
-    console.log(`[PREPARER] Starting 5-phase pipeline for ${manifest.sectionId} (Band ${this.band})`);
+    console.log(`[PREPARER] Starting pipeline for ${manifest.sectionId} (Band ${this.band})`);
 
-    // Phase 0: Profile Intake
-    this.sendStatus('phase_0', 'Assessing student level…');
-    const profile = await this.phase0ProfileIntake(manifest);
-    console.log(`[PREPARER] Phase 0 complete — register: ${profile.emotionalRegister}`);
+    // Phase 0-2 Combined: Profile + Theological Framing + Lesson Architecture
+    this.sendStatus('preparing', 'Analyzing lesson context…');
+    const { profile, frame, plan } = await this.phaseCombined(manifest);
+    console.log(`[PREPARER] Combined phase complete — register: ${profile.emotionalRegister}, God is: ${frame.whatGodIsDoing.slice(0, 60)}...`);
 
-    // Phase 1: Theological Framing
-    this.sendStatus('phase_1', 'Building theological framework…');
-    const frame = await this.phase1TheologicalFraming(manifest, profile);
-    console.log(`[PREPARER] Phase 1 complete — God is: ${frame.whatGodIsDoing.slice(0, 80)}...`);
+    // Phase 3: Context Infusion — tag each beat (no AI call)
+    this.sendStatus('writing', 'Preparing lesson…');
+    const enrichedBeats = this.phase3ContextInfusion(manifest, profile, frame, plan);
+    console.log(`[PREPARER] Phase 3 complete — ${enrichedBeats.length} beats tagged`);
 
-    // Phase 2: Lesson Architecture
-    this.sendStatus('phase_2', 'Designing lesson structure…');
-    const plan = await this.phase2LessonArchitecture(manifest, profile, frame);
-    console.log(`[PREPARER] Phase 2 complete — hook: ${plan.hook.slice(0, 60)}...`);
-
-    // Phase 3: Draft Generation — enrich each beat
-    this.sendStatus('phase_3', 'Writing your lesson…');
-    const enrichedBeats = await this.phase3DraftGeneration(manifest, profile, frame, plan);
-    console.log(`[PREPARER] Phase 3 complete — ${enrichedBeats.length} beats drafted`);
-
-    // Phase 4: Critique
-    this.sendStatus('phase_4', 'Final review…');
-    const critique = await this.phase4Critique(enrichedBeats, profile, frame, plan);
-    console.log(`[PREPARER] Phase 4 complete — verdict: ${critique.verdict}`);
-
-    if (critique.sermonLanguageFound.length > 0) {
-      console.warn(`[PREPARER] Sermon language detected:`, critique.sermonLanguageFound);
+    // Phase 4: Critique — optional, only for bands 3+
+    if (this.band >= 3) {
+      this.sendStatus('reviewing', 'Final review…');
+      const critique = await this.phase4Critique(enrichedBeats, profile, frame, plan);
+      console.log(`[PREPARER] Phase 4 complete — verdict: ${critique.verdict}`);
+      if (critique.sermonLanguageFound.length > 0) {
+        console.warn(`[PREPARER] Sermon language detected:`, critique.sermonLanguageFound);
+      }
+    } else {
+      console.log(`[PREPARER] Phase 4 skipped (band ${this.band} < 3)`);
     }
 
     return {
@@ -136,7 +127,10 @@ export class LessonPreparer {
     };
   }
 
-  private async phase0ProfileIntake(manifest: SectionManifest): Promise<StudentProfile> {
+  /**
+   * Combined Phase 0+1+2: Single AI call that returns profile, theological frame, and lesson plan.
+   */
+  private async phaseCombined(manifest: SectionManifest): Promise<{ profile: StudentProfile; frame: TheologicalFrame; plan: LessonPlan }> {
     const chapterNum = parseInt(this.chapterId.replace('ch', ''), 10);
     const priorChapters = Array.from({ length: chapterNum - 1 }, (_, i) => {
       const id = `ch${String(i + 1).padStart(2, '0')}`;
@@ -144,208 +138,131 @@ export class LessonPreparer {
     });
 
     const bandInfo = BAND_AGE_MAP[this.band] || BAND_AGE_MAP[3];
-
-    const prompt = `You are preparing to teach a lesson on "${manifest.heading}" from Chapter ${chapterNum}: "${CHAPTER_TITLES[this.chapterId]}" of the Learn Live curriculum, based on THE HISTORY OF AFRICA by Anthony Jr. Mwesigwa.
-
-Student Age Band: ${this.band} — ${bandInfo.label} (ages ${bandInfo.ages})
-Band depth: ${bandInfo.depth}
-Chapters completed: ${priorChapters.length > 0 ? priorChapters.join(', ') : 'None (this is the first chapter)'}
-
-Return ONLY a JSON object (no markdown, no explanation):
-{
-  "chapter_being_taught": "Chapter ${chapterNum}: ${CHAPTER_TITLES[this.chapterId]}",
-  "prior_chapters_completed": ${JSON.stringify(priorChapters)},
-  "student_known_content": "What the student can be assumed to know from prior chapters",
-  "likely_prior_misconceptions": ["...", "..."],
-  "emotional_register": "wonder | gravity | curiosity | challenge | joy",
-  "vocabulary_ceiling": "description of appropriate vocabulary level",
-  "scaffolding_notes": "what scaffolding is needed for this band"
-}`;
-
-    const raw = await this.narrator.narrate(prompt);
-    try {
-      const json = this.extractJson(raw);
-      return {
-        chapterBeingTaught: json.chapter_being_taught || '',
-        priorChaptersCompleted: json.prior_chapters_completed || priorChapters,
-        studentKnownContent: json.student_known_content || '',
-        likelyMisconceptions: json.likely_prior_misconceptions || [],
-        emotionalRegister: json.emotional_register || 'curiosity',
-        vocabularyCeiling: json.vocabulary_ceiling || '',
-        scaffoldingNotes: json.scaffolding_notes || '',
-      };
-    } catch {
-      console.warn('[PREPARER] Phase 0 JSON parse failed, using defaults');
-      return {
-        chapterBeingTaught: `Chapter ${chapterNum}`,
-        priorChaptersCompleted: priorChapters,
-        studentKnownContent: '',
-        likelyMisconceptions: [],
-        emotionalRegister: 'curiosity',
-        vocabularyCeiling: 'age-appropriate',
-        scaffoldingNotes: '',
-      };
-    }
-  }
-
-  private async phase1TheologicalFraming(manifest: SectionManifest, profile: StudentProfile): Promise<TheologicalFrame> {
     const sectionContent = manifest.beats.map(b => b.contentText).join('\n\n');
 
-    const prompt = `You are the theological reasoning engine for Learn Live, a curriculum built on THE HISTORY OF AFRICA by Anthony Jr. Mwesigwa. This curriculum operates from a Reformed Baptist (1689 London Baptist Confession), Africa-centered, Young Earth Creationist perspective.
+    const prompt = `You are the lesson planning engine for Learn Live, a Reformed Baptist (1689 LBC), Africa-centered, Young Earth Creationist curriculum based on THE HISTORY OF AFRICA by Anthony Jr. Mwesigwa.
 
-Topic: ${manifest.heading}
-Chapter: ${this.chapterId}
-Student Band: ${this.band}
-Student Profile: ${JSON.stringify(profile)}
+TASK: In ONE response, produce three analyses for this lesson section.
 
-Section content to analyze:
-${sectionContent}
+SECTION: "${manifest.heading}" from Chapter ${chapterNum}: "${CHAPTER_TITLES[this.chapterId]}"
+Student Age Band: ${this.band} — ${bandInfo.label} (ages ${bandInfo.ages})
+Band depth: ${bandInfo.depth}
+Chapters completed: ${priorChapters.length > 0 ? priorChapters.join(', ') : 'None (first chapter)'}
+Number of beats: ${manifest.beats.length}
 
-Before any lesson content is generated, answer these questions. If a field does not apply, explain why. Never set present_day_parallel if the connection is not genuinely illuminated by the historical event itself.
+SECTION CONTENT:
+${sectionContent.slice(0, 3000)}
 
 Return ONLY a JSON object (no markdown, no explanation):
 {
-  "what_god_is_doing": "What is God actively doing in or through this event?",
-  "covenant_principle": "blessing | curse | providence | judgment | grace | mixed",
-  "covenant_explanation": "...",
-  "africa_connection": "Where do African peoples or civilizations appear?",
-  "africa_connection_strength": "central | present | absent",
-  "curse_of_ham_risk": "Does this topic risk implying the Curse of Ham?",
-  "nimrod_pattern_present": true or false,
-  "translation_thesis_relevant": true or false,
-  "translation_thesis_notes": "...",
-  "present_day_parallel": "..." or null
+  "profile": {
+    "chapter_being_taught": "...",
+    "student_known_content": "What the student can be assumed to know",
+    "likely_prior_misconceptions": ["..."],
+    "emotional_register": "wonder | gravity | curiosity | challenge | joy",
+    "vocabulary_ceiling": "...",
+    "scaffolding_notes": "..."
+  },
+  "theological_frame": {
+    "what_god_is_doing": "...",
+    "covenant_principle": "blessing | curse | providence | judgment | grace | mixed",
+    "covenant_explanation": "...",
+    "africa_connection": "...",
+    "africa_connection_strength": "central | present | absent",
+    "curse_of_ham_risk": "...",
+    "nimrod_pattern_present": true or false,
+    "translation_thesis_relevant": true or false,
+    "translation_thesis_notes": "...",
+    "present_day_parallel": "..." or null
+  },
+  "lesson_plan": {
+    "hook": "1-2 sentence hook approach",
+    "human_story": "1-2 sentence narrative arc",
+    "theological_turn": "How God's role becomes visible",
+    "living_question": "The actual question to pose"
+  }
 }`;
 
     const raw = await this.narrator.narrate(prompt);
     try {
       const json = this.extractJson(raw);
+      const p = json.profile || {};
+      const t = json.theological_frame || {};
+      const l = json.lesson_plan || {};
+
       return {
-        whatGodIsDoing: json.what_god_is_doing || '',
-        covenantPrinciple: json.covenant_principle || 'providence',
-        covenantExplanation: json.covenant_explanation || '',
-        africaConnection: json.africa_connection || '',
-        africaConnectionStrength: json.africa_connection_strength || 'central',
-        curseOfHamRisk: json.curse_of_ham_risk || 'no',
-        nimrodPatternPresent: json.nimrod_pattern_present || false,
-        translationThesisRelevant: json.translation_thesis_relevant || false,
-        translationThesisNotes: json.translation_thesis_notes || '',
-        presentDayParallel: json.present_day_parallel || null,
+        profile: {
+          chapterBeingTaught: p.chapter_being_taught || `Chapter ${chapterNum}`,
+          priorChaptersCompleted: priorChapters,
+          studentKnownContent: p.student_known_content || '',
+          likelyMisconceptions: p.likely_prior_misconceptions || [],
+          emotionalRegister: p.emotional_register || 'curiosity',
+          vocabularyCeiling: p.vocabulary_ceiling || 'age-appropriate',
+          scaffoldingNotes: p.scaffolding_notes || '',
+        },
+        frame: {
+          whatGodIsDoing: t.what_god_is_doing || 'Providence over the nations',
+          covenantPrinciple: t.covenant_principle || 'providence',
+          covenantExplanation: t.covenant_explanation || '',
+          africaConnection: t.africa_connection || 'Central — Hamitic civilizations',
+          africaConnectionStrength: t.africa_connection_strength || 'central',
+          curseOfHamRisk: t.curse_of_ham_risk || 'No',
+          nimrodPatternPresent: t.nimrod_pattern_present || false,
+          translationThesisRelevant: t.translation_thesis_relevant || false,
+          translationThesisNotes: t.translation_thesis_notes || '',
+          presentDayParallel: t.present_day_parallel || null,
+        },
+        plan: {
+          hook: l.hook || 'Begin with the most striking fact from this section.',
+          humanStory: l.human_story || 'Tell the human story as narrative.',
+          theologicalTurn: l.theological_turn || "Show God's hand through the events themselves.",
+          livingQuestion: l.living_question || manifest.thinkItThrough?.[0] || 'What do you think God was doing here?',
+        },
       };
     } catch {
-      console.warn('[PREPARER] Phase 1 JSON parse failed, using defaults');
+      console.warn('[PREPARER] Combined phase JSON parse failed, using defaults');
       return {
-        whatGodIsDoing: 'Providence over the nations',
-        covenantPrinciple: 'providence',
-        covenantExplanation: '',
-        africaConnection: 'Central — Hamitic civilizations',
-        africaConnectionStrength: 'central',
-        curseOfHamRisk: 'No — this chapter dismantles it',
-        nimrodPatternPresent: false,
-        translationThesisRelevant: false,
-        translationThesisNotes: '',
-        presentDayParallel: null,
+        profile: {
+          chapterBeingTaught: `Chapter ${chapterNum}`,
+          priorChaptersCompleted: priorChapters,
+          studentKnownContent: '',
+          likelyMisconceptions: [],
+          emotionalRegister: 'curiosity',
+          vocabularyCeiling: 'age-appropriate',
+          scaffoldingNotes: '',
+        },
+        frame: {
+          whatGodIsDoing: 'Providence over the nations',
+          covenantPrinciple: 'providence',
+          covenantExplanation: '',
+          africaConnection: 'Central — Hamitic civilizations',
+          africaConnectionStrength: 'central',
+          curseOfHamRisk: 'No — this chapter dismantles it',
+          nimrodPatternPresent: false,
+          translationThesisRelevant: false,
+          translationThesisNotes: '',
+          presentDayParallel: null,
+        },
+        plan: {
+          hook: 'Begin with the most striking fact from this section.',
+          humanStory: 'Tell the human story as narrative.',
+          theologicalTurn: "Show God's hand through the events themselves.",
+          livingQuestion: manifest.thinkItThrough?.[0] || 'What do you think God was doing here?',
+        },
       };
     }
   }
 
-  private async phase2LessonArchitecture(manifest: SectionManifest, profile: StudentProfile, frame: TheologicalFrame): Promise<LessonPlan> {
-    const prompt = `You are designing the lesson architecture for Learn Live.
-
-Student Profile: ${JSON.stringify(profile)}
-Theological Frame: ${JSON.stringify(frame)}
-Section: ${manifest.heading}
-Number of beats available: ${manifest.beats.length}
-
-Design a four-part lesson structure:
-- Beat 1 — Hook: Creates genuine curiosity or wonder. The student leans forward.
-- Beat 2 — The Human Story: What happened, who was involved, what they wanted. Narrative, not lecture.
-- Beat 3 — The Theological Turn: God's role made visible. Must flow naturally from Beat 2. If it reads as a sermon insert, redesign.
-- Beat 4 — The Living Question: Age-appropriate, genuinely open, connects history to student's present. Not rhetorical. Never answered by the agent.
-
-Architecture test: Does Beat 3 emerge from the story, or is it imposed on it? If imposed, redesign.
-
-Return ONLY a JSON object (no markdown):
-{
-  "hook": "1-2 sentence description of the hook approach",
-  "human_story": "1-2 sentence description of the narrative arc",
-  "theological_turn": "1-2 sentence description of how God's role becomes visible",
-  "living_question": "The actual question to pose to the student"
-}`;
-
-    const raw = await this.narrator.narrate(prompt);
-    try {
-      const json = this.extractJson(raw);
-      return {
-        hook: json.hook || '',
-        humanStory: json.human_story || '',
-        theologicalTurn: json.theological_turn || '',
-        livingQuestion: json.living_question || manifest.thinkItThrough?.[0] || '',
-      };
-    } catch {
-      return {
-        hook: 'Begin with the most striking fact from this section.',
-        humanStory: 'Tell the human story as narrative.',
-        theologicalTurn: "Show God's hand through the events themselves.",
-        livingQuestion: manifest.thinkItThrough?.[0] || 'What do you think God was doing here?',
-      };
-    }
-  }
-
-  private async phase3DraftGeneration(
+  private phase3ContextInfusion(
     manifest: SectionManifest,
     profile: StudentProfile,
     frame: TheologicalFrame,
     plan: LessonPlan
-  ): Promise<Beat[]> {
-    const bandInfo = BAND_AGE_MAP[this.band] || BAND_AGE_MAP[3];
-
-    // Build the enrichment prompt for the AI to refine each beat's narration context
-    const enrichmentPrompt = `You are drafting narration guidance for a ${bandInfo.label} lesson (ages ${bandInfo.ages}).
-
-LESSON ARCHITECTURE:
-- Hook approach: ${plan.hook}
-- Story arc: ${plan.humanStory}
-- Theological turn: ${plan.theologicalTurn}
-- Living question: ${plan.livingQuestion}
-
-THEOLOGICAL FRAME:
-- What God is doing: ${frame.whatGodIsDoing}
-- Covenant principle: ${frame.covenantPrinciple} — ${frame.covenantExplanation}
-- Africa connection: ${frame.africaConnection} (${frame.africaConnectionStrength})
-${frame.nimrodPatternPresent ? '- Nimrod pattern IS present in this section' : ''}
-${frame.translationThesisRelevant ? '- Translation Thesis IS relevant here: ' + frame.translationThesisNotes : ''}
-${frame.presentDayParallel ? '- Present-day parallel: ' + frame.presentDayParallel : ''}
-
-STUDENT CONTEXT:
-- Emotional register: ${profile.emotionalRegister}
-- Vocabulary ceiling: ${profile.vocabularyCeiling}
-- Misconceptions to address: ${profile.likelyMisconceptions.join(', ')}
-
-GUARDRAILS (non-negotiable):
-1. God's role is SHOWN, not announced. Never say "this teaches us that..."
-2. The Curse of Ham is NEVER implied.
-3. No sermon vocabulary: forbidden phrases include "this teaches us," "the lesson here is," "we learn that," "and so we see."
-4. Africa is history, not representation — no performative inclusion.
-5. Deep truth is never withheld for age reasons — translate depth, don't remove it.
-6. Voice: COMMANDING, AUTHORITATIVE, BOLD — like a passionate professor. Never whisper or use bedtime-story tone.
-
-For each beat, the narration text in contentText should:
-- Match the ${bandInfo.label} depth level
-- Carry the theological frame naturally (not as inserted commentary)
-- Use vocabulary appropriate to the ceiling
-- Maintain the ${profile.emotionalRegister} register throughout
-
-Return "acknowledged" — the Beat Sequencer will use this context per-beat.`;
-
-    // We don't actually need to call the AI here — the enrichment context
-    // will be woven into the per-beat narration prompt by the BeatSequencer.
-    // Instead, we tag each beat with the pipeline context for the sequencer.
+  ): Beat[] {
     console.log(`[PREPARER] Phase 3 — tagging ${manifest.beats.length} beats with pipeline context`);
 
     return manifest.beats.map((beat, i) => ({
       ...beat,
-      // Inject pipeline context as metadata the sequencer can use
       _pipelineContext: {
         lessonArchitecture: plan,
         theologicalFrame: frame,
