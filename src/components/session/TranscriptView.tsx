@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { TranscriptChunk } from '@/lib/session/types';
 
@@ -115,8 +115,36 @@ function TranscriptCard({
   );
 }
 
-/** Resting state — chapter title + waiting indicator */
+/** Educational facts shown while the pipeline warms up */
+const WARMUP_FACTS = [
+  { emoji: '🏛️', text: 'The Kingdom of Kush ruled for over 1,000 years along the Upper Nile.' },
+  { emoji: '📜', text: 'Ethiopia has one of the oldest alphabets in the world — Ge\'ez.' },
+  { emoji: '⛪', text: 'The Ethiopian Orthodox Church dates back to the 4th century AD.' },
+  { emoji: '🗺️', text: 'Ancient Carthage was one of the wealthiest cities in the Mediterranean.' },
+  { emoji: '⚒️', text: 'The Haya people of Tanzania were smelting steel 2,000 years ago.' },
+  { emoji: '📚', text: 'Timbuktu once housed over 700,000 manuscripts.' },
+  { emoji: '🌍', text: 'The Table of Nations in Genesis 10 names Africa\'s earliest peoples.' },
+  { emoji: '🏰', text: 'Great Zimbabwe\'s stone walls were built without mortar.' },
+  { emoji: '⚓', text: 'Swahili merchants traded with China, India, and Persia.' },
+  { emoji: '👑', text: 'Mansa Musa of Mali was the wealthiest person in recorded history.' },
+  { emoji: '🔬', text: 'Alexandria\'s ancient library was the largest in the world.' },
+  { emoji: '✝️', text: 'Augustine of Hippo — one of Christianity\'s greatest theologians — was African.' },
+];
+
+/** Resting state — chapter title + rotating educational facts */
 function RestingState({ chapterId, isActive }: { chapterId: string; isActive: boolean }) {
+  const [factIndex, setFactIndex] = useState(() => Math.floor(Math.random() * WARMUP_FACTS.length));
+
+  useEffect(() => {
+    if (!isActive) return;
+    const interval = setInterval(() => {
+      setFactIndex(prev => (prev + 1) % WARMUP_FACTS.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isActive]);
+
+  const fact = WARMUP_FACTS[factIndex];
+
   return (
     <motion.div
       key="resting"
@@ -124,7 +152,7 @@ function RestingState({ chapterId, isActive }: { chapterId: string; isActive: bo
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="text-center space-y-4 pt-32"
+      className="text-center space-y-6 pt-24"
     >
       <motion.h1
         animate={{ scale: [1, 1.02, 1] }}
@@ -133,33 +161,53 @@ function RestingState({ chapterId, isActive }: { chapterId: string; isActive: bo
       >
         {chapterId.replace(/^ch/, 'Chapter ')}
       </motion.h1>
-      <div className="flex flex-col items-center gap-2">
-        {isActive ? (
-          <>
-            <div className="flex space-x-1 mb-2">
-              {[0, 1, 2].map((i) => (
-                <motion.div
-                  key={i}
-                  className="w-2 h-2 bg-muted-foreground rounded-full"
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{
-                    duration: 0.6,
-                    repeat: Infinity,
-                    delay: i * 0.15,
-                  }}
-                />
-              ))}
-            </div>
-            <p className="text-lg text-muted-foreground">
-              Your teacher is preparing...
-            </p>
-          </>
-        ) : (
-          <p className="text-lg text-muted-foreground">
-            Waiting for your teacher...
+
+      {isActive ? (
+        <div className="space-y-5">
+          {/* Pulsing dots */}
+          <div className="flex space-x-1 justify-center mb-3">
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                className="w-2 h-2 bg-primary/60 rounded-full"
+                animate={{ y: [0, -6, 0] }}
+                transition={{
+                  duration: 0.6,
+                  repeat: Infinity,
+                  delay: i * 0.15,
+                }}
+              />
+            ))}
+          </div>
+          <p className="text-sm text-muted-foreground/70 tracking-wide uppercase">
+            Preparing your lesson…
           </p>
-        )}
-      </div>
+
+          {/* Rotating educational fact */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={factIndex}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.4 }}
+              className="mt-6 px-6 py-4 rounded-xl bg-primary/5 border border-primary/10 max-w-md mx-auto"
+            >
+              <p className="text-2xl mb-2">{fact.emoji}</p>
+              <p className="text-sm text-foreground/70 leading-relaxed font-medium">
+                {fact.text}
+              </p>
+              <p className="text-[10px] text-muted-foreground/40 mt-2 uppercase tracking-widest">
+                Did you know?
+              </p>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      ) : (
+        <p className="text-lg text-muted-foreground">
+          Waiting for your teacher…
+        </p>
+      )}
     </motion.div>
   );
 }
