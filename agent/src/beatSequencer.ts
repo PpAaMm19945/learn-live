@@ -14,6 +14,15 @@ export class BeatSequencer {
     private previousNarratedText = '';
     private loopPromise: Promise<void> | null = null;
 
+    private extractBeatImage(content: string): { imagePath: string; alt: string } | null {
+        const match = content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
+        if (!match) return null;
+        return {
+            alt: (match[1] || 'Lesson illustration').trim(),
+            imagePath: match[2].trim()
+        };
+    }
+
     constructor(
         private ws: WebSocket,
         private band: number,
@@ -124,10 +133,12 @@ export class BeatSequencer {
             prompt += '\n\nThis is the final segment. End with a thoughtful closing reflection — not a summary, but a question or observation the student can carry with them. Do NOT say "goodbye" or "see you next time."';
         }
 
+        const extractedImage = this.extractBeatImage(baseText);
         let narratedText = await this.narrator.narrate(prompt) || baseText;
         
         // Strip any JSON/code blocks that leaked into the narration
         narratedText = narratedText
+            .replace(/!\[[^\]]*\]\(([^)]+)\)/g, '')
             .replace(/```(?:json)?\s*[\s\S]*?```/gi, '')
             .replace(/\[\s*\{\s*"(?:command|action|actions)"\s*:[\s\S]*?\}\s*\]/g, '')
             .replace(/\{\s*"(?:command|action)"\s*:[\s\S]*?\}/g, '')
@@ -145,17 +156,37 @@ export class BeatSequencer {
             console.warn(`[SEQUENCER] No audio for beat ${beat.beatId} — frontend will use browser TTS fallback`);
         }
 
+        const toolCalls = beat.toolSequence.map(t => ({
+            type: 'tool_call',
+            tool: t.tool,
+            args: t.args
+        }));
+
+        const hasVisualTool = toolCalls.some(t =>
+            t.tool === 'set_scene' ||
+            t.tool === 'show_figure' ||
+            t.tool === 'show_slide'
+        );
+
+        if (extractedImage && !hasVisualTool) {
+            toolCalls.unshift({
+                type: 'tool_call',
+                tool: 'set_scene',
+                args: {
+                    mode: 'image',
+                    imageUrl: extractedImage.imagePath,
+                    caption: extractedImage.alt,
+                }
+            });
+        }
+
         const payload = {
             type: 'beat_payload',
             beatId: beat.beatId,
             text: narratedText,
             audioData: audioBase64,
-            sceneMode: beat.sceneMode || 'transcript',
-            toolCalls: beat.toolSequence.map(t => ({
-                type: 'tool_call',
-                tool: t.tool,
-                args: t.args
-            }))
+            sceneMode: extractedImage && !hasVisualTool ? 'image' : (beat.sceneMode || 'transcript'),
+            toolCalls
         };
 
         this.sendMessage(payload);

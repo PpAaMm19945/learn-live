@@ -33,11 +33,11 @@ export interface MapSpec {
 /**
  * The canonical map registry. Update this when new maps are uploaded to R2.
  * 
- * R2 path: learnlive-assets-prod/assets/maps/Map 001.png ... Map 011.png
+ * R2 path: learnlive-assets-prod/assets/maps/map_XXX_*.png
  */
 export const MAP_REGISTRY: MapSpec[] = [
   {
-    r2Key: 'assets/maps/Map 001.png',
+    r2Key: 'assets/maps/map_001_post_babel_dispersion.png',
     title: 'The Table of Nations — Sons of Noah',
     region: 'Ancient Near East & Northeast Africa',
     era: 'Post-Flood / Pre-Babel (~2348–2242 BC biblical chronology)',
@@ -48,7 +48,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 002.png',
+    r2Key: 'assets/maps/map_002_ancient_egypt_overview.png',
     title: 'Ancient Egypt — The Nile Kingdoms',
     region: 'Egypt & Nile Valley',
     era: 'Old Kingdom through Ptolemaic (~3100–30 BC)',
@@ -59,7 +59,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 003.png',
+    r2Key: 'assets/maps/map_004_north_africa_regional_overview.png',
     title: 'North Africa — Carthage, Numidia & the Desert Kingdoms',
     region: 'North Africa (modern Tunisia, Algeria, Libya)',
     era: 'Phoenician colonies through Roman conquest (~814–146 BC)',
@@ -70,7 +70,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 004.png',
+    r2Key: 'assets/maps/map_015_meroe_red_sea_trade.png',
     title: 'The Lands of Cush — Nubia, Kush & Meroë',
     region: 'Upper Nile / Sudan / Ethiopia',
     era: 'Kingdom of Kush (~2500 BC–350 AD)',
@@ -81,7 +81,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 005.png',
+    r2Key: 'assets/maps/map_016_kaleb_expedition.png',
     title: 'Roman Africa — Province & Church',
     region: 'North Africa under Rome',
     era: 'Roman period (~146 BC–430 AD)',
@@ -92,7 +92,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 006.png',
+    r2Key: 'assets/maps/map_024_early_iron_age.png',
     title: 'Alexandrian Egypt — Rome, Faith & Philosophy',
     region: 'Egypt under Rome',
     era: 'Roman & Byzantine Egypt (~30 BC–642 AD)',
@@ -103,7 +103,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 007.png',
+    r2Key: 'assets/maps/map_028_red_sea_world.png',
     title: 'The Ethiopian Highlands — Aksum & the Solomonic Legacy',
     region: 'Horn of Africa / Ethiopian Highlands',
     era: 'Aksumite Kingdom (~100–940 AD)',
@@ -114,7 +114,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 008.png',
+    r2Key: 'assets/maps/map_031_nilotic_migrations.png',
     title: 'The Bantu Migrations',
     region: 'Sub-Saharan Africa',
     era: 'Bantu expansion (~1000 BC–1500 AD)',
@@ -125,7 +125,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 009.png',
+    r2Key: 'assets/maps/map_033_zagwe_dynasty.png',
     title: 'Ethiopia Alone — The Hidden Kingdom',
     region: 'Ethiopian Highlands & surrounds',
     era: 'Zagwe dynasty through Solomonic restoration (~940–1530 AD)',
@@ -136,7 +136,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 010.png',
+    r2Key: 'assets/maps/map_027_zimbabwean_plateau.png',
     title: 'Trade Winds & Stone Cities — The Swahili Coast',
     region: 'East African Coast & Indian Ocean',
     era: 'Swahili civilization (~800–1500 AD)',
@@ -147,7 +147,7 @@ export const MAP_REGISTRY: MapSpec[] = [
     orientation: 'landscape',
   },
   {
-    r2Key: 'assets/maps/Map 011.png',
+    r2Key: 'assets/maps/map_001_post_babel_dispersion.png',
     title: 'Overview — Africa in the Ancient & Medieval World',
     region: 'Full African continent',
     era: 'Composite overview',

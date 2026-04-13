@@ -12,6 +12,9 @@ export class TTSService {
   private apiKey: string;
   private endpoint: string;
   private static MAX_RETRIES = 3;
+  private static MIN_REQUEST_INTERVAL_MS = 6500;
+  private static lastRequestAt = 0;
+  private static queue: Promise<void> = Promise.resolve();
 
   constructor() {
     this.apiKey = process.env.GEMINI_API_KEY || '';
@@ -25,8 +28,16 @@ export class TTSService {
     if (!this.apiKey) return null;
 
     // Clean text: strip markdown
-    const cleanText = text.replace(/\*\*/g, '').replace(/[#_`>]/g, '');
+    const cleanText = text
+      .replace(/!\[[^\]]*\]\(([^)]+)\)/g, '')
+      .replace(/\*\*/g, '')
+      .replace(/[#_`>]/g, '')
+      .replace(/\s{2,}/g, ' ')
+      .trim()
+      .slice(0, 1100);
     if (!cleanText.trim()) return null;
+
+    await this.waitForTurn();
 
     const payload = {
       contents: [{ parts: [{ text: cleanText }] }],
@@ -63,7 +74,7 @@ export class TTSService {
           const isRetryable = response.status >= 500 || response.status === 429;
 
           if (isRetryable && attempt < TTSService.MAX_RETRIES - 1) {
-            const delayMs = Math.pow(2, attempt + 1) * 1000;
+            const delayMs = Math.max(TTSService.MIN_REQUEST_INTERVAL_MS, Math.pow(2, attempt + 1) * 1000);
             console.warn(`[TTS] ${response.status} — retry ${attempt + 1}/${TTSService.MAX_RETRIES} in ${delayMs / 1000}s`);
             await new Promise(r => setTimeout(r, delayMs));
             continue;
@@ -84,7 +95,7 @@ export class TTSService {
         return audioData; // Base64 PCM string
       } catch (e) {
         if (attempt < TTSService.MAX_RETRIES - 1) {
-          const delayMs = Math.pow(2, attempt + 1) * 1000;
+          const delayMs = Math.max(TTSService.MIN_REQUEST_INTERVAL_MS, Math.pow(2, attempt + 1) * 1000);
           console.warn(`[TTS] Fetch failed — retry ${attempt + 1}/${TTSService.MAX_RETRIES} in ${delayMs / 1000}s:`, e);
           await new Promise(r => setTimeout(r, delayMs));
           continue;
@@ -95,5 +106,24 @@ export class TTSService {
     }
 
     return null;
+  }
+
+  private async waitForTurn(): Promise<void> {
+    const prior = TTSService.queue;
+    let release!: () => void;
+    TTSService.queue = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+
+    await prior;
+
+    const elapsed = Date.now() - TTSService.lastRequestAt;
+    const waitMs = Math.max(0, TTSService.MIN_REQUEST_INTERVAL_MS - elapsed);
+    if (waitMs > 0) {
+      await new Promise((resolve) => setTimeout(resolve, waitMs));
+    }
+
+    TTSService.lastRequestAt = Date.now();
+    release();
   }
 }
