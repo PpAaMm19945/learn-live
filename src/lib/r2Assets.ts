@@ -19,11 +19,58 @@ const WORKER_URL =
   import.meta.env.VITE_WORKER_URL ||
   'https://learn-live.antmwes104-1.workers.dev';
 
+function unique<T>(items: T[]): T[] {
+  return Array.from(new Set(items));
+}
+
+function keyToUrl(key: string): string {
+  return `${WORKER_URL}/api/assets/${key.replace(/^\/+/, '')}`;
+}
+
+/**
+ * Expand an asset path into likely R2 key variants.
+ * This makes the frontend resilient while the bucket is being normalized.
+ */
+export function resolveImageCandidates(path: string): string[] {
+  if (!path) return [];
+  if (path.startsWith('http://') || path.startsWith('https://')) return [path];
+
+  const raw = path.replace(/^\/+/, '');
+  const keys: string[] = [raw];
+
+  if (raw.startsWith('assets/')) {
+    const withoutAssets = raw.slice('assets/'.length);
+    keys.push(withoutAssets);
+
+    if (withoutAssets.startsWith('images/')) {
+      keys.push(withoutAssets.slice('images/'.length));
+    }
+    if (withoutAssets.startsWith('maps/')) {
+      keys.push(`images/${withoutAssets}`);
+    }
+    if (withoutAssets.startsWith('storybook/')) {
+      keys.push(`images/${withoutAssets}`);
+    }
+  }
+
+  if (raw.startsWith('images/')) {
+    const withoutImages = raw.slice('images/'.length);
+    keys.push(withoutImages);
+    keys.push(`assets/${raw}`);
+    keys.push(`assets/${withoutImages}`);
+  }
+
+  if (raw.startsWith('maps/') || raw.startsWith('storybook/')) {
+    keys.push(`assets/${raw}`);
+    keys.push(`images/${raw}`);
+  }
+
+  return unique(keys).map(keyToUrl);
+}
+
 /** Resolve an R2 key to a full URL served by the Worker */
 export function r2Url(r2Key: string): string {
-  // Strip leading slash if present
-  const key = r2Key.startsWith('/') ? r2Key.slice(1) : r2Key;
-  return `${WORKER_URL}/api/assets/${key}`;
+  return resolveImageCandidates(r2Key)[0] || keyToUrl(r2Key);
 }
 
 /**
@@ -31,28 +78,29 @@ export function r2Url(r2Key: string): string {
  * to an R2 URL. Handles both old local paths and already-resolved R2 keys.
  */
 export function resolveImageUrl(path: string): string {
-  // Already a full URL
-  if (path.startsWith('http://') || path.startsWith('https://')) return path;
-
-  // Already an R2 key (starts with assets/)
-  if (path.startsWith('assets/')) return r2Url(path);
-
-  // Legacy local path: /images/storybook/ch01/band0_page01.jpg → assets/storybook/ch01/band0_page01.jpg
-  if (path.startsWith('/images/')) {
-    return r2Url(`assets${path.replace('/images', '')}`);
-  }
-
-  // Fallback — treat as R2 key
-  return r2Url(path);
+  return resolveImageCandidates(path)[0] || path;
 }
 
 /** Preload an image into browser cache. Returns a promise that resolves when loaded. */
 export function preloadImage(url: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve();
-    img.onerror = () => reject(new Error(`Failed to preload: ${url}`));
-    img.src = url;
+    const candidates = resolveImageCandidates(url);
+    let index = 0;
+
+    const tryNext = () => {
+      const candidate = candidates[index++];
+      if (!candidate) {
+        reject(new Error(`Failed to preload: ${url}`));
+        return;
+      }
+
+      const img = new Image();
+      img.onload = () => resolve();
+      img.onerror = () => tryNext();
+      img.src = candidate;
+    };
+
+    tryNext();
   });
 }
 
