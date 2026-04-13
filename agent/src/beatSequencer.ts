@@ -58,7 +58,9 @@ export class BeatSequencer {
             this.currentBeatIndex++;
 
             if (this.currentBeatIndex < this.manifest.beats.length) {
-                await new Promise(resolve => setTimeout(resolve, 800));
+                // Brief natural pause between beats — short enough to feel continuous
+                // but long enough for the student to register the transition
+                await new Promise(resolve => setTimeout(resolve, 400));
             }
         }
 
