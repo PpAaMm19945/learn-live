@@ -13,6 +13,7 @@ import { useLearnerStore } from '@/lib/learnerStore';
 import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/TeachingCanvas';
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { resolveImageUrl } from '@/lib/r2Assets';
+import { getChapterMapUrl } from '@/lib/mapRegistry';
 import { ImageScene } from './ImageScene';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
@@ -53,13 +54,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const { recordEvent, stop: stopRecording } = useRecorder({ chapterId, band, recording: !useFallback });
   const goldenScript = useGoldenScript(goldenScriptData);
 
-  // Load chapter map on mount
+  // Load chapter map on mount using the registry
   useEffect(() => {
-    const chapterNum = chapterId.replace('ch', '');
-    // Try to resolve from R2 assets registry
-    const mapKey = `assets/maps/ch${chapterNum}_map.jpg`;
-    const resolved = resolveImageUrl(mapKey);
-    setChapterMapUrl(resolved);
+    const url = getChapterMapUrl(chapterId);
+    setChapterMapUrl(url);
   }, [chapterId]);
 
   // Auto-dismiss overlays after a duration
