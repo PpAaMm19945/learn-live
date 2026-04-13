@@ -142,7 +142,7 @@ export function useSession({
             Logger.warn('[AUDIO]', 'Skipping PCM audio chunk with no decodable samples');
             return Promise.resolve();
         }
-        const audioBuffer = ctx.createBuffer(1, sampleCount, 24000);
+        const audioBuffer = activeCtx.createBuffer(1, sampleCount, 24000);
         const channelData = audioBuffer.getChannelData(0);
         const dataView = new DataView(bytes.buffer);
         for (let i = 0; i < sampleCount; i++) {
@@ -153,12 +153,12 @@ export function useSession({
         const durationSec = audioBuffer.duration;
         Logger.info('[AUDIO]', `PCM decoded: ${sampleCount} samples, ${durationSec.toFixed(1)}s duration`);
 
-        const source = ctx.createBufferSource();
+        const source = activeCtx.createBufferSource();
         source.buffer = audioBuffer;
-        source.connect(ctx.destination);
+        source.connect(activeCtx.destination);
 
         return new Promise<void>((resolve) => {
-            const currentTime = ctx.currentTime;
+            const currentTime = activeCtx.currentTime;
             const startTime = Math.max(currentTime, nextPlayTimeRef.current);
             const delay = startTime - currentTime;
             
