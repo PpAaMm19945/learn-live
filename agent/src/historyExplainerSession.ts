@@ -7,6 +7,7 @@ import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 import { buildMapContextForAgent } from './mapRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
+import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint } from './sessionStore';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
@@ -35,6 +36,9 @@ THEOLOGICAL GUARDRAILS:
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
     const controller = new HistorySessionController(band);
 
+    // Session store key for resume
+    const sKey = sessionKey(canonicalLessonId, learnerId, band);
+
     let sessionClosing = false;
 
     const cleanupSession = async () => {
@@ -47,6 +51,15 @@ THEOLOGICAL GUARDRAILS:
         liveHandler.stopQA();
         sequencer.stop();
         await sequencer.waitUntilStopped();
+    };
+
+    // Wire checkpoint callback so sequencer persists progress
+    sequencer.onCheckpoint = (beatIndex: number, narratedText: string, beatId: string) => {
+        storeCheckpoint(sKey, beatIndex, narratedText, beatId);
+        // Emit resumeToken to client
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({ type: 'resume_token', token: sKey }));
+        }
     };
 
     ws.on('message', async (raw: string) => {
@@ -131,6 +144,27 @@ THEOLOGICAL GUARDRAILS:
     };
 
     try {
+        // Check for resumable session
+        const cached = getSession(sKey);
+        if (cached) {
+            console.log(`[HISTORY_EXPLAINER] Resuming session from beat ${cached.nextBeatIndex} — skipping pipeline`);
+            sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
+
+            sequencer.startFromIndex(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText).catch((err) => {
+                console.error('[HISTORY_EXPLAINER] Sequencer resume failed:', err);
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(JSON.stringify({
+                        type: 'error',
+                        code: 'SEQUENCER_FAILURE',
+                        message: 'Lesson resume failed unexpectedly.'
+                    }));
+                }
+                void cleanupSession();
+            });
+            return;
+        }
+
+        // Fresh session — run full pipeline
         sendStatus('loading', 'Fetching lesson content…');
         const manifest = await fetcher.fetchSection(chapterId, sectionId);
 
@@ -138,7 +172,7 @@ THEOLOGICAL GUARDRAILS:
             throw new Error(`Content not found for chapter=${chapterId} section=${sectionId}`);
         }
 
-        // Run the 5-phase Lesson Preparer pipeline to enrich beats
+        // Run the Lesson Preparer pipeline to enrich beats
         sendStatus('preparing', 'Analyzing student context…');
         const preparer = new LessonPreparer(systemInstruction, band, chapterId, sendStatus);
         let preparedManifest = manifest;
@@ -149,6 +183,9 @@ THEOLOGICAL GUARDRAILS:
             console.warn(`[HISTORY_EXPLAINER] Lesson Preparer failed, using raw manifest:`, prepErr);
             sendStatus('fallback', 'Using standard lesson plan…');
         }
+
+        // Store prepared manifest for resume
+        setSession(sKey, preparedManifest);
 
         sendStatus('ready', 'Starting lesson…');
         sequencer.start(preparedManifest).catch((err) => {

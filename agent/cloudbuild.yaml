@@ -38,6 +38,9 @@ steps:
       - '--cpu=1'
       - '--min-instances=0'
       - '--max-instances=5'
+      - '--timeout=900'
+      - '--session-affinity'
+      - '--cpu-boost'
       - '--set-env-vars=NODE_ENV=production,WORKER_API_URL=https://learn-live.antmwes104-1.workers.dev'
       - '--set-secrets=GEMINI_API_KEY=GEMINI_API_KEY:latest,AGENT_SERVICE_KEY=AGENT_SERVICE_KEY:latest'
 

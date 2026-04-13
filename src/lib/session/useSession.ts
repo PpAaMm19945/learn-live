@@ -55,6 +55,7 @@ export function useSession({
   }, []);
 
   const wsRef = useRef<WebSocket | null>(null);
+  const resumeTokenRef = useRef<string | null>(null);
   const reconnectCountRef = useRef<number>(0);
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const statusRef = useRef<SessionState['status']>(status);
@@ -281,7 +282,10 @@ export function useSession({
       wsUrl.searchParams.set('family', familyId);
       wsUrl.searchParams.set('learner', learnerId);
       wsUrl.searchParams.set('band', band.toString());
-
+      if (isReconnect && resumeTokenRef.current) {
+        wsUrl.searchParams.set('resumeToken', resumeTokenRef.current);
+        debug('connection', 'Sending resumeToken', resumeTokenRef.current);
+      }
       Logger.info('[WS]', `Connecting to ${wsUrl.toString()}`);
       const ws = new WebSocket(wsUrl.toString());
       wsRef.current = ws;
@@ -328,6 +332,9 @@ export function useSession({
              const hasAudio = beat.audioData && beat.audioData.trim().length > 10;
              debug('beat', `Beat queued (${beat.toolCalls?.length || 0} tools)`, `tools: [${toolNames}] | audio: ${hasAudio ? 'yes' : 'no'} | text: "${(beat.text || '').slice(0, 60)}..."`);
              setBeatQueue(prev => [...prev, beat]);
+          } else if (msg.type === 'resume_token') {
+             resumeTokenRef.current = msg.token;
+             debug('connection', `Resume token received`, msg.token);
           } else if (msg.type === 'tool_call') {
             const toolMsg = msg as AgentToolCall;
             debug('tool_call', `${toolMsg.tool}(${JSON.stringify(toolMsg.args)})`, `Direct tool call (outside beat)`);

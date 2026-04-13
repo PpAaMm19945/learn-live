@@ -237,6 +237,37 @@ RULES:
 - If the child struggles for more than 2 minutes, gently end the session with failure status`;
 }
 
+// ─── Ping/Pong Heartbeat ───
+const HEARTBEAT_INTERVAL_MS = 25_000;
+const PONG_TIMEOUT_MS = 10_000;
+
+function setupHeartbeat(ws: WebSocket) {
+    let pongReceived = true;
+    const interval = setInterval(() => {
+        if (!pongReceived) {
+            console.warn('[WS] Pong not received within timeout — connection may be stale');
+        }
+        if (ws.readyState === WebSocket.OPEN) {
+            pongReceived = false;
+            ws.ping();
+        }
+    }, HEARTBEAT_INTERVAL_MS);
+
+    ws.on('pong', () => {
+        pongReceived = true;
+    });
+
+    ws.on('close', () => clearInterval(interval));
+    ws.on('error', () => clearInterval(interval));
+}
+
+// Apply heartbeat to all WebSocket servers
+for (const wss of [witnessWss, explainerWss, historyExplainerWss]) {
+    wss.on('connection', (ws: WebSocket) => {
+        setupHeartbeat(ws);
+    });
+}
+
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
     console.log(`[AGENT] Server running on port ${PORT}`);
