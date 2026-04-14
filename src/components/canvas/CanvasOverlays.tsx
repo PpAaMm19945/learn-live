@@ -165,19 +165,19 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
           </motion.div>
         )}
 
-        {/* ── Key Term — top center ── */}
+        {/* ── Key Term — bottom-left (shared slot) ── */}
         {overlays.keyTerm && (
           <motion.div
             key="keyTerm"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -30 }}
+            initial={{ opacity: 0, x: -20, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute top-20 left-1/2 -translate-x-1/2 bg-card/95 backdrop-blur-md border border-border border-t-4 border-t-accent rounded-xl shadow-2xl p-5 max-w-sm w-[90%] md:w-auto pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto"
             onClick={() => clickHandler?.('keyTerm')}
           >
             <div className="flex items-start gap-3">
-              <span className="text-2xl mt-0.5">📚</span>
+              <span className="text-accent font-bold text-xs tracking-widest uppercase mt-1">KEY TERM</span>
               <div className="flex-1">
                 <h4 className="text-accent font-bold text-lg tracking-tight">
                   {overlays.keyTerm.term}
@@ -241,23 +241,22 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
           </motion.div>
         )}
 
-        {/* ── Question — center bottom ── */}
+        {/* ── Question — bottom-left (shared slot) ── */}
         {overlays.question && (
           <motion.div
             key="question"
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, x: -20, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-28 left-1/2 -translate-x-1/2 bg-primary/10 backdrop-blur-md border border-primary/30 rounded-2xl shadow-2xl p-6 max-w-md w-[90%] pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto"
             onClick={() => clickHandler?.('question')}
           >
             <div className="flex items-start gap-3">
-              <span className="text-3xl">🤔</span>
+              <span className="text-primary font-bold text-xs tracking-widest uppercase mt-1">
+                {overlays.question.type === 'check' ? 'CHECK' : overlays.question.type === 'reflection' ? 'REFLECT' : 'THINK'}
+              </span>
               <div className="flex-1">
-                <p className="text-xs uppercase tracking-widest text-primary font-bold mb-2">
-                  {overlays.question.type === 'check' ? 'Check Your Understanding' : overlays.question.type === 'reflection' ? 'Reflect' : 'Think About This'}
-                </p>
                 <p className="text-foreground text-base font-medium leading-relaxed">
                   {overlays.question.question}
                 </p>
@@ -269,25 +268,25 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
           </motion.div>
         )}
 
-        {/* ── Quote — center ── */}
+        {/* ── Quote — bottom-left (shared slot) ── */}
         {overlays.quote && (
           <motion.div
             key="quote"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, x: -20, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-8 max-w-lg w-[90%] pointer-events-auto text-center"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary/50 rounded-xl shadow-2xl p-5 pointer-events-auto"
             onClick={() => clickHandler?.('quote')}
           >
-            <span className="text-5xl text-primary/30 font-serif leading-none block mb-2">"</span>
-            <p className="text-foreground text-lg md:text-xl italic leading-relaxed font-display">
+            <span className="text-3xl text-primary/30 font-serif leading-none block mb-1">"</span>
+            <p className="text-foreground text-base italic leading-relaxed">
               {overlays.quote.text}
             </p>
-            <div className="mt-4 pt-3 border-t border-border/50">
-              <p className="text-primary font-bold text-sm">{overlays.quote.attribution}</p>
+            <div className="mt-3 pt-2 border-t border-border/50">
+              <p className="text-primary font-bold text-xs">{overlays.quote.attribution}</p>
               {overlays.quote.date && (
-                <p className="text-muted-foreground text-xs mt-0.5">{overlays.quote.date}</p>
+                <p className="text-muted-foreground text-[10px] mt-0.5">{overlays.quote.date}</p>
               )}
             </div>
           </motion.div>

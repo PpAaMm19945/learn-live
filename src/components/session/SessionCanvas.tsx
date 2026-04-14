@@ -191,11 +191,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
       setThumbnailImage({ url: resolvedUrl, caption: msg.args.caption || '' });
       addDebug('scene', `Image thumbnail: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
-      // Auto-dismiss thumbnail after 20s
+      // Image persists until dismiss_overlay("all") clears it
       if (thumbnailTimerRef.current) clearTimeout(thumbnailTimerRef.current);
-      thumbnailTimerRef.current = window.setTimeout(() => {
-        setThumbnailImage(null);
-      }, 20000);
       return;
     }
 
@@ -541,7 +538,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                 <img
                   src={thumbnailImage.url}
                   alt={thumbnailImage.caption}
-                  className="w-full h-28 md:h-32 object-cover"
+                  className="w-full aspect-square object-contain bg-black/5"
                 />
                 {thumbnailImage.caption && (
                   <p className="px-2.5 py-1.5 text-[10px] md:text-xs text-foreground/80 leading-tight line-clamp-2">
