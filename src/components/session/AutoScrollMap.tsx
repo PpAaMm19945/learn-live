@@ -128,30 +128,29 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
           <p className="text-muted-foreground text-sm italic">Map loading…</p>
         </div>
       ) : (
-      <img
-        ref={imgRef}
-        src={activeSrc}
-        alt={alt}
-        onLoad={() => setImgLoaded(true)}
-        onError={() => {
-          if (candidateIndex < srcCandidates.length - 1) {
-            setCandidateIndex((prev) => prev + 1);
-          } else {
-            setImgFailed(true);
-          }
-        }}
-        className="h-full w-auto max-w-none select-none"
-        style={{ 
-          willChange: 'transform',
-          imageRendering: 'auto',
-        }}
-        draggable={false}
-      />
-      {/* Subtle edge fade to indicate scrollable content */}
-      {maxScroll > 0 && (
         <>
-          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background/40 to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background/40 to-transparent pointer-events-none" />
+          <img
+            ref={imgRef}
+            src={activeSrc}
+            alt={alt}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => {
+              if (candidateIndex < srcCandidates.length - 1) {
+                setCandidateIndex((prev) => prev + 1);
+              } else {
+                setImgFailed(true);
+              }
+            }}
+            className="h-full w-auto max-w-none select-none"
+            style={{ willChange: 'transform', imageRendering: 'auto' }}
+            draggable={false}
+          />
+          {maxScroll > 0 && (
+            <>
+              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background/40 to-transparent pointer-events-none" />
+            </>
+          )}
         </>
       )}
     </motion.div>
