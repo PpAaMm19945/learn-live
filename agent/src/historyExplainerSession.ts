@@ -5,6 +5,7 @@ import { ContentFetcher } from './contentFetcher';
 import { LessonPreparer } from './lessonPreparer';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 import { buildMapContextForAgent } from './mapRegistry';
+import { buildImageContextForAgent } from './imageRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint } from './sessionStore';

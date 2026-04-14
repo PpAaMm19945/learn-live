@@ -17,7 +17,7 @@
       "contentText": "In the beginning, God created the heavens and the earth. This is not merely a theological statement — it is the opening line of history itself. Before there were empires, before there were migrations, before the first city rose beside the first river, God spoke the universe into being. Every chapter of human history that follows is a chapter in His story.",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/creation.jpg", "caption": "In the beginning, God created the heavens and the earth." }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band0_page01.jpg", "caption": "In the beginning, God created the heavens and the earth." }, "syncTrigger": "start_of_beat" },
         { "tool": "show_scripture", "args": { "reference": "Genesis 1:1", "text": "In the beginning, God created the heavens and the earth.", "connection": "The absolute starting point of ALL history." }, "syncTrigger": "start_of_beat" },
         { "tool": "show_timeline", "args": { "events": [{ "year": -4004, "label": "Creation (Ussher)", "color": "#fac775" }] }, "syncTrigger": "start_of_beat" }
       ],
@@ -43,7 +43,7 @@
       "sceneMode": "image",
       "toolSequence": [
         { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/fall_of_man.jpg", "caption": "The Fall — Genesis 3" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band0_page02.jpg", "caption": "The Fall — Genesis 3" }, "syncTrigger": "start_of_beat" },
         { "tool": "show_comparison", "args": { "title": "Before vs. After the Fall", "columnA": { "heading": "Before the Fall", "points": ["Perfect communion with God", "Harmony in creation", "No death or suffering", "Meaningful work without toil"] }, "columnB": { "heading": "After the Fall", "points": ["Separation from God", "Fractured relationships", "Death enters the world", "Cursed ground, painful labor"] } }, "syncTrigger": "start_of_beat" }
       ],
       "estimatedDurationSec": 50
@@ -56,7 +56,7 @@
       "sceneMode": "image",
       "toolSequence": [
         { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/promise_of_redemption.jpg", "caption": "The Promise of Redemption — Genesis 3:15" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band0_page04.jpg", "caption": "The Promise of Redemption — Genesis 3:15" }, "syncTrigger": "start_of_beat" },
         { "tool": "show_key_term", "args": { "term": "Protoevangelium", "definition": "The first announcement of the Gospel — God's promise that a descendant of the woman would crush the serpent's head.", "pronunciation": "pro-toh-eh-VAN-gel-ee-um", "etymology": "Greek: protos (first) + evangelion (good news)" }, "syncTrigger": "start_of_beat" },
         { "tool": "show_scripture", "args": { "reference": "Genesis 3:15", "text": "He shall bruise your head, and you shall bruise his heel.", "connection": "The first promise of redemption — the seed of the woman will defeat the serpent." }, "syncTrigger": "start_of_beat" }
       ],
@@ -84,7 +84,7 @@
       "sceneMode": "image",
       "toolSequence": [
         { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "/storybook/ch01/tower_of_babel.jpg", "caption": "The Tower of Babel — the scattering of nations" }, "syncTrigger": "start_of_beat" },
+        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band0_page03.jpg", "caption": "The Tower of Babel — the scattering of nations" }, "syncTrigger": "start_of_beat" },
         { "tool": "show_timeline", "args": { "events": [{ "year": -4004, "label": "Creation", "color": "#fac775" }, { "year": -3900, "label": "The Fall", "color": "#e57373" }, { "year": -2242, "label": "Tower of Babel", "color": "#64b5f6" }, { "year": -2200, "label": "Nations Scatter", "color": "#81c784" }] }, "syncTrigger": "start_of_beat" }
       ],
       "estimatedDurationSec": 45
@@ -106,9 +106,11 @@
         { "tool": "highlight_region", "args": { "regionId": "canaan", "color": "#ce93d8", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
         { "tool": "place_marker", "args": { "location": "egypt", "label": "Mizraim (Egypt)", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
         { "tool": "place_marker", "args": { "location": "nubia", "label": "Cush (Nubia)", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
+        { "tool": "place_marker", "args": { "location": "libya", "label": "Phut (Libya)", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" },
         { "tool": "place_marker", "args": { "location": "canaan", "label": "Canaan", "color": "#ce93d8" }, "syncTrigger": "start_of_beat" },
         { "tool": "draw_route", "args": { "from": "babel", "to": "egypt", "style": "migration", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
         { "tool": "draw_route", "args": { "from": "babel", "to": "cush_region", "style": "migration", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
+        { "tool": "draw_route", "args": { "from": "babel", "to": "libya", "style": "migration", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" },
         { "tool": "show_genealogy", "args": { "rootName": "Ham", "nodes": [{ "name": "Ham", "descriptor": "Son of Noah", "color": "#ffb74d" }, { "name": "Mizraim", "parent": "Ham", "descriptor": "Egypt", "color": "#fac775" }, { "name": "Cush", "parent": "Ham", "descriptor": "Ethiopia & Nubia", "color": "#81c784" }, { "name": "Phut", "parent": "Ham", "descriptor": "Libya & North Africa", "color": "#64b5f6" }, { "name": "Canaan", "parent": "Ham", "descriptor": "Canaan", "color": "#ce93d8" }] }, "syncTrigger": "start_of_beat" },
         { "tool": "show_question", "args": { "question": "How does the Table of Nations reshape how we view the history of African civilizations?", "type": "reflection" }, "syncTrigger": "start_of_beat" }
       ],
