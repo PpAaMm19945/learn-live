@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
 import type { TranscriptChunk } from '@/lib/session/types';
 
 interface TranscriptViewProps {

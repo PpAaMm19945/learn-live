@@ -13,6 +13,7 @@ export interface TeachingCanvasRef {
   removeMarker(markerId: string): void;
   clearOverlays(): void;
   flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }): void;
+  fitToMarkers(): void;
   showScripture(reference: string, text: string, connection?: string): void;
   showFigure(name: string, title: string, imageUrl?: string): void;
   showGenealogy(rootName: string, nodes: { name: string; parent?: string; descriptor?: string; color?: string }[]): void;
