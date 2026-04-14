@@ -128,9 +128,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
 
-    // Overlay tools — mutual exclusion: scripture and timeline never show simultaneously
+    // Overlay tools — sequential display: scripture first, timeline after 5s delay
     if (msg.tool === 'show_scripture') {
-      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection }, timeline: null }));
+      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection } }));
       scheduleAutoDismiss('scripture', 10000);
       addDebug('scene', `Scripture: ${msg.args.reference}`);
       return;
@@ -149,8 +149,19 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     }
     if (msg.tool === 'show_timeline') {
       const mergedEvents = mergeTimeline(chapterId, msg.args.events || []);
-      setOverlays(prev => ({ ...prev, timeline: { events: mergedEvents }, scripture: null }));
-      scheduleAutoDismiss('timeline', 12000);
+      // If scripture is currently showing, delay timeline by 5s so both are seen sequentially
+      const showTimeline = () => {
+        setOverlays(prev => ({ ...prev, timeline: { events: mergedEvents }, scripture: null }));
+        scheduleAutoDismiss('timeline', 12000);
+      };
+      setOverlays(prev => {
+        if (prev.scripture) {
+          setTimeout(showTimeline, 5000);
+          return prev; // keep scripture visible for now
+        }
+        return { ...prev, timeline: { events: mergedEvents } };
+      });
+      if (!overlays.scripture) scheduleAutoDismiss('timeline', 12000);
       addDebug('scene', `Timeline: ${mergedEvents.length} events (${msg.args.events?.length} highlighted)`);
       return;
     }
