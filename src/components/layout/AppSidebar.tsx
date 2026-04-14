@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarFooter } from "@/components/ui/sidebar";
 import { NavLink } from "react-router-dom";
-import { IconLayoutDashboard, IconBook, IconTrendingUp, IconShieldLock, IconLogout } from "@tabler/icons-react";
+import { IconHome, IconBook, IconTrendingUp, IconShieldLock, IconLogout } from "@tabler/icons-react";
 import { useIsAdmin, useAuthStore } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -29,15 +29,15 @@ export function AppSidebar() {
       <SidebarContent className="px-2 py-4 flex flex-col gap-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip="Dashboard">
+            <SidebarMenuButton asChild tooltip="Learning Home">
               <NavLink
-                to="/dashboard"
+                to="/learn"
                 className={({ isActive }) =>
                   `flex items-center gap-3 w-full p-2 rounded-md transition-colors ${isActive ? 'border-l-4 border-primary text-foreground font-medium pl-3' : 'hover:bg-accent/30 text-muted-foreground hover:text-foreground'}`
                 }
               >
-                <IconLayoutDashboard className="h-5 w-5 shrink-0" />
-                <span className="group-data-[state=collapsed]:hidden">Dashboard</span>
+                <IconHome className="h-5 w-5 shrink-0" />
+                <span className="group-data-[state=collapsed]:hidden">Learning Home</span>
               </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>

@@ -3,7 +3,7 @@ import { useAuthStore } from '@/lib/auth';
 
 const Index = () => {
   const { isAuthenticated } = useAuthStore();
-  return <Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />;
+  return <Navigate to={isAuthenticated ? '/learn' : '/login'} replace />;
 };
 
 export default Index;
