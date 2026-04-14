@@ -42,6 +42,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const [useFallback, setUseFallback] = useState(false);
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
+  const mapRevertTimerRef = useRef<number | null>(null);
 
   // Default visual is always the chapter map
   const [activeVisual, setActiveVisual] = useState<'map' | 'image' | 'maplibre'>('map');
