@@ -14,7 +14,7 @@ import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/Teac
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { resolveImageUrl } from '@/lib/r2Assets';
 import { getChapterMapUrl } from '@/lib/mapRegistry';
-import { ImageScene } from './ImageScene';
+// ImageScene no longer used — images render as thumbnails
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
 import { mergeTimeline } from '@/data/chapterTimelines';
@@ -26,16 +26,8 @@ interface SessionCanvasProps {
   onExit: () => void;
 }
 
-const OVERLAY_TOOLS = [
-  'show_scripture', 'show_figure', 'show_genealogy', 'show_timeline',
-  'show_key_term', 'show_comparison', 'show_question', 'show_quote', 'show_slide',
-] as const;
-
 /** "Small" overlay types that share the bottom-left card slot and get queued */
 const SMALL_OVERLAY_TYPES = new Set(['scripture', 'timeline', 'keyTerm', 'question', 'quote']);
-
-/** "Large" overlay types rendered independently — no queuing */
-const LARGE_OVERLAY_TYPES = new Set(['slide', 'comparison', 'genealogy', 'figure']);
 
 interface QueuedOverlay {
   type: keyof OverlayState;
@@ -46,8 +38,6 @@ interface QueuedOverlay {
 export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
   const canvasRef = useRef<TeachingCanvasRef>(null);
-  const [imageSceneUrl, setImageSceneUrl] = useState<string>('');
-  const [imageSceneCaption, setImageSceneCaption] = useState<string>('');
   const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
   const [debugOpen, setDebugOpen] = useState(false);
   const [overlays, setOverlays] = useState<OverlayState>(EMPTY_OVERLAYS);
