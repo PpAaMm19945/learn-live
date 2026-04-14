@@ -1,95 +1,45 @@
 
 
-# Sequential Overlay Queue and Image Thumbnail System
+# Overlay Positioning, Image Persistence, and Map Interactivity Fixes
 
-## What's working now
-The map tools, images, slides, comparisons, and genealogy overlays are all functioning correctly. Beat pacing is much improved. The core lesson flow is solid.
+## Issues from Screenshots
 
-## Problems to fix
+1. **Small overlays scattered across the canvas** — Key term appears at top-center, question at bottom-center, quote at dead-center. They should ALL render in the same bottom-left card slot (like scripture/timeline already do), since they're queued sequentially.
 
-### 1. Small overlays all fire simultaneously
-When a beat contains multiple tool calls (e.g., `show_scripture` + `show_timeline` + `show_key_term`), they all execute in the same millisecond. Only the last one is visible because they overlap in the same position. The user wants them displayed **sequentially with ~15-second intervals**, one at a time, in the same bottom-left card slot.
+2. **Emojis on cards** — The 🤔 on "Reflect" and 📚 on key terms look casual. Replace with styled text labels or simple icons.
 
-### 2. Images take over the entire visual panel
-Currently `set_scene("image")` replaces the map with a full-bleed illustration. The user wants images shown as a **thumbnail in a corner** so the chapter map (the PNG auto-scroll) stays as the primary visual.
+3. **Quote card** — Currently renders center-screen overlaying the map. Move to bottom-left slot.
 
-## Plan
+4. **Image thumbnail crops the image** — `h-28 md:h-32 object-cover` cuts off the square illustration. Change to `aspect-square object-contain` so the full image shows, with caption below.
 
-### A. Overlay queue system in SessionCanvas
+5. **Image disappears after 20s** — Should persist for the entire beat (until `dismiss_overlay("all")` fires at the start of the next beat). Remove the 20s auto-dismiss timer.
 
-Instead of setting each overlay immediately, introduce a **queue** that spaces them out:
+6. **PNG map needs zoom/pan** — Add scroll-wheel zoom and pinch-to-zoom to `AutoScrollMap` so users can explore the detailed map interactively.
 
-**New state:**
-```
-overlayQueue: Array<{ type: keyof OverlayState, data: any }>
-activeOverlayIndex: number
-```
+## Changes
 
-**"Small" overlay types** that share the bottom-left slot and get queued:
-- `scripture`, `timeline`, `keyTerm`, `question`, `quote`
+### A. `src/components/canvas/CanvasOverlays.tsx`
+- **Key term** (line 176): Change from `absolute top-20 left-1/2 -translate-x-1/2` to `absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md` (same as scripture). Remove 📚 emoji, use a styled "KEY TERM" label instead.
+- **Question** (line 252): Change from `absolute bottom-28 left-1/2 -translate-x-1/2` to `absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md`. Remove 🤔 emoji, keep "REFLECT" as a styled text label.
+- **Quote** (line 280): Change from `absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2` to `absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md`.
 
-**"Large" overlay types** that render independently (unchanged):
-- `slide`, `comparison`, `genealogy`, `figure`
+All small overlays now share the exact same position — the queue system ensures only one shows at a time.
 
-**Logic in `handleAgentToolCall`:**
-- When a small overlay tool fires, push it onto the queue instead of setting it directly
-- A `useEffect` watches the queue and displays the first item immediately
-- After 15 seconds, auto-advance to the next item (clear current, show next)
-- When `dismiss_overlay("all")` fires (start of next beat), flush the queue
+### B. `src/components/session/SessionCanvas.tsx`
+- **Image thumbnail** (lines 539-551): Change image from `h-28 md:h-32 object-cover` to `w-full aspect-square object-contain bg-black/5` so full square images display.
+- **Remove 20s auto-dismiss** (lines 195-198): Delete the `setTimeout` that clears the thumbnail after 20s. Images will persist until `dismiss_overlay("all")` fires (which already clears `thumbnailImage` on line 178).
 
-This means if a beat sends `show_scripture` + `show_key_term` + `show_timeline`, the user sees:
-1. Scripture card appears immediately (0s)
-2. Scripture fades out, key term fades in (15s)
-3. Key term fades out, timeline fades in (30s)
+### C. `src/components/session/AutoScrollMap.tsx`
+- Add `scale` state (1-4x range) controlled by scroll wheel and pinch gestures.
+- Apply `scale(${scale})` alongside existing `translateX` transform.
+- Add `transform-origin` tracking so zoom centers on the cursor/pinch point.
+- Keep existing drag-to-pan behavior working alongside zoom.
 
-### B. Image as corner thumbnail
-
-Change `set_scene("image")` handling:
-- Instead of switching `activeVisual` to `'image'` (full-bleed), keep `activeVisual` as `'map'`
-- Store the image URL and caption in a new state: `thumbnailImage`
-- Render a **thumbnail card** (roughly 200x150px) in the top-right corner of the visual panel, with rounded corners, a subtle border, and the caption below
-- The thumbnail auto-dismisses after 20 seconds or when the next beat's `dismiss_overlay` fires
-- Clicking the thumbnail could expand it briefly (optional, stretch goal)
-
-This keeps the auto-scrolling chapter map as the primary visual while still showing the illustration.
-
-### C. Files to change
+## Files
 
 | File | Change |
 |---|---|
-| `src/components/session/SessionCanvas.tsx` | Add overlay queue state, queue-based scheduling for small overlays, image thumbnail state instead of full-bleed |
-| `src/components/canvas/CanvasOverlays.tsx` | No structural changes needed — it already renders based on overlay state; the queue controls what's in the state at any given time |
-
-### D. Implementation detail
-
-The queue processor in SessionCanvas:
-
-```text
-// Pseudocode
-const [overlayQueue, setOverlayQueue] = useState([]);
-const queueTimerRef = useRef(null);
-
-// When a "small" tool call arrives:
-// → push { type, data } onto overlayQueue
-
-// useEffect on overlayQueue:
-// → if queue has items and no timer running:
-//   → show first item (setOverlays with just that one)
-//   → start 15s timer
-//   → on timer: clear current, advance index, show next
-//   → repeat until queue exhausted
-
-// On dismiss_overlay("all"):
-// → clear queue, clear timer, reset overlays
-```
-
-For the image thumbnail, add a new element in the visual panel JSX:
-```text
-{thumbnailImage && (
-  <motion.div className="absolute top-4 right-4 z-30 w-48 ...">
-    <img src={thumbnailImage.url} ... />
-    <p>{thumbnailImage.caption}</p>
-  </motion.div>
-)}
-```
+| `src/components/canvas/CanvasOverlays.tsx` | Move keyTerm, question, quote to bottom-left slot; remove emojis |
+| `src/components/session/SessionCanvas.tsx` | Full square image in thumbnail; remove 20s auto-dismiss |
+| `src/components/session/AutoScrollMap.tsx` | Add scroll-wheel and pinch-to-zoom |
 
