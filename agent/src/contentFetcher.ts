@@ -4,7 +4,16 @@ import { SectionManifest } from './content';
 
 export class ContentFetcher {
     private cache = new Map<string, SectionManifest>();
-    private localContentDir = path.join(process.cwd(), '../docs/curriculum/history');
+
+    /**
+     * Local content directories to search — tried in order.
+     * In Docker: docs/ is copied into the image at build time.
+     * In dev: ../docs/curriculum/history relative to agent/.
+     */
+    private localDirs = [
+        path.join(process.cwd(), 'docs/curriculum/history'),
+        path.join(process.cwd(), '../docs/curriculum/history'),
+    ];
 
     constructor(
         private workerUrl: string,
@@ -17,11 +26,11 @@ export class ContentFetcher {
             return this.cache.get(cacheKey)!;
         }
 
-        let manifest: SectionManifest | null = null;
+        // ALWAYS try local first (bundled JSON in Docker image), then Worker API fallback
+        let manifest = await this.fetchFromLocal(chapterId, sectionId);
 
-        if (this.workerUrl === 'local' || !this.workerUrl) {
-            manifest = await this.fetchFromLocal(chapterId, sectionId);
-        } else {
+        if (!manifest && this.workerUrl && this.workerUrl !== 'local') {
+            console.log(`[CONTENT_FETCHER] Local miss — falling back to Worker API`);
             manifest = await this.fetchFromWorker(chapterId, sectionId);
         }
 
@@ -34,22 +43,22 @@ export class ContentFetcher {
 
     private async fetchFromLocal(chapterId: string, sectionId: string): Promise<SectionManifest | null> {
         const filename = `${chapterId}_${sectionId}.json`;
-        const fullPath = path.join(this.localContentDir, filename);
 
-        console.log(`[CONTENT_FETCHER] Loading local file: ${fullPath}`);
-        
-        if (!fs.existsSync(fullPath)) {
-            console.warn(`[CONTENT_FETCHER] Local file not found: ${fullPath}`);
-            return null;
+        for (const dir of this.localDirs) {
+            const fullPath = path.join(dir, filename);
+            if (fs.existsSync(fullPath)) {
+                try {
+                    const data = fs.readFileSync(fullPath, 'utf8');
+                    console.log(`[CONTENT_FETCHER] Loaded local file: ${fullPath}`);
+                    return JSON.parse(data) as SectionManifest;
+                } catch (e) {
+                    console.error(`[CONTENT_FETCHER] Failed to parse local JSON: ${fullPath}`, e);
+                }
+            }
         }
 
-        try {
-            const data = fs.readFileSync(fullPath, 'utf8');
-            return JSON.parse(data) as SectionManifest;
-        } catch (e) {
-            console.error(`[CONTENT_FETCHER] Failed to parse local JSON: ${sectionId}`, e);
-            return null;
-        }
+        console.log(`[CONTENT_FETCHER] No local file found for ${filename}`);
+        return null;
     }
 
     private async fetchFromWorker(chapterId: string, sectionId: string): Promise<SectionManifest | null> {

@@ -96,19 +96,9 @@ export class BeatSequencer {
             // Checkpoint for resume
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
 
-            // Wait for audio playback duration before advancing
-            // Approximate: audioBase64 length / 1.33 = bytes, / 2 = samples, / 24000 = seconds
-            let waitMs = 400;
-            if (prepared.audioBase64 && prepared.audioBase64.length > 10) {
-                const approxBytes = prepared.audioBase64.length * 0.75;
-                const approxSamples = approxBytes / 2;
-                const approxSeconds = approxSamples / 24000;
-                waitMs = Math.max(400, approxSeconds * 1000);
-            } else {
-                // Dwell based on word count
-                const words = (prepared.narratedText || '').split(/\s+/).length;
-                waitMs = Math.max(3000, (words / 150) * 60 * 1000);
-            }
+            // Fixed short inter-beat delay — the frontend paces playback via audio onended.
+            // No server-side audio-duration wait (was causing double-wait with 30-60s gaps).
+            const waitMs = 800;
 
             // Start producing next beat while we wait
             this.currentBeatIndex++;
