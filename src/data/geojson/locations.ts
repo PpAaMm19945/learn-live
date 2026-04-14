@@ -66,4 +66,11 @@ export const NAMED_LOCATIONS: Record<string, [number, number]> = {
   mogadishu: [45.34, 2.05],
   mombasa: [39.66, -4.05],
   njimi: [17.0, 13.0],
+
+  // Aliases — used by manifests and agent tool calls
+  nubia: [31.0, 18.0],        // same as cush
+  libya: [20.0, 32.0],        // same as phut
+  shinar: [44.4, 32.5],       // same as babel
+  ararat: [44.3, 39.7],       // Mount Ararat
+  nile_valley: [31.5, 25.0],  // midpoint of the Nile valley
 };

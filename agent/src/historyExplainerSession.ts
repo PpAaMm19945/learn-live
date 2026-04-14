@@ -5,6 +5,7 @@ import { ContentFetcher } from './contentFetcher';
 import { LessonPreparer } from './lessonPreparer';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 import { buildMapContextForAgent } from './mapRegistry';
+import { buildImageContextForAgent } from './imageRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint } from './sessionStore';
@@ -30,7 +31,8 @@ THEOLOGICAL GUARDRAILS:
 `;
     // Inject map context so the agent knows which maps are available
     const mapContext = buildMapContextForAgent(chapterId);
-    const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines + mapContext, { band }, band);
+    const imageContext = buildImageContextForAgent(chapterId, band);
+    const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines + mapContext + imageContext, { band }, band);
 
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
