@@ -1,79 +1,95 @@
 
 
-# Comprehensive Fix Plan: Images, Audio, Map, Overlays, and Beat Timing
+# Sequential Overlay Queue and Image Thumbnail System
 
-## Root Cause Analysis
+## What's working now
+The map tools, images, slides, comparisons, and genealogy overlays are all functioning correctly. Beat pacing is much improved. The core lesson flow is solid.
 
-### Why images never appear (critical)
-The manifest file `docs/curriculum/history/ch01_s01.json` was updated with correct `set_scene("image")` tool calls, but the **deployed agent fetches content from the Worker API**, not from the local filesystem. The Worker serves its own copy of the manifest (from D1 or bundled files), which still has the OLD version without image tool calls. The local file changes never reached production.
+## Problems to fix
 
-Additionally, for Band 2+, the `imageRegistry.ts` filters out all storybook images (`maxBand: 1`), leaving only the Narmer Palette for ch01. Even if the agent sees the image list, it has almost nothing to work with for higher bands.
+### 1. Small overlays all fire simultaneously
+When a beat contains multiple tool calls (e.g., `show_scripture` + `show_timeline` + `show_key_term`), they all execute in the same millisecond. Only the last one is visible because they overlap in the same position. The user wants them displayed **sequentially with ~15-second intervals**, one at a time, in the same bottom-left card slot.
 
-### Why audio gets cut off mid-sentence
-The TTS service truncates text at 1100 characters (`tts.ts` line 37: `.slice(0, 1100)`). If a narrated beat exceeds this, the audio ends mid-sentence while the transcript shows the full text.
-
-### Why beat gaps are 30-60 seconds
-The sequencer waits for `waitMs` (audio duration estimate) on the server side, AND the frontend waits for audio playback completion. These are **double-waiting**: the server sleeps for the estimated duration, then the frontend plays the audio and waits for `onended`. The next beat can't arrive until the server's sleep finishes, even though the frontend is already done. Combined with TTS synthesis time for the next beat (6.5s throttle + API latency), gaps compound.
-
-### Why map auto-scroll stopped
-The `AutoScrollMap` component code is intact and should work. The likely issue is that the map image 404s (if the Worker isn't resolving the R2 path correctly), causing `imgFailed = true` and showing the "Map loading..." fallback. Or the opacity transition between `map` and `maplibre` layers means the auto-scroll map gets `pointer-events-none` when the maplibre layer is shown, and when it reverts, the image may need a re-render.
-
-### Why markers are misaligned
-The `TeachingCanvas` MapLibre map uses a default world view. When `highlight_region` places markers at region centers (e.g., Mizraim at [31, 27]), `fitToMarkers` calculates bounds but the map container may be partially obscured by overlays, or the padding is insufficient for the viewport size.
+### 2. Images take over the entire visual panel
+Currently `set_scene("image")` replaces the map with a full-bleed illustration. The user wants images shown as a **thumbnail in a corner** so the chapter map (the PNG auto-scroll) stays as the primary visual.
 
 ## Plan
 
-### A. Fix manifest delivery to the deployed agent
+### A. Overlay queue system in SessionCanvas
 
-**Problem**: Agent in production reads from Worker API, not local JSON files.
+Instead of setting each overlay immediately, introduce a **queue** that spaces them out:
 
-1. **Add a Worker endpoint** to serve beat manifests from the repo-bundled JSON, OR
-2. **Simpler**: Make the ContentFetcher prefer local files when available (they're bundled in the Docker image at build time)
+**New state:**
+```
+overlayQueue: Array<{ type: keyof OverlayState, data: any }>
+activeOverlayIndex: number
+```
 
-In `agent/src/contentFetcher.ts`, change the logic to **always try local first**, falling back to Worker. The Dockerfile already copies `docs/` into the container. This ensures manifest updates in the repo immediately take effect on deploy.
+**"Small" overlay types** that share the bottom-left slot and get queued:
+- `scripture`, `timeline`, `keyTerm`, `question`, `quote`
 
-### B. Fix audio truncation
+**"Large" overlay types** that render independently (unchanged):
+- `slide`, `comparison`, `genealogy`, `figure`
 
-In `agent/src/tts.ts`, increase the character limit from 1100 to ~4000, and implement **sentence-boundary splitting**. If the text exceeds the limit, split at the last sentence boundary before the limit, synthesize each chunk, and concatenate the base64 audio. This prevents mid-sentence cutoffs.
+**Logic in `handleAgentToolCall`:**
+- When a small overlay tool fires, push it onto the queue instead of setting it directly
+- A `useEffect` watches the queue and displays the first item immediately
+- After 15 seconds, auto-advance to the next item (clear current, show next)
+- When `dismiss_overlay("all")` fires (start of next beat), flush the queue
 
-### C. Eliminate double-wait beat timing
+This means if a beat sends `show_scripture` + `show_key_term` + `show_timeline`, the user sees:
+1. Scripture card appears immediately (0s)
+2. Scripture fades out, key term fades in (15s)
+3. Key term fades out, timeline fades in (30s)
 
-The server-side `waitMs` sleep in `beatSequencer.ts` (line 99-119) is redundant because the frontend already waits for audio playback completion before setting `beatState = 'IDLE'`. The server should send beats as fast as they're prepared and let the frontend pace itself.
+### B. Image as corner thumbnail
 
-**Change**: In `beatSequencer.ts`, replace the variable `waitMs` sleep with a fixed short delay (e.g., 800ms) — just enough to avoid flooding the WebSocket. The frontend's beat queue + audio playback already provides correct pacing.
+Change `set_scene("image")` handling:
+- Instead of switching `activeVisual` to `'image'` (full-bleed), keep `activeVisual` as `'map'`
+- Store the image URL and caption in a new state: `thumbnailImage`
+- Render a **thumbnail card** (roughly 200x150px) in the top-right corner of the visual panel, with rounded corners, a subtle border, and the caption below
+- The thumbnail auto-dismisses after 20 seconds or when the next beat's `dismiss_overlay` fires
+- Clicking the thumbnail could expand it briefly (optional, stretch goal)
 
-### D. Fix storybook image band filtering
+This keeps the auto-scrolling chapter map as the primary visual while still showing the illustration.
 
-In `agent/src/imageRegistry.ts`, raise `maxBand` for storybook images from 1 to 5 (or at least 3). These illustrations are valid at all bands — the agent prompt already instructs band-appropriate usage. This gives the agent actual images to use for ch01 at bands 2-5.
-
-### E. Show scripture and timeline sequentially (not mutually exclusive)
-
-Currently, `show_timeline` clears `scripture` and vice versa. Instead:
-
-1. When both arrive in the same beat (common), show scripture first for 5 seconds, then auto-transition to timeline
-2. In `SessionCanvas.handleAgentToolCall`, when `show_timeline` is called and scripture is already showing, delay the timeline display by 5 seconds using `setTimeout`
-3. This creates a natural "scripture → timeline" flow within the same beat
-
-### F. Fix map marker centering
-
-In `toolCallHandler.ts`, after all `highlight_region` calls in a beat complete, call `fitToMarkers()` with increased padding (80px instead of 60px) and a lower `maxZoom` (5 instead of 6) to ensure all regions are visible. Add a debounced `fitToMarkers` call at the end of the beat's tool execution sequence rather than per-region.
-
-### G. Ensure AutoScrollMap stays active
-
-The `activeVisual` state switches to `maplibre` for map tools and reverts after 15s. But the auto-scroll map layer uses `opacity-0 pointer-events-none` when not active, which is correct. Verify that the `chapterMapUrl` is being resolved correctly through the R2 worker. If the image loads successfully, the auto-scroll animation should work. Add a console log in `AutoScrollMap` on load/error for debugging.
-
-## Files to change
+### C. Files to change
 
 | File | Change |
 |---|---|
-| `agent/src/contentFetcher.ts` | Always try local filesystem first, then Worker API fallback |
-| `agent/src/tts.ts` | Sentence-boundary splitting for long texts (up to ~4000 chars) |
-| `agent/src/beatSequencer.ts` | Replace variable `waitMs` with fixed 800ms inter-beat delay |
-| `agent/src/imageRegistry.ts` | Raise storybook `maxBand` from 1 to 5 |
-| `src/components/session/SessionCanvas.tsx` | Sequential scripture→timeline display with 5s delay |
-| `src/lib/canvas/toolCallHandler.ts` | Debounced `fitToMarkers` with better padding/zoom |
+| `src/components/session/SessionCanvas.tsx` | Add overlay queue state, queue-based scheduling for small overlays, image thumbnail state instead of full-bleed |
+| `src/components/canvas/CanvasOverlays.tsx` | No structural changes needed — it already renders based on overlay state; the queue controls what's in the state at any given time |
 
-## Priority
+### D. Implementation detail
 
-A (manifest delivery) and D (band filtering) are the most critical — they're why zero images appear. B and C fix audio quality and pacing. E and F are UX polish.
+The queue processor in SessionCanvas:
+
+```text
+// Pseudocode
+const [overlayQueue, setOverlayQueue] = useState([]);
+const queueTimerRef = useRef(null);
+
+// When a "small" tool call arrives:
+// → push { type, data } onto overlayQueue
+
+// useEffect on overlayQueue:
+// → if queue has items and no timer running:
+//   → show first item (setOverlays with just that one)
+//   → start 15s timer
+//   → on timer: clear current, advance index, show next
+//   → repeat until queue exhausted
+
+// On dismiss_overlay("all"):
+// → clear queue, clear timer, reset overlays
+```
+
+For the image thumbnail, add a new element in the visual panel JSX:
+```text
+{thumbnailImage && (
+  <motion.div className="absolute top-4 right-4 z-30 w-48 ...">
+    <img src={thumbnailImage.url} ... />
+    <p>{thumbnailImage.caption}</p>
+  </motion.div>
+)}
+```
 
