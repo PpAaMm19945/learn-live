@@ -14,7 +14,7 @@ import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/Teac
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { resolveImageUrl } from '@/lib/r2Assets';
 import { getChapterMapUrl } from '@/lib/mapRegistry';
-import { ImageScene } from './ImageScene';
+// ImageScene no longer used — images render as thumbnails
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
 import { mergeTimeline } from '@/data/chapterTimelines';
@@ -26,16 +26,18 @@ interface SessionCanvasProps {
   onExit: () => void;
 }
 
-const OVERLAY_TOOLS = [
-  'show_scripture', 'show_figure', 'show_genealogy', 'show_timeline',
-  'show_key_term', 'show_comparison', 'show_question', 'show_quote', 'show_slide',
-] as const;
+/** "Small" overlay types that share the bottom-left card slot and get queued */
+const SMALL_OVERLAY_TYPES = new Set(['scripture', 'timeline', 'keyTerm', 'question', 'quote']);
+
+interface QueuedOverlay {
+  type: keyof OverlayState;
+  data: any;
+  debugLabel: string;
+}
 
 export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
   const canvasRef = useRef<TeachingCanvasRef>(null);
-  const [imageSceneUrl, setImageSceneUrl] = useState<string>('');
-  const [imageSceneCaption, setImageSceneCaption] = useState<string>('');
   const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
   const [debugOpen, setDebugOpen] = useState(false);
   const [overlays, setOverlays] = useState<OverlayState>(EMPTY_OVERLAYS);
@@ -47,6 +49,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   // Default visual is always the chapter map
   const [activeVisual, setActiveVisual] = useState<'map' | 'image' | 'maplibre'>('map');
   const [chapterMapUrl, setChapterMapUrl] = useState<string>('');
+
+  // Image thumbnail state (corner display instead of full-bleed)
+  const [thumbnailImage, setThumbnailImage] = useState<{ url: string; caption: string } | null>(null);
+  const thumbnailTimerRef = useRef<number | null>(null);
+
+  // Overlay queue for small overlays
+  const [overlayQueue, setOverlayQueue] = useState<QueuedOverlay[]>([]);
+  const overlayQueueIndexRef = useRef(0);
+  const overlayQueueTimerRef = useRef<number | null>(null);
 
   const [noResponseWarning, setNoResponseWarning] = useState(false);
   const [noResponseError, setNoResponseError] = useState(false);
@@ -62,13 +73,78 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     setChapterMapUrl(url);
   }, [chapterId]);
 
-  // Auto-dismiss overlays after a duration
+  // Auto-dismiss overlays after a duration (for large overlays only now)
   const overlayTimerRef = useRef<Record<string, number>>({});
   const scheduleAutoDismiss = useCallback((type: keyof OverlayState, durationMs: number = 8000) => {
     if (overlayTimerRef.current[type]) clearTimeout(overlayTimerRef.current[type]);
     overlayTimerRef.current[type] = window.setTimeout(() => {
       setOverlays(prev => ({ ...prev, [type]: null }));
     }, durationMs);
+  }, []);
+
+  // ── Overlay queue processor ──
+  // When the queue changes, display items one at a time with 15s intervals
+  useEffect(() => {
+    if (overlayQueue.length === 0) return;
+
+    const idx = overlayQueueIndexRef.current;
+    if (idx >= overlayQueue.length) return; // queue exhausted
+
+    // Show current item
+    const item = overlayQueue[idx];
+    setOverlays(prev => {
+      // Clear all small overlay slots, then set the current one
+      const cleared = { ...prev };
+      SMALL_OVERLAY_TYPES.forEach(t => { (cleared as any)[t] = null; });
+      return { ...cleared, [item.type]: item.data };
+    });
+
+    // Schedule next item after 15s
+    if (idx < overlayQueue.length - 1) {
+      overlayQueueTimerRef.current = window.setTimeout(() => {
+        overlayQueueIndexRef.current = idx + 1;
+        // Trigger re-render by updating queue reference
+        setOverlayQueue(q => [...q]);
+      }, 15000);
+    } else {
+      // Last item — auto-dismiss after 12s
+      overlayQueueTimerRef.current = window.setTimeout(() => {
+        setOverlays(prev => {
+          const cleared = { ...prev };
+          SMALL_OVERLAY_TYPES.forEach(t => { (cleared as any)[t] = null; });
+          return cleared;
+        });
+        setOverlayQueue([]);
+        overlayQueueIndexRef.current = 0;
+      }, 12000);
+    }
+
+    return () => {
+      if (overlayQueueTimerRef.current) clearTimeout(overlayQueueTimerRef.current);
+    };
+  }, [overlayQueue]);
+
+  const enqueueSmallOverlay = useCallback((item: QueuedOverlay) => {
+    setOverlayQueue(prev => {
+      if (prev.length === 0) {
+        // First item — reset index and start fresh
+        overlayQueueIndexRef.current = 0;
+        return [item];
+      }
+      // Append to existing queue
+      return [...prev, item];
+    });
+  }, []);
+
+  const flushOverlayQueue = useCallback(() => {
+    if (overlayQueueTimerRef.current) clearTimeout(overlayQueueTimerRef.current);
+    overlayQueueIndexRef.current = 0;
+    setOverlayQueue([]);
+    setOverlays(prev => {
+      const cleared = { ...prev };
+      SMALL_OVERLAY_TYPES.forEach(t => { (cleared as any)[t] = null; });
+      return cleared;
+    });
   }, []);
 
   const handleDebugEvent = useCallback((evt: DebugEvent) => {
@@ -94,23 +170,32 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   });
 
   const dismissOverlay = useCallback((type: keyof OverlayState | 'all') => {
-    setOverlays(prev => {
-      if (type === 'all') return EMPTY_OVERLAYS;
-      return { ...prev, [type]: null };
-    });
-  }, []);
+    if (type === 'all') {
+      flushOverlayQueue();
+      // Also clear large overlays
+      setOverlays(EMPTY_OVERLAYS);
+      // Clear thumbnail
+      setThumbnailImage(null);
+      if (thumbnailTimerRef.current) clearTimeout(thumbnailTimerRef.current);
+      return;
+    }
+    setOverlays(prev => ({ ...prev, [type]: null }));
+  }, [flushOverlayQueue]);
 
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
     addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || msg.args?.term || ''})`, JSON.stringify(msg.args));
     
-    // Intercept set_scene("image") — show image in left panel
+    // Intercept set_scene("image") — show as thumbnail in top-right corner
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
       const rawUrl = msg.args.imageUrl || '';
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
-      setImageSceneUrl(resolvedUrl);
-      setImageSceneCaption(msg.args.caption || '');
-      setActiveVisual('image');
-      addDebug('scene', `Image: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
+      setThumbnailImage({ url: resolvedUrl, caption: msg.args.caption || '' });
+      addDebug('scene', `Image thumbnail: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
+      // Auto-dismiss thumbnail after 20s
+      if (thumbnailTimerRef.current) clearTimeout(thumbnailTimerRef.current);
+      thumbnailTimerRef.current = window.setTimeout(() => {
+        setThumbnailImage(null);
+      }, 20000);
       return;
     }
 
@@ -128,13 +213,55 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
 
-    // Overlay tools — sequential display: scripture first, timeline after 5s delay
+    // ── Small overlay tools → enqueue ──
     if (msg.tool === 'show_scripture') {
-      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection } }));
-      scheduleAutoDismiss('scripture', 10000);
+      enqueueSmallOverlay({
+        type: 'scripture',
+        data: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection },
+        debugLabel: `Scripture: ${msg.args.reference}`,
+      });
       addDebug('scene', `Scripture: ${msg.args.reference}`);
       return;
     }
+    if (msg.tool === 'show_timeline') {
+      const mergedEvents = mergeTimeline(chapterId, msg.args.events || []);
+      enqueueSmallOverlay({
+        type: 'timeline',
+        data: { events: mergedEvents },
+        debugLabel: `Timeline: ${mergedEvents.length} events`,
+      });
+      addDebug('scene', `Timeline: ${mergedEvents.length} events (${msg.args.events?.length} highlighted)`);
+      return;
+    }
+    if (msg.tool === 'show_key_term') {
+      enqueueSmallOverlay({
+        type: 'keyTerm',
+        data: { term: msg.args.term, definition: msg.args.definition, pronunciation: msg.args.pronunciation, etymology: msg.args.etymology },
+        debugLabel: `Key Term: ${msg.args.term}`,
+      });
+      addDebug('scene', `Key Term: ${msg.args.term}`);
+      return;
+    }
+    if (msg.tool === 'show_question') {
+      enqueueSmallOverlay({
+        type: 'question',
+        data: { question: msg.args.question, context: msg.args.context, type: msg.args.type },
+        debugLabel: `Question: ${msg.args.question?.slice(0, 50)}`,
+      });
+      addDebug('scene', `Question: ${msg.args.question?.slice(0, 50)}`);
+      return;
+    }
+    if (msg.tool === 'show_quote') {
+      enqueueSmallOverlay({
+        type: 'quote',
+        data: { text: msg.args.text, attribution: msg.args.attribution, date: msg.args.date },
+        debugLabel: `Quote: ${msg.args.attribution}`,
+      });
+      addDebug('scene', `Quote: ${msg.args.attribution}`);
+      return;
+    }
+
+    // ── Large overlay tools → set immediately ──
     if (msg.tool === 'show_figure') {
       setOverlays(prev => ({ ...prev, figure: { name: msg.args.name, title: msg.args.title, imageUrl: msg.args.imageUrl } }));
       scheduleAutoDismiss('figure', 8000);
@@ -147,46 +274,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       addDebug('scene', `Genealogy: ${msg.args.rootName}`);
       return;
     }
-    if (msg.tool === 'show_timeline') {
-      const mergedEvents = mergeTimeline(chapterId, msg.args.events || []);
-      // If scripture is currently showing, delay timeline by 5s so both are seen sequentially
-      const showTimeline = () => {
-        setOverlays(prev => ({ ...prev, timeline: { events: mergedEvents }, scripture: null }));
-        scheduleAutoDismiss('timeline', 12000);
-      };
-      setOverlays(prev => {
-        if (prev.scripture) {
-          setTimeout(showTimeline, 5000);
-          return prev; // keep scripture visible for now
-        }
-        return { ...prev, timeline: { events: mergedEvents } };
-      });
-      if (!overlays.scripture) scheduleAutoDismiss('timeline', 12000);
-      addDebug('scene', `Timeline: ${mergedEvents.length} events (${msg.args.events?.length} highlighted)`);
-      return;
-    }
-    if (msg.tool === 'show_key_term') {
-      setOverlays(prev => ({ ...prev, keyTerm: { term: msg.args.term, definition: msg.args.definition, pronunciation: msg.args.pronunciation, etymology: msg.args.etymology } }));
-      scheduleAutoDismiss('keyTerm', 8000);
-      addDebug('scene', `Key Term: ${msg.args.term}`);
-      return;
-    }
     if (msg.tool === 'show_comparison') {
       setOverlays(prev => ({ ...prev, comparison: { title: msg.args.title, columnA: msg.args.columnA, columnB: msg.args.columnB } }));
       scheduleAutoDismiss('comparison', 12000);
       addDebug('scene', `Comparison: ${msg.args.title}`);
-      return;
-    }
-    if (msg.tool === 'show_question') {
-      setOverlays(prev => ({ ...prev, question: { question: msg.args.question, context: msg.args.context, type: msg.args.type } }));
-      scheduleAutoDismiss('question', 10000);
-      addDebug('scene', `Question: ${msg.args.question?.slice(0, 50)}`);
-      return;
-    }
-    if (msg.tool === 'show_quote') {
-      setOverlays(prev => ({ ...prev, quote: { text: msg.args.text, attribution: msg.args.attribution, date: msg.args.date } }));
-      scheduleAutoDismiss('quote', 10000);
-      addDebug('scene', `Quote: ${msg.args.attribution}`);
       return;
     }
     if (msg.tool === 'show_slide') {
@@ -212,7 +303,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     }
 
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
-  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss]);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss, enqueueSmallOverlay, chapterId]);
 
   // Refs to hold latest callback versions
   const connectRef = useRef(connect);
@@ -235,7 +326,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   // Monitor for silent connect
   useEffect(() => {
     if (useFallback) return;
-    // Pipeline status messages count as "receiving" — extend timeouts significantly
     const isPipelineActive = !!pipelineStatus;
     if (status === 'connected' && !hasReceivedMessage && !isPipelineActive) {
       noResponseWarningTimeoutRef.current = window.setTimeout(() => setNoResponseWarning(true), 60000);
@@ -421,8 +511,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         {/* LEFT PANEL — Visual area (60% on desktop, 55% on mobile) */}
         <div className="h-[55%] md:h-full md:w-[60%] relative bg-void/5 flex-shrink-0 overflow-hidden">
           
-          {/* Layer 1: Auto-scrolling chapter map (default) */}
-          <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+          {/* Layer 1: Auto-scrolling chapter map (default — always present) */}
+          <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : activeVisual === 'maplibre' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             {chapterMapUrl ? (
               <AutoScrollMap src={chapterMapUrl} alt={`Chapter ${chapterId} map`} />
             ) : (
@@ -437,18 +527,27 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
             <TeachingCanvas ref={canvasRef} />
           </div>
 
-          {/* Layer 3: Full-bleed image (when AI shows an illustration) */}
+          {/* Layer 3: Image thumbnail in top-right corner */}
           <AnimatePresence>
-            {activeVisual === 'image' && imageSceneUrl && (
+            {thumbnailImage && (
               <motion.div
-                key="image-scene"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.6 }}
-                className="absolute inset-0"
+                key="image-thumbnail"
+                initial={{ opacity: 0, scale: 0.8, y: -10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.8, y: -10 }}
+                transition={{ duration: 0.4 }}
+                className="absolute top-3 right-3 z-30 w-44 md:w-52 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm"
               >
-                <ImageScene imageUrl={imageSceneUrl} caption={imageSceneCaption} />
+                <img
+                  src={thumbnailImage.url}
+                  alt={thumbnailImage.caption}
+                  className="w-full h-28 md:h-32 object-cover"
+                />
+                {thumbnailImage.caption && (
+                  <p className="px-2.5 py-1.5 text-[10px] md:text-xs text-foreground/80 leading-tight line-clamp-2">
+                    {thumbnailImage.caption}
+                  </p>
+                )}
               </motion.div>
             )}
           </AnimatePresence>
