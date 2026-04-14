@@ -89,13 +89,14 @@ const App = () => {
               />
 
               <Route
-                path="/dashboard"
+                path="/learn"
                 element={
                   <ProtectedRoute>
                     <AppShell><Dashboard /></AppShell>
                   </ProtectedRoute>
                 }
               />
+              <Route path="/dashboard" element={<Navigate to="/learn" replace />} />
               <Route
                 path="/admin"
                 element={
@@ -138,9 +139,9 @@ const App = () => {
                 }
               />
 
-              <Route path="/lessons/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
-              <Route path="/read/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
-              <Route path="/exam/:lessonId" element={<RedirectWithToast to="/dashboard" message="Lessons are now accessed from the dashboard" />} />
+              <Route path="/lessons/:lessonId" element={<RedirectWithToast to="/learn" message="Lessons are now accessed from Learning Home" />} />
+              <Route path="/read/:lessonId" element={<RedirectWithToast to="/learn" message="Lessons are now accessed from Learning Home" />} />
+              <Route path="/exam/:lessonId" element={<RedirectWithToast to="/learn" message="Lessons are now accessed from Learning Home" />} />
 
               <Route path="*" element={<NotFound />} />
             </Routes>

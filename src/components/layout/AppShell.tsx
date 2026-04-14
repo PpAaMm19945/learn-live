@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
-import { IconLayoutDashboard, IconBook, IconTrendingUp, IconSettings, IconLogout } from "@tabler/icons-react";
+import { IconHome, IconBook, IconTrendingUp, IconSettings, IconLogout } from "@tabler/icons-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -97,9 +97,9 @@ export function AppShell({ children }: AppShellProps) {
 
           {/* Mobile Bottom Navigation */}
           <div className="md:hidden fixed bottom-0 left-0 right-0 border-t border-border/50 bg-card z-50 px-6 py-3 flex justify-between items-center">
-            <NavLink to="/dashboard" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
-              <IconLayoutDashboard className="h-5 w-5" />
-              <span>Home</span>
+            <NavLink to="/learn" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
+              <IconHome className="h-5 w-5" />
+              <span>Learn</span>
             </NavLink>
             <NavLink to="/glossary" className={({ isActive }) => `flex flex-col items-center gap-1 font-sans text-xs font-medium ${isActive ? 'text-primary' : 'text-muted-foreground'}`}>
               <IconBook className="h-5 w-5" />
