@@ -25,6 +25,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   const directionRef = useRef<1 | -1>(1);
   const [isUserDragging, setIsUserDragging] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
   const [maxScroll, setMaxScroll] = useState(0);
   const [candidateIndex, setCandidateIndex] = useState(0);
   const dragStartRef = useRef({ x: 0, scrollX: 0 });
@@ -34,6 +35,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   useEffect(() => {
     setCandidateIndex(0);
     setImgLoaded(false);
+    setImgFailed(false);
   }, [src]);
 
   const computeMaxScroll = useCallback(() => {
@@ -121,28 +123,34 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
-      <img
-        ref={imgRef}
-        src={activeSrc}
-        alt={alt}
-        onLoad={() => setImgLoaded(true)}
-        onError={() => {
-          if (candidateIndex < srcCandidates.length - 1) {
-            setCandidateIndex((prev) => prev + 1);
-          }
-        }}
-        className="h-full w-auto max-w-none select-none"
-        style={{ 
-          willChange: 'transform',
-          imageRendering: 'auto',
-        }}
-        draggable={false}
-      />
-      {/* Subtle edge fade to indicate scrollable content */}
-      {maxScroll > 0 && (
+      {imgFailed ? (
+        <div className="w-full h-full flex items-center justify-center bg-muted/20">
+          <p className="text-muted-foreground text-sm italic">Map loading…</p>
+        </div>
+      ) : (
         <>
-          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background/40 to-transparent pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background/40 to-transparent pointer-events-none" />
+          <img
+            ref={imgRef}
+            src={activeSrc}
+            alt={alt}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => {
+              if (candidateIndex < srcCandidates.length - 1) {
+                setCandidateIndex((prev) => prev + 1);
+              } else {
+                setImgFailed(true);
+              }
+            }}
+            className="h-full w-auto max-w-none select-none"
+            style={{ willChange: 'transform', imageRendering: 'auto' }}
+            draggable={false}
+          />
+          {maxScroll > 0 && (
+            <>
+              <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-background/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-background/40 to-transparent pointer-events-none" />
+            </>
+          )}
         </>
       )}
     </motion.div>

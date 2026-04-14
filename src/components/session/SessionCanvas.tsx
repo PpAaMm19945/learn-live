@@ -17,6 +17,7 @@ import { getChapterMapUrl } from '@/lib/mapRegistry';
 import { ImageScene } from './ImageScene';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
+import { mergeTimeline } from '@/data/chapterTimelines';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -41,6 +42,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const [useFallback, setUseFallback] = useState(false);
   const [goldenScriptData, setGoldenScriptData] = useState<GoldenScript | null>(null);
   const fallbackCheckTimeoutRef = useRef<number | null>(null);
+  const mapRevertTimerRef = useRef<number | null>(null);
 
   // Default visual is always the chapter map
   const [activeVisual, setActiveVisual] = useState<'map' | 'image' | 'maplibre'>('map');
@@ -126,9 +128,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
 
-    // Overlay tools — render in designated spots with auto-dismiss
+    // Overlay tools — mutual exclusion: scripture and timeline never show simultaneously
     if (msg.tool === 'show_scripture') {
-      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection } }));
+      setOverlays(prev => ({ ...prev, scripture: { reference: msg.args.reference, text: msg.args.text, connection: msg.args.connection }, timeline: null }));
       scheduleAutoDismiss('scripture', 10000);
       addDebug('scene', `Scripture: ${msg.args.reference}`);
       return;
@@ -146,9 +148,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
     if (msg.tool === 'show_timeline') {
-      setOverlays(prev => ({ ...prev, timeline: { events: msg.args.events } }));
+      const mergedEvents = mergeTimeline(chapterId, msg.args.events || []);
+      setOverlays(prev => ({ ...prev, timeline: { events: mergedEvents }, scripture: null }));
       scheduleAutoDismiss('timeline', 12000);
-      addDebug('scene', `Timeline: ${msg.args.events?.length} events`);
+      addDebug('scene', `Timeline: ${mergedEvents.length} events (${msg.args.events?.length} highlighted)`);
       return;
     }
     if (msg.tool === 'show_key_term') {
@@ -186,9 +189,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return;
     }
 
-    // Map tools (zoom_to, place_marker, draw_route) — auto-switch to maplibre
+    // Map tools (zoom_to, place_marker, draw_route) — auto-switch to maplibre, then revert
     if (['zoom_to', 'place_marker', 'draw_route', 'highlight_region'].includes(msg.tool)) {
       setActiveVisual('maplibre');
+      // Auto-revert to chapter map after map interaction completes
+      if (mapRevertTimerRef.current) clearTimeout(mapRevertTimerRef.current);
+      mapRevertTimerRef.current = window.setTimeout(() => {
+        setActiveVisual('map');
+        addDebug('scene', 'Auto-revert to chapter map');
+      }, 15000);
     }
 
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
