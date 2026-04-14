@@ -353,6 +353,12 @@ export const TeachingCanvas = forwardRef<TeachingCanvasRef, TeachingCanvasProps>
       flyTo(options: { center?: [number, number]; zoom?: number; bearing?: number; pitch?: number; duration?: number }) {
         mapRef.current?.flyTo(options);
       },
+      fitToMarkers() {
+        if (!mapRef.current || markersRef.current.size === 0) return;
+        const bounds = new maplibregl.LngLatBounds();
+        markersRef.current.forEach(marker => bounds.extend(marker.getLngLat()));
+        mapRef.current.fitBounds(bounds, { padding: 60, duration: 1200, maxZoom: 6 });
+      },
       // --- Overlay imperative methods ---
       showScripture(reference: string, text: string, connection?: string) {
         setActiveScripture({ text, reference, connection });

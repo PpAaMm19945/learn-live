@@ -98,9 +98,9 @@ function TranscriptCard({
           : 'bg-transparent border border-transparent'
       }`}
     >
-      <p className={`${fontSize} leading-relaxed font-display font-medium text-foreground`}>
-        {text}
-      </p>
+      <div className={`${fontSize} leading-relaxed font-display font-medium text-foreground prose prose-invert prose-sm max-w-none [&_strong]:text-primary [&_em]:text-foreground/80`}>
+        <ReactMarkdown>{text}</ReactMarkdown>
+      </div>
       <div className="mt-2 flex items-center gap-2">
         <span className="text-[10px] text-muted-foreground/50 font-mono tabular-nums">
           #{index + 1}
