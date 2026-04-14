@@ -23,9 +23,6 @@ RUN npm ci --omit=dev --ignore-scripts && npm cache clean --force
 # Copy compiled JS from builder
 COPY --from=builder /app/dist ./dist
 
-# Bundle curriculum JSON so ContentFetcher can read local files
-COPY ../docs/curriculum/ ./docs/curriculum/
-
 # Cloud Run default port
 ENV PORT=8080
 EXPOSE 8080

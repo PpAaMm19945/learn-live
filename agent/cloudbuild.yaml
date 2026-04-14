@@ -8,6 +8,14 @@ substitutions:
   _REGION: us-central1
 
 steps:
+  # Step 0: Copy curriculum JSON into agent/ so Docker can bundle it
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - 'cp -r ../docs/curriculum docs/curriculum 2>/dev/null || true'
+    dir: 'agent'
+
   # Step 1: Build the Docker image
   - name: 'gcr.io/cloud-builders/docker'
     args:
