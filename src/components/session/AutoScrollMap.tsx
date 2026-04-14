@@ -25,6 +25,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   const directionRef = useRef<1 | -1>(1);
   const [isUserDragging, setIsUserDragging] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
+  const [imgFailed, setImgFailed] = useState(false);
   const [maxScroll, setMaxScroll] = useState(0);
   const [candidateIndex, setCandidateIndex] = useState(0);
   const dragStartRef = useRef({ x: 0, scrollX: 0 });
@@ -34,6 +35,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   useEffect(() => {
     setCandidateIndex(0);
     setImgLoaded(false);
+    setImgFailed(false);
   }, [src]);
 
   const computeMaxScroll = useCallback(() => {
@@ -121,6 +123,11 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerUp}
     >
+      {imgFailed ? (
+        <div className="w-full h-full flex items-center justify-center bg-muted/20">
+          <p className="text-muted-foreground text-sm italic">Map loading…</p>
+        </div>
+      ) : (
       <img
         ref={imgRef}
         src={activeSrc}
@@ -129,6 +136,8 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
         onError={() => {
           if (candidateIndex < srcCandidates.length - 1) {
             setCandidateIndex((prev) => prev + 1);
+          } else {
+            setImgFailed(true);
           }
         }}
         className="h-full w-auto max-w-none select-none"
