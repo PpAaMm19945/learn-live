@@ -508,6 +508,418 @@ The silent-audio blocker is resolved. The remaining failures are now **session o
 
 ---
 
+## Phase 7 — Band Differentiation
+
+> **Status:** Next up (after Phase 6 stabilization)
+> **Goal:** Make the same manifest beat produce six pedagogically distinct lesson experiences — from a 3-year-old's picture book to an 18-year-old's seminar.
+> **Source documents:** `docs/architecture/band-differentiation-plan.md` (Codex), `implementation_plan.md` (Antigravity), `learn-live-band-differentiation-framework.md` (Claude)
+
+### Why This Matters
+
+The current system delivers the same tools, narration length, voice, and visual strategy to every band. A 4-year-old and a 17-year-old receive identical canvas experiences. The only band-aware feature is optional `bandOverrides.contentText` in manifests — which swaps prose but does not filter tools, constrain narration, adjust voice, or change the delivery model.
+
+Band differentiation is not about simplifying the same content for younger children. It is about choosing the right cognitive instrument for each stage of development.
+
+---
+
+### Sprint 1 — Agent-Side Core Differentiation (1 sprint)
+
+> Low risk, high impact. All changes are server-side — no frontend modifications.
+
+#### 1.1 Band Profile Config
+
+**[NEW] `agent/src/bandConfig.ts`**
+
+Single source of truth for all band-specific parameters. Replaces scattered `if (band <= 1)` checks.
+
+```typescript
+export interface BandProfile {
+  band: number;
+  label: string;
+  ages: string;
+
+  narration: {
+    wordsPerBeat: [number, number];    // [min, max]
+    maxSentences: number;
+    maxSentenceWords: number;
+    vocabularyLevel: 'concrete-only' | 'simple' | 'moderate' | 'academic' | 'theological';
+    toneDirective: string;
+  };
+
+  tools: {
+    blocked: string[];
+    maxTimelineEvents: number;
+    maxComparisonPoints: number;
+    maxGenealogyNodes: number;
+    mapToolsEnabled: boolean;
+    scriptureAllowed: boolean;
+    quoteAllowed: boolean;
+    keyTermSimplified: boolean;       // strip etymology, pronunciation
+  };
+
+  tts: {
+    voiceName: string;
+    speakingRate: number;
+    style: 'storybook' | 'warm-story' | 'clear-teacher' | 'coach' | 'seminar' | 'scholarly';
+  };
+
+  visuals: {
+    imagePct: number;
+    mapPct: number;
+    overlayPct: number;
+    transcriptPctMax: number;
+  };
+
+  interactivity: {
+    raiseHand: 'disabled' | 'guided' | 'full';
+    questionTypes: string[];
+    maxInteractionsPerSection: number;
+  };
+
+  delivery: {
+    mode: 'storybook' | 'canvas';
+    tapToAdvance: boolean;
+  };
+
+  theologyGate: {
+    allowedConcepts: string[];
+    blockedConcepts: string[];
+  };
+}
+```
+
+**Concrete values (consensus from all three analyses):**
+
+| Parameter | Band 0 (3-4) | Band 1 (5-6) | Band 2 (7-8) | Band 3 (9-11) | Band 4 (12-14) | Band 5 (15-17+) |
+|-----------|:---:|:---:|:---:|:---:|:---:|:---:|
+| **wordsPerBeat** | 18-35 | 30-55 | 55-85 | 80-125 | 110-175 | 150-250 |
+| **maxSentences** | 3 | 5 | 6 | 8 | 9 | 11 |
+| **maxSentenceWords** | 8 | 11 | 14 | 18 | 22 | 30 |
+| **vocabularyLevel** | concrete-only | simple | moderate | academic | academic | theological |
+| **voiceName** | Kore | Kore | Leda | Orus | Charon | Charon |
+| **speakingRate** | 0.85 | 0.90 | 0.97 | 1.02 | 1.05 | 1.08 |
+| **imagePct** | 90 | 70 | 50 | 30 | 20 | 10 |
+| **mapPct** | 0 | 0 | 20 | 35 | 35 | 30 |
+| **overlayPct** | 10 | 25 | 25 | 30 | 40 | 55 |
+| **transcriptPctMax** | 0 | 5 | 5 | 5 | 5 | 5 |
+| **delivery mode** | storybook | storybook | canvas | canvas | canvas | canvas |
+| **raiseHand** | disabled | disabled | disabled | guided | full | full |
+
+**Tone directives per band:**
+
+| Band | Directive |
+|------|-----------|
+| 0 | "Speak warmly like a beloved uncle at bedtime. Use exclamations and repetition. Only concrete nouns and action verbs. No abstract concepts whatsoever." |
+| 1 | "Tell a vivid story with characters and dialogue. Use sensory language — what people saw, heard, felt. Introduce max 1 new word per lesson, defined immediately." |
+| 2 | "Clear, warm teacher. Narrate with structure: what happened, why it matters, what came next. Use 'because' and 'as a result' connectors." |
+| 3 | "Teach with authority. Pose questions and answer them. Make causal chains explicit. Introduce theological terms with brief explanations." |
+| 4 | "Analyze patterns across events. Compare and contrast. Challenge the student: 'Notice how this mirrors what we saw in...' Full theological vocabulary." |
+| 5 | "Engage as a scholarly equal. Present evidence, weigh interpretations, invite critical thinking. Reference historiographic debates." |
+
+**Files that import `bandConfig.ts`:** `beatSequencer.ts`, `historyExplainerTools.ts`, `tts.ts`, `historySessionController.ts`, `lessonPreparer.ts`
+
+---
+
+#### 1.2 Tool Filtering in BeatSequencer
+
+**[MODIFY] `agent/src/beatSequencer.ts`** — add `applyBandToolPolicy()` after `toolSequence.map()` and before delivery.
+
+**Tool availability matrix:**
+
+| Tool | B0 | B1 | B2 | B3 | B4 | B5 |
+|------|:--:|:--:|:--:|:--:|:--:|:--:|
+| `set_scene(image)` | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| `set_scene(map)` | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ |
+| `set_scene(transcript)` | ✗ | ✗ | ✓ | ✓ | ✓ | ✓ |
+| `show_scripture` | ✗ | ✗ | ✓ (1 verse) | ✓ | ✓ | ✓ |
+| `show_timeline` | ✗ | ✗ | ✓ (≤3) | ✓ (≤5) | ✓ (≤7) | ✓ (≤9) |
+| `show_key_term` | ✗ | ✓* | ✓* | ✓ | ✓ | ✓ |
+| `show_comparison` | ✗ | ✗ | ✗ | ✓ (≤2pt) | ✓ (≤4pt) | ✓ (≤6pt) |
+| `show_genealogy` | ✗ | ✗ | ✗ | ✓ (≤6) | ✓ (≤10) | ✓ (≤12) |
+| `show_question` | ✗ | ✗ | ✓ (comprehension) | ✓ (reflection) | ✓ (debate) | ✓ (all) |
+| `show_quote` | ✗ | ✗ | ✗ | ✗ | ✓ | ✓ |
+| `show_slide` | ✓** | ✓** | ✓ | ✓ | ✓ | ✓ |
+| All map tools | ✗ | ✗ | ✓ (limited) | ✓ | ✓ | ✓ |
+
+\* = simplified (no etymology, no pronunciation)
+\** = max 1 bullet, max 4 words per bullet, must accompany image
+
+**Transform rules:**
+- Truncate `show_timeline.events` to band max
+- Truncate `show_genealogy.nodes` to band max
+- Truncate `show_comparison` points per column to band max
+- Strip `etymology` and `pronunciation` from `show_key_term` for simplified bands
+- If map tools appear but `mapToolsEnabled === false`, drop them entirely
+- If band ≤ 1 and no `set_scene(image)` exists, force-inject one as first tool
+- Inject `dismiss_overlay("all")` at major topic transitions
+
+**Also extend `Beat.bandOverrides`** in `agent/src/content.ts`:
+```typescript
+bandOverrides?: Record<string, {
+  contentText: string;
+  toolSequence?: Beat['toolSequence'];  // NEW: optional tool overrides per band
+}>;
+```
+
+---
+
+#### 1.3 Narration Prompt Constraints
+
+**[MODIFY] `agent/src/historyExplainerTools.ts`** — update `buildNarrationPrompt()` to inject measurable constraints from `BandProfile.narration`.
+
+Inject this block into every narration prompt:
+```
+NARRATION CONSTRAINTS (STRICT — DO NOT EXCEED):
+- Maximum {maxWords} words for this beat.
+- Maximum {maxSentenceWords} words per sentence.
+- Maximum {maxSentences} sentences.
+- Vocabulary level: {vocabularyLevel}.
+- {toneDirective}
+- If output exceeds max words, rewrite shorter before responding.
+```
+
+**Replace** the current global "authoritative university professor" guard with band-specific tone for Bands 0-2.
+
+**Also update `buildHistoryExplainerPrompt()`:** Replace the crude 3-tier `if/else` with `getBandProfile()` to generate band-specific system instructions dynamically.
+
+---
+
+#### 1.4 TTS Voice Differentiation
+
+**[MODIFY] `agent/src/tts.ts`** — add `getTTSOptionsForBand(band)`.
+
+**[MODIFY] `agent/src/beatSequencer.ts`** line 185: pass band-specific options to every `synthesize()` call:
+```typescript
+const audioBase64 = await this.tts.synthesize(narratedText, {
+  voiceName: this.bandProfile.tts.voiceName,
+  speakingRate: this.bandProfile.tts.speakingRate,
+}) || '';
+```
+
+**Voice rationale:**
+- **Kore** (Bands 0-1): Warm, clear — ideal for storybook narration
+- **Leda** (Band 2): Engaged teacher — transition voice
+- **Orus** (Band 3): Confident coach — the first "serious" voice
+- **Charon** (Bands 4-5): Authoritative, scholarly — matches the professor persona
+
+> **NOTE:** Voice selection requires user testing. Generate 30-second samples in each voice before committing.
+
+---
+
+#### 1.5 Theology Gate
+
+**Theological Concept Unlock Table (from Claude's framework):**
+
+| Concept | First Unlock Band | Notes |
+|---|---|---|
+| God made everything | 0 | Foundation; always present |
+| God is good | 0 | Foundation; always present |
+| People disobeyed God | 1 | Concrete story terms only |
+| God judges sin | 2 | Concrete (the Flood); not abstract |
+| God keeps His promises | 2 | Narrative ("God promised Noah and kept it") |
+| Africa in God's plan | 3 | Explicit dignity framing begins |
+| Nations as God's design | 3 | Table of Nations as real history |
+| Divine judgment as historical force | 3 | Causal, not abstract |
+| Covenant pattern | 4 | Named and explained |
+| Nimrod pattern | 4 | Named and explained |
+| Translation Thesis | 4 | Introduced with full explanation |
+| Providence as interpretive framework | 4 | Systematic framing begins |
+| Eschatological implications | 5 | Telos of African history in God's plan |
+| Colonial historiography critique | 5 | Full critical engagement |
+| Present-day African ecclesiology | 5 | Application layer |
+
+**Implementation:** Add `theologyGate.allowedConcepts` and `theologyGate.blockedConcepts` to `BandProfile`. Inject into narration prompt: *"You may draw on: [list]. If the source text contains these concepts, paraphrase around them at this band level: [blocked list]."*
+
+---
+
+#### 1.6 Visual Mix Telemetry
+
+Add runtime counters in `beatSequencer.ts` to track per-section distribution of image/map/overlay/transcript scenes. Log warnings when any section drifts more than 15 percentage points from the band's target percentages.
+
+---
+
+#### Sprint 1 Definition of Done
+
+- [ ] `bandConfig.ts` exists with all 6 profiles fully populated
+- [ ] `applyBandToolPolicy()` filters and transforms tool calls correctly for all 6 bands
+- [ ] Narration prompts carry concrete word/sentence/vocabulary constraints per band
+- [ ] TTS calls use band-specific voice and speed
+- [ ] `theologyGate` concepts injected into narration prompts
+- [ ] Visual mix telemetry logs warnings for drift
+- [ ] Same manifest beat produces measurably different output across all 6 bands (verified by logged word counts and tool sequences)
+
+---
+
+### Sprint 2 — Frontend Delivery Modes (1 sprint)
+
+#### 2.1 StorybookPlayer for Bands 0-1
+
+**[NEW] `src/components/session/StoryBookPlayer.tsx`**
+
+A dedicated full-screen picture-book experience. The SessionCanvas is categorically wrong for 3-6 year olds — not because it's too complex, but because it's a fundamentally different relationship between child and content.
+
+```
+┌──────────────────────────────────────┐
+│                                      │
+│          [FULL-BLEED IMAGE]          │
+│                                      │
+│                                      │
+│──────────────────────────────────────│
+│  "God made the whole world, and      │
+│   it was very, very good."           │
+│                            ● ● ○ ○   │
+└──────────────────────────────────────┘
+```
+
+Features:
+- Full-bleed illustration fills the viewport
+- Audio plays automatically (warm Kore voice)
+- Large, simple text overlaid at the bottom
+- Tap/click anywhere to advance (or auto-advance when audio ends)
+- No overlays, no transcript panel, no map, no controls except back + pause
+- Page turn animation (dissolve)
+- Progress dots at bottom
+
+**Route branching** in session container:
+```tsx
+if (band <= 1) return <StoryBookPlayer />;
+return <SessionCanvas />;
+```
+
+The BeatSequencer still runs the same beat manifest — the StorybookPlayer renders the limited tool subset (`set_scene(image)`, `show_slide`, `show_key_term` for Band 1 only) as storybook UI primitives.
+
+---
+
+#### 2.2 Interaction Spectrum
+
+**[MODIFY] `agent/src/historySessionController.ts`** — replace binary `canAcceptRaiseHand()` with per-band interaction policy.
+
+| Band | Primary Mode | Interactions | Max Per Section |
+|---|---|---|---|
+| 0 | Tap-to-advance | None | 0 |
+| 1 | Tap-to-advance | Image-choice comprehension (2 options, pictorial) | 1 per lesson |
+| 2 | Auto-play + pause | 2-option text comprehension, oral prompt | 1 per section |
+| 3 | Auto-play + guided pause | Cause-effect questions, short live Q&A (90s gated) | 2 per section |
+| 4 | Interactive | Analysis, comparison, Debate Box, live Q&A | 3 per section |
+| 5 | Student-paced | Thesis defense, evidence ranking, essay mode, Socratic Q&A | Unlimited |
+
+**New interaction tools:**
+
+| Tool | Unlock Band | Description |
+|---|---|---|
+| `show_comprehension_check` | 2 | MCQ with correctIndex + explanation |
+| `show_debate_prompt` | 4 | Two positions + evidence array |
+| `show_essay_prompt` | 5 | Writing prompt + word count + guidelines |
+
+**[MODIFY] `src/components/canvas/CanvasOverlays.tsx`** — add renderers for the three new interaction tools.
+
+---
+
+#### 2.3 Question Type Enforcement
+
+| Band | Permitted `show_question` Types | Prohibited |
+|---|---|---|
+| 0 | None (tool blocked) | All |
+| 1 | `check` (image-choice only) | All others |
+| 2 | `comprehension` (factual recall) | All others |
+| 3 | `comprehension`, `reflection`, `cause_effect` | `debate`, `essay` |
+| 4 | `cause_effect`, `analysis`, `debate` | `essay` |
+| 5 | All types | None |
+
+---
+
+#### Sprint 2 Definition of Done
+
+- [ ] `StoryBookPlayer.tsx` exists and renders for Bands 0-1
+- [ ] Route branches correctly: Band ≤ 1 → StoryBookPlayer, Band ≥ 2 → SessionCanvas
+- [ ] New interaction tools render correctly in CanvasOverlays
+- [ ] HistorySessionController enforces per-band interaction policy
+- [ ] A 4-year-old session and 16-year-old session are experientially unrecognizable as the same system
+
+---
+
+### Sprint 3 — Quality, Authoring Infrastructure, and Testing (1 sprint)
+
+#### 3.1 Documentation
+
+- Update `docs/curriculum/history/beat-schema.md` with per-band tool constraints and `theologyGate` documentation
+- Add band differentiation section to `docs/TEACHING_PHILOSOPHY.md`
+
+#### 3.2 Manifest Lint Script
+
+**[NEW] `agent/scripts/lint-manifest.ts`**
+
+Validates beat manifests against band policy before deploy:
+- Flag tools that would be blocked at any band
+- Warn if `bandOverrides` is missing for beats with complex tool sequences
+- Verify timeline event counts don't exceed any band's max
+
+#### 3.3 Tests
+
+```bash
+# Unit: tool filtering snapshot tests
+cd agent && npx vitest run --testPathPattern=bandConfig.test.ts
+
+# Unit: narration constraint injection
+cd agent && npx vitest run --testPathPattern=narrationPrompt.test.ts
+
+# Integration: run sequencer for ch01_s01 across all 6 bands
+cd agent && npx vitest run --testPathPattern=bandDifferentiation.integration.test.ts
+```
+
+**Snapshot test assertions:**
+- Band 0 emits zero timeline/comparison/quote/map tools
+- Band 0 narration < 40 words per beat
+- Band 5 narration uses theological vocabulary
+- TTS options differ by band on every synthesis call
+
+#### 3.4 Comprehension Scoring (Band 2+)
+
+**[NEW] `agent/src/comprehensionTracker.ts`**
+
+Track student responses within a session:
+- Store correct/incorrect count
+- If < 50% correct, dynamically slow narration and add scaffolding
+- Report scores to Worker API for parent dashboard
+
+---
+
+#### Sprint 3 Definition of Done
+
+- [ ] Manifest lint script passes for all existing beat JSONs
+- [ ] Snapshot tests cover tool filtering for all 6 bands
+- [ ] Narration constraint tests verify word count / sentence count compliance
+- [ ] Comprehension tracker stores and reports scores
+- [ ] Documentation updated
+
+---
+
+### Acceptance Criteria (Phase 7 Ship Checklist)
+
+1. Same manifest beat produces different narration length/complexity across all 6 bands
+2. Tool calls differ by band according to policy (verified by logged transformed sequence)
+3. Bands 0-1 never receive `show_comparison`, `show_quote`, `show_genealogy`, map tools, or dense overlays
+4. Bands 0-1 render in `StorybookPlayer`, not `SessionCanvas`
+5. TTS voice, rate, and style differ by band on every synthesis call
+6. Visual mix telemetry warns when section distribution drifts >15% from band target
+7. Theological concepts blocked by `theologyGate` do not appear in narration for bands below unlock
+8. Per-band interaction policy governs Q&A, question types, and interaction limits
+9. A 4-year-old and a 16-year-old on the same lesson chapter are experientially unrecognizable as the same content delivery system
+
+---
+
+### Open Design Questions (Resolve Before Sprint 2)
+
+> **Q1: Band 2 delivery mode.** Band 2 (ages 7-8) sits on the border. Should they get the full canvas, or a simplified canvas without the transcript panel? Current plan: full canvas. Consider whether 7-year-olds are overwhelmed by the split view.
+
+> **Q2: Voice testing.** Generate 30-second samples in Kore, Leda, Orus, and Charon before committing. Consider adding voice selection to parent dashboard.
+
+> **Q3: AI-generated images for Bands 0-1.** Should the StorybookPlayer support only pre-rendered storybook images from `imageRegistry.ts`, or also accept AI-generated images in real-time? Pre-rendered is simpler and faster. AI-generated adds flexibility for chapters without authored art.
+
+> **Q4: Band 3 Q&A duration.** All sources agree on 90-second gated Q&A for Band 3. Verify this is sufficient for meaningful exchange without derailing the lesson.
+
+---
+
 ## Deferred Work (Not in current plan)
 
 These items are important but are not blockers for the first working lesson:
@@ -516,7 +928,6 @@ These items are important but are not blockers for the first working lesson:
 |------|-------|
 | **LessonPreparer philosophical pipeline** | The multi-phase theological framing / critique pipeline from `docs/TEACHING_PHILOSOPHY.md` should begin only after Phase 6 stabilization removes restart, sync, and scene-rendering bugs. |
 | **Golden Script re-verification** | `useRecorder.ts` and `useGoldenScript.ts` exist but were never tested with real content. Re-verify after Phase 6. |
-| **StorybookPlayer split-screen (Phase 24A)** | Layout redesign for Band 0-1. Independent of Beat Sequencer. Can proceed in parallel. |
 | **Dashboard & page cleanup (Phase 24B)** | Remove deprecated pages, simplify onboarding. Independent. Can proceed in parallel. |
 | **Beat schemas for Chapters 2–9** | Phase 2 produces only Chapter 1, Section 1.1. Remaining sections are authored incrementally. |
 | **Reformed theology enrichment** | `reformedReflection` fields populated via manual askpuritans.com consultation. Human-authored per section. |
