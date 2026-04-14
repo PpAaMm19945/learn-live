@@ -127,31 +127,40 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
           </motion.div>
         )}
 
-        {/* ── Timeline — bottom center, always-visible labels ── */}
+        {/* ── Timeline — same slot as scripture (bottom-left card) ── */}
         {overlays.timeline && (
           <motion.div
             key="timeline"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, x: -20, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-28 left-4 right-4 md:left-1/2 md:-translate-x-1/2 md:right-auto bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl px-6 py-5 md:max-w-2xl md:w-[70%] pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto overflow-x-auto"
             onClick={() => clickHandler?.('timeline')}
           >
-            <div className="relative w-full flex items-center justify-between min-h-[80px] pt-2 pb-6">
-              <div className="absolute top-[18px] left-0 right-0 h-1 bg-border rounded-full z-0" />
-              {overlays.timeline.events.map((event, i) => (
-                <div key={i} className="relative z-10 flex flex-col items-center cursor-default">
-                  <div
-                    className="w-5 h-5 rounded-full border-2 border-card shadow-md"
-                    style={{ backgroundColor: event.color || '#5dcaa5' }}
-                  />
-                  <div className="mt-2 flex flex-col items-center whitespace-nowrap">
-                    <span className="text-xs font-bold text-primary">{Math.abs(event.year)} {event.year < 0 ? 'BC' : 'AD'}</span>
-                    <span className="text-[11px] text-foreground/80 max-w-[100px] text-center truncate">{event.label}</span>
+            <h4 className="text-accent font-bold text-xs tracking-widest uppercase mb-3">Timeline</h4>
+            <div className="relative flex items-start gap-0 min-w-0">
+              {/* Horizontal track */}
+              <div className="absolute top-[10px] left-0 right-0 h-[2px] bg-border rounded-full z-0" />
+              {overlays.timeline.events.map((event, i) => {
+                const isHighlighted = event.color && event.color !== '#8a8a8a55';
+                return (
+                  <div key={i} className="relative z-10 flex flex-col items-center flex-shrink-0" style={{ minWidth: 64 }}>
+                    <div
+                      className={`w-4 h-4 rounded-full border-2 border-card shadow-sm ${isHighlighted ? 'ring-2 ring-primary/40' : ''}`}
+                      style={{ backgroundColor: event.color || '#5dcaa5' }}
+                    />
+                    <div className="mt-1.5 flex flex-col items-center">
+                      <span className={`text-[10px] font-bold ${isHighlighted ? 'text-primary' : 'text-muted-foreground/60'}`}>
+                        {Math.abs(event.year)} {event.year < 0 ? 'BC' : 'AD'}
+                      </span>
+                      <span className={`text-[9px] max-w-[60px] text-center leading-tight ${isHighlighted ? 'text-foreground/90' : 'text-muted-foreground/40'}`}>
+                        {event.label}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </motion.div>
         )}

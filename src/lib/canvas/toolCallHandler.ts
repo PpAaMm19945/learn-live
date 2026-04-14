@@ -64,6 +64,8 @@ export function handleToolCall(
       if (center) {
         const label = message.args.regionId.charAt(0).toUpperCase() + message.args.regionId.slice(1);
         canvas.placeMarker(center[0], center[1], label, message.args.color || '#fac775');
+        // Auto-fit map to show all placed markers after a short debounce
+        setTimeout(() => canvas.fitToMarkers(), 100);
       }
       break;
     }
