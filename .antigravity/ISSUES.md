@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-10
+> **Last updated:** 2026-04-15
 
 ---
 
@@ -39,39 +39,24 @@
 | 62 | Visual Tool Calls Not Rendering | `ImageScene` component + beat `sceneMode` field | Phase 6C |
 | 63 | Beat Continuity Broken — Fresh Greeting Each Beat | Anti-greeting prompt with beat context | Phase 6C |
 | 64 | Lesson Ending / Apparent Restart After Completion | `statusRef.current = 'ended'` immediately on `lesson_complete` | Phase 6C |
+| 65 | Tool Call Text Leaking Into Transcript | Client-side regex filter + agent prompt instruction | Phase 7 |
+| 66 | Image Scenes Not Displaying | Race condition fixed — set imageSceneUrl before sceneMode switch | Phase 7 |
+| 67 | Map Highlights — `getPaintProperty` Crash | Added `map.getLayer()` guard; fallback marker renders | Phase 7 |
+| 68 | Gemini Narrator 503 — No Retry Logic | Exponential backoff retry (3 attempts) in `GenAINarrator` | Phase 7 |
+| 72 | Need Agent Debug Drawer | `DebugDrawer.tsx` with category filters, expandable details, copy-all | Phase 7 |
+| 73 | Copy Buttons Fail in Iframe Contexts | `document.execCommand('copy')` fallback + visual feedback | Phase 7 |
+| 74 | Map Theme Too Dark — Regions Invisible | Lightened base colors by ~40% | Phase 7 |
+| 75 | Debug Drawer Hidden Behind Lesson Complete | Moved lesson-complete to `AnimatePresence` overlay at `z-[90]` | Phase 7 |
+| 76 | No Image Test Presets in Canvas Workbench | Added dropdown with R2 storybook paths + Unsplash test URL | Phase 7 |
+| 77 | Transcript Should Use Card-Based Layout | Rewrote to scrollable card stack with fading older cards | Phase 8 |
+| 79 | Scene Transitions Only Firing for Map | `CanvasOverlays.tsx` renders at SessionCanvas level, all modes | Phase 8 |
+| 81 | Scripture/Timeline/Figure Overlays Not Visible | Extracted overlay rendering into `CanvasOverlays.tsx` at z-40 | Phase 8 |
+| 83 | Gemini Narrator Leaks JSON Into Beat Text | JSON-guard prompt + server-side regex + frontend fallback | Phase 9 |
+| 84 | Timeline Overlay Clipped by Viewport Edge | Responsive positioning with `left-4 right-4` | Phase 9 |
 
 ---
 
 ## Open Issues
-
-### 65. Tool Call Text Leaking Into Transcript
-- **Status:** OPEN — HIGH
-- **Description:** Screenshot shows "dismiss_overlay() set_scene("transcript")" appearing as literal text in the student transcript. When the Gemini narrator succeeds, it sometimes includes tool call syntax in its narration output because the system prompt mentions tool names.
-- **Evidence:** Screenshot image-116.png — tool call names visible in transcript overlay text.
-- **Fix (agent):** Strip tool-call patterns (`set_scene(...)`, `dismiss_overlay()`, etc.) from narrated text before sending to frontend. Add explicit prompt instruction: "Never output tool call names in your narration."
-- **Fix (frontend):** Add a client-side regex filter to strip any remaining tool call text from transcript chunks.
-
-### 66. Image Scenes Not Displaying
-- **Status:** OPEN — HIGH
-- **Description:** Beats 1-3 have `sceneMode: "image"` with storybook URLs but images never appear. Only transcript text is shown throughout the lesson.
-- **Root Cause:** Race condition in beat processor — `sceneMode` is set to `"image"` before `imageSceneUrl` is populated. The `handleAgentToolCall` intercepts `set_scene("image")` and sets `imageSceneUrl`, but React batching means the scene mode switch happens before the URL state updates.
-- **Evidence:** Screenshots image-120, image-121, image-122 — all show transcript text only, no images.
-- **Fix:** Set `imageSceneUrl` synchronously before `sceneMode` switches to `"image"`. Restructure beat processor tool call handling.
-
-### 67. Map Highlights Not Rendering — `getPaintProperty` Crash
-- **Status:** PARTIALLY FIXED — Phase 7+
-- **Description:** `highlight_region("canaan")` etc. crash with `Cannot read properties of undefined (reading 'getPaintProperty')` because the `chapter-regions-fill` layer only exists when `chapterGeoJSON` is passed to `TeachingCanvas`. Neither the Workbench nor SessionCanvas currently provide GeoJSON.
-- **Root Cause:** `highlightRegion()` called `map.getPaintProperty()` on a non-existent layer. No guard check.
-- **Fix applied:** Added `map.getLayer('chapter-regions-fill')` guard — now returns silently instead of crashing, and the fallback marker from `toolCallHandler` still renders.
-- **Remaining:** To actually highlight polygonal regions, GeoJSON data for ancient regions (Canaan, Mizraim, Cush, Phut) must be created and passed as `chapterGeoJSON`. Without it, only the fallback marker + label renders.
-- **Evidence:** Admin workbench logs show repeated `getPaintProperty` errors for every `highlight_region` call.
-
-### 68. Gemini Narrator 503 — No Retry Logic
-- **Status:** OPEN — HIGH
-- **Description:** Gemini REST API returns 503 "high demand" errors frequently. `GenAINarrator.narrate()` returns null on first failure, falling back to raw curriculum text with no retry.
-- **Evidence:** Agent logs show 503 errors on beats 1, 2 of multiple sessions. Raw text fallback loses age-band adaptation.
-- **Impact:** Raw curriculum text used instead of age-adapted narration. Continuity prompt (anti-greeting rules) is bypassed.
-- **Fix (agent):** Add exponential backoff retry (3 attempts, 2s/4s/8s) for 503 errors in `GenAINarrator`.
 
 ### 69. Raise Hand / Q&A Silently Fails
 - **Status:** OPEN — MEDIUM
@@ -90,46 +75,10 @@
 - **Evidence:** Agent logs show 30-60s gaps between beats. User report: "the pauses are long."
 - **Fix (agent):** Pre-process the next beat while current beat audio is playing. Pipeline architecture.
 
-### 72. Need Agent Debug Drawer
-- **Status:** RESOLVED — Phase 7
-- **Description:** No way to observe agent state, tool calls, beat progress, or errors from the frontend during a session.
-- **Resolution:** `DebugDrawer.tsx` fully wired with category filters, expandable details, copy-all, and ~25 debug event emissions from `useSession.ts` covering connection, beats, tools, audio, Q&A, scenes, and errors. Toggle via Bug icon in session top bar.
-- **Future:** Agent should emit `{ type: 'debug', message: '...' }` WebSocket messages for server-side visibility (Gemini retries, TTS progress, narrator prompts).
-
-### 73. Copy Buttons Fail in Preview/Iframe Contexts
-- **Status:** RESOLVED — Phase 7
-- **Description:** Both DebugDrawer and ToolCallLog "Copy All" buttons use `navigator.clipboard.writeText()` which silently fails in cross-origin iframes and non-HTTPS contexts.
-- **Resolution:** Added `document.execCommand('copy')` fallback + visual feedback ("Copied!" / "Failed").
-
-### 74. Map Theme Too Dark — Regions/Land Invisible
-- **Status:** RESOLVED — Phase 7
-- **Description:** The `applyAncientTheme` recoloring made background `#1a1610` and land `#1f1a14` — nearly indistinguishable. Regions, borders, and terrain features invisible.
-- **Resolution:** Lightened all base colors by ~40%: background `#2e2820`, land `#352e24`, water `#1a2e40`, borders `#8a6a4a`.
-
-### 75. Debug Drawer Hidden Behind Lesson Complete Overlay
-- **Status:** RESOLVED — Phase 7+
-- **Description:** Lesson-complete screen used an early `return` with `fixed inset-0`, completely replacing the component tree and hiding the debug drawer.
-- **Resolution:** Moved lesson-complete into an `AnimatePresence` overlay at `z-[90]` inside the main layout. Debug drawer at `z-[9999]` renders alongside it. Bug icon in top bar remains clickable.
-
-### 76. No Image Test Presets in Canvas Workbench
-- **Status:** RESOLVED — Phase 7
-- **Description:** SceneControls only had a raw URL input — no way to quickly test R2 image loading.
-- **Resolution:** Added dropdown with R2 storybook paths and an external Unsplash test URL.
-
-### 77. Transcript Should Use Card-Based Layout
-- **Status:** RESOLVED — Phase 8
-- **Description:** Transcript chunks now render as discrete cards with index numbers. Latest card is prominent with border/shadow; older cards fade to 40% opacity. Auto-scrolls to newest.
-- **Resolution:** Rewrote `TranscriptView.tsx` from SRT-style subtitles to scrollable card stack.
-
 ### 78. Agent Thinking/Reasoning Not Visible
 - **Status:** OPEN — LOW (Feature Request)
 - **Description:** User wants to see the agent's internal reasoning/thinking steps in the debug feed.
 - **Notes:** Requires agent to emit `{ type: 'debug', category: 'thinking', message: '...' }` messages. Frontend DebugDrawer already supports arbitrary categories.
-
-### 79. Scene Transitions Only Firing for Map
-- **Status:** RESOLVED — Phase 8
-- **Description:** Overlay tools (scripture, figure, genealogy, timeline) were rendered inside `TeachingCanvas`, which is only visible during `map` mode. They now render via `CanvasOverlays` at the `SessionCanvas` level, visible in ALL scene modes.
-- **Resolution:** Created `CanvasOverlays.tsx`; intercepted overlay tool calls in `SessionCanvas.handleAgentToolCall` and `CanvasWorkbench.dispatchTool`.
 
 ### 80. Multi-Tool Coordination Missing
 - **Status:** OPEN — HIGH
@@ -137,30 +86,34 @@
 - **Evidence:** Admin workbench testing confirms individual tools work, but manual composition (zoom + highlight + route) is needed.
 - **Fix (agent):** Agent system prompt should instruct coordinated tool calls — e.g., `zoom_to` with appropriate zoom level before/after `draw_route`. Frontend could also auto-fit bounds after `draw_route`.
 
-### 81. Scripture/Timeline/Figure Overlays Not Visible
-- **Status:** RESOLVED — Phase 8
-- **Description:** Overlay state was set via `useImperativeHandle` inside `TeachingCanvas`, but the JSX rendering those overlays was hidden when `sceneMode !== 'map'` because the entire TeachingCanvas div had `opacity-0`.
-- **Resolution:** Extracted overlay rendering into `CanvasOverlays.tsx` component mounted at SessionCanvas/Workbench level with `z-40`, always visible regardless of active scene mode. Overlay tool calls are now intercepted before reaching `handleToolCall`.
-
-### 83. Gemini Narrator Leaks JSON Into Beat Text
-- **Status:** RESOLVED — Phase 9
-- **Description:** The Gemini narrator returns raw JSON command blocks (```json [...] ```) as the `text` field in beat payloads for beats 2+. This causes: (a) transcript cards showing no text (stripped to empty), (b) TTS speaking JSON gibberish, (c) session appearing stuck.
-- **Evidence:** Debug logs show `text: "```json\n[\n  {\n    \"command\": \"set_scene\"..."` for beats 2 and 3.
-- **Resolution:** Added explicit JSON-guard instructions to the narrator prompt. Added server-side regex stripping of JSON from narrator output. Added frontend fallback marker ('…') when stripped text is empty.
-
-### 84. Timeline Overlay Clipped by Viewport Edge
-- **Status:** RESOLVED — Phase 9
-- **Description:** The timeline overlay at `bottom-24 left-1/2 w-[85%]` was getting cut off on narrower viewports and when the debug drawer was open.
-- **Resolution:** Changed to responsive positioning with `left-4 right-4 md:left-1/2 md:w-[70%]` and `bottom-28` to clear the status bar.
-
 ### 85. Session Stops Advancing After Beat 3
 - **Status:** OPEN — HIGH (agent-side investigation needed)
 - **Description:** After 3 beats play successfully, no more beats arrive from the agent. The frontend shows "beat IDLE" but no new `beat_payload` messages come over WebSocket. Likely the agent's Gemini narration call hangs or errors silently on beat 4+.
 - **Investigation:** Check agent logs for errors after beat 3. May be related to #83 — if the narrator returns pure JSON, the TTS may fail, causing the agent to hang.
 
+### 86. Overlay Queue System Needed
+- **Status:** RESOLVED — Phase 8+
+- **Description:** Multiple tool calls in a single beat (e.g., `show_scripture` + `show_key_term` + `show_question`) all fire simultaneously, overlapping each other. Only the last one is visible.
+- **Resolution:** Built sequential overlay queue in `CanvasOverlays.tsx` — overlays display one at a time with 15s dwell, auto-advancing through the queue. `dismiss_overlay("all")` clears the queue.
+
+### 87. Small Overlays Scattered Across Canvas
+- **Status:** RESOLVED — Phase 9
+- **Description:** Key term, question, quote, and reflection cards rendered at different positions (top-center, bottom-center, dead-center). Should all use the same bottom-left card slot.
+- **Resolution:** Unified all small overlays to `absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md`. Removed casual emojis, replaced with styled text labels.
+
+### 88. Image Thumbnail Cropping and Auto-Dismiss
+- **Status:** RESOLVED — Phase 9
+- **Description:** Image thumbnails used `object-cover` which cropped square illustrations. Also auto-dismissed after 20s regardless of beat length.
+- **Resolution:** Changed to `aspect-square object-contain`. Removed 20s timer — images persist until `dismiss_overlay("all")` at next beat.
+
+### 89. AutoScrollMap Not Zoomable
+- **Status:** RESOLVED — Phase 9
+- **Description:** PNG map in `AutoScrollMap` only auto-scrolled horizontally. No user interaction for zoom or vertical pan.
+- **Resolution:** Added scroll-wheel zoom (1x–4x), pinch-to-zoom, full 2D drag panning, and zoom percentage indicator.
+
 ---
 
 ## Notes
 - Issue 85 is the current critical blocker (agent-side).
-- Issues 80, 82 remain open for future work.
-- Issue 83 fix requires agent redeployment.
+- Issues 80, 71 remain open for future work.
+- Phase 7 (Band Differentiation) is the next major initiative — see `.antigravity/ROADMAP.md` Sprints 1-3.
