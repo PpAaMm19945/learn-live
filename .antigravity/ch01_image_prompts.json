@@ -1,0 +1,222 @@
+[
+  {
+    "filename": "band2_page01.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page01.jpg",
+    "prompt": "DK Encyclopedia-style educational illustration showing the six days of biblical creation arranged as a 2x3 grid of labeled panels. Day 1: light separating from darkness. Day 2: sky and waters divide. Day 3: dry land and vegetation appear. Day 4: sun moon and stars placed. Day 5: sea creatures and birds. Day 6: land animals and humans. Each panel numbered with a thin gold circle. Clean cream background. Precise thin leader lines connecting labels to elements. Warm earth tones. Scientific illustration quality. 640x640 square format. No decorative borders.",
+    "negativePrompt": "cartoon, anime, 3D render, photorealistic photo, watercolor, painterly, blurry, modern graphic design",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page02.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page02.jpg",
+    "prompt": "DK Encyclopedia-style annotated cross-section illustration of the Garden of Eden ecosystem. Cutaway view showing layers: canopy trees with fruit (figs, pomegranates labeled), understory vegetation, ground cover with flowers, river system with four branches labeled (Pishon, Gihon, Tigris, Euphrates). Animals labeled: lion, dove, serpent, cattle. Two human figures (dark-skinned, dignified) tending the garden. Educational callout boxes describing each layer. Clean cream background. Precise botanical illustration style. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, photorealistic photo, blurry, childish",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page03.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page03.jpg",
+    "prompt": "DK Encyclopedia-style split diagram illustration. Left half labeled BEFORE THE FALL showing harmonious garden scene with peace symbols (dove, calm animals, abundant fruit, humans with upward gaze). Right half labeled AFTER THE FALL showing thorns on plants, toiling figure, fractured ground, downcast expressions. Center dividing line labeled GENESIS 3. Thin leader lines connecting to labeled consequences: death, separation, cursed ground, painful labor. Clean educational layout on cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, gory, violent, photorealistic photo",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page04.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page04.jpg",
+    "prompt": "DK Encyclopedia-style annotated illustration showing the Protoevangelium prophecy chain. Central image: a serpent and a human foot, with the heel bruising the serpent's head. Radiating outward: a timeline arrow chain showing connected prophetic fulfillments. Each node labeled: Genesis 3:15 (The Promise), Abraham (Genesis 12), David (2 Samuel 7), The Prophets (Isaiah 53). Thin gold leader lines. Educational callout explaining protoevangelium means first gospel. Clean cream background. Scholarly yet accessible. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, photorealistic, gory",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page05.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page05.jpg",
+    "prompt": "DK Encyclopedia-style cutaway cross-section illustration of Noah's Ark. Three labeled deck levels visible through the hull cut. Dimensions annotated: 300 cubits long, 50 cubits wide, 30 cubits high. Labels pointing to: lower deck (heavy animals, supplies), middle deck (smaller animals, food storage), upper deck (Noah's family quarters, ventilation window). Construction details labeled: gopher wood planking, pitch waterproofing, single door. Animals visible in organized pens. Dark-skinned Noah figure overseeing. Clean cream background. Precise architectural illustration. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, childish, toy-like",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page06.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page06.jpg",
+    "prompt": "DK Encyclopedia-style annotated geographic diagram showing the post-Flood world. Bird's-eye view of the ancient Near East. Mount Ararat labeled at center-top with the Ark resting on it. Rivers labeled: Tigris, Euphrates. Fertile Crescent outlined. Arrows showing initial post-Flood settlement spreading outward. Terrain cross-section at bottom showing elevation profile from Ararat to Mesopotamian plain. Climate zones labeled. Clean educational layout on cream background. Warm earth tones. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, satellite photo, modern map",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page07.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page07.jpg",
+    "prompt": "DK Encyclopedia-style architectural cross-section illustration of the Tower of Babel as a Mesopotamian ziggurat. Cutaway view showing: mudbrick construction layers, interior ramps spiraling upward, external staircases, temple platform at top. Labels pointing to: sun-dried mud bricks, bitumen mortar, wooden scaffolding, worker ramps, foundation platform. Human figures at various levels for scale. Height comparison bar on side. Surrounding settlement visible at base. Clean cream background. Precise architectural illustration. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, fantasy castle, European architecture",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page08.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page08.jpg",
+    "prompt": "DK Encyclopedia-style illustrated genealogical diagram. Noah at top center. Three branches descending to Shem, Ham, Japheth. Ham's branch expands to show four sons: Cush, Mizraim, Phut, Canaan. Each name in a labeled medallion with a small icon: Cush (iron tools and gold nugget), Mizraim (Nile river), Phut (shield and spear), Canaan (coastal settlement). Migration arrows in brand colors: amber for Mizraim to Egypt, green for Cush to Nubia, blue for Phut to Libya. Small map inset in corner showing destinations. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, messy, cluttered",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page09.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page09.jpg",
+    "prompt": "DK Encyclopedia-style annotated cross-section of the Nile Delta showing early Egyptian settlement by Mizraim's descendants. Landscape profile: desert on left, fertile Nile floodplain in center, river, fertile floodplain, desert on right. Labels: annual flood zone, irrigation channels, papyrus reed beds, early mudbrick houses, grain storage pits, cattle pens. Nile cross-section showing silt deposit layers. Dark-skinned settlers working the land. Inset showing location on map of Africa. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, pyramids, photorealistic",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page10.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page10.jpg",
+    "prompt": "DK Encyclopedia-style labeled landscape illustration of early Cushite settlement in Nubia. Terrain showing rocky hills with scattered acacia trees, Nile tributary flowing through center. Labels pointing to: gold mining sites, iron ore deposits, cattle herds, round thatched-roof huts, grain grinding stones, trade route paths. Cross-section inset showing geological layers with gold veins. Dark-skinned Cushite figures: blacksmith at forge, herders with cattle, women at river. Warm earth tones. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, photorealistic, Egyptian architecture",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page11.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page11.jpg",
+    "prompt": "DK Encyclopedia-style annotated coastal diagram of Phut's settlement in ancient Libya. Landscape showing Mediterranean coast with rocky headlands, date palm oases, arid golden plains inland. Labels: coastal fishing settlement, goat and sheep herding zones, date palm groves, oasis water sources, trade route to Egypt, tribal gathering areas. Maritime elements: simple fishing boats, coastal shellfish beds. Dark-skinned Phut's descendants in light linen clothing. Inset map showing Libya's position. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, photorealistic, modern city",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page12.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page12.jpg",
+    "prompt": "DK Encyclopedia-style comprehensive overview illustration of ancient Egyptian civilization. Central cutaway of an Egyptian temple complex showing: columned hypostyle hall, inner sanctuary, offering chamber, obelisks at entrance. Surrounding vignettes labeled: hieroglyphic writing system, papyrus scroll production, agricultural cycle (flood-plant-harvest), social hierarchy pyramid (Pharaoh-priests-scribes-workers). Nile boat for trade. All elements connected by thin leader lines to labels. Dark-skinned Egyptian figures throughout. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, European, light-skinned people",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page13.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page13.jpg",
+    "prompt": "DK Encyclopedia-style overview illustration of the Kingdom of Cush. Central image: the royal city of Meroe with small steep pyramids, smelting furnaces producing iron, temple to Amun. Labeled vignettes around the edges: Nubian archers (famed warriors), gold processing workshop, ivory and ebony trade goods, cattle wealth, Cushite pottery with distinctive geometric patterns. Timeline bar at bottom: Kerma period to Napata to Meroe to 25th Dynasty. Dark-skinned Cushite figures in distinctive Nubian clothing. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, Egyptian-only imagery",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band2_page14.jpg",
+    "r2Key": "assets/storybook/ch01/band2_page14.jpg",
+    "prompt": "DK Encyclopedia-style three-panel comparison diagram. Three vertical columns labeled MIZRAIM (EGYPT), CUSH (NUBIA), PHUT (LIBYA). Each column shows: landscape icon at top, key achievement icons in middle (Egypt: temple and pyramid, Cush: iron forge and gold, Phut: shield and spear), trade goods at bottom, and a representative dark-skinned figure in distinctive regional clothing. Comparison categories labeled on left: Geography, Strengths, Resources, Biblical Role. Color-coded to brand palette: amber for Egypt, green for Cush, blue for Phut. Clean cream background. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, cluttered, photorealistic",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "dk",
+    "bandRange": "2-3"
+  },
+  {
+    "filename": "band4_page01.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page01.jpg",
+    "prompt": "Scholarly documentary illustration in the style of a medieval cosmological diagram rendered on aged parchment. Concentric circles showing the biblical creation order: innermost circle is formless void (dark), then light separating darkness, firmament dividing waters, dry land appearing, celestial bodies placed, living creatures, and humanity at the outer ring closest to the viewer. Latin and Hebrew annotations in elegant script along the margins. Pen-and-ink linework with subtle watercolor wash in sepia and gold. Aged parchment texture. Museum manuscript quality. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, 3D render, bright colors, modern graphic design, childish",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page02.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page02.jpg",
+    "prompt": "Scholarly documentary illustration of an annotated map of the ancient Near East in the style of a 19th-century research atlas. Precise pen-and-ink coastlines and terrain hatching. Rivers labeled in elegant script: Tigris, Euphrates, Nile. Regions labeled: Mesopotamia, Canaan, Egypt, Nubia, Libya. Post-Babel migration routes shown as carefully drawn arrows with dated waypoints. Terrain indicated by fine engraving-style hatching (mountains, plains, deserts). Compass rose in corner. Scale bar. Aged ivory parchment background with subtle foxing. 640x640 square format.",
+    "negativePrompt": "cartoon, modern digital map, satellite imagery, bright colors",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page03.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page03.jpg",
+    "prompt": "Scholarly documentary illustration of a manuscript analysis page. Central text block showing Genesis 9:20-27 in elegant serif typeface on aged parchment. Marginal annotations in smaller script pointing to key phrases: arrow to Cursed be Canaan with note NOT Ham. Arrow to servant of servants with note Fulfilled in Israelite conquest c. 1400 BC. A red X through the words Curse of Ham with annotation Myth invented 16th century with no textual basis. Bottom margin: timeline showing the 2000-year gap between the text and the myth. Pen-and-ink style. Museum manuscript quality. 640x640 square format.",
+    "negativePrompt": "cartoon, anime, modern graphic design, bright colors, childish",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page04.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page04.jpg",
+    "prompt": "Scholarly documentary illustration of post-Babel migration routes in museum atlas style. Precise pen-and-ink map showing the Fertile Crescent and North/East Africa. Babel marked with a small ziggurat icon at origin point. Three primary migration routes drawn as carefully stippled paths: Route 1 (Mizraim) southwestward through Canaan to Nile Delta, labeled c. 2250-2200 BC. Route 2 (Cush) following the Nile southward to Upper Nubia, labeled c. 2250-2100 BC. Route 3 (Phut) westward along Mediterranean coast, labeled c. 2250-2100 BC. Fine terrain hatching. Aged parchment background. Academic cartographic quality. 640x640 square format.",
+    "negativePrompt": "cartoon, modern digital map, bright colors, 3D terrain",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page05.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page05.jpg",
+    "prompt": "Scholarly documentary illustration in museum catalog style showing early Egyptian artifacts. Precise pen-and-ink drawings with light watercolor wash arranged on aged ivory background. Objects: Narmer Palette (front and back), predynastic pottery with geometric designs, early copper tools, faience beads, hieratic script on ostracon, reed boat model. Each artifact numbered and labeled with provenance: Nile Delta, c. 3100 BC (conventional) or c. 2100 BC (biblical). Scale bars beside each object. Scientific illustration precision. 640x640 square format.",
+    "negativePrompt": "cartoon, photograph, modern museum display, bright lighting",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page06.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page06.jpg",
+    "prompt": "Scholarly documentary illustration of a Nubian archaeological site plan. Bird's-eye architectural diagram of the royal compound at Kerma showing the Western Deffufa (great mudbrick temple), surrounding structures, cemetery with tumuli. Precise pen-and-ink architectural drawing with watercolor wash. Cross-section inset showing construction layers. Artifact callouts: Kerma beaker pottery, bronze daggers, gold jewelry, ivory inlays. Each labeled with archaeological context. Terrain hatching showing the Nile and surrounding landscape. Aged parchment background. 640x640 square format.",
+    "negativePrompt": "cartoon, modern map, bright colors, 3D render",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page07.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page07.jpg",
+    "prompt": "Scholarly documentary illustration comparing evidence for Bantu origins. Split layout on aged parchment. Left panel labeled BIBLICAL MODEL showing: map with north-to-south arrows from Nile Valley, oral tradition quotes mentioning Misri, pottery comparison showing Nile Valley origins, rapid skill-transfer timeline. Right panel labeled CONVENTIONAL MODEL showing: map with west-to-east arrows from Cameroon, linguistic tree diagram, archaeological pottery spread, gradual timeline spanning millennia. Center column: evidence evaluation criteria (oral traditions, linguistics, archaeology, biblical text). Fine pen-and-ink with subtle watercolor. 640x640 square format.",
+    "negativePrompt": "cartoon, modern infographic style, bright colors, childish",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  },
+  {
+    "filename": "band4_page08.jpg",
+    "r2Key": "assets/storybook/ch01/band4_page08.jpg",
+    "prompt": "Scholarly documentary illustration of a comprehensive Chapter 1 synthesis timeline. Horizontal timeline on aged parchment from 4004 BC to 656 BC. Major events marked with precise pen-and-ink icons: Creation (cosmic spiral), The Fall (broken branch), The Flood (waves), Babel (ziggurat), Settlement of Mizraim Cush Phut (three branching arrows), Rise of Egypt (temple facade), Kingdom of Cush (pyramids), 25th Dynasty (crown icon). Below the main line: a parallel track showing key Scripture references for each event. Elegant serif labels. Sepia and gold palette. Museum timeline quality. 640x640 square format.",
+    "negativePrompt": "cartoon, modern infographic, bright neon colors, 3D render",
+    "aspectRatio": "1:1",
+    "size": 640,
+    "tier": "documentary",
+    "bandRange": "4-5"
+  }
+]
