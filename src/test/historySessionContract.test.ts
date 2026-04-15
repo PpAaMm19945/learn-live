@@ -63,7 +63,7 @@ describe('history session control flow', () => {
   });
 
   it('enforces band restriction and keeps deterministic QA state', () => {
-    const controller = new HistorySessionController(2);
+    const controller = new HistorySessionController(1);  // Band 1 has raiseHand: 'disabled'
 
     expect(controller.canAcceptRaiseHand()).toEqual({ accepted: false, reason: 'band_restricted' });
     expect(controller.snapshot().isQAActive).toBe(false);
