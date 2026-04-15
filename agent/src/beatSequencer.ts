@@ -4,6 +4,7 @@ import { GenAINarrator } from './gemini';
 import { TTSService } from './tts';
 import { buildNarrationPrompt } from './historyExplainerTools';
 import { getBandProfile, BandProfile } from './bandConfig';
+import { ComprehensionTracker } from './comprehensionTracker';
 
 interface PreparedBeat {
     beat: Beat;
@@ -103,6 +104,9 @@ export class BeatSequencer {
 
     // Visual mix telemetry
     private visualCounters: VisualMixCounters = { image: 0, map: 0, overlay: 0, transcript: 0, total: 0 };
+
+    // Comprehension tracking
+    private comprehensionTracker = new ComprehensionTracker();
 
     // Checkpoint callback for session store
     public onCheckpoint?: (beatIndex: number, narratedText: string, beatId: string) => void;
