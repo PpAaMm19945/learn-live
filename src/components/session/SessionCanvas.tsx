@@ -18,6 +18,7 @@ import { getChapterMapUrl } from '@/lib/mapRegistry';
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
 import { mergeTimeline } from '@/data/chapterTimelines';
+import { getClientBandProfile } from '@/lib/bandConfig.client';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -37,6 +38,8 @@ interface QueuedOverlay {
 
 export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
+  const bandProfile = getClientBandProfile(band);
+  const [raiseHandCooldown, setRaiseHandCooldown] = useState(false);
   const canvasRef = useRef<TeachingCanvasRef>(null);
   const [debugEvents, setDebugEvents] = useState<DebugEvent[]>([]);
   const [debugOpen, setDebugOpen] = useState(false);
@@ -99,15 +102,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       return { ...cleared, [item.type]: item.data };
     });
 
-    // Schedule next item after 15s
+    // Schedule next item after band-specific delay
     if (idx < overlayQueue.length - 1) {
       overlayQueueTimerRef.current = window.setTimeout(() => {
         overlayQueueIndexRef.current = idx + 1;
         // Trigger re-render by updating queue reference
         setOverlayQueue(q => [...q]);
-      }, 15000);
+      }, bandProfile.overlays.queueDelayMs);
     } else {
-      // Last item — auto-dismiss after 12s
+      // Last item — auto-dismiss
       overlayQueueTimerRef.current = window.setTimeout(() => {
         setOverlays(prev => {
           const cleared = { ...prev };
@@ -116,7 +119,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         });
         setOverlayQueue([]);
         overlayQueueIndexRef.current = 0;
-      }, 12000);
+      }, bandProfile.overlays.lastItemDismissMs);
     }
 
     return () => {
@@ -511,7 +514,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           {/* Layer 1: Auto-scrolling chapter map (default — always present) */}
           <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : activeVisual === 'maplibre' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
             {chapterMapUrl ? (
-              <AutoScrollMap src={chapterMapUrl} alt={`Chapter ${chapterId} map`} />
+              <AutoScrollMap src={chapterMapUrl} alt={`Chapter ${chapterId} map`} speed={bandProfile.visuals.mapScrollSpeed} maxZoom={bandProfile.visuals.maxZoom} />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-muted/20">
                 <p className="text-muted-foreground text-sm">Loading map...</p>
@@ -533,7 +536,11 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: -10 }}
                 transition={{ duration: 0.4 }}
-                className="absolute top-3 right-3 z-30 w-44 md:w-52 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm"
+                className={`absolute z-30 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm ${
+                  bandProfile.visuals.imageCentered
+                    ? `top-4 left-1/2 -translate-x-1/2 ${bandProfile.visuals.imageSizeClass}`
+                    : `top-3 right-3 ${bandProfile.visuals.imageSizeClass}`
+                }`}
               >
                 <img
                   src={thumbnailImage.url}
@@ -550,7 +557,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           </AnimatePresence>
 
           {/* Overlays — positioned within the visual panel, no X buttons */}
-          <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} compact />
+          <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} compact band={band} />
         </div>
 
         {/* RIGHT PANEL — Transcript (40% on desktop, 45% on mobile) */}
@@ -574,7 +581,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                 {goldenScript.status === 'playing' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
               </button>
             ) : (
-              band >= 3 && (
+              bandProfile.interactivity.showMic && (
                 <button onClick={toggleMute} className={`p-2.5 rounded-full transition-colors ${isMuted ? 'bg-red-500/15 text-red-500' : 'bg-primary/15 text-primary hover:bg-primary/25'}`}>
                   {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
                 </button>
@@ -583,9 +590,26 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
             <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
               {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayTranscriptChunks.length === 0 ? 'WAITING' : 'LISTENING'}
             </span>
-            {!useFallback && band >= 3 && status === 'connected' && (
-              <motion.button whileTap={{ scale: 0.9 }} onClick={sendRaiseHand}
-                className={`p-2.5 rounded-full transition-all ${isQAActive ? 'bg-amber-500 text-white ring-2 ring-amber-500/30' : 'bg-muted/60 text-foreground/60 hover:bg-muted'}`}>
+            {!useFallback && bandProfile.interactivity.showRaiseHand && status === 'connected' && (
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                onClick={() => {
+                  if (raiseHandCooldown) return;
+                  sendRaiseHand();
+                  if (bandProfile.interactivity.raiseHandCooldownMs > 0) {
+                    setRaiseHandCooldown(true);
+                    setTimeout(() => setRaiseHandCooldown(false), bandProfile.interactivity.raiseHandCooldownMs);
+                  }
+                }}
+                className={`p-2.5 rounded-full transition-all ${
+                  raiseHandCooldown
+                    ? 'bg-muted/30 text-foreground/30 cursor-not-allowed'
+                    : isQAActive
+                    ? 'bg-amber-500 text-white ring-2 ring-amber-500/30'
+                    : 'bg-muted/60 text-foreground/60 hover:bg-muted'
+                }`}
+                disabled={raiseHandCooldown}
+              >
                 <Hand className="w-4 h-4" />
               </motion.button>
             )}

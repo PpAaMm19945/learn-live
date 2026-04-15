@@ -30,11 +30,16 @@ interface CanvasOverlaysProps {
   onDismiss?: (type: keyof OverlayState | 'all') => void;
   /** When true, renders in compact mode within the visual panel — no X buttons, smaller cards */
   compact?: boolean;
+  /** Current band for adaptive rendering */
+  band?: number;
 }
 
 const spring = { type: 'spring' as const, damping: 22, stiffness: 140 };
 
-export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysProps) {
+export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: CanvasOverlaysProps) {
+  const isYounger = band <= 3;
+  const textSize = isYounger ? 'text-base' : 'text-sm';
+  const headingSize = isYounger ? 'text-lg' : 'text-sm';
   const clickHandler = compact ? undefined : onDismiss;
   return (
     <div className="absolute inset-0 pointer-events-none z-40">
@@ -56,7 +61,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
                 <h4 className="text-primary font-bold text-sm tracking-wide mb-1.5">
                   {overlays.scripture.reference}
                 </h4>
-                <p className="text-foreground text-base italic leading-relaxed">
+                <p className={`text-foreground ${isYounger ? 'text-lg' : 'text-base'} italic leading-relaxed`}>
                   "{overlays.scripture.text}"
                 </p>
                 {overlays.scripture.connection && (
@@ -182,13 +187,13 @@ export function CanvasOverlays({ overlays, onDismiss, compact }: CanvasOverlaysP
                 <h4 className="text-accent font-bold text-lg tracking-tight">
                   {overlays.keyTerm.term}
                 </h4>
-                {overlays.keyTerm.pronunciation && (
+                {!isYounger && overlays.keyTerm.pronunciation && (
                   <p className="text-muted-foreground text-xs italic mb-1">/{overlays.keyTerm.pronunciation}/</p>
                 )}
-                <p className="text-foreground text-sm leading-relaxed mt-1">
+                <p className={`text-foreground ${textSize} leading-relaxed mt-1`}>
                   {overlays.keyTerm.definition}
                 </p>
-                {overlays.keyTerm.etymology && (
+                {!isYounger && overlays.keyTerm.etymology && (
                   <p className="text-muted-foreground text-xs border-t border-border pt-2 mt-2">
                     Origin: {overlays.keyTerm.etymology}
                   </p>

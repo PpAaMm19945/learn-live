@@ -79,7 +79,13 @@ function TranscriptCard({
   isLatest: boolean;
   band: number;
 }) {
-  const fontSize = band <= 3 ? 'text-xl md:text-2xl' : 'text-lg md:text-xl';
+  const fontSize = band <= 2
+    ? 'text-xl md:text-2xl'
+    : band === 3
+    ? 'text-lg md:text-xl'
+    : 'text-lg md:text-xl';
+  const lineHeightClass = band <= 3 ? 'leading-relaxed' : 'leading-normal';
+  const fontWeightClass = band <= 2 ? 'font-semibold' : 'font-medium';
 
   return (
     <motion.div
@@ -98,7 +104,7 @@ function TranscriptCard({
           : 'bg-transparent border border-transparent'
       }`}
     >
-      <div className={`${fontSize} leading-relaxed font-display font-medium text-foreground prose prose-invert prose-sm max-w-none [&_strong]:text-primary [&_em]:text-foreground/80`}>
+      <div className={`${fontSize} ${lineHeightClass} font-display ${fontWeightClass} text-foreground prose prose-invert prose-sm max-w-none [&_strong]:text-primary [&_em]:text-foreground/80`}>
         <ReactMarkdown>{text}</ReactMarkdown>
       </div>
       <div className="mt-2 flex items-center gap-2">
