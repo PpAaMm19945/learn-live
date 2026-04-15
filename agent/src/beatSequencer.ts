@@ -382,6 +382,14 @@ export class BeatSequencer {
         }
     }
 
+    /**
+     * Record a student's comprehension answer. Called by the session controller
+     * when a `comprehension_answer` message arrives over WebSocket.
+     */
+    recordComprehensionAnswer(questionId: string, correct: boolean): void {
+        this.comprehensionTracker.recordAnswer(questionId, correct);
+    }
+
     private sendMessage(msg: any) {
         if (this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(JSON.stringify(msg));
