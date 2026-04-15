@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SessionCanvas } from '@/components/session/SessionCanvas';
 import { StorybookPlayer } from '@/components/player/StorybookPlayer';
+import { LiveStorybookPlayer } from '@/components/player/LiveStorybookPlayer';
 import { useLearnerStore } from '@/lib/learnerStore';
 import type { StorybookScript } from '@/lib/session/types';
 
@@ -14,27 +15,29 @@ export default function LessonPlayerPage() {
 
   const isStorybook = activeLearnerBand <= 1;
 
+  // Try to load a pre-rendered script for bands 0-1 (offline/cached fallback)
   const [storybookScript, setStorybookScript] = useState<StorybookScript | null>(null);
-  const [loading, setLoading] = useState(isStorybook);
-  const [error, setError] = useState<string | null>(null);
+  const [scriptLoading, setScriptLoading] = useState(isStorybook);
+  const [scriptNotFound, setScriptNotFound] = useState(false);
 
   useEffect(() => {
     if (!chapterId || !isStorybook) return;
 
-    setLoading(true);
+    setScriptLoading(true);
     const scriptPath = `/scripts/lesson_${chapterId}_band${activeLearnerBand}.json`;
     fetch(scriptPath)
       .then((res) => {
-        if (!res.ok) throw new Error(`Script not found: ${scriptPath} (${res.status})`);
+        if (!res.ok) throw new Error(`not found`);
         return res.json();
       })
       .then((data) => {
         setStorybookScript(data as StorybookScript);
-        setLoading(false);
+        setScriptLoading(false);
       })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
+      .catch(() => {
+        // No pre-rendered script — will use live WebSocket storybook
+        setScriptNotFound(true);
+        setScriptLoading(false);
       });
   }, [chapterId, activeLearnerBand, isStorybook]);
 
@@ -42,14 +45,14 @@ export default function LessonPlayerPage() {
 
   const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
 
-  // Before attempting to show the player, ensure we have a learner selected
+  // Ensure learner is selected
   useEffect(() => {
-    if (!loading && !activeLearnerId) {
-       navigate('/dashboard');
+    if (!scriptLoading && !activeLearnerId) {
+      navigate('/dashboard');
     }
-  }, [loading, activeLearnerId, navigate]);
+  }, [scriptLoading, activeLearnerId, navigate]);
 
-  if (loading || !activeLearnerId) {
+  if (scriptLoading || !activeLearnerId) {
     return (
       <div className="fixed inset-0 bg-background flex items-center justify-center">
         <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -57,25 +60,23 @@ export default function LessonPlayerPage() {
     );
   }
 
-  if (error) {
-    return (
-      <div className="fixed inset-0 bg-background flex items-center justify-center">
-        <div className="flex flex-col items-center space-y-4 max-w-md text-center px-6">
-          <span className="text-3xl">⚠️</span>
-          <h2 className="text-xl font-bold text-foreground">Lesson Not Available</h2>
-          <p className="text-muted-foreground text-sm">{error}</p>
-          <button onClick={handleExit} className="px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors">
-            Back to Dashboard
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Band 0-1: Use pre-rendered script if available, otherwise live storybook
+  if (isStorybook) {
+    if (storybookScript && !scriptNotFound) {
+      return (
+        <StorybookPlayer
+          script={storybookScript}
+          onExit={handleExit}
+          onComplete={() => navigate('/dashboard')}
+        />
+      );
+    }
 
-  if (isStorybook && storybookScript) {
+    // Live WebSocket storybook
     return (
-      <StorybookPlayer
-        script={storybookScript}
+      <LiveStorybookPlayer
+        chapterId={chapterId || 'ch01'}
+        band={activeLearnerBand}
         onExit={handleExit}
         onComplete={() => navigate('/dashboard')}
       />

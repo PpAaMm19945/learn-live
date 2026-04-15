@@ -7,6 +7,8 @@ interface AutoScrollMapProps {
   alt: string;
   /** Scroll speed in px per second */
   speed?: number;
+  /** Maximum zoom level (1-4) */
+  maxZoom?: number;
 }
 
 /**
@@ -15,7 +17,7 @@ interface AutoScrollMapProps {
  * Students can interact (drag/touch) to pan manually; after release,
  * auto-scroll resumes. Supports scroll-wheel and pinch-to-zoom (1x-4x).
  */
-export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
+export function AutoScrollMap({ src, alt, speed = 15, maxZoom = 4 }: AutoScrollMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const scrollRef = useRef(0);
@@ -132,7 +134,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
   const handleWheel = useCallback((e: React.WheelEvent) => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? -0.15 : 0.15;
-    const newScale = Math.max(1, Math.min(4, scaleRef.current + delta));
+    const newScale = Math.max(1, Math.min(maxZoom, scaleRef.current + delta));
     scaleRef.current = newScale;
     setScale(newScale);
     computeMaxScroll();
@@ -164,7 +166,7 @@ export function AutoScrollMap({ src, alt, speed = 15 }: AutoScrollMapProps) {
         const dy = e.touches[0].clientY - e.touches[1].clientY;
         const dist = Math.hypot(dx, dy);
         const ratio = dist / pinchStartDistRef.current;
-        const newScale = Math.max(1, Math.min(4, pinchStartScaleRef.current * ratio));
+        const newScale = Math.max(1, Math.min(maxZoom, pinchStartScaleRef.current * ratio));
         scaleRef.current = newScale;
         setScale(newScale);
         computeMaxScroll();
