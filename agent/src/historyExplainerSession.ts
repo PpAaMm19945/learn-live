@@ -149,21 +149,32 @@ THEOLOGICAL GUARDRAILS:
         // Check for resumable session
         const cached = getSession(sKey);
         if (cached) {
-            console.log(`[HISTORY_EXPLAINER] Resuming session from beat ${cached.nextBeatIndex} — skipping pipeline`);
-            sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
+            // Guard against stale resume: if session has progressed past beat 0
+            // and was created more than 60s ago, it's likely a broken session
+            // from a TTS failure or disconnect. Start fresh instead of skipping content.
+            const sessionAgeMs = Date.now() - cached.createdAt;
+            const isStale = cached.nextBeatIndex > 0 && sessionAgeMs > 60_000;
 
-            sequencer.startFromIndex(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText).catch((err) => {
-                console.error('[HISTORY_EXPLAINER] Sequencer resume failed:', err);
-                if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(JSON.stringify({
-                        type: 'error',
-                        code: 'SEQUENCER_FAILURE',
-                        message: 'Lesson resume failed unexpectedly.'
-                    }));
-                }
-                void cleanupSession();
-            });
-            return;
+            if (isStale) {
+                console.log(`[HISTORY_EXPLAINER] Expiring stale session (beat ${cached.nextBeatIndex}, age ${Math.round(sessionAgeMs / 1000)}s) — starting fresh`);
+                expireSession(sKey);
+            } else {
+                console.log(`[HISTORY_EXPLAINER] Resuming session from beat ${cached.nextBeatIndex} — skipping pipeline`);
+                sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
+
+                sequencer.startFromIndex(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText).catch((err) => {
+                    console.error('[HISTORY_EXPLAINER] Sequencer resume failed:', err);
+                    if (ws.readyState === WebSocket.OPEN) {
+                        ws.send(JSON.stringify({
+                            type: 'error',
+                            code: 'SEQUENCER_FAILURE',
+                            message: 'Lesson resume failed unexpectedly.'
+                        }));
+                    }
+                    void cleanupSession();
+                });
+                return;
+            }
         }
 
         // Fresh session — run full pipeline

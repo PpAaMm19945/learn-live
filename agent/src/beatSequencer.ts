@@ -179,7 +179,8 @@ export class BeatSequencer {
             // Checkpoint for resume
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
 
-            const waitMs = 800 + this.comprehensionTracker.scaffoldingDelay;
+            const postDwell = this.bandProfile.tts.postAudioDwellMs || 0;
+            const waitMs = 800 + this.comprehensionTracker.scaffoldingDelay + postDwell;
 
             this.currentBeatIndex++;
             this.produceAhead();

@@ -511,9 +511,11 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         {/* LEFT PANEL — Visual area (60% on desktop, 55% on mobile) */}
         <div className="h-[55%] md:h-full md:w-[60%] relative bg-void/5 flex-shrink-0 overflow-hidden">
           
-          {/* Layer 1: Auto-scrolling chapter map (default — always present) */}
+          {/* Layer 1: Auto-scrolling chapter map (default — always present, except for young bands) */}
           <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : activeVisual === 'maplibre' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-            {chapterMapUrl ? (
+            {bandProfile.visuals.hideBackgroundMap ? (
+              <div className="w-full h-full bg-[#fdfbf7] flex items-center justify-center" />
+            ) : chapterMapUrl ? (
               <AutoScrollMap src={chapterMapUrl} alt={`Chapter ${chapterId} map`} speed={bandProfile.visuals.mapScrollSpeed} maxZoom={bandProfile.visuals.maxZoom} />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-muted/20">

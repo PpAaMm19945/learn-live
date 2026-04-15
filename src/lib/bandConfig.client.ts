@@ -19,6 +19,8 @@ export interface ClientBandProfile {
     imageSizeClass: string;
     /** Whether image is centered (true) or top-right corner (false) */
     imageCentered: boolean;
+    /** Whether to hide the auto-scrolling background map (for young learners) */
+    hideBackgroundMap: boolean;
   };
 
   /** Overlay card rendering */
@@ -65,6 +67,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 2,
       imageSizeClass: 'w-full h-full',
       imageCentered: true,
+      hideBackgroundMap: true,
     },
     overlays: {
       fontSize: 'text-lg',
@@ -92,6 +95,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 2,
       imageSizeClass: 'w-full h-full',
       imageCentered: true,
+      hideBackgroundMap: true,
     },
     overlays: {
       fontSize: 'text-lg',
@@ -119,6 +123,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 2.5,
       imageSizeClass: 'w-64 md:w-80',
       imageCentered: true,
+      hideBackgroundMap: false,
     },
     overlays: {
       fontSize: 'text-base',
@@ -146,6 +151,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 3,
       imageSizeClass: 'w-64 md:w-80',
       imageCentered: true,
+      hideBackgroundMap: false,
     },
     overlays: {
       fontSize: 'text-base',
@@ -173,6 +179,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 4,
       imageSizeClass: 'w-44 md:w-52',
       imageCentered: false,
+      hideBackgroundMap: false,
     },
     overlays: {
       fontSize: 'text-sm',
@@ -200,6 +207,7 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       maxZoom: 4,
       imageSizeClass: 'w-44 md:w-52',
       imageCentered: false,
+      hideBackgroundMap: false,
     },
     overlays: {
       fontSize: 'text-sm',

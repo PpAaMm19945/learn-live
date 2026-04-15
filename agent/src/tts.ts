@@ -117,6 +117,16 @@ export class TTSService {
   private async synthesizeChunk(text: string, options: TTSOptions = {}): Promise<string | null> {
     await this.waitForTurn();
 
+    // Clamp speakingRate to the Gemini TTS valid range [0.25, 4.0]
+    let rate = options.speakingRate;
+    if (rate !== undefined) {
+      const clamped = Math.max(0.25, Math.min(4.0, rate));
+      if (clamped !== rate) {
+        console.warn(`[TTS] speakingRate ${rate} out of range [0.25, 4.0] — clamped to ${clamped}`);
+      }
+      rate = clamped;
+    }
+
     const payload = {
       contents: [{ parts: [{ text }] }],
       generationConfig: {
@@ -127,10 +137,12 @@ export class TTSService {
               voiceName: options.voiceName || 'Charon'
             }
           },
-          ...(options.speakingRate ? { speakingRate: options.speakingRate } : {}),
+          ...(rate !== undefined ? { speakingRate: rate } : {}),
         }
       },
     };
+
+    console.log(`[TTS] Request: voice=${options.voiceName || 'Charon'}, rate=${rate ?? 'default'}, text=${text.length} chars`);
 
     for (let attempt = 0; attempt < TTSService.MAX_RETRIES; attempt++) {
       try {
