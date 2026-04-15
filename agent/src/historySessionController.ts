@@ -1,3 +1,5 @@
+import { getBandProfile } from './bandConfig';
+
 export interface HistorySessionControlState {
   isQAActive: boolean;
   isClosed: boolean;
@@ -21,9 +23,12 @@ export class HistorySessionController {
     if (this.state.isClosed) {
       return { accepted: false, reason: 'session_closed' };
     }
-    if (this.band < 3) {
+
+    const profile = getBandProfile(this.band);
+    if (profile.interactivity.raiseHand === 'disabled') {
       return { accepted: false, reason: 'band_restricted' };
     }
+
     if (this.state.isQAActive) {
       return { accepted: false, reason: 'qa_already_active' };
     }

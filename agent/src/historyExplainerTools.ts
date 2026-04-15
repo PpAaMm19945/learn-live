@@ -1,3 +1,5 @@
+import { getBandProfile } from './bandConfig';
+
 // ── Tool Definitions ──────────────────────────────────────────────────
 // Describes every tool the AI narrator can invoke on the teaching canvas.
 
