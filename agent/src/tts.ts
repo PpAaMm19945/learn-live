@@ -127,6 +127,7 @@ export class TTSService {
               voiceName: options.voiceName || 'Charon'
             }
           },
+          ...(options.speakingRate ? { speakingRate: options.speakingRate } : {}),
         }
       },
     };
