@@ -4,6 +4,7 @@ import { GenAINarrator } from './gemini';
 import { TTSService } from './tts';
 import { buildNarrationPrompt } from './historyExplainerTools';
 import { getBandProfile, BandProfile } from './bandConfig';
+import { ComprehensionTracker } from './comprehensionTracker';
 
 interface PreparedBeat {
     beat: Beat;
@@ -104,6 +105,9 @@ export class BeatSequencer {
     // Visual mix telemetry
     private visualCounters: VisualMixCounters = { image: 0, map: 0, overlay: 0, transcript: 0, total: 0 };
 
+    // Comprehension tracking
+    private comprehensionTracker = new ComprehensionTracker();
+
     // Checkpoint callback for session store
     public onCheckpoint?: (beatIndex: number, narratedText: string, beatId: string) => void;
 
@@ -175,7 +179,7 @@ export class BeatSequencer {
             // Checkpoint for resume
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
 
-            const waitMs = 800;
+            const waitMs = 800 + this.comprehensionTracker.scaffoldingDelay;
 
             this.currentBeatIndex++;
             this.produceAhead();
@@ -188,6 +192,7 @@ export class BeatSequencer {
         if (!this.isStopped && this.currentBeatIndex >= this.manifest.beats.length) {
             console.log('[SEQUENCER] Lesson complete.');
             logVisualMixTelemetry(this.visualCounters, this.bandProfile, this.band);
+            this.sendMessage(this.comprehensionTracker.buildSessionScoreMessage());
             this.sendMessage({ type: 'lesson_complete' });
         }
     }
@@ -245,8 +250,11 @@ export class BeatSequencer {
             pipelineContext: pipelineCtx,
         });
 
+        // Append scaffolding suffix if student is struggling
+        const finalPrompt = prompt + this.comprehensionTracker.scaffoldingPromptSuffix;
+
         const extractedImage = this.extractBeatImage(baseText);
-        let narratedText = await this.narrator.narrate(prompt) || baseText;
+        let narratedText = await this.narrator.narrate(finalPrompt) || baseText;
         
         narratedText = narratedText
             .replace(/!\[[^\]]*\]\(([^)]+)\)/g, '')
@@ -372,6 +380,14 @@ export class BeatSequencer {
         if (this.loopPromise) {
             await this.loopPromise;
         }
+    }
+
+    /**
+     * Record a student's comprehension answer. Called by the session controller
+     * when a `comprehension_answer` message arrives over WebSocket.
+     */
+    recordComprehensionAnswer(questionId: string, correct: boolean): void {
+        this.comprehensionTracker.recordAnswer(questionId, correct);
     }
 
     private sendMessage(msg: any) {

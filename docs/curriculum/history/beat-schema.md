@@ -76,6 +76,55 @@ Each section (e.g., 1.1, 1.2) is a JSON object.
 1. **Young Earth Timeline Anchoring:** The `show_timeline` tool MUST exclusively use Ussher/Answers-in-Genesis dates (e.g. Creation at 4004 BC, Flood at ~2348 BC). The LLM is expressly forbidden from injecting secular timeline estimates.
 2. **Audio Tool Synchronization (Beat-Boundary):** Because basic TTS engines do not reliably return accurate SSML word-level timestamps alongside PCM chunks, we utilize a **Beat-Boundary** sync model for Version 1. Tools arrayed in a beat execute simultaneously at the `start_of_beat`, synchronously with the beginning of the audio playback for that beat. Beat content should be kept short (10-20 seconds) to implicitly mask minor contextual time offsets.
 
+---
+
+## Per-Band Tool Constraints
+
+The `applyBandToolPolicy()` function in `agent/src/beatSequencer.ts` filters every beat's `toolSequence` at runtime based on the active band profile from `agent/src/bandConfig.ts`.
+
+### Tool Availability by Band
+
+| Tool | Band 0 | Band 1 | Band 2 | Band 3 | Band 4 | Band 5 |
+|------|--------|--------|--------|--------|--------|--------|
+| `set_scene` | ✅ (image only) | ✅ (image only) | ✅ | ✅ | ✅ | ✅ |
+| `zoom_to` | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| `highlight_region` | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| `draw_route` | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| `place_marker` | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| `show_scripture` | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| `show_timeline` | ❌ | max 2 | max 3 | max 4 | max 6 | max 8 |
+| `show_genealogy` | ❌ | ❌ | max 4 | max 6 | max 8 | max 12 |
+| `show_comparison` | ❌ | ❌ | max 2 pts | max 3 pts | max 4 pts | max 5 pts |
+| `show_quote` | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| `show_key_term` | ❌ | ✅ (simplified) | ✅ (simplified) | ✅ | ✅ | ✅ |
+| `show_slide` | max 1 bullet | max 2 | max 3 | max 4 | max 5 | max 6 |
+| `show_question` | check only | check only | check, reflection | check, reflection, rhetorical, cause_effect | all types | all types + essay |
+
+### Key Behaviors
+
+- **Map scene conversion:** When maps are disabled (Bands 0–1), `set_scene(mode: "map")` is automatically converted to `set_scene(mode: "image")`.
+- **Key term simplification:** For Bands 0–2, `show_key_term` strips `etymology` and `pronunciation` fields.
+- **Array truncation:** Timeline events, genealogy nodes, comparison points, and slide bullets are silently truncated to each band's configured maximum.
+
+---
+
+## Theology Gate
+
+The **Theology Gate** controls which theological concepts may be used in narration for each band. When a concept is in `blockedConcepts`, the LLM is instructed to paraphrase around it.
+
+| Concept | Band 0 | Band 1 | Band 2 | Band 3 | Band 4 | Band 5 |
+|---------|--------|--------|--------|--------|--------|--------|
+| God, good, bad, family, promise | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| sin, obey, Noah, flood | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
+| covenant, judgment, mercy, creation | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
+| Providence, redemption, sovereignty | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
+| protoevangelion, typology, federal headship | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ |
+| eschatology, imputation, theodicy, hermeneutics | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+
+The canonical gate configuration is in `agent/src/bandConfig.ts` under `theologyGate`.
+
+---
+
 ## Worked Example: Chapter 1, Section 1.1
 
 > **Human Task:** Provide the complete worked example sequence (approx. 5-7 beats) for Section 1.1 combining the actual textbook content, the map tools (Babel, Mizraim, Cush, Phut), and the Reformed theological perspectives.

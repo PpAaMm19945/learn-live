@@ -858,6 +858,58 @@ If verdict is 'revise', also return revised_beats with corrections applied.
 
 ---
 
+## Part XII: Band Differentiation Framework
+
+The Learn Live agent delivers every lesson through **six age bands** (0–5),
+each with distinct narration constraints, tool policies, visual mixes, and
+theological scope. The canonical configuration lives in
+`agent/src/bandConfig.ts`.
+
+### The Six Bands
+
+| Band | Label | Ages | Voice | Style |
+|------|-------|------|-------|-------|
+| 0 | Storybook | 3–4 | Kore (0.85×) | Gentle bedtime storyteller |
+| 1 | Early Storybook | 5–6 | Kore (0.90×) | Warm, enthusiastic storyteller |
+| 2 | Explorer | 7–8 | Leda (1.0×) | Clear, friendly teacher |
+| 3 | Investigator | 9–11 | Orus (1.03×) | Engaging coach |
+| 4 | Scholar | 12–14 | Charon (1.05×) | University seminar leader |
+| 5 | Advanced Scholar | 15–17+ | Charon (1.08×) | Distinguished professor |
+
+### Narration Constraints
+
+Each band enforces strict word counts, sentence limits, vocabulary tiers, and
+tone directives. The BeatSequencer's prompt builder (`buildNarrationPrompt`)
+injects these constraints per band, ensuring the LLM never exceeds the
+student's level.
+
+### Tool Policies
+
+The `applyBandToolPolicy()` function in `beatSequencer.ts` filters every
+beat's tool sequence at runtime:
+- **Blocked tools** are removed entirely (e.g., Band 0 blocks maps, quotes, timelines)
+- **Array-based tools** are truncated to band-specific maximums
+- **Map scenes** are converted to image scenes when maps are disabled
+- **Key terms** are simplified (etymology/pronunciation stripped) for younger bands
+
+### Theology Gate
+
+Each band has `allowedConcepts` and `blockedConcepts`. When a concept is
+blocked, the narration prompt instructs the LLM to paraphrase around it rather
+than using the term directly. Band 5 has no blocked concepts — full academic
+register.
+
+### Comprehension Tracking
+
+The `ComprehensionTracker` (agent/src/comprehensionTracker.ts) monitors student
+responses to `show_question` within a session. If the score drops below 50%
+after 3+ questions, a `needsScaffolding` flag activates:
+- Inter-beat delay increases by 200ms
+- Narration prompts append a simplification directive
+- At session end, a `session_score` message is emitted over WebSocket
+
+---
+
 *This document is maintained by Anthony Jr. Mwesigwa and the Learn Live
 curriculum team. All updates must be reviewed against the Six Pillars, the
 chapter reference map, and the Puritan sources cited in Part IX. The textbook
