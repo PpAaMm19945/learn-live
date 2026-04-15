@@ -1,85 +1,89 @@
 
 
-# Sprint 2 — Frontend Delivery Modes and Canvas Band Adaptation
+# Sprint 3 — Quality, Authoring Infrastructure, and Testing
 
 ## Summary
 
-Sprint 2 makes the frontend respond to band selection. Sprint 1 made the agent deliver different content per band. Sprint 2 makes the UI render it differently. Six tasks.
+Sprint 3 hardens the band differentiation system built in Sprints 1-2. No new features — this sprint adds validation, automated tests, comprehension tracking, and documentation updates. Five tasks.
 
 ---
 
-## Task 1: Upgrade StorybookPlayer for live WebSocket delivery (Bands 0-1)
+## Task 1: Manifest Lint Script
 
-**Problem:** The current `StorybookPlayer` only works with pre-rendered static JSON scripts (`StorybookScript`). Bands 0-1 should use the live Beat Sequencer like everyone else — but rendered in the storybook layout, not the canvas layout.
+**New file: `agent/scripts/lint-manifest.ts`**
 
-**Change:** Create `src/components/player/LiveStorybookPlayer.tsx` — a new component that:
-- Connects via `useSession` (same WebSocket hook as `SessionCanvas`)
-- Receives beats with `set_scene(image)` + audio + transcript
-- Renders in the existing storybook split layout (60/40, full-bleed image left, large caption text right)
-- Images are **full-bleed** (not thumbnails) — the primary visual for every beat
-- No MapLibre canvas, no overlay queue, no map tools
-- Audio auto-plays per beat; tap-to-advance is optional (auto-advances when audio ends)
-- Progress dots at the bottom show beat progression
-- Simple comprehension check cards (yes/no, tap-to-answer) render inline in the text panel when `show_question` arrives
+A CLI script that validates beat JSON files against band policy before deploy.
 
-**Route change in `LessonPlayerPage.tsx`:**
-- `band <= 1` renders `LiveStorybookPlayer` (not the static `StorybookPlayer`)
-- Keep `StorybookPlayer` as fallback for pre-rendered scripts (offline/cached mode)
+What it checks:
+- Every tool in every beat's `toolSequence` is flagged if it would be blocked for any band (so authors know which beats need `bandOverrides`)
+- Warns if a beat has complex tool sequences (3+ tools) but no `bandOverrides` for bands 0-2
+- Verifies timeline event counts, genealogy node counts, comparison points, and slide bullets don't exceed any band's configured max (from `bandConfig.ts`)
+- Validates `sceneMode` values are valid
+- Checks `contentText` word count against band narration limits — warns if base text exceeds Band 0's max (40 words) without a band override
 
----
+Run: `cd agent && npx tsx scripts/lint-manifest.ts ../docs/curriculum/history/ch01_s01.json`
 
-## Task 2: Band-aware image rendering in SessionCanvas (Bands 2-3 vs 4-5)
-
-**Problem:** Currently `set_scene(image)` always renders as a small thumbnail (w-44/w-52) in the top-right corner. This was designed for bands 4-5 where the map dominates. For bands 2-3, images should be more prominent.
-
-**Changes in `SessionCanvas.tsx`:**
-- **Bands 2-3:** Image renders as a **medium card** (w-64 md:w-80) centered in the top portion of the visual panel, with a subtle shadow. Still overlays the map but is much more visible.
-- **Bands 4-5:** Keep current small thumbnail behavior (top-right corner, w-44/w-52).
-- The `band` prop is already available — add a conditional class based on it.
+Also update `agent/package.json` to add vitest as a dev dependency (needed for Tasks 2-3).
 
 ---
 
-## Task 3: Band-aware visual panel default for Bands 2-3
+## Task 2: Band Tool Filtering Snapshot Tests
 
-**Problem:** For bands 2-3, the PNG auto-scrolling chapter map is the correct default visual, but when no map tools fire, the map just scrolls endlessly which may be disorienting for 7-8 year olds.
+**New file: `agent/tests/bandConfig.test.ts`**
 
-**Changes in `SessionCanvas.tsx` and `AutoScrollMap.tsx`:**
-- **Bands 2-3:** Slow down auto-scroll speed (e.g., `speed={8}` vs default `15`). Disable zoom-to-pan (keep scroll-wheel zoom but simpler).
-- **Bands 4-5:** Keep current speed and full interactivity.
-- Pass `band` to `AutoScrollMap` and conditionally set speed and zoom limits.
+Unit tests using vitest that snapshot the output of `applyBandToolPolicy()` for all 6 bands given a rich input set of tool calls.
 
----
+Test cases:
+- Input: a beat with `show_timeline(8 events)`, `show_comparison(6 points)`, `show_genealogy(12 nodes)`, `show_quote`, `show_scripture`, `zoom_to`, `draw_route`, `set_scene(map)`, `show_key_term(with etymology)`
+- Assert Band 0 output: zero map tools, zero quotes, zero comparisons, zero genealogy, `set_scene(map)` converted to `set_scene(image)`, key terms stripped of etymology/pronunciation
+- Assert Band 2 output: no quotes, timeline truncated to 3 events, comparison truncated to 2 points
+- Assert Band 5 output: all tools pass through, full timeline/comparison/genealogy counts preserved
+- Snapshot the filtered tool arrays so regressions are caught automatically
 
-## Task 4: Band-aware overlay rendering
-
-**Problem:** The overlay queue (scripture, timeline, key terms, questions, quotes) renders identically for all bands. Band 2-3 students need larger text and simpler cards. Band 4-5 gets the current compact academic styling.
-
-**Changes in `CanvasOverlays.tsx`:**
-- Accept a `band` prop
-- **Bands 2-3:** Increase font sizes (text-base instead of text-sm), reduce max information density (hide etymology on key terms, shorter quote attributions), use warmer card colors
-- **Bands 4-5:** Keep current styling (compact, academic)
-- The overlay queue timing should also differ: 20s per card for bands 2-3 (more reading time), 15s for bands 4-5
+Also test `getBandProfile()` returns correct defaults for out-of-range band numbers.
 
 ---
 
-## Task 5: Band-aware transcript typography
+## Task 3: Narration Constraint Prompt Tests
 
-**Problem:** `TranscriptView` already receives `band` but the typography doesn't meaningfully change. Band 2-3 should have noticeably larger, warmer text.
+**New file: `agent/tests/narrationPrompt.test.ts`**
 
-**Changes in `TranscriptView.tsx`:**
-- **Bands 2-3:** Larger card text (text-lg or text-xl), more line-height (leading-relaxed), fewer cards visible at once (larger cards = natural limit), warmer font weight
-- **Bands 4-5:** Keep current sizing (text-base, leading-normal, compact cards)
+Unit tests that verify the prompt builder injects correct constraints per band.
+
+Test cases:
+- Call `buildNarrationPrompt()` with band 0 — assert output contains "Maximum 40 words", "warm storyteller", and the theology gate blocked concepts
+- Call with band 5 — assert output contains "Maximum 250 words", "distinguished professor", and no blocked concepts
+- Assert the `voiceGuard` line changes per band (not always "STRONG, BOLD, AUTHORITATIVE")
+- Call `buildHistoryExplainerPrompt()` with each band — assert no hardcoded 3-tier if/else (verify all 6 bands produce distinct system instructions)
 
 ---
 
-## Task 6: Band-aware controls and interaction UI
+## Task 4: Comprehension Tracker
 
-**Problem:** The bottom control bar already hides mic/raise-hand for `band < 3`, which is correct. But the Q&A interaction for bands 3-5 should differ based on the `bandProfile.interactivity` policy from Sprint 1.
+**New file: `agent/src/comprehensionTracker.ts`**
 
-**Changes in `SessionCanvas.tsx`:**
-- **Band 3 (guided):** Show raise-hand button but with a visual "cooldown" indicator (e.g., after one question, button greys out for 90s)
-- **Band 4-5 (full):** Keep current behavior — raise hand anytime
-- Import `BAND_PROFILES` from a shared config (or duplicate the interactivity subset client-side) to drive this
+Tracks student responses to `show_question` / `show_comprehension_check` within a session.
+
+Behavior:
+- Stores correct/incorrect count per session
+- Exposes `recordAnswer(questionId, correct: boolean)` and `getScore(): { correct, total, pct }`
+- If score drops below 50% after 3+ questions, sets a `needsScaffolding` flag
+- When `needsScaffolding` is true, the BeatSequencer adjusts: adds 200ms inter-beat delay, appends "Explain this more simply" to narration prompts
+- At session end, emits a `{ type: 'session_score', correct, total, pct }` message over WebSocket for the parent dashboard
+- Wire into `BeatSequencer` — instantiate tracker in constructor, check scaffolding flag before each beat
+
+---
+
+## Task 5: Documentation Updates
+
+**Modify: `docs/TEACHING_PHILOSOPHY.md`**
+- Add a new section: "Band Differentiation Framework" covering the 6-band model, tool policies, theology gate, and narration constraints
+- Reference `agent/src/bandConfig.ts` as the canonical source
+
+**Modify: `docs/curriculum/history/beat-schema.md`**
+- Add per-band tool constraint documentation
+- Document `theologyGate` — what it is, how it works, which concepts are gated at which bands
+- Add a table showing which tools are available at each band
 
 ---
 
@@ -87,26 +91,28 @@ Sprint 2 makes the frontend respond to band selection. Sprint 1 made the agent d
 
 | File | Action |
 |---|---|
-| `src/components/player/LiveStorybookPlayer.tsx` | **CREATE** — WebSocket-connected storybook for bands 0-1 |
-| `src/pages/LessonPlayerPage.tsx` | **MODIFY** — Route bands 0-1 to LiveStorybookPlayer |
-| `src/components/session/SessionCanvas.tsx` | **MODIFY** — Band-aware image size, scroll speed, control cooldowns |
-| `src/components/session/AutoScrollMap.tsx` | **MODIFY** — Accept band prop, adjust speed/zoom |
-| `src/components/canvas/CanvasOverlays.tsx` | **MODIFY** — Accept band prop, adjust card sizing/timing |
-| `src/components/session/TranscriptView.tsx` | **MODIFY** — Band-aware typography scaling |
-| `src/lib/bandConfig.client.ts` | **CREATE** — Client-side subset of band interactivity/visual config (no server imports) |
+| `agent/scripts/lint-manifest.ts` | **CREATE** — beat manifest validator |
+| `agent/tests/bandConfig.test.ts` | **CREATE** — tool filtering snapshot tests |
+| `agent/tests/narrationPrompt.test.ts` | **CREATE** — prompt constraint tests |
+| `agent/src/comprehensionTracker.ts` | **CREATE** — session scoring + scaffolding |
+| `agent/src/beatSequencer.ts` | **MODIFY** — wire comprehensionTracker |
+| `agent/package.json` | **MODIFY** — add vitest dev dependency |
+| `docs/TEACHING_PHILOSOPHY.md` | **MODIFY** — add band differentiation section |
+| `docs/curriculum/history/beat-schema.md` | **MODIFY** — add tool constraint + theology gate docs |
 
 ## Order of Implementation
 
-1. `bandConfig.client.ts` (lightweight client config — no agent dependency)
-2. `LiveStorybookPlayer.tsx` + `LessonPlayerPage.tsx` routing (bands 0-1 get their own world)
-3. `SessionCanvas.tsx` image sizing + control bar changes (bands 2-5 diverge)
-4. `AutoScrollMap.tsx` speed/zoom band adaptation
-5. `CanvasOverlays.tsx` card sizing and timing
-6. `TranscriptView.tsx` typography scaling
+1. `agent/package.json` — add vitest
+2. `agent/scripts/lint-manifest.ts` — lint script (no dependencies)
+3. `agent/tests/bandConfig.test.ts` — tool filtering tests
+4. `agent/tests/narrationPrompt.test.ts` — prompt tests
+5. `agent/src/comprehensionTracker.ts` + `beatSequencer.ts` wiring
+6. Documentation updates
 
 ## Verification
 
-- Band 0 lesson: Full-bleed images, large caption text, no map, no overlays, auto-advance with audio
-- Band 2 lesson: Larger image card, slower map scroll, bigger overlay text, larger transcript cards
-- Band 5 lesson: Small thumbnail, fast map, compact overlays, dense transcript — unchanged from current
+- `cd agent && npx vitest run` — all tests pass
+- `cd agent && npx tsx scripts/lint-manifest.ts` on ch01_s01.json — produces warnings for Band 0 tool gaps
+- Comprehension tracker logs scores at session end
+- Documentation reflects the full band differentiation system
 
