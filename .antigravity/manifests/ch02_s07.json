@@ -1,0 +1,176 @@
+{
+  "sectionId": "ch02_s07",
+  "chapterId": "ch02",
+  "heading": "2.7 The Late Period and Foreign Domination (c. 1070–332 BC)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 420,
+  "thinkItThrough": [
+    "The Kushite Pharaohs from Nubia conquered Egypt but saw themselves as restorers of its culture. What does this tell us about the deep and lasting influence of Egyptian civilization on its African neighbors?",
+    "The prophets warned Israel not to trust in alliances with Egypt. What are the modern-day 'Egypts' — the worldly powers or sources of security — we are tempted to trust in instead of God?",
+    "Ezekiel called Egypt a 'staff of reed.' Why is this such a powerful and fitting metaphor for a nation that, despite its impressive appearance, was in a state of irreversible decline?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s07_b01",
+      "sectionId": "ch02_s07",
+      "sequence": 1,
+      "title": "The Long Unraveling",
+      "contentText": "After the New Kingdom's apex, Egypt's glory entered a long, slow unraveling that spanned centuries. The Pharaoh's central authority weakened as powerful priesthoods, especially the cult of Amun-Ra at Thebes, accumulated vast wealth and often challenged the throne. This internal decay left Egypt vulnerable. First, Libyans from the west established their own dynasty but largely assimilated into Egyptian culture.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Egypt's Long Decline",
+            "bullets": [
+              "Powerful priesthoods challenge the throne",
+              "Cult of Amun-Ra accumulates vast wealth at Thebes",
+              "Internal decay leaves Egypt vulnerable to invasion",
+              "Libyan dynasties take power but assimilate into Egyptian culture"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s07_b02",
+      "sectionId": "ch02_s07",
+      "sequence": 2,
+      "title": "African Resurgence: Kushite Pharaohs",
+      "contentText": "A remarkable conquest came from the south. The kingdom of Kush, based in Nubia, had long been under Egyptian control. Now, with Egypt weakened, the Kushite kings swept north, conquering their former masters and establishing the 25th Dynasty. This was a stunning African resurgence. The Kushite Pharaohs, like Piye and Taharqa, saw themselves not as foreign conquerors but as restorers of Egypt's true culture.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 22.0, "lng": 32.0, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "kush" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[18.0, 32.0], [22.0, 32.5], [25.7, 32.6], [29.85, 31.25]],
+            "label": "Kushite Conquest — South to North"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "25th Dynasty (Kushite)",
+            "definition": "The dynasty of Nubian kings from the Kingdom of Kush (c. 744–656 BC) who conquered Egypt and ruled as pharaohs. Leaders like Piye and Taharqa saw themselves as restorers of Egypt's true ancient culture."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s07_b03",
+      "sectionId": "ch02_s07",
+      "sequence": 3,
+      "title": "Assyria, Persia, and Prophecy",
+      "contentText": "The Kushite restoration was cut short by the rise of the Neo-Assyrian Empire. The Assyrians invaded Egypt and drove the Kushite pharaohs back south. The prophet Isaiah foretold this with stunning accuracy, warning that God would stir up 'Egyptians against Egyptians' and deliver them to a 'cruel master.' After a brief period of independence, Persia arrived in 525 BC under Cambyses II, making Egypt a province of the vast Persian Empire.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Isaiah 19:2, 4",
+            "text": "I will stir up Egyptians against Egyptians... and I will give over the Egyptians into the hand of a hard master, and a fierce king will rule over them."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -744, "label": "Kushite 25th Dynasty Begins" },
+              { "year": -656, "label": "Assyria Drives Out Kushites" },
+              { "year": -525, "label": "Persia Conquers Egypt" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s07_b04",
+      "sectionId": "ch02_s07",
+      "sequence": 4,
+      "title": "The Broken Reed",
+      "contentText": "Throughout this long decline, the prophets of Israel spoke of Egypt as a flawed and unreliable political power. Isaiah and Jeremiah warned Judah's kings not to trust Egypt's military might for protection. Ezekiel described Pharaoh as a 'great monster' and labeled Egypt a 'staff of reed' that would pierce the hand of anyone who leaned on it. This language served as a divine verdict on the once-great empire.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Ezekiel 29:3, 6–7",
+            "text": "Behold, I am against you, Pharaoh king of Egypt, the great dragon that lies in the midst of his streams... Because you have been a staff of reed to the house of Israel; when they grasped you, you broke and tore all their shoulders."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The kingdom built on strength and permanence had become a symbol of false hope and decay, its fate now just one part of a political landscape directed by the sovereign hand of God.",
+            "attribution": "Learn Live Textbook, Chapter 2"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s07_b05",
+      "sectionId": "ch02_s07",
+      "sequence": 5,
+      "title": "From One Master to Another",
+      "contentText": "The final chapters of Egypt's independence were drawing to a close. The nation had passed from one foreign ruler to another — Libyan, Nubian, Assyrian, and Persian. The land of the Pharaohs, once the mightiest kingdom on earth, could no longer stand on its own. But another, even more transformative, conquest was on the horizon.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Egypt's Foreign Masters",
+            "bullets": [
+              "Libyan dynasties — assimilated into Egyptian culture",
+              "Kushite 25th Dynasty — African resurgence from the south",
+              "Neo-Assyrian Empire — brutal military conquest",
+              "Persian Empire — Egypt becomes a province (525 BC)",
+              "Next: Alexander the Great arrives (332 BC)"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s07_b06",
+      "sectionId": "ch02_s07",
+      "sequence": 6,
+      "title": "Prophetic Verdict on Egypt",
+      "contentText": "Egypt's decline was not random — it fulfilled the prophetic word of God. The prophets had spoken, and history confirmed their words. The once-mighty empire that had defied Yahweh at the Exodus was now experiencing the consequences foretold centuries earlier. No human empire, no matter how magnificent, is beyond God's sovereign judgment.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "reflection",
+            "question": "What modern nations or powers do people lean on as a 'staff of reed' instead of trusting in God?"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

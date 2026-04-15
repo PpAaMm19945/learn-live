@@ -1,0 +1,162 @@
+{
+  "sectionId": "ch02_s09",
+  "chapterId": "ch02",
+  "heading": "2.9 Legacy of the Nile (Post-30 BC)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 420,
+  "thinkItThrough": [
+    "The Egyptians achieved incredible things in architecture, science, and writing. How should Christians view the accomplishments of civilizations that did not worship the true God? Can we admire their achievements while also recognizing their spiritual blindness?",
+    "Egypt's story is deeply intertwined with the story of Israel. What does this tell us about how God uses even pagan nations in His redemptive plan?",
+    "Matthew 2:13-15 tells us the Holy Family found refuge in Egypt. Why is it significant that Jesus, as a child, was brought to the very land where Israel was once enslaved?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s09_b01",
+      "sectionId": "ch02_s09",
+      "sequence": 1,
+      "title": "Breadbasket of Rome",
+      "contentText": "With Cleopatra's death, the grand story of ancient Egypt as an independent power ended. Rome formally annexed Egypt, and it became the personal province of the Emperor Augustus. Its new role was clear and pragmatic: it was to be the breadbasket of Rome. The Romans would harness its immense agricultural wealth to feed the empire's capital. Divine kingship was replaced by the secular, administrative power of Roman governors.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 30.0, "lng": 31.2, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "ancient_egypt" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[31.2, 29.9], [37.0, 25.0], [41.9, 12.5]],
+            "label": "Grain Shipments — Egypt to Rome"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s09_b02",
+      "sectionId": "ch02_s09",
+      "sequence": 2,
+      "title": "Three Thousand Years of Achievement",
+      "contentText": "For three thousand years, the civilization of the Nile had been a beacon of human achievement. In architecture, the Egyptians pioneered monumental stone construction. In science and mathematics, their knowledge of engineering, astronomy, and medicine was unmatched. Their invention of writing, from sacred hieroglyphs to common scripts, provided a foundation for recording knowledge. Their art created a visual language that told their entire civilization's story.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Egypt's Enduring Contributions",
+            "bullets": [
+              "Architecture — monumental stone construction, pyramids still standing",
+              "Science & Mathematics — engineering, astronomy, medicine",
+              "Writing — hieroglyphs to demotic, foundation for recording knowledge",
+              "Art — distinctive symbolic style telling civilization's story"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s09_b03",
+      "sectionId": "ch02_s09",
+      "sequence": 3,
+      "title": "The Kingdom of Man",
+      "contentText": "Beyond its practical contributions, Egypt's most powerful legacy was the idea of divine kingship — a single, all-powerful ruler who embodied the state and served as a bridge to the divine. From a biblical perspective, Egypt's ultimate legacy is as a profound object lesson. It stands as the archetypal kingdom of man — glorious, proud, and brilliant, yet fatally flawed in its attempt to achieve its own immortality and deify its own power.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Egypt: Glorious Yet Fatally Flawed",
+            "points": [
+              { "left": "Glorious architecture and achievement", "right": "Built on pride and self-deification" },
+              { "left": "Three millennia of cultural continuity", "right": "Could not prevent its own decline and fall" },
+              { "left": "The archetype of the 'kingdom of man'", "right": "A profound object lesson in the limits of human power" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s09_b04",
+      "sectionId": "ch02_s09",
+      "sequence": 4,
+      "title": "God's Sovereign Stage",
+      "contentText": "The story of Egypt is a drama on the stage of God's sovereign plan. He used this mighty African nation as a crucible to forge the family of Jacob into the nation of Israel. He used it as the backdrop for the Exodus around 1446 BC — the greatest act of redemption in the Old Testament. He used it as a 'broken reed,' a persistent temptation that tested Israel's faithfulness. And He used its decline to demonstrate the truth of His prophetic word.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Egypt in God's Redemptive Plan",
+            "bullets": [
+              "A crucible — forging Jacob's family into the nation of Israel",
+              "A backdrop — the Exodus, greatest Old Testament redemption (c. 1446 BC)",
+              "A broken reed — testing Israel's faithfulness",
+              "A fulfilled prophecy — demonstrating the truth of God's word"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s09_b05",
+      "sectionId": "ch02_s09",
+      "sequence": 5,
+      "title": "The Holy Family in Egypt",
+      "contentText": "In a final, beautiful act of divine irony, the Holy Family would find temporary refuge in the land of their ancestors' bondage. As Matthew 2:13-15 records, Joseph, Mary, and the infant Jesus fled to Egypt to escape Herod. The silencing of Egypt's ancient gods and the fall of its last pharaoh had cleared the stage for the coming of the one true King — Jesus Christ, whose kingdom is not of this world.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Matthew 2:13–15",
+            "text": "An angel of the Lord appeared to Joseph in a dream and said, 'Rise, take the child and his mother, and flee to Egypt, and remain there until I tell you, for Herod is about to search for the child, to destroy him.' ... This was to fulfill what the Lord had spoken by the prophet, 'Out of Egypt I called my son.'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s09_b06",
+      "sectionId": "ch02_s09",
+      "sequence": 6,
+      "title": "Key Dates at a Glance",
+      "contentText": "Let us review the grand sweep of Egypt's story — from the unification of the two lands by Narmer through the Pyramid Age, the Middle Kingdom, the Hyksos, the New Kingdom and Exodus, and the long decline under foreign powers to the death of Cleopatra. Three thousand years of history, all woven into God's sovereign plan.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -2100, "label": "Unification by Narmer (YEC)" },
+              { "year": -2000, "label": "Old Kingdom — Pyramid Age (YEC)" },
+              { "year": -1921, "label": "Abraham in Egypt (Biblical)" },
+              { "year": -1876, "label": "Joseph as Vizier (Biblical)" },
+              { "year": -1700, "label": "Hyksos Rule (YEC)" },
+              { "year": -1570, "label": "New Kingdom Begins (YEC)" },
+              { "year": -1446, "label": "The Exodus (Biblical)" },
+              { "year": -744, "label": "Kushite 25th Dynasty" },
+              { "year": -332, "label": "Alexander Conquers Egypt" },
+              { "year": -30, "label": "Death of Cleopatra — End of Pharaonic Egypt" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

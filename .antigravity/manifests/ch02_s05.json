@@ -1,0 +1,229 @@
+{
+  "sectionId": "ch02_s05",
+  "chapterId": "ch02",
+  "heading": "2.5 The Second Intermediate Period and the Hyksos (c. 1650–1550 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 480,
+  "thinkItThrough": [
+    "The Egyptians felt great humiliation being ruled by foreigners. How does national pride or identity affect the way a nation sees itself and others? When can this pride be good, and when can it become dangerous?",
+    "The Hyksos introduced new technology like the chariot, which the Egyptians later adopted to build their own empire. How often in history does a time of trial or defeat lead to future strength and innovation?",
+    "Scholars believe Joseph's rise to power is most plausible under the Hyksos. How does understanding the historical context of a Bible story help us appreciate the details of the narrative and God's providence more deeply?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s05_b01",
+      "sectionId": "ch02_s05",
+      "sequence": 1,
+      "title": "Foreign Rulers in the Delta",
+      "contentText": "The restored stability of the Middle Kingdom eventually frayed. Around 1650 BC, a group of rulers known as the Hyksos, meaning 'foreign rulers,' swept into Lower Egypt from the northeast. They were likely a mix of Semitic and Canaanite peoples from the Levant. They established their capital at Avaris in the Nile Delta and ruled northern Egypt for about a century.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 30.5, "lng": 31.8, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.79,
+            "lng": 31.82,
+            "label": "Avaris — Hyksos Capital",
+            "description": "The capital of the foreign Hyksos rulers in the eastern Nile Delta"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[33.0, 35.5], [31.5, 33.0], [30.8, 31.8]],
+            "label": "Hyksos Invasion from the Levant"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Hyksos",
+            "definition": "Meaning 'foreign rulers' — a group of Semitic and Canaanite peoples from the Levant who conquered Lower Egypt around 1650 BC and ruled from their capital at Avaris for about a century.",
+            "etymology": "Egyptian: heqa khasut — 'rulers of foreign lands'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s05_b02",
+      "sectionId": "ch02_s05",
+      "sequence": 2,
+      "title": "New Technologies of War",
+      "contentText": "For the native Egyptians, this was a time of great humiliation — the first time a large part of their homeland was under the control of outsiders. The Hyksos, however, were not simply barbarians. They brought new technologies that would revolutionize Egyptian warfare: the horse-drawn chariot and advanced bronze weapons like the composite bow. These military innovations gave them a decisive advantage over the traditionally armed Egyptian forces.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Hyksos Military Innovations",
+            "bullets": [
+              "Horse-drawn chariot — revolutionized warfare and transport",
+              "Composite bow — greater range and power than traditional bows",
+              "Advanced bronze weapons — superior metallurgy",
+              "Egypt would later adopt all of these to build its own empire"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s05_b03",
+      "sectionId": "ch02_s05",
+      "sequence": 3,
+      "title": "Theban Resistance",
+      "contentText": "While the Hyksos controlled the north, a native Egyptian dynasty continued to rule from Thebes in the south. The Thebans fiercely resisted the foreign rulers, seeing themselves as the true heirs of the pharaonic tradition. They preserved the ancient culture and religion. Over time, they adopted the very military technologies the Hyksos had used against them. This period of resistance fostered a fierce determination to liberate their land.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 27.0, "lng": 31.5, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.7,
+            "lng": 32.64,
+            "label": "Thebes — Center of Resistance",
+            "description": "The Theban dynasty preserved Egyptian culture and waged a war of liberation"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.79,
+            "lng": 31.82,
+            "label": "Avaris — Hyksos Capital",
+            "description": "Northern Egypt under Hyksos control"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s05_b04",
+      "sectionId": "ch02_s05",
+      "sequence": 4,
+      "title": "Joseph's Rise Under the Hyksos",
+      "contentText": "This period provides a compelling backdrop for the story of Joseph. The Bible describes how Joseph, a Hebrew, rose from slavery to become vizier — the second-most powerful man in Egypt. Many scholars suggest this story fits most comfortably within the Hyksos era. A foreign, Semitic ruler would have been far more likely to elevate another Semite like Joseph to such a high position than a native Egyptian Pharaoh would have been.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 41:39–40",
+            "text": "Then Pharaoh said to Joseph, 'Since God has shown you all this, there is none so discerning and wise as you are. You shall be over my house, and all my people shall order themselves as you command.'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "God positioned Joseph not during a time of Egyptian strength, but during a moment of foreign disruption, making his rise to power a clear act of divine providence.",
+            "attribution": "Exegetical Note, Learn Live Textbook"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s05_b05",
+      "sectionId": "ch02_s05",
+      "sequence": 5,
+      "title": "Goshen: Refuge for Jacob's Family",
+      "contentText": "Joseph's God-given wisdom to interpret dreams brought him before Pharaoh and saved the nation from a devastating famine. This context makes Joseph's incredible rise historically plausible. It shows God's providence in using a period of political disruption to create a refuge for His covenant people. Pharaoh invited the family of Jacob to settle in the fertile land of Goshen in the delta — the very heart of Hyksos-controlled territory.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 30.5, "lng": 31.8, "zoom": 8 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "goshen" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.6,
+            "lng": 31.9,
+            "label": "Land of Goshen",
+            "description": "The fertile region in the eastern Nile Delta where Jacob's family settled"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 47:6",
+            "text": "The land of Egypt is before you. Settle your father and your brothers in the best of the land. Let them settle in the land of Goshen."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s05_b06",
+      "sectionId": "ch02_s05",
+      "sequence": 6,
+      "title": "Pharaonic versus Biblical Kingship",
+      "contentText": "The contrast between pharaonic and biblical kingship could not be sharper. In Egypt, the king was a god whose word was law. In the biblical model, the king is a human chosen by God, subject to God's pre-existing law, and accountable to Him. While pharaonic hope focused on the king's personal survival after death, biblical hope centers on the preservation of God's covenant people.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Pharaonic Kingship vs Biblical Kingship",
+            "points": [
+              { "left": "The king IS a god (Horus)", "right": "The king is CHOSEN BY God" },
+              { "left": "The king's word is law", "right": "The king is subject to God's law (Torah)" },
+              { "left": "Accountable to no one", "right": "Accountable to God (Deuteronomy 17)" },
+              { "left": "Hope: king's personal eternal survival", "right": "Hope: preservation of the covenant people" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s05_b07",
+      "sectionId": "ch02_s05",
+      "sequence": 7,
+      "title": "The Fire of Liberation",
+      "contentText": "The Hyksos' dominance was not to last. The simmering resentment of the Theban rulers would boil over into a full-scale war of liberation. This conflict would not only expel the foreigners but also ignite a new, aggressive militarism in Egypt. It would transform the nation from a regional kingdom into a world-spanning empire, setting the stage for Egypt's most glorious — and most infamous — period of power.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -1876, "label": "Joseph Enters Egypt (Biblical)" },
+              { "year": -1700, "label": "Hyksos Invasion (YEC)" },
+              { "year": -1570, "label": "Hyksos Expelled — New Kingdom Begins (YEC)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    }
+  ]
+}

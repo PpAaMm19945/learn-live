@@ -1,0 +1,241 @@
+{
+  "sectionId": "ch02_s06",
+  "chapterId": "ch02",
+  "heading": "2.6 The New Kingdom: Empire and Glory (c. 1550–1070 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 510,
+  "thinkItThrough": [
+    "Egypt's experience of being conquered led them to become conquerors themselves. How can past suffering, if not processed with godly wisdom, lead people or nations to become oppressors in turn?",
+    "Exodus 1:8 says the new king 'did not know Joseph.' What is the danger for a nation when it forgets its own history, especially the moments of God's mercy and intervention?",
+    "Akhenaten tried to force a new religion on his people that centered on his own power. How does this counterfeit monotheism compare to the true, relational monotheism revealed in the Bible? Why do you think it eventually failed?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s06_b01",
+      "sectionId": "ch02_s06",
+      "sequence": 1,
+      "title": "Ahmose Liberates Egypt",
+      "contentText": "A new, more aggressive Egypt emerged from the fire of national liberation. Around 1550 BC, the Theban king Ahmose I successfully expelled the Hyksos. He reunited the country and launched the New Kingdom — the most powerful and glorious era in Egyptian history. The humiliation of foreign rule had taught the Egyptians a harsh lesson: to prevent future invasions, they had to build an empire.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 28.0, "lng": 31.5, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "ancient_egypt" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ahmose I",
+            "definition": "The Theban king who expelled the Hyksos from Egypt around 1550 BC, reuniting the country and founding the New Kingdom — the most powerful era in Egyptian history."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s06_b02",
+      "sectionId": "ch02_s06",
+      "sequence": 2,
+      "title": "Warrior-Kings and Conquest",
+      "contentText": "This was an age of legendary pharaohs and immense conquests. Rulers like Thutmose III, the 'Napoleon of Egypt,' and the great builder Ramesses II led campaigns deep into Nubia and the Levant. These conquests brought unprecedented wealth into Egypt — tribute, Nubian gold, and enslaved peoples poured into the kingdom. This wealth funded an age of monumental construction that dwarfed all previous eras, including the colossal temples at Karnak and Luxor and the tombs in the Valley of the Kings.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 28.0, "lng": 33.0, "zoom": 4 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.7,
+            "lng": 32.64,
+            "label": "Karnak & Luxor Temples",
+            "description": "Colossal temple complexes expanded to massive size during the New Kingdom"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.74,
+            "lng": 32.60,
+            "label": "Valley of the Kings",
+            "description": "Royal necropolis where New Kingdom pharaohs carved tombs into the rock"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[25.7, 32.6], [22.0, 32.9]],
+            "label": "Campaigns into Nubia"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[30.0, 31.2], [32.0, 34.5], [34.5, 36.3]],
+            "label": "Campaigns into the Levant"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s06_b03",
+      "sectionId": "ch02_s06",
+      "sequence": 3,
+      "title": "The Great Oppression Begins",
+      "contentText": "This external glory was built upon a great and terrible darkness: the enslavement of the Hebrews. The Bible tells us that 'a new king arose over Egypt, who did not know Joseph.' This verse signals a profound, willful national forgetting of the mercy God had once shown them through Joseph. Fearing the growing Israelite population, this new pharaoh subjected them to bitter, ruthless slavery, forcing them to build the store cities of Pithom and Rameses.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Exodus 1:8–11",
+            "text": "Now there arose a new king over Egypt, who did not know Joseph... Therefore they set taskmasters over them to afflict them with heavy burdens. They built for Pharaoh store cities, Pithom and Raamses."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.8,
+            "lng": 31.9,
+            "label": "Pi-Ramesses",
+            "description": "Store city built by enslaved Israelites (Exodus 1:11)"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.6,
+            "lng": 32.1,
+            "label": "Pithom",
+            "description": "Store city built by enslaved Israelites (Exodus 1:11)"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s06_b04",
+      "sectionId": "ch02_s06",
+      "sequence": 4,
+      "title": "God versus the God-King",
+      "contentText": "It is a terrible irony that at the very height of its imperial power, Egypt became the great oppressor of God's covenant people. This set the stage for the ultimate confrontation — a cosmic battle between the God of slaves and the deified god-king of the world's greatest superpower. The 'kingdom of man' in all its glory was about to face the judgment of the living God.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "The Coming Confrontation",
+            "points": [
+              { "left": "Pharaoh — a deified god-king", "right": "Yahweh — the one true God" },
+              { "left": "World's greatest superpower", "right": "A nation of enslaved people" },
+              { "left": "Demands absolute worship", "right": "Demands: 'Let my people go'" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s06_b05",
+      "sectionId": "ch02_s06",
+      "sequence": 5,
+      "title": "Akhenaten's Failed Revolution",
+      "contentText": "Within this mighty empire, a strange interlude occurred. The Pharaoh Akhenaten suppressed the traditional cults and promoted the exclusive worship of the Aten, the physical disk of the sun. He moved the capital to a new city and declared himself the sole mediator between the Aten and humanity. While some call this the first experiment in monotheism, it was not a turn toward the one true God. It was the ultimate expression of human pride — one man attempting to remake a nation's theology in his own image.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 27.65, "lng": 30.9, "zoom": 8 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 27.65,
+            "lng": 30.9,
+            "label": "Akhetaten (Amarna)",
+            "description": "Akhenaten's short-lived capital, built for the worship of the Aten"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Akhenaten",
+            "definition": "The 'heretic king' who abandoned Egypt's pantheon to promote exclusive worship of the Aten, the sun disk. His self-serving reform positioned himself as sole mediator between humanity and god — a counterfeit monotheism that quickly failed."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s06_b06",
+      "sectionId": "ch02_s06",
+      "sequence": 6,
+      "title": "Hardened Hearts Restored Old Gods",
+      "contentText": "The experiment failed. Akhenaten's successor, the young Tutankhamun, quickly abandoned the new city and restored the old gods. This showed how deeply Egypt was committed to its polytheistic worldview. It only served to harden its heart, making the divine judgment of the Exodus all the more necessary.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Tutankhamun",
+            "definition": "The young pharaoh who succeeded Akhenaten, abandoned the Aten revolution, and restored the traditional Egyptian gods. His tomb, discovered intact in 1922, is one of archaeology's greatest finds."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s06_b07",
+      "sectionId": "ch02_s06",
+      "sequence": 7,
+      "title": "Collision Course with Yahweh",
+      "contentText": "The wealth and power of the New Kingdom created a pride and self-sufficiency that placed Egypt on a direct collision course with the God of the Hebrews. The stage was now set for the most dramatic event in Israel's history — the Exodus around 1446 BC — an event that would shatter Egypt's confidence and proclaim Yahweh's name to the world.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -1570, "label": "New Kingdom Begins (YEC)" },
+              { "year": -1446, "label": "The Exodus (Biblical)" },
+              { "year": -1352, "label": "Akhenaten's Reign (conventional)" },
+              { "year": -1070, "label": "New Kingdom Ends" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Exodus 9:16",
+            "text": "But for this purpose I have raised you up, to show you my power, so that my name may be proclaimed in all the earth."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 90
+    }
+  ]
+}

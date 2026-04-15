@@ -1,0 +1,157 @@
+{
+  "sectionId": "ch02_s03",
+  "chapterId": "ch02",
+  "heading": "2.3 The First Intermediate Period (c. 2180–2050 BC)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 420,
+  "thinkItThrough": [
+    "The Egyptians faced a theological crisis when the Nile floods became unreliable. When our own sense of order and security is shaken, how do we as Christians respond? Where do we place our ultimate trust?",
+    "The literature of this period shows people questioning authority and divine justice. Is it faithful to ask hard questions during times of suffering? What examples do we see of this in the Bible (e.g., the book of Job, many of the Psalms)?",
+    "The collapse of the central government led to widespread chaos. What does this teach us about the importance of good and just governance in society?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s03_b01",
+      "sectionId": "ch02_s03",
+      "sequence": 1,
+      "title": "The Unraveling Begins",
+      "contentText": "For centuries, the Old Kingdom seemed an unshakeable force of stability. But the very factors of its glory — the immense power of the Pharaoh and the vast resources his divinity required — also held the seeds of its collapse. A series of weak pharaohs and growing droughts weakened the central government. The Nile's predictable flooding became unreliable, leading to famine and economic hardship.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "The Fall of the Old Kingdom",
+            "bullets": [
+              "A series of weak pharaohs",
+              "Climate stress — Nile floods become unreliable",
+              "Famine and economic hardship spread",
+              "Central government loses control"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s03_b02",
+      "sectionId": "ch02_s03",
+      "sequence": 2,
+      "title": "A Theological Crisis",
+      "contentText": "This was a profound theological crisis. If the divine Pharaoh could not guarantee the harvest, was he truly in control? Was Ma'at failing? The foundation of their entire worldview — that the Pharaoh upheld cosmic order — was being shaken. The very concept that held their civilization together was crumbling along with the government.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "check",
+            "question": "If the Pharaoh was supposed to guarantee the Nile's flood and the harvest, what would happen to the people's faith when the floods failed?",
+            "options": [
+              "Their faith in the Pharaoh's divinity would be shaken",
+              "They would simply wait for a new Pharaoh",
+              "Nothing — they would blame other gods"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s03_b03",
+      "sectionId": "ch02_s03",
+      "sequence": 3,
+      "title": "Egypt Fractures",
+      "contentText": "As the Pharaoh's power faded, regional governors known as nomarchs grew bolder and began to rule their lands as independent lords. Egypt, once a proud, unified nation, fractured into competing territories. Grand, nation-unifying projects like pyramid building stopped completely. Brother fought against brother, and city fought against city. This era was a stark, terrifying manifestation of Isfet overcoming the order that had defined their world.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Nomarch",
+            "definition": "A regional governor in ancient Egypt who administered a province (nome). During the First Intermediate Period, nomarchs grew powerful enough to rule as independent lords, fracturing Egypt's unity."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s03_b04",
+      "sectionId": "ch02_s03",
+      "sequence": 4,
+      "title": "Voices of Despair",
+      "contentText": "This time of suffering led to a remarkable development — deep introspection and literary creativity. For the first time, Egyptian writers produced texts that questioned their society's foundations. They wrote powerful 'laments' expressing a deep sense of despair and a longing for the past. These were not the confident, divine pronouncements of the Pyramid Texts. They were the voices of real people wrestling with difficult questions: Where was the justice of the gods? Why was there so much suffering?",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "Where was the justice of the gods? Why was there so much suffering? Who could restore order to the world?",
+            "attribution": "Questions from the Egyptian Lament Literature, First Intermediate Period"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s03_b05",
+      "sectionId": "ch02_s03",
+      "sequence": 5,
+      "title": "The Ipuwer Papyrus",
+      "contentText": "The Admonitions of Ipuwer is a poetic lament describing Egypt in catastrophic collapse: 'The river is blood... gold and lapis lazuli are hung on the necks of slave girls... the king is removed by the rabble.' Biblical scholars have noted striking parallels between these descriptions and the Plagues of Egypt recorded in Exodus. Some YEC historians suggest it could be a preserved Egyptian memory of the devastation wrought by Yahweh during the Exodus.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The river is blood, yet men drink of it. Men shrink from human beings and thirst after water. The land is without light.",
+            "attribution": "The Admonitions of Ipuwer (Ipuwer Papyrus)"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Ipuwer Papyrus vs Exodus Plagues",
+            "points": [
+              { "left": "Ipuwer: 'The river is blood'", "right": "Exodus 7:20: 'All the water in the Nile turned to blood'" },
+              { "left": "Ipuwer: 'The land is without light'", "right": "Exodus 10:22: 'Total darkness covered all Egypt'" },
+              { "left": "Ipuwer: 'Gold on the necks of slave girls'", "right": "Exodus 12:35-36: Israel plundered the Egyptians" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 90
+    },
+    {
+      "beatId": "ch02_s03_b06",
+      "sectionId": "ch02_s03",
+      "sequence": 6,
+      "title": "Hope Rises from Thebes",
+      "contentText": "The First Intermediate Period was a dark and difficult chapter, but it was not the end. The memory of their lost unity remained strong. In the south, a new line of powerful rulers was rising in the city of Thebes. They were determined to drive out rival claimants to the throne and restore order, paving the way for Egypt's next great era of prosperity and cultural achievement.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 25.7, "lng": 32.6, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.7,
+            "lng": 32.64,
+            "label": "Thebes",
+            "description": "The southern city from which a new dynasty would reunify Egypt"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    }
+  ]
+}

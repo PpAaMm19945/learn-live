@@ -4,23 +4,54 @@
 
 ---
 
-## ch02_s01 — Foundations After Babel
-- **Beats:** 7
-- **Duration:** 480 seconds (~8 minutes)
-- **Tools used:** `show_scripture`, `show_genealogy`, `show_key_term`, `zoom_to`, `place_marker`, `draw_route`, `highlight_region`, `show_comparison`, `show_slide`, `show_timeline`, `show_question`
-- **Scene modes:** `map` (2 beats), `transcript` (5 beats)
+## Chapter 2 — Egypt: Gift of the Nile
+
+### ch02_s01 — Foundations After Babel
+- **Beats:** 7 | **Duration:** 480s
+- **Tools:** `show_scripture`, `show_genealogy`, `show_key_term`, `zoom_to`, `place_marker`, `draw_route`, `highlight_region`, `show_comparison`, `show_slide`, `show_timeline`, `show_question`
 - **Status:** ✅ Ready for audit
-- **Notes:**
-  - Content drawn faithfully from Chapter_02.md, Section 1 (lines 5–24)
-  - 3 thinkItThrough questions taken verbatim from textbook "Think It Through" box (lines 19–22)
-  - YEC chronology used throughout: Flood ~2348 BC, Babel ~2242 BC, Predynastic Egypt ~2100 BC
-  - Beat 1 opens with map showing Babel → Nile migration route
-  - Beat 2 introduces Mizraim genealogy from Genesis 10:6
-  - Beat 4 introduces key term "Kemet" with Black Land / Red Land comparison
-  - Beat 5 covers Ma'at vs Isfet worldview with dual key terms and comparison table
-  - Beat 7 closes with YEC timeline and reflective question
-  - No secular dates presented as authoritative; conventional dates noted as "(conventional estimate)" per textbook heading
-  - No hallucinated historical claims — all content from source text
+
+### ch02_s02 — The Unification and the Old Kingdom
+- **Beats:** 7 | **Duration:** 510s
+- **Tools:** `highlight_region`, `place_marker`, `show_comparison`, `show_key_term`, `show_scripture`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s03 — The First Intermediate Period
+- **Beats:** 6 | **Duration:** 420s
+- **Tools:** `place_marker`, `show_comparison`, `show_key_term`, `show_question`, `show_quote`, `show_slide`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s04 — The Middle Kingdom: Egypt's Classical Age
+- **Beats:** 7 | **Duration:** 480s
+- **Tools:** `draw_route`, `place_marker`, `show_comparison`, `show_key_term`, `show_quote`, `show_scripture`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s05 — The Second Intermediate Period and the Hyksos
+- **Beats:** 7 | **Duration:** 480s
+- **Tools:** `draw_route`, `highlight_region`, `place_marker`, `show_comparison`, `show_key_term`, `show_quote`, `show_scripture`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s06 — The New Kingdom: Empire and Glory
+- **Beats:** 7 | **Duration:** 510s
+- **Tools:** `draw_route`, `highlight_region`, `place_marker`, `show_comparison`, `show_key_term`, `show_scripture`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s07 — The Late Period and Foreign Domination
+- **Beats:** 6 | **Duration:** 420s
+- **Tools:** `draw_route`, `highlight_region`, `show_key_term`, `show_question`, `show_quote`, `show_scripture`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s08 — The Hellenistic Period: Greeks in Egypt
+- **Beats:** 7 | **Duration:** 510s
+- **Tools:** `place_marker`, `show_key_term`, `show_question`, `show_quote`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+### ch02_s09 — Legacy of the Nile
+- **Beats:** 6 | **Duration:** 420s
+- **Tools:** `draw_route`, `highlight_region`, `show_comparison`, `show_scripture`, `show_slide`, `show_timeline`, `zoom_to`
+- **Status:** ✅ Ready for audit
+
+**Chapter 2 Totals:** 9 sections | 60 beats | ~62 minutes of content
 
 ---
 
@@ -28,12 +59,14 @@
 
 | Section | Source File | Status |
 |---------|-----------|--------|
-| ch02_s01 | Chapter_02.md §1 | ✅ Ready for audit |
-| ch02_s02 | Chapter_02.md §2 | ⏳ Pending |
-| ch02_s03 | Chapter_02.md §3 | ⏳ Pending |
-| ch02_s04 | Chapter_02.md §4 | ⏳ Pending |
-| ch02_s05 | Chapter_02.md §5 | ⏳ Pending |
-| ch02_s06 | Chapter_02.md §6 | ⏳ Pending |
-| ch02_s07 | Chapter_02.md §7 | ⏳ Pending |
-| ch02_s08 | Chapter_02.md §8 | ⏳ Pending |
-| ch02_s09 | Chapter_02.md §9 | ⏳ Pending |
+| ch02_s01–s09 | Chapter_02.md §1–§9 | ✅ Complete |
+| ch03_s01 | Chapter_03.md Intro | ⏳ Pending |
+| ch03_s02 | Chapter_03.md §3.1 | ⏳ Pending |
+| ch03_s03 | Chapter_03.md §3.2 | ⏳ Pending |
+| ch03_s04 | Chapter_03.md §3.3 + Summary | ⏳ Pending |
+| ch04_s01+ | Chapter_04.md | ⏳ Pending |
+| ch05_s01+ | Chapter_05.md | ⏳ Pending |
+| ch06_s01+ | Chapter_06.md | ⏳ Pending |
+| ch07_s01+ | Chapter_07.md | ⏳ Pending |
+| ch08_s01+ | Chapter_08.md | ⏳ Pending |
+| ch09_s01+ | Chapter_09.md | ⏳ Pending |

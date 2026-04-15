@@ -1,0 +1,207 @@
+{
+  "sectionId": "ch02_s04",
+  "chapterId": "ch02",
+  "heading": "2.4 The Middle Kingdom: Egypt's Classical Age (c. 2050–1650 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 480,
+  "thinkItThrough": [
+    "The Middle Kingdom pharaohs were often depicted as 'shepherds' of their people. What does this metaphor imply about the responsibilities of a leader? How does this compare to Jesus' description of Himself as the 'Good Shepherd' in John 10?",
+    "During this period, the hope of an afterlife became more accessible to ordinary people, not just the king. Why is the universal hope of eternal life, as offered in the Gospel, so powerful and revolutionary?",
+    "God intervened with plagues when Pharaoh took Sarah. What does this early encounter teach us about God's protection over His covenant people, even when they are in a foreign and powerful land?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s04_b01",
+      "sectionId": "ch02_s04",
+      "sequence": 1,
+      "title": "Reunification from Thebes",
+      "contentText": "Out of the chaos of the First Intermediate Period, a new Egypt emerged. The powerful rulers of Thebes in the south, led by Mentuhotep II, defeated their northern rivals and reunified the two lands around 2050 BC. This event ushered in the Middle Kingdom, an era widely seen as Egypt's 'Classical Age.' After enduring a century of collapse, the Egyptians came forth with a new maturity.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 27.0, "lng": 31.5, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.7,
+            "lng": 32.64,
+            "label": "Thebes — Seat of Reunification",
+            "description": "Mentuhotep II's capital, from which he reunified Egypt"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Mentuhotep II",
+            "definition": "The Theban king who defeated Egypt's northern rivals and reunified the two lands, ending the First Intermediate Period and inaugurating the Middle Kingdom."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s04_b02",
+      "sectionId": "ch02_s04",
+      "sequence": 2,
+      "title": "The Shepherd King",
+      "contentText": "The idea of kingship shifted. The Pharaoh was still divine, but artists now portrayed him as a wise and vigilant shepherd of his people, bearing the heavy burdens of rule. Statues of pharaohs like Senusret III show care-worn, thoughtful faces — not the idealized, god-like expressions of the Old Kingdom. This was a king who understood suffering and his duty to protect his flock.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Old Kingdom vs Middle Kingdom Kingship",
+            "points": [
+              { "left": "Idealized, god-like expressions", "right": "Care-worn, realistic faces" },
+              { "left": "Supreme confidence, youthful power", "right": "Wisdom, maturity, burden of rule" },
+              { "left": "King as untouchable god", "right": "King as shepherd of his people" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s04_b03",
+      "sectionId": "ch02_s04",
+      "sequence": 3,
+      "title": "Literature and the Afterlife",
+      "contentText": "This era saw a flourishing of Egyptian literature and art. Works like 'The Tale of Sinuhe' and 'The Eloquent Peasant' explored complex themes of loyalty, justice, and personal identity. A key religious development was the democratization of the afterlife: the hope of eternal life, once exclusive to the Pharaoh, became accessible to common people through the worship of Osiris. Coffin Texts were now written on the coffins of ordinary Egyptians.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Coffin Texts",
+            "definition": "Funerary spells written on the coffins of ordinary Egyptians during the Middle Kingdom, making the hope of resurrection and eternal life accessible beyond the Pharaoh for the first time."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Middle Kingdom Cultural Achievements",
+            "bullets": [
+              "'The Tale of Sinuhe' — themes of loyalty and identity",
+              "'The Eloquent Peasant' — justice and personal rights",
+              "Democratization of the afterlife through Osiris worship",
+              "Coffin Texts replace elite-only Pyramid Texts"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s04_b04",
+      "sectionId": "ch02_s04",
+      "sequence": 4,
+      "title": "Abraham Seeks Refuge in Egypt",
+      "contentText": "Into this stable and prosperous Egypt, the Bible records a pivotal intersection. Genesis 12 tells us that a severe famine in Canaan prompted the patriarch Abraham to seek refuge in Egypt around 1921 BC. His encounter with the Pharaoh served as an early divine test of Egypt's power. When Pharaoh took Abraham's wife Sarah into his household, God sent 'great plagues' upon his house.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 12:10, 17",
+            "text": "Now there was a famine in the land. So Abram went down to Egypt to sojourn there... But the LORD afflicted Pharaoh and his house with great plagues because of Sarai, Abram's wife."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[31.5, 34.5], [30.5, 31.2]],
+            "label": "Abraham's Journey from Canaan to Egypt"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -2100, "label": "Egypt United (YEC)" },
+              { "year": -1921, "label": "Abraham in Egypt (Biblical)" },
+              { "year": -1876, "label": "Joseph Enters Egypt (Biblical)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s04_b05",
+      "sectionId": "ch02_s04",
+      "sequence": 5,
+      "title": "Yahweh's Power over Pharaoh",
+      "contentText": "This event, while brief, powerfully foreshadowed a greater confrontation to come. It showed that even the mighty ruler of Egypt was subject to the authority of Abraham's God. It established that Yahweh's power was not limited by geography. Egypt saw itself as a regional superpower, but God held ultimate sovereignty over the nation and its king.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "Yahweh's power was not limited by geography. Egypt saw itself as a superpower, but God held ultimate sovereignty over the nation and its king.",
+            "attribution": "Learn Live Textbook, Chapter 2"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s04_b06",
+      "sectionId": "ch02_s04",
+      "sequence": 6,
+      "title": "Joseph: From Slave to Vizier",
+      "contentText": "The stability of the Middle Kingdom created a context where people from surrounding regions looked to Egypt for safety. Soon, a Hebrew would rise to the highest levels of the Egyptian government. Sold into slavery by his own brothers, Joseph's God-given ability to interpret dreams brought him before Pharaoh. Rising to become Vizier, he brilliantly administered the nation through a seven-year famine, saving Egypt and creating a refuge for his own family.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 41:41–43",
+            "text": "Pharaoh said to Joseph, 'See, I have set you over all the land of Egypt.' ... He had him ride in his second chariot. And they called out before him, 'Bow the knee!'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Vizier",
+            "definition": "The highest official serving the Pharaoh, essentially the prime minister of Egypt. Joseph held this position, administering the nation through a devastating seven-year famine.",
+            "etymology": "Arabic: wazīr — 'minister, one who bears burdens'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s04_b07",
+      "sectionId": "ch02_s04",
+      "sequence": 7,
+      "title": "Divine Providence at Work",
+      "contentText": "Joseph's life demonstrates that God can use the evil intentions of men to accomplish His good and sovereign purposes. By positioning Joseph in Egypt, God created a refuge for the family of Jacob — the progenitors of the twelve tribes of Israel. His wisdom not only saved Egypt but prepared the way for the next chapter of God's redemptive plan.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 50:20",
+            "text": "As for you, you meant evil against me, but God meant it for good, to bring it about that many people should be kept alive."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

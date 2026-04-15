@@ -1,0 +1,217 @@
+{
+  "sectionId": "ch02_s08",
+  "chapterId": "ch02",
+  "heading": "2.8 The Hellenistic Period: Greeks in Egypt (332–30 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 510,
+  "thinkItThrough": [
+    "The Ptolemies blended Greek and Egyptian culture to strengthen their rule. What are the benefits and drawbacks of cultures mixing in this way? Can a blended culture still be authentic?",
+    "Jewish scholars translated the Septuagint in Alexandria, Egypt. What does it say about God's plan that He used a Greek translation of the Old Testament, prepared in an African city, to spread His word to the world?",
+    "Cleopatra used her intelligence and political skill to try to save her kingdom, but eventually failed. What does her story teach us about the limits of human ambition and power in the face of larger historical and divine forces?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s08_b01",
+      "sectionId": "ch02_s08",
+      "sequence": 1,
+      "title": "Alexander the Great Arrives",
+      "contentText": "The long era of Persian rule ended abruptly with the arrival of Alexander the Great. In 332 BC, the brilliant Macedonian general swept into Egypt, where the people welcomed him as a liberator. Alexander respected their religion and accepted the crown of the Pharaohs, but his vision was global. He founded a new city on the coast — Alexandria — intending it to be a great center of Greek culture and commerce.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 31.2, "lng": 29.9, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 31.2,
+            "lng": 29.9,
+            "label": "Alexandria",
+            "description": "Founded by Alexander the Great in 332 BC — became the world's intellectual capital"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Alexander the Great",
+            "definition": "The Macedonian general who conquered the Persian Empire and swept into Egypt in 332 BC. He was welcomed as a liberator, accepted the crown of the Pharaohs, and founded the city of Alexandria."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s08_b02",
+      "sectionId": "ch02_s08",
+      "sequence": 2,
+      "title": "Ptolemaic Dynasty and Cultural Fusion",
+      "contentText": "After Alexander's early death, Egypt fell to the shrewd and capable Ptolemy I, who established a Greek dynasty that ruled for nearly 300 years. The Ptolemaic rulers were Greek in language and culture, filling Alexandria with art, architecture, and philosophy. It became home to the famous Library of Alexandria. Yet they also adopted pharaonic traditions, built Egyptian temples, and participated in native religious festivals.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ptolemaic Dynasty",
+            "definition": "The Greek dynasty founded by Ptolemy I after Alexander's death. They ruled Egypt for nearly 300 years (323–30 BC), blending Greek and Egyptian culture to maintain power."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Alexandria: World's Intellectual Capital",
+            "bullets": [
+              "Library of Alexandria — hundreds of thousands of scrolls",
+              "Greatest scholars and thinkers of the age",
+              "Greek art, architecture, and philosophy",
+              "Ptolemies also built Egyptian temples to win loyalty"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s08_b03",
+      "sectionId": "ch02_s08",
+      "sequence": 3,
+      "title": "The Rosetta Stone",
+      "contentText": "Discovered by French soldiers in 1799, the Rosetta Stone is a stela inscribed with a decree issued at Memphis in 196 BC on behalf of King Ptolemy V. Its immense value lies in its three scripts: Hieroglyphic, Demotic, and Ancient Greek. Because scholars could read Greek, they used it as a key to decipher the hieroglyphs, which had been unreadable for centuries. This breakthrough allowed the world to once again hear the voice of ancient Egypt.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Case Study: The Rosetta Stone (196 BC)",
+            "bullets": [
+              "Three scripts: Hieroglyphic, Demotic, and Ancient Greek",
+              "Greek was the key to deciphering hieroglyphs",
+              "Unlocked thousands of years of Egyptian history",
+              "A providential tool confirming biblical historical details"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Rosetta Stone",
+            "definition": "A granodiorite stela discovered in 1799 bearing a decree in three scripts (Hieroglyphic, Demotic, Greek). It provided the key to deciphering Egyptian hieroglyphs, unlocking thousands of years of silent history."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s08_b04",
+      "sectionId": "ch02_s08",
+      "sequence": 4,
+      "title": "The Septuagint — God's Providential Translation",
+      "contentText": "In Alexandria's large and vibrant Jewish community, one of the most important events in biblical history took place: the translation of the Hebrew Scriptures into Greek. The Septuagint, named for the seventy-two scholars who produced it, made God's Word accessible to the entire Greek-speaking world. This was the Bible used by the Apostles and the Early Church. It serves as a powerful example of God using a Hellenistic king in Africa to prepare the way for the spread of the Gospel.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Septuagint (LXX)",
+            "definition": "The ancient Greek translation of the Hebrew Old Testament, produced in Alexandria around 250 BC. It was the Bible of the Apostles and the Early Church, making Scripture accessible to the Greek-speaking world.",
+            "etymology": "Latin: septuaginta — 'seventy,' from the tradition that 72 Jewish scholars produced the translation"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "God used a pagan, Hellenistic city in Africa to create a version of His Word that could be read across the entire Roman Empire.",
+            "attribution": "Learn Live Textbook, Chapter 2"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s08_b05",
+      "sectionId": "ch02_s08",
+      "sequence": 5,
+      "title": "Cleopatra VII — The Last Pharaoh",
+      "contentText": "The final ruler of this dynasty was the famous Cleopatra VII — a brilliant and ambitious queen who desperately tried to preserve Egypt's independence. She formed alliances with Rome's most powerful men: first Julius Caesar, then Mark Antony. For a time, it seemed she could succeed in creating a new eastern empire. But her ambitions put her in direct conflict with Caesar's heir, Octavian.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Cleopatra VII",
+            "definition": "The last Pharaoh of Egypt (r. 51–30 BC). Of Greek (Macedonian) descent, she was a brilliant linguist and political strategist who allied with Julius Caesar and Mark Antony in a doomed attempt to preserve Egyptian independence."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s08_b06",
+      "sectionId": "ch02_s08",
+      "sequence": 6,
+      "title": "The Battle of Actium",
+      "contentText": "At the decisive naval Battle of Actium in 31 BC, Octavian defeated the combined forces of Cleopatra and Antony. A year later, as Roman legions closed on Alexandria, Cleopatra took her own life rather than face the humiliation of a Roman triumph. Her death in 30 BC marked the end of the Ptolemaic dynasty and the final, definitive end of an independent, pharaonic Egypt.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 38.9, "lng": 20.7, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 38.95,
+            "lng": 20.72,
+            "label": "Battle of Actium (31 BC)",
+            "description": "The decisive naval battle where Octavian defeated Cleopatra and Mark Antony"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -332, "label": "Alexander Conquers Egypt" },
+              { "year": -250, "label": "Septuagint Translated in Alexandria" },
+              { "year": -196, "label": "Rosetta Stone Decree" },
+              { "year": -31, "label": "Battle of Actium" },
+              { "year": -30, "label": "Death of Cleopatra — End of Pharaonic Egypt" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s08_b07",
+      "sectionId": "ch02_s08",
+      "sequence": 7,
+      "title": "Clearing the Stage",
+      "contentText": "Egypt, the land of pyramids and pharaohs, the great oppressor and the broken reed, would no longer be a sovereign kingdom. It was now a province of the Roman Empire. This final transformation cleared the world stage of its ancient powers and prepared the way for the 'fullness of time' — the arrival of a new and very different kind of King.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "reflection",
+            "question": "How does God use even the rise and fall of empires to prepare the way for His plans of redemption?"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

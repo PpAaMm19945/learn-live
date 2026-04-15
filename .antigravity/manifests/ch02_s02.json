@@ -1,0 +1,245 @@
+{
+  "sectionId": "ch02_s02",
+  "chapterId": "ch02",
+  "heading": "2.2 The Unification and the Old Kingdom (c. 2900–2180 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 510,
+  "thinkItThrough": [
+    "The unification of Upper and Lower Egypt created the world's first nation-state. What are the benefits and dangers of concentrating so much power in a single, centralized government?",
+    "The Egyptians believed their Pharaoh was a living god. How does this compare to the biblical view of kingship, where the king is God's servant, not God himself? (See Deuteronomy 17:14-20).",
+    "The pyramids are incredible feats of engineering, but they were built by a vast labor force. What does the ability to organize such a massive project tell us about the power and worldview of the Old Kingdom rulers?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s02_b01",
+      "sectionId": "ch02_s02",
+      "sequence": 1,
+      "title": "Two Lands Become One",
+      "contentText": "The scattered settlements along the Nile were growing in confidence and strength, putting them on a collision course. Their quest for order led logically to unification — merging the distinct cultures of Upper Egypt in the south and Lower Egypt in the northern delta into a single, powerful kingdom. Around 2900 BC, tradition credits this achievement to a king named Narmer. Through conquest and diplomacy, he brought the two lands under his command, marking the birth of the world's first centralized monarchy.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 28.0, "lng": 31.5, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "upper_egypt" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "lower_egypt" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 29.85,
+            "lng": 31.25,
+            "label": "Memphis",
+            "description": "Capital of united Egypt — 'Balance of the Two Lands'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Narmer (Menes)",
+            "definition": "The first king traditionally credited with unifying Upper and Lower Egypt into a single kingdom, establishing the world's first centralized monarchy."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b02",
+      "sectionId": "ch02_s02",
+      "sequence": 2,
+      "title": "The Narmer Palette",
+      "contentText": "The Narmer Palette is one of the oldest and most significant historical artifacts from ancient Egypt. Discovered in Hierakonpolis, this shield-shaped siltstone object depicts King Narmer unifying Upper and Lower Egypt. On one side, he wears the White Crown of Upper Egypt, striking a kneeling enemy. On the reverse, he wears the Red Crown of Lower Egypt, surveying slain enemies. This unification represents the rapid rise of the Kingdom of Mizraim shortly after the Babel dispersion.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Case Study: The Narmer Palette (c. 2100 BC, YEC)",
+            "bullets": [
+              "Discovered at Hierakonpolis — oldest known depiction of an Egyptian king by name",
+              "One side: White Crown of Upper Egypt, striking an enemy",
+              "Other side: Red Crown of Lower Egypt, surveying defeated foes",
+              "Unity achieved through conquest — the 'kingdom of man' is established"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 25.10,
+            "lng": 32.78,
+            "label": "Hierakonpolis",
+            "description": "Where the Narmer Palette was discovered"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b03",
+      "sectionId": "ch02_s02",
+      "sequence": 3,
+      "title": "The Divine Pharaoh",
+      "contentText": "With the two lands united, a powerful new concept emerged: the Pharaoh. The ruler of Egypt was not merely a king — the Egyptians saw him as a god on earth. He was the living embodiment of the god Horus, the divine bridge between the heavens and humanity. His primary duty was to maintain Ma'at throughout the land. This belief in divine kingship concentrated immense religious and political power in one person.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Pharaoh",
+            "definition": "The title of the king of Egypt, considered a god on earth and the living embodiment of the god Horus. His primary duty was to maintain Ma'at — cosmic order — throughout the land.",
+            "etymology": "Egyptian: per-aa — 'Great House,' originally referring to the royal palace"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Deuteronomy 17:14–15",
+            "text": "You may indeed set a king over you whom the LORD your God will choose. One from among your brothers you shall set as king over you."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b04",
+      "sectionId": "ch02_s02",
+      "sequence": 4,
+      "title": "The Pyramid Age",
+      "contentText": "This era is best known for the breathtaking monuments the Pharaohs built. These were not just tombs — they were theological statements written in stone. The work began with the Step Pyramid of Djoser at Saqqara, designed by the brilliant architect Imhotep. It culminated in the magnificent Great Pyramids at Giza for pharaohs like Khufu and Khafre, engineered as man-made mountains reflecting their genius and profound belief in eternal order.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 29.9, "lng": 31.2, "zoom": 9 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 29.87,
+            "lng": 31.22,
+            "label": "Saqqara — Step Pyramid",
+            "description": "Site of the Step Pyramid of Djoser, designed by Imhotep"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 29.98,
+            "lng": 31.13,
+            "label": "Giza — Great Pyramids",
+            "description": "The Great Pyramids of Khufu and Khafre"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Imhotep",
+            "definition": "The brilliant architect who designed the Step Pyramid of Djoser at Saqqara — the first monumental stone structure in history."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b05",
+      "sectionId": "ch02_s02",
+      "sequence": 5,
+      "title": "Echoes of Babel in Stone",
+      "contentText": "A pyramid's construction was a national project — a sophisticated, state-sponsored endeavor to conquer death and eternalize the life of the divine king. In this ambition, we see a powerful parallel to the Tower of Babel. Both were monumental efforts to build a structure reaching into the heavens, a physical attempt to ascend to the divine realm through human ingenuity. This establishes Egypt, from its glorious beginning, as the archetype of the proud kingdom of man.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 11:4",
+            "text": "Then they said, 'Come, let us build ourselves a city and a tower with its top in the heavens, and let us make a name for ourselves.'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Tower of Babel vs The Pyramids",
+            "points": [
+              { "left": "Tower 'reaching into the heavens'", "right": "Pyramids as man-made mountains to the sky" },
+              { "left": "Driven by pride: 'make a name for ourselves'", "right": "Driven by pride: eternalize the divine king" },
+              { "left": "A united human project defying God", "right": "A national project to conquer death" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b06",
+      "sectionId": "ch02_s02",
+      "sequence": 6,
+      "title": "Scribes, Hieroglyphs, and Power",
+      "contentText": "To manage the new kingdom, a sophisticated bureaucracy was essential. The Egyptians created a beautiful and complex script known as hieroglyphs, meaning 'sacred carvings.' Scribes used this script to record laws, keep accounts, and inscribe sacred texts on temple and tomb walls. The Pyramid Texts contained spells and rituals to ensure the Pharaoh's safe journey into the afterlife. This combination of strong government, loyal priesthood, and the power of the written word solidified the Pharaoh's absolute authority.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Hieroglyphs",
+            "definition": "The ancient Egyptian writing system meaning 'sacred carvings,' used by scribes to record laws, accounts, and religious texts on temple and tomb walls.",
+            "etymology": "Greek: hieros (sacred) + glyphein (to carve)"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Pyramid Texts",
+            "definition": "The oldest known religious writings in the world, inscribed on the interior walls of Old Kingdom pyramids. They contained spells and rituals to guide the divine Pharaoh safely into the afterlife."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s02_b07",
+      "sectionId": "ch02_s02",
+      "sequence": 7,
+      "title": "Glory's Hidden Cracks",
+      "contentText": "The stability and prosperity of the Old Kingdom were not destined to last forever. The immense resources poured into the pyramids and the growing power of regional governors would eventually strain the Pharaoh's central authority. This period of Egypt's initial glory roughly aligns with the generations shortly after Noah's sons, before the call of Abraham — a time when humanity was re-establishing itself across the earth.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -2100, "label": "Egypt United (YEC)" },
+              { "year": -2000, "label": "Old Kingdom / Pyramid Age (YEC)" },
+              { "year": -1900, "label": "Old Kingdom Declines (YEC)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    }
+  ]
+}
