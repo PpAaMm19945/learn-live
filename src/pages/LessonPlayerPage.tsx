@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { SessionCanvas } from '@/components/session/SessionCanvas';
 import { StorybookPlayer } from '@/components/player/StorybookPlayer';
 import { LiveStorybookPlayer } from '@/components/player/LiveStorybookPlayer';
+import { LessonModeDialog, type LessonMode } from '@/components/player/LessonModeDialog';
 import { useLearnerStore } from '@/lib/learnerStore';
 import type { StorybookScript } from '@/lib/session/types';
 
@@ -12,22 +13,29 @@ export default function LessonPlayerPage() {
 
   const activeLearnerBand = useLearnerStore((s) => s.activeLearnerBand);
   const activeLearnerName = useLearnerStore((s) => s.activeLearnerName);
+  const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
 
   const isStorybook = activeLearnerBand <= 1;
 
-  // Try to load a pre-rendered script for bands 0-1 (offline/cached fallback)
+  // Mode selection for bands 0-1
+  const [selectedMode, setSelectedMode] = useState<LessonMode | null>(
+    isStorybook ? null : 'live-lesson'
+  );
+
+  // Pre-rendered script loading (only needed for read-aloud mode)
   const [storybookScript, setStorybookScript] = useState<StorybookScript | null>(null);
-  const [scriptLoading, setScriptLoading] = useState(isStorybook);
+  const [scriptLoading, setScriptLoading] = useState(false);
   const [scriptNotFound, setScriptNotFound] = useState(false);
 
+  // Load storybook script when read-aloud is selected
   useEffect(() => {
-    if (!chapterId || !isStorybook) return;
+    if (!chapterId || selectedMode !== 'read-aloud') return;
 
     setScriptLoading(true);
     const scriptPath = `/scripts/lesson_${chapterId}_band${activeLearnerBand}.json`;
     fetch(scriptPath)
       .then((res) => {
-        if (!res.ok) throw new Error(`not found`);
+        if (!res.ok) throw new Error('not found');
         return res.json();
       })
       .then((data) => {
@@ -35,24 +43,21 @@ export default function LessonPlayerPage() {
         setScriptLoading(false);
       })
       .catch(() => {
-        // No pre-rendered script — will use live WebSocket storybook
         setScriptNotFound(true);
         setScriptLoading(false);
       });
-  }, [chapterId, activeLearnerBand, isStorybook]);
+  }, [chapterId, activeLearnerBand, selectedMode]);
 
   const handleExit = () => navigate('/dashboard');
 
-  const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
-
   // Ensure learner is selected
   useEffect(() => {
-    if (!scriptLoading && !activeLearnerId) {
+    if (!activeLearnerId) {
       navigate('/dashboard');
     }
-  }, [scriptLoading, activeLearnerId, navigate]);
+  }, [activeLearnerId, navigate]);
 
-  if (scriptLoading || !activeLearnerId) {
+  if (!activeLearnerId) {
     return (
       <div className="fixed inset-0 bg-background flex items-center justify-center">
         <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -60,8 +65,26 @@ export default function LessonPlayerPage() {
     );
   }
 
-  // Band 0-1: Use pre-rendered script if available, otherwise live storybook
-  if (isStorybook) {
+  // Band 0-1: show mode selection dialog
+  if (isStorybook && !selectedMode) {
+    return (
+      <div className="fixed inset-0 bg-background">
+        <LessonModeDialog open onSelect={setSelectedMode} />
+      </div>
+    );
+  }
+
+  // Loading spinner for read-aloud script fetch
+  if (scriptLoading) {
+    return (
+      <div className="fixed inset-0 bg-background flex items-center justify-center">
+        <div className="w-12 h-12 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Read-aloud mode → StorybookPlayer or LiveStorybookPlayer fallback
+  if (selectedMode === 'read-aloud' && isStorybook) {
     if (storybookScript && !scriptNotFound) {
       return (
         <StorybookPlayer
@@ -71,8 +94,6 @@ export default function LessonPlayerPage() {
         />
       );
     }
-
-    // Live WebSocket storybook
     return (
       <LiveStorybookPlayer
         chapterId={chapterId || 'ch01'}
@@ -83,7 +104,7 @@ export default function LessonPlayerPage() {
     );
   }
 
-  // Band 2+ → Live SessionCanvas
+  // Live lesson → SessionCanvas (all bands including 0-1)
   return (
     <SessionCanvas
       chapterId={chapterId || 'ch01'}
