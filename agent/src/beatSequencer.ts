@@ -179,7 +179,7 @@ export class BeatSequencer {
             // Checkpoint for resume
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
 
-            const waitMs = 800;
+            const waitMs = 800 + this.comprehensionTracker.scaffoldingDelay;
 
             this.currentBeatIndex++;
             this.produceAhead();
@@ -192,6 +192,7 @@ export class BeatSequencer {
         if (!this.isStopped && this.currentBeatIndex >= this.manifest.beats.length) {
             console.log('[SEQUENCER] Lesson complete.');
             logVisualMixTelemetry(this.visualCounters, this.bandProfile, this.band);
+            this.sendMessage(this.comprehensionTracker.buildSessionScoreMessage());
             this.sendMessage({ type: 'lesson_complete' });
         }
     }
