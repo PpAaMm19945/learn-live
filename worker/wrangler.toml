@@ -24,3 +24,10 @@ bucket_name = "learnlive-assets-prod"
 # [vars]
 # GEMINI_API_KEY = "placeholder"
 # SENDER_EMAIL = "antmwes104.1@gmail.com"
+
+[observability]
+[observability.logs]
+enabled = true
+invocation_logs = true
+
+[observability.traces]
