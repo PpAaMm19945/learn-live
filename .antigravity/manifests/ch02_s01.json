@@ -1,0 +1,257 @@
+{
+  "sectionId": "ch02_s01",
+  "chapterId": "ch02",
+  "heading": "2.1 Foundations After Babel (c. 3200–2900 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 480,
+  "thinkItThrough": [
+    "The Bible identifies Mizraim, son of Ham, as the ancestor of the Egyptians. How does knowing this specific lineage change our perspective on the people of ancient Egypt compared to seeing them as just another ancient civilization?",
+    "The Egyptians named their land Kemet, 'the Black Land,' based on the fertile soil from the Nile. How does a land's geography shape the identity and beliefs of its people? Can you think of examples from other parts of Africa or the world?",
+    "The concept of Ma'at (order) versus Isfet (chaos) was central to the Egyptian worldview. Where do we see this same fundamental tension between order and chaos described in the Bible's account of Creation and the Fall?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch02_s01_b01",
+      "sectionId": "ch02_s01",
+      "sequence": 1,
+      "title": "The Great Dispersal from Babel",
+      "contentText": "Following the great dispersal at the Tower of Babel, humanity began a new chapter. As Genesis 11 describes, God scattered the people over the face of all the earth. From this monumental event, new civilizations emerged in the world's fertile corners. One of the very first and most enduring of these grew along the banks of the Nile River in northeastern Africa.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 11:8–9",
+            "text": "So the LORD scattered them abroad from there over the face of all the earth, and they ceased building the city."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 33.0, "lng": 44.0, "zoom": 4 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 32.5,
+            "lng": 44.4,
+            "label": "Babel — Starting Point",
+            "description": "The site of the great dispersal of humanity"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[32.5, 44.4], [31.0, 36.0], [30.0, 31.2]],
+            "label": "Migration to the Nile Valley"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s01_b02",
+      "sectionId": "ch02_s01",
+      "sequence": 2,
+      "title": "Mizraim, Father of Egypt",
+      "contentText": "The Bible gives us a clear lineage for the people who first settled this region. In the Table of Nations, recorded in Genesis 10, we learn that the descendants of Noah's son Ham became the ancestors of many of Africa's great peoples. Specifically, the text identifies his son Mizraim as the forefather of the Egyptians. The name 'Mizraim' even became the Hebrew word for the land of Egypt itself — a direct linguistic link between the people, the place, and their biblical origin.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 10:6",
+            "text": "The sons of Ham: Cush, Mizraim, Phut, and Canaan."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_genealogy",
+          "args": {
+            "nodes": [
+              { "name": "Noah" },
+              { "name": "Ham", "parent": "Noah" },
+              { "name": "Mizraim", "parent": "Ham" },
+              { "name": "Cush", "parent": "Ham" },
+              { "name": "Phut", "parent": "Ham" },
+              { "name": "Canaan", "parent": "Ham" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Mizraim",
+            "definition": "The Hebrew name for Egypt and the biblical ancestor of the Egyptian people. Son of Ham, grandson of Noah.",
+            "etymology": "Hebrew: מִצְרַיִם (Mitzrayim) — dual form meaning 'Two Egypts' (Upper and Lower)"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s01_b03",
+      "sectionId": "ch02_s01",
+      "sequence": 3,
+      "title": "A Ribbon of Life",
+      "contentText": "These early settlers migrated from the Near East with skills in farming and animal husbandry. They also carried the deep-seated human desire to build, create order, and make a name for themselves — an echo of the ambition that had defined the Babel project. In the Nile Valley, they found the perfect environment: a ribbon of life-giving water and soil cutting through a harsh desert, a land of immense potential.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 28.0, "lng": 31.5, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "ancient_egypt" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 30.5,
+            "lng": 31.2,
+            "label": "Nile Delta",
+            "description": "The fertile fan-shaped delta where the Nile meets the Mediterranean Sea"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s01_b04",
+      "sectionId": "ch02_s01",
+      "sequence": 4,
+      "title": "Kemet — The Black Land",
+      "contentText": "This early era, known as the Predynastic Period, was a time of gradual but steady development. Small farming communities dotted the fertile banks of the Nile, learning to harness its predictable rhythms. Each year, the river flooded its banks and deposited a rich, black layer of silt that made the land incredibly fertile. The Egyptians called their country Kemet, meaning 'the Black Land,' distinguishing their life-giving home from the 'Red Land' of the surrounding desert.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Kemet",
+            "definition": "The ancient Egyptian name for their own land, meaning 'the Black Land,' referring to the dark, fertile soil deposited by the annual Nile flood.",
+            "etymology": "Egyptian: km.t — 'black' (referring to the fertile soil)"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "The Two Lands of Egypt",
+            "points": [
+              { "left": "Kemet ('Black Land') — fertile Nile soil", "right": "Deshret ('Red Land') — harsh surrounding desert" },
+              { "left": "Life, order, abundance", "right": "Death, chaos, barrenness" },
+              { "left": "Annual flood brings renewal", "right": "Dry wasteland, unchanging" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s01_b05",
+      "sectionId": "ch02_s01",
+      "sequence": 5,
+      "title": "Ma'at versus Isfet",
+      "contentText": "The identity of the Egyptian people grew from this unique environment. They saw the world as a place of cosmic struggle between order, which they called Ma'at, and chaos, or Isfet. Ma'at represented harmony, truth, and justice — the predictable, life-sustaining rhythm of the Nile. Isfet was the ever-present threat of the harsh desert, of famine, and of death. The primary role of their leaders was to uphold Ma'at and keep the forces of chaos at bay.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ma'at",
+            "definition": "The ancient Egyptian concept of cosmic order, harmony, truth, and justice. It represented the predictable, life-sustaining rhythm of the Nile and was the central principle Egyptian rulers were expected to uphold.",
+            "etymology": "Egyptian: mꜣꜥt — 'truth, order, justice'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Isfet",
+            "definition": "The Egyptian concept of chaos, disorder, and injustice — the cosmic opposite of Ma'at. Represented by the threats of desert, famine, and death.",
+            "etymology": "Egyptian: jsft — 'chaos, disorder'"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Ma'at vs Isfet: The Egyptian Worldview",
+            "points": [
+              { "left": "Ma'at — Order, harmony, truth", "right": "Isfet — Chaos, disorder, injustice" },
+              { "left": "The Nile's predictable flood", "right": "Drought, famine, death" },
+              { "left": "The Pharaoh upholds Ma'at", "right": "Foreign invasion and civil war" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch02_s01_b06",
+      "sectionId": "ch02_s01",
+      "sequence": 6,
+      "title": "Seeds of Kingship and Writing",
+      "contentText": "During the Predynastic Period, the foundational elements of Egyptian culture emerged. Early forms of kingship appeared as powerful leaders united villages, and the first symbolic writing developed to record trade, ownership, and religious ideas. This annual cycle of flood and harvest shaped their entire worldview, teaching them about order, chaos, death, and rebirth.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Predynastic Egypt: Seeds of Civilization",
+            "bullets": [
+              "Small farming communities along the Nile",
+              "Early forms of kingship — village leaders uniting territories",
+              "First symbolic writing for trade and religious ideas",
+              "The ruler's duty: uphold Ma'at, keep chaos at bay"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch02_s01_b07",
+      "sectionId": "ch02_s01",
+      "sequence": 7,
+      "title": "The Stage is Set",
+      "contentText": "As these early communities grew and coalesced, their desire to impose order on the world grew stronger. This foundational belief, born from their relationship with the river, would drive them to achieve incredible feats of engineering, art, and social organization. The stage was set for the rise of the Pharaohs and the beginning of the Old Kingdom.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -2348, "label": "The Flood" },
+              { "year": -2242, "label": "Tower of Babel" },
+              { "year": -2200, "label": "Dispersal of Nations" },
+              { "year": -2100, "label": "Predynastic Egypt Begins (YEC)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "reflection",
+            "question": "How does knowing that the Egyptians descended from Noah's grandson Mizraim change the way we understand this ancient civilization?"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}
