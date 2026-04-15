@@ -39,7 +39,6 @@ const spring = { type: 'spring' as const, damping: 22, stiffness: 140 };
 export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: CanvasOverlaysProps) {
   const isYounger = band <= 3;
   const textSize = isYounger ? 'text-base' : 'text-sm';
-  const headingSize = isYounger ? 'text-lg' : 'text-sm';
   const clickHandler = compact ? undefined : onDismiss;
   return (
     <div className="absolute inset-0 pointer-events-none z-40">
