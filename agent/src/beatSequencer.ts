@@ -250,8 +250,11 @@ export class BeatSequencer {
             pipelineContext: pipelineCtx,
         });
 
+        // Append scaffolding suffix if student is struggling
+        const finalPrompt = prompt + this.comprehensionTracker.scaffoldingPromptSuffix;
+
         const extractedImage = this.extractBeatImage(baseText);
-        let narratedText = await this.narrator.narrate(prompt) || baseText;
+        let narratedText = await this.narrator.narrate(finalPrompt) || baseText;
         
         narratedText = narratedText
             .replace(/!\[[^\]]*\]\(([^)]+)\)/g, '')
