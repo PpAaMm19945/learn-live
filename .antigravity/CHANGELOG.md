@@ -1,118 +1,72 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-10
+> **Last updated:** 2026-04-15
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
 
-## 2026-04-10 — Phase 7: Runtime Stabilization & Debug Tooling
-- Documented 8 new issues (65-72) from live session analysis with agent logs
-- **#65 Fix:** Strip tool-call text from transcript (client + agent filter)
-- **#66 Fix:** Image scene race condition — set imageSceneUrl before sceneMode switch
-- **#67 Fix:** Fallback marker-based region highlighting when no GeoJSON polygons
-- **#68 Fix:** Narrator retry with exponential backoff (3 attempts) for 503/429
-- Added `cush_region` alias to NAMED_LOCATIONS for draw_route targets
-- Built Agent Debug Drawer — slide-out panel showing tool calls, beats, errors
+## 2026-04-15 — Phase 7 (Band Differentiation): Planning Complete
+- Synthesized input from Codex, Antigravity, and Claude on age-band differentiation
+- Created `BandProfile` interface spec with narration, TTS, tools, visuals, interactivity, and theology gate dimensions
+- Defined 3-sprint implementation plan in ROADMAP.md (Core Agent → Frontend Delivery → Quality/Testing)
+- Saved architecture docs: `docs/architecture/band-differentiation-antigravity.md`, `band-differentiation-claude.md`
+- **Decision:** StorybookPlayer for Bands 0-1, full SessionCanvas for Bands 2-5
+- **Decision:** Theology Gate — abstract concepts unlock progressively by band (e.g., "Providence" at Band 4, "Eschatological implications" at Band 5)
+- **Decision:** TTS voice mapping: Kore (0-1), Leda (2), Orus (3), Charon (4-5)
+
+## 2026-04-14 — Phase 9: Overlay Positioning & Map Interactivity
+- Unified all small overlays (key term, question, quote, reflection) to shared bottom-left slot
+- Removed casual emojis (🤔, 📚) from overlay cards, replaced with styled text labels
+- Fixed image thumbnail cropping — changed from `object-cover` to `aspect-square object-contain`
+- Removed 20s image auto-dismiss timer — images persist until beat ends
+- Added scroll-wheel zoom (1x-4x) and pinch-to-zoom to `AutoScrollMap`
+- Added 2D drag panning and zoom percentage indicator to map
+
+## 2026-04-13 — Phase 8+: Sequential Overlay Queue
+- Built overlay queue system in `CanvasOverlays.tsx` — one overlay at a time, 15s dwell, auto-advance
+- `dismiss_overlay("all")` clears queue and resets
+- Image thumbnail system for storybook images during map/transcript scenes
+- Increased inter-overlay delay for sequential tool calls within a beat
+
+## 2026-04-12 — Phase 8: Overlay Extraction & Transcript Cards
+- Extracted overlay rendering from TeachingCanvas into `CanvasOverlays.tsx` at SessionCanvas level (z-40)
+- Overlays now visible in ALL scene modes, not just map (Issue 79, 81)
+- Transcript rewritten from SRT-style subtitles to scrollable card stack (Issue 77)
+- Latest card prominent with border/shadow; older cards fade to 40% opacity
+
+## 2026-04-11 — Phase 7: Debug Tooling & Runtime Fixes
+- Built `DebugDrawer.tsx` — slide-out panel with category filters, expandable details, copy-all (Issue 72)
+- Added `document.execCommand('copy')` fallback for iframe contexts (Issue 73)
+- Lightened map theme colors by ~40% — land/water/borders now distinguishable (Issue 74)
+- Moved lesson-complete to `AnimatePresence` overlay so debug drawer stays accessible (Issue 75)
+- Added image test presets dropdown in Canvas Workbench (Issue 76)
+- Strip tool-call text from transcript via client-side regex (Issue 65)
+- Fixed image scene race condition — set URL before scene mode switch (Issue 66)
+- Added `map.getLayer()` guard for `highlight_region` calls (Issue 67)
+- Added exponential backoff retry for Gemini 503 errors (Issue 68)
 - Created `textFilter.ts` for stripping tool call syntax from narration
-- **Pending agent deploy:** Narrator retry + tool-call stripping on server side
+- Added `cush_region` alias to NAMED_LOCATIONS
 
----
-- Built math curriculum engine with DAG system, 377 constraint templates across 5 strands
-- Evidence Witness (Gemini Live bidi-streaming agent) for watching children do math
-- Split Judgment Model, AI Permission Rules, Noise Injection system
-- **Decision:** Pivot to African History. All math code archived, not deleted.
+## 2026-04-10 — Phase 6C: Runtime Stabilization Fixes
+- **Issue 54 (transcript sync):** Text now appends when audio starts, not when beat_payload arrives
+- **Issue 62 (visuals):** New `ImageScene` component renders full-bleed storybook images; beat JSON updated to 80/20 visual ratio (3 image beats + 1 map beat)
+- **Issue 63 (continuity):** Narrator prompt rewritten with beat index, previous text context, and hard anti-greeting/recap rules
+- **Issue 64 (restart loop):** `statusRef` set to `'ended'` immediately on `lesson_complete`, blocking reconnection
+- **PROMPTS.md:** Collapsed from 916 lines to ~80 lines; all completed phases summarized as one-liners
+- **Action required:** Redeploy agent to Cloud Run
 
-## 2026-03-11 — Phase 2: Authentication
-- P16: D1 auth schema — Users, Auth_Tokens, Sessions, User_Roles tables
-- P17: JWT sessions with HttpOnly cookies (SameSite=None, 7-day expiry)
-- P18: Magic link flow — stored email in token ID field to handle null userId constraint
-- P19: Google OAuth — CSRF via state token signed as JWT
-- P20: Password auth — PBKDF2 (100k iterations, SHA-256) because Workers lack bcrypt
-- P21: Account linking — merge by email across all 3 auth methods
-- P22-25: Frontend auth store (Zustand), route guards, UI polish
+## 2026-04-10 — Phase 6C: Full Lesson Runtime Audit
+- Audio confirmed working in real user lesson runs end-to-end
+- User captured a full beat-by-beat session showing four remaining blockers: transcript/audio desync, no visual scene rendering, beat-to-beat greeting/recap resets, and broken lesson ending / apparent restart
+- **Decision:** Prioritize runtime stabilization before implementing the full teaching-philosophy-driven LessonPreparer pipeline
 
-## 2026-03-11 — Phase 3: History Curriculum Schema
-- 6 new D1 tables: Topics, Lessons, Sources, RAG_Chunks, Learner_Progress, Quiz_Questions
-- R2 content pipeline: upload, chunk, index, keyword-based retrieval
-- Frontend: Dashboard topic grid, TopicDetail, LessonView with narrative/sidebar/completion
-- API transforms DB columns to match frontend expectations (summary→description, etc.)
-
-## 2026-03-12 — Phase 4: AI Adaptation Engine
-- Band adaptation via Gemini 2.5 Flash: master text + band → age-appropriate content
-- Adapted_Content D1 cache table to avoid repeated AI calls
-- Band 5 skips AI entirely — serves master text directly
-- BandSelector, AdaptedContentReader, VocabularyCard, DiscussionQuestions components
-
-## 2026-03-12 — Phase 5: Assessment & Oral Examiner
-- Repurposed Evidence Witness as Oral Examiner (Socratic questioning from RAG context)
-- Exam sessions with 3 tone tiers (0–1 conversational, 2–3 guided, 4–5 Socratic)
-- Artifact verification: child photographs work → AI compares against R2 references
-
-## 2026-03-12 — Phase 6: Explainer Canvas
-- History canvas primitives: MapOverlay, Timeline, FigurePrimitives, EventPrimitives
-- Agent integration via historyExplainerSession.ts
-
-## 2026-03-13 — Phase 7: Worker Cleanup
-- Monolithic worker/src/index.ts (~1300 lines) split into modular routes
-- Families table (008_families.sql) with Learners child table
-
-## 2026-03-14 — Phase 8: Pilot Readiness
-- Content pipeline scripts, admin analytics, onboarding wizard with band calculator
-- Activity logging, feedback widget
-
-## 2026-03-15 — Phase 9: Content Expansion
-- Glossary system, world history context sidebars
-
-## 2026-03-16 — Phase 10: UI/UX Overhaul
-- Global learner store (Zustand), unified AppShell
-
-## 2026-03-17 — Phase 11: Post-Merge Cleanup
-- Progress page, loadFamily() crash resilience, stripMarkdown() utility
-
-## 2026-03-18 — Phase 12: Data Quality
-- D1 migration 014, reading polish, error handling
-
-## 2026-03-18 — Phase 13: Content Production
-- 30 SVG map overlays, pronunciation dictionary, component data extraction
-
-## 2026-03-19 — Phase 14: SVG Alignment Tool
-
-## 2026-03-20 — Phase 15: Session Engine
-- LessonScript types, ScriptPlayer, StorybookPlayer, 9 visual components, generator CLI
-
-## 2026-03-22 — Phase 16: MapLibre Teaching Canvas
-- 16A: MapLibre GL JS wrapper, overlay panels, imperative API
-- 16B: GeoJSON data for all 9 chapters (27 files)
-- 16C: Agent tool-call rewrite with MAPLIBRE_TEACHING_TOOLS
-
-## 2026-03-31 — Phase 20: Live-First Pivot
-- **Decision:** Pivot from static scripts to live AI teaching via Gemini Live API
-- Deleted 23 legacy files (ScriptPlayer pipeline)
-- Created SessionCanvas, session types, ARCHITECTURE_LIVE.md
-- Added set_scene tool to agent
-
-## 2026-04-01 — Phases 21–25: Live-First Implementation
-- Phase 21: useSession hook, WebSocket connection, audio playback, microphone capture
-- Phase 22: TranscriptView kinetic typography
-- Phase 23: Agent WebSocket fixes, structured logging
-- Phase 24A: StorybookPlayer split-screen redesign
-- Phase 24B: Dashboard & page cleanup
-- Phase 25: Golden Script recording infrastructure
-
-## 2026-04-07 — Beat Sequencer Pivot
-- **Decision:** Pivot from Gemini Live narration to Beat Sequencer architecture
-- **Reason:** Gemini Live audio-native model cannot produce structured text, reliable tool calls, or clean transcripts. It is designed for conversational ping-pong, not 10–15 minute autonomous narration.
-- **What stays:** Entire frontend (SessionCanvas, TranscriptView, TeachingCanvas, useSession, toolCallHandler), WebSocket protocol, GeoJSON data, content manifest
-- **What changes:** Agent side — replace GeminiSession Live with BeatSequencer using regular generateContent streaming API. Gemini Live reserved for student Q&A only (Band 3+).
-- Archived: `ARCHITECTURE_LIVE.md` → `.antigravity/archive/`, `JULES_PLAN_PHASE21.md` → `.antigravity/archive/`
-- Updated: ROADMAP.md with 6-phase Beat Sequencer plan, ISSUES.md with architectural diagnosis (issues 52–56)
-
-## 2026-04-08 — Phases 3–4: Beat Sequencer & Live Q&A Complete
-- Beat Sequencer (`beatSequencer.ts`) iterates beats, calls Gemini `generateContent` per beat, streams transcript + tool calls
-- ContentLoader, TTSService, ContentFetcher implemented
-- HistorySessionController state machine manages sequencer ↔ live Q&A transitions
-- LiveHandler (`liveHandler.ts`) opens short Gemini Live sessions for Band 3+ Q&A on `raise_hand`
-- Agent deployed to Cloud Run
+## 2026-04-10 — Phase 6B: TTS Provider Migration & Pacing Hardening
+- **TTS pivot (Issue 61)**: Replaced Google Cloud TTS (`GOOGLE_TTS_KEY`) with Gemini TTS (`gemini-2.5-flash-preview-tts`) — uses existing `GEMINI_API_KEY`, no new secrets
+- Voice: `Charon` (warm informative narrator)
+- Beat Sequencer dwell time: if TTS fails, agent waits ~150 WPM reading pace before advancing
+- Frontend fallback: browser `speechSynthesis` speaks beat text if server audio is empty
+- Frontend dwell time: if no speech synthesis available, text dwells on screen proportional to word count
+- **Action required:** Redeploy agent to Cloud Run
 
 ## 2026-04-09 — Phase 6: Frontend Bug Fixes, Audit & Model Upgrade
 - Fixed missing `RecordedEvent` type in `types.ts` (Issue 57 — build blocker)
@@ -123,23 +77,50 @@
 - Full phase audit: Phases 1–4 verified complete, Phase 5 partial, Phase 6 in progress
 - **Action required:** Redeploy agent to Cloud Run
 
-## 2026-04-10 — Phase 6B: TTS Provider Migration & Pacing Hardening
-- **TTS pivot (Issue 61)**: Replaced Google Cloud TTS (`GOOGLE_TTS_KEY`) with Gemini TTS (`gemini-2.5-flash-preview-tts`) — uses existing `GEMINI_API_KEY`, no new secrets
-- Voice: `Charon` (warm informative narrator)
-- Beat Sequencer dwell time: if TTS fails, agent waits ~150 WPM reading pace before advancing
-- Frontend fallback: browser `speechSynthesis` speaks beat text if server audio is empty
-- Frontend dwell time: if no speech synthesis available, text dwells on screen proportional to word count
-- **Action required:** Redeploy agent to Cloud Run
+## 2026-04-08 — Phases 3–4: Beat Sequencer & Live Q&A Complete
+- Beat Sequencer (`beatSequencer.ts`) iterates beats, calls Gemini `generateContent` per beat, streams transcript + tool calls
+- ContentLoader, TTSService, ContentFetcher implemented
+- HistorySessionController state machine manages sequencer ↔ live Q&A transitions
+- LiveHandler (`liveHandler.ts`) opens short Gemini Live sessions for Band 3+ Q&A on `raise_hand`
+- Agent deployed to Cloud Run
 
-## 2026-04-10 — Phase 6C: Full Lesson Runtime Audit
-- Audio confirmed working in real user lesson runs end-to-end
-- User captured a full beat-by-beat session showing four remaining blockers: transcript/audio desync, no visual scene rendering, beat-to-beat greeting/recap resets, and broken lesson ending / apparent restart
-- **Decision:** Prioritize runtime stabilization before implementing the full teaching-philosophy-driven LessonPreparer pipeline
+## 2026-04-07 — Beat Sequencer Pivot
+- **Decision:** Pivot from Gemini Live narration to Beat Sequencer architecture
+- **Reason:** Gemini Live audio-native model cannot produce structured text, reliable tool calls, or clean transcripts. It is designed for conversational ping-pong, not 10–15 minute autonomous narration.
+- **What stays:** Entire frontend (SessionCanvas, TranscriptView, TeachingCanvas, useSession, toolCallHandler), WebSocket protocol, GeoJSON data, content manifest
+- **What changes:** Agent side — replace GeminiSession Live with BeatSequencer using regular generateContent streaming API. Gemini Live reserved for student Q&A only (Band 3+).
+- Archived: `ARCHITECTURE_LIVE.md` → `.antigravity/archive/`, `JULES_PLAN_PHASE21.md` → `.antigravity/archive/`
+- Updated: ROADMAP.md with 6-phase Beat Sequencer plan, ISSUES.md with architectural diagnosis (issues 52–56)
 
-## 2026-04-10 — Phase 6C: Runtime Stabilization Fixes
-- **Issue 54 (transcript sync):** Text now appends when audio starts, not when beat_payload arrives
-- **Issue 62 (visuals):** New `ImageScene` component renders full-bleed storybook images; beat JSON updated to 80/20 visual ratio (3 image beats + 1 map beat)
-- **Issue 63 (continuity):** Narrator prompt rewritten with beat index, previous text context, and hard anti-greeting/recap rules
-- **Issue 64 (restart loop):** `statusRef` set to `'ended'` immediately on `lesson_complete`, blocking reconnection
-- **PROMPTS.md:** Collapsed from 916 lines to ~80 lines; all completed phases summarized as one-liners
-- **Action required:** Redeploy agent to Cloud Run
+---
+
+## Pre-Beat-Sequencer Phases (Summary)
+
+- Built math curriculum engine with DAG system, 377 constraint templates across 5 strands
+- Evidence Witness (Gemini Live bidi-streaming agent) for watching children do math
+- Split Judgment Model, AI Permission Rules, Noise Injection system
+- **Decision:** Pivot to African History. All math code archived, not deleted.
+
+| Phase | When | What |
+|-------|------|------|
+| 2 | Mar 11 | Auth: D1 schema, JWT sessions, magic link, Google OAuth, PBKDF2 passwords, account linking |
+| 3 | Mar 11 | History schema: 6 D1 tables, R2 content pipeline, Dashboard/TopicDetail/LessonView |
+| 4 | Mar 12 | AI adaptation: Band adaptation via Gemini 2.5 Flash, Adapted_Content cache |
+| 5 | Mar 12 | Assessment: Oral Examiner (Socratic), exam sessions, artifact verification |
+| 6 | Mar 12 | Explainer canvas: MapOverlay, Timeline, FigurePrimitives, agent integration |
+| 7 | Mar 13 | Worker cleanup: monolithic split to modular routes, Families table |
+| 8 | Mar 14 | Pilot readiness: content pipeline scripts, admin analytics, onboarding wizard |
+| 9 | Mar 15 | Content expansion: glossary system, world history context sidebars |
+| 10 | Mar 16 | UI/UX overhaul: global learner store (Zustand), unified AppShell |
+| 11 | Mar 17 | Post-merge cleanup: progress page, loadFamily() resilience, stripMarkdown() |
+| 12 | Mar 18 | Data quality: D1 migration 014, reading polish, error handling |
+| 13 | Mar 18 | Content production: 30 SVG map overlays, pronunciation dictionary, component data |
+| 14 | Mar 19 | SVG alignment tool |
+| 15 | Mar 20 | Session engine: LessonScript, ScriptPlayer, StorybookPlayer, 9 visual components |
+| 16 | Mar 22 | MapLibre: TeachingCanvas (16A), GeoJSON all 9 chapters (16B), agent tool rewrite (16C) |
+| 20 | Mar 31 | Live-first pivot: deleted ScriptPlayer, created SessionCanvas, ARCHITECTURE_LIVE.md |
+| 21–25 | Apr 1–3 | useSession, TranscriptView, agent WS fix, StorybookPlayer redesign, Golden Script |
+
+---
+
+*This document is the single source of truth for decisions. Update it as decisions change.*

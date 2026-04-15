@@ -1,6 +1,6 @@
 # Learn Live — Prompt Execution Log
 
-> **Last updated:** 2026-04-10
+> **Last updated:** 2026-04-15
 > Consolidated record of all prompts executed across all phases.
 
 ---
@@ -43,7 +43,7 @@ Section-level lesson picker, lesson complete screen, progress recording, end-to-
 ### Phase 6B — TTS Migration ✅ COMPLETE
 Migrated from Google Cloud TTS (`GOOGLE_TTS_KEY`) to Gemini TTS (`gemini-2.5-flash-preview-tts`). Zero new secrets needed — uses existing `GEMINI_API_KEY`.
 
-### Phase 6C — Runtime Stabilization 🔧 IN PROGRESS
+### Phase 6C — Runtime Stabilization ✅ COMPLETE
 Four runtime issues identified and fixed:
 1. **Beat continuity** — Narrator prompt rewritten with beat index context and anti-greeting rules.
 2. **Transcript-audio sync** — Text now appends when audio starts, not when beat_payload arrives.
@@ -52,10 +52,60 @@ Four runtime issues identified and fixed:
 
 ---
 
+## Post-Beat-Sequencer Stabilization
+
+### Phase 7 — Debug Tooling & Runtime Fixes ✅ COMPLETE
+- DebugDrawer with category filters, expandable details, copy-all
+- Clipboard fallback for iframe contexts
+- Map theme lightened, lesson-complete overlay fix
+- Tool-call text stripping (client + agent), image scene race condition fix
+- `highlight_region` guard, Gemini 503 retry with exponential backoff
+
+### Phase 8 — Overlay System & Transcript Cards ✅ COMPLETE
+- Extracted overlays from TeachingCanvas into `CanvasOverlays.tsx` at SessionCanvas level
+- Overlays now visible in all scene modes (not just map)
+- Transcript rewritten to scrollable card stack
+- Sequential overlay queue — one overlay at a time, 15s dwell, auto-advance
+- Image thumbnail system for storybook images
+
+### Phase 9 — Overlay Positioning & Map Interactivity ✅ COMPLETE
+- Unified all small overlays to shared bottom-left card slot
+- Removed casual emojis, replaced with styled text labels
+- Image thumbnail: `aspect-square object-contain`, removed 20s auto-dismiss
+- AutoScrollMap: scroll-wheel zoom (1x-4x), pinch-to-zoom, 2D drag panning
+
+---
+
+## Phase 7 — Band Differentiation (3 Sprints)
+
+> Full spec in `.antigravity/ROADMAP.md`. Architecture inputs in `docs/architecture/band-differentiation-*.md`.
+
+### Sprint 1 — Core Agent Differentiation 🔜 NEXT
+- [ ] Create `agent/src/bandConfig.ts` with `BandProfile` for all 6 bands
+- [ ] Implement `applyBandToolPolicy()` in `beatSequencer.ts`
+- [ ] Inject word/sentence/vocabulary constraints into `buildNarrationPrompt`
+- [ ] Add band-specific TTS voice and rate in `tts.ts`
+- [ ] Implement Theology Gate with concept unlock table
+- [ ] Add visual mix telemetry logging
+
+### Sprint 2 — Frontend Delivery Modes
+- [ ] Build `StoryBookPlayer.tsx` for Bands 0-1
+- [ ] Route branching: Band ≤ 1 → StoryBookPlayer, Band ≥ 2 → SessionCanvas
+- [ ] New interaction tools: `show_comprehension_check`, `show_debate_prompt`, `show_essay_prompt`
+- [ ] Per-band interaction policy in `HistorySessionController`
+
+### Sprint 3 — Quality & Testing
+- [ ] Update `beat-schema.md` with per-band tool constraints
+- [ ] Build manifest lint script (`agent/scripts/lint-manifest.ts`)
+- [ ] Snapshot tests for tool filtering across all 6 bands
+- [ ] Comprehension scoring tracker (`agent/src/comprehensionTracker.ts`)
+
+---
+
 ## Teaching Philosophy Pipeline (Planned)
 
 > See `docs/TEACHING_PHILOSOPHY.md` for the full 5-phase pipeline spec.
-> Implementation deferred until Phase 6C stabilization is deployed and verified.
+> Implementation deferred until Band Differentiation Sprint 1 is deployed and verified.
 
 | Phase | Purpose | Status |
 |-------|---------|--------|
