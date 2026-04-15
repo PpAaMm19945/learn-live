@@ -14,7 +14,14 @@ export interface Beat {
     syncTrigger: 'start_of_beat';
   }>;
   estimatedDurationSec: number;
-  bandOverrides?: Record<string, { contentText: string }>;
+  bandOverrides?: Record<string, {
+    contentText: string;
+    toolSequence?: Array<{
+      tool: string;
+      args: Record<string, any>;
+      syncTrigger: 'start_of_beat';
+    }>;
+  }>;
 }
 
 export interface SectionManifest {

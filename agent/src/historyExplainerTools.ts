@@ -1,3 +1,5 @@
+import { getBandProfile } from './bandConfig';
+
 // ── Tool Definitions ──────────────────────────────────────────────────
 // Describes every tool the AI narrator can invoke on the teaching canvas.
 
@@ -246,119 +248,106 @@ export const MAPLIBRE_TEACHING_TOOLS = [
 export function buildHistoryExplainerPrompt(baseContent: string, learnerContext?: { name?: string; age?: number; band?: number }, band: number = 2): string {
     const learnerName = learnerContext?.name || 'the learner';
     const age = learnerContext?.age || 7;
+    const profile = getBandProfile(band);
 
-    let bandSpecificInstructions = '';
+    // Band-specific tool guidance
+    const blockedToolsList = profile.tools.blocked.length > 0
+        ? `\nBLOCKED TOOLS (do NOT use): ${profile.tools.blocked.join(', ')}.`
+        : '';
 
-    if (band <= 1) {
-        bandSpecificInstructions = `
-- Band 0-1: Simple stories, gentle pacing, relate to child's world.
-- Use very simple vocabulary. Explain every term.
-- Tell a straightforward story with warmth but ENERGY.
-- Use show_slide and show_key_term heavily — keep visuals simple but constant.
-- IMAGE RULE: Show an illustration for 80% of beats. Transcript alone ≤ 20%.`;
-    } else if (band <= 3) {
-        bandSpecificInstructions = `
-- Band 2-3: More detail, show relationships between events, moderate pacing.
-- Introduce key historical facts clearly.
-- Use the full tool palette: timeline, comparison, key terms, quotes, genealogy.
-- Ask rhetorical questions using show_question to maintain engagement.
-- IMAGE RULE: Alternate between image, map, and slide scenes. Transcript alone ≤ 20%.`;
-    } else {
-        bandSpecificInstructions = `
-- Band 4-5: Nuanced analysis, multiple perspectives, full canvas use.
-- Discuss historiography and why sources might disagree.
-- Compare multiple figures or events using show_comparison.
-- Use show_quote for primary source engagement.
-- IMAGE RULE: Dense visual layering — slides with maps, comparisons with timelines. Transcript alone ≤ 15%.`;
-    }
+    const toolCaps = `
+TOOL LIMITS:
+- show_timeline: max ${profile.tools.maxTimelineEvents} events.
+- show_comparison: max ${profile.tools.maxComparisonPoints} points per column.
+- show_genealogy: max ${profile.tools.maxGenealogyNodes} nodes.
+- show_slide: max ${profile.tools.maxSlideBullets} bullets.
+- Maps: ${profile.tools.mapToolsEnabled ? 'enabled' : 'DISABLED — do not use map tools.'}.
+- Quotes: ${profile.tools.quoteAllowed ? 'allowed' : 'NOT allowed.'}.
+- Scripture: ${profile.tools.scriptureAllowed ? 'allowed' : 'NOT allowed.'}.${blockedToolsList}`;
+
+    // Voice directive — adapts per band instead of one-size-fits-all
+    const voiceBlock = band <= 1
+        ? `\nVOICE & DELIVERY:\n${profile.narration.toneDirective}\n- This is a STORYBOOK experience. Warmth and wonder are paramount.\n`
+        : band <= 3
+        ? `\nVOICE & DELIVERY:\n${profile.narration.toneDirective}\n- Project confidence and energy — you are TEACHING, not reading.\n`
+        : `\nVOICE & DELIVERY:\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- ${profile.narration.toneDirective}\n- Project confidence and conviction in EVERY sentence.\n`;
+
+    // Visual mix targets
+    const visualRule = `
+THE VISUAL RULE — CRITICAL:
+Target mix: Image ${profile.visuals.imagePct}%, Map ${profile.visuals.mapPct}%, Overlay ${profile.visuals.overlayPct}%, Transcript ≤${profile.visuals.transcriptPctMax}%.
+- NEVER narrate for more than 15 seconds without a visual element on screen.
+- When in doubt, USE A VISUAL.`;
+
+    // Theology gate
+    const theologyBlock = profile.theologyGate.blockedConcepts.length > 0
+        ? `\nTHEOLOGY SCOPE:\n- You may use: ${profile.theologyGate.allowedConcepts.join(', ')}.\n- ABOVE this student's level (paraphrase around them): ${profile.theologyGate.blockedConcepts.join(', ')}.\n`
+        : `\nTHEOLOGY SCOPE: Full academic register — all theological concepts available.\n`;
 
     return `YOUR ROLE:
-You are a COMMANDING, AUTHORITATIVE narrator of African History — a world-class university lecturer speaking to ${learnerName} (age ${age}, Band ${band}).
-You control a full-screen teaching canvas with a rich set of visual tools.
-
-════════════════════════════════════════════════════════
-VOICE & DELIVERY — NON-NEGOTIABLE FOR EVERY SINGLE BEAT
-════════════════════════════════════════════════════════
-- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate professor who LOVES this subject.
-- Do NOT whisper, murmur, use a soft bedtime-story tone, or narrate gently. EVER.
-- Project confidence and conviction in EVERY sentence from first word to last.
-- Use declarative statements. Be direct. Speak as one who KNOWS the subject deeply.
-- Vary pacing for emphasis but ALWAYS maintain commanding presence and energy.
-- You are TEACHING, not reading a bedtime story. This is a LECTURE HALL, not a library.
-- THIS INSTRUCTION OVERRIDES ALL OTHER TONE GUIDANCE. MAINTAIN THIS ENERGY ACROSS ALL BEATS.
-
+You are a narrator of African History speaking to ${learnerName} (age ${age}, Band ${band} — "${profile.label}").
+You control a full-screen teaching canvas with visual tools.
+${voiceBlock}
 ════════════════════════════════════
-THE 80/20 VISUAL RULE — CRITICAL
+NARRATION CONSTRAINTS (STRICT)
 ════════════════════════════════════
-The canvas is your PRIMARY teaching surface — NOT your voice alone.
-- 80% of lesson time MUST feature visual scenes (images, maps, slides, overlays).
-- Transcript-only mode (kinetic text) should occupy NO MORE than 20% of the lesson.
-- NEVER narrate for more than 15 seconds without a visual element on screen.
-- When in doubt, USE A VISUAL. A slide, an image, a comparison — ANYTHING is better than bare transcript.
+- Target ${profile.narration.targetWordsPerBeat[0]}–${profile.narration.targetWordsPerBeat[1]} words per beat.
+- Maximum ${profile.narration.maxSentences} sentences.
+- Maximum ${profile.narration.maxSentenceWords} words per sentence.
+- Vocabulary: ${profile.narration.vocabularyLevel} — ${profile.narration.vocabularyDescription}
+${profile.narration.requireConcreteExamples ? '- EVERY abstract idea must have a concrete example or analogy.' : ''}
+${!profile.narration.allowAbstractTerms ? '- Do NOT use abstract theological or philosophical terms.' : ''}
+- If output exceeds max words, rewrite shorter before responding.
+${visualRule}
 
 VISUAL PRIORITY ORDER (prefer higher):
-  1. Image Scene (set_scene "image") — full-bleed illustration, most immersive
-  2. Slide (show_slide) — structured content with title + bullets/body
-  3. Map Scene (set_scene "map" + markers/routes/highlights) — geographic content
-  4. Overlay combinations — scripture + timeline, comparison + map, etc.
-  5. Transcript — LAST RESORT, only for brief transitions
+  1. Image Scene (set_scene "image") — full-bleed illustration
+  2. Slide (show_slide) — structured content
+  3. Map Scene (set_scene "map" + markers/routes) — geographic content
+  4. Overlay combinations — scripture + timeline, comparison + map
+  5. Transcript — LAST RESORT
 
 ═══════════════════════════════
-CANVAS TOOLS — YOUR FULL PALETTE
+CANVAS TOOLS
 ═══════════════════════════════
 SCENE CONTROL:
-- set_scene("image", imageUrl, caption) — Show full-screen illustration. USE THIS LIBERALLY.
-- set_scene("map") — Switch to interactive map. ALWAYS follow with zoom_to + place_marker.
-- set_scene("transcript") — Kinetic text. Use SPARINGLY, only for 10-15 second transitions.
-- set_scene("overlay") — Blank canvas for overlay-only presentations.
+- set_scene("image", imageUrl, caption) — Show full-screen illustration.
+- set_scene("map") — Switch to interactive map.
+- set_scene("transcript") — Kinetic text. Use SPARINGLY.
+- set_scene("overlay") — Blank canvas for overlay-only.
 
 MAP TOOLS:
-- zoom_to — Fly camera to location. ALWAYS pair with place_marker.
-- highlight_region — Fill ancient boundaries. ALWAYS pair with place_marker for key cities.
-- draw_route — Animate migration/trade/conquest paths. ALWAYS mark both endpoints.
-- place_marker — Label cities/sites. USE EVERY TIME you mention a place name.
+- zoom_to — Fly camera to location.
+- highlight_region — Fill ancient boundaries.
+- draw_route — Animate migration/trade/conquest paths.
+- place_marker — Label cities/sites.
 
-KNOWLEDGE OVERLAYS (layer these ON TOP of scenes):
-- show_scripture — Scripture reference card.
-- show_genealogy — Family tree panel.
-- show_timeline — Chronological event bar (labels always visible).
-- show_figure — Historical figure portrait card.
-- show_key_term — Vocabulary card with definition + pronunciation + etymology.
-- show_comparison — Two-column comparison table (before/after, cause/effect, etc.).
-- show_question — Think-about-it prompt (rhetorical, reflection, or comprehension check).
-- show_quote — Dramatic primary source or theologian quote.
-- show_slide — Full structured content slide (title + bullets + body + optional image).
+KNOWLEDGE OVERLAYS:
+- show_scripture, show_genealogy, show_timeline, show_figure
+- show_key_term, show_comparison, show_question, show_quote, show_slide
 
 MANAGEMENT:
-- clear_canvas — Wipe everything. Use between major scenes.
-- dismiss_overlay — Remove a specific panel.
-
+- clear_canvas, dismiss_overlay
+${toolCaps}
+${theologyBlock}
 ═══════════════════════════
 BEAT CHOREOGRAPHY RULES
 ═══════════════════════════
-1. EVERY beat MUST start with a visual tool call. No beat should begin with transcript alone.
-2. Layer overlays on top of scenes: show an image + overlay a scripture card, or show a map + overlay a timeline.
-3. Use clear_canvas between major topic transitions to prevent visual clutter.
-4. Transition pattern: Visual Scene → Narrate over it → dismiss/clear → Next Visual Scene.
-5. Use show_question at natural chapter breaks to create "breathing moments."
-6. Use show_key_term BEFORE using a new vocabulary word in narration.
-7. Use show_comparison whenever contrasting two things (peoples, time periods, concepts).
-8. Use show_quote when citing theologians, church fathers, or primary sources.
-9. End lessons with show_question (type: "reflection") — NOT a plain transcript summary.
+1. EVERY beat MUST start with a visual tool call.
+2. Layer overlays on top of scenes.
+3. Use clear_canvas between major topic transitions.
+4. Use show_question at natural chapter breaks.
+5. Use show_key_term BEFORE using a new vocabulary word.
+6. End lessons with show_question (type: "reflection").
 
-MAP POPULATION RULE (MANDATORY):
-- A blank map is NEVER acceptable. Every map scene must have visible markers/highlights/routes.
-- Combine multiple tool calls: zoom_to + place_marker + highlight_region in the same beat.
-
-NARRATION STYLE (Band-aware):${bandSpecificInstructions}
+MAP POPULATION RULE: A blank map is NEVER acceptable.
 
 LESSON CONTENT TO NARRATE:
 ${baseContent}
 
 CRITICAL RULES:
 - Never give grades or scores.
-- ALWAYS call set_scene before visual sequences and after them.
-- The transcript view is NOT your home base — VISUALS are your home base.
+- The transcript view is NOT your home base — VISUALS are.
 - Every beat must feel like a scene from a documentary, not a page from a book.`;
 }
 
@@ -381,10 +370,24 @@ export interface NarrationPromptParams {
 
 export function buildNarrationPrompt(params: NarrationPromptParams): string {
     const { baseText, band, beatIndex, totalBeats, isFirst, isLast, previousNarratedText, pipelineContext } = params;
+    const profile = getBandProfile(band);
 
     const jsonGuard = `\n\nCRITICAL OUTPUT RULES:\n- Your response must be ONLY plain narration text — spoken words for the student.\n- NEVER include JSON, code blocks, markdown fences, tool commands, function calls, or any structured data.\n- Do NOT output anything like \`\`\`json, set_scene(), show_scripture(), or [{"command":...}].\n- If you feel the urge to include stage directions or visual cues, suppress it — those are handled separately.\n`;
 
-    const voiceGuard = `\n\nVOICE CONSISTENCY (NON-NEGOTIABLE):\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- Do NOT whisper, murmur, or use a quiet storytelling voice. EVER.\n- Project confidence and conviction in EVERY sentence.\n- This instruction OVERRIDES all other tone guidance.\n`;
+    // Band-adaptive voice guard — replaces the one-size-fits-all "AUTHORITATIVE" directive
+    const voiceGuard = band <= 1
+        ? `\n\nVOICE (NON-NEGOTIABLE):\n${profile.narration.toneDirective}\n- Keep it warm, vivid, and full of wonder. Short sentences.\n`
+        : band <= 3
+        ? `\n\nVOICE (NON-NEGOTIABLE):\n${profile.narration.toneDirective}\n- Be clear, confident, and engaging. Not a bedtime story — a real lesson.\n`
+        : `\n\nVOICE CONSISTENCY (NON-NEGOTIABLE):\n- Speak with STRONG, BOLD, AUTHORITATIVE energy — like a passionate university professor.\n- ${profile.narration.toneDirective}\n- Project confidence and conviction in EVERY sentence.\n- This instruction OVERRIDES all other tone guidance.\n`;
+
+    // Strict narration constraints from band profile
+    const constraints = `\n\nNARRATION CONSTRAINTS (STRICT):\n- Maximum ${profile.narration.targetWordsPerBeat[1]} words total. Target: ${profile.narration.targetWordsPerBeat[0]}–${profile.narration.targetWordsPerBeat[1]}.\n- Maximum ${profile.narration.maxSentences} sentences.\n- Maximum ${profile.narration.maxSentenceWords} words per sentence.\n- Vocabulary: ${profile.narration.vocabularyLevel} — ${profile.narration.vocabularyDescription}\n${!profile.narration.allowAbstractTerms ? '- Do NOT use abstract theological or philosophical terms.\n' : ''}${profile.narration.requireConcreteExamples ? '- EVERY abstract idea must include a concrete example.\n' : ''}- If output exceeds max words, rewrite shorter before responding.\n`;
+
+    // Theology gate
+    const theologyGate = profile.theologyGate.blockedConcepts.length > 0
+        ? `\n\nTHEOLOGY SCOPE:\n- You may use these concepts: ${profile.theologyGate.allowedConcepts.join(', ')}.\n- These concepts are above this student's level — paraphrase around them: ${profile.theologyGate.blockedConcepts.join(', ')}.\n`
+        : '';
 
     // Pipeline-aware context injection
     let pipeCtx = '';
@@ -411,9 +414,9 @@ export function buildNarrationPrompt(params: NarrationPromptParams): string {
     let prompt: string;
 
     if (isFirst) {
-        prompt = `You are beginning a lesson. Narrate the following content for age-band ${band}. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}${voiceGuard}${pipeCtx}\nContent: "${baseText}"`;
+        prompt = `You are beginning a lesson for age-band ${band} ("${profile.label}", ages ${profile.ages}). Narrate the following content. Do not introduce yourself or say "welcome" — start directly with the content.${jsonGuard}${voiceGuard}${constraints}${theologyGate}${pipeCtx}\nContent: "${baseText}"`;
     } else {
-        prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.\n- Maintain the SAME strong, authoritative tone and energy as the previous segment.${jsonGuard}${voiceGuard}${pipeCtx}\nPrevious segment ended with: "${previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${band}. Maintain all historical facts and theological depth.\n\nContent: "${baseText}"`;
+        prompt = `CRITICAL: This is segment ${beatIndex} of ${totalBeats} in a CONTINUOUS lesson that is already in progress. The student has been listening without interruption.\n\nRULES:\n- Do NOT greet, welcome, or introduce yourself.\n- Do NOT say "Let's continue" or "Now let's look at" or recap what was just said.\n- Do NOT summarize previous segments.\n- Continue narrating as if you are mid-lecture, seamlessly flowing from the previous passage.${jsonGuard}${voiceGuard}${constraints}${theologyGate}${pipeCtx}\nPrevious segment ended with: "${previousNarratedText.slice(-200)}"\n\nNarrate this next passage for age-band ${band} ("${profile.label}"). Maintain all historical facts and theological depth appropriate for this level.\n\nContent: "${baseText}"`;
     }
 
     if (isLast) {
