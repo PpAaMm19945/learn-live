@@ -115,3 +115,21 @@ Four runtime issues identified and fixed:
 | Phase 3 | Draft Generation — age-adapted narration, no sermon language | Planned |
 | Phase 4 | Critique — preachy check, forced-connection check, engagement check | Planned |
 | Phase 5 | Finalize — output to beatSequencer | Planned |
+
+---
+
+## Ch01 Image Wiring (2026-04-16)
+
+### Phase: Final wiring of 22 Nano Banana 2 images
+**Prompt:** "Please go ahead and execute the plan. And do not forget to update all documentation files in the .antigravity folder."
+
+### Steps executed (no LLM prompt — direct code edits)
+1. **`agent/src/imageRegistry.ts`**: Inserted 22 entries after the band1 storybook block. Categorized:
+   - Geographic (8): `geo_*.jpg` — Heinrich Berann panoramas, `minBand:2 maxBand:5`
+   - Artistic-narrative (12): `art_*.jpg` — Turner-style oil paintings, `minBand:2 maxBand:5`
+   - Documentary/scholarly (2): `art_taharqa_pharaoh.jpg`, `doc_curse_myth_analysis.jpg` — `minBand:4 maxBand:5`
+2. **`docs/curriculum/history/ch01_s0{1..5}.json`**: Programmatic patch via `/tmp/manifest-patches/patch.mjs`:
+   - 12 image-mode beats received `bandOverrides` for bands 2-5
+   - 48 band-specific image swaps total
+   - Narrower band-ranges (4-5) win over wider (2-5) so e.g. Cush beats show `art_taharqa_pharaoh.jpg` to Bands 4-5 only
+3. **Lint:** `npx tsx agent/scripts/lint-manifest.ts` per file → 0 errors, 343 pre-existing band-policy warnings (filed as Issue #91)
