@@ -1,0 +1,149 @@
+{
+  "sectionId": "ch04_s06",
+  "chapterId": "ch04",
+  "heading": "4.6 The Aksumite Rise: From Local Kingdom to Regional Empire (c. 1st Century BC–4th Century AD)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 450,
+  "thinkItThrough": [
+    "How does the collapse of the Great Stele at Aksum illustrate the biblical teaching in Ecclesiastes that 'all is vanity'?",
+    "Why is the development of indigenous coinage and a written script (Ge'ez) crucial for a kingdom to assert its sovereignty and independence?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s06_b01",
+      "sectionId": "ch04_s06",
+      "sequence": 1,
+      "title": "A New Power in the Highlands",
+      "contentText": "Emerging in the 1st century BC, a formidable new center of power arose in the highlands of modern Ethiopia: the kingdom of Aksum. Unlike the Nile-based kingdoms, Aksum built its wealth by dominating trade routes between the African interior and the vital Red Sea port of Adulis, exporting luxury goods like ivory and gold to Rome and beyond.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 14.8, "lng": 39.3, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 14.12,
+            "lng": 38.72,
+            "label": "Aksum",
+            "description": "The highland capital of the Aksumite Empire"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 15.26,
+            "lng": 39.66,
+            "label": "Adulis",
+            "description": "Crucial Aksumite port on the Red Sea"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s06_b02",
+      "sectionId": "ch04_s06",
+      "sequence": 2,
+      "title": "The Monumental Stelae",
+      "contentText": "Aksumite kings showcased their immense power by erecting colossal stone stelae to mark their royal tombs. Carved to resemble multi-storied palaces, the 'Great Stele' stood over 100 feet tall and weighed 520 tons—the largest single piece of stone ever erected in the ancient world. It required astonishing engineering and the ability to mobilize massive labor.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Stelae",
+            "definition": "Tall, upright stone slabs. At Aksum, they were monumental funerary markers carved to resemble multi-storied buildings."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s06_b03",
+      "sectionId": "ch04_s06",
+      "sequence": 3,
+      "title": "Vanity of Vanities",
+      "contentText": "These stelae embody the deep human desire to establish an eternal earthly legacy. Yet, the Great Stele itself eventually fell and shattered. Its ruins stand as a powerful, poignant illustration of the biblical truth found in Ecclesiastes: 'vanity of vanities.' The mightiest works of mankind crumble, reminding us that true glory belongs to God alone.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Ecclesiastes 1:2",
+            "text": "Vanity of vanities, says the Preacher, vanity of vanities! All is vanity."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s06_b04",
+      "sectionId": "ch04_s06",
+      "sequence": 4,
+      "title": "Coinage and Ge'ez",
+      "contentText": "Aksum was the first indigenous African civilization south of Egypt to mint its own coins, a bold declaration of sovereignty. It also developed its own script, called Ge'ez, from earlier Southern Arabian roots. This language formed the basis of a highly literate administrative class and remains the liturgical language of the Ethiopian Orthodox Church today.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ge'ez",
+            "definition": "The ancient South Semitic language and script of the Aksumite kingdom, still used in Ethiopian liturgy today."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s06_b05",
+      "sectionId": "ch04_s06",
+      "sequence": 5,
+      "title": "Coinage as a Historical Record",
+      "contentText": "Aksumite coins provide a fascinating historical timeline. Early coins featured pagan symbols of the sun and moon disc. But dramatically, in the 4th century AD, later rulers replaced these symbols with the Christian cross—offering visible, datable archaeological evidence of a profound spiritual revolution within the African empire.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Aksumite Coinage",
+            "bullets": [
+              "First sub-Saharan civilization to mint coins",
+              "Enabled robust international commerce",
+              "Early coins: pagan sun and moon symbols",
+              "Later coins: the Christian cross"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s06_b06",
+      "sectionId": "ch04_s06",
+      "sequence": 6,
+      "title": "One of the Four Great Powers",
+      "contentText": "By the 3rd century AD, Aksum was an economic and military powerhouse. The Persian prophet Mani evaluated the globe and named Aksum as one of the four great powers of the world, standing alongside Rome, Persia, and China. God had raised up a massive African empire, perfectly positioned to play a crucial role in Christian history.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "There are four great kingdoms on earth: the first is the Kingdom of Babylon and Persia; the second is the Kingdom of Rome; the third is the Kingdom of the Aksumites; the fourth is the kingdom of the Chinese.",
+            "attribution": "Mani, Persian Prophet (3rd Century AD)"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

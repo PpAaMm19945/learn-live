@@ -1,0 +1,159 @@
+{
+  "sectionId": "ch04_s08",
+  "chapterId": "ch04",
+  "heading": "4.8 Legacy and Enduring Threads (Post-c. 330 AD)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 525,
+  "thinkItThrough": [
+    "How does the conversion of the Aksumite Empire fulfill the prophecy of Psalm 68:31?",
+    "Why is it historically vital to recognize that African Christianity was a sovereign, indigenous movement and not a faith imposed by outside colonial powers?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s08_b01",
+      "sectionId": "ch04_s08",
+      "sequence": 1,
+      "title": "The Enduring Cushite Legacy",
+      "contentText": "Even with Meroe's fall, the legacy of Cush survived. The traditions of Kerma, Napata, and Meroe deeply influenced the future. From the 6th to 15th centuries AD, three medieval Christian Nubian kingdoms—Nobatia, Makuria, and Alodia—arose in the Nile corridor. They maintained distinctive Nubian liturgies and built vibrant Christian societies upon the ancient foundations of their ancestors.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Medieval Nubian Kingdoms",
+            "definition": "Three Christian kingdoms (Nobatia, Makuria, Alodia) that flourished in the Nile Valley from the 6th to 15th centuries AD."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b02",
+      "sectionId": "ch04_s08",
+      "sequence": 2,
+      "title": "Aksum's Sovereign Choice",
+      "contentText": "To the east, the now unchallenged empire of Aksum made a choice that permanently shaped Ethiopia. The Christianization of Aksum was an indigenous decision made by an African king ruling an African empire, not a colonial imposition. This sovereign choice birthed the Ethiopian Orthodox Tewahedo Church, which remains the dominant faith in Ethiopia today as one of the world's oldest continuous Christian traditions.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ethiopian Orthodox Tewahedo Church",
+            "definition": "The ancient Christian church of Ethiopia, tracing its roots to the conversion of Aksum in the 4th century AD."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b03",
+      "sectionId": "ch04_s08",
+      "sequence": 3,
+      "title": "A Christian Empire",
+      "contentText": "Aksum blossomed into a vital center of faith and learning. They developed their own unique theological insights, produced a rich corpus of religious texts in Ge'ez, and built magnificent churches. Their conversion yielded genuine fruit—missionary zeal, theological depth, and a complete integration of faith into the fabric of African society.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Fruits of Aksumite Christianity",
+            "bullets": [
+              "Vast missionary activity southward",
+              "Deep theological reflection (Tewahedo traditions)",
+              "Flourishing literature in the Ge'ez script",
+              "Construction of magnificent stone churches"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b04",
+      "sectionId": "ch04_s08",
+      "sequence": 4,
+      "title": "God's Redemptive Purpose",
+      "contentText": "Reflecting on the entire history of Cush, we see God's redemptive purpose moving through time. We watched great kingdoms rise and fall. We saw human ambition construct pyramids and stelae, only to see them shatter. Yet through the rise of Kerma, Napata, and Meroe, God was sovereignly clearing the stage and preparing the way for the light of the Gospel.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "True and lasting security is found not in economic power, military might, or technological superiority, but in the unshakable kingdom of our Lord Jesus Christ.",
+            "attribution": "Learn Live Textbook, Chapter 4"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b05",
+      "sectionId": "ch04_s08",
+      "sequence": 5,
+      "title": "Psalm 68 Fulfilled",
+      "contentText": "The spiritual transformation of Aksum was the dramatic fulfillment of the Psalms: 'Let Cush hasten to stretch out her hands to God.' This proves that God's redemptive plan has always included Africa—not as a peripheral addition, but centrally. By the 4th century, Africa boasted the massive Christian centers of Alexandria, Carthage, and now, Aksum.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Psalm 68:31",
+            "text": "Princes shall come out of Egypt; Ethiopia [Cush] shall soon stretch out her hands unto God."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b06",
+      "sectionId": "ch04_s08",
+      "sequence": 6,
+      "title": "From Individual to National",
+      "contentText": "It began with a single man—the Ethiopian eunuch on a dusty road reading Isaiah. Three hundred years later, that seed blossomed into an entire empire turning toward Christ. God is faithful to finish the work He begins. When Cush stretched out her hands, God welcomed the nation into His covenant family.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "A 300-Year Harvest",
+            "bullets": [
+              "c. 35 AD: The personal conversion of the Eunuch of Meroe",
+              "c. 330 AD: The national conversion of Aksum under King Ezana",
+              "God operates perfectly on a multi-generational timeline"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s08_b07",
+      "sectionId": "ch04_s08",
+      "sequence": 7,
+      "title": "Looking Ahead",
+      "contentText": "The Christianization of Aksum fundamentally redefined African history. In the next chapter, we will see how this new Christian identity uniquely shaped Aksum's relationships with Rome, Persia, and the explosive rise of Islam. We will witness how African Christianity stood firm, producing a legacy of faith that would endure through the centuries.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -3200, "label": "Descendants of Cush Migrate South" },
+              { "year": -1000, "label": "Napata / Pre-Aksumite Cultures" },
+              { "year": 35, "label": "Eunuch Receives the Gospel" },
+              { "year": 330, "label": "Aksum Becomes a Christian Empire" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

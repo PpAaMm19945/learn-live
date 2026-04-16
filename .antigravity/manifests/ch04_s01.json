@@ -1,0 +1,160 @@
+{
+  "sectionId": "ch04_s01",
+  "chapterId": "ch04",
+  "heading": "4.1 After Babel: Early Migrations into the Upper Nile and Horn (c. 3200–2200 BC)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 450,
+  "thinkItThrough": [
+    "How did the post-Babel dispersion influence the settlement of Northeast Africa?",
+    "Examine the geography of the Upper Nile and Horn. What challenges and opportunities might the early settlers have faced?",
+    "How does the settlement of Cush's descendants demonstrate God's providence and sovereignty in human history, even following a judgment like Babel?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s01_b01",
+      "sectionId": "ch04_s01",
+      "sequence": 1,
+      "title": "Introduction: The Lands of Cush",
+      "contentText": "In this chapter, we explore the vast regions south of Egypt—the lands known in the Bible as Cush. Here, entirely outside the story of Israel, we will see God's sovereignty displayed in the rise and fall of great African kingdoms. From the earliest migrations after Babel to the Christianization of the Aksumite empire, the story of Cush demonstrates that God's redemptive plan has always included Africa.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "The Lands of Cush",
+            "bullets": [
+              "Region south of Egypt (modern Sudan and Ethiopia)",
+              "Home to great kingdoms: Kerma, Napata, Meroe, and Aksum",
+              "Demonstrates God's sovereignty beyond Israel"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s01_b02",
+      "sectionId": "ch04_s01",
+      "sequence": 2,
+      "title": "The Children of Cush",
+      "contentText": "Following the judgment at Babel, humanity scattered across the earth. Genesis 10 records that the descendants of Ham included Cush. His children—Seba, Havilah, Sabtah, Raamah, and Sabteca—represented entire people groups who migrated southward and eastward from the Nile corridor, settling the fertile highlands of the 'Roof of Africa.'",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 15.0, "lng": 36.0, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 10:6-7",
+            "text": "The sons of Ham: Cush, Egypt, Put, and Canaan. The sons of Cush: Seba, Havilah, Sabtah, Raamah, and Sabteca."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_genealogy",
+          "args": {
+            "root": "Descendants of Cush",
+            "children": [
+              { "name": "Seba (Central Nile / Meroe)" },
+              { "name": "Havilah (Gold-rich Eritrea/Ethiopia)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s01_b03",
+      "sectionId": "ch04_s01",
+      "sequence": 3,
+      "title": "The Green Sahara",
+      "contentText": "This migration, occurring between 3200 and 2200 BC, took place during a 'Green Sahara' period when the climate was significantly wetter. This allowed early Cushite communities to thrive through pastoralism and early agriculture. God in His providence had prepared a land capable of sustaining these descendants, full of rich resources like the gold of Havilah.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Pastoralism",
+            "definition": "A way of life centered on herding domesticated animals, a primary economic activity for many early African societies."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s01_b04",
+      "sectionId": "ch04_s01",
+      "sequence": 4,
+      "title": "Early Cultural Markers",
+      "contentText": "Archaeologists have found early markers of organized culture from this period, including vivid rock art and early fortified sites. To the east along the Red Sea, the mysterious 'Land of Punt' emerged as a vital source of myrrh and frankincense. In the highlands, the D'mt culture showed deep ties across the Red Sea to South Arabia, laying the foundations for future empires.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 14.1, "lng": 38.9, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "horn_of_africa" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 14.16,
+            "lng": 38.93,
+            "label": "Yeha (D'mt Culture)",
+            "description": "Early highland culture with links to South Arabia"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s01_b05",
+      "sectionId": "ch04_s01",
+      "sequence": 5,
+      "title": "Sovereignty in Dispersion",
+      "contentText": "The scattering at Babel was a judgment on human pride, but it also fulfilled God's command to fill the earth. The migration of Cush's descendants into the Upper Nile demonstrates God's sovereignty in orchestrating human history. Each people group, carrying the image of God, possessed the intelligence and skill to adapt to their environment and build complex societies.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The story of Cush is not a footnote; it is an integral part of God's universal work in the world, evidence that His covenant promises extend to all lineages.",
+            "attribution": "Learn Live Textbook, Chapter 4"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s01_b06",
+      "sectionId": "ch04_s01",
+      "sequence": 6,
+      "title": "A Geopolitical Reality in Scripture",
+      "contentText": "The Bible affirms the geographic reality of Cush. The prophet Isaiah spoke of 'the land shadowing with wings, which is beyond the rivers of Ethiopia [Cush].' Ezekiel defined the southern boundary of Egypt reaching to the border of Cush. While Egypt often takes center stage in the Old Testament, Cush remains a recurring theme—a reminder of the diverse tapestry of nations God is weaving throughout history.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Ezekiel 29:10",
+            "text": "...I will make the land of Egypt an utter waste and desolation, from Migdol to Syene, as far as the border of Cush."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

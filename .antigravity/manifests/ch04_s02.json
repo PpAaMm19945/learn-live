@@ -1,0 +1,158 @@
+{
+  "sectionId": "ch04_s02",
+  "chapterId": "ch04",
+  "heading": "4.2 Early State Formation: Kerma and the First Nubian Kingdoms (c. 2400–1500 BC)",
+  "totalBeats": 6,
+  "estimatedTotalDurationSec": 450,
+  "thinkItThrough": [
+    "What evidence suggests that Kerma was more than just a trade hub, but an imperial rival to Egypt?",
+    "How does the story of Kerma demonstrate the tension between human brilliance (created in God's image) and human depravity (the Fall)?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s02_b01",
+      "sectionId": "ch04_s02",
+      "sequence": 1,
+      "title": "The Rise of Kerma",
+      "contentText": "As settlements in the Upper Nile grew, a powerful new polity emerged at Kerma, strategically located just south of the 3rd Cataract of the Nile. Flourishing between 2400 and 1500 BC, Kerma became one of Africa's earliest urban centers. Its wealth was built on fertile agricultural lands, highly skilled craft production, and strict control of the lucrative trade routes flowing north into Egypt.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 19.6, "lng": 30.4, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 19.6,
+            "lng": 30.41,
+            "label": "Kerma",
+            "description": "The first major urban center and kingdom of Nubia"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s02_b02",
+      "sectionId": "ch04_s02",
+      "sequence": 2,
+      "title": "A Formidable Rival to Egypt",
+      "contentText": "Kerma was a confident, independent kingdom that deeply threatened Middle Kingdom Egypt. The Nile cataracts were natural chokepoints, and Kerma controlled the vital 3rd Cataract. Egypt was so afraid of Cushite power that it built a chain of massive fortresses near the 2nd Cataract, establishing a heavy defensive perimeter to contain Kerma's expansion.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 21.5, "lng": 31.0, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 21.5,
+            "lng": 31.0,
+            "label": "2nd Cataract Fortresses (Semna)",
+            "description": "Egyptian border defenses against Kerma"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 19.6,
+            "lng": 30.41,
+            "label": "3rd Cataract (Kerma)",
+            "description": "Kerma's strategic stronghold"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s02_b03",
+      "sectionId": "ch04_s02",
+      "sequence": 3,
+      "title": "Distinct Nubian Identity",
+      "contentText": "Kerma was no mere Egyptian vassal; it possessed a distinct Nubian identity. At the center of the city stood the Western Deffufa, a massive, solid mud-brick temple showcasing immense architectural ambition. Kerma's potters produced thin-walled, polished black-topped wares that are still considered some of the finest ceramics in the ancient world.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Deffufa",
+            "definition": "A massive, mud-brick temple structure unique to the Kerma culture."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s02_b04",
+      "sectionId": "ch04_s02",
+      "sequence": 4,
+      "title": "The Darkness of the Tumuli",
+      "contentText": "However, Kerma's royal burials reveal a dark spiritual reality. Kings were buried in enormous tumuli, or burial mounds—some over 90 meters across. Unlike typical Egyptian customs, these royal tombs contained hundreds of sacrificed retainers, servants, and animals, buried alive or killed to accompany their king into the afterlife.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Tumuli",
+            "definition": "Large burial mounds. The royal tumuli at Kerma contained the executed retainers of the king, demonstrating the practice of human sacrifice."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s02_b05",
+      "sectionId": "ch04_s02",
+      "sequence": 5,
+      "title": "Brilliance and Brutality",
+      "contentText": "The story of Kerma illustrates the tension of the fallen human condition. The breathtaking skill of its potters and the organizational prowess of its architects reflect God's common grace and the Imago Dei. Yet, the brutal practice of large-scale human sacrifice reveals profound spiritual darkness—treating human lives made in God's image as expendable.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "The Fallen Human Condition in Kerma",
+            "points": [
+              { "left": "Imago Dei / Common Grace", "right": "The Fall / Depravity" },
+              { "left": "Breathtakingly beautiful pottery", "right": "Massive human sacrifice" },
+              { "left": "Monumental mud-brick architecture", "right": "Lives treated as expendable property" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s02_b06",
+      "sectionId": "ch04_s02",
+      "sequence": 6,
+      "title": "The Fall of Kerma",
+      "contentText": "This tension of brilliance and brutality exists in every unredeemed society. Kerma's glory was not permanent. Around 1500 BC, it was finally conquered and absorbed by an expanding New Kingdom Egypt. The transient nature of Kerma points us to the universal need for a King whose kingdom is not of this world, and will never fade.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -2400, "label": "Rise of Kerma Culture" },
+              { "year": -1900, "label": "Egypt builds Defensive Forts" },
+              { "year": -1500, "label": "Egypt Conquers Kerma" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

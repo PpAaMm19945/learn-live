@@ -1,0 +1,154 @@
+{
+  "sectionId": "ch03_s00",
+  "chapterId": "ch03",
+  "heading": "3.0 Introduction: The 1,000-Year Gap",
+  "totalBeats": 5,
+  "estimatedTotalDurationSec": 360,
+  "thinkItThrough": [
+    "Acts 17:26 says God determined the exact times and boundaries for all nations. How does this truth change the way we study the rise and fall of ancient African empires?",
+    "God used the infrastructure of the Roman Empire to spread the Gospel, even though Rome was a brutal and pagan power. What does this teach us about how God can use fallen human institutions to accomplish His purposes?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch03_s00_b01",
+      "sectionId": "ch03_s00",
+      "sequence": 1,
+      "title": "The 1,000-Year Gap",
+      "contentText": "When we left our main story, the Kingdom of Kush was entering its golden age along the Upper Nile, and the Ptolemaic Dynasty ruled Egypt. But before Rome would truly dominate the Mediterranean and establish the peace that facilitated the spread of the Gospel, another drama unfolded across North Africa. This chapter fills a critical one-thousand-year gap, exploring the political and spiritual forces at work before the Roman annexation.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Bridging the Gap",
+            "bullets": [
+              "Fills the 1,000-year gap between early Africa and Roman Christian Africa",
+              "Explores the forces at work before Rome's ascendancy",
+              "Sets the stage for the New Testament world"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s00_b02",
+      "sectionId": "ch03_s00",
+      "sequence": 2,
+      "title": "Three Remarkable Civilizations",
+      "contentText": "We will explore three major civilizations that dominated North Africa: Carthage, the greatest rival Rome ever faced and a preserver of Canaanite religion; Numidia and Mauretania, Berber kingdoms whose legendary cavalry decided the fate of empires; and the Garamantes, a desert civilization that engineered vast underground aqueducts to irrigate the Sahara.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 28.0, "lng": 10.0, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 36.8,
+            "lng": 10.3,
+            "label": "Carthage",
+            "description": "Phoenician-Canaanite maritime empire"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 36.3,
+            "lng": 6.6,
+            "label": "Numidia",
+            "description": "Berber kingdoms of the interior"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 26.5,
+            "lng": 13.0,
+            "label": "Garamantes",
+            "description": "Saharan oasis civilization in the Fezzan"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s00_b03",
+      "sectionId": "ch03_s00",
+      "sequence": 3,
+      "title": "Biblical Connections",
+      "contentText": "This history is deeply rooted in the Table of Nations in Genesis 10. The founders of Carthage descended from Canaan through his firstborn, Sidon. Meanwhile, the Berber kingdoms of Numidia and the Saharan Garamantes descended from Phut. When we encounter these ancient African civilizations, we are meeting the descendants of Noah's sons walking out the realities of the biblical record.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 10:6-15",
+            "text": "The sons of Ham were Cush, Mizraim, Put (Phut), and Canaan... Canaan begot Sidon his firstborn..."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_genealogy",
+          "args": {
+            "root": "Ham's Descendants in North Africa",
+            "children": [
+              { "name": "Canaan (Phoenicians/Carthaginians)" },
+              { "name": "Put / Phut (Berbers, Numidians, Garamantes)" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s00_b04",
+      "sectionId": "ch03_s00",
+      "sequence": 4,
+      "title": "The Chronological Framework",
+      "contentText": "Our story spans nearly one thousand two hundred years. We begin with the founding of Carthage around 814 BC, move through the devastating Punic Wars, witness the rise and fall of Numidian client kings, and conclude with the final Roman annexation of Mauretania in 40 AD. This long era bridges the gap between ancient antiquity and the New Testament era.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -814, "label": "Founding of Carthage (conventional)" },
+              { "year": -264, "label": "Punic Wars Begin" },
+              { "year": -146, "label": "Destruction of Carthage" },
+              { "year": 40, "label": "Roman Annexation of Mauretania" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch03_s00_b05",
+      "sectionId": "ch03_s00",
+      "sequence": 5,
+      "title": "Providence and Preparation",
+      "contentText": "Throughout this history, we will see God's sovereign hand. The rise of Carthage, the Romanization of Berber society, and the spread of Latin were all part of God's providential preparation of the world for the coming of Christ. God writes straight with crooked lines—He uses even the sinful ambitions of fallen humanity to accomplish His redemptive purposes.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Acts 17:26",
+            "text": "And he made from one man every nation of mankind to live on all the face of the earth, having determined allotted periods and the boundaries of their dwelling place."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

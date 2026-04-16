@@ -1,0 +1,215 @@
+{
+  "sectionId": "ch03_s01",
+  "chapterId": "ch03",
+  "heading": "3.1 The Phoenician West — Carthage and the Punic Wars",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 525,
+  "thinkItThrough": [
+    "How does the archaeological evidence of the Tophet in Carthage vindicate the biblical condemnation of Canaanite religion found in Leviticus 18 and Deuteronomy 12:31?",
+    "How does the destruction of Carthage (146 BC) compare to the destruction of Jerusalem (586 BC by Babylon, 70 AD by Rome)? What do these events teach us about God's dealing with nations that resist His will?",
+    "In what ways do modern nations or cultures repeat the errors of Carthage—sacrificing children, pursuing wealth and power at any cost, and rejecting the knowledge of God?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch03_s01_b01",
+      "sectionId": "ch03_s01",
+      "sequence": 1,
+      "title": "The Sons of Canaan in the West",
+      "contentText": "When God commanded Joshua to destroy the Canaanites, the judgment was rooted in their abominable religious practices—especially child sacrifice to Molech and Baal. However, some Canaanites fled northward to Phoenicia, establishing a maritime civilization. These Phoenicians, who called themselves 'Canaanites,' eventually carried their culture and condemned religious practices far to the west across the Mediterranean.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 34.0, "lng": 20.0, "zoom": 4 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[33.8, 35.5], [36.8, 10.3]],
+            "label": "Phoenician Migration to North Africa"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 10:15",
+            "text": "Canaan begot Sidon his firstborn, and Heth, the Jebusite, the Amorite, the Girgashite..."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b02",
+      "sectionId": "ch03_s01",
+      "sequence": 2,
+      "title": "The Founding of Carthage",
+      "contentText": "According to ancient tradition, in 814 BC a Tyrian princess named Dido fled a power struggle and founded Carthage—meaning 'New City'—on the fertile coast of modern-day Tunisia. This strategically brilliant location allowed Carthage to grow into one of the wealthiest and most powerful maritime empires in the ancient world, eventually eclipsing its mother city of Tyre.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 36.85, "lng": 10.33, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 36.85,
+            "lng": 10.33,
+            "label": "Carthage (Qart-Hadasht)",
+            "description": "Founded c. 814 BC by Dido, capital of a vast maritime empire"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Carthage",
+            "definition": "Founded c. 814 BC on the North African coast, Carthage became the capital of a vast Phoenician-Canaanite maritime empire.",
+            "etymology": "Punic: Qart-Hadasht — 'New City'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b03",
+      "sectionId": "ch03_s01",
+      "sequence": 3,
+      "title": "Baal Hammon and the Tophet",
+      "contentText": "Carthage never abandoned its dark Canaanite religious heritage. The chief gods were Baal Hammon and Tanit. Most horrifyingly, archaeologists have uncovered a vast sacred precinct called the Tophet, containing thousands of urns filled with the charred bones of infants and young children. This archaeological reality directly confirms the biblical condemnation of Canaanite child sacrifice.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Jeremiah 19:5",
+            "text": "They have built the high places of Baal to burn their sons in the fire as burnt offerings to Baal, which I did not command or decree, nor did it come into my mind."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Tophet",
+            "definition": "A sacred precinct at Carthage where thousands of infants and young children were sacrificed to Baal Hammon and Tanit, confirming biblical accounts of Canaanite practices."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b04",
+      "sectionId": "ch03_s01",
+      "sequence": 4,
+      "title": "The Ships of Tarshish",
+      "contentText": "Carthage controlled the Strait of Gibraltar, monopolizing trade with distant lands like the heavy, ocean-going 'Ships of Tarshish' mentioned in Scripture. They sought silver, iron, and tin from regions like Tartessos in Spain. When the prophet Jonah fled from God's command, he boarded a ship to Tarshish—heading as far west as the known world permitted, straight into Carthage's maritime domain.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 36.0, "lng": -5.0, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 37.2,
+            "lng": -6.9,
+            "label": "Tartessos (Tarshish)",
+            "description": "Wealthy mining region in southern Spain"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Ezekiel 27:12",
+            "text": "Tarshish was your merchant because of your many luxury goods. They gave you silver, iron, tin, and lead for your goods."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b05",
+      "sectionId": "ch03_s01",
+      "sequence": 5,
+      "title": "The Punic Wars and Hannibal Barca",
+      "contentText": "As Rome expanded, collision with Carthage was inevitable, sparking the Punic Wars. After losing the First Punic War, Carthage sought revenge under its brilliant commander, Hannibal Barca. In 218 BC, Hannibal famously marched his army—and war elephants—across the Alps into Italy, ravaging the Roman countryside and executing tactical masterpieces that pushed Rome to the brink of collapse.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -264, "label": "First Punic War Begins" },
+              { "year": -218, "label": "Hannibal Crosses the Alps" },
+              { "year": -216, "label": "Battle of Cannae" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b06",
+      "sectionId": "ch03_s01",
+      "sequence": 6,
+      "title": "The Turn of the Tide at Zama",
+      "contentText": "Rome's salvation came when general Scipio Africanus struck at North Africa itself. At the Battle of Zama in 202 BC, Scipio secured the help of a Berber king named Massinissa, whose Numidian cavalry shattered Hannibal's flanks. Carthage was decisively defeated, leaving Rome as the undisputed master of the Western Mediterranean.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "The Battle of Zama (202 BC)",
+            "bullets": [
+              "Scipio Africanus invades North Africa",
+              "Rome allies with Berber King Massinissa",
+              "Numidian cavalry shatters Carthaginian lines",
+              "Hannibal suffers his final defeat"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s01_b07",
+      "sectionId": "ch03_s01",
+      "sequence": 7,
+      "title": "Carthage Destroyed — The Curse of Canaan",
+      "contentText": "Driven by lasting paranoia, Rome eventually engineered the Third Punic War. In 146 BC, Roman forces utterly razed Carthage to the ground. From a biblical perspective, this total destruction can be seen as the final judgment pronounced against Canaan in Genesis. Yet, in God's providence, Rome would later rebuild Carthage into a thriving port—one that would become a profound center of early Christianity.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 9:25",
+            "text": "Cursed be Canaan; a servant of servants shall he be to his brothers."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "From the ashes of Baal’s stronghold would rise one of the greatest centers of early Christianity. God’s providence is always more intricate and redemptive than human conquest.",
+            "attribution": "Learn Live Textbook, Chapter 3"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

@@ -1,0 +1,623 @@
+[
+  {
+    "filename": "geo_mesopotamia_shinar.jpg",
+    "r2Key": "assets/storybook/ch01/geo_mesopotamia_shinar.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.1",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "The Plain of Shinar Between the Rivers",
+      "viewing_angle": "Elevated panorama looking South from approximately 35°N, 44°E, altitude roughly 50km",
+      "geographic_bounds": {
+        "north": 35.0,
+        "south": 30.0,
+        "east": 48.0,
+        "west": 40.0
+      },
+      "terrain": [
+        {
+          "feature": "Plain of Shinar (Mesopotamian Alluvium)",
+          "type": "alluvial_plain",
+          "description": "Vast, flat plain forming the space between the rivers. Uniformly low elevation, sloping microscopically southward down to sea level.",
+          "bounds": {"north": 34.0, "south": 30.5, "east": 47.0, "west": 43.0},
+          "surface": "tan-ochre dried alluvial silt and cracked clay crust, with intense green irrigated ribbons strictly hugging the riverbanks"
+        },
+        {
+          "feature": "Zagros Mountains",
+          "type": "mountain_range",
+          "description": "Dramatic elevated terrain forming the eastern border. Rugged ridges sloping down to the plain.",
+          "ridge_line_coords": [[35.0, 46.0], [34.0, 46.5], [33.0, 47.2], [32.0, 48.0]],
+          "peak_elevation": "2500-3500m",
+          "visual_treatment": "distant textured silhouette, heavy purple-blue atmospheric perspective",
+          "position_in_frame": "far left horizon, running from mid-left to background-left"
+        },
+        {
+          "feature": "Syrian Desert",
+          "type": "desert",
+          "description": "Slightly rocky, elevated arid plateau extending steadily westward from the Euphrates riverbed.",
+          "bounds": {"north": 35.0, "south": 30.0, "east": 42.5, "west": 40.0},
+          "surface": "sandy, rocky, completely barren ochre terrain",
+          "position_in_frame": "spanning the far right side"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Tigris River",
+          "type": "river",
+          "course_coords": [[34.6, 43.7], [34.2, 43.9], [33.3, 44.4], [32.5, 45.8], [31.8, 47.1], [31.0, 47.4]],
+          "visual": "dark blue-green, rapidly winding course with sharp, frequent meanders. Banks lined with date palms and dense reeds.",
+          "flow_direction": "northwest to southeast (flowing away toward the background-left)",
+          "position_in_frame": "left side of the center plain, leading from foreground to distant left"
+        },
+        {
+          "name": "Euphrates River",
+          "type": "river",
+          "course_coords": [[34.4, 41.0], [33.6, 42.8], [33.3, 43.8], [32.5, 44.4], [31.3, 45.3], [31.0, 47.4]],
+          "visual": "dark blue-green, visibly wider and more sluggish than the Tigris. Broad bends, heavily bordered by continuous fertile papyrus and palm strips.",
+          "flow_direction": "northwest to southeast (flowing away toward the background-left)",
+          "position_in_frame": "right side of the center plain, leading from mid-right to distant left"
+        },
+        {
+          "name": "Shatt al-Arab Confluence",
+          "type": "wetland",
+          "coords": [31.0, 47.4],
+          "visual": "vast contiguous green marshy delta region where the two rivers merge just before the sea",
+          "position_in_frame": "far left background horizon"
+        }
+      ],
+      "landmarks": [
+        {
+          "name": "Ziggurat (Tower of Babel site / Etemenanki)",
+          "coords": [32.54, 44.42],
+          "description": "Massive, seven-tiered stepped pyramidal structure built of baked red-brown mudbrick. Situated directly on the eastern bank of the Euphrates River.",
+          "scale": "imposing enough to act as the primary visual anchor, emphasizing the immense scale and flatness of the surrounding plain",
+          "position_in_frame": "center depth, adjacent to the right-side river (Euphrates)"
+        }
+      ],
+      "labels": [
+        {"text": "TIGRIS", "position": "curved along the left river course", "style": "clean white Roman capitals with drop shadow"},
+        {"text": "EUPHRATES", "position": "curved along the right river course", "style": "clean white Roman capitals with drop shadow"},
+        {"text": "PLAIN OF SHINAR", "position": "in the wide center space between the rivers", "style": "large clean white Roman capitals, wide tracking"},
+        {"text": "BABEL", "position": "next to Ziggurat at center depth", "style": "bold white text with an austere minimal marker"},
+        {"text": "ZAGROS MOUNTAINS", "position": "far left, slanted along the purple ridges", "style": "subtle white slanted text"}
+      ],
+      "atmosphere": {
+        "time_of_day": "late afternoon",
+        "sky": "brilliant late-afternoon sky in deep amber and rose with towering cumulus clouds to establish vast scale",
+        "sky_coverage": "upper third of image",
+        "lighting": "warm, low-angled golden hour light coming from the west (right side of image), casting long dramatic shadows eastward across the flat plain"
+      }
+    },
+    "style_directive": "Photorealistic raised-relief panorama in the tradition of Heinrich Berann's National Geographic landscape paintings. Museum diorama backdrop quality. Warm earth palette. Geographically true, reflecting exact river distances and geology.",
+    "negative_prompt": "cartoon, anime, 3D video game terrain, satellite photo, modern cities, political borders, brand logos, callout boxes, annotation arrows, cluttered labels, historically inaccurate mountains in the plain, deep canyons where there should be flat alluvium",
+    "pedagogical_purpose": "Establishes Babel's exact location in the fertile plain of Shinar between the Tigris and Euphrates rivers as the launching pad for all African migration. Presents spatial relationships truthfully."
+  },
+  {
+    "filename": "geo_post_flood_ararat.jpg",
+    "r2Key": "assets/storybook/ch01/geo_post_flood_ararat.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.1",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "Mount Ararat Looking South Toward the Fertile Crescent",
+      "viewing_angle": "Elevated panorama looking South from approximately 40.5°N, 44.0°E, altitude roughly 15km",
+      "geographic_bounds": {
+        "north": 40.5,
+        "south": 35.0,
+        "east": 46.0,
+        "west": 41.0
+      },
+      "terrain": [
+        {
+          "feature": "Ararat Massif",
+          "type": "mountain_peak",
+          "description": "Massive dormant volcanic cone dominating the foreground, with the smaller Lesser Ararat peak adjacent. Significant snowcap.",
+          "coords": [39.70, 44.30],
+          "peak_elevation": "5137m",
+          "position_in_frame": "center foreground, anchoring the perspective"
+        },
+        {
+          "feature": "Anatolian/Zagros Mountain Ridges",
+          "type": "mountain_range",
+          "description": "Complex, rugged ridges of brown and grey rock stretching continuously southward, tapering into the distant flat plains.",
+          "bounds": {"north": 39.0, "south": 35.0, "east": 46.0, "west": 41.0},
+          "surface": "rocky, sharp ridges"
+        },
+        {
+          "feature": "Mesopotamian Plains (Distance)",
+          "type": "alluvial_plain",
+          "description": "Faint, flat ochre expanse visible at the absolute top horizon line, showing the destination of migration.",
+          "position_in_frame": "far top horizon"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Lake Van",
+          "type": "lake",
+          "coords": [38.6, 42.9],
+          "visual": "high-altitude alkaline lake, brilliant azure blue contrasting heavily with the harsh surrounding rock",
+          "position_in_frame": "mid-ground right (west)"
+        },
+        {
+          "name": "Lake Urmia",
+          "type": "lake",
+          "coords": [37.7, 45.3],
+          "visual": "large high-altitude endorheic lake, visible reflecting the sky",
+          "position_in_frame": "mid-ground left (east)"
+        },
+        {
+          "name": "Headwaters of the Euphrates",
+          "type": "river",
+          "course_coords": [[39.5, 43.5], [38.5, 42.0], [37.0, 40.0], [35.0, 40.0]],
+          "visual": "thin silver thread weaving through the mountainous valleys toward the distant south-western horizon",
+          "position_in_frame": "flowing from center foreground toward distance right"
+        }
+      ],
+      "landmarks": [],
+      "labels": [
+        {"text": "MT. ARARAT", "position": "near the prominent snow-capped peak in the foreground", "style": "bold white text"},
+        {"text": "LAKE VAN", "position": "over the azure lake on the right", "style": "clean white Roman capitals"},
+        {"text": "LAKE URMIA", "position": "over the lake on the left", "style": "clean white Roman capitals"},
+        {"text": "TOWARD SHINAR", "position": "at the far sweeping horizon line", "style": "large spaced white Roman capitals to indicate direction"}
+      ],
+      "atmosphere": {
+        "time_of_day": "morning",
+        "sky": "clear, crisp alpine blue sky above, fading to a dusty atmospheric haze near the southern horizon",
+        "sky_coverage": "top 20% of image",
+        "lighting": "sharp, angled morning sunlight illuminating the eastern faces of the mountains with deep shadows on western faces"
+      }
+    },
+    "style_directive": "Photorealistic raised-relief panorama in the tradition of Heinrich Berann's National Geographic landscape paintings. Dramatic perspective focusing on the immense scale of Ararat dropping down into the distant plains. Realistic geology.",
+    "negative_prompt": "cartoon, 3D video game terrain, modern borders, floating text boxes, unnatural mountain spikes, green lush forests (should be rocky/arid)",
+    "pedagogical_purpose": "Demonstrates the geographic reality of the Ark's landing site relative to the Fertile Crescent, establishing the physical path of early human migration."
+  },
+  {
+    "filename": "geo_migration_routes_africa.jpg",
+    "r2Key": "assets/storybook/ch01/geo_migration_routes_africa.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.2",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "Migration Routes from Shinar to Africa",
+      "viewing_angle": "High-altitude satellite-style panorama looking South-West from approximately 38°N, 48°E (over northwest Iran)",
+      "geographic_bounds": {
+        "north": 36.0,
+        "south": 10.0,
+        "east": 48.0,
+        "west": 10.0
+      },
+      "terrain": [
+        {
+          "feature": "North Africa & Sahara Region",
+          "type": "transitional_desert",
+          "description": "Vast sweeping landmass occupying the right-center and distance. Shown as a semi-arid, transitioning savanna (Green Sahara era), not a total wasteland, fading into golden tones.",
+          "bounds": {"north": 35.0, "south": 15.0, "east": 35.0, "west": 10.0},
+          "surface": "mix of golden sands, rocky plateaus, and green savanna edges"
+        },
+        {
+          "feature": "Levant Corridor & Sinai",
+          "type": "coastal_mountain",
+          "description": "Crucial land bridge curving from the center foreground toward the right. Mediterranean to the right of it, Red sea to the left of it.",
+          "bounds": {"north": 35.0, "south": 28.0, "east": 36.0, "west": 32.0},
+          "surface": "rugged tan and olive mountains"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Mediterranean Sea",
+          "type": "sea",
+          "coords": [34.0, 25.0],
+          "visual": "deep curved blue expanse spanning the right side of the view",
+          "position_in_frame": "mid-ground right"
+        },
+        {
+          "name": "Red Sea",
+          "type": "sea",
+          "coords": [20.0, 38.0],
+          "visual": "long, vivid blue rift separating the Arabian peninsula from Africa",
+          "position_in_frame": "center stretching toward distance left"
+        },
+        {
+          "name": "Nile River Corridor",
+          "type": "river",
+          "course_coords": [[30.0, 31.2], [24.0, 32.9], [15.0, 32.5]],
+          "visual": "striking green thread cutting down through the desert",
+          "position_in_frame": "center-right distance"
+        }
+      ],
+      "landmarks": [
+        {
+          "name": "Shinar / Babel",
+          "coords": [33.3, 44.4],
+          "description": "The origin point of the migrations, glowing warmly or subtly marked in the foreground.",
+          "scale": "origin anchor point",
+          "position_in_frame": "left foreground"
+        }
+      ],
+      "labels": [
+        {"text": "BABEL (SHINAR)", "position": "at the origin point [33.3, 44.4]", "style": "bold white text"},
+        {"text": "TO EGYPT (MIZRAIM)", "position": "sweeping arrow path toward 30.0N, 31.2E", "style": "floating directional text along the path"},
+        {"text": "TO NUBIA (CUSH)", "position": "sweeping arrow path further south down Red Sea coast toward 15.0N, 33.0E", "style": "floating directional text along the path"},
+        {"text": "TO LIBYA (PHUT)", "position": "sweeping arrow path trailing west along the Mediterranean toward 32.0N, 13.0E", "style": "floating directional text along the path"}
+      ],
+      "atmosphere": {
+        "time_of_day": "midday",
+        "sky": "curved horizon in the immense distance, showing the blackness of space at the very top edge to convey planetary scale",
+        "sky_coverage": "top 10% of image",
+        "lighting": "global bright sunlight, rendering colors clearly and vividly to emphasize the transition from dry Middle East to the Nile/Sahara"
+      }
+    },
+    "style_directive": "Photorealistic National Geographic macro-scale diorama, viewed from space but with exaggerated terra-relief to show mountains and valleys clearly. Sweeping majestic migration arrows smoothly integrated into the geography (like glowing beams or subtle light trails, not ugly 2D vector arrows).",
+    "negative_prompt": "political borders, modern cities, flat 2d map, clip-art arrows, cluttered, unreadable text, incorrect geography",
+    "pedagogical_purpose": "Visualizes the macroscopic journey of the descendants of Ham from the dispersion at Babel to the foundation of African civilizations."
+  },
+  {
+    "filename": "geo_nile_full_corridor.jpg",
+    "r2Key": "assets/storybook/ch01/geo_nile_full_corridor.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.4",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "The Full Nile Corridor from Delta to Confluence",
+      "viewing_angle": "Looking South from above the Mediterranean Sea (~32.0°N, 31.2°E), gazing straight down the length of the Nile toward Khartoum.",
+      "geographic_bounds": {
+        "north": 32.0,
+        "south": 15.0,
+        "east": 35.0,
+        "west": 28.0
+      },
+      "terrain": [
+        {
+          "feature": "Sahara / Libyan Desert",
+          "type": "desert",
+          "description": "Endless expanse of golden and ochre sand and rock flanking the west side of the river.",
+          "bounds": {"north": 31.0, "south": 15.0, "east": 30.0, "west": 28.0},
+          "surface": "smooth windblown dunes and pale limestone plateaus",
+          "position_in_frame": "covering the entire right half of the image"
+        },
+        {
+          "feature": "Arabian Desert",
+          "type": "desert",
+          "description": "More rugged, rocky desert featuring the Red Sea Hills flanking the east side of the river.",
+          "bounds": {"north": 31.0, "south": 15.0, "east": 35.0, "west": 33.0},
+          "surface": "darker, sharper rocky ridges",
+          "position_in_frame": "covering the left half of the image outside the valley"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Nile River & Valley",
+          "type": "river_valley",
+          "course_coords": [[31.5, 31.2], [29.8, 31.2], [24.1, 32.9], [19.5, 33.3], [15.6, 32.5]],
+          "visual": "a stark, intensely green ribbon of life slicing perfectly straight through the yellow desert. Starts as a wide fan (Delta) in the foreground and narrows to a single thread disappearing into the horizon.",
+          "position_in_frame": "running dead center from the bottom foreground straight to the top horizon",
+          "flow_direction": "flowing toward the camera (South to North)"
+        },
+        {
+          "name": "Red Sea",
+          "type": "sea",
+          "coords": [25.0, 35.0],
+          "visual": "sliver of blue visible cutting along the far left edge of the frame",
+          "position_in_frame": "far left edge"
+        }
+      ],
+      "landmarks": [],
+      "labels": [
+        {"text": "NILE DELTA", "position": "over the green fan in the immediate foreground", "style": "clean white Roman capitals, large"},
+        {"text": "LOWER EGYPT", "position": "just south of the delta", "style": "clean white Roman capitals"},
+        {"text": "UPPER EGYPT", "position": "mid-way up the green valley thread", "style": "clean white Roman capitals"},
+        {"text": "NUBIA (CUSH)", "position": "in the distant upper quarter of the green thread", "style": "clean white Roman capitals"},
+        {"text": "BLUE/WHITE NILE CONFLUENCE", "position": "at the vanishing point on the top horizon", "style": "clean white Roman capitals, small"}
+      ],
+      "atmosphere": {
+        "time_of_day": "noon",
+        "sky": "very thin strip of blue and haze at the far horizon",
+        "sky_coverage": "top 5%",
+        "lighting": "harsh, bright midday sun from straight overhead. No long shadows, ensuring the gold-and-green color contrast is perfectly vibrant and punchy."
+      }
+    },
+    "style_directive": "Photorealistic high-altitude mastershot. The focus is purely on the shocking contrast between the intense, fertile emerald green of the Nile's floodplain and the dead, golden yellow of the surrounding desert. The river should appear as a singular, miraculous artery of life.",
+    "negative_prompt": "clouds covering the land, modern cities, modern borders, dams, 2d map style, dull colors, incorrect river bends",
+    "pedagogical_purpose": "Shows students the single most important geographic fact of Egypt: it is entirely dependent on the Nile. The 'green ribbon' metaphor must be vividly clear."
+  },
+  {
+    "filename": "geo_nile_delta_mizraim.jpg",
+    "r2Key": "assets/storybook/ch01/geo_nile_delta_mizraim.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.5",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "The Nile Delta (Mizraim)",
+      "viewing_angle": "Looking North toward the Mediterranean from just south of Memphis/Cairo (~29.5°N, 31.2°E).",
+      "geographic_bounds": {
+        "north": 31.8,
+        "south": 29.5,
+        "east": 32.5,
+        "west": 29.8
+      },
+      "terrain": [
+        {
+          "feature": "The Delta Floodplain (Lower Egypt)",
+          "type": "alluvial_plain",
+          "description": "A massive, spreading fan of incredibly rich, ultra-dark soil covered entirely in vivid green agriculture and papyrus marshes.",
+          "bounds": {"north": 31.5, "south": 30.0, "east": 32.0, "west": 30.0},
+          "surface": "lush green crops, marshlands near the sea, black wet soil visible along banks",
+          "position_in_frame": "spreading outward from the bottom center toward the entire top edge"
+        },
+        {
+          "feature": "Desert Margins",
+          "type": "desert",
+          "description": "The harsh yellow sand cutting off sharply exactly where the delta water ends.",
+          "bounds": {"north": 31.5, "south": 29.5, "east": 32.5, "west": 29.8},
+          "surface": "dry golden sand",
+          "position_in_frame": "visible occupying the bottom-left and bottom-right corners"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Nile River Stem",
+          "type": "river",
+          "course_coords": [[29.5, 31.2], [30.2, 31.2]],
+          "visual": "thick blue line entering from the bottom center",
+          "flow_direction": "South to North (bottom to top)"
+        },
+        {
+          "name": "Rosetta Branch",
+          "type": "river_branch",
+          "course_coords": [[30.2, 31.2], [31.4, 30.4]],
+          "visual": "sweeping curve flowing toward the top-left"
+        },
+        {
+          "name": "Damietta Branch",
+          "type": "river_branch",
+          "course_coords": [[30.2, 31.2], [31.5, 31.8]],
+          "visual": "sweeping curve flowing toward the top-right"
+        },
+        {
+          "name": "Mediterranean Sea",
+          "type": "sea",
+          "coords": [31.6, 31.0],
+          "visual": "deep blue sea spanning the top horizon",
+          "position_in_frame": "top 15% of frame"
+        }
+      ],
+      "landmarks": [
+        {
+          "name": "Memphis / Apex",
+          "coords": [29.85, 31.25],
+          "description": "The 'balance of the two lands' where the single river splits into the fan.",
+          "scale": "focal point marked subtly",
+          "position_in_frame": "bottom center"
+        }
+      ],
+      "labels": [
+        {"text": "MEDITERRANEAN SEA", "position": "spanning the blue water at the top", "style": "clean white Roman capitals"},
+        {"text": "THE DELTA (LOWER EGYPT)", "position": "centered within the green fan", "style": "large clean white Roman capitals"},
+        {"text": "MEMPHIS", "position": "near the branching apex at bottom center", "style": "bold white text"}
+      ],
+      "atmosphere": {
+        "time_of_day": "morning",
+        "sky": "clear blue sky over the Mediterranean",
+        "sky_coverage": "top 15%",
+        "lighting": "clean morning light providing strong depth and contrast between soil types"
+      }
+    },
+    "style_directive": "Photorealistic raised-relief panorama emphasizing extreme stark contrast. The fertile delta soil must look dense, black, and brilliantly green against perfectly dry yellow sand. Precise branching geography.",
+    "negative_prompt": "cartoon, 3D video game terrain, modern sprawl replacing ancient marshes, dull colors",
+    "pedagogical_purpose": "Visually defines 'Lower Egypt' and the concept of a river delta to young students."
+  },
+  {
+    "filename": "geo_nubian_nile_cataracts.jpg",
+    "r2Key": "assets/storybook/ch01/geo_nubian_nile_cataracts.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.5",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "The Nubian Nile Cataracts",
+      "viewing_angle": "Low altitude flying view looking South from just north of the 1st Cataract (24.5°N, 32.9°E).",
+      "geographic_bounds": {
+        "north": 24.5,
+        "south": 20.0,
+        "east": 33.5,
+        "west": 30.5
+      },
+      "terrain": [
+        {
+          "feature": "Nubian Desert & Granite Cliffs",
+          "type": "rocky_desert",
+          "description": "Harsh, unyielding terrain pressing directly against the water. Unlike Egypt, there is almost zero flat floodplain here. The cliffs are steep, jagged, and reddish-gold.",
+          "bounds": {"north": 24.5, "south": 20.0, "east": 33.5, "west": 30.5},
+          "surface": "bare sandstone and granite, extremely arid"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "The Nubian Nile",
+          "type": "river",
+          "course_coords": [[24.1, 32.9], [22.8, 32.5], [21.8, 31.3]],
+          "visual": "a fast, violently winding blue river entirely choked by massive black and red granite boulders, forming white-water rapids (cataracts).",
+          "flow_direction": "South to North (flowing toward the camera)",
+          "position_in_frame": "winding through the deep canyon in the center from the background toward the bottom foreground"
+        }
+      ],
+      "landmarks": [
+        {
+          "name": "1st Cataract (Aswan)",
+          "coords": [24.09, 32.89],
+          "description": "Dense cluster of granite islands and rapids in the river.",
+          "scale": "highly visible white-water breaking up the smooth river",
+          "position_in_frame": "bottom foreground"
+        },
+        {
+          "name": "2nd Cataract (Distance)",
+          "coords": [21.8, 31.3],
+          "description": "Visible curving sharply through rocky gorges in the distance.",
+          "scale": "distant rapids",
+          "position_in_frame": "upper third distance"
+        }
+      ],
+      "labels": [
+        {"text": "1ST CATARACT", "position": "near the rapids in the foreground", "style": "bold white text"},
+        {"text": "NUBIA (CUSH)", "position": "over the rocky terrain", "style": "large clean white Roman capitals, spaced"},
+        {"text": "TOWARD 2ND CATARACT", "position": "floating in the distant upper river section", "style": "slanted, subtle white text"}
+      ],
+      "atmosphere": {
+        "time_of_day": "late afternoon",
+        "sky": "warm, dusty sky",
+        "sky_coverage": "top 10%",
+        "lighting": "low, dramatic lighting casting deep black shadows in the gorges and highlighting the white water rapids, emphasizing how dangerous the river is here."
+      }
+    },
+    "style_directive": "Photorealistic close-up aerial showing rugged danger. Museum diorama backdrop quality. Essential to show exactly what a 'cataract' is: a rocky rapid surrounded by harsh desert, preventing smooth boat travel.",
+    "negative_prompt": "flat plains, wide green fields, waterfalls (cataracts are rapids, not sheer drops like Niagara), modern dams",
+    "pedagogical_purpose": "Contrasts the harsh Nubian geography with the wide accommodating geography of the Delta in Egypt."
+  },
+  {
+    "filename": "geo_libya_green_sahara.jpg",
+    "r2Key": "assets/storybook/ch01/geo_libya_green_sahara.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.5",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "North Africa During the Green Sahara Period",
+      "viewing_angle": "Looking South from the Mediterranean coast of Cyrenaica (~33.0°N, 20.0°E) diving deep into the interior.",
+      "geographic_bounds": {
+        "north": 33.5,
+        "south": 20.0,
+        "east": 25.0,
+        "west": 15.0
+      },
+      "terrain": [
+        {
+          "feature": "Cyrenaica Coastal Mountains (Jebel Akhdar)",
+          "type": "coastal_mountain",
+          "description": "Green, fertile rolling hills right at the coast.",
+          "bounds": {"north": 33.0, "south": 32.0, "east": 23.0, "west": 20.0},
+          "surface": "lush green mediterranean vegetation",
+          "position_in_frame": "foreground"
+        },
+        {
+          "feature": "Saharan Savanna (Phut's territory)",
+          "type": "savanna",
+          "description": "Where today is endless yellow sand, this map shows rolling green grasslands, scattered acacia trees, and pastoral steppe.",
+          "bounds": {"north": 32.0, "south": 20.0, "east": 25.0, "west": 15.0},
+          "surface": "pale green and golden savanna, rich grasses",
+          "position_in_frame": "occupying the entire midground and background"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Mediterranean Sea",
+          "type": "sea",
+          "coords": [33.5, 20.0],
+          "visual": "blue edge at the extreme bottom edge of the frame",
+          "position_in_frame": "bottom edge (behind camera)"
+        },
+        {
+          "name": "Paleo-Lakes & River Networks",
+          "type": "lake",
+          "coords": [25.0, 20.0],
+          "visual": "large shimmering pale-blue shallow lakes and winding rivers scattered through the green plains, areas which are now dry wadis.",
+          "position_in_frame": "midground center and rolling into the distance"
+        }
+      ],
+      "landmarks": [],
+      "labels": [
+        {"text": "CYRENAICA COAST", "position": "over the green hills in foreground", "style": "clean white Roman capitals, small"},
+        {"text": "THE GREEN SAHARA (PHUT)", "position": "centered over the vast green savanna plains", "style": "large clean white Roman capitals, wide tracking"},
+        {"text": "MEGA-LAKES", "position": "near the large blue lakes in the midground", "style": "slanted subtle white text"}
+      ],
+      "atmosphere": {
+        "time_of_day": "late morning",
+        "sky": "bright blue with large, dramatic, sweeping white cumulus clouds showing rain-bearing potential",
+        "sky_coverage": "top 30%",
+        "lighting": "dappled sunlight casting cloud shadows over the massive green plains"
+      }
+    },
+    "style_directive": "Photorealistic prehistoric landscape panorama. Museum diorama backdrop quality. A complete subversion of the 'yellow sand desert' cliché. It must look like a beautiful, habitable savanna stretching endlessly south.",
+    "negative_prompt": "barren desert, sand dunes, camels, modern borders, 2d map, clip-art",
+    "pedagogical_purpose": "Disrupts the assumption that the descent into North Africa was a march into an uninhabitable desert. Validates the historical record of a 'Green Sahara' post-flood."
+  },
+  {
+    "filename": "geo_east_africa_rift.jpg",
+    "r2Key": "assets/storybook/ch01/geo_east_africa_rift.jpg",
+    "imageType": "geographic",
+    "chapterSection": "1.5",
+    "bandRange": "0-5",
+    "aspectRatio": "1:1",
+    "size": 1024,
+    "geographic_specification": {
+      "title": "The East African Rift Valley",
+      "viewing_angle": "Elevated view looking South from over the Ethiopian Highlands (~10°N, 38°E), tracking straight down the rift.",
+      "geographic_bounds": {
+        "north": 10.0,
+        "south": -5.0,
+        "east": 41.0,
+        "west": 29.0
+      },
+      "terrain": [
+        {
+          "feature": "Great Rift Escarpments",
+          "type": "escarpment",
+          "description": "Dramatic, sheer cliff faces dropping steeply down on both sides, creating a massive central trench running from north to south.",
+          "bounds": {"north": 10.0, "south": -5.0, "east": 38.0, "west": 35.0},
+          "surface": "step-faulted brown and grey rock faces draped with lush green vegetation",
+          "position_in_frame": "forming the 'walls' of the image leading into the distance"
+        },
+        {
+          "feature": "Rift Valley Floor",
+          "type": "valley",
+          "description": "Deep, sweeping valley floor containing savanna, volcanic cones, and a string of lakes.",
+          "bounds": {"north": 10.0, "south": -5.0, "east": 37.0, "west": 35.5},
+          "surface": "patchwork of green acacia savanna, golden grasses, and black ancient lava flows",
+          "position_in_frame": "center channel"
+        }
+      ],
+      "water_bodies": [
+        {
+          "name": "Lake Turkana",
+          "type": "lake",
+          "coords": [4.0, 36.0],
+          "visual": "massive, striking jade green lake sitting at the bottom of the deep rocky trench",
+          "position_in_frame": "midground center"
+        },
+        {
+          "name": "Lake Victoria (Distance)",
+          "type": "lake",
+          "coords": [0.0, 33.0],
+          "visual": "glimpse of a vast inland sea off the to the right (west) in the far distance",
+          "position_in_frame": "background upper right"
+        }
+      ],
+      "landmarks": [],
+      "labels": [
+        {"text": "ETHIOPIAN HIGHLANDS", "position": "over the towering green plateaus on the left side", "style": "clean white Roman capitals, shadow"},
+        {"text": "GREAT RIFT VALLEY", "position": "centered down the length of the trench", "style": "large bold white Roman capitals, wide tracking"},
+        {"text": "LAKE TURKANA", "position": "above the vibrant green lake", "style": "clean white Roman capitals, small"}
+      ],
+      "atmosphere": {
+        "time_of_day": "late afternoon",
+        "sky": "stormy, towering anvil clouds forming over the highlands off to the sides",
+        "sky_coverage": "top 20%",
+        "lighting": "dramatic side-lighting. The setting sun from the west casts deep, pitch-black shadows across the deep trench, while illuminating the eastern escarpment."
+      }
+    },
+    "style_directive": "Photorealistic raised-relief panorama emphasizing extreme verticality and geologic drama. Museum diorama backdrop quality. Must feel titanic in scale, demonstrating the sheer size of the planetary fracture.",
+    "negative_prompt": "flat plains, boring weather, 2d map, clip-art, unreadable text, modern cities",
+    "pedagogical_purpose": "Introduces the dramatic southern geography of Africa to show the diversity of landscapes early migrants would encounter deep into the continent."
+  }
+]

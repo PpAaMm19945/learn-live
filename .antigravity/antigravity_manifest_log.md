@@ -60,11 +60,8 @@
 | Section | Source File | Status |
 |---------|-----------|--------|
 | ch02_s01–s09 | Chapter_02.md §1–§9 | ✅ Complete |
-| ch03_s01 | Chapter_03.md Intro | ⏳ Pending |
-| ch03_s02 | Chapter_03.md §3.1 | ⏳ Pending |
-| ch03_s03 | Chapter_03.md §3.2 | ⏳ Pending |
-| ch03_s04 | Chapter_03.md §3.3 + Summary | ⏳ Pending |
-| ch04_s01+ | Chapter_04.md | ⏳ Pending |
+| ch03_s00–s03 | Chapter_03.md §0–§3 | ✅ Complete |
+| ch04_s01–s08 | Chapter_04.md §4.1–§4.8 | ✅ Complete |
 | ch05_s01+ | Chapter_05.md | ⏳ Pending |
 | ch06_s01+ | Chapter_06.md | ⏳ Pending |
 | ch07_s01+ | Chapter_07.md | ⏳ Pending |

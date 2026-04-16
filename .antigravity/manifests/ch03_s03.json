@@ -1,0 +1,216 @@
+{
+  "sectionId": "ch03_s03",
+  "chapterId": "ch03",
+  "heading": "3.3 Masters of the Desert — The Garamantian Kingdom & Chapter Summary",
+  "totalBeats": 8,
+  "estimatedTotalDurationSec": 600,
+  "thinkItThrough": [
+    "How does the foggara system demonstrate that 'common grace' includes technological and engineering skill given by God to all humanity?",
+    "The Bible unequivocally condemns man-stealing. How should Christians evaluate impressive historical civilizations that were built using slave labor?",
+    "We have seen Carthage, Numidia, and the Garamantes rise and fall. How does this history prepare us to understand God's perfect timing in spreading the Gospel into North Africa under Roman rule?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch03_s03_b01",
+      "sectionId": "ch03_s03",
+      "sequence": 1,
+      "title": "Masters of the Sahara",
+      "contentText": "While Carthage dominated the coast and Numidia controlled the mountains, a third civilization thrived in one of the earth's most inhospitable environments: the central Sahara Desert. Centered in the Fezzan region of modern-day Libya, the Garamantes built a kingdom that endured for over 1,500 years. They transformed the barren desert into a network of thriving oasis cities.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 26.5, "lng": 13.0, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "fezzan" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 26.53,
+            "lng": 13.07,
+            "label": "Germa (Garama)",
+            "description": "The capital of the Garamantian Kingdom in the central Sahara"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b02",
+      "sectionId": "ch03_s03",
+      "sequence": 2,
+      "title": "The Foggara Miracle",
+      "contentText": "Their secret to survival was a miraculous feat of engineering: the foggara. This was a system of gently sloping underground aqueducts, dug by hand, that tapped into deep fossil aquifers and channeled water to the surface. The Garamantes excavated over 1,500 kilometers of these tunnels, creating a permanent water supply that supported tens of thousands of people and allowed them to grow wheat, dates, and grapes in the deep desert.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Foggara",
+            "definition": "An ancient underground irrigation system of gently sloping tunnels used by the Garamantes to tap into deep desert aquifers and channel water to the surface."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Engineering the Desert",
+            "bullets": [
+              "Over 600 identified foggara tunnels",
+              "Combined length exceeding 1,500 kilometers",
+              "Hand-dug vertical shafts and precise sloping gradients",
+              "Supported massive agricultural oases"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b03",
+      "sectionId": "ch03_s03",
+      "sequence": 3,
+      "title": "The Dominion Mandate",
+      "contentText": "The foggara system powerfully illustrates the biblical 'dominion mandate'—God's command in Genesis for humanity to fill the earth and subdue it. Even though the Garamantes were a pagan people, they bore the image of God. Their ability to innovate, engineer, and extract water from stone is a reflection of divine design and common grace given to all humanity.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Deuteronomy 8:15",
+            "text": "...who led you through the great and terrifying wilderness... who brought you water out of the flinty rock."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b04",
+      "sectionId": "ch03_s03",
+      "sequence": 4,
+      "title": "Trans-Saharan Traders",
+      "contentText": "The Greek historian Herodotus described the Garamantes as a 'very great nation' who used four-horse chariots. Beyond farming, they were wealthy middlemen who controlled the treacherous trans-Saharan trade routes. They transported gold, ivory, and exotic animals from Sub-Saharan Africa north to the Mediterranean, trading them for Roman olive oil, glassware, and wine.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 24.0, "lng": 13.0, "zoom": 4 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[18.0, 13.0], [26.5, 13.0], [32.6, 14.3]],
+            "label": "Trans-Saharan Trade Route to Leptis Magna"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b05",
+      "sectionId": "ch03_s03",
+      "sequence": 5,
+      "title": "The Dark Side: Slave Raiding",
+      "contentText": "But this remarkable civilization hid a dark reality. Digging and maintaining 1,500 kilometers of underground tunnels required a massive, expendable labor force. Herodotus noted that the Garamantes used their chariots to hunt 'cave-dwellers'—meaning they engaged in systematic slave-raiding of weaker Saharan peoples. Their impressive infrastructure was paid for with human oppression.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "1 Timothy 1:10",
+            "text": "The law is not laid down for the just but for the lawless and disobedient, for the ungodly and sinners... for enslavers, liars, perjurers..."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "Technological sophistication does not equal moral righteousness. The Bible unequivocally condemns 'man-stealing.'",
+            "attribution": "Learn Live Textbook, Chapter 3"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b06",
+      "sectionId": "ch03_s03",
+      "sequence": 6,
+      "title": "Common Grace and Total Depravity",
+      "contentText": "The story of the Garamantes forces us to hold two biblical truths at once. We see 'Common Grace' in their brilliant engineering, reflecting God's gifts. But we also see 'Total Depravity' in their brutal slave-raiding. Like all fallen human cultures, their kingdom was a mixture of God-reflecting beauty and image-distorting evil. Eventually, as the fossil aquifers dried up and Arab Islamic armies swept across North Africa in the 7th century, the Garamantian kingdom vanished.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "The Garamantian Paradox",
+            "points": [
+              { "left": "Common Grace", "right": "Total Depravity" },
+              { "left": "Brilliant engineering (foggara)", "right": "Oppression and slave-raiding" },
+              { "left": "Reflects the imago Dei", "right": "Reflects humanity's fallen nature" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b07",
+      "sectionId": "ch03_s03",
+      "sequence": 7,
+      "title": "Chapter Summary: Three Civilizations",
+      "contentText": "To conclude this period before Roman dominance, we have seen three remarkable civilizations. First, Carthage—the Canaanite empire whose destruction represented a lingering divine judgment. Second, Numidia and Mauretania—the Berber kingdoms of Phut whose Romanization built the very roads the Gospel would travel. And finally, the Garamantes—the desert engineers who mastered the Sahara.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "North Africa Before the Gospel",
+            "bullets": [
+              "Carthage: The Canaanite maritime rival of Rome",
+              "Numidia/Mauretania: The Berber kingdoms of Phut",
+              "Garamantes: The master engineers of the Sahara"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s03_b08",
+      "sectionId": "ch03_s03",
+      "sequence": 8,
+      "title": "Setting the Stage for Christ",
+      "contentText": "Throughout these 1,200 years, God's sovereign hand was at work orchestrating the rise and fall of empires. The conflicts, the conquests, and the spreading of Roman culture and language all served a higher purpose. They cleared the stage and laid the physical and political infrastructure for the coming of Christ, preparing North Africa to become one of the greatest centers of early Christianity.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -814, "label": "Carthage Founded" },
+              { "year": -146, "label": "Carthage Destroyed by Rome" },
+              { "year": 40, "label": "Roman Annexation Complete" },
+              { "year": 700, "label": "Garamantes Decline" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

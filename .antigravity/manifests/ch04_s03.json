@@ -1,0 +1,175 @@
+{
+  "sectionId": "ch04_s03",
+  "chapterId": "ch04",
+  "heading": "4.3 Napatan Kush: The Re-emergence of a Nubian Kingdom (c. 1000–590 BC)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 510,
+  "thinkItThrough": [
+    "How did the Napatan rulers use Egyptian culture and religion to legitimize their own rule?",
+    "According to Isaiah 37:8-9, what does the approach of Tirhakah's army suggest about the perception of Cushite military power in the ancient world?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s03_b01",
+      "sectionId": "ch04_s03",
+      "sequence": 1,
+      "title": "The Rise of Napata",
+      "contentText": "Following the eventual decline of Egypt's colonial rule in Nubia, a new native Cushite dynasty rose to power around 1000 BC. Centered at the city of Napata near the 4th Cataract of the Nile, this kingdom spearheaded a powerful revival of Cushite civilization, forging a unique cultural identity that challenged long-standing regional hierarchies.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 18.5, "lng": 31.8, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 18.53,
+            "lng": 31.82,
+            "label": "Napata",
+            "description": "Capital of the resurgent Cushite kingdom near the 4th Cataract"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s03_b02",
+      "sectionId": "ch04_s03",
+      "sequence": 2,
+      "title": "Syncretism at Jebel Barkal",
+      "contentText": "The Napatan rulers skillfully blended Egyptian traditions with their own. They adopted the Egyptian god Amun, declaring the holy mountain of Jebel Barkal to be his primary dwelling place. The mountain's distinctive rock pinnacle resembled the cobra crown of the pharaohs, providing divine legitimacy to the Kushite kings who viewed themselves as the true guardians of Egyptian religion.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Jebel Barkal",
+            "definition": "A sacred mountain near Napata believed by the Kushites to be the dwelling place of the god Amun."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s03_b03",
+      "sectionId": "ch04_s03",
+      "sequence": 3,
+      "title": "The Conquest of Egypt",
+      "contentText": "Believing they were the protectors of tradition, the Kushite kings launched a stunning military conquest. Beginning with King Piye in the 8th century BC, they marched northward and conquered all of Egypt. They established the 25th Dynasty, ruling as 'Black Pharaohs' from Napata and Memphis. A former colonial subject had become the ruler of its colonizer.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 26.0, "lng": 31.5, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[18.5, 31.8], [25.7, 32.6], [29.8, 31.2]],
+            "label": "Conquest of Egypt by Piye (25th Dynasty)"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "25th Dynasty",
+            "definition": "The line of Nubian kings from Napata who conquered and ruled over all of Egypt from approximately 744 to 656 BC."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s03_b04",
+      "sectionId": "ch04_s03",
+      "sequence": 4,
+      "title": "Tirhakah against Assyria",
+      "contentText": "The geopolitical landscape shifted when the mighty Assyrian empire threatened Egypt from the east. King Tirhakah, the most famous of the Kushite pharaohs, boldly led the resistance. The biblical prophet Isaiah records that when the Assyrian King Sennacherib was besieging Jerusalem, he received word that 'Tirhakah king of Cush' was marching against him.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Isaiah 37:9",
+            "text": "Now the king heard concerning Tirhakah king of Cush, 'He has set out to fight against you.'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s03_b05",
+      "sectionId": "ch04_s03",
+      "sequence": 5,
+      "title": "Agents of Divine Providence",
+      "contentText": "Tirhakah's approach caused the Assyrian army to alter their strategy, playing a vital role in preserving the Kingdom of Judah from annihilation. God sovereignly used a Cushite king—a descendant of Ham—to oppose Assyria and protect the lineage of King David, from which the Messiah would eventually be born. African kingdoms were entirely central to God's redemptive plan.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Providential Geopolitics",
+            "bullets": [
+              "Assyria threatens to annihilate Judah",
+              "Tirhakah's Cushite army marches out",
+              "Assyria diverts attention, Judah is preserved",
+              "The Messianic line of David survives"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s03_b06",
+      "sectionId": "ch04_s03",
+      "sequence": 6,
+      "title": "The End of the 25th Dynasty",
+      "contentText": "While Judah was spared, the conflict with Assyria eventually led to the end of Cushite rule in Egypt. The Assyrian king Ashurbanipal invaded, sacked Thebes, and drove the Kushites southward. The last Kushite pharaoh retreated to Napata around 656 BC. While they forever lost control of Egypt, the kingdom of Cush itself would continue to thrive for another millennium.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -744, "label": "Piye Establishes 25th Dynasty" },
+              { "year": -701, "label": "Tirhakah campaigns against Assyria" },
+              { "year": -656, "label": "Assyrians expel the Kushites" },
+              { "year": -591, "label": "Napata sacked, Capital shifts south" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch04_s03_b07",
+      "sectionId": "ch04_s03",
+      "sequence": 7,
+      "title": "Reframing African History",
+      "contentText": "The story of Napata refutes modern assumptions about inherent racial or ethnic superiority. The Kushite pharaohs were sophisticated rulers who ruled the greatest power of the ancient Near East for a century. They stand as a powerful illustration that God raises up kings and brings them down across all ethnic boundaries to serve His ultimate purposes.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The 'Black Pharaohs' of Nubia were part of God’s sovereign plan to preserve the lineage of the Messiah.",
+            "attribution": "Learn Live Textbook, Chapter 4"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

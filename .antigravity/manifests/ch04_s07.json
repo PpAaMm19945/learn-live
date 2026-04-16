@@ -1,0 +1,159 @@
+{
+  "sectionId": "ch04_s07",
+  "chapterId": "ch04",
+  "heading": "4.7 The Aksumite Victory: The Fall of Meroe and Geopolitical Reordering (c. 330 AD)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 525,
+  "thinkItThrough": [
+    "What were Ezana's stated motivations for the invasion of Meroe based on his inscription? Were they economic, political, or religious?",
+    "Why does the conjunction of King Ezana's conversion to Christianity and his military conquests raise difficult theological questions about the relationship between Church and State?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s07_b01",
+      "sectionId": "ch04_s07",
+      "sequence": 1,
+      "title": "The Conquest of Meroe",
+      "contentText": "Around 330 AD, the tension between the riverine kingdom of Meroe and the highland empire of Aksum culminated in war. The expanding power of Aksum allowed its king, Ezana, to project military force down into the Nile Valley, culminating in the complete conquest and destruction of the ancient Meroitic kingdom.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 15.5, "lng": 36.0, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[14.1, 38.7], [16.9, 33.7]],
+            "label": "Ezana's Invasion Route to Meroe"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b02",
+      "sectionId": "ch04_s07",
+      "sequence": 2,
+      "title": "The Inscription of Ezana",
+      "contentText": "We know the details from 'The Inscription of Ezana,' a monument the king carved in three languages—Ge'ez, Greek, and Sabaean. He boasts of invading the 'Island of Meroe,' burning towns of brick and straw, and putting down revolts by the Noba and the indigenous Meroites. His stated justifications were primarily about securing trade routes and retaliating for attacks on allies.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Ezana of Aksum",
+            "definition": "The 4th century AD king of Aksum who conquered Meroe and converted the empire to Christianity."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b03",
+      "sectionId": "ch04_s07",
+      "sequence": 3,
+      "title": "A Geopolitical Reordering",
+      "contentText": "This victory ended a unified, native Nubian political tradition that had lasted for millennia—dating back through Meroe, Napata, and Kerma. Power in Northeast Africa decisively shifted away from the Nile Valley to the Red Sea highlands under Aksum. The Nile corridor fractured, and would not unite again until the rise of medieval Christian Nubian kingdoms centuries later.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Geopolitical Shift",
+            "bullets": [
+              "End of massive Nile Valley Nubian kingdoms",
+              "Aksum takes dominance in Northeast Africa",
+              "Power shifts to the Red Sea trade networks"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b04",
+      "sectionId": "ch04_s07",
+      "sequence": 4,
+      "title": "The Conversion of Ezana",
+      "contentText": "Historically staggering, Ezana's conquest occurred around the exact same time as his personal conversion from paganism to Christianity. This event transformed Aksum's identity, aligning the African superpower with the global Church. This has fueled tremendous scholarly debate: Was the invasion of Meroe a geopolitical necessity, or did Ezana view it as a holy war?",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "debate",
+            "question": "What might explain the coexistence of a king's genuine Christian conversion with an aggressive military conquest?"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b05",
+      "sectionId": "ch04_s07",
+      "sequence": 5,
+      "title": "Cross and Crown",
+      "contentText": "The Bible is unequivocally clear that God's kingdom is advanced through preaching and discipleship, not military conquest. While Ezana's conversion was a monumental event for African Christianity, if his wars were motivated by a misguided zeal to enforce faith by the sword, it represents a tragic misunderstanding of the Gospel, highlighting the dangerous tension between church and state power.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "John 18:36",
+            "text": "Jesus answered, 'My kingdom is not of this world. If my kingdom were of this world, my servants would have been fighting...'"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b06",
+      "sectionId": "ch04_s07",
+      "sequence": 6,
+      "title": "The Fallibility of Believers",
+      "contentText": "However, this tension does not invalidate the genuineness of Ezana's faith. Like all of us, he was caught in the war between the 'old man' and the 'new man.' The Apostle Paul wrote about this ongoing internal conflict. Even in the lives of massively consequential Christians, sin and sanctification often coexist.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Ephesians 4:22-24",
+            "text": "...put off your old self... and to put on the new self, created after the likeness of God in true righteousness and holiness."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s07_b07",
+      "sectionId": "ch04_s07",
+      "sequence": 7,
+      "title": "The Age of Imperial Faith",
+      "contentText": "Ezana's reign mirrored what was happening globally. In Rome, Emperor Constantine was also merging Christian faith with imperial power. The story of Aksum is a vital part of a larger global narrative about how Christianity navigated the tricky waters of political dominance in the era after imperial persecution ended.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Global Imperial Conversions",
+            "points": [
+              { "left": "Aksum (Africa)", "right": "Rome (Europe/Asia)" },
+              { "left": "King Ezana", "right": "Emperor Constantine" },
+              { "left": "Conversion c. 330 AD", "right": "Conversion c. 312 AD" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "sectionId": "ch04_s05",
+  "chapterId": "ch04",
+  "heading": "4.5 Cush and the Red Sea World: Ancient Judaic Roots (c. 1000 BC–1st Century AD)",
+  "totalBeats": 5,
+  "estimatedTotalDurationSec": 375,
+  "thinkItThrough": [
+    "How does the historical reality of the Sabaean-influenced D'mt culture support the biblical account of the Queen of Sheba?",
+    "How might the ancient Judaic roots of Ethiopia have served as a providential preparation for the arrival of the Gospel via the Ethiopian eunuch?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s05_b01",
+      "sectionId": "ch04_s05",
+      "sequence": 1,
+      "title": "The Queen of Sheba",
+      "contentText": "The biblical story of the Queen of Sheba visiting King Solomon is foundational to Ethiopian national identity. Their national epic, the Kebra Nagast, tells of Queen Makeda bearing Solomon a son, Menilek, who supposedly brought the Ark of the Covenant back to Ethiopia. While not archaeologically verified, this powerful story reflects the true historical reality of deep contact between South Arabia and the Horn of Africa.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "1 Kings 10:1",
+            "text": "Now when the queen of Sheba heard of the fame of Solomon concerning the name of the LORD, she came to test him with hard questions."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s05_b02",
+      "sectionId": "ch04_s05",
+      "sequence": 2,
+      "title": "The D'mt Culture",
+      "contentText": "Archaeology confirms these ancient Red Sea connections. Long before the rise of Aksum, the D'mt culture flourished in the highlands of Tigray and Eritrea, heavily influenced by Sabaean (South Arabian) styles. This verified flow of trade, language, and culture across the Red Sea provides the historical context for the interaction between biblical Israel and the ancient African kingdoms.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 14.5, "lng": 41.5, "zoom": 5 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[15.5, 43.5], [14.1, 38.9]],
+            "label": "Sabaean (South Arabian) Influence on D'mt"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "D'mt",
+            "definition": "A pre-Aksumite culture (c. 800–400 BC) in the Tigray/Eritrea region showing strong South Arabian influence."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s05_b03",
+      "sectionId": "ch04_s05",
+      "sequence": 3,
+      "title": "Ancient Judaic Roots",
+      "contentText": "The strong cultural memory of a covenant connection to Israel suggests that deep Judaic roots were planted in the Horn of Africa long before the dawn of Christianity. Whether through direct migration, trade, or cultural transmission, this early monotheistic presence shows that knowledge of the God of Abraham was not confined to Israel and Judah.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The people of this region saw themselves as part of the biblical story long before the arrival of Christianity.",
+            "attribution": "Learn Live Textbook, Chapter 4"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s05_b04",
+      "sectionId": "ch04_s05",
+      "sequence": 4,
+      "title": "A Prophetic Shadow",
+      "contentText": "This ancient Judaic presence was part of God's providential preparation for the Gospel. It's no accident that the Ethiopian Eunuch was already reading from the Scroll of Isaiah when Philip met him in Acts 8. His heart—and the broader cultural soil of his homeland—had been prepared for centuries to receive the good news of the Messiah.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Providential Preparation",
+            "bullets": [
+              "Ancient Judaic roots in the Horn of Africa",
+              "Established familiarity with Old Testament scripture",
+              "Cultural readiness for the arrival of the Gospel",
+              "The Ethiopian Eunuch returning to fertile spiritual soil"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s05_b05",
+      "sectionId": "ch04_s05",
+      "sequence": 5,
+      "title": "Cush Shall Stretch Out Her Hands",
+      "contentText": "The Psalms declare that 'Cush shall soon stretch out her hands unto God.' God brilliantly used historical and cultural currents—trade routes, political connections, and the resulting diaspora of ideas—to draw people from the nations to Himself, fulfilling this prophecy beginning with the eunuch and continuing through the centuries.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Psalm 68:31",
+            "text": "Princes shall come out of Egypt; Ethiopia [Cush] shall soon stretch out her hands unto God."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

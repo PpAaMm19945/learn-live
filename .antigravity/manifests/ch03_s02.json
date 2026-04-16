@@ -1,0 +1,191 @@
+{
+  "sectionId": "ch03_s02",
+  "chapterId": "ch03",
+  "heading": "3.2 The Berber Kingdoms — Numidia and Mauretania",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 510,
+  "thinkItThrough": [
+    "The Berbers (descendants of Phut/Put) appear in Scripture as warriors 'who handle the shield' (Jeremiah 46:9). How does the historical record of Numidian cavalry confirm the accuracy of biblical ethnography?",
+    "Juba II was a conquered prince who became a loyal Roman king and Hellenistic scholar. How does his story illustrate the complex relationship between cultural adaptation and identity?",
+    "The Bible says that God determines the boundaries and times of nations (Acts 17:26). How does the rise and fall of Numidia and Mauretania fit into this sovereign plan?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch03_s02_b01",
+      "sectionId": "ch03_s02",
+      "sequence": 1,
+      "title": "The Descendants of Phut",
+      "contentText": "While Carthage represented the expansion of Canaan's descendants, the indigenous North African peoples—the Berbers—traced their lineage to another son of Ham: Phut. The ancient Jewish historian Josephus explicitly identified Phut as the founder of Libya, which referred broadly to North Africa. Today, we know these peoples as the Berbers, or Amazigh, meaning 'free people.'",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Genesis 10:6",
+            "text": "The sons of Ham were Cush, Mizraim, Put (Phut), and Canaan."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Berbers (Amazigh)",
+            "definition": "The indigenous peoples of North Africa. Modern genetic and historical evidence links them to Phut, one of the sons of Ham."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s02_b02",
+      "sectionId": "ch03_s02",
+      "sequence": 2,
+      "title": "Warriors Who Handle the Shield",
+      "contentText": "The biblical prophets accurately described the descendants of Phut as warriors 'who handle the shield.' This perfectly matches the historical reputation of the Berber warriors of Numidia. They were famous as light, mobile skirmishers who fought with javelins and small round shields. The Numidian cavalry rode bareback without bridles, making them the fastest and most agile horsemen in the ancient world.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Jeremiah 46:9",
+            "text": "Come up, O horses, and rage, O chariots! And let the mighty men come forth: the Ethiopians and the Libyans (Put) who handle the shield..."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s02_b03",
+      "sectionId": "ch03_s02",
+      "sequence": 3,
+      "title": "Massinissa and the Rise of Numidia",
+      "contentText": "The Numidian tribes were forged into a powerful kingdom by a brilliant chieftain named Massinissa. Originally an ally of Carthage, Massinissa pragmatically switched his allegiance to Rome during the Second Punic War. His legendary light cavalry proved to be the decisive factor at the Battle of Zama, shattering Hannibal's forces. Rewarded by Rome, Massinissa ruled as King of a united Numidia for fifty years.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 35.0, "lng": 7.0, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "numidia" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 36.36,
+            "lng": 6.6,
+            "label": "Cirta",
+            "description": "Capital of Massinissa's united Numidian kingdom"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s02_b04",
+      "sectionId": "ch03_s02",
+      "sequence": 4,
+      "title": "The Jugurthine War",
+      "contentText": "After Massinissa's death, internal strife led his ruthless grandson, Jugurtha, to seize power. Understanding Rome's weakness for bribery, Jugurtha fought a brilliant guerrilla war against Roman forces for seven years. The Jugurthine War exposed the deep moral rot of the Roman Republic. Ultimately, Jugurtha was betrayed by an ally, paraded in chains in Rome, and starved to death, leading to greater Roman control over Numidia.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Jugurtha",
+            "definition": "Grandson of Massinissa who fought a brilliant guerrilla war against Rome (112–105 BC), exposing the deep corruption of the Roman Republic."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s02_b05",
+      "sectionId": "ch03_s02",
+      "sequence": 5,
+      "title": "Juba II and Cleopatra Selene",
+      "contentText": "The final chapter of independent Berber kingship starred Juba II, a captured prince raised in the household of Emperor Augustus. In 25 BC, Rome installed the highly educated Juba II as King of Mauretania, marrying him to Cleopatra Selene, the daughter of Mark Antony and Cleopatra VII. Together, they transformed their capital into a dazzling Hellenistic city, blending Roman, Greek, Egyptian, and Berber culture.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 36.6, "lng": 2.1, "zoom": 7 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 36.6,
+            "lng": 2.19,
+            "label": "Iol Caesarea",
+            "description": "Showcase capital of Juba II and Cleopatra Selene"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "The Rule of Juba II",
+            "bullets": [
+              "Raised in Rome by Augustus",
+              "Married Cleopatra Selene",
+              "Transformed Mauretania into an intellectual center",
+              "High point of Berber Romanization"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch03_s02_b06",
+      "sectionId": "ch03_s02",
+      "sequence": 6,
+      "title": "Final Annexation by Rome",
+      "contentText": "The era of client kings ended violently. In 40 AD, the jealous Roman Emperor Caligula murdered Juba II's son, Ptolemy. Following a brief revolt, Rome formally annexed Mauretania, dividing it into Roman provinces. The descendants of Phut were now fully integrated into the Roman Empire, their once-independent kingdoms becoming the breadbasket of Rome.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -202, "label": "Massinissa Allies with Rome at Zama" },
+              { "year": -105, "label": "Defeat of Jugurtha" },
+              { "year": -25, "label": "Juba II Installed in Mauretania" },
+              { "year": 40, "label": "Final Annexation of Mauretania" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 60
+    },
+    {
+      "beatId": "ch03_s02_b07",
+      "sectionId": "ch03_s02",
+      "sequence": 7,
+      "title": "Providence in Romanization",
+      "contentText": "The transformation of Berber society was not spiritually neutral. The Roman roads, Latin language, and urban infrastructure established under rulers like Juba II created the perfect conditions for the rapid spread of the Gospel in the coming centuries. God orchestrated the rise and fall of these empires, ensuring the physical and cultural pathways were ready for the message of Christ.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_question",
+          "args": {
+            "type": "reflection",
+            "question": "How does God's use of Roman infrastructure to spread the Gospel encourage you about His sovereignty over modern world events?"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}

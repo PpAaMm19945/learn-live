@@ -1,0 +1,188 @@
+{
+  "sectionId": "ch04_s04",
+  "chapterId": "ch04",
+  "heading": "4.4 The Meroitic Era: Meroe and the Southward Shift (c. 590 BC–350 AD)",
+  "totalBeats": 7,
+  "estimatedTotalDurationSec": 525,
+  "thinkItThrough": [
+    "How does the control of a key technology like large-scale iron production affect the distribution of power in a society?",
+    "The Ethiopian eunuch mentioned in Acts 8 was an official of the Kandake of Meroe. How does his conversion demonstrate God's long-term plan for the African continent?"
+  ],
+  "beats": [
+    {
+      "beatId": "ch04_s04_b01",
+      "sectionId": "ch04_s04",
+      "sequence": 1,
+      "title": "The Shift South to Meroe",
+      "contentText": "Following an Egyptian raid on Napata, the Cushite kingdom gradually shifted its heartland deeper south to Meroe around 590 BC. Located on a fertile plain known as the 'Island of Meroe,' this region was strategically safer, supported rain-fed agriculture, contained vast acacia forests for fuel, and perfectly positioned the kingdom to control trade routes to the Red Sea.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 16.9, "lng": 33.7, "zoom": 6 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": { "regionId": "island_of_meroe" },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "lat": 16.93,
+            "lng": 33.74,
+            "label": "Meroe",
+            "description": "The southern capital of Cush on the fertile Butana Plain"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b02",
+      "sectionId": "ch04_s04",
+      "sequence": 2,
+      "title": "The Birmingham of Africa",
+      "contentText": "Meroe sparked a new phase of Cushite history characterized by extraordinary industrial power. Earning the modern nickname 'the Birmingham of Africa,' Meroe became a major center for iron production on an unprecedented scale. Colossal mountains of iron slag waste are still visible today, evidence of massive smelting operations that gave Meroe superior agricultural tools and a formidable military advantage.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Meroitic Iron Mastery",
+            "bullets": [
+              "Massive iron smelting operations",
+              "Production of superior agricultural tools",
+              "Iron weapons provided a major military edge",
+              "Iron became a highly lucrative trade export"
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b03",
+      "sectionId": "ch04_s04",
+      "sequence": 3,
+      "title": "Cultural Independence and the Meroitic Script",
+      "contentText": "The Meroitic era was fiercely culturally independent. The Meroites celebrated native Nubian gods, like the powerful lion-headed warrior god Apedemak. Most impressively, they developed their own unique alphabetic writing system—the Meroitic script—with both cursive and monumental forms. While the alphabet has been deciphered, the language remains largely untranslated, standing as a evidence to their intellectual sophistication.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Meroitic Script",
+            "definition": "An alphabetic writing system developed in Meroe, demonstrating the kingdom's cultural autonomy and intellectual prowess."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Apedemak",
+            "definition": "A powerful lion-headed warrior god native to Nubia, prominently worshiped during the Meroitic era."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b04",
+      "sectionId": "ch04_s04",
+      "sequence": 4,
+      "title": "The Power of the Kandake",
+      "contentText": "Meroe successfully navigated the shifting geopolitics of Ptolemaic Egypt and the Roman Empire. They were ruled by a series of powerful Queen Mothers who wielded significant political and military authority. They held the title 'Kandake', or Candace. In 25 BC, Kandake Amanirenas fiercely and effectively resisted a Roman invasion, eventually forcing Rome to negotiate a peace treaty as an equal.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Kandake (Candace)",
+            "definition": "The official title for the queen mother in the Meroitic kingdom, who often exerted immense political and military power."
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b05",
+      "sectionId": "ch04_s04",
+      "sequence": 5,
+      "title": "Philip and the Ethiopian Eunuch",
+      "contentText": "The most famous Kandake in biblical history—likely Amantitere—is mentioned in the book of Acts. Her treasurer, an 'Ethiopian eunuch,' was reading the prophet Isaiah while returning from Jerusalem. The Holy Spirit directed Philip the Evangelist to speak to him. Philip explained the Gospel, the eunuch believed, and he was baptized on the side of the road.",
+      "sceneMode": "map",
+      "toolSequence": [
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Acts 8:27",
+            "text": "And there was an Ethiopian, a eunuch, a court official of Candace, queen of the Ethiopians, who was in charge of all her treasure."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "zoom_to",
+          "args": { "lat": 24.0, "lng": 34.0, "zoom": 4 },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "points": [[31.7, 35.2], [16.9, 33.7]],
+            "label": "The Eunuch's Return Route to Meroe"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b06",
+      "sectionId": "ch04_s04",
+      "sequence": 6,
+      "title": "Taking the Gospel to Meroe",
+      "contentText": "This individual conversion was a pivotal moment in the global expansion of Christianity. The eunuch returned to his homeland carrying the Gospel of Jesus Christ directly into the heart of the Meroitic empire, decades before the faith would reach many parts of Europe. African Christianity was central to God's plan from the very origin of the Church.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_quote",
+          "args": {
+            "text": "The kingdom of God was advancing even as Meroe’s earthly power would eventually fade.",
+            "attribution": "Learn Live Textbook, Chapter 4"
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    },
+    {
+      "beatId": "ch04_s04_b07",
+      "sectionId": "ch04_s04",
+      "sequence": 7,
+      "title": "The Enduring Limits of Tech",
+      "contentText": "While Meroe flourished for nearly a thousand years, it ultimately collapsed under environmental and military pressure. The intense deforestation required to fuel their iron furnaces likely caused fatal soil degradation. And by 350 AD, Meroe was conquered. Their story is a sobering reminder that technological supremacy without wisdom leads to ruin, and that every earthly kingdom is only temporary.",
+      "sceneMode": "transcript",
+      "toolSequence": [
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              { "year": -590, "label": "Capital Shifts to Meroe" },
+              { "year": -21, "label": "Kandake signs peace with Rome" },
+              { "year": 35, "label": "Conversion of Kandake's Eunuch" },
+              { "year": 350, "label": "Meroe Conquered by Aksum" }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
+      ],
+      "estimatedDurationSec": 75
+    }
+  ]
+}
