@@ -529,32 +529,54 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
             <TeachingCanvas ref={canvasRef} />
           </div>
 
-          {/* Layer 3: Image thumbnail in top-right corner */}
+          {/* Layer 3: Image — centered in left panel for young bands, corner thumbnail for older */}
           <AnimatePresence>
             {thumbnailImage && (
-              <motion.div
-                key="image-thumbnail"
-                initial={{ opacity: 0, scale: 0.8, y: -10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.8, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className={`absolute z-30 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm ${
-                  bandProfile.visuals.imageCentered
-                    ? `top-4 left-1/2 -translate-x-1/2 ${bandProfile.visuals.imageSizeClass}`
-                    : `top-3 right-3 ${bandProfile.visuals.imageSizeClass}`
-                }`}
-              >
-                <img
-                  src={thumbnailImage.url}
-                  alt={thumbnailImage.caption}
-                  className="w-full aspect-square object-contain bg-black/5"
-                />
-                {thumbnailImage.caption && (
-                  <p className="px-2.5 py-1.5 text-[10px] md:text-xs text-foreground/80 leading-tight line-clamp-2">
-                    {thumbnailImage.caption}
-                  </p>
-                )}
-              </motion.div>
+              bandProfile.visuals.imageCentered ? (
+                /* Bands 0-1: Image fills the left panel, centered with flex */
+                <motion.div
+                  key="image-centered"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0 z-30 flex items-center justify-center p-4"
+                >
+                  <div className="w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden shadow-2xl border border-border/30 bg-card/95 backdrop-blur-sm">
+                    <img
+                      src={thumbnailImage.url}
+                      alt={thumbnailImage.caption}
+                      className="w-full aspect-square object-contain bg-[#fdfbf7]"
+                    />
+                    {thumbnailImage.caption && (
+                      <p className="px-3 py-2 text-sm md:text-base text-foreground/80 leading-snug text-center font-medium">
+                        {thumbnailImage.caption}
+                      </p>
+                    )}
+                  </div>
+                </motion.div>
+              ) : (
+                /* Bands 2+: Small thumbnail in top-right corner */
+                <motion.div
+                  key="image-thumbnail"
+                  initial={{ opacity: 0, scale: 0.8, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, y: -10 }}
+                  transition={{ duration: 0.4 }}
+                  className={`absolute z-30 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm top-3 right-3 ${bandProfile.visuals.imageSizeClass}`}
+                >
+                  <img
+                    src={thumbnailImage.url}
+                    alt={thumbnailImage.caption}
+                    className="w-full aspect-square object-contain bg-black/5"
+                  />
+                  {thumbnailImage.caption && (
+                    <p className="px-2.5 py-1.5 text-[10px] md:text-xs text-foreground/80 leading-tight line-clamp-2">
+                      {thumbnailImage.caption}
+                    </p>
+                  )}
+                </motion.div>
+              )
             )}
           </AnimatePresence>
 

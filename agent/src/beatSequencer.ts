@@ -128,7 +128,7 @@ export class BeatSequencer {
         this.narrator = new GenAINarrator(systemInstruction);
         this.tts = new TTSService();
         this.bandProfile = getBandProfile(band);
-        console.log(`[SEQUENCER] Band ${band} profile: "${this.bandProfile.label}" (ages ${this.bandProfile.ages}), voice: ${this.bandProfile.tts.voiceName}, rate: ${this.bandProfile.tts.speakingRate}`);
+        console.log(`[SEQUENCER] Band ${band} profile: "${this.bandProfile.label}" (ages ${this.bandProfile.ages}), voice: ${this.bandProfile.tts.voiceName}, style: ${this.bandProfile.tts.style}`);
     }
 
     start(manifest: SectionManifest): Promise<void> {
@@ -267,11 +267,11 @@ export class BeatSequencer {
         
         this.previousNarratedText = narratedText;
 
-        // TTS with band-specific voice and rate
-        console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId} (voice: ${this.bandProfile.tts.voiceName}, rate: ${this.bandProfile.tts.speakingRate})`);
+        // TTS with band-specific voice and pace prompt
+        console.log(`[SEQUENCER] Synthesizing audio for beat: ${beat.beatId} (voice: ${this.bandProfile.tts.voiceName}, style: ${this.bandProfile.tts.style})`);
         const audioBase64 = await this.tts.synthesize(narratedText, {
             voiceName: this.bandProfile.tts.voiceName,
-            speakingRate: this.bandProfile.tts.speakingRate,
+            pacePrompt: this.bandProfile.tts.pacePrompt,
         }) || '';
 
         if (!audioBase64) {

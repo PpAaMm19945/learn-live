@@ -1,6 +1,11 @@
 export interface TTSOptions {
   voiceName?: string;
-  speakingRate?: number;
+  /**
+   * Natural-language pace/style directive prepended to the text.
+   * Gemini TTS does NOT support a numeric speakingRate parameter;
+   * pace is controlled through prompting (e.g. "Speak slowly and gently:").
+   */
+  pacePrompt?: string;
 }
 
 /**
@@ -117,18 +122,11 @@ export class TTSService {
   private async synthesizeChunk(text: string, options: TTSOptions = {}): Promise<string | null> {
     await this.waitForTurn();
 
-    // Clamp speakingRate to the Gemini TTS valid range [0.25, 4.0]
-    let rate = options.speakingRate;
-    if (rate !== undefined) {
-      const clamped = Math.max(0.25, Math.min(4.0, rate));
-      if (clamped !== rate) {
-        console.warn(`[TTS] speakingRate ${rate} out of range [0.25, 4.0] — clamped to ${clamped}`);
-      }
-      rate = clamped;
-    }
+    // Prepend pace/style prompt if provided (Gemini TTS uses natural-language control)
+    const spokenText = options.pacePrompt ? `${options.pacePrompt}\n\n${text}` : text;
 
     const payload = {
-      contents: [{ parts: [{ text }] }],
+      contents: [{ parts: [{ text: spokenText }] }],
       generationConfig: {
         responseModalities: ['AUDIO'],
         speechConfig: {
@@ -137,12 +135,11 @@ export class TTSService {
               voiceName: options.voiceName || 'Charon'
             }
           },
-          ...(rate !== undefined ? { speakingRate: rate } : {}),
         }
       },
     };
 
-    console.log(`[TTS] Request: voice=${options.voiceName || 'Charon'}, rate=${rate ?? 'default'}, text=${text.length} chars`);
+    console.log(`[TTS] Request: voice=${options.voiceName || 'Charon'}, pace="${(options.pacePrompt || 'default').slice(0, 60)}", text=${text.length} chars`);
 
     for (let attempt = 0; attempt < TTSService.MAX_RETRIES; attempt++) {
       try {

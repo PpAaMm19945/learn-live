@@ -17,7 +17,8 @@ export interface BandProfile {
   };
   tts: {
     voiceName: string;
-    speakingRate: number;
+    /** Natural-language pace/style directive prepended to text for Gemini TTS. */
+    pacePrompt: string;
     style: 'gentle' | 'warm-story' | 'clear-teacher' | 'coach' | 'seminar' | 'debate';
     /** Extra dwell time (ms) after audio ends, before next beat. Lets young children absorb the illustration. */
     postAudioDwellMs: number;
@@ -64,7 +65,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: true,
       toneDirective: 'Speak like a warm, gentle uncle telling a bedtime story. Short sentences, vivid pictures with words, full of wonder. Use "Wow!" and "Look!" naturally.',
     },
-    tts: { voiceName: 'Kore', speakingRate: 0.85, style: 'gentle', postAudioDwellMs: 4000 },
+    tts: { voiceName: 'Kore', pacePrompt: 'Speak very slowly and gently, like reading a bedtime story to a small child. Use a warm, soft tone with long pauses between sentences:', style: 'gentle', postAudioDwellMs: 4000 },
     tools: {
       blocked: ['show_comparison', 'show_quote', 'show_genealogy', 'show_timeline', 'zoom_to', 'highlight_region', 'draw_route', 'place_marker'],
       maxTimelineEvents: 0,
@@ -98,7 +99,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: true,
       toneDirective: 'Speak like an enthusiastic storyteller reading aloud. Warm but energetic. Use questions like "Can you guess what happened next?" sparingly.',
     },
-    tts: { voiceName: 'Kore', speakingRate: 0.9, style: 'warm-story', postAudioDwellMs: 3000 },
+    tts: { voiceName: 'Kore', pacePrompt: 'Speak slowly and warmly, like an enthusiastic storyteller reading aloud to young children. Clear and gentle pace:', style: 'warm-story', postAudioDwellMs: 3000 },
     tools: {
       blocked: ['show_comparison', 'show_quote', 'show_genealogy', 'highlight_region', 'draw_route'],
       maxTimelineEvents: 2,
@@ -132,7 +133,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: true,
       toneDirective: 'Speak like a clear, friendly teacher explaining something exciting. Direct and confident but approachable. Use "Here is why this matters" framing.',
     },
-    tts: { voiceName: 'Leda', speakingRate: 1.0, style: 'clear-teacher', postAudioDwellMs: 1500 },
+    tts: { voiceName: 'Leda', pacePrompt: 'Speak clearly and at a normal pace, like a friendly teacher explaining something interesting:', style: 'clear-teacher', postAudioDwellMs: 1500 },
     tools: {
       blocked: ['show_quote'],
       maxTimelineEvents: 3,
@@ -166,7 +167,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: true,
       toneDirective: 'Speak like an engaging coach breaking down a game plan. Confident, direct, and motivating. Use pattern language: "Notice how..." and "This is the same pattern we saw when..."',
     },
-    tts: { voiceName: 'Orus', speakingRate: 1.03, style: 'coach', postAudioDwellMs: 0 },
+    tts: { voiceName: 'Orus', pacePrompt: 'Speak with a confident, engaging pace like an energetic coach explaining a game plan:', style: 'coach', postAudioDwellMs: 0 },
     tools: {
       blocked: [],
       maxTimelineEvents: 4,
@@ -200,7 +201,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: false,
       toneDirective: 'Speak like a university seminar leader — authoritative, intellectually stimulating, occasionally wry. Challenge assumptions. Use "Consider this..." and "The evidence suggests..."',
     },
-    tts: { voiceName: 'Charon', speakingRate: 1.05, style: 'seminar', postAudioDwellMs: 0 },
+    tts: { voiceName: 'Charon', pacePrompt: 'Speak with an authoritative, intellectually stimulating pace like a university seminar leader:', style: 'seminar', postAudioDwellMs: 0 },
     tools: {
       blocked: [],
       maxTimelineEvents: 6,
@@ -234,7 +235,7 @@ export const BAND_PROFILES: Record<number, BandProfile> = {
       requireConcreteExamples: false,
       toneDirective: 'Speak like a distinguished professor in a graduate seminar — commanding, erudite, intellectually demanding. Use primary source references. Employ Socratic questioning. Frame claims as "The textual evidence compels us to conclude..."',
     },
-    tts: { voiceName: 'Charon', speakingRate: 1.08, style: 'debate', postAudioDwellMs: 0 },
+    tts: { voiceName: 'Charon', pacePrompt: 'Speak with a commanding, erudite pace like a distinguished professor in a graduate seminar:', style: 'debate', postAudioDwellMs: 0 },
     tools: {
       blocked: [],
       maxTimelineEvents: 8,
