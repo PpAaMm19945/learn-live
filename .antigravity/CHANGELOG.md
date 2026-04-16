@@ -5,6 +5,16 @@
 
 ---
 
+## 2026-04-16 — Ch01 Image Wiring Complete
+- Registered 22 new Nano Banana 2 images in `agent/src/imageRegistry.ts` (geo_*, art_*, doc_* descriptive keys)
+- Added `bandOverrides` to 12 beats across all 5 Ch01 manifests (48 band-specific image swaps)
+- Verified `syncTrigger: "start_of_beat"` is correctly set on all tool calls (was previously misdiagnosed as missing)
+- Lint passes with 0 errors; 343 pre-existing band-policy warnings (word counts, bullet limits) flagged for future content tailoring
+- **Decision:** Filename convention for Ch01 Bands 2-5 storybook is descriptive (`art_creation_first_light.jpg`), not numeric (`band4_page01.jpg` was a stale Jules log)
+- **Decision:** Bands 4-5 get `art_taharqa_pharaoh.jpg` for Cush and Egypt-idolatry beats; Bands 2-3 see geo/art alternatives
+- Ch01 is fully teachable end-to-end across all 6 bands pending Cloud Run redeploy
+
+
 ## 2026-04-15 — Phase 7 (Band Differentiation): Planning Complete
 - Synthesized input from Codex, Antigravity, and Claude on age-band differentiation
 - Created `BandProfile` interface spec with narration, TTS, tools, visuals, interactivity, and theology gate dimensions
