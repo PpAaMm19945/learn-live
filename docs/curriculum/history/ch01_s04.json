@@ -17,15 +17,87 @@
       "contentText": "The Charter of Nations in Genesis 10 provides the inspired and authoritative foundation for understanding how the African continent was populated after the scattering at Babel around 2242 BC. The text clearly identifies the descendants of three of Ham's sons as the founders of the great civilizations of North and Northeast Africa. Mizraim settled the Nile Delta and founded Egypt. Phut settled west in Libya. Cush established his kingdom south of Egypt in Nubia.",
       "sceneMode": "map",
       "toolSequence": [
-        { "tool": "set_scene", "args": { "mode": "map" }, "syncTrigger": "start_of_beat" },
-        { "tool": "zoom_to", "args": { "location": "babel", "zoom": 4 }, "syncTrigger": "start_of_beat" },
-        { "tool": "place_marker", "args": { "location": "babel", "label": "Babel — Starting Point", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
-        { "tool": "draw_route", "args": { "from": "babel", "to": "egypt", "style": "migration", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
-        { "tool": "draw_route", "args": { "from": "babel", "to": "cush_region", "style": "migration", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
-        { "tool": "draw_route", "args": { "from": "babel", "to": "libya", "style": "migration", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" },
-        { "tool": "place_marker", "args": { "location": "egypt", "label": "Mizraim → Egypt", "color": "#fac775" }, "syncTrigger": "start_of_beat" },
-        { "tool": "place_marker", "args": { "location": "nubia", "label": "Cush → Nubia", "color": "#81c784" }, "syncTrigger": "start_of_beat" },
-        { "tool": "place_marker", "args": { "location": "libya", "label": "Phut → Libya", "color": "#64b5f6" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "map"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "zoom_to",
+          "args": {
+            "location": "babel",
+            "zoom": 4
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "location": "babel",
+            "label": "Babel — Starting Point",
+            "color": "#fac775"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "from": "babel",
+            "to": "egypt",
+            "style": "migration",
+            "color": "#fac775"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "from": "babel",
+            "to": "cush_region",
+            "style": "migration",
+            "color": "#81c784"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "draw_route",
+          "args": {
+            "from": "babel",
+            "to": "libya",
+            "style": "migration",
+            "color": "#64b5f6"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "location": "egypt",
+            "label": "Mizraim → Egypt",
+            "color": "#fac775"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "location": "nubia",
+            "label": "Cush → Nubia",
+            "color": "#81c784"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "place_marker",
+          "args": {
+            "location": "libya",
+            "label": "Phut → Libya",
+            "color": "#64b5f6"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 55
     },
@@ -36,10 +108,56 @@
       "contentText": "Following the framework of Archbishop Ussher, the biblical model is clear and consistent. The initial peopling of Africa was a North-to-South migration, originating from the region of the Nile Valley. This is our non-negotiable, divinely-revealed starting point. The descendants of Ham moved from the post-Babel Near East into Northeast Africa, then spread southward through the continent.",
       "sceneMode": "map",
       "toolSequence": [
-        { "tool": "highlight_region", "args": { "regionId": "mizraim", "color": "#fac775", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "cush", "color": "#81c784", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
-        { "tool": "highlight_region", "args": { "regionId": "phut", "color": "#64b5f6", "opacity": 0.3 }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_timeline", "args": { "events": [{ "year": -2242, "label": "Babel Dispersion", "color": "#fac775" }, { "year": -2200, "label": "Settlement of Mizraim / Cush / Phut", "color": "#81c784" }, { "year": -2100, "label": "Egypt's Old Kingdom rises", "color": "#fac775" }] }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "mizraim",
+            "color": "#fac775",
+            "opacity": 0.3
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "cush",
+            "color": "#81c784",
+            "opacity": 0.3
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "highlight_region",
+          "args": {
+            "regionId": "phut",
+            "color": "#64b5f6",
+            "opacity": 0.3
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              {
+                "year": -2242,
+                "label": "Babel Dispersion",
+                "color": "#fac775"
+              },
+              {
+                "year": -2200,
+                "label": "Settlement of Mizraim / Cush / Phut",
+                "color": "#81c784"
+              },
+              {
+                "year": -2100,
+                "label": "Egypt's Old Kingdom rises",
+                "color": "#fac775"
+              }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 45
     },
@@ -50,9 +168,34 @@
       "contentText": "Having established this clear biblical foundation, we must now address a more complex question: the origin of the Bantu peoples, the great family of peoples who populate most of Sub-Saharan Africa. The attempt to answer this question has created a direct conflict between two opposing worldviews. As biblical thinkers, we must be equipped to understand and refute the claims that stand against the Word of God.",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_slide", "args": { "title": "The Crisis of Truth", "body": "Two worldviews collide over the origin of the Bantu peoples.", "bullets": ["Biblical model: North-to-South migration from Babel", "Secular model: West-to-East Bantu expansion", "This is a question of ultimate authority"], "layout": "center" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "The Crisis of Truth",
+            "body": "Two worldviews collide over the origin of the Bantu peoples.",
+            "bullets": [
+              "Biblical model: North-to-South migration from Babel",
+              "Secular model: West-to-East Bantu expansion",
+              "This is a question of ultimate authority"
+            ],
+            "layout": "center"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 40
     },
@@ -63,9 +206,45 @@
       "contentText": "This is a question of epistemology — the study of how we know what is true. Biblical epistemology begins with divine revelation. We hold that the Bible is the inspired, inerrant, and authoritative Word of God. We use the unchanging truth of Scripture as the lens through which we interpret all other evidence. Secular epistemology, by contrast, begins with human reason and observation, built upon the assumption of naturalism. It explicitly rejects divine revelation. These two foundations cannot be blended.",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_comparison", "args": { "title": "Biblical vs. Secular Epistemology", "columnA": { "heading": "Biblical Epistemology", "points": ["Begins with divine revelation", "Bible is inerrant and authoritative", "Scripture interprets all evidence", "Knowledge anchored to God's Word"] }, "columnB": { "heading": "Secular Epistemology", "points": ["Begins with human reason", "Assumes naturalism", "Rejects divine revelation", "Knowledge built on shifting human theory"] } }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Biblical vs. Secular Epistemology",
+            "columnA": {
+              "heading": "Biblical Epistemology",
+              "points": [
+                "Begins with divine revelation",
+                "Bible is inerrant and authoritative",
+                "Scripture interprets all evidence",
+                "Knowledge anchored to God's Word"
+              ]
+            },
+            "columnB": {
+              "heading": "Secular Epistemology",
+              "points": [
+                "Begins with human reason",
+                "Assumes naturalism",
+                "Rejects divine revelation",
+                "Knowledge built on shifting human theory"
+              ]
+            }
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 55
     },
@@ -76,9 +255,35 @@
       "contentText": "The dominant secular theory, the Bantu Expansion, proposes that Bantu-speaking peoples originated in West-Central Africa around 1000 BC and slowly migrated across the continent. Scholars propose this because of linguistic evidence and archaeological findings. However, when examined from a biblical worldview, this theory is fraught with problems. Its presupposition of naturalism excludes the possibility of a supernatural origin story like the Tower of Babel. Its evolutionary underpinnings have sometimes fueled demeaning and racist views of African peoples.",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_slide", "args": { "title": "Problems with the Bantu Expansion Theory", "body": "Secular assumptions lead to flawed conclusions.", "bullets": ["Presupposes naturalism — excludes Babel", "Evolutionary framework demeans African peoples", "Cannot explain the rapidity of skill transfer", "Dismisses African oral traditions of northern origin"], "layout": "center" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Problems with the Bantu Expansion Theory",
+            "body": "Secular assumptions lead to flawed conclusions.",
+            "bullets": [
+              "Presupposes naturalism — excludes Babel",
+              "Evolutionary framework demeans African peoples",
+              "Cannot explain the rapidity of skill transfer",
+              "Dismisses African oral traditions of northern origin"
+            ],
+            "layout": "center"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 50
     },
@@ -89,9 +294,45 @@
       "contentText": "In contrast, the biblical position is clear and dignifying. All of humanity, including the great family of Bantu peoples, descends from Noah's family and was scattered from Babel around 2242 BC. The powerful oral traditions of many Bantu-speaking groups across Africa speak of an ancestral origin in the North, often specifically mentioning 'Misri' — Egypt. These are powerful echoes of the true history recorded in Genesis.",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_comparison", "args": { "title": "Bantu Origins: Biblical vs. Conventional", "columnA": { "heading": "Biblical Model", "points": ["Post-Babel North-to-South migration", "Rapid dispersal with advanced skills", "Supported by African oral traditions citing 'Misri'", "Dignifying — all peoples from one family"] }, "columnB": { "heading": "Conventional Model", "points": ["West-to-East expansion from 1000 BC", "Gradual migration over millennia", "Dismisses oral traditions as myth", "Evolutionary assumptions — often demeaning"] } }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_comparison",
+          "args": {
+            "title": "Bantu Origins: Biblical vs. Conventional",
+            "columnA": {
+              "heading": "Biblical Model",
+              "points": [
+                "Post-Babel North-to-South migration",
+                "Rapid dispersal with advanced skills",
+                "Supported by African oral traditions citing 'Misri'",
+                "Dignifying — all peoples from one family"
+              ]
+            },
+            "columnB": {
+              "heading": "Conventional Model",
+              "points": [
+                "West-to-East expansion from 1000 BC",
+                "Gradual migration over millennia",
+                "Dismisses oral traditions as myth",
+                "Evolutionary assumptions — often demeaning"
+              ]
+            }
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 50
     },
@@ -102,10 +343,38 @@
       "contentText": "Ultimately, this is not a question of competing scientific models. It is a question of ultimate authority. Will we build our understanding of African history on the shifting, often demeaning, theories of fallen men, or on the unchanging, inspired, and life-giving Word of the living God? As the prophet Elijah challenged the people of Israel: 'If the LORD is God, follow him.'",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_scripture", "args": { "reference": "1 Kings 18:21", "text": "How long will you go limping between two different opinions? If the LORD is God, follow him.", "connection": "Africa must choose: the shifting sands of secular theory, or the unchanging rock of God's Word." }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_question", "args": { "question": "Why is it important to start with Scripture rather than secular theories when understanding African history?", "context": "Think about what you've learned about epistemology and the two competing models of Bantu origins.", "type": "reflection" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "1 Kings 18:21",
+            "text": "How long will you go limping between two different opinions? If the LORD is God, follow him.",
+            "connection": "Africa must choose: the shifting sands of secular theory, or the unchanging rock of God's Word."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_question",
+          "args": {
+            "question": "Why is it important to start with Scripture rather than secular theories when understanding African history?",
+            "context": "Think about what you've learned about epistemology and the two competing models of Bantu origins.",
+            "type": "reflection"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 45
     }

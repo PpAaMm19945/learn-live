@@ -17,11 +17,165 @@
       "contentText": "As we examine the great civilizations founded by Ham's sons, we must hold a crucial biblical truth in view. These nations did not begin in ignorance. As direct descendants of Noah, they had a prior knowledge of the one true God. Yet, as the Apostle Paul teaches in Romans 1, they followed the tragic path of all fallen humanity: 'For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.'",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band1_page14.jpg", "caption": "God's plan for the nations" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_scripture", "args": { "reference": "Romans 1:21", "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.", "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected." }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_key_term", "args": { "term": "Common Grace", "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.", "pronunciation": "COM-un GRAYS" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "image",
+            "imageUrl": "assets/storybook/ch01/band1_page14.jpg",
+            "caption": "God's plan for the nations"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Romans 1:21",
+            "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.",
+            "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected."
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_key_term",
+          "args": {
+            "term": "Common Grace",
+            "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+            "pronunciation": "COM-un GRAYS"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
-      "estimatedDurationSec": 50
+      "estimatedDurationSec": 50,
+      "bandOverrides": {
+        "2": {
+          "contentText": "As we examine the great civilizations founded by Ham's sons, we must hold a crucial biblical truth in view. These nations did not begin in ignorance. As direct descendants of Noah, they had a prior knowledge of the one true God. Yet, as the Apostle Paul teaches in Romans 1, they followed the tragic path of all fallen humanity: 'For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.'",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_ham_four_sons.jpg",
+                "caption": "God's plan for the nations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Romans 1:21",
+                "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.",
+                "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Common Grace",
+                "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+                "pronunciation": "COM-un GRAYS"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "As we examine the great civilizations founded by Ham's sons, we must hold a crucial biblical truth in view. These nations did not begin in ignorance. As direct descendants of Noah, they had a prior knowledge of the one true God. Yet, as the Apostle Paul teaches in Romans 1, they followed the tragic path of all fallen humanity: 'For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.'",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_ham_four_sons.jpg",
+                "caption": "God's plan for the nations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Romans 1:21",
+                "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.",
+                "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Common Grace",
+                "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+                "pronunciation": "COM-un GRAYS"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "4": {
+          "contentText": "As we examine the great civilizations founded by Ham's sons, we must hold a crucial biblical truth in view. These nations did not begin in ignorance. As direct descendants of Noah, they had a prior knowledge of the one true God. Yet, as the Apostle Paul teaches in Romans 1, they followed the tragic path of all fallen humanity: 'For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.'",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_ham_four_sons.jpg",
+                "caption": "God's plan for the nations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Romans 1:21",
+                "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.",
+                "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Common Grace",
+                "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+                "pronunciation": "COM-un GRAYS"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "5": {
+          "contentText": "As we examine the great civilizations founded by Ham's sons, we must hold a crucial biblical truth in view. These nations did not begin in ignorance. As direct descendants of Noah, they had a prior knowledge of the one true God. Yet, as the Apostle Paul teaches in Romans 1, they followed the tragic path of all fallen humanity: 'For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.'",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_ham_four_sons.jpg",
+                "caption": "God's plan for the nations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Romans 1:21",
+                "text": "For although they knew God, they did not honor him as God or give thanks to him, but they became futile in their thinking, and their foolish hearts were darkened.",
+                "connection": "The spiritual trajectory of Ham's descendants — knowledge rejected."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Common Grace",
+                "definition": "God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world.",
+                "pronunciation": "COM-un GRAYS"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s05_b02",
@@ -30,9 +184,29 @@
       "contentText": "Yet God in His common grace allowed these nations to prosper. Their growth in knowledge, power, and wealth was unmatched in their day. But we must make no mistake: their worldly success did not lessen the sting of their sin, and in time, their sins sought them out. As Paul writes: 'Do not be deceived: God is not mocked, for whatever one sows, that will he also reap.'",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_scripture", "args": { "reference": "Galatians 6:7-8", "text": "Do not be deceived: God is not mocked, for whatever one sows, that will he also reap. For the one who sows to his own flesh will from the flesh reap corruption.", "connection": "The great African civilizations sowed to the flesh — their histories reveal the corruption that follows." }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Galatians 6:7-8",
+            "text": "Do not be deceived: God is not mocked, for whatever one sows, that will he also reap. For the one who sows to his own flesh will from the flesh reap corruption.",
+            "connection": "The great African civilizations sowed to the flesh — their histories reveal the corruption that follows."
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 40
     },
@@ -43,11 +217,225 @@
       "contentText": "The descendants of Mizraim founded the civilization that the whole world knows as Egypt. Organized under the absolute rule of powerful kings called Pharaohs — who were considered gods on earth — Egypt became synonymous with monumental architecture, advanced learning, and formidable military power. Their dynasties beginning around 2100 BC produced sprawling cities, magnificent temples, and the great pyramids. This was the fruit of common grace: spectacular, but ultimately godless, human achievement.",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band1_page08.jpg", "caption": "Egypt — the land where Mizraim settled" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_timeline", "args": { "events": [{ "year": -2242, "label": "Babel Dispersion", "color": "#fac775" }, { "year": -2100, "label": "Egypt's Old Kingdom rises", "color": "#fac775" }, { "year": -1446, "label": "The Exodus — God's judgment on Egypt", "color": "#e57373" }] }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "image",
+            "imageUrl": "assets/storybook/ch01/band1_page08.jpg",
+            "caption": "Egypt — the land where Mizraim settled"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              {
+                "year": -2242,
+                "label": "Babel Dispersion",
+                "color": "#fac775"
+              },
+              {
+                "year": -2100,
+                "label": "Egypt's Old Kingdom rises",
+                "color": "#fac775"
+              },
+              {
+                "year": -1446,
+                "label": "The Exodus — God's judgment on Egypt",
+                "color": "#e57373"
+              }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
-      "estimatedDurationSec": 55
+      "estimatedDurationSec": 55,
+      "bandOverrides": {
+        "2": {
+          "contentText": "The descendants of Mizraim founded the civilization that the whole world knows as Egypt. Organized under the absolute rule of powerful kings called Pharaohs — who were considered gods on earth — Egypt became synonymous with monumental architecture, advanced learning, and formidable military power. Their dynasties beginning around 2100 BC produced sprawling cities, magnificent temples, and the great pyramids. This was the fruit of common grace: spectacular, but ultimately godless, human achievement.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_mizraim_settlers.jpg",
+                "caption": "Egypt — the land where Mizraim settled"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2242,
+                    "label": "Babel Dispersion",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -2100,
+                    "label": "Egypt's Old Kingdom rises",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -1446,
+                    "label": "The Exodus — God's judgment on Egypt",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "The descendants of Mizraim founded the civilization that the whole world knows as Egypt. Organized under the absolute rule of powerful kings called Pharaohs — who were considered gods on earth — Egypt became synonymous with monumental architecture, advanced learning, and formidable military power. Their dynasties beginning around 2100 BC produced sprawling cities, magnificent temples, and the great pyramids. This was the fruit of common grace: spectacular, but ultimately godless, human achievement.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_mizraim_settlers.jpg",
+                "caption": "Egypt — the land where Mizraim settled"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2242,
+                    "label": "Babel Dispersion",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -2100,
+                    "label": "Egypt's Old Kingdom rises",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -1446,
+                    "label": "The Exodus — God's judgment on Egypt",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "4": {
+          "contentText": "The descendants of Mizraim founded the civilization that the whole world knows as Egypt. Organized under the absolute rule of powerful kings called Pharaohs — who were considered gods on earth — Egypt became synonymous with monumental architecture, advanced learning, and formidable military power. Their dynasties beginning around 2100 BC produced sprawling cities, magnificent temples, and the great pyramids. This was the fruit of common grace: spectacular, but ultimately godless, human achievement.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_mizraim_settlers.jpg",
+                "caption": "Egypt — the land where Mizraim settled"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2242,
+                    "label": "Babel Dispersion",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -2100,
+                    "label": "Egypt's Old Kingdom rises",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -1446,
+                    "label": "The Exodus — God's judgment on Egypt",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "5": {
+          "contentText": "The descendants of Mizraim founded the civilization that the whole world knows as Egypt. Organized under the absolute rule of powerful kings called Pharaohs — who were considered gods on earth — Egypt became synonymous with monumental architecture, advanced learning, and formidable military power. Their dynasties beginning around 2100 BC produced sprawling cities, magnificent temples, and the great pyramids. This was the fruit of common grace: spectacular, but ultimately godless, human achievement.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_mizraim_settlers.jpg",
+                "caption": "Egypt — the land where Mizraim settled"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2242,
+                    "label": "Babel Dispersion",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -2100,
+                    "label": "Egypt's Old Kingdom rises",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": -1446,
+                    "label": "The Exodus — God's judgment on Egypt",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s05_b04",
@@ -56,9 +444,75 @@
       "contentText": "Egypt's idolatry was the most sophisticated in the ancient world. The deification of the Pharaoh and the worship of a vast pantheon of animal-headed gods were a direct fulfillment of hearts darkened by rebellion. In Scripture, Egypt plays a central role in God's redemptive plan — a place of refuge for Abraham and Jacob's family, but also the place of Israel's brutal enslavement. The Exodus around 1446 BC was God's judgment on an empire that had sown pride and injustice, and reaped plagues and destruction.",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/images/Narmer_Palette.jpg", "caption": "The Narmer Palette — unification of Upper and Lower Egypt" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "image",
+            "imageUrl": "assets/images/Narmer_Palette.jpg",
+            "caption": "The Narmer Palette — unification of Upper and Lower Egypt"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
-      "estimatedDurationSec": 45
+      "estimatedDurationSec": 45,
+      "bandOverrides": {
+        "2": {
+          "contentText": "Egypt's idolatry was the most sophisticated in the ancient world. The deification of the Pharaoh and the worship of a vast pantheon of animal-headed gods were a direct fulfillment of hearts darkened by rebellion. In Scripture, Egypt plays a central role in God's redemptive plan — a place of refuge for Abraham and Jacob's family, but also the place of Israel's brutal enslavement. The Exodus around 1446 BC was God's judgment on an empire that had sown pride and injustice, and reaped plagues and destruction.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/geo_nile_delta_mizraim.jpg",
+                "caption": "The Narmer Palette — unification of Upper and Lower Egypt"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Egypt's idolatry was the most sophisticated in the ancient world. The deification of the Pharaoh and the worship of a vast pantheon of animal-headed gods were a direct fulfillment of hearts darkened by rebellion. In Scripture, Egypt plays a central role in God's redemptive plan — a place of refuge for Abraham and Jacob's family, but also the place of Israel's brutal enslavement. The Exodus around 1446 BC was God's judgment on an empire that had sown pride and injustice, and reaped plagues and destruction.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/geo_nile_delta_mizraim.jpg",
+                "caption": "The Narmer Palette — unification of Upper and Lower Egypt"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "4": {
+          "contentText": "Egypt's idolatry was the most sophisticated in the ancient world. The deification of the Pharaoh and the worship of a vast pantheon of animal-headed gods were a direct fulfillment of hearts darkened by rebellion. In Scripture, Egypt plays a central role in God's redemptive plan — a place of refuge for Abraham and Jacob's family, but also the place of Israel's brutal enslavement. The Exodus around 1446 BC was God's judgment on an empire that had sown pride and injustice, and reaped plagues and destruction.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_taharqa_pharaoh.jpg",
+                "caption": "The Narmer Palette — unification of Upper and Lower Egypt"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "5": {
+          "contentText": "Egypt's idolatry was the most sophisticated in the ancient world. The deification of the Pharaoh and the worship of a vast pantheon of animal-headed gods were a direct fulfillment of hearts darkened by rebellion. In Scripture, Egypt plays a central role in God's redemptive plan — a place of refuge for Abraham and Jacob's family, but also the place of Israel's brutal enslavement. The Exodus around 1446 BC was God's judgment on an empire that had sown pride and injustice, and reaped plagues and destruction.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_taharqa_pharaoh.jpg",
+                "caption": "The Narmer Palette — unification of Upper and Lower Egypt"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s05_b05",
@@ -67,12 +521,295 @@
       "contentText": "South of Egypt, the descendants of Cush built a formidable kingdom in the land of Nubia. With great capitals at Kerma and later Meroë, the Cushites were masters of ironworking and controlled the vital trade routes for gold, ivory, and ebony. Cushite power reached its zenith during the 25th Dynasty of Egypt, around 744 to 656 BC, when Cushite Pharaohs like King Taharqa ruled the entire Nile Valley, challenging even the Assyrian empire.",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band1_page10.jpg", "caption": "The land of Nubia — home of the Cushites" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_timeline", "args": { "events": [{ "year": -2200, "label": "Cush settles Nubia", "color": "#81c784" }, { "year": -2000, "label": "Kingdom of Kerma rises", "color": "#81c784" }, { "year": -744, "label": "Cushite 25th Dynasty begins", "color": "#81c784" }, { "year": -656, "label": "25th Dynasty ends", "color": "#e57373" }] }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_scripture", "args": { "reference": "Amos 9:7", "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.", "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel." }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "image",
+            "imageUrl": "assets/storybook/ch01/band1_page10.jpg",
+            "caption": "The land of Nubia — home of the Cushites"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_timeline",
+          "args": {
+            "events": [
+              {
+                "year": -2200,
+                "label": "Cush settles Nubia",
+                "color": "#81c784"
+              },
+              {
+                "year": -2000,
+                "label": "Kingdom of Kerma rises",
+                "color": "#81c784"
+              },
+              {
+                "year": -744,
+                "label": "Cushite 25th Dynasty begins",
+                "color": "#81c784"
+              },
+              {
+                "year": -656,
+                "label": "25th Dynasty ends",
+                "color": "#e57373"
+              }
+            ]
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_scripture",
+          "args": {
+            "reference": "Amos 9:7",
+            "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.",
+            "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel."
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
-      "estimatedDurationSec": 55
+      "estimatedDurationSec": 55,
+      "bandOverrides": {
+        "2": {
+          "contentText": "South of Egypt, the descendants of Cush built a formidable kingdom in the land of Nubia. With great capitals at Kerma and later Meroë, the Cushites were masters of ironworking and controlled the vital trade routes for gold, ivory, and ebony. Cushite power reached its zenith during the 25th Dynasty of Egypt, around 744 to 656 BC, when Cushite Pharaohs like King Taharqa ruled the entire Nile Valley, challenging even the Assyrian empire.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_meroe_civilization.jpg",
+                "caption": "The land of Nubia — home of the Cushites"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2200,
+                    "label": "Cush settles Nubia",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -2000,
+                    "label": "Kingdom of Kerma rises",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -744,
+                    "label": "Cushite 25th Dynasty begins",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -656,
+                    "label": "25th Dynasty ends",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Amos 9:7",
+                "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.",
+                "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "South of Egypt, the descendants of Cush built a formidable kingdom in the land of Nubia. With great capitals at Kerma and later Meroë, the Cushites were masters of ironworking and controlled the vital trade routes for gold, ivory, and ebony. Cushite power reached its zenith during the 25th Dynasty of Egypt, around 744 to 656 BC, when Cushite Pharaohs like King Taharqa ruled the entire Nile Valley, challenging even the Assyrian empire.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_meroe_civilization.jpg",
+                "caption": "The land of Nubia — home of the Cushites"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2200,
+                    "label": "Cush settles Nubia",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -2000,
+                    "label": "Kingdom of Kerma rises",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -744,
+                    "label": "Cushite 25th Dynasty begins",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -656,
+                    "label": "25th Dynasty ends",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Amos 9:7",
+                "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.",
+                "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "4": {
+          "contentText": "South of Egypt, the descendants of Cush built a formidable kingdom in the land of Nubia. With great capitals at Kerma and later Meroë, the Cushites were masters of ironworking and controlled the vital trade routes for gold, ivory, and ebony. Cushite power reached its zenith during the 25th Dynasty of Egypt, around 744 to 656 BC, when Cushite Pharaohs like King Taharqa ruled the entire Nile Valley, challenging even the Assyrian empire.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_taharqa_pharaoh.jpg",
+                "caption": "The land of Nubia — home of the Cushites"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2200,
+                    "label": "Cush settles Nubia",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -2000,
+                    "label": "Kingdom of Kerma rises",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -744,
+                    "label": "Cushite 25th Dynasty begins",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -656,
+                    "label": "25th Dynasty ends",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Amos 9:7",
+                "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.",
+                "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "5": {
+          "contentText": "South of Egypt, the descendants of Cush built a formidable kingdom in the land of Nubia. With great capitals at Kerma and later Meroë, the Cushites were masters of ironworking and controlled the vital trade routes for gold, ivory, and ebony. Cushite power reached its zenith during the 25th Dynasty of Egypt, around 744 to 656 BC, when Cushite Pharaohs like King Taharqa ruled the entire Nile Valley, challenging even the Assyrian empire.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_taharqa_pharaoh.jpg",
+                "caption": "The land of Nubia — home of the Cushites"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2200,
+                    "label": "Cush settles Nubia",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -2000,
+                    "label": "Kingdom of Kerma rises",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -744,
+                    "label": "Cushite 25th Dynasty begins",
+                    "color": "#81c784"
+                  },
+                  {
+                    "year": -656,
+                    "label": "25th Dynasty ends",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Amos 9:7",
+                "text": "Are you not like the Cushites to me, O people of Israel? declares the LORD.",
+                "connection": "God's love extends to ALL nations — including Cush. He watches over them as He does Israel."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s05_b06",
@@ -81,10 +818,110 @@
       "contentText": "West of Egypt, the descendants of Phut established a distinct and resilient culture in the lands of ancient Libya. Rather than a single centralized empire, they were a powerful confederation of tribes led by chieftains. The identity of the people of Phut was forged in warfare. Scripture consistently refers to them as elite professional soldiers, highly sought-after mercenaries. The prophets list 'Cush and Egypt and Phut' as the strength of great armies, highlighting their skill in handling the shield.",
       "sceneMode": "image",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "image", "imageUrl": "assets/storybook/ch01/band1_page12.jpg", "caption": "The lands of Phut — ancient Libya" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "image",
+            "imageUrl": "assets/storybook/ch01/band1_page12.jpg",
+            "caption": "The lands of Phut — ancient Libya"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
-      "estimatedDurationSec": 45
+      "estimatedDurationSec": 45,
+      "bandOverrides": {
+        "2": {
+          "contentText": "West of Egypt, the descendants of Phut established a distinct and resilient culture in the lands of ancient Libya. Rather than a single centralized empire, they were a powerful confederation of tribes led by chieftains. The identity of the people of Phut was forged in warfare. Scripture consistently refers to them as elite professional soldiers, highly sought-after mercenaries. The prophets list 'Cush and Egypt and Phut' as the strength of great armies, highlighting their skill in handling the shield.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_phut_warrior.jpg",
+                "caption": "The lands of Phut — ancient Libya"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "West of Egypt, the descendants of Phut established a distinct and resilient culture in the lands of ancient Libya. Rather than a single centralized empire, they were a powerful confederation of tribes led by chieftains. The identity of the people of Phut was forged in warfare. Scripture consistently refers to them as elite professional soldiers, highly sought-after mercenaries. The prophets list 'Cush and Egypt and Phut' as the strength of great armies, highlighting their skill in handling the shield.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_phut_warrior.jpg",
+                "caption": "The lands of Phut — ancient Libya"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "4": {
+          "contentText": "West of Egypt, the descendants of Phut established a distinct and resilient culture in the lands of ancient Libya. Rather than a single centralized empire, they were a powerful confederation of tribes led by chieftains. The identity of the people of Phut was forged in warfare. Scripture consistently refers to them as elite professional soldiers, highly sought-after mercenaries. The prophets list 'Cush and Egypt and Phut' as the strength of great armies, highlighting their skill in handling the shield.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_phut_warrior.jpg",
+                "caption": "The lands of Phut — ancient Libya"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "5": {
+          "contentText": "West of Egypt, the descendants of Phut established a distinct and resilient culture in the lands of ancient Libya. Rather than a single centralized empire, they were a powerful confederation of tribes led by chieftains. The identity of the people of Phut was forged in warfare. Scripture consistently refers to them as elite professional soldiers, highly sought-after mercenaries. The prophets list 'Cush and Egypt and Phut' as the strength of great armies, highlighting their skill in handling the shield.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/art_phut_warrior.jpg",
+                "caption": "The lands of Phut — ancient Libya"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s05_b07",
@@ -93,9 +930,34 @@
       "contentText": "Let us now compare these three great civilizations side by side. Egypt, under the Pharaohs, built the most enduring monuments of the ancient world — but sowed pride and idolatry. Cush, with its mastery of ironworking and gold, became a superpower that ruled the Nile Valley — but was judged for its pride. Phut, with its confederation of elite warriors, became sought-after across the ancient world — but placed its strength in the sword rather than in God.",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_slide", "args": { "title": "Three Portraits of Power", "body": "Each nation sowed to the flesh — and reaped the consequences.", "bullets": ["Mizraim (Egypt): Monuments & idolatry → Exodus judgment", "Cush (Nubia): Gold & iron → Pride → Prophetic judgment", "Phut (Libya): Martial prowess → Strength without God → Dust"], "layout": "center" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_slide",
+          "args": {
+            "title": "Three Portraits of Power",
+            "body": "Each nation sowed to the flesh — and reaped the consequences.",
+            "bullets": [
+              "Mizraim (Egypt): Monuments & idolatry → Exodus judgment",
+              "Cush (Nubia): Gold & iron → Pride → Prophetic judgment",
+              "Phut (Libya): Martial prowess → Strength without God → Dust"
+            ],
+            "layout": "center"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 50
     },
@@ -106,10 +968,45 @@
       "contentText": "These three civilizations teach us a profound lesson. God's common grace allows nations to flourish — even nations that reject Him. But His justice is certain. Whatever one sows, that will he also reap. As we continue our study of African history, we will see this pattern repeated again and again. The question for each of us is: will we sow to the Spirit or to the flesh?",
       "sceneMode": "overlay",
       "toolSequence": [
-        { "tool": "dismiss_overlay", "args": { "type": "all" }, "syncTrigger": "start_of_beat" },
-        { "tool": "set_scene", "args": { "mode": "overlay" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_question", "args": { "question": "God showed common grace to Cush, allowing them to become a superpower. At the same time, the prophets spoke of judgment against their pride. How can both of these be true at the same time?", "context": "Think about what you've learned about common grace, the sowing-and-reaping principle, and the three civilizations.", "type": "reflection" }, "syncTrigger": "start_of_beat" },
-        { "tool": "show_question", "args": { "question": "According to Romans 1, what did the early descendants of Ham know about God, and what did they do with that knowledge?", "options": ["They never knew God at all", "They knew God but chose not to honor Him", "They honored God faithfully", "They had partial knowledge only"], "correctIndex": 1, "explanation": "Romans 1:21 is clear — they KNEW God but did not honor Him. Their rebellion was willful, not ignorant.", "type": "check" }, "syncTrigger": "start_of_beat" }
+        {
+          "tool": "dismiss_overlay",
+          "args": {
+            "type": "all"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "set_scene",
+          "args": {
+            "mode": "overlay"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_question",
+          "args": {
+            "question": "God showed common grace to Cush, allowing them to become a superpower. At the same time, the prophets spoke of judgment against their pride. How can both of these be true at the same time?",
+            "context": "Think about what you've learned about common grace, the sowing-and-reaping principle, and the three civilizations.",
+            "type": "reflection"
+          },
+          "syncTrigger": "start_of_beat"
+        },
+        {
+          "tool": "show_question",
+          "args": {
+            "question": "According to Romans 1, what did the early descendants of Ham know about God, and what did they do with that knowledge?",
+            "options": [
+              "They never knew God at all",
+              "They knew God but chose not to honor Him",
+              "They honored God faithfully",
+              "They had partial knowledge only"
+            ],
+            "correctIndex": 1,
+            "explanation": "Romans 1:21 is clear — they KNEW God but did not honor Him. Their rebellion was willful, not ignorant.",
+            "type": "check"
+          },
+          "syncTrigger": "start_of_beat"
+        }
       ],
       "estimatedDurationSec": 50
     }

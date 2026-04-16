@@ -83,6 +83,37 @@ export const IMAGE_REGISTRY: ImageEntry[] = [
   { r2Key: 'assets/storybook/ch01/band1_page13.jpg', description: 'Canaan settles the coast — Band 1', chapters: ['ch01'], category: 'storybook', minBand: 0, maxBand: 5 },
   { r2Key: 'assets/storybook/ch01/band1_page14.jpg', description: 'God\'s plan for the nations — Band 1', chapters: ['ch01'], category: 'storybook', minBand: 0, maxBand: 5 },
   { r2Key: 'assets/storybook/ch01/band1_page15.jpg', description: 'Looking ahead to Africa\'s story — Band 1', chapters: ['ch01'], category: 'storybook', minBand: 0, maxBand: 5 },
+
+  // ──────────────────────────────────────────────
+  // Storybook — Chapter 1, Bands 2-5 (Nano Banana 2 redesign, April 2026)
+  // Geographic panoramas (Heinrich Berann style)
+  // ──────────────────────────────────────────────
+  { r2Key: 'assets/storybook/ch01/geo_mesopotamia_shinar.jpg', description: 'Plain of Shinar between the Tigris and Euphrates — Babel\'s location, launching pad of African migration', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_post_flood_ararat.jpg', description: 'Mount Ararat looking south toward the Fertile Crescent — the post-Flood world', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_migration_routes_africa.jpg', description: 'Macroscopic migration routes from Shinar to Africa — Mizraim, Cush, Phut paths', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_nile_full_corridor.jpg', description: 'Full Nile corridor from Delta to Khartoum — the green ribbon spine of African civilization', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_nile_delta_mizraim.jpg', description: 'The Nile Delta (Mizraim) — Lower Egypt\'s fertile floodplain branching to the Mediterranean', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_nubian_nile_cataracts.jpg', description: 'The Nubian Nile cataracts — rocky rapids and granite cliffs that distinguish Cush from Egypt', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_libya_green_sahara.jpg', description: 'The Green Sahara — the providential savanna where Phut\'s descendants settled North Africa', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/geo_rift_valley_corridor.jpg', description: 'The East African Rift Valley — the geologic corridor of southward Hamitic migration', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+
+  // Artistic-narrative paintings (Turner-style oil painting)
+  { r2Key: 'assets/storybook/ch01/art_creation_first_light.jpg', description: 'Genesis 1:3 — the first act of creation, light erupting from the void', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_garden_eden.jpg', description: 'The Garden of Eden — the pre-Fall world at the headwaters of the Nile system', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_the_fall.jpg', description: 'Genesis 3 — the Fall, the entry of sin and consequence into history', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_ark_on_waters.jpg', description: 'Noah\'s Ark on the floodwaters — judgment and preservation', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_babel_construction.jpg', description: 'Genesis 11 — the Tower of Babel, human pride before the scattering', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_noahs_tent.jpg', description: 'Genesis 9:20-27 — Noah\'s tent, the actual scene behind the Curse of Ham passage', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_mizraim_settlers.jpg', description: 'Mizraim\'s descendants settling the Nile floodplain — predynastic foundation of Egypt', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_ham_four_sons.jpg', description: 'Genesis 10:6 — the four sons of Ham (Cush, Mizraim, Phut, Canaan) given visual dignity', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_meroe_civilization.jpg', description: 'The Kingdom of Cush at Meroë — Cushite civilization and power', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_cushite_archer.jpg', description: 'A Cushite/Nubian archer — the military skill that made Cush feared (2 Kings 19:9, Nahum 3:9)', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_phut_warrior.jpg', description: 'A Phut warrior — Libyan elite mercenary soldier (Nahum 3:9, Jeremiah 46:9)', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/art_noah_rainbow.jpg', description: 'Genesis 8:20 — Noah\'s altar and the first rainbow, the covenant of redemption', chapters: ['ch01'], category: 'storybook', minBand: 2, maxBand: 5 },
+
+  // Documentary / scholarly (Bands 4-5 only)
+  { r2Key: 'assets/storybook/ch01/art_taharqa_pharaoh.jpg', description: 'King Taharqa, Cushite Pharaoh of the 25th Dynasty (2 Kings 19:9)', chapters: ['ch01'], category: 'storybook', minBand: 4, maxBand: 5 },
+  { r2Key: 'assets/storybook/ch01/doc_curse_myth_analysis.jpg', description: 'Genesis 9:25 textual analysis — dismantling the Curse of Ham myth (Bands 4-5 primary source work)', chapters: ['ch01'], category: 'storybook', minBand: 4, maxBand: 5 },
 ];
 
 /**

@@ -1,6 +1,7 @@
 # Image Generation Log — Chapter 1 Redesign
 Date: 2026-04-16 08:10 UTC
 Notes: Regenerated with updated prompts focused on labels and photorealistic terrain.
+Final wiring completed 2026-04-16 19:45 UTC by main agent (image registry + bandOverrides).
 
 | # | Filename | R2 Key | Status | File Size | Notes |
 |---|----------|--------|--------|-----------|-------|
@@ -26,3 +27,12 @@ Notes: Regenerated with updated prompts focused on labels and photorealistic ter
 | 20 | art_noah_rainbow.jpg | assets/storybook/ch01/art_noah_rainbow.jpg | ✅ PASS | 80K | Attempt 1 (imagen-4.0-generate-001) |
 | 21 | art_taharqa_pharaoh.jpg | assets/storybook/ch01/art_taharqa_pharaoh.jpg | ✅ PASS | 116K | Attempt 1 (imagen-4.0-generate-001) |
 | 22 | doc_curse_myth_analysis.jpg | assets/storybook/ch01/doc_curse_myth_analysis.jpg | ✅ PASS | 100K | Attempt 1 (imagen-4.0-generate-001) |
+
+---
+
+## Wiring Status (2026-04-16 19:45 UTC)
+All 22 images are now wired into the agent:
+- ✅ Registered in `agent/src/imageRegistry.ts` with correct `minBand`/`maxBand`
+- ✅ Mapped to specific beats via `bandOverrides` in 5 section manifests
+- ✅ Lint: 0 errors, 343 pre-existing band-policy warnings (orthogonal — narration text tailoring)
+- ⏳ Awaiting Cloud Run redeploy to ship the new registry to production

@@ -111,9 +111,20 @@
 - **Description:** PNG map in `AutoScrollMap` only auto-scrolled horizontally. No user interaction for zoom or vertical pan.
 - **Resolution:** Added scroll-wheel zoom (1x–4x), pinch-to-zoom, full 2D drag panning, and zoom percentage indicator.
 
+### 90. Ch01 Bands 2-5 Images Generated but Not Wired
+- **Status:** RESOLVED — 2026-04-16
+- **Description:** Jules generated 22 new Nano Banana 2 images (`geo_*`, `art_*`, `doc_*`) and uploaded them to R2, but they were not registered in `agent/src/imageRegistry.ts` and no `bandOverrides` existed on Ch01 manifests, so the agent never selected them per band.
+- **Resolution:** (1) Added all 22 entries to `imageRegistry.ts` with correct `minBand`/`maxBand`. (2) Patched 12 image-mode beats across all 5 Ch01 manifests with `bandOverrides` for bands 2-5 (48 overrides total). (3) Lint: 0 errors. Deploy pending.
+
+### 91. Pre-existing Band 0/1 Content Tailoring Gap
+- **Status:** OPEN — MEDIUM (content authoring)
+- **Description:** Lint surfaces 343 warnings across Ch01 manifests for Bands 0-3 — `contentText` exceeds word limits, `show_slide` exceeds bullet limits, blocked tools (`show_genealogy`, `draw_route`, `show_comparison`) used without bandOverrides.
+- **Investigation:** This is orthogonal to image wiring. Requires authoring band-specific narration text and simplified tool sequences for Bands 0-3 per `mem://agent/differentiation-logic`. Recommend treating as "Ch01 Storybook Rewrite" before Ch02 promotion.
+
 ---
 
 ## Notes
 - Issue 85 is the current critical blocker (agent-side).
-- Issues 80, 71 remain open for future work.
+- Issues 80, 71, 91 remain open for future work.
 - Phase 7 (Band Differentiation) is the next major initiative — see `.antigravity/ROADMAP.md` Sprints 1-3.
+- Ch01 image pipeline complete (Issue 90 resolved); Ch02 manifests staged in `.antigravity/manifests/`.
