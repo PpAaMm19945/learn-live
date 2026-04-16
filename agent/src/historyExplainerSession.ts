@@ -8,7 +8,7 @@ import { buildMapContextForAgent } from './mapRegistry';
 import { buildImageContextForAgent } from './imageRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
-import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint } from './sessionStore';
+import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint, expireSession } from './sessionStore';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
