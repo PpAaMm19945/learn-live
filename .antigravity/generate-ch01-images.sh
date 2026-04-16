@@ -17,17 +17,13 @@ export CLOUDFLARE_ACCOUNT_ID="4b9e1f0f3d5f50f35db086b8ae9431e1"
 
 mkdir -p "$TMP_DIR"
 
-# Note: We append to the log if it exists, or create it.
-# Actually, I'll rewrite it to resume from where it left off.
-# But for simplicity, I'll just check if the file already exists in R2.
-
-if [ ! -f "$LOG_FILE" ]; then
-  echo "# Image Generation Log — Chapter 1 Bands 2-5" > "$LOG_FILE"
-  echo "Date: $(date -u '+%Y-%m-%d %H:%M UTC')" >> "$LOG_FILE"
-  echo "" >> "$LOG_FILE"
-  echo "| # | Filename | R2 Key | Status | File Size | Notes |" >> "$LOG_FILE"
-  echo "|---|----------|--------|--------|-----------|-------|" >> "$LOG_FILE"
-fi
+# Truncate and start a fresh log
+echo "# Image Generation Log — Chapter 1 Redesign" > "$LOG_FILE"
+echo "Date: $(date -u '+%Y-%m-%d %H:%M UTC')" >> "$LOG_FILE"
+echo "Notes: Regenerated with updated prompts focused on labels and photorealistic terrain." >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
+echo "| # | Filename | R2 Key | Status | File Size | Notes |" >> "$LOG_FILE"
+echo "|---|----------|--------|--------|-----------|-------|" >> "$LOG_FILE"
 
 # Read each entry from the JSON array
 COUNT=$(jq length "$PROMPT_FILE")
@@ -37,12 +33,6 @@ for i in $(seq 0 $((COUNT - 1))); do
   R2KEY=$(jq -r ".[$i].r2Key" "$PROMPT_FILE")
   PROMPT=$(jq -r ".[$i].prompt" "$PROMPT_FILE")
   NUM=$((i + 1))
-
-  # Skip if already in log as PASS
-  if grep -q "| $NUM | $FILENAME | $R2KEY | ✅ PASS |" "$LOG_FILE"; then
-    echo "[$NUM/$COUNT] Skipping $FILENAME (already done)"
-    continue
-  fi
 
   echo "[$NUM/$COUNT] Processing $FILENAME..."
 
