@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-15
+> **Last updated:** 2026-04-17
 
 ---
 
@@ -117,14 +117,14 @@
 - **Resolution:** (1) Added all 22 entries to `imageRegistry.ts` with correct `minBand`/`maxBand`. (2) Patched 12 image-mode beats across all 5 Ch01 manifests with `bandOverrides` for bands 2-5 (48 overrides total). (3) Lint: 0 errors. Deploy pending.
 
 ### 91. Pre-existing Band 0/1 Content Tailoring Gap
-- **Status:** OPEN — MEDIUM (content authoring)
-- **Description:** Lint surfaces 343 warnings across Ch01 manifests for Bands 0-3 — `contentText` exceeds word limits, `show_slide` exceeds bullet limits, blocked tools (`show_genealogy`, `draw_route`, `show_comparison`) used without bandOverrides.
-- **Investigation:** This is orthogonal to image wiring. Requires authoring band-specific narration text and simplified tool sequences for Bands 0-3 per `mem://agent/differentiation-logic`. Recommend treating as "Ch01 Storybook Rewrite" before Ch02 promotion.
+- **Status:** RESOLVED — 2026-04-17
+- **Description:** Chapter 1 manifests had no complete Bands 0-3 overrides, causing extensive policy warnings (word counts, blocked tools, map-tool usage, oversized arrays).
+- **Resolution:** Added a reusable scaffolder (`agent/scripts/scaffold-band-overrides.js` + TypeScript source) and generated Bands 0-3 overrides across all 35 Ch01 beats. Tool sequences are now pruned by band policy, map-disabled bands are image-forced, and content is capped to per-band word limits. Local policy lint check now reports 0 warnings and 0 errors for `ch01_s01..s05`.
 
 ---
 
 ## Notes
 - Issue 85 is the current critical blocker (agent-side).
-- Issues 80, 71, 91 remain open for future work.
+- Issues 80 and 71 remain open for future work.
 - Phase 7 (Band Differentiation) is the next major initiative — see `.antigravity/ROADMAP.md` Sprints 1-3.
 - Ch01 image pipeline complete (Issue 90 resolved); Ch02 manifests staged in `.antigravity/manifests/`.

@@ -1,9 +1,16 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-15
+> **Last updated:** 2026-04-17
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
+
+## 2026-04-17 — Ch01 Band 0-3 Tailoring Scaffolded
+- Added `agent/scripts/scaffold-band-overrides.ts` (source-of-truth scaffolder) and runtime-friendly `agent/scripts/scaffold-band-overrides.js`
+- Generated/updated Band 0-3 overrides for all 35 beats across `ch01_s01..ch01_s05` (140 override blocks)
+- Enforced mechanical policy constraints in overrides: removed blocked tools, trimmed timeline/comparison/genealogy/slide arrays, and capped narration by band word maxima
+- For map-disabled bands (0-1), converted map scenes to storybook image scenes with existing `band0_*` / `band1_*` assets
+- Local manifest lint parity check reports 0 warnings / 0 errors for Chapter 1 manifests
 
 ## 2026-04-16 — Ch01 Image Wiring Complete
 - Registered 22 new Nano Banana 2 images in `agent/src/imageRegistry.ts` (geo_*, art_*, doc_* descriptive keys)
