@@ -54,7 +54,7 @@ export function useSession({
   const [paused, setPaused] = useState<boolean>(false);
 
   // Beat Sequencer State Machine
-  type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
+  type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO' | 'COOLDOWN';
   const [beatState, setBeatState] = useState<BeatState>('IDLE');
   const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
   const [currentBeatText, setCurrentBeatText] = useState<string | null>(null);
@@ -592,9 +592,6 @@ export function useSession({
         if (onToolCallRef.current) {
             onToolCallRef.current(tool);
         }
-        if (tool.tool !== 'set_scene') {
-          // other tools like zoom_to auto-switch to map via toolCallHandler
-        }
       });
 
       // Switch scene mode after tool calls
@@ -621,6 +618,17 @@ export function useSession({
       }
       const hasAudio = currentBeat.audioData && currentBeat.audioData.trim().length > 10;
 
+      // Common beat cleanup with intentional cohesive pacing
+      const finalizeBeat = (reason: string) => {
+        debug('beat', `Beat complete (${reason}) — entering COOLDOWN`);
+        setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
+        setBeatState('COOLDOWN');
+        const cooldownMs = band <= 1 ? 4500 : band <= 3 ? 3500 : 3000;
+        setTimeout(() => {
+          setBeatState('IDLE');
+        }, cooldownMs);
+      };
+
       if (hasAudio) {
         debug('audio', `Playing audio (${((currentBeat.audioData || '').length / 1024).toFixed(1)}KB)`);
         setCurrentBeatText(cleanText);
@@ -631,14 +639,11 @@ export function useSession({
         setThinkingText('');
 
         playAudioChunk(currentBeat.audioData).then(() => {
-          debug('audio', 'Audio playback complete — beat IDLE');
-          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
-          setBeatState('IDLE');
+          finalizeBeat('Audio playback complete');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
           debug('error', 'Audio playback failed', String(err));
-          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
-          setBeatState('IDLE');
+          finalizeBeat('Audio format error');
         });
       } else if (window.speechSynthesis && cleanText) {
         debug('audio', `Browser TTS fallback (${cleanText.split(/\s+/).length} words)`);
@@ -652,14 +657,11 @@ export function useSession({
         const utterance = new SpeechSynthesisUtterance(cleanText);
         utterance.rate = 0.95;
         utterance.onend = () => {
-          debug('audio', 'Browser TTS complete — beat IDLE');
-          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
-          setBeatState('IDLE');
+          finalizeBeat('Browser TTS complete');
         };
         utterance.onerror = () => {
           debug('error', 'Browser TTS error');
-          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
-          setBeatState('IDLE');
+          finalizeBeat('Browser TTS error');
         };
         window.speechSynthesis.speak(utterance);
       } else {
@@ -675,13 +677,11 @@ export function useSession({
 
         Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);
         setTimeout(() => {
-          debug('audio', 'Dwell complete — beat IDLE');
-          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
-          setBeatState('IDLE');
+          finalizeBeat('Dwell complete');
         }, dwellMs);
       }
     }
-  }, [beatState, beatQueue, playAudioChunk, debug, paused]);
+  }, [beatState, beatQueue, playAudioChunk, debug, paused, band]);
   
   // Finalize lesson only after queued beats/audio have finished playing.
   useEffect(() => {

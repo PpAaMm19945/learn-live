@@ -166,10 +166,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const {
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
-    isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
-    connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
-    beats, paused, pauseSession, resumeSession
+    beats // paused and pauseSession are no longer used here
   } = useSession({
     chapterId,
     familyId: familyId || '',
@@ -199,8 +197,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
     // Intercept set_scene("image") — show as thumbnail in top-right corner
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
-      setShowWelcomeCover(false);
       const rawUrl = msg.args.imageUrl || '';
+      if (!rawUrl) {
+         addDebug('scene', 'Dropped invalid image scene (no url)');
+         return;
+      }
+      setShowWelcomeCover(false);
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
       setThumbnailImage({ url: resolvedUrl, caption: msg.args.caption || '', timestamp: Date.now() });
       setThumbnailIsStale(false);
@@ -319,13 +321,40 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
   }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss, enqueueSmallOverlay, chapterId, bandProfile, band]);
 
-  const handleReplayPopups = useCallback((tools: AgentToolCall[]) => {
+  const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
+
+  const handleReplayBeatVisuals = useCallback((tools: AgentToolCall[]) => {
+    if (!isEnded) {
+       addDebug('review', 'Replay blocked during live mode');
+       return;
+    }
+    
+    addDebug('review', `Review replay started`);
+    flushOverlayQueue();
+    dismissOverlay('all');
+    
     tools.forEach(tool => {
-      if (['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote'].includes(tool.tool)) {
-        handleAgentToolCall(tool); // This will pass through the toolGate automatically
-      }
+        if (!isToolAllowedForBand(tool, bandProfile)) {
+           addDebug('review', `Replay skipped blocked tool: ${tool.tool}`);
+           return;
+        }
+
+        if (tool.tool === 'set_scene' && tool.args?.mode === 'image') {
+           const rawUrl = tool.args?.imageUrl;
+           if (!rawUrl) {
+              addDebug('review', `Replay skipped empty image scene`);
+              return;
+           }
+           handleAgentToolCallRef.current(tool);
+        } else if (['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote', 'show_figure', 'show_genealogy', 'show_comparison', 'show_slide'].includes(tool.tool)) {
+           addDebug('review', `Replayed tool: ${tool.tool}`);
+           handleAgentToolCallRef.current(tool);
+        } else {
+           addDebug('review', `Replay skipped non-visual tool: ${tool.tool}`);
+        }
     });
-  }, [handleAgentToolCall]);
+
+  }, [isEnded, addDebug, flushOverlayQueue, dismissOverlay, bandProfile]);
 
   // Refs to hold latest callback versions
   const connectRef = useRef(connect);
@@ -452,7 +481,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
   const displayBeats = useFallback 
     ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, text: c.text, status: 'done' as const, toolCalls: [] })) 
-    : beats;
+    : beats.map(b => ({
+      id: b.beatId,
+      text: b.text,
+      status: b.status,
+      toolCalls: b.toolCalls
+    }));
 
   // Loading states
   if (!familyId || !activeLearnerId) {
@@ -567,9 +601,11 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                   className="absolute inset-0 z-30 flex items-center justify-center p-4"
                 >
                   <div className="w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden shadow-2xl border border-border/30 bg-card/95 backdrop-blur-sm relative">
-                    <button onClick={() => setThumbnailImage(null)} className="absolute top-3 right-3 bg-black/40 text-white rounded-full p-1.5 hover:bg-black/60 transition-colors z-40">
-                      <X className="w-4 h-4" />
-                    </button>
+                    {band >= 2 && (
+                      <button onClick={() => setThumbnailImage(null)} className="absolute top-3 right-3 bg-black/40 text-white rounded-full p-1.5 hover:bg-black/60 transition-colors z-40">
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
                     {thumbnailIsStale && (
                       <div className="absolute top-3 left-3 bg-black/40 text-white text-xs px-2.5 py-1 rounded-full z-40 backdrop-blur-sm font-medium">
                         Last shown
@@ -622,6 +658,24 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
           {/* Overlays — positioned within the visual panel, no X buttons */}
           <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} compact band={band} />
+
+          {/* Lesson Ended Overlay — now restricted to the Left Panel */}
+          <AnimatePresence>
+            {isEnded && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 z-[90] bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 px-6 text-center">
+                <h2 className="text-3xl font-display font-bold">Lesson Complete</h2>
+                <p className="text-muted-foreground">You can review previous beats on the right, or exit to the dashboard.</p>
+                <div className="flex gap-4">
+                  <button onClick={onExit} className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors">Back to Dashboard</button>
+                  {!useFallback && (
+                    <button onClick={handleSaveGoldenScript} className="px-6 py-3 bg-muted text-foreground flex items-center gap-2 rounded-full hover:bg-muted/80 transition-colors">
+                      <Save className="w-4 h-4" /> Save as Golden Script
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* RIGHT PANEL — Transcript (40% on desktop, 45% on mobile) */}
@@ -641,9 +695,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
               isActive={isConnected} 
               chapterId={chapterId} 
               pipelineStatus={pipelineStatus}
-              paused={paused}
-              onTogglePause={() => paused ? resumeSession() : pauseSession()}
-              onReplayPopups={handleReplayPopups}
+              isReviewMode={isEnded}
+              onReplayVisuals={handleReplayBeatVisuals}
             />
           </div>
 
@@ -655,21 +708,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
               </button>
             )}
             
-            <button 
-              onClick={() => {
-                if (useFallback) {
-                  goldenScript.status === 'playing' ? goldenScript.pause() : goldenScript.play(handleAgentToolCall);
-                } else {
-                  paused ? resumeSession() : pauseSession();
-                }
-              }} 
-              className={`p-2.5 rounded-full transition-colors flex-shrink-0 ${paused || (useFallback && goldenScript.status !== 'playing') ? 'bg-primary/15 text-primary hover:bg-primary/25' : 'bg-muted/60 text-foreground hover:bg-muted'}`}
-            >
-              {paused || (useFallback && goldenScript.status !== 'playing') ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
-            </button>
-
+            {/* Play/Pause removed for live sessions. */}
             <span className="text-[10px] text-muted-foreground tracking-widest uppercase truncate w-24 text-center">
-              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayBeats.length === 0 ? 'WAITING' : 'LISTENING'}
+              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayBeats.length === 0 ? 'WAITING' : isEnded ? 'REVIEW' : 'LISTENING'}
             </span>
             {!useFallback && bandProfile.interactivity.showRaiseHand && status === 'connected' && (
               <motion.button
@@ -700,24 +741,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           </div>
         </div>
       </div>
-
-      {/* Lesson Ended Overlay */}
-      <AnimatePresence>
-        {isEnded && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 z-[90] bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 px-6 text-center">
-            <h2 className="text-3xl font-display font-bold">Session Ended</h2>
-            <p className="text-muted-foreground">Thank you for learning with us today.</p>
-            <div className="flex gap-4">
-              <button onClick={onExit} className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors">Back to Dashboard</button>
-              {!useFallback && (
-                <button onClick={handleSaveGoldenScript} className="px-6 py-3 bg-muted text-foreground flex items-center gap-2 rounded-full hover:bg-muted/80 transition-colors">
-                  <Save className="w-4 h-4" /> Save as Golden Script
-                </button>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <DebugDrawer events={debugEvents} isOpen={debugOpen} onToggle={() => setDebugOpen(false)} />
     </motion.div>

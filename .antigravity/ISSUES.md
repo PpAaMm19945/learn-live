@@ -121,6 +121,16 @@
 - **Description:** Chapter 1 manifests had no complete Bands 0-3 overrides, causing extensive policy warnings (word counts, blocked tools, map-tool usage, oversized arrays).
 - **Resolution:** Added a reusable scaffolder (`agent/scripts/scaffold-band-overrides.js` + TypeScript source) and generated Bands 0-3 overrides across all 35 Ch01 beats. Tool sequences are now pruned by band policy, map-disabled bands are image-forced, and content is capped to per-band word limits. Local policy lint check now reports 0 warnings and 0 errors for `ch01_s01..s05`.
 
+### 92. Conflicting/Double Playback UI in Live Sessions
+- **Status:** RESOLVED — 2026-04-17
+- **Description:** Transcript cards showed pause/play while session also had a master pause/play. Triggering old beats caused double-audio playback conflicting with live audio.
+- **Resolution:** Removed pause capability entirely from live session handling. Beats play sequentially with forced COOLDOWN blocks. Replay on older beats was restricted to `handleReplayBeatVisuals` (visual-only) and is only available in a dedicated post-lesson Review Mode (when `isEnded` is true).
+
+### 93. Blank Screen Collapses for Seedlings on Map Tools
+- **Status:** RESOLVED — 2026-04-17
+- **Description:** For Band 0/1, invalid `set_scene(image)` strings, or agent-forced map tools would break the layout or replace the fallback Welcome Cover with empty space.
+- **Resolution:** Hardened image tool processing to ignore calls with falsey `imageUrl`s. Removed thumbnail "X" dismiss button for Seedling/Sprouts so users cannot accidentally dismiss the only visual.
+
 ---
 
 ## Notes

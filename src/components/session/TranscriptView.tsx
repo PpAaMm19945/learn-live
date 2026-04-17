@@ -17,9 +17,8 @@ interface TranscriptViewProps {
   isActive: boolean;
   chapterId: string;
   pipelineStatus?: { step: string; detail?: string } | null;
-  paused?: boolean;
-  onTogglePause?: () => void;
-  onReplayPopups?: (toolCalls: AgentToolCall[]) => void;
+  isReviewMode?: boolean;
+  onReplayVisuals?: (toolCalls: AgentToolCall[]) => void;
 }
 
 /**
@@ -27,7 +26,7 @@ interface TranscriptViewProps {
  * Each beat/chunk renders as a discrete card. The latest card is prominent,
  * older cards fade and stack above. Auto-scrolls to the newest card.
  */
-export function TranscriptView({ beats, band, isActive, chapterId, pipelineStatus, paused, onTogglePause, onReplayPopups }: TranscriptViewProps) {
+export function TranscriptView({ beats, band, isActive, chapterId, pipelineStatus, isReviewMode, onReplayVisuals }: TranscriptViewProps) {
   const isResting = beats.length === 0;
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -57,9 +56,8 @@ export function TranscriptView({ beats, band, isActive, chapterId, pipelineStatu
                   index={i}
                   isLatest={isLatest}
                   band={band}
-                  paused={paused}
-                  onTogglePause={onTogglePause}
-                  onReplayPopups={onReplayPopups}
+                  isReviewMode={isReviewMode}
+                  onReplayVisuals={onReplayVisuals}
                 />
               );
             })}
@@ -76,17 +74,15 @@ function TranscriptCard({
   index,
   isLatest,
   band,
-  paused,
-  onTogglePause,
-  onReplayPopups
+  isReviewMode,
+  onReplayVisuals
 }: {
   beat: BeatDisplay;
   index: number;
   isLatest: boolean;
   band: number;
-  paused?: boolean;
-  onTogglePause?: () => void;
-  onReplayPopups?: (tools: AgentToolCall[]) => void;
+  isReviewMode?: boolean;
+  onReplayVisuals?: (tools: AgentToolCall[]) => void;
 }) {
   const fontSize = band <= 2
     ? 'text-xl md:text-2xl'
@@ -121,29 +117,18 @@ function TranscriptCard({
           #{index + 1}
         </span>
         
-        {/* Replay Popups Button for completed beats */}
-        {beat.status === 'done' && beat.toolCalls && beat.toolCalls.filter(t => ['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote'].includes(t.tool)).length > 0 && (
+        {/* Replay Visuals Button for completed beats in review mode */}
+        {isReviewMode && beat.status === 'done' && beat.toolCalls && beat.toolCalls.filter(t => ['set_scene', 'show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote', 'show_figure', 'show_genealogy', 'show_comparison', 'show_slide'].includes(t.tool)).length > 0 && (
           <button 
-            onClick={() => onReplayPopups && onReplayPopups(beat.toolCalls!)}
+            onClick={() => onReplayVisuals && onReplayVisuals(beat.toolCalls!)}
             className="flex items-center gap-1.5 px-2 py-1 rounded bg-muted/60 hover:bg-muted text-[10px] font-medium text-foreground/70 transition-colors"
           >
             <Search className="w-2.5 h-2.5" />
-            Show popups ({beat.toolCalls.filter(t => ['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote'].includes(t.tool)).length})
+            Replay visuals
           </button>
         )}
 
-        {/* Pause/Play Button for playing beat */}
-        {beat.status === 'playing' && isLatest && (
-          <button 
-            onClick={onTogglePause}
-            className="flex items-center gap-1.5 px-2 py-1 rounded bg-muted/60 hover:bg-muted text-[10px] font-medium text-foreground/70 transition-colors"
-          >
-            {paused ? <Play className="w-2.5 h-2.5" /> : <Pause className="w-2.5 h-2.5" />}
-            {paused ? 'Resume' : 'Pause'}
-          </button>
-        )}
-
-        {isLatest && !paused && beat.status !== 'done' && (
+        {isLatest && beat.status !== 'done' && (
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
