@@ -535,7 +535,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     );
   }
 
-  const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
   return (
     <motion.div
