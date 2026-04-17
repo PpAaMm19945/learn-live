@@ -48,6 +48,72 @@
       ],
       "estimatedDurationSec": 50,
       "bandOverrides": {
+        "0": {
+          "contentText": "Genesis 10, often called the Charter of Nations, is the divinely inspired record of how humanity was reorganized after the scattering at Babel around 2242 BC. It lists the seventy foundational people groups that descended.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band0_page07.jpg",
+                "caption": "The scattering of nations from Babel"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 10:5",
+                "text": "From these the coastland peoples spread in their lands, each with his own language, by their clans, in their nations.",
+                "connection": "The diversity of human culture is not an accident — it is the direct result of God's will."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Sovereignty",
+                "definition": "God's absolute right and power to govern all things. He is not bound by any external standard but acts according to His own perfect will.",
+                "pronunciation": "SOV-rin-tee",
+                "etymology": "Latin: superanus — supreme authority"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Genesis 10, often called the Charter of Nations, is the divinely inspired record of how humanity was reorganized after the scattering at Babel around 2242 BC. It lists the seventy foundational people groups that descended from Noah's three sons — Shem, Ham, and Japheth. This is far more than a dusty list of ancient names.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band0_page07.jpg",
+                "caption": "The scattering of nations from Babel"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 10:5",
+                "text": "From these the coastland peoples spread in their lands, each with his own language, by their clans, in their nations.",
+                "connection": "The diversity of human culture is not an accident — it is the direct result of God's will."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Sovereignty",
+                "definition": "God's absolute right and power to govern all things. He is not bound by any external standard but acts according to His own perfect will.",
+                "pronunciation": "SOV-rin-tee",
+                "etymology": "Latin: superanus — supreme authority"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
         "2": {
           "contentText": "Genesis 10, often called the Charter of Nations, is the divinely inspired record of how humanity was reorganized after the scattering at Babel around 2242 BC. It lists the seventy foundational people groups that descended from Noah's three sons — Shem, Ham, and Japheth. This is far more than a dusty list of ancient names. It is a theological declaration of God's sovereignty over all peoples, showing that every nation has its place in God's ordered world.",
           "toolSequence": [
@@ -248,6 +314,52 @@
       ],
       "estimatedDurationSec": 55,
       "bandOverrides": {
+        "0": {
+          "contentText": "For our study, the key passage is Genesis 10:6, which states with clarity: 'The sons of Ham: Cush, Mizraim, Phut, and Canaan.' These are not obscure names. They are the well-known ancestors of major ancient.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band0_page08.jpg",
+                "caption": "The sons of Ham — founders of African civilizations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 10:6",
+                "text": "The sons of Ham: Cush, Mizraim, Phut, and Canaan.",
+                "connection": "Identifies the founders of African civilizations according to the Table of Nations."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "For our study, the key passage is Genesis 10:6, which states with clarity: 'The sons of Ham: Cush, Mizraim, Phut, and Canaan.' These are not obscure names. They are the well-known ancestors of major ancient peoples, three of whom are foundational to the African continent. Cush settled south of Egypt in Nubia. Mizraim is the.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band0_page08.jpg",
+                "caption": "The sons of Ham — founders of African civilizations"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 10:6",
+                "text": "The sons of Ham: Cush, Mizraim, Phut, and Canaan.",
+                "connection": "Identifies the founders of African civilizations according to the Table of Nations."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
         "2": {
           "contentText": "For our study, the key passage is Genesis 10:6, which states with clarity: 'The sons of Ham: Cush, Mizraim, Phut, and Canaan.' These are not obscure names. They are the well-known ancestors of major ancient peoples, three of whom are foundational to the African continent. Cush settled south of Egypt in Nubia. Mizraim is the Hebrew name for Egypt itself. Phut went west into Libya and North Africa. From the very beginning of the post-flood world, African peoples were central to God's plan.",
           "toolSequence": [
@@ -296,12 +408,6 @@
                     "parent": "Ham",
                     "descriptor": "Libya / North Africa",
                     "color": "#64b5f6"
-                  },
-                  {
-                    "name": "Canaan",
-                    "parent": "Ham",
-                    "descriptor": "Eastern Mediterranean",
-                    "color": "#ce93d8"
                   }
                 ]
               },
@@ -581,7 +687,217 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 45
+      "estimatedDurationSec": 45,
+      "bandOverrides": {
+        "0": {
+          "contentText": "The message of this simple verse is profound. From the very beginning of the post-flood world, African peoples were central to God's plan of populating the earth. They are not an afterthought or a peripheral.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band0_page03.jpg"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "The message of this simple verse is profound. From the very beginning of the post-flood world, African peoples were central to God's plan of populating the earth. They are not an afterthought or a peripheral branch of the human family. They are charter members of the new world order that God planned and established.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band1_page03.jpg"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "The message of this simple verse is profound. From the very beginning of the post-flood world, African peoples were central to God's plan of populating the earth. They are not an afterthought or a peripheral branch of the human family. They are charter members of the new world order that God planned and established.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "map"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "zoom_to",
+              "args": {
+                "location": "babel",
+                "zoom": 4
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "mizraim",
+                "color": "#fac775",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "cush",
+                "color": "#81c784",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "phut",
+                "color": "#64b5f6",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "egypt",
+                "style": "migration",
+                "color": "#fac775"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "cush_region",
+                "style": "migration",
+                "color": "#81c784"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "libya",
+                "style": "migration",
+                "color": "#64b5f6"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "The message of this simple verse is profound. From the very beginning of the post-flood world, African peoples were central to God's plan of populating the earth. They are not an afterthought or a peripheral branch of the human family. They are charter members of the new world order that God planned and established.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "map"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "zoom_to",
+              "args": {
+                "location": "babel",
+                "zoom": 4
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "mizraim",
+                "color": "#fac775",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "cush",
+                "color": "#81c784",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "highlight_region",
+              "args": {
+                "regionId": "phut",
+                "color": "#64b5f6",
+                "opacity": 0.3
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "egypt",
+                "style": "migration",
+                "color": "#fac775"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "cush_region",
+                "style": "migration",
+                "color": "#81c784"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "draw_route",
+              "args": {
+                "from": "babel",
+                "to": "libya",
+                "style": "migration",
+                "color": "#64b5f6"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s02_b04",
@@ -624,7 +940,161 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 50
+      "estimatedDurationSec": 50,
+      "bandOverrides": {
+        "0": {
+          "contentText": "At Babel, humanity's sin was expressed in a drive for monolithic unity — one language, one city, one name. God's response was to create diversity. This teaches us that God values the variety of cultures.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Covenant",
+                "definition": "A binding agreement between two parties. In the Bible, God makes covenants with His people, establishing the terms of their relationship with Him.",
+                "pronunciation": "CUV-uh-nunt",
+                "etymology": "Latin: convenire — to come together"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:9-11",
+                "text": "Behold, I establish my covenant with you and your offspring after you... never again shall all flesh be cut off by the waters of the flood.",
+                "connection": "God's covenant with Noah applies to ALL his descendants — including the peoples of Africa."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "At Babel, humanity's sin was expressed in a drive for monolithic unity — one language, one city, one name. God's response was to create diversity. This teaches us that God values the variety of cultures and languages He brought into being. The scattering from Babel was not merely a punishment. It was a sovereign course.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Covenant",
+                "definition": "A binding agreement between two parties. In the Bible, God makes covenants with His people, establishing the terms of their relationship with Him.",
+                "pronunciation": "CUV-uh-nunt",
+                "etymology": "Latin: convenire — to come together"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:9-11",
+                "text": "Behold, I establish my covenant with you and your offspring after you... never again shall all flesh be cut off by the waters of the flood.",
+                "connection": "God's covenant with Noah applies to ALL his descendants — including the peoples of Africa."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "At Babel, humanity's sin was expressed in a drive for monolithic unity — one language, one city, one name. God's response was to create diversity. This teaches us that God values the variety of cultures and languages He brought into being. The scattering from Babel was not merely a punishment. It was a sovereign course correction — an act of grace that ensured no single human empire could dominate the globe and that a beautiful tapestry of cultures would emerge.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Covenant",
+                "definition": "A binding agreement between two parties. In the Bible, God makes covenants with His people, establishing the terms of their relationship with Him.",
+                "pronunciation": "CUV-uh-nunt",
+                "etymology": "Latin: convenire — to come together"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:9-11",
+                "text": "Behold, I establish my covenant with you and your offspring after you... never again shall all flesh be cut off by the waters of the flood.",
+                "connection": "God's covenant with Noah applies to ALL his descendants — including the peoples of Africa."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "At Babel, humanity's sin was expressed in a drive for monolithic unity — one language, one city, one name. God's response was to create diversity. This teaches us that God values the variety of cultures and languages He brought into being. The scattering from Babel was not merely a punishment. It was a sovereign course correction — an act of grace that ensured no single human empire could dominate the globe and that a beautiful tapestry of cultures would emerge.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Covenant",
+                "definition": "A binding agreement between two parties. In the Bible, God makes covenants with His people, establishing the terms of their relationship with Him.",
+                "pronunciation": "CUV-uh-nunt",
+                "etymology": "Latin: convenire — to come together"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:9-11",
+                "text": "Behold, I establish my covenant with you and your offspring after you... never again shall all flesh be cut off by the waters of the flood.",
+                "connection": "God's covenant with Noah applies to ALL his descendants — including the peoples of Africa."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s02_b05",
@@ -673,7 +1143,129 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 50
+      "estimatedDurationSec": 50,
+      "bandOverrides": {
+        "0": {
+          "contentText": "Common grace is God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world. Saving grace, however, is the specific.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Common grace is God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world. Saving grace, however, is the specific, unmerited favor God shows to His elect, leading them to salvation through Jesus Christ. The great civilizations that Ham's sons.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "Common grace is God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world. Saving grace, however, is the specific, unmerited favor God shows to His elect, leading them to salvation through Jesus Christ. The great civilizations that Ham's sons built were sustained by common grace. Their achievements in architecture, agriculture, and governance were genuine gifts from God, even as those nations turned from Him.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_comparison",
+              "args": {
+                "title": "Common Grace vs. Saving Grace",
+                "columnA": {
+                  "heading": "Common Grace",
+                  "points": [
+                    "Given to ALL humanity",
+                    "Enables art, science, civilization"
+                  ]
+                },
+                "columnB": {
+                  "heading": "Saving Grace",
+                  "points": [
+                    "Given to God's elect only",
+                    "Leads to salvation in Christ"
+                  ]
+                }
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Common grace is God's general goodness shown to all humanity, regardless of their faith. It allows for art, science, and stable societies to flourish even in a fallen world. Saving grace, however, is the specific, unmerited favor God shows to His elect, leading them to salvation through Jesus Christ. The great civilizations that Ham's sons built were sustained by common grace. Their achievements in architecture, agriculture, and governance were genuine gifts from God, even as those nations turned from Him.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_comparison",
+              "args": {
+                "title": "Common Grace vs. Saving Grace",
+                "columnA": {
+                  "heading": "Common Grace",
+                  "points": [
+                    "Given to ALL humanity",
+                    "Enables art, science, civilization",
+                    "Restrains total depravity"
+                  ]
+                },
+                "columnB": {
+                  "heading": "Saving Grace",
+                  "points": [
+                    "Given to God's elect only",
+                    "Leads to salvation in Christ",
+                    "Regenerates the heart"
+                  ]
+                }
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s02_b06",
@@ -726,7 +1318,201 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 60
+      "estimatedDurationSec": 60,
+      "bandOverrides": {
+        "0": {
+          "contentText": "Justice is not a human concept — it is an attribute of God. He is a holy God, and because He is holy, He is perfectly just. The Hebrew words mishpat and tzedakah capture this.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Mishpat",
+                "definition": "Hebrew term for justice, referring to fair judgment and restoring order.",
+                "pronunciation": "mish-PAHT",
+                "etymology": "Hebrew: מִשְׁפָּט — judgment, justice"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Tzedakah",
+                "definition": "Hebrew term for righteousness, meaning living in right relationship with God and others.",
+                "pronunciation": "tseh-dah-KAH",
+                "etymology": "Hebrew: צְדָקָה — righteousness"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Daniel 4:35",
+                "text": "He does according to his will among the host of heaven and among the inhabitants of the earth; and none can stay his hand or say to him, 'What have you done?'",
+                "connection": "God's sovereignty over ALL nations — including every African nation."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Justice is not a human concept — it is an attribute of God. He is a holy God, and because He is holy, He is perfectly just. The Hebrew words mishpat and tzedakah capture this. Mishpat is about restoring wholeness and equity in society. Tzedakah is about living in right relationship with God and others.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Mishpat",
+                "definition": "Hebrew term for justice, referring to fair judgment and restoring order.",
+                "pronunciation": "mish-PAHT",
+                "etymology": "Hebrew: מִשְׁפָּט — judgment, justice"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Tzedakah",
+                "definition": "Hebrew term for righteousness, meaning living in right relationship with God and others.",
+                "pronunciation": "tseh-dah-KAH",
+                "etymology": "Hebrew: צְדָקָה — righteousness"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Daniel 4:35",
+                "text": "He does according to his will among the host of heaven and among the inhabitants of the earth; and none can stay his hand or say to him, 'What have you done?'",
+                "connection": "God's sovereignty over ALL nations — including every African nation."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "Justice is not a human concept — it is an attribute of God. He is a holy God, and because He is holy, He is perfectly just. The Hebrew words mishpat and tzedakah capture this. Mishpat is about restoring wholeness and equity in society. Tzedakah is about living in right relationship with God and others. When we recognize that every people group on earth was established by God's deliberate design in the Charter of Nations, we see injustice in its true light. To harm or.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Mishpat",
+                "definition": "Hebrew term for justice, referring to fair judgment and restoring order.",
+                "pronunciation": "mish-PAHT",
+                "etymology": "Hebrew: מִשְׁפָּט — judgment, justice"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Tzedakah",
+                "definition": "Hebrew term for righteousness, meaning living in right relationship with God and others.",
+                "pronunciation": "tseh-dah-KAH",
+                "etymology": "Hebrew: צְדָקָה — righteousness"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Daniel 4:35",
+                "text": "He does according to his will among the host of heaven and among the inhabitants of the earth; and none can stay his hand or say to him, 'What have you done?'",
+                "connection": "God's sovereignty over ALL nations — including every African nation."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Justice is not a human concept — it is an attribute of God. He is a holy God, and because He is holy, He is perfectly just. The Hebrew words mishpat and tzedakah capture this. Mishpat is about restoring wholeness and equity in society. Tzedakah is about living in right relationship with God and others. When we recognize that every people group on earth was established by God's deliberate design in the Charter of Nations, we see injustice in its true light. To harm or devalue another people group is to mock the holy God in whose image they are made.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Mishpat",
+                "definition": "Hebrew term for justice, referring to fair judgment and restoring order.",
+                "pronunciation": "mish-PAHT",
+                "etymology": "Hebrew: מִשְׁפָּט — judgment, justice"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Tzedakah",
+                "definition": "Hebrew term for righteousness, meaning living in right relationship with God and others.",
+                "pronunciation": "tseh-dah-KAH",
+                "etymology": "Hebrew: צְדָקָה — righteousness"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Daniel 4:35",
+                "text": "He does according to his will among the host of heaven and among the inhabitants of the earth; and none can stay his hand or say to him, 'What have you done?'",
+                "connection": "God's sovereignty over ALL nations — including every African nation."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s02_b07",
@@ -774,7 +1560,175 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 40
+      "estimatedDurationSec": 40,
+      "bandOverrides": {
+        "0": {
+          "contentText": "The sins of racism and tribalism are not merely social evils. They are a direct affront to the Just One whose charter gave every person their place in His world. Let us consider: how does.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "How does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+                "context": "Think about what you've learned about mishpat, tzedakah, and the Charter of Nations.",
+                "type": "reflection"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Think It Through",
+                "body": "The Charter of Nations declares that ALL peoples have divine dignity.",
+                "bullets": [
+                  "God values cultural diversity — it was His idea"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "The sins of racism and tribalism are not merely social evils. They are a direct affront to the Just One whose charter gave every person their place in His world. Let us consider: how does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "How does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+                "context": "Think about what you've learned about mishpat, tzedakah, and the Charter of Nations.",
+                "type": "reflection"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Think It Through",
+                "body": "The Charter of Nations declares that ALL peoples have divine dignity.",
+                "bullets": [
+                  "God values cultural diversity — it was His idea",
+                  "Justice (mishpat) means restoring wholeness"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "The sins of racism and tribalism are not merely social evils. They are a direct affront to the Just One whose charter gave every person their place in His world. Let us consider: how does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "How does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+                "context": "Think about what you've learned about mishpat, tzedakah, and the Charter of Nations.",
+                "type": "reflection"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Think It Through",
+                "body": "The Charter of Nations declares that ALL peoples have divine dignity.",
+                "bullets": [
+                  "God values cultural diversity — it was His idea",
+                  "Justice (mishpat) means restoring wholeness",
+                  "Righteousness (tzedakah) means right relationship"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "The sins of racism and tribalism are not merely social evils. They are a direct affront to the Just One whose charter gave every person their place in His world. Let us consider: how does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "How does understanding that every nation was established by God's design change the way we view justice in our own communities?",
+                "context": "Think about what you've learned about mishpat, tzedakah, and the Charter of Nations.",
+                "type": "reflection"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Think It Through",
+                "body": "The Charter of Nations declares that ALL peoples have divine dignity.",
+                "bullets": [
+                  "God values cultural diversity — it was His idea",
+                  "Justice (mishpat) means restoring wholeness",
+                  "Righteousness (tzedakah) means right relationship",
+                  "Racism mocks the God who made every nation"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     }
   ]
 }

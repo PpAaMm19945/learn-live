@@ -52,6 +52,52 @@
       ],
       "estimatedDurationSec": 50,
       "bandOverrides": {
+        "0": {
+          "contentText": "Here, our story takes a dark and tragic turn. We witness how a single passage of Scripture, when ripped from its context and twisted by sinful hearts, can be weaponized to justify centuries of unimaginable.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band1_page05.jpg",
+                "caption": "Noah's family after the Flood"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Here, our story takes a dark and tragic turn. We witness how a single passage of Scripture, when ripped from its context and twisted by sinful hearts, can be weaponized to justify centuries of unimaginable suffering. The event is recorded in Genesis 9:20-27, taking place shortly after the Flood around 2347 BC. Noah, a righteous.",
+          "toolSequence": [
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "image",
+                "imageUrl": "assets/storybook/ch01/band1_page05.jpg",
+                "caption": "Noah's family after the Flood"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2348,
+                    "label": "The Flood",
+                    "color": "#64b5f6"
+                  },
+                  {
+                    "year": -2347,
+                    "label": "Noah's Curse on Canaan",
+                    "color": "#e57373"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
         "2": {
           "contentText": "Here, our story takes a dark and tragic turn. We witness how a single passage of Scripture, when ripped from its context and twisted by sinful hearts, can be weaponized to justify centuries of unimaginable suffering. The event is recorded in Genesis 9:20-27, taking place shortly after the Flood around 2347 BC. Noah, a righteous man, succumbs to a moment of weakness. His son Ham enters the tent, sees his father's nakedness, and in an act of deep disrespect, goes to tell his two brothers.",
           "toolSequence": [
@@ -243,7 +289,161 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 45
+      "estimatedDurationSec": 45,
+      "bandOverrides": {
+        "0": {
+          "contentText": "Before we look at the utterance itself, we must understand what a curse means in the Bible. It is not a magical incantation or an angry wish of bad luck. In the mouth of a.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Curse",
+                "definition": "In the Bible, a curse is not a magical spell. It is a formal, prophetic declaration of divine judgment in response to sin, often pronounced by a patriarch.",
+                "pronunciation": "KURS",
+                "etymology": "Hebrew: arar — to bind with a curse"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 12:3",
+                "text": "I will bless those who bless you, and him who dishonors you I will curse.",
+                "connection": "Blessings and curses are covenantal realities administered by God Himself."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Before we look at the utterance itself, we must understand what a curse means in the Bible. It is not a magical incantation or an angry wish of bad luck. In the mouth of a patriarch like Noah, a curse is a formal and solemn declaration that predicts or invokes divine judgment upon a person.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Curse",
+                "definition": "In the Bible, a curse is not a magical spell. It is a formal, prophetic declaration of divine judgment in response to sin, often pronounced by a patriarch.",
+                "pronunciation": "KURS",
+                "etymology": "Hebrew: arar — to bind with a curse"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 12:3",
+                "text": "I will bless those who bless you, and him who dishonors you I will curse.",
+                "connection": "Blessings and curses are covenantal realities administered by God Himself."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "Before we look at the utterance itself, we must understand what a curse means in the Bible. It is not a magical incantation or an angry wish of bad luck. In the mouth of a patriarch like Noah, a curse is a formal and solemn declaration that predicts or invokes divine judgment upon a person or their descendants. It is a prophetic statement describing a future reality under the sovereign hand of God.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Curse",
+                "definition": "In the Bible, a curse is not a magical spell. It is a formal, prophetic declaration of divine judgment in response to sin, often pronounced by a patriarch.",
+                "pronunciation": "KURS",
+                "etymology": "Hebrew: arar — to bind with a curse"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 12:3",
+                "text": "I will bless those who bless you, and him who dishonors you I will curse.",
+                "connection": "Blessings and curses are covenantal realities administered by God Himself."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Before we look at the utterance itself, we must understand what a curse means in the Bible. It is not a magical incantation or an angry wish of bad luck. In the mouth of a patriarch like Noah, a curse is a formal and solemn declaration that predicts or invokes divine judgment upon a person or their descendants. It is a prophetic statement describing a future reality under the sovereign hand of God.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_key_term",
+              "args": {
+                "term": "Curse",
+                "definition": "In the Bible, a curse is not a magical spell. It is a formal, prophetic declaration of divine judgment in response to sin, often pronounced by a patriarch.",
+                "pronunciation": "KURS",
+                "etymology": "Hebrew: arar — to bind with a curse"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 12:3",
+                "text": "I will bless those who bless you, and him who dishonors you I will curse.",
+                "connection": "Blessings and curses are covenantal realities administered by God Himself."
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s03_b03",
@@ -290,7 +490,174 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 55
+      "estimatedDurationSec": 55,
+      "bandOverrides": {
+        "0": {
+          "contentText": "Let us look at what the Bible actually says. When Noah realizes Ham's disrespectful act, he declares: 'Cursed be Canaan; a servant of servants he shall be to his brothers.' If we simply read the.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:25",
+                "text": "Cursed be Canaan; a servant of servants he shall be to his brothers.",
+                "connection": "The curse is on CANAAN specifically — not on Ham, not on Africa, not on any race."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Three Critical Questions",
+                "body": "What does the text actually say?",
+                "bullets": [
+                  "WHO is cursed? Canaan — not Ham, not Africa"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Let us look at what the Bible actually says. When Noah realizes Ham's disrespectful act, he declares: 'Cursed be Canaan; a servant of servants he shall be to his brothers.' If we simply read the text and submit to its authority, the truth is inescapable. Canaan is cursed — not Ham, not Africa, not Black.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:25",
+                "text": "Cursed be Canaan; a servant of servants he shall be to his brothers.",
+                "connection": "The curse is on CANAAN specifically — not on Ham, not on Africa, not on any race."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Three Critical Questions",
+                "body": "What does the text actually say?",
+                "bullets": [
+                  "WHO is cursed? Canaan — not Ham, not Africa",
+                  "WHAT is the curse? Servitude — fulfilled in the Conquest of Canaan (c. 1400 BC)"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "Let us look at what the Bible actually says. When Noah realizes Ham's disrespectful act, he declares: 'Cursed be Canaan; a servant of servants he shall be to his brothers.' If we simply read the text and submit to its authority, the truth is inescapable. Canaan is cursed — not Ham, not Africa, not Black people. The curse is precisely aimed at only one of Ham's four sons.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:25",
+                "text": "Cursed be Canaan; a servant of servants he shall be to his brothers.",
+                "connection": "The curse is on CANAAN specifically — not on Ham, not on Africa, not on any race."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Three Critical Questions",
+                "body": "What does the text actually say?",
+                "bullets": [
+                  "WHO is cursed? Canaan — not Ham, not Africa",
+                  "WHAT is the curse? Servitude — fulfilled in the Conquest of Canaan (c. 1400 BC)",
+                  "WHAT is the context? A specific family sin — nothing to do with race or skin color"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Let us look at what the Bible actually says. When Noah realizes Ham's disrespectful act, he declares: 'Cursed be Canaan; a servant of servants he shall be to his brothers.' If we simply read the text and submit to its authority, the truth is inescapable. Canaan is cursed — not Ham, not Africa, not Black people. The curse is precisely aimed at only one of Ham's four sons.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_scripture",
+              "args": {
+                "reference": "Genesis 9:25",
+                "text": "Cursed be Canaan; a servant of servants he shall be to his brothers.",
+                "connection": "The curse is on CANAAN specifically — not on Ham, not on Africa, not on any race."
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Three Critical Questions",
+                "body": "What does the text actually say?",
+                "bullets": [
+                  "WHO is cursed? Canaan — not Ham, not Africa",
+                  "WHAT is the curse? Servitude — fulfilled in the Conquest of Canaan (c. 1400 BC)",
+                  "WHAT is the context? A specific family sin — nothing to do with race or skin color"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s03_b04",
@@ -362,7 +729,193 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 60
+      "estimatedDurationSec": 60,
+      "bandOverrides": {
+        "0": {
+          "contentText": "The 'Curse of Ham' is a wicked and baseless myth. It was invented by men seeking to justify the enslavement of African people. Beginning in the 16th and 17th centuries, as the transatlantic slave trade.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "The 'Curse of Ham' is a wicked and baseless myth. It was invented by men seeking to justify the enslavement of African people. Beginning in the 16th and 17th centuries, as the transatlantic slave trade grew into a massive economic enterprise, European and American theologians and slave traders needed a moral justification for their horrific.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2347,
+                    "label": "Noah's curse on Canaan",
+                    "color": "#e57373"
+                  },
+                  {
+                    "year": -1400,
+                    "label": "Israelite conquest of Canaan (fulfillment)",
+                    "color": "#fac775"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "The 'Curse of Ham' is a wicked and baseless myth. It was invented by men seeking to justify the enslavement of African people. Beginning in the 16th and 17th centuries, as the transatlantic slave trade grew into a massive economic enterprise, European and American theologians and slave traders needed a moral justification for their horrific actions. So they invented a historical fiction, claiming that Noah's curse was upon Ham and that God had marked all of Ham's descendants with Black skin. This wicked lie became.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_comparison",
+              "args": {
+                "title": "What the Text Says vs. What the Myth Claims",
+                "columnA": {
+                  "heading": "What the Text Says",
+                  "points": [
+                    "Canaan is cursed — one son of Ham",
+                    "Curse is servitude — fulfilled in conquest of Canaan"
+                  ]
+                },
+                "columnB": {
+                  "heading": "What the Myth Claims",
+                  "points": [
+                    "All of Ham is cursed — entire lineage",
+                    "Curse is blackness — permanent racial marker"
+                  ]
+                }
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2347,
+                    "label": "Noah's curse on Canaan",
+                    "color": "#e57373"
+                  },
+                  {
+                    "year": -1400,
+                    "label": "Israelite conquest of Canaan (fulfillment)",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": 1500,
+                    "label": "Racist myth invented to justify slave trade",
+                    "color": "#9e9e9e"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "The 'Curse of Ham' is a wicked and baseless myth. It was invented by men seeking to justify the enslavement of African people. Beginning in the 16th and 17th centuries, as the transatlantic slave trade grew into a massive economic enterprise, European and American theologians and slave traders needed a moral justification for their horrific actions. So they invented a historical fiction, claiming that Noah's curse was upon Ham and that God had marked all of Ham's descendants with Black skin. This wicked lie became a cornerstone of pro-slavery ideology.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_comparison",
+              "args": {
+                "title": "What the Text Says vs. What the Myth Claims",
+                "columnA": {
+                  "heading": "What the Text Says",
+                  "points": [
+                    "Canaan is cursed — one son of Ham",
+                    "Curse is servitude — fulfilled in conquest of Canaan",
+                    "Context is a specific family sin"
+                  ]
+                },
+                "columnB": {
+                  "heading": "What the Myth Claims",
+                  "points": [
+                    "All of Ham is cursed — entire lineage",
+                    "Curse is blackness — permanent racial marker",
+                    "Applied to all Africans everywhere"
+                  ]
+                }
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_timeline",
+              "args": {
+                "events": [
+                  {
+                    "year": -2347,
+                    "label": "Noah's curse on Canaan",
+                    "color": "#e57373"
+                  },
+                  {
+                    "year": -1400,
+                    "label": "Israelite conquest of Canaan (fulfillment)",
+                    "color": "#fac775"
+                  },
+                  {
+                    "year": 1500,
+                    "label": "Racist myth invented to justify slave trade",
+                    "color": "#9e9e9e"
+                  }
+                ]
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s03_b05",
@@ -400,7 +953,138 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 40
+      "estimatedDurationSec": 40,
+      "bandOverrides": {
+        "0": {
+          "contentText": "This is a prime example of eisegesis — reading one's own biases into the text — rather than exegesis, which is drawing the meaning out of the text. The men who invented this myth were.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Eisegesis vs. Exegesis",
+                "body": "How do we read the Bible?",
+                "bullets": [
+                  "Eisegesis: reading YOUR bias INTO the text"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "This is a prime example of eisegesis — reading one's own biases into the text — rather than exegesis, which is drawing the meaning out of the text. The men who invented this myth were not seeking truth. They were seeking profit. They came to the Bible not to find what God said, but to.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Eisegesis vs. Exegesis",
+                "body": "How do we read the Bible?",
+                "bullets": [
+                  "Eisegesis: reading YOUR bias INTO the text",
+                  "Exegesis: drawing the MEANING OUT of the text"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "This is a prime example of eisegesis — reading one's own biases into the text — rather than exegesis, which is drawing the meaning out of the text. The men who invented this myth were not seeking truth. They were seeking profit. They came to the Bible not to find what God said, but to find a verse that could be twisted to support what they already wanted to do. This is one of history's most tragic examples of weaponizing Scripture.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Eisegesis vs. Exegesis",
+                "body": "How do we read the Bible?",
+                "bullets": [
+                  "Eisegesis: reading YOUR bias INTO the text",
+                  "Exegesis: drawing the MEANING OUT of the text",
+                  "The Curse of Ham myth is eisegesis — driven by greed, not truth"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "This is a prime example of eisegesis — reading one's own biases into the text — rather than exegesis, which is drawing the meaning out of the text. The men who invented this myth were not seeking truth. They were seeking profit. They came to the Bible not to find what God said, but to find a verse that could be twisted to support what they already wanted to do. This is one of history's most tragic examples of weaponizing Scripture.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_slide",
+              "args": {
+                "title": "Eisegesis vs. Exegesis",
+                "body": "How do we read the Bible?",
+                "bullets": [
+                  "Eisegesis: reading YOUR bias INTO the text",
+                  "Exegesis: drawing the MEANING OUT of the text",
+                  "The Curse of Ham myth is eisegesis — driven by greed, not truth"
+                ],
+                "layout": "center"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     },
     {
       "beatId": "ch01_s03_b06",
@@ -456,7 +1140,213 @@
           "syncTrigger": "start_of_beat"
         }
       ],
-      "estimatedDurationSec": 50
+      "estimatedDurationSec": 50,
+      "bandOverrides": {
+        "0": {
+          "contentText": "Let us test our understanding. Based on what we have learned from the text of Genesis 9:25, who was the specific individual cursed by Noah? And what was the nature of that curse? Remember: the.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "Based on Genesis 9:25, who was the specific individual cursed by Noah?",
+                "options": [
+                  "Ham",
+                  "Japheth",
+                  "Canaan",
+                  "Shem"
+                ],
+                "correctIndex": 2,
+                "explanation": "The text is absolutely explicit: 'Cursed be Canaan.' Not Ham, not Africa — Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "What was the nature of the curse pronounced on Canaan?",
+                "options": [
+                  "A curse of poverty",
+                  "A curse of servitude",
+                  "A curse of sickness",
+                  "A curse of wandering"
+                ],
+                "correctIndex": 1,
+                "explanation": "'A servant of servants he shall be to his brothers' — fulfilled when Israel conquered Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "1": {
+          "contentText": "Let us test our understanding. Based on what we have learned from the text of Genesis 9:25, who was the specific individual cursed by Noah? And what was the nature of that curse? Remember: the Bible is clear. We must read what it says, not what sinful men claimed it said.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "Based on Genesis 9:25, who was the specific individual cursed by Noah?",
+                "options": [
+                  "Ham",
+                  "Japheth",
+                  "Canaan",
+                  "Shem"
+                ],
+                "correctIndex": 2,
+                "explanation": "The text is absolutely explicit: 'Cursed be Canaan.' Not Ham, not Africa — Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "What was the nature of the curse pronounced on Canaan?",
+                "options": [
+                  "A curse of poverty",
+                  "A curse of servitude",
+                  "A curse of sickness",
+                  "A curse of wandering"
+                ],
+                "correctIndex": 1,
+                "explanation": "'A servant of servants he shall be to his brothers' — fulfilled when Israel conquered Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "2": {
+          "contentText": "Let us test our understanding. Based on what we have learned from the text of Genesis 9:25, who was the specific individual cursed by Noah? And what was the nature of that curse? Remember: the Bible is clear. We must read what it says, not what sinful men claimed it said.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "Based on Genesis 9:25, who was the specific individual cursed by Noah?",
+                "options": [
+                  "Ham",
+                  "Japheth",
+                  "Canaan",
+                  "Shem"
+                ],
+                "correctIndex": 2,
+                "explanation": "The text is absolutely explicit: 'Cursed be Canaan.' Not Ham, not Africa — Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "What was the nature of the curse pronounced on Canaan?",
+                "options": [
+                  "A curse of poverty",
+                  "A curse of servitude",
+                  "A curse of sickness",
+                  "A curse of wandering"
+                ],
+                "correctIndex": 1,
+                "explanation": "'A servant of servants he shall be to his brothers' — fulfilled when Israel conquered Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        },
+        "3": {
+          "contentText": "Let us test our understanding. Based on what we have learned from the text of Genesis 9:25, who was the specific individual cursed by Noah? And what was the nature of that curse? Remember: the Bible is clear. We must read what it says, not what sinful men claimed it said.",
+          "toolSequence": [
+            {
+              "tool": "dismiss_overlay",
+              "args": {
+                "type": "all"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "set_scene",
+              "args": {
+                "mode": "overlay"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "Based on Genesis 9:25, who was the specific individual cursed by Noah?",
+                "options": [
+                  "Ham",
+                  "Japheth",
+                  "Canaan",
+                  "Shem"
+                ],
+                "correctIndex": 2,
+                "explanation": "The text is absolutely explicit: 'Cursed be Canaan.' Not Ham, not Africa — Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            },
+            {
+              "tool": "show_question",
+              "args": {
+                "question": "What was the nature of the curse pronounced on Canaan?",
+                "options": [
+                  "A curse of poverty",
+                  "A curse of servitude",
+                  "A curse of sickness",
+                  "A curse of wandering"
+                ],
+                "correctIndex": 1,
+                "explanation": "'A servant of servants he shall be to his brothers' — fulfilled when Israel conquered Canaan.",
+                "type": "check"
+              },
+              "syncTrigger": "start_of_beat"
+            }
+          ]
+        }
+      }
     }
   ]
 }
