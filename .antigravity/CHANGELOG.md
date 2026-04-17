@@ -5,6 +5,12 @@
 
 ---
 
+## 2026-04-17 — Live Session UX Hardening (Band 0-3 Focus)
+- **Phase 1 (Tool Gate)**: Added `isToolAllowedForBand` in `bandConfig.client.ts` to cleanly drop unsupported tool calls without crashing the UI, drastically smoothing Band 0/1 runs.
+- **Phase 2 (Experience Flow)**: Implemented per-beat playback states via `BeatRecord` inside the active `useSession.ts` hook. Changed `TranscriptView.tsx` to handle visual persistence of past beats while playing the live beat.
+- **Phase 2.5 (Visual Polish)**: Swapped single End button for a rich Pause/Play/Stop control bar. Added image thumbnail preservation & timeout tags. Styled duration-mapped shrink bars within `CanvasOverlays` using fresh CSS keyframes. 
+- **Phase 3 (Welcome Screen)**: Dropped simple loading indicators in favor of an immersive `WelcomeCover.tsx` featuring `bg-african-warm` / `-dusk` themes, looping `storybook` graphics, and historical loading facts.
+
 ## 2026-04-17 — Ch01 Audit Complete; Chapters 2–9 Visually Locked
 - Re-ran `agent/scripts/lint-manifest.ts` on `ch01_s01..ch01_s05`: **0 warnings, 0 errors** across all 6 bands
 - Confirmed Chapter 1 is teach-ready end-to-end (manifests, image registry, `bandOverrides`, `syncTrigger`, content resolution all verified)

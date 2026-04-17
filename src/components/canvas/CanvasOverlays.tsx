@@ -32,14 +32,26 @@ interface CanvasOverlaysProps {
   compact?: boolean;
   /** Current band for adaptive rendering */
   band?: number;
+  /** Whether session is paused */
+  paused?: boolean;
 }
+
+import { getClientBandProfile } from '@/lib/bandConfig.client';
 
 const spring = { type: 'spring' as const, damping: 22, stiffness: 140 };
 
-export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: CanvasOverlaysProps) {
+export function CanvasOverlays({ overlays, onDismiss, compact, band = 4, paused = false }: CanvasOverlaysProps) {
   const isYounger = band <= 3;
   const textSize = isYounger ? 'text-base' : 'text-sm';
   const clickHandler = compact ? undefined : onDismiss;
+  const profile = getClientBandProfile(band);
+  
+  const smallOverlayDuration = `${profile.overlays.queueDelayMs}ms`;
+
+  const renderProgressBar = (duration: string) => (
+    <div className="absolute bottom-0 left-0 h-1 bg-primary animate-shrink" style={{ animationDuration: duration, animationPlayState: paused ? 'paused' : 'running' }} />
+  );
+
   return (
     <div className="absolute inset-0 pointer-events-none z-40">
       <AnimatePresence>
@@ -51,10 +63,11 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('scripture')}
           >
-            <div className="flex items-start gap-3">
+            {renderProgressBar(smallOverlayDuration)}
+            <div className="flex items-start gap-3 relative z-10">
               <span className="text-2xl mt-0.5 opacity-60">📖</span>
               <div className="flex-1 min-w-0">
                 <h4 className="text-primary font-bold text-sm tracking-wide mb-1.5">
@@ -81,19 +94,22 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: -20 }}
             transition={spring}
-            className="absolute top-20 left-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-4 flex items-center space-x-4 max-w-sm pointer-events-auto"
+            className="absolute top-20 left-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-4 flex items-center space-x-4 max-w-sm pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('figure')}
           >
-            <div className="w-16 h-16 rounded-full bg-muted flex-shrink-0 border-2 border-primary overflow-hidden">
-              {overlays.figure.imageUrl ? (
-                <img src={overlays.figure.imageUrl} alt={overlays.figure.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-2xl">👤</div>
-              )}
-            </div>
-            <div>
-              <h3 className="text-foreground font-bold text-lg leading-tight">{overlays.figure.name}</h3>
-              <p className="text-primary/80 text-sm font-medium">{overlays.figure.title}</p>
+            {renderProgressBar('8s')}
+            <div className="flex items-center space-x-4 relative z-10 w-full">
+              <div className="w-16 h-16 rounded-full bg-muted flex-shrink-0 border-2 border-primary overflow-hidden">
+                {overlays.figure.imageUrl ? (
+                  <img src={overlays.figure.imageUrl} alt={overlays.figure.name} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-2xl">👤</div>
+                )}
+              </div>
+              <div>
+                <h3 className="text-foreground font-bold text-lg leading-tight">{overlays.figure.name}</h3>
+                <p className="text-primary/80 text-sm font-medium">{overlays.figure.title}</p>
+              </div>
             </div>
           </motion.div>
         )}
@@ -106,9 +122,11 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: 20, y: -20 }}
             transition={spring}
-            className="absolute top-20 right-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-6 min-w-[250px] max-w-xs pointer-events-auto"
+            className="absolute top-20 right-6 bg-card/95 backdrop-blur-md border border-border rounded-xl shadow-2xl p-6 min-w-[250px] max-w-xs pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('genealogy')}
           >
+            {renderProgressBar('12s')}
+            <div className="relative z-10">
             <h3 className="text-foreground font-bold text-lg border-b border-border pb-2 mb-4 text-center">
               Family of {overlays.genealogy.rootName}
             </h3>
@@ -128,6 +146,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
                 </div>
               ))}
             </div>
+            </div>
           </motion.div>
         )}
 
@@ -139,10 +158,12 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto overflow-x-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('timeline')}
           >
-            <h4 className="text-accent font-bold text-xs tracking-widest uppercase mb-3">Timeline</h4>
+            {renderProgressBar(smallOverlayDuration)}
+            <div className="relative z-10">
+              <h4 className="text-accent font-bold text-xs tracking-widest uppercase mb-3">Timeline</h4>
             <div className="relative flex items-start gap-0 min-w-0">
               {/* Horizontal track */}
               <div className="absolute top-[10px] left-0 right-0 h-[2px] bg-border rounded-full z-0" />
@@ -166,6 +187,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
                 );
               })}
             </div>
+            </div>
           </motion.div>
         )}
 
@@ -177,10 +199,11 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-accent rounded-xl shadow-2xl p-5 pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('keyTerm')}
           >
-            <div className="flex items-start gap-3">
+            {renderProgressBar(smallOverlayDuration)}
+            <div className="flex items-start gap-3 relative z-10">
               <span className="text-accent font-bold text-xs tracking-widest uppercase mt-1">KEY TERM</span>
               <div className="flex-1">
                 <h4 className="text-accent font-bold text-lg tracking-tight">
@@ -210,9 +233,11 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={spring}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-6 max-w-lg w-[92%] pointer-events-auto"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl p-6 max-w-lg w-[92%] pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('comparison')}
           >
+            {renderProgressBar('12s')}
+            <div className="relative z-10">
             <h3 className="text-foreground font-bold text-lg text-center mb-4 border-b border-border pb-3">
               {overlays.comparison.title}
             </h3>
@@ -242,6 +267,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
                 </ul>
               </div>
             </div>
+            </div>
           </motion.div>
         )}
 
@@ -253,10 +279,11 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary rounded-xl shadow-2xl p-5 pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('question')}
           >
-            <div className="flex items-start gap-3">
+            {renderProgressBar(smallOverlayDuration)}
+            <div className="flex items-start gap-3 relative z-10">
               <span className="text-primary font-bold text-xs tracking-widest uppercase mt-1">
                 {overlays.question.type === 'check' ? 'CHECK' : overlays.question.type === 'reflection' ? 'REFLECT' : 'THINK'}
               </span>
@@ -280,10 +307,12 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             animate={{ opacity: 1, x: 0, y: 0 }}
             exit={{ opacity: 0, x: -20, y: 20 }}
             transition={spring}
-            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary/50 rounded-xl shadow-2xl p-5 pointer-events-auto"
+            className="absolute bottom-24 left-6 right-6 md:right-auto md:max-w-md bg-card/95 backdrop-blur-md border border-border border-l-4 border-l-primary/50 rounded-xl shadow-2xl p-5 pointer-events-auto overflow-hidden"
             onClick={() => clickHandler?.('quote')}
           >
-            <span className="text-3xl text-primary/30 font-serif leading-none block mb-1">"</span>
+            {renderProgressBar(smallOverlayDuration)}
+            <div className="relative z-10">
+              <span className="text-3xl text-primary/30 font-serif leading-none block mb-1">"</span>
             <p className="text-foreground text-base italic leading-relaxed">
               {overlays.quote.text}
             </p>
@@ -292,6 +321,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
               {overlays.quote.date && (
                 <p className="text-muted-foreground text-[10px] mt-0.5">{overlays.quote.date}</p>
               )}
+            </div>
             </div>
           </motion.div>
         )}
@@ -307,6 +337,8 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
             className="absolute inset-4 md:inset-12 bg-card/95 backdrop-blur-md border border-border rounded-2xl shadow-2xl pointer-events-auto flex overflow-hidden"
             onClick={() => clickHandler?.('slide')}
           >
+            {renderProgressBar('15s')}
+            <div className="absolute inset-0 flex relative z-10">
             {overlays.slide.layout === 'split' && overlays.slide.imageUrl ? (
               <>
                 <div className="w-1/2 bg-muted flex items-center justify-center">
@@ -364,6 +396,7 @@ export function CanvasOverlays({ overlays, onDismiss, compact, band = 4 }: Canva
                 )}
               </div>
             )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

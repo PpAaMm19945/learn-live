@@ -56,6 +56,9 @@ export interface ClientBandProfile {
     /** Cooldown after raise-hand in ms (0 = no cooldown) */
     raiseHandCooldownMs: number;
   };
+
+  /** Tools this band is allowed to execute from the agent */
+  allowedTools: Set<string>;
 }
 
 export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
@@ -86,6 +89,14 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: false,
       raiseHandCooldownMs: 0,
     },
+    allowedTools: new Set([
+      'set_scene',
+      'show_scripture',
+      'show_key_term',
+      'show_timeline',
+      'show_question',
+      'dismiss_overlay'
+    ]),
   },
   1: {
     label: 'Sprouts',
@@ -114,6 +125,14 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: false,
       raiseHandCooldownMs: 0,
     },
+    allowedTools: new Set([
+      'set_scene',
+      'show_scripture',
+      'show_key_term',
+      'show_timeline',
+      'show_question',
+      'dismiss_overlay'
+    ]),
   },
   2: {
     label: 'Explorers',
@@ -142,6 +161,19 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: false,
       raiseHandCooldownMs: 0,
     },
+    allowedTools: new Set([
+      'set_scene',
+      'show_scripture',
+      'show_key_term',
+      'show_timeline',
+      'show_question',
+      'dismiss_overlay',
+      'show_slide',
+      'show_figure',
+      'show_comparison',
+      'show_genealogy',
+      'show_quote'
+    ]),
   },
   3: {
     label: 'Navigators',
@@ -170,6 +202,19 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: true,
       raiseHandCooldownMs: 90000,
     },
+    allowedTools: new Set([
+      'set_scene',
+      'show_scripture',
+      'show_key_term',
+      'show_timeline',
+      'show_question',
+      'dismiss_overlay',
+      'show_slide',
+      'show_figure',
+      'show_comparison',
+      'show_genealogy',
+      'show_quote'
+    ]),
   },
   4: {
     label: 'Scholars',
@@ -198,6 +243,9 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: true,
       raiseHandCooldownMs: 0,
     },
+    allowedTools: new Set([
+      '*' // all tools allowed
+    ]),
   },
   5: {
     label: 'Sages',
@@ -226,6 +274,9 @@ export const CLIENT_BAND_PROFILES: Record<number, ClientBandProfile> = {
       showRaiseHand: true,
       raiseHandCooldownMs: 0,
     },
+    allowedTools: new Set([
+      '*' // all tools allowed
+    ]),
   },
 };
 

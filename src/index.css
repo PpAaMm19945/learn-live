@@ -138,4 +138,33 @@
   .animate-judgment-pulse {
     animation: judgment-pulse 2s ease-in-out infinite;
   }
+
+  .animate-shrink {
+    animation: shrink linear forwards;
+  }
+
+  .bg-african-warm {
+    background: linear-gradient(135deg,
+      hsl(42 47% 90%) 0%,      /* Papyrus */
+      hsl(37 74% 56%) 35%,     /* Amber */
+      hsl(19 65% 47%) 70%,     /* Laterite */
+      hsl(20 22% 27%) 100%);   /* Dark Earth */
+  }
+
+  .bg-african-dusk {
+    background: radial-gradient(ellipse at top,
+      hsl(37 74% 56% / 0.35), transparent 60%),
+     linear-gradient(180deg,
+      hsl(20 22% 27%) 0%,      /* Dark Earth */
+      hsl(0 0% 5%) 100%);      /* Void */
+  }
+}
+
+@keyframes shrink {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
 }

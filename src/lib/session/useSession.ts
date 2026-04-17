@@ -1,5 +1,14 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
+
+export interface BeatRecord {
+  beatId: string;
+  index: number;
+  text: string;
+  toolCalls: AgentToolCall[];
+  timestamp: number;
+  status: 'queued' | 'playing' | 'done';
+}
 import { Logger } from '@/lib/Logger';
 import { stripToolCallText } from './textFilter';
 import { resolveLessonIdentifier } from './sessionParams';
@@ -40,6 +49,9 @@ export function useSession({
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
   const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
+  
+  const [beats, setBeats] = useState<BeatRecord[]>([]);
+  const [paused, setPaused] = useState<boolean>(false);
 
   // Beat Sequencer State Machine
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO';
@@ -500,6 +512,20 @@ export function useSession({
     });
   }, [debug]);
 
+  const pauseSession = useCallback(() => {
+    if (audioContextRef.current && audioContextRef.current.state === 'running') {
+      audioContextRef.current.suspend().catch(() => {});
+    }
+    setPaused(true);
+  }, []);
+
+  const resumeSession = useCallback(() => {
+    if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume().catch(() => {});
+    }
+    setPaused(false);
+  }, []);
+
   // Cleanup on unmount
   useEffect(() => {
       return () => {
@@ -534,7 +560,7 @@ export function useSession({
 
   // The Beat Sequencer Processor Loop
   useEffect(() => {
-    if (beatState === 'IDLE' && beatQueue.length > 0) {
+    if (beatState === 'IDLE' && beatQueue.length > 0 && !paused) {
       const currentBeat = beatQueue[0];
       setBeatQueue(prev => prev.slice(1));
       
@@ -543,6 +569,15 @@ export function useSession({
       
       // 1. Fire Tools
       setBeatState('EXECUTING_TOOLS');
+      const beatId = Math.random().toString(36).slice(2);
+      setBeats(prev => [...prev, {
+        beatId,
+        index: prev.length,
+        text: currentBeat.text || '',
+        toolCalls: currentBeat.toolCalls || [],
+        timestamp: Date.now(),
+        status: 'playing'
+      }]);
 
       const beatSceneMode = (currentBeat as any).sceneMode as SceneMode | undefined;
       
@@ -597,10 +632,12 @@ export function useSession({
 
         playAudioChunk(currentBeat.audioData).then(() => {
           debug('audio', 'Audio playback complete — beat IDLE');
+          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
           setBeatState('IDLE');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
           debug('error', 'Audio playback failed', String(err));
+          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
           setBeatState('IDLE');
         });
       } else if (window.speechSynthesis && cleanText) {
@@ -616,10 +653,12 @@ export function useSession({
         utterance.rate = 0.95;
         utterance.onend = () => {
           debug('audio', 'Browser TTS complete — beat IDLE');
+          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
           setBeatState('IDLE');
         };
         utterance.onerror = () => {
           debug('error', 'Browser TTS error');
+          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
           setBeatState('IDLE');
         };
         window.speechSynthesis.speak(utterance);
@@ -637,11 +676,12 @@ export function useSession({
         Logger.info('[WS]', `No audio. Dwelling ${Math.round(dwellMs / 1000)}s`);
         setTimeout(() => {
           debug('audio', 'Dwell complete — beat IDLE');
+          setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
           setBeatState('IDLE');
         }, dwellMs);
       }
     }
-  }, [beatState, beatQueue, playAudioChunk, debug]);
+  }, [beatState, beatQueue, playAudioChunk, debug, paused]);
   
   // Finalize lesson only after queued beats/audio have finished playing.
   useEffect(() => {
@@ -668,6 +708,10 @@ export function useSession({
     disconnect,
     sendRaiseHand,
     toggleMute,
-    setSceneMode
+    setSceneMode,
+    beats,
+    paused,
+    pauseSession,
+    resumeSession
   };
 }

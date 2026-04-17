@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand, Bug } from 'lucide-react';
+import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand, Bug, X } from 'lucide-react';
 import { toast } from 'sonner';
 import type { AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
@@ -14,11 +14,13 @@ import { TeachingCanvas, type TeachingCanvasRef } from '@/components/canvas/Teac
 import { handleToolCall } from '@/lib/canvas/toolCallHandler';
 import { resolveImageUrl } from '@/lib/r2Assets';
 import { getChapterMapUrl } from '@/lib/mapRegistry';
+import { isToolAllowedForBand } from '@/lib/session/toolGate';
 // ImageScene no longer used — images render as thumbnails
 import { CanvasOverlays, type OverlayState, EMPTY_OVERLAYS } from '@/components/canvas/CanvasOverlays';
 import { AutoScrollMap } from './AutoScrollMap';
 import { mergeTimeline } from '@/data/chapterTimelines';
 import { getClientBandProfile } from '@/lib/bandConfig.client';
+import { WelcomeCover } from './WelcomeCover';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -53,8 +55,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const [activeVisual, setActiveVisual] = useState<'map' | 'image' | 'maplibre'>('map');
   const [chapterMapUrl, setChapterMapUrl] = useState<string>('');
 
+  // Welcome cover state
+  const [showWelcomeCover, setShowWelcomeCover] = useState(true);
+
   // Image thumbnail state (corner display instead of full-bleed)
-  const [thumbnailImage, setThumbnailImage] = useState<{ url: string; caption: string } | null>(null);
+  const [thumbnailImage, setThumbnailImage] = useState<{ url: string; caption: string; timestamp?: number } | null>(null);
+  const [thumbnailIsStale, setThumbnailIsStale] = useState(false);
   const thumbnailTimerRef = useRef<number | null>(null);
 
   // Overlay queue for small overlays
@@ -162,7 +168,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
     isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
     connect, disconnect, toggleMute, sendRaiseHand,
-    setSceneMode: setLiveSceneMode
+    setSceneMode: setLiveSceneMode,
+    beats, paused, pauseSession, resumeSession
   } = useSession({
     chapterId,
     familyId: familyId || '',
@@ -177,9 +184,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       flushOverlayQueue();
       // Also clear large overlays
       setOverlays(EMPTY_OVERLAYS);
-      // Clear thumbnail
-      setThumbnailImage(null);
-      if (thumbnailTimerRef.current) clearTimeout(thumbnailTimerRef.current);
       return;
     }
     setOverlays(prev => ({ ...prev, [type]: null }));
@@ -188,14 +192,24 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
     addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || msg.args?.term || ''})`, JSON.stringify(msg.args));
     
+    if (!isToolAllowedForBand(msg, bandProfile)) {
+      addDebug('tool_call', `BLOCKED ${msg.tool}`, `Not allowed for band ${band}`);
+      return;
+    }
+
     // Intercept set_scene("image") — show as thumbnail in top-right corner
     if (msg.tool === 'set_scene' && msg.args?.mode === 'image') {
+      setShowWelcomeCover(false);
       const rawUrl = msg.args.imageUrl || '';
       const resolvedUrl = rawUrl ? resolveImageUrl(rawUrl) : '';
-      setThumbnailImage({ url: resolvedUrl, caption: msg.args.caption || '' });
+      setThumbnailImage({ url: resolvedUrl, caption: msg.args.caption || '', timestamp: Date.now() });
+      setThumbnailIsStale(false);
       addDebug('scene', `Image thumbnail: ${rawUrl} → ${resolvedUrl}`, msg.args.caption);
-      // Image persists until dismiss_overlay("all") clears it
+      // Image persists until explicit clear
       if (thumbnailTimerRef.current) clearTimeout(thumbnailTimerRef.current);
+      thumbnailTimerRef.current = window.setTimeout(() => {
+        setThumbnailIsStale(true);
+      }, 30000);
       return;
     }
 
@@ -303,7 +317,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     }
 
     handleToolCall(canvasRef.current, msg, useFallback ? goldenScript.setSceneMode : setLiveSceneMode);
-  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss, enqueueSmallOverlay, chapterId]);
+  }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss, enqueueSmallOverlay, chapterId, bandProfile, band]);
+
+  const handleReplayPopups = useCallback((tools: AgentToolCall[]) => {
+    tools.forEach(tool => {
+      if (['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote'].includes(tool.tool)) {
+        handleAgentToolCall(tool); // This will pass through the toolGate automatically
+      }
+    });
+  }, [handleAgentToolCall]);
 
   // Refs to hold latest callback versions
   const connectRef = useRef(connect);
@@ -428,7 +450,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   };
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
-  const displayTranscriptChunks = useFallback ? goldenScript.transcriptChunks : transcriptChunks;
+  const displayBeats = useFallback 
+    ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, text: c.text, status: 'done' as const, toolCalls: [] })) 
+    : beats;
 
   // Loading states
   if (!familyId || !activeLearnerId) {
@@ -542,7 +566,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                   transition={{ duration: 0.5 }}
                   className="absolute inset-0 z-30 flex items-center justify-center p-4"
                 >
-                  <div className="w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden shadow-2xl border border-border/30 bg-card/95 backdrop-blur-sm">
+                  <div className="w-full max-w-md md:max-w-lg rounded-2xl overflow-hidden shadow-2xl border border-border/30 bg-card/95 backdrop-blur-sm relative">
+                    <button onClick={() => setThumbnailImage(null)} className="absolute top-3 right-3 bg-black/40 text-white rounded-full p-1.5 hover:bg-black/60 transition-colors z-40">
+                      <X className="w-4 h-4" />
+                    </button>
+                    {thumbnailIsStale && (
+                      <div className="absolute top-3 left-3 bg-black/40 text-white text-xs px-2.5 py-1 rounded-full z-40 backdrop-blur-sm font-medium">
+                        Last shown
+                      </div>
+                    )}
                     <img
                       src={thumbnailImage.url}
                       alt={thumbnailImage.caption}
@@ -563,8 +595,16 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.8, y: -10 }}
                   transition={{ duration: 0.4 }}
-                  className={`absolute z-30 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm top-3 right-3 ${bandProfile.visuals.imageSizeClass}`}
+                  className={`absolute z-30 rounded-xl overflow-hidden shadow-2xl border border-border/40 bg-card/90 backdrop-blur-sm top-3 right-3 ${bandProfile.visuals.imageSizeClass} group`}
                 >
+                  <button onClick={() => setThumbnailImage(null)} className="absolute top-2 right-2 bg-black/40 text-white rounded-full p-1 hover:bg-black/60 transition-colors z-40 opacity-0 group-hover:opacity-100">
+                    <X className="w-3 h-3" />
+                  </button>
+                  {thumbnailIsStale && (
+                    <div className="absolute top-2 left-2 bg-black/40 text-white text-[10px] px-2 py-0.5 rounded-full z-40 backdrop-blur-sm">
+                      Last shown
+                    </div>
+                  )}
                   <img
                     src={thumbnailImage.url}
                     alt={thumbnailImage.caption}
@@ -595,24 +635,41 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           )}
           <ThinkingBanner thinkingText={thinkingText} />
           <div className="flex-1 min-h-0 overflow-y-auto">
-            <TranscriptView chunks={displayTranscriptChunks} band={band} isActive={isConnected} chapterId={chapterId} pipelineStatus={pipelineStatus} />
+            <TranscriptView 
+              beats={displayBeats} 
+              band={band} 
+              isActive={isConnected} 
+              chapterId={chapterId} 
+              pipelineStatus={pipelineStatus}
+              paused={paused}
+              onTogglePause={() => paused ? resumeSession() : pauseSession()}
+              onReplayPopups={handleReplayPopups}
+            />
           </div>
 
           {/* Bottom controls — inside the right panel */}
           <div className="flex-shrink-0 px-4 py-3 border-t border-border/30 flex items-center justify-center gap-3 bg-card">
-            {useFallback ? (
-              <button onClick={() => { if (goldenScript.status === 'playing') goldenScript.pause(); else goldenScript.play(handleAgentToolCall); }} className="p-2.5 bg-primary/15 text-primary hover:bg-primary/25 rounded-full transition-colors">
-                {goldenScript.status === 'playing' ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            {!useFallback && bandProfile.interactivity.showMic && (
+              <button onClick={toggleMute} className={`p-2.5 rounded-full transition-colors flex-shrink-0 ${isMuted ? 'bg-red-500/15 text-red-500' : 'bg-primary/15 text-primary hover:bg-primary/25'}`}>
+                {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
               </button>
-            ) : (
-              bandProfile.interactivity.showMic && (
-                <button onClick={toggleMute} className={`p-2.5 rounded-full transition-colors ${isMuted ? 'bg-red-500/15 text-red-500' : 'bg-primary/15 text-primary hover:bg-primary/25'}`}>
-                  {isMuted ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                </button>
-              )
             )}
-            <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
-              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayTranscriptChunks.length === 0 ? 'WAITING' : 'LISTENING'}
+            
+            <button 
+              onClick={() => {
+                if (useFallback) {
+                  goldenScript.status === 'playing' ? goldenScript.pause() : goldenScript.play(handleAgentToolCall);
+                } else {
+                  paused ? resumeSession() : pauseSession();
+                }
+              }} 
+              className={`p-2.5 rounded-full transition-colors flex-shrink-0 ${paused || (useFallback && goldenScript.status !== 'playing') ? 'bg-primary/15 text-primary hover:bg-primary/25' : 'bg-muted/60 text-foreground hover:bg-muted'}`}
+            >
+              {paused || (useFallback && goldenScript.status !== 'playing') ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+            </button>
+
+            <span className="text-[10px] text-muted-foreground tracking-widest uppercase truncate w-24 text-center">
+              {useFallback ? (goldenScript.status === 'playing' ? 'playing' : 'paused') : status === 'connecting' ? 'CONNECTING' : status === 'reconnecting' ? 'RECONNECTING' : status === 'connected' && displayBeats.length === 0 ? 'WAITING' : 'LISTENING'}
             </span>
             {!useFallback && bandProfile.interactivity.showRaiseHand && status === 'connected' && (
               <motion.button
