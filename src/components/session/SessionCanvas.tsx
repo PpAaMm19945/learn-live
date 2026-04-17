@@ -166,6 +166,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const {
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
+    isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
+    connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
     beats // paused and pauseSession are no longer used here
   } = useSession({
