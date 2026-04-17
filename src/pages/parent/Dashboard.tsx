@@ -25,15 +25,15 @@ interface Topic {
 }
 
 const CHAPTERS = [
-  { id: 'ch01', num: 1, title: 'Creation, Babel & Table of Nations' },
-  { id: 'ch02', num: 2, title: 'Ancient Egypt' },
-  { id: 'ch03', num: 3, title: 'Kingdom of Kush & Nubia' },
-  { id: 'ch04', num: 4, title: 'Phoenicians & Carthage' },
-  { id: 'ch05', num: 5, title: 'Church in Roman Africa' },
-  { id: 'ch06', num: 6, title: 'Aksum & Ethiopian Christianity' },
-  { id: 'ch07', num: 7, title: 'Rise of Islam in Africa' },
-  { id: 'ch08', num: 8, title: 'Bantu Migrations' },
-  { id: 'ch09', num: 9, title: 'Medieval African Kingdoms' },
+  { id: 'ch01', num: 1, title: 'Creation, Babel & Table of Nations', ready: true },
+  { id: 'ch02', num: 2, title: 'Ancient Egypt', ready: false },
+  { id: 'ch03', num: 3, title: 'Kingdom of Kush & Nubia', ready: false },
+  { id: 'ch04', num: 4, title: 'Phoenicians & Carthage', ready: false },
+  { id: 'ch05', num: 5, title: 'Church in Roman Africa', ready: false },
+  { id: 'ch06', num: 6, title: 'Aksum & Ethiopian Christianity', ready: false },
+  { id: 'ch07', num: 7, title: 'Rise of Islam in Africa', ready: false },
+  { id: 'ch08', num: 8, title: 'Bantu Migrations', ready: false },
+  { id: 'ch09', num: 9, title: 'Medieval African Kingdoms', ready: false },
 ];
 
 export default function Dashboard() {
@@ -178,17 +178,34 @@ export default function Dashboard() {
               <CardTitle className="text-base">Choose a chapter</CardTitle>
             </CardHeader>
             <CardContent className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 overflow-hidden">
-              {CHAPTERS.map((chapter) => (
-                <Button
-                  key={chapter.id}
-                  variant="outline"
-                  className="h-auto py-3 justify-between whitespace-normal text-left"
-                  onClick={() => navigate(`/play/${chapter.id}`)}
-                >
-                  <span className="text-sm">{chapter.num}. {chapter.title}</span>
-                  <IconArrowRight className="w-4 h-4 shrink-0" />
-                </Button>
-              ))}
+              {CHAPTERS.map((chapter) => {
+                if (!chapter.ready) {
+                  return (
+                    <Button
+                      key={chapter.id}
+                      variant="outline"
+                      disabled
+                      aria-disabled="true"
+                      title="Coming soon"
+                      className="h-auto py-3 justify-between whitespace-normal text-left opacity-50 cursor-not-allowed hover:bg-transparent"
+                    >
+                      <span className="text-sm text-muted-foreground">{chapter.num}. {chapter.title}</span>
+                      <Badge variant="secondary" className="text-[10px] shrink-0 ml-2">Coming soon</Badge>
+                    </Button>
+                  );
+                }
+                return (
+                  <Button
+                    key={chapter.id}
+                    variant="outline"
+                    className="h-auto py-3 justify-between whitespace-normal text-left"
+                    onClick={() => navigate(`/play/${chapter.id}`)}
+                  >
+                    <span className="text-sm">{chapter.num}. {chapter.title}</span>
+                    <IconArrowRight className="w-4 h-4 shrink-0" />
+                  </Button>
+                );
+              })}
             </CardContent>
           </Card>
 

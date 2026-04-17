@@ -5,6 +5,12 @@
 
 ---
 
+## 2026-04-17 — Ch01 Audit Complete; Chapters 2–9 Visually Locked
+- Re-ran `agent/scripts/lint-manifest.ts` on `ch01_s01..ch01_s05`: **0 warnings, 0 errors** across all 6 bands
+- Confirmed Chapter 1 is teach-ready end-to-end (manifests, image registry, `bandOverrides`, `syncTrigger`, content resolution all verified)
+- `src/pages/parent/Dashboard.tsx`: added `ready` flag to `CHAPTERS` array; chapters 2–9 render disabled with muted styling, "Coming soon" badge, `aria-disabled`, and `title` tooltip
+- Issue #91 confirmed RESOLVED (audit pass)
+
 ## 2026-04-17 — Ch01 Band 0-3 Tailoring Scaffolded
 - Added `agent/scripts/scaffold-band-overrides.ts` (source-of-truth scaffolder) and runtime-friendly `agent/scripts/scaffold-band-overrides.js`
 - Generated/updated Band 0-3 overrides for all 35 beats across `ch01_s01..ch01_s05` (140 override blocks)
