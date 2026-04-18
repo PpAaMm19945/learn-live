@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-17
+> **Last updated:** 2026-04-18
 
 ---
 
@@ -136,5 +136,31 @@
 ## Notes
 - Issue 85 is the current critical blocker (agent-side).
 - Issues 80 and 71 remain open for future work.
-- Phase 7 (Band Differentiation) is the next major initiative — see `.antigravity/ROADMAP.md` Sprints 1-3.
+- **2026-04-18 — Strategic pivot:** Engineering direction shifts to the **Sandwich Model** (Gatekeeper → Performer → Negotiator). See ROADMAP "Sandwich Model" section and `.lovable/plan.md`. Phase 0 (playback/transcript stabilization) is closed; Phase 1A (Gatekeeper, no assignments) is the next active workstream pending answers to four open questions (assignment modality, gating strictness, persona continuity, scope confirmation).
+- Phase 7 (Band Differentiation) is complete through Sprint 1; Sprints 2–3 will be revisited after Sandwich Model 1A/1B land.
 - Ch01 image pipeline complete (Issue 90 resolved); Ch02 manifests staged in `.antigravity/manifests/`.
+
+---
+
+## Sandwich Model — Tracking Items (opened 2026-04-18)
+
+### 94. Gatekeeper agent not yet implemented
+- **Status:** OPEN — Phase 1A scoped, awaiting kickoff
+- **Description:** New Gemini Live persona for pre-lesson readiness check + (eventually) prior-assignment review. Speaks first with initiative, hands off to `BeatSequencer` via a `begin_lesson` signal.
+- **Files (planned):** `agent/src/gatekeeperHandler.ts` (or extension of `liveHandler.ts`), new state in `agent/src/historySessionController.ts` (`AWAITING_GATEKEEPER_GREENLIGHT`), new frontend Gatekeeper screen sharing `liveHandler` plumbing.
+- **Blockers:** Awaiting user answers on persona/voice continuity and Phase 0 vs. straight-to-1A scope confirmation.
+
+### 95. Negotiator agent not yet implemented
+- **Status:** OPEN — Phase 1B scoped
+- **Description:** Post-lesson Live agent for synthesis check + dynamic homework negotiation. Triggered automatically on `lesson_complete`. Phase 1B is verbal-only (no persistence); Phase 1C wires the D1 store.
+- **Dependency:** Phase 1A must land first.
+
+### 96. `learner_assignments` table does not exist
+- **Status:** OPEN — Phase 1C scoped
+- **Description:** No assignment concept anywhere in the system today. Required schema (minimum): `learner_id`, `chapter_id`, `section_id`, `prompt`, `student_response` (nullable), `evaluated_at`, `evaluation_notes`. Negotiator writes; Gatekeeper reads most-recent-unreviewed at next session.
+- **UX dependencies:** Parent override per `mem://principles/ai-governance` (No AI Authority); first-lesson-ever bypass; not-done-assignment policy (allow / refuse / mini-recovery — pending user decision).
+
+### 97. Frontend lacks Gatekeeper / Negotiator screens
+- **Status:** OPEN — tied to 1A and 1B
+- **Description:** `SessionCanvas` today has only one mode (Performer + raise-hand). Sandwich Model needs two new full-duplex Live screens with no beat queue: a "your teacher is talking to you" cover for Gatekeeper, and a "proposed assignment" card UI for Negotiator.
+
