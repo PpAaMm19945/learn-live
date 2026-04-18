@@ -1,9 +1,19 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-17
+> **Last updated:** 2026-04-18
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
+
+## 2026-04-18 — Architectural Pivot: The Sandwich Model (Phase 0 Closeout)
+- **Strategic decision:** Wrap the existing `BeatSequencer` ("Performer") with two short Gemini Live conversational agents — **Gatekeeper** (pre-lesson readiness + assignment review) and **Negotiator** (post-lesson synthesis + dynamic homework). Bands 2–5 only; Bands 0–1 stay on pure narrative model.
+- **Reuse path identified:** New agents are scoped reuses of existing `agent/src/liveHandler.ts` (`LiveQAHandler`) — no new agent stack, just two new system prompts and two new lifecycle triggers.
+- **Phase 0 closure:** In-flight playback/transcript stabilization is the prerequisite. Confirmed Issue #92 (double playback) and #93 (Band 0/1 blank-screen) are RESOLVED. Live sessions now have Stop-only controls; replay is visual-only and gated to post-lesson Review Mode.
+- **Phasing locked:** 1A Gatekeeper (no assignments) → 1B Negotiator (no persistence) → 1C Assignment persistence (D1 `learner_assignments` table + parent override) → 1D Polish (adaptive scaffolding hooks + telemetry).
+- **State-machine implication:** `historySessionController.ts` will gain `AWAITING_GATEKEEPER_GREENLIGHT` to defer `BeatSequencer` kickoff until the Gatekeeper signals `begin_lesson`.
+- **Cost note:** Gemini Live is ~5–10× per-minute cost of TTS-narrated beats; two ~2–4 min slices add ~$0.10–0.20/session. Accepted pedagogical tradeoff.
+- **Open questions parked for user input:** assignment input modality (spoken / typed / photo / hybrid), gating strictness when prior assignment missing, and persona/voice continuity across the three agents.
+- **Plan of record:** `.lovable/plan.md` (Sandwich Model — Architectural Response & Plan).
 
 ## 2026-04-17 — Live Session UX Hardening (Band 0-3 Focus)
 - **Phase 1 (Tool Gate)**: Added `isToolAllowedForBand` in `bandConfig.client.ts` to cleanly drop unsupported tool calls without crashing the UI, drastically smoothing Band 0/1 runs.
