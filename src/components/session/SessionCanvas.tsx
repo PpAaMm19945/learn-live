@@ -327,32 +327,32 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const handleReplayBeatVisuals = useCallback((tools: AgentToolCall[]) => {
     if (!isEnded) {
-       addDebug('review', 'Replay blocked during live mode');
+       addDebug('beat', 'Replay blocked during live mode');
        return;
     }
     
-    addDebug('review', `Review replay started`);
+    addDebug('beat', `Review replay started`);
     flushOverlayQueue();
     dismissOverlay('all');
     
     tools.forEach(tool => {
         if (!isToolAllowedForBand(tool, bandProfile)) {
-           addDebug('review', `Replay skipped blocked tool: ${tool.tool}`);
+           addDebug('beat', `Replay skipped blocked tool: ${tool.tool}`);
            return;
         }
 
         if (tool.tool === 'set_scene' && tool.args?.mode === 'image') {
            const rawUrl = tool.args?.imageUrl;
            if (!rawUrl) {
-              addDebug('review', `Replay skipped empty image scene`);
+              addDebug('beat', `Replay skipped empty image scene`);
               return;
            }
            handleAgentToolCallRef.current(tool);
         } else if (['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote', 'show_figure', 'show_genealogy', 'show_comparison', 'show_slide'].includes(tool.tool)) {
-           addDebug('review', `Replayed tool: ${tool.tool}`);
+           addDebug('beat', `Replayed tool: ${tool.tool}`);
            handleAgentToolCallRef.current(tool);
         } else {
-           addDebug('review', `Replay skipped non-visual tool: ${tool.tool}`);
+           addDebug('beat', `Replay skipped non-visual tool: ${tool.tool}`);
         }
     });
 
