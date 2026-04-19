@@ -1,127 +1,117 @@
 
+# Phase 0 (Revised) — Strip Replay/Pause, Make Transcript a Read-Only Activity Log
 
-# The Sandwich Model — Architectural Response & Plan
+You're right. The pause/replay duality has been the source of every regression for two weeks. Killing it entirely is the cleanest path forward. The transcript becomes a passive, scrollable record of what the agent did and said — no controls, no replay, just visibility.
 
-You've identified something important. Before I propose anything technical, let me reflect what I'm hearing and then talk through the real shape of the work, the costs, and the open questions. **No code yet — this is a strategy conversation.**
-
----
-
-## What you're actually proposing
-
-You want to wrap the existing `BeatSequencer` (which is great at delivering content, but is essentially a documentary playing on rails) with two short, conversational, *driving* AI presences:
-
-- **Gatekeeper** (before the lesson) — readiness check, prior-assignment review, prime the pump
-- **Performer** (the lesson itself) — your existing pipeline, untouched
-- **Negotiator** (after the lesson) — synthesis check, dynamic homework negotiation, warm closure
-
-This is a sound pivot. It separates **"performance"** (which benefits from rigid choreography) from **"relationship"** (which benefits from real-time conversation). Trying to make one agent do both has been the underlying friction in everything we've debugged the last week.
+Then we move straight into the **Sandwich Model — Lite** (Gatekeeper + Negotiator, no homework persistence).
 
 ---
 
-## The good news: you're closer than you think
+## Part A — Phase 0 (Revised): Transcript as Activity Log
 
-You already have **`agent/src/liveHandler.ts`** — a working `LiveQAHandler` that bridges Gemini Live audio over your existing WebSocket. It currently powers the Band 3+ "raise hand" feature. The Sandwich Model is essentially:
+### 1. Remove all pause/replay infrastructure
+- Delete card-level Pause / Play / Replay visuals / Show popups buttons from `TranscriptView.tsx`.
+- Delete bottom-bar Pause/Play toggle from `SessionCanvas.tsx`. Bottom bar = **Stop only** during live; mic for Band ≥3.
+- Remove `pauseSession` / `resumeSession` / `paused` flag / `isReviewMode` / `handleReplayBeatVisuals` from `useSession.ts` and `SessionCanvas.tsx`.
+- Remove the `onReplayVisuals` prop chain end-to-end.
 
-> Take that pattern, write two new system prompts, and trigger it at lesson **start** and **end** instead of mid-lesson.
+### 2. New transcript card model
+Each beat card shows:
+- The beat text (markdown-rendered, as today)
+- A subtle status pill: `playing` (pulsing dot) or `done`
+- A **collapsible "Activity" dropdown** (closed by default) that lists, in order:
+  - Each tool call the agent made for that beat — rendered as a small read-only chip with the tool name + a one-line human summary
+    - `set_scene(image)` → "Showed illustration: <caption>"
+    - `show_scripture` → "Scripture: Genesis 1:1"
+    - `show_key_term` → "Key term: Protoevangelium"
+    - `show_timeline` → "Timeline (3 events)"
+    - `show_question` → "Reflection question"
+    - `place_marker` / `zoom_to` / etc. → labeled accordingly
+    - Blocked tools (per band gate) shown muted with a "blocked" badge
+  - If thinking text is available for that beat, an **"Agent thinking"** sub-section inside the same dropdown (monospace, dimmed)
+- Clicking a chip is a **no-op** (cosmetic only — no replay, no side-effect). Pure visibility.
 
-So we're not building a new agent stack. We're **re-purposing an existing one with two new scoped personas and two new lifecycle triggers.**
+### 3. Thinking pipeline → transcript
+- Today `ThinkingBanner` shows live thinking transiently. Keep the banner during live playback (still useful).
+- Additionally: capture each beat's thinking text (already streamed as `AgentThinking` messages) and attach it to the corresponding `BeatRecord` in `useSession.ts`. Surface inside the per-card dropdown as described above.
 
----
+### 4. End-of-lesson screen
+- Keep the lesson-complete state, but the transcript stays fully scrollable on the right (it already is — just no replay buttons appear).
+- Left canvas: simple "Lesson complete" panel with **Back to Dashboard** + **Save as Golden Script**. No review controls.
 
-## What this changes in the system
+### 5. Image dismissal rules (carry-over from prior plan)
+- Bands 0/1: no `✕` on images (nothing underneath).
+- Bands 2–5: keep `✕` (map underneath).
+- Tag overlays remain dismissible everywhere.
 
-```text
-┌─ Today ─────────────────────────────────────────────┐
-│  connect → preparer → BeatSequencer → lesson_complete │
-└─────────────────────────────────────────────────────┘
+### 6. Inter-beat pacing (carry-over from prior plan)
+- Restore band-aware cooldown in `useSession.ts`: 4500ms (B0/1), 3500ms (B2/3), 3000ms (B4/5). Pure `setTimeout` between beats — no pause-aware logic needed since pause is gone.
 
-┌─ Sandwich Model ────────────────────────────────────────────────────────┐
-│  connect → Gatekeeper (Live)                                            │
-│            │  readiness + assignment review                             │
-│            ↓ "begin_lesson" signal                                      │
-│          preparer → BeatSequencer → lesson_complete                     │
-│            ↓                                                            │
-│          Negotiator (Live)                                              │
-│            │ synthesis + assignment negotiation                         │
-│            ↓ "session_complete" + assignment payload                    │
-└─────────────────────────────────────────────────────────────────────────┘
-```
+### 7. Tool gate stays
+- `toolGate.ts` continues to silently block disallowed tools per band. Blocked calls still appear in the transcript dropdown with a muted "blocked" chip so debugging stays easy.
 
-Bands 0–1 skip both slices entirely (correct call — abstract conversation isn't developmentally appropriate there).
+### Files affected (Phase 0 revised)
+| File | Change |
+|---|---|
+| `src/components/session/TranscriptView.tsx` | Strip pause/replay UI; add collapsible Activity dropdown per card |
+| `src/components/session/SessionCanvas.tsx` | Bottom bar = Stop only; remove replay handler; band-aware image `✕`; new clean end panel |
+| `src/lib/session/useSession.ts` | Remove pause/resume/review state; attach thinking text to `BeatRecord`; add inter-beat cooldown |
+| `src/lib/session/toolGate.ts` | Verify silent-block + emit a "blocked" marker into the beat record |
+| `src/components/canvas/CanvasOverlays.tsx` | Remove pause-aware logic from progress bars (run free) |
+| `.antigravity/CHANGELOG.md` + `ISSUES.md` | Log Phase 0 revised; close pause/play issues |
 
----
-
-## Where the real complexity lives
-
-This is the part you should hear before we decide to start.
-
-### 1. Assignment persistence — the new backbone
-Today, **there is no concept of an assignment in the system**. The Gatekeeper can't review "last time's homework" if we never stored it. So the Sandwich Model implies:
-- A new D1 table (e.g. `learner_assignments`) — at minimum: `learner_id`, `chapter_id`, `section_id`, `prompt`, `student_response` (nullable), `evaluated_at`, `evaluation_notes`.
-- Negotiator writes a row at end of lesson.
-- Gatekeeper reads the most recent unreviewed row at start of next lesson.
-- A way for the student to enter the response (typed? spoken to the Gatekeeper itself? both?).
-
-**This is the single biggest piece of work.** The two agent prompts are easy. Wiring assignments end-to-end is the real lift.
-
-### 2. Lesson-start gating — UX consequences
-"Access blocked until previous assignment is reviewed" is a strong policy. Practical questions:
-- What if the student never did the assignment? Does the Gatekeeper let them slide once? Negotiate a quick on-the-spot answer? Refuse?
-- What about the **first lesson ever** (no prior assignment)? Gatekeeper goes straight to readiness check.
-- Parent override? (Per `mem://principles/ai-governance` — "No AI Authority", parents have final say. So yes — there must be a parent bypass.)
-
-### 3. Two new audio/UI states the frontend doesn't have
-The current `SessionCanvas` has one mode: **listen to the Performer, optionally raise hand**. The Sandwich Model needs:
-- **Gatekeeper mode** — full-duplex live conversation, no canvas visuals (or a minimal "your teacher is talking to you" cover), mic always hot, no beat queue.
-- **Negotiator mode** — same interaction model, but with a visible "proposed assignment" card the student can accept / push back on, and a final "Assignment Saved" confirmation.
-
-These are essentially **two new screens** that share the existing `liveHandler` plumbing but otherwise look nothing like the lesson canvas.
-
-### 4. Gemini Live cost and latency
-Live audio is **roughly 5–10× more expensive per minute** than the TTS-narrated beat pipeline. Two slices of ~2–4 minutes each adds ~$0.10–0.20 per session at current Gemini Live pricing (vs. effectively pennies for the TTS-only middle). Worth it pedagogically, but you should know the line item.
-
-Also: Live audio adds **first-token latency** (1–3s for the agent to start speaking). The Gatekeeper must be designed to *speak first, immediately, with initiative* — not wait for the student. Your existing `liveHandler` kicks off with a `sendClientContent` call that nudges Gemini to greet first; we'd lean on the same pattern but make the system prompt much more directive.
-
-### 5. The "rigid Performer" assumption needs one tweak
-You said the Performer stays untouched in Phase 1. Agreed for content — but it needs to **emit a clean handoff signal at the end** (it already does: `lesson_complete`) and the Gatekeeper needs to **defer the BeatSequencer kickoff** until it says so. That requires a small state-machine change in `historySessionController.ts` (one new state: `AWAITING_GATEKEEPER_GREENLIGHT`).
+**Effort:** ~2 hours. Pure deletion + one new dropdown component. Lower risk than any plan we've had.
 
 ---
 
-## Phasing I'd recommend (so we don't bite off everything at once)
+## Part B — Path Into the Sandwich Model (No Homework)
 
-| Phase | Scope | Why this order |
-|---|---|---|
-| **0 — Now: stop the bleeding** | Finish the transcript/pause-play stabilization we're mid-flight on. Don't pivot into the Sandwich Model with broken playback controls. | Otherwise Sandwich UX inherits bugs. |
-| **1A — Gatekeeper, no assignments** | Just the readiness check + "let's begin" handoff. No assignment review yet. New live persona, new state in controller, new welcome flow on frontend. | Proves the architecture end-to-end with low risk. ~1.5 days. |
-| **1B — Negotiator, no persistence** | Adds the post-lesson synthesis + verbal homework proposal. Assignment is *spoken* but not saved anywhere yet. | Validates the pedagogical loop in isolation. ~1 day. |
-| **1C — Assignment persistence** | D1 table, write from Negotiator, read from Gatekeeper, parent dashboard surfacing, lesson-start gating with parent override. | The serious infra. ~2–3 days plus parent UI. |
-| **1D — Polish** | Adaptive scaffolding hooks (per `mem://features/adaptive-scaffolding` — already wired for sub-50% scores), debug tooling, telemetry. | Once it's all working. |
+Once Phase 0 lands, we go straight to **Phase 1A + 1B combined**, skipping homework persistence entirely (you'll add that later post-testing).
 
-We can stop after any phase and have a usable system.
+### What we build
+- **Gatekeeper (Live)** before the lesson — readiness check + verbal "prime the pump" intro. **No assignment review.** First lesson ever or hundredth lesson — same flow: a 30–60s warm conversation, then "let's begin."
+- **Performer** (existing BeatSequencer) — untouched.
+- **Negotiator (Live)** after the lesson — synthesis questions + a verbal "for next time, think about X" closer. **No homework saved anywhere.** Just a warm conversational close with a forward-looking nudge.
+
+### What we skip (deferred until you say so)
+- D1 `learner_assignments` table
+- Parent dashboard homework surfacing
+- Lesson-start gating logic
+- Assignment input modality (typed/spoken/photo)
+- Parent override paths
+
+### What this requires
+1. **Agent (`agent/src/`):**
+   - Two new system-prompt files: `prompts/gatekeeper.ts`, `prompts/negotiator.ts`.
+   - Reuse `liveHandler.ts` — wrap it in a small lifecycle controller that runs Gatekeeper → signals "begin_lesson" → kicks off existing preparer/sequencer → on `lesson_complete` opens Negotiator → on Negotiator end emits `session_complete`.
+   - One new state in `historySessionController.ts`: `AWAITING_GATEKEEPER_GREENLIGHT` (gates the BeatSequencer until Gatekeeper signals ready).
+   - Bands 0/1 bypass both slices entirely (unchanged from today).
+
+2. **Frontend (`src/`):**
+   - New `LiveConversationView` component — full-bleed left panel, mic always hot, no canvas visuals, big "Your teacher is talking…" treatment with waveform/pulse. Right panel can show the live transcript stream from the Live agent (read-only, same dropdown pattern as Phase 0 cards).
+   - `SessionCanvas` becomes a router between three modes: `gatekeeper` → `performer` → `negotiator` → `complete`. Mode is driven by WS messages from the agent.
+   - Welcome cover transitions cleanly into the Gatekeeper view (same gradient, same vibe).
+
+3. **Persona continuity:** Same teacher name + voice across all three slices (Gatekeeper Live voice ≈ Performer TTS voice). One coherent presence.
+
+### Effort estimate
+- Agent: ~4–6 hours (two prompts + lifecycle wiring + one controller state)
+- Frontend: ~4–6 hours (one new view + mode router + WS message handling)
+- **Total ~1.5 days for end-to-end Sandwich Lite**, vs. ~5+ days with homework persistence.
+
+### Open question I need answered before we start Sandwich Lite
+**What should the Gatekeeper actually talk about for ~30–60s if there's no prior assignment to review?** Three options:
+- (a) Pure readiness check: "Are you in a quiet spot? Notebook ready? Great, today we're learning about X — let's begin."
+- (b) Brief recap of the previous lesson's *theme* (no assignment, just "last time we talked about Creation — today we go further"): requires the agent to know the prior chapter.
+- (c) Light Socratic warm-up: "Before we begin, what do you already know about [today's topic]?" — naturally checks prior knowledge without homework infrastructure.
+
+My pick: **(c)** — it's the most pedagogically valuable and doesn't need any persistence layer. It also sets up the Negotiator nicely (the closer naturally mirrors the opener).
 
 ---
 
-## Critical questions I need you to answer before we begin
+## Recommended order
+1. **Today/next session:** Phase 0 revised (strip replay, ship the activity-log transcript). ~2 hours.
+2. **Right after, same week:** Sandwich Lite (Gatekeeper + Negotiator, no homework). ~1.5 days.
+3. **Later, after you've tested:** Layer in homework persistence (Phase 1C from the original plan).
 
-1. **Assignment input modality.** When the Gatekeeper asks "read me your assignment from last time," how does the student deliver it?
-   - (a) **Spoken to the Gatekeeper** — pure voice, Gemini Live transcribes & evaluates on the fly. Most natural, highest cost.
-   - (b) **Typed beforehand** in the parent dashboard, Gatekeeper reads it back & discusses.
-   - (c) **Photo of handwritten work** — leverages the existing async evidence verification (`mem://features/async-evidence-verification`) before the lesson even starts.
-   - (d) **Some hybrid** depending on band.
-
-2. **Gating strictness.** What happens when prior assignment isn't done? Three options: (a) Gatekeeper allows lesson to proceed but logs it for the parent, (b) Gatekeeper refuses and ends the session, (c) Gatekeeper conducts a 2-minute "let's at least talk through it now" mini-recovery, then proceeds.
-
-3. **Voice and persona continuity.** Should Gatekeeper, Performer, and Negotiator all sound like **the same teacher** (same TTS voice for the Performer, matching Live voice for the slices)? Or are they intentionally distinct personas? My instinct: same voice, same name — it's "Mr./Ms. [X], your African History teacher" throughout. Feels coherent, not schizophrenic.
-
-4. **Phase 0 — yes or skip?** Do we finish the in-flight pause/play/transcript stabilization first, or do you want to park that work and pivot straight to Sandwich Model 1A? I strongly recommend Phase 0 first, but it's your call.
-
----
-
-## My honest recommendation
-
-This is the right pivot. The Sandwich Model resolves the deepest tension in the current product — you've been trying to make one AI both *perform* and *relate*, and those need different engines. Splitting them is correct.
-
-But: **don't start writing the Gatekeeper prompt today**. Start by answering the four questions above, then we'll tackle Phase 0 cleanup (a few hours) and move into Phase 1A (the Gatekeeper without assignments) as the first real Sandwich-Model deliverable. From there, every phase compounds without rework.
-
-When you're ready, tell me your answers to the four questions and I'll come back with a concrete Phase 1A plan — file-by-file, with the assignment-persistence design teed up for 1C.
-
+Tell me to proceed with Phase 0 revised and answer the Gatekeeper warm-up question, and I'll switch to default mode and execute.
