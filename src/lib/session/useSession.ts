@@ -8,6 +8,8 @@ export interface BeatRecord {
   toolCalls: AgentToolCall[];
   timestamp: number;
   status: 'queued' | 'playing' | 'done';
+  thinking?: string;
+  blockedTools?: { tool: string; reason: string }[];
 }
 import { Logger } from '@/lib/Logger';
 import { stripToolCallText } from './textFilter';
@@ -51,7 +53,8 @@ export function useSession({
   const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
   
   const [beats, setBeats] = useState<BeatRecord[]>([]);
-  const [paused, setPaused] = useState<boolean>(false);
+  // Buffer thinking text streamed between beats; flushed onto the next beat.
+  const pendingThinkingRef = useRef<string>('');
 
   // Beat Sequencer State Machine
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO' | 'COOLDOWN';
