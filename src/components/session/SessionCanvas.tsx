@@ -169,7 +169,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
-    beats // paused and pauseSession are no longer used here
+    beats
   } = useSession({
     chapterId,
     familyId: familyId || '',
@@ -325,38 +325,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
-  const handleReplayBeatVisuals = useCallback((tools: AgentToolCall[]) => {
-    if (!isEnded) {
-       addDebug('beat', 'Replay blocked during live mode');
-       return;
-    }
-    
-    addDebug('beat', `Review replay started`);
-    flushOverlayQueue();
-    dismissOverlay('all');
-    
-    tools.forEach(tool => {
-        if (!isToolAllowedForBand(tool, bandProfile)) {
-           addDebug('beat', `Replay skipped blocked tool: ${tool.tool}`);
-           return;
-        }
-
-        if (tool.tool === 'set_scene' && tool.args?.mode === 'image') {
-           const rawUrl = tool.args?.imageUrl;
-           if (!rawUrl) {
-              addDebug('beat', `Replay skipped empty image scene`);
-              return;
-           }
-           handleAgentToolCallRef.current(tool);
-        } else if (['show_scripture', 'show_key_term', 'show_timeline', 'show_question', 'show_quote', 'show_figure', 'show_genealogy', 'show_comparison', 'show_slide'].includes(tool.tool)) {
-           addDebug('beat', `Replayed tool: ${tool.tool}`);
-           handleAgentToolCallRef.current(tool);
-        } else {
-           addDebug('beat', `Replay skipped non-visual tool: ${tool.tool}`);
-        }
-    });
-
-  }, [isEnded, addDebug, flushOverlayQueue, dismissOverlay, bandProfile]);
+  // Replay handler removed in Phase 0 (revised). Transcript is now read-only.
 
   // Refs to hold latest callback versions
   const connectRef = useRef(connect);
@@ -482,12 +451,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
   const displayBeats = useFallback 
-    ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, text: c.text, status: 'done' as const, toolCalls: [] })) 
+    ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, text: c.text, status: 'done' as const, toolCalls: [], thinking: undefined, blockedTools: [] })) 
     : beats.map(b => ({
       id: b.beatId,
       text: b.text,
       status: b.status,
-      toolCalls: b.toolCalls
+      toolCalls: b.toolCalls,
+      thinking: b.thinking,
+      blockedTools: b.blockedTools,
     }));
 
   // Loading states
@@ -696,8 +667,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
               isActive={isConnected} 
               chapterId={chapterId} 
               pipelineStatus={pipelineStatus}
-              isReviewMode={isEnded}
-              onReplayVisuals={handleReplayBeatVisuals}
             />
           </div>
 
