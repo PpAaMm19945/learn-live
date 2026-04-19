@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-18
+> **Last updated:** 2026-04-19
 
 ---
 
@@ -134,6 +134,7 @@
 ---
 
 ## Notes
+- **2026-04-19 — Phase 0 (Revised) shipped:** All pause/replay infrastructure removed. Transcript is now read-only with collapsible per-beat Activity dropdown surfacing tool calls + agent thinking. Issues #92 and #93 confirmed RESOLVED; review-mode replay path also removed (no longer needed). Next: Sandwich Lite (Gatekeeper + Negotiator, no homework persistence).
 - Issue 85 is the current critical blocker (agent-side).
 - Issues 80 and 71 remain open for future work.
 - **2026-04-18 — Strategic pivot:** Engineering direction shifts to the **Sandwich Model** (Gatekeeper → Performer → Negotiator). See ROADMAP "Sandwich Model" section and `.lovable/plan.md`. Phase 0 (playback/transcript stabilization) is closed; Phase 1A (Gatekeeper, no assignments) is the next active workstream pending answers to four open questions (assignment modality, gating strictness, persona continuity, scope confirmation).

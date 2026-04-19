@@ -1,9 +1,18 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-18
+> **Last updated:** 2026-04-19
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
+
+## 2026-04-19 — Phase 0 (Revised): Transcript Stripped to Read-Only Activity Log
+- **Decision:** Killed the pause/play/replay duality entirely. The transcript is now a passive, scrollable record — no controls, no replay, no review-mode buttons. Eliminates the two-week regression cycle around audio double-firing and silent replays.
+- **Removed (frontend):** `pauseSession`, `resumeSession`, `paused` state, `isReviewMode`, `handleReplayBeatVisuals`, `onReplayVisuals` prop chain, all card-level Pause/Play/Replay buttons, and the bottom-bar Pause/Play toggle. Bottom bar = **Stop only** during live (mic stays for Band ≥3).
+- **Added:** `BeatActivityDropdown` component — collapsible per-card "Activity" panel listing every tool call the agent fired (with one-line human summary), blocked tools (muted with "blocked" badge), and the agent's thinking text for that beat. Pure visibility — clicks are no-ops.
+- **Thinking pipeline → transcript:** Streamed `AgentThinking` chunks now buffer in `pendingThinkingRef` and flush onto the next `BeatRecord`, surfacing inside the per-card dropdown. Live `ThinkingBanner` retained for in-flight reasoning.
+- **Inter-beat pacing retained:** Band-aware cooldown in `useSession.ts` — 4500ms (B0/1), 3500ms (B2/3), 3000ms (B4/5).
+- **Files changed:** `TranscriptView.tsx` (rewrite), `BeatActivityDropdown.tsx` (new), `useSession.ts` (strip pause/resume, capture thinking), `SessionCanvas.tsx` (strip replay handler + props).
+- **Next:** Sandwich Lite (Phase 1A+1B combined, no homework persistence) — Gatekeeper + Negotiator wrapping the existing Performer.
 
 ## 2026-04-18 — Architectural Pivot: The Sandwich Model (Phase 0 Closeout)
 - **Strategic decision:** Wrap the existing `BeatSequencer` ("Performer") with two short Gemini Live conversational agents — **Gatekeeper** (pre-lesson readiness + assignment review) and **Negotiator** (post-lesson synthesis + dynamic homework). Bands 2–5 only; Bands 0–1 stay on pure narrative model.
