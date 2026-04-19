@@ -366,6 +366,7 @@ export function useSession({
             setPipelineStatus({ step: msg.step, detail: msg.detail });
           } else if (msg.type === 'thinking') {
             setThinkingText((prev) => `${prev}${msg.text}`);
+            pendingThinkingRef.current = `${pendingThinkingRef.current}${msg.text}`;
           } else if (msg.type === 'transcript') {
             setThinkingText('');
             setPipelineStatus(null); // Clear pipeline status once lesson starts
