@@ -516,19 +516,7 @@ export function useSession({
     });
   }, [debug]);
 
-  const pauseSession = useCallback(() => {
-    if (audioContextRef.current && audioContextRef.current.state === 'running') {
-      audioContextRef.current.suspend().catch(() => {});
-    }
-    setPaused(true);
-  }, []);
-
-  const resumeSession = useCallback(() => {
-    if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
-      audioContextRef.current.resume().catch(() => {});
-    }
-    setPaused(false);
-  }, []);
+  // pauseSession / resumeSession removed in Phase 0 (revised) — transcript is read-only.
 
   // Cleanup on unmount
   useEffect(() => {
@@ -564,7 +552,7 @@ export function useSession({
 
   // The Beat Sequencer Processor Loop
   useEffect(() => {
-    if (beatState === 'IDLE' && beatQueue.length > 0 && !paused) {
+    if (beatState === 'IDLE' && beatQueue.length > 0) {
       const currentBeat = beatQueue[0];
       setBeatQueue(prev => prev.slice(1));
       
@@ -574,13 +562,16 @@ export function useSession({
       // 1. Fire Tools
       setBeatState('EXECUTING_TOOLS');
       const beatId = Math.random().toString(36).slice(2);
+      const flushedThinking = pendingThinkingRef.current;
+      pendingThinkingRef.current = '';
       setBeats(prev => [...prev, {
         beatId,
         index: prev.length,
         text: currentBeat.text || '',
         toolCalls: currentBeat.toolCalls || [],
         timestamp: Date.now(),
-        status: 'playing'
+        status: 'playing',
+        thinking: flushedThinking || undefined,
       }]);
 
       const beatSceneMode = (currentBeat as any).sceneMode as SceneMode | undefined;
@@ -685,7 +676,7 @@ export function useSession({
         }, dwellMs);
       }
     }
-  }, [beatState, beatQueue, playAudioChunk, debug, paused, band]);
+  }, [beatState, beatQueue, playAudioChunk, debug, band]);
   
   // Finalize lesson only after queued beats/audio have finished playing.
   useEffect(() => {
@@ -714,8 +705,5 @@ export function useSession({
     toggleMute,
     setSceneMode,
     beats,
-    paused,
-    pauseSession,
-    resumeSession
   };
 }
