@@ -64,6 +64,7 @@
 | 103 | Controller phase never enters `PERFORMER` | RESOLVED — explicit `controller.setPhase('PERFORMER')` at performer handoff | Phase 1.5 |
 | 104 | Negotiator completion double-fired / completion sequencing wrong | RESOLVED — removed redundant `completeNegotiator()`, added `performer_complete`, gated end-card on `session_complete` for Bands 2–5 | Phase 1.5 |
 | 105 | Resume path skips slice signaling | RESOLVED — resume now emits performer slice before sequencer resume | Phase 1.5 |
+| 106 | Negotiator never emits `session_complete` | RESOLVED — 2026-04-20; `startNegotiator()` now self-finalizes (`slice_change: complete` + `session_complete`) and completion handlers are idempotent | Phase 1.5b |
 
 ---
 
@@ -146,6 +147,7 @@
 
 ## Notes
 - **2026-04-20 — Phase 0.5 polish shipped:** Closed end-overlay trap (#98), dead WelcomeCover path (#99), non-clickable activity artifacts (#100), and transcript readability fade issue (#101). Completion UX now lives inside transcript cards with review-state affordances.
+- **2026-04-20 — Issue #106 resolved:** Negotiator completion now self-finalizes from `startNegotiator()` and emits exactly one `session_complete` for Bands 2–5, preventing the "stuck on Reflecting" terminal state.
 - **2026-04-19 — Phase 0 (Revised) shipped:** All pause/replay infrastructure removed. Transcript is now read-only with collapsible per-beat Activity dropdown surfacing tool calls + agent thinking. Issues #92 and #93 confirmed RESOLVED; review-mode replay path also removed (no longer needed). Next: Sandwich Lite (Gatekeeper + Negotiator, no homework persistence).
 - Issue 85 is the current critical blocker (agent-side).
 - Issues 80 and 71 remain open for future work.

@@ -68,6 +68,8 @@ export class SessionLifecycle {
   }
 
   completeGatekeeper(): void {
+    if (this.state === 'COMPLETE') return;
+    if (!this.gatekeeper) return;
     this.gatekeeper?.complete();
     this.gatekeeper = null;
     this.state = 'AWAITING_GATEKEEPER_GREENLIGHT';
@@ -97,10 +99,15 @@ export class SessionLifecycle {
     );
 
     await this.negotiator.start();
+    this.negotiator = null;
     this.state = 'COMPLETE';
+    this.emitSliceChange('complete');
+    this.emit({ type: 'session_complete' });
   }
 
   completeNegotiator(): void {
+    if (this.state === 'COMPLETE') return;
+    if (!this.negotiator) return;
     this.negotiator?.complete();
     this.negotiator = null;
     this.state = 'COMPLETE';
