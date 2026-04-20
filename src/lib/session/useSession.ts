@@ -400,6 +400,9 @@ export function useSession({
             setThinkingText('');
           } else if (msg.type === 'gatekeeper_complete' || msg.type === 'negotiator_complete') {
             debug('connection', `${msg.type} received`);
+          } else if (msg.type === 'performer_complete') {
+            Logger.info('[WS]', 'Performer complete signal received.');
+            debug('beat', 'performer_complete received', `Queue: ${beatQueue.length} beats remaining`);
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
             debug('qa', 'Q&A session complete — resuming lesson');
@@ -414,8 +417,18 @@ export function useSession({
             Logger.info('[WS]', 'Lesson finished signal received.');
             debug('beat', 'lesson_complete received', `Queue: ${beatQueue.length} beats remaining`);
             pendingThinkingRef.current = '';
-            pendingLessonCompleteRef.current = true;
-            statusRef.current = 'ended';
+            if (band <= 1) {
+              pendingLessonCompleteRef.current = true;
+              statusRef.current = 'ended';
+            }
+          } else if (msg.type === 'session_complete') {
+            Logger.info('[WS]', 'Session complete signal received.');
+            debug('beat', 'session_complete received', `Queue: ${beatQueue.length} beats remaining`);
+            pendingThinkingRef.current = '';
+            if (band > 1) {
+              pendingLessonCompleteRef.current = true;
+              statusRef.current = 'ended';
+            }
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              debug('error', `Agent error: ${msg.message}`, msg.code ? `code: ${msg.code}` : undefined);

@@ -53,10 +53,17 @@
 | 81 | Scripture/Timeline/Figure Overlays Not Visible | Extracted overlay rendering into `CanvasOverlays.tsx` at z-40 | Phase 8 |
 | 83 | Gemini Narrator Leaks JSON Into Beat Text | JSON-guard prompt + server-side regex + frontend fallback | Phase 9 |
 | 84 | Timeline Overlay Clipped by Viewport Edge | Responsive positioning with `left-4 right-4` | Phase 9 |
-| 98 | End-of-Lesson Overlay Blocks Canvas Review | Removed left-panel end overlay; moved completion affordance into transcript + top-bar REVIEW pill | Phase 0.5 |
+| 94 | Gatekeeper agent not yet implemented | RESOLVED — Sandwich Lite Gatekeeper slice implemented with lifecycle + frontend routing | Phase 1 |
+| 95 | Negotiator agent not yet implemented | RESOLVED — Sandwich Lite Negotiator slice implemented with lifecycle + frontend routing | Phase 1 |
+| 97 | Frontend lacks Gatekeeper / Negotiator screens | RESOLVED — `LiveConversationView` + slice-aware rendering added | Phase 1 |
+| 98 | Sandwich Lite (Phase 1) implementation landed | RESOLVED — 2026-04-20 | Phase 1 |
 | 99 | WelcomeCover Not Rendered During Connecting | Deleted connecting early-return and mounted WelcomeCover in left panel with proper dismiss/auto-dismiss behavior | Phase 0.5 |
 | 100 | Transcript Activity Chips Not Clickable | Added read-only ArtifactInspector modal with clickable tool chips mapped to visual artifacts | Phase 0.5 |
 | 101 | Past Transcript Cards Permanently Faded | Removed opacity fade and replaced with non-opacity active-card styling | Phase 0.5 |
+| 102 | `slice_change` to performer missing after Gatekeeper | RESOLVED — emit `beginPerformer()` on fresh + resume handoff | Phase 1.5 |
+| 103 | Controller phase never enters `PERFORMER` | RESOLVED — explicit `controller.setPhase('PERFORMER')` at performer handoff | Phase 1.5 |
+| 104 | Negotiator completion double-fired / completion sequencing wrong | RESOLVED — removed redundant `completeNegotiator()`, added `performer_complete`, gated end-card on `session_complete` for Bands 2–5 | Phase 1.5 |
+| 105 | Resume path skips slice signaling | RESOLVED — resume now emits performer slice before sequencer resume | Phase 1.5 |
 
 ---
 
@@ -150,28 +157,7 @@
 
 ## Sandwich Model — Tracking Items (opened 2026-04-18)
 
-### 94. Gatekeeper agent not yet implemented
-- **Status:** OPEN — Phase 1A scoped, awaiting kickoff
-- **Description:** New Gemini Live persona for pre-lesson readiness check + (eventually) prior-assignment review. Speaks first with initiative, hands off to `BeatSequencer` via a `begin_lesson` signal.
-- **Files (planned):** `agent/src/gatekeeperHandler.ts` (or extension of `liveHandler.ts`), new state in `agent/src/historySessionController.ts` (`AWAITING_GATEKEEPER_GREENLIGHT`), new frontend Gatekeeper screen sharing `liveHandler` plumbing.
-- **Blockers:** Awaiting user answers on persona/voice continuity and Phase 0 vs. straight-to-1A scope confirmation.
-
-### 95. Negotiator agent not yet implemented
-- **Status:** OPEN — Phase 1B scoped
-- **Description:** Post-lesson Live agent for synthesis check + dynamic homework negotiation. Triggered automatically on `lesson_complete`. Phase 1B is verbal-only (no persistence); Phase 1C wires the D1 store.
-- **Dependency:** Phase 1A must land first.
-
 ### 96. `learner_assignments` table does not exist
 - **Status:** OPEN — Phase 1C scoped
 - **Description:** No assignment concept anywhere in the system today. Required schema (minimum): `learner_id`, `chapter_id`, `section_id`, `prompt`, `student_response` (nullable), `evaluated_at`, `evaluation_notes`. Negotiator writes; Gatekeeper reads most-recent-unreviewed at next session.
 - **UX dependencies:** Parent override per `mem://principles/ai-governance` (No AI Authority); first-lesson-ever bypass; not-done-assignment policy (allow / refuse / mini-recovery — pending user decision).
-
-### 97. Frontend lacks Gatekeeper / Negotiator screens
-- **Status:** OPEN — tied to 1A and 1B
-- **Description:** `SessionCanvas` today has only one mode (Performer + raise-hand). Sandwich Model needs two new full-duplex Live screens with no beat queue: a "your teacher is talking to you" cover for Gatekeeper, and a "proposed assignment" card UI for Negotiator.
-
-
-### 98. Sandwich Lite (Phase 1) implementation landed
-- **Status:** RESOLVED — 2026-04-20
-- **Description:** Implemented Gatekeeper and Negotiator conversational slices around BeatSequencer for Bands 2-5, with new lifecycle transitions, per-slice transcript buffering, and completion choreography.
-- **Notes:** Bands 0-1 remain Performer-only; persistence/homework deferred to Phase 1C by design.

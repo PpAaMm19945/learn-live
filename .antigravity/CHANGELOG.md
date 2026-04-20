@@ -5,6 +5,13 @@
 
 ---
 
+## 2026-04-20 — Phase 1 (Sandwich Lite) Shipped + Phase 1.5 Audit Fixes
+- **Sandwich Lite shipped:** Gatekeeper/Performer/Negotiator slice orchestration is now live for Bands 2–5, with frontend slice routing, top-bar slice status, and per-slice transcript handling. Bands 0–1 continue on Performer-first flow.
+- **Audit fix — performer transition signal:** Added explicit handoff to `slice_change: performer` on both fresh and resume paths before sequencer start, eliminating stuck "Getting Ready" / Welcome-cover deadlocks.
+- **Audit fix — controller phase wiring:** Session controller now explicitly enters `PERFORMER` during performer handoff so raise-hand eligibility correctly enables for Bands 3+.
+- **Audit fix — completion choreography:** Removed duplicate negotiator completion call; added explicit `performer_complete` event and moved completion rendering trigger to final session completion for Bands 2–5.
+- **Audit fix — timeout survivability verified:** Confirmed Live slice timeout path still emits `gatekeeper_complete` / `negotiator_complete`, ensuring lifecycle fallback progresses when Gemini Live fails.
+
 
 ## 2026-04-20 — Phase 0.5: Session UX Polish Pass
 - **Transcript readability:** Removed faded historical cards; all beat cards now render at full opacity. Active beat keeps the left accent + stronger card styling while older beats remain secondary but readable.
