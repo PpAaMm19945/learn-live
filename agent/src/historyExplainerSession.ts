@@ -205,7 +205,6 @@ THEOLOGICAL GUARDRAILS:
             controller.setPhase('NEGOTIATOR');
             ws.send(JSON.stringify({ type: 'performer_complete' }));
             await lifecycle?.startNegotiator(sequencer.getBeatSummaries());
-            controller.setPhase('COMPLETE');
         };
 
         if (band <= 1) {
