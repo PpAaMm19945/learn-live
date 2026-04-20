@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Mic, MicOff, PhoneOff, Play, Pause, Save, Hand, Bug, X } from 'lucide-react';
+import { ArrowLeft, Mic, MicOff, PhoneOff, Hand, Bug, X } from 'lucide-react';
 import { toast } from 'sonner';
 import type { AgentToolCall, GoldenScript } from '@/lib/session/types';
 import { TranscriptView } from './TranscriptView';
@@ -325,6 +325,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
+  useEffect(() => {
+    if (band >= 2 && beats.length > 0) {
+      setShowWelcomeCover(false);
+    }
+  }, [band, beats.length]);
+
   // Replay handler removed in Phase 0 (revised). Transcript is now read-only.
 
   // Refs to hold latest callback versions
@@ -451,9 +457,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
   const displayBeats = useFallback 
-    ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, text: c.text, status: 'done' as const, toolCalls: [], thinking: undefined, blockedTools: [] })) 
+    ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, kind: 'beat' as const, text: c.text, status: 'done' as const, toolCalls: [], thinking: undefined, blockedTools: [] })) 
     : beats.map(b => ({
       id: b.beatId,
+      kind: 'beat' as const,
       text: b.text,
       status: b.status,
       toolCalls: b.toolCalls,
@@ -461,21 +468,25 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       blockedTools: b.blockedTools,
     }));
 
+  const transcriptBeats = isEnded
+    ? [
+        ...displayBeats,
+        {
+          id: '__lesson_complete__',
+          kind: 'completion' as const,
+          text: '',
+          status: 'done' as const,
+          toolCalls: [],
+        },
+      ]
+    : displayBeats;
+
   // Loading states
   if (!familyId || !activeLearnerId) {
     return (
       <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
         <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
         <p className="text-muted-foreground animate-pulse">Preparing your session...</p>
-      </div>
-    );
-  }
-
-  if (status === 'connecting' && !useFallback) {
-    return (
-      <div className="fixed inset-0 bg-background flex flex-col items-center justify-center space-y-4">
-        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-        <p className="text-muted-foreground animate-pulse">Starting your lesson...</p>
       </div>
     );
   }
@@ -528,6 +539,9 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           {useFallback && (
             <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-primary/20 text-primary rounded-full">Recorded</span>
           )}
+          {isEnded && (
+            <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-amber-500/20 text-amber-600 rounded-full">Review</span>
+          )}
           <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : status === 'reconnecting' ? 'bg-amber-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
           <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
             {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting' : isConnected ? 'Live' : 'Connecting')}
@@ -540,6 +554,18 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         
         {/* LEFT PANEL — Visual area (60% on desktop, 55% on mobile) */}
         <div className="h-[55%] md:h-full md:w-[60%] relative bg-void/5 flex-shrink-0 overflow-hidden">
+          <AnimatePresence>
+            {showWelcomeCover && (
+              <WelcomeCover
+                band={band}
+                chapterId={chapterId}
+                pipelineStatus={pipelineStatus}
+                dismissible={band >= 2}
+                onDismiss={() => setShowWelcomeCover(false)}
+                isConnecting={status === 'connecting' || status === 'reconnecting'}
+              />
+            )}
+          </AnimatePresence>
           
           {/* Layer 1: Auto-scrolling chapter map (default — always present, except for young bands) */}
           <div className={`absolute inset-0 transition-opacity duration-700 ${activeVisual === 'map' ? 'opacity-100' : activeVisual === 'maplibre' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
@@ -631,23 +657,6 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           {/* Overlays — positioned within the visual panel, no X buttons */}
           <CanvasOverlays overlays={overlays} onDismiss={dismissOverlay} compact band={band} />
 
-          {/* Lesson Ended Overlay — now restricted to the Left Panel */}
-          <AnimatePresence>
-            {isEnded && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 z-[90] bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center space-y-6 px-6 text-center">
-                <h2 className="text-3xl font-display font-bold">Lesson Complete</h2>
-                <p className="text-muted-foreground">You can review previous beats on the right, or exit to the dashboard.</p>
-                <div className="flex gap-4">
-                  <button onClick={onExit} className="px-6 py-3 bg-primary text-primary-foreground rounded-full hover:bg-primary/90 transition-colors">Back to Dashboard</button>
-                  {!useFallback && (
-                    <button onClick={handleSaveGoldenScript} className="px-6 py-3 bg-muted text-foreground flex items-center gap-2 rounded-full hover:bg-muted/80 transition-colors">
-                      <Save className="w-4 h-4" /> Save as Golden Script
-                    </button>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
 
         {/* RIGHT PANEL — Transcript (40% on desktop, 45% on mobile) */}
@@ -662,11 +671,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           <ThinkingBanner thinkingText={thinkingText} />
           <div className="flex-1 min-h-0 overflow-y-auto">
             <TranscriptView 
-              beats={displayBeats} 
+              beats={transcriptBeats} 
               band={band} 
               isActive={isConnected} 
               chapterId={chapterId} 
               pipelineStatus={pipelineStatus}
+              isEnded={isEnded}
+              onExit={onExit}
+              onSaveGoldenScript={useFallback ? undefined : handleSaveGoldenScript}
             />
           </div>
 
@@ -705,8 +717,12 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                 <Hand className="w-4 h-4" />
               </motion.button>
             )}
-            <button onClick={handleEndSession} className="p-2.5 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-full transition-colors" title="End Session">
-              <PhoneOff className="w-4 h-4" />
+            <button
+              onClick={isEnded ? onExit : handleEndSession}
+              className="p-2.5 bg-destructive/10 text-destructive hover:bg-destructive/20 rounded-full transition-colors"
+              title={isEnded ? 'Exit' : 'End Session'}
+            >
+              {isEnded ? <ArrowLeft className="w-4 h-4" /> : <PhoneOff className="w-4 h-4" />}
             </button>
           </div>
         </div>
