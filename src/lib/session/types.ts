@@ -5,6 +5,7 @@
 
 /** The active visual mode the AI has selected */
 export type SceneMode = 'transcript' | 'map' | 'image' | 'overlay';
+export type SessionSlice = 'welcome' | 'gatekeeper' | 'performer' | 'negotiator' | 'complete';
 
 /** A tool call received from the agent via WebSocket */
 export interface AgentToolCall {
@@ -57,6 +58,10 @@ export type AgentMessage =
   | { type: 'modelTurn'; data?: any }
   | { type: 'qa_complete' }
   | { type: 'qa_started' }
+  | { type: 'slice_change'; slice: SessionSlice }
+  | { type: 'gatekeeper_complete' }
+  | { type: 'negotiator_complete' }
+  | { type: 'session_complete' }
   | { type: 'lesson_complete' }
   | { type: 'error'; message: string; code?: string };
 

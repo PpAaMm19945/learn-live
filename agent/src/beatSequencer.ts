@@ -107,9 +107,11 @@ export class BeatSequencer {
 
     // Comprehension tracking
     private comprehensionTracker = new ComprehensionTracker();
+    private beatSummaries: string[] = [];
 
     // Checkpoint callback for session store
     public onCheckpoint?: (beatIndex: number, narratedText: string, beatId: string) => void;
+    public onLessonComplete?: () => void;
 
     private extractBeatImage(content: string): { imagePath: string; alt: string } | null {
         const match = content.match(/!\[([^\]]*)\]\(([^)]+)\)/);
@@ -142,6 +144,7 @@ export class BeatSequencer {
         this.previousNarratedText = previousText;
         this.isStopped = false;
         this.visualCounters = { image: 0, map: 0, overlay: 0, transcript: 0, total: 0 };
+        this.beatSummaries = [];
 
         if (!this.loopPromise) {
             this.loopPromise = this.runLoop().finally(() => {
@@ -175,6 +178,7 @@ export class BeatSequencer {
             }
 
             this.deliverBeat(prepared);
+            this.captureBeatSummary(prepared.beat.beatId, prepared.narratedText);
 
             // Checkpoint for resume
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
@@ -194,7 +198,11 @@ export class BeatSequencer {
             console.log('[SEQUENCER] Lesson complete.');
             logVisualMixTelemetry(this.visualCounters, this.bandProfile, this.band);
             this.sendMessage(this.comprehensionTracker.buildSessionScoreMessage());
-            this.sendMessage({ type: 'lesson_complete' });
+            if (this.onLessonComplete) {
+                this.onLessonComplete();
+            } else {
+                this.sendMessage({ type: 'lesson_complete' });
+            }
         }
     }
 
@@ -395,5 +403,20 @@ export class BeatSequencer {
         if (this.ws.readyState === WebSocket.OPEN) {
             this.ws.send(JSON.stringify(msg));
         }
+    }
+
+    getBeatSummaries(): string[] {
+        return [...this.beatSummaries];
+    }
+
+    private captureBeatSummary(beatId: string, narratedText: string) {
+        const firstSentence = narratedText
+            .replace(/\s+/g, ' ')
+            .trim()
+            .split(/(?<=[.!?])\s+/)[0] || narratedText.trim();
+        const oneLine = firstSentence.length > 80
+            ? `${firstSentence.slice(0, 77).trimEnd()}...`
+            : firstSentence;
+        this.beatSummaries.push(`${beatId}: ${oneLine}`);
     }
 }

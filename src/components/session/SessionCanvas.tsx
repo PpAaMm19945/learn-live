@@ -21,6 +21,7 @@ import { AutoScrollMap } from './AutoScrollMap';
 import { mergeTimeline } from '@/data/chapterTimelines';
 import { getClientBandProfile } from '@/lib/bandConfig.client';
 import { WelcomeCover } from './WelcomeCover';
+import { LiveConversationView } from './LiveConversationView';
 
 interface SessionCanvasProps {
   chapterId: string;
@@ -166,7 +167,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const {
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
-    isMuted, isQAActive, hasReceivedMessage, pipelineStatus,
+    isMuted, isQAActive, hasReceivedMessage, pipelineStatus, activeSlice, liveTranscripts,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
     beats
@@ -326,10 +327,10 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
   useEffect(() => {
-    if (band >= 2 && beats.length > 0) {
+    if ((band >= 2 && activeSlice !== 'welcome') || (band < 2 && beats.length > 0)) {
       setShowWelcomeCover(false);
     }
-  }, [band, beats.length]);
+  }, [band, beats.length, activeSlice]);
 
   // Replay handler removed in Phase 0 (revised). Transcript is now read-only.
 
@@ -456,6 +457,13 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   };
 
   const isConnected = useFallback ? goldenScript.status === 'playing' : (status === 'connected' || status === 'reconnecting');
+  const sliceLabel = activeSlice === 'gatekeeper'
+    ? 'Getting Ready'
+    : activeSlice === 'performer'
+      ? 'Lesson'
+      : activeSlice === 'negotiator'
+        ? 'Reflecting'
+        : 'Review';
   const displayBeats = useFallback 
     ? goldenScript.transcriptChunks.map((c, i) => ({ id: `gs-${i}`, kind: 'beat' as const, text: c.text, status: 'done' as const, toolCalls: [], thinking: undefined, blockedTools: [] })) 
     : beats.map(b => ({
@@ -468,8 +476,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
       blockedTools: b.blockedTools,
     }));
 
+  const liveCards = !useFallback ? [
+    liveTranscripts.gatekeeper ? { id: '__gatekeeper__', kind: 'live' as const, slice: 'gatekeeper' as const, text: liveTranscripts.gatekeeper, status: 'done' as const, toolCalls: [] } : null,
+    liveTranscripts.negotiator ? { id: '__negotiator__', kind: 'live' as const, slice: 'negotiator' as const, text: liveTranscripts.negotiator, status: 'done' as const, toolCalls: [] } : null,
+  ].filter(Boolean) as any[] : [];
+
   const transcriptBeats = isEnded
     ? [
+        ...liveCards,
         ...displayBeats,
         {
           id: '__lesson_complete__',
@@ -479,7 +493,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           toolCalls: [],
         },
       ]
-    : displayBeats;
+    : [...liveCards, ...displayBeats];
 
   // Loading states
   if (!familyId || !activeLearnerId) {
@@ -542,6 +556,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           {isEnded && (
             <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-amber-500/20 text-amber-600 rounded-full">Review</span>
           )}
+          <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-primary/15 text-primary rounded-full">{sliceLabel}</span>
           <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : status === 'reconnecting' ? 'bg-amber-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
           <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
             {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting' : isConnected ? 'Live' : 'Connecting')}
@@ -554,8 +569,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
         
         {/* LEFT PANEL — Visual area (60% on desktop, 55% on mobile) */}
         <div className="h-[55%] md:h-full md:w-[60%] relative bg-void/5 flex-shrink-0 overflow-hidden">
-          <AnimatePresence>
-            {showWelcomeCover && (
+          <AnimatePresence mode="wait">
+            {showWelcomeCover && activeSlice === 'welcome' && (
               <WelcomeCover
                 band={band}
                 chapterId={chapterId}
@@ -564,6 +579,16 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
                 onDismiss={() => setShowWelcomeCover(false)}
                 isConnecting={status === 'connecting' || status === 'reconnecting'}
               />
+            )}
+            {(activeSlice === 'gatekeeper' || activeSlice === 'negotiator') && (
+              <motion.div key={activeSlice} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 z-40">
+                <LiveConversationView
+                  slice={activeSlice}
+                  isAgentSpeaking={!isMuted}
+                  isListening={!isMuted}
+                  transcriptStream={activeSlice === 'gatekeeper' ? liveTranscripts.gatekeeper : liveTranscripts.negotiator}
+                />
+              </motion.div>
             )}
           </AnimatePresence>
           

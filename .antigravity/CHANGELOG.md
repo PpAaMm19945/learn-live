@@ -181,3 +181,12 @@
 ---
 
 *This document is the single source of truth for decisions. Update it as decisions change.*
+
+## 2026-04-20 — Phase 1: Sandwich Lite (Gatekeeper + Negotiator)
+- Added Live conversational slice prompts: `agent/src/prompts/gatekeeper.ts` and `agent/src/prompts/negotiator.ts`.
+- Added `SessionLifecycle` state machine (`agent/src/sessionLifecycle.ts`) with slice transitions and timeout-backed handoffs.
+- Extended live tool handling with `complete_gatekeeper` and `complete_negotiator` through `LiveConversationHandler`.
+- Updated history session orchestration to run Bands 2+ as Gatekeeper → Performer → Negotiator and keep Bands 0–1 performer-first behavior.
+- Added beat summary capture in `BeatSequencer` for negotiator context and hooked completion chaining via `onLessonComplete`.
+- Frontend now tracks `activeSlice`, buffers per-slice live transcripts, routes left panel to `LiveConversationView`, and shows top-bar slice pill.
+- Added transcript cards for Gatekeeper and Negotiator streams while preserving existing beat + completion cards.

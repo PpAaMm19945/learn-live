@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload } from './types';
+import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload, SessionSlice } from './types';
 
 export interface BeatRecord {
   beatId: string;
@@ -50,6 +50,8 @@ export function useSession({
   const [isMuted, setIsMuted] = useState<boolean>(band >= 3);
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
+  const [activeSlice, setActiveSlice] = useState<SessionSlice>('welcome');
+  const [liveTranscripts, setLiveTranscripts] = useState<{ gatekeeper: string; negotiator: string }>({ gatekeeper: '', negotiator: '' });
   const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
   
   const [beats, setBeats] = useState<BeatRecord[]>([]);
@@ -214,7 +216,8 @@ export function useSession({
   }, []);
 
   const setupMicrophone = useCallback(async () => {
-     if (band < 3) return;
+     const canUseMic = band >= 3 || (band === 2 && (activeSlice === 'gatekeeper' || activeSlice === 'negotiator'));
+     if (!canUseMic) return;
 
      try {
          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -231,7 +234,8 @@ export function useSession({
          processorRef.current = processor;
 
          processor.onaudioprocess = (e) => {
-             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted && isQAActive) {
+             const shouldStreamLiveAudio = activeSlice === 'gatekeeper' || activeSlice === 'negotiator' || isQAActive;
+             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted && shouldStreamLiveAudio) {
                  const inputData = e.inputBuffer.getChannelData(0);
                  const pcmData = new Int16Array(inputData.length);
                  for (let i = 0; i < inputData.length; i++) {
@@ -260,7 +264,7 @@ export function useSession({
          Logger.error('[AUDIO]', 'Failed to setup microphone', err);
          debug('error', 'Microphone setup failed', String(err));
      }
-  }, [band, isMuted, isQAActive, debug]);
+  }, [band, isMuted, isQAActive, debug, activeSlice]);
 
   const connect = useCallback((onToolCall?: (msg: AgentToolCall) => void, onMessage?: (msg: AgentMessage) => void, isReconnect = false) => {
     if (
@@ -371,10 +375,31 @@ export function useSession({
             setThinkingText('');
             setPipelineStatus(null); // Clear pipeline status once lesson starts
             setTranscriptChunks((prev) => [...prev, msg as TranscriptChunk]);
+            if (activeSlice === 'gatekeeper' || activeSlice === 'negotiator') {
+              setLiveTranscripts(prev => ({
+                ...prev,
+                [activeSlice]: `${prev[activeSlice]}${msg.text}`
+              }));
+            }
             debug('beat', `Transcript chunk`, `"${(msg.text || '').slice(0, 80)}..."`);
           } else if (msg.type === 'audio') {
+            if (activeSlice !== 'performer' && beatState === 'PLAYING_AUDIO') {
+              return;
+            }
             debug('audio', `Audio chunk received (${((msg.data || '').length / 1024).toFixed(1)}KB base64)`);
             await playAudioChunk(msg.data);
+          } else if (msg.type === 'slice_change') {
+            const nextSlice = msg.slice as SessionSlice;
+            setActiveSlice(nextSlice);
+            pendingThinkingRef.current = '';
+            if (nextSlice === 'gatekeeper' || nextSlice === 'negotiator') {
+              setIsMuted(false);
+            } else if (band === 2) {
+              setIsMuted(true);
+            }
+            setThinkingText('');
+          } else if (msg.type === 'gatekeeper_complete' || msg.type === 'negotiator_complete') {
+            debug('connection', `${msg.type} received`);
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
             debug('qa', 'Q&A session complete — resuming lesson');
@@ -459,7 +484,7 @@ export function useSession({
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext, activeSlice, beatState]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
@@ -550,6 +575,14 @@ export function useSession({
           }
       }
   }, []);
+
+  useEffect(() => {
+    if (status !== 'connected') return;
+    const needsMic = band >= 3 || (band === 2 && (activeSlice === 'gatekeeper' || activeSlice === 'negotiator'));
+    if (needsMic && !streamRef.current) {
+      setupMicrophone();
+    }
+  }, [status, band, activeSlice, setupMicrophone]);
 
   // The Beat Sequencer Processor Loop
   useEffect(() => {
@@ -698,6 +731,8 @@ export function useSession({
     error,
     isMuted,
     isQAActive,
+    activeSlice,
+    liveTranscripts,
     hasReceivedMessage,
     pipelineStatus,
     connect,

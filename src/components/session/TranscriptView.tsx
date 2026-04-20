@@ -8,7 +8,8 @@ import { Save } from 'lucide-react';
 
 export interface BeatDisplay {
   id: string | number;
-  kind?: 'beat' | 'completion';
+  kind?: 'beat' | 'completion' | 'live';
+  slice?: 'gatekeeper' | 'negotiator';
   text: string;
   status?: 'queued' | 'playing' | 'done';
   toolCalls?: AgentToolCall[];
@@ -66,6 +67,19 @@ export function TranscriptView({ beats, chapterId, isEnded, onExit, onSaveGolden
                     />
                   );
                 }
+                if (beat.kind === 'live') {
+                  return (
+                    <TranscriptCard
+                      key={beat.id}
+                      beat={beat}
+                      index={i}
+                      isLatest={isLatest && !isEnded}
+                      chapterId={chapterId}
+                      onArtifactClick={setSelectedArtifact}
+                      header={beat.slice === 'gatekeeper' ? 'Getting Ready' : 'Reflecting Together'}
+                    />
+                  );
+                }
 
                 return (
                   <TranscriptCard
@@ -75,6 +89,7 @@ export function TranscriptView({ beats, chapterId, isEnded, onExit, onSaveGolden
                     isLatest={isLatest && !isEnded}
                     chapterId={chapterId}
                     onArtifactClick={setSelectedArtifact}
+                    header={undefined}
                   />
                 );
               })}
@@ -98,12 +113,14 @@ function TranscriptCard({
   isLatest,
   chapterId,
   onArtifactClick,
+  header,
 }: {
   beat: BeatDisplay;
   index: number;
   isLatest: boolean;
   chapterId: string;
   onArtifactClick: (artifact: InspectorArtifact) => void;
+  header?: string;
 }) {
   const isPlaying = beat.status === 'playing';
 
@@ -121,6 +138,7 @@ function TranscriptCard({
       }`}
     >
       <div className="text-lg md:text-xl leading-relaxed font-display font-medium text-foreground prose prose-invert prose-sm max-w-none [&_strong]:text-primary [&_em]:text-foreground/80">
+        {header && <div className="mb-3 text-xs uppercase tracking-wider text-primary/80">{header}</div>}
         <ReactMarkdown>{beat.text}</ReactMarkdown>
       </div>
 

@@ -9,6 +9,7 @@ import { buildImageContextForAgent } from './imageRegistry';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint, expireSession } from './sessionStore';
+import { SessionLifecycle } from './sessionLifecycle';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
@@ -29,7 +30,6 @@ THEOLOGICAL GUARDRAILS:
 4. Dates from evolutionary models must be tagged as "(conventional estimate)".
 5. Dates from biblical models must be tagged as "(biblical chronology)".
 `;
-    // Inject map context so the agent knows which maps are available
     const mapContext = buildMapContextForAgent(chapterId);
     const imageContext = buildImageContextForAgent(chapterId, band);
     const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines + mapContext + imageContext, { band }, band);
@@ -38,107 +38,112 @@ THEOLOGICAL GUARDRAILS:
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
     const controller = new HistorySessionController(band);
 
-    // Session store key for resume
     const sKey = sessionKey(canonicalLessonId, learnerId, band);
-
     let sessionClosing = false;
+    let lifecycle: SessionLifecycle | null = null;
 
     const cleanupSession = async () => {
-        if (sessionClosing) {
-            return;
-        }
-
+        if (sessionClosing) return;
         sessionClosing = true;
         controller.close();
+        lifecycle?.close();
         liveHandler.stopQA();
         sequencer.stop();
         await sequencer.waitUntilStopped();
     };
 
-    // Wire checkpoint callback so sequencer persists progress
     sequencer.onCheckpoint = (beatIndex: number, narratedText: string, beatId: string) => {
         storeCheckpoint(sKey, beatIndex, narratedText, beatId);
-        // Emit resumeToken to client
         if (ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ type: 'resume_token', token: sKey }));
         }
+    };
+
+    const startPerformer = (manifest: any, fromIndex = 0, previousText = '') => {
+        if (band > 1 && !controller.canStartPerformer()) {
+            console.warn('[HISTORY_EXPLAINER] Performer start blocked: awaiting gatekeeper greenlight.');
+            return;
+        }
+        lifecycle?.beginPerformer();
+        controller.setPhase('PERFORMER');
+
+        const run = fromIndex > 0
+            ? sequencer.startFromIndex(manifest, fromIndex, previousText)
+            : sequencer.start(manifest);
+
+        run.catch((err) => {
+            console.error('[HISTORY_EXPLAINER] Sequencer run failed:', err);
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify({ type: 'error', code: 'SEQUENCER_FAILURE', message: 'Lesson playback failed unexpectedly.' }));
+            }
+            void cleanupSession();
+        });
     };
 
     ws.on('message', async (raw: string) => {
         try {
             const msg = JSON.parse(raw.toString());
 
+            if (msg.type === 'gatekeeper_complete') {
+                lifecycle?.completeGatekeeper();
+                return;
+            }
+
+            if (msg.type === 'negotiator_complete') {
+                lifecycle?.completeNegotiator();
+                controller.setPhase('COMPLETE');
+                return;
+            }
+
             if (msg.type === 'raise_hand') {
                 const decision = controller.canAcceptRaiseHand();
                 if (!decision.accepted) {
                     if (decision.reason === 'band_restricted') {
-                        if (ws.readyState === WebSocket.OPEN) {
-                            ws.send(JSON.stringify({
-                                type: 'error',
-                                code: 'QA_NOT_ALLOWED',
-                                message: 'Live Q&A is only available for Band 3 and above.'
-                            }));
-                        }
+                        ws.send(JSON.stringify({ type: 'error', code: 'QA_NOT_ALLOWED', message: 'Live Q&A is only available for Band 3 and above.' }));
                     }
                     return;
                 }
 
-                console.log(`[HISTORY_EXPLAINER] Student raised hand. Pausing lesson.`);
                 sequencer.pause();
-                if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(JSON.stringify({ type: 'qa_started' }));
-                }
-
+                ws.send(JSON.stringify({ type: 'qa_started' }));
                 liveHandler.startQA(sequencer.getContext())
                     .then(() => {
                         const { shouldResumeLesson } = controller.completeQA();
-                        if (shouldResumeLesson) {
-                            console.log('[HISTORY_EXPLAINER] Q&A complete. Resuming lesson.');
-                            sequencer.resume();
-                        }
+                        if (shouldResumeLesson) sequencer.resume();
                     })
-                    .catch((err) => {
-                        console.error('[HISTORY_EXPLAINER] Q&A session failed:', err);
+                    .catch(() => {
                         const { shouldResumeLesson } = controller.completeQA();
-                        if (shouldResumeLesson) {
-                            sequencer.resume();
-                        }
+                        if (shouldResumeLesson) sequencer.resume();
                     });
-            } else if (msg.type === 'audio') {
-                if (controller.snapshot().isQAActive) {
+                return;
+            }
+
+            if (msg.type === 'audio') {
+                if (lifecycle?.isLiveSliceActive()) {
+                    lifecycle.forwardAudio(msg.data);
+                } else if (controller.snapshot().isQAActive) {
                     liveHandler.sendAudio(msg.data);
                 }
-            } else if (msg.type === 'pause') {
+                return;
+            }
+
+            if (msg.type === 'pause') {
                 controller.forcePause();
                 sequencer.pause();
-            } else if (msg.type === 'resume') {
-                if (!controller.snapshot().isQAActive) {
-                    sequencer.resume();
-                }
+            } else if (msg.type === 'resume' && !controller.snapshot().isQAActive) {
+                sequencer.resume();
             }
         } catch (e) {
             console.error('[HISTORY_EXPLAINER] Bad message from client:', e);
             if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({
-                    type: 'error',
-                    code: 'BAD_CLIENT_MESSAGE',
-                    message: 'Malformed message payload.'
-                }));
+                ws.send(JSON.stringify({ type: 'error', code: 'BAD_CLIENT_MESSAGE', message: 'Malformed message payload.' }));
             }
         }
     });
 
-    ws.on('close', () => {
-        console.log(`[HISTORY_EXPLAINER] Session closed — learner: ${learnerId}`);
-        void cleanupSession();
-    });
+    ws.on('close', () => { void cleanupSession(); });
+    ws.on('error', () => { void cleanupSession(); });
 
-    ws.on('error', (err: Error) => {
-        console.error(`[HISTORY_EXPLAINER] WebSocket error — learner: ${learnerId}`, err.message);
-        void cleanupSession();
-    });
-
-    // Helper to send pipeline status updates to the frontend
     const sendStatus = (step: string, detail?: string) => {
         if (ws.readyState === WebSocket.OPEN) {
             ws.send(JSON.stringify({ type: 'pipeline_status', step, detail }));
@@ -146,81 +151,82 @@ THEOLOGICAL GUARDRAILS:
     };
 
     try {
-        // Check for resumable session
         const cached = getSession(sKey);
         if (cached) {
-            // Guard against stale resume: if session has progressed past beat 0
-            // and was created more than 60s ago, it's likely a broken session
-            // from a TTS failure or disconnect. Start fresh instead of skipping content.
             const sessionAgeMs = Date.now() - cached.createdAt;
             const isStale = cached.nextBeatIndex > 0 && sessionAgeMs > 60_000;
-
             if (isStale) {
-                console.log(`[HISTORY_EXPLAINER] Expiring stale session (beat ${cached.nextBeatIndex}, age ${Math.round(sessionAgeMs / 1000)}s) — starting fresh`);
                 expireSession(sKey);
             } else {
-                console.log(`[HISTORY_EXPLAINER] Resuming session from beat ${cached.nextBeatIndex} — skipping pipeline`);
                 sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
 
-                sequencer.startFromIndex(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText).catch((err) => {
-                    console.error('[HISTORY_EXPLAINER] Sequencer resume failed:', err);
-                    if (ws.readyState === WebSocket.OPEN) {
-                        ws.send(JSON.stringify({
-                            type: 'error',
-                            code: 'SEQUENCER_FAILURE',
-                            message: 'Lesson resume failed unexpectedly.'
-                        }));
-                    }
-                    void cleanupSession();
+                lifecycle = new SessionLifecycle({
+                    ws,
+                    chapterId,
+                    chapterTitle: cached.preparedManifest.heading || chapterId,
+                    learnerName: learnerId,
+                    band,
                 });
-                return;
+
+        startPerformer(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText);
+        return;
             }
         }
 
-        // Fresh session — run full pipeline
         sendStatus('loading', 'Fetching lesson content…');
         const manifest = await fetcher.fetchSection(chapterId, sectionId);
+        if (!manifest) throw new Error(`Content not found for chapter=${chapterId} section=${sectionId}`);
 
-        if (!manifest) {
-            throw new Error(`Content not found for chapter=${chapterId} section=${sectionId}`);
-        }
-
-        // Run the Lesson Preparer pipeline to enrich beats
         sendStatus('preparing', 'Analyzing student context…');
         const preparer = new LessonPreparer(systemInstruction, band, chapterId, sendStatus);
         let preparedManifest = manifest;
         try {
             preparedManifest = await preparer.prepare(manifest);
-            console.log(`[HISTORY_EXPLAINER] Lesson Preparer pipeline complete for ${sectionId}`);
         } catch (prepErr) {
             console.warn(`[HISTORY_EXPLAINER] Lesson Preparer failed, using raw manifest:`, prepErr);
             sendStatus('fallback', 'Using standard lesson plan…');
         }
 
-        // Store prepared manifest for resume
         setSession(sKey, preparedManifest);
 
-        sendStatus('ready', 'Starting lesson…');
-        sequencer.start(preparedManifest).catch((err) => {
-            console.error('[HISTORY_EXPLAINER] Sequencer run failed:', err);
-            if (ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({
-                    type: 'error',
-                    code: 'SEQUENCER_FAILURE',
-                    message: 'Lesson playback failed unexpectedly.'
-                }));
-            }
-            void cleanupSession();
+        lifecycle = new SessionLifecycle({
+            ws,
+            chapterId,
+            chapterTitle: preparedManifest.heading || chapterId,
+            learnerName: learnerId,
+            band,
         });
+
+        sendStatus('ready', 'Starting lesson…');
+
+        sequencer.onLessonComplete = async () => {
+            if (band <= 1) {
+                ws.send(JSON.stringify({ type: 'lesson_complete' }));
+                controller.setPhase('COMPLETE');
+                ws.send(JSON.stringify({ type: 'slice_change', slice: 'complete' }));
+                return;
+            }
+
+            controller.setPhase('NEGOTIATOR');
+            await lifecycle?.startNegotiator(sequencer.getBeatSummaries());
+            lifecycle?.completeNegotiator();
+            ws.send(JSON.stringify({ type: 'lesson_complete' }));
+        };
+
+        if (band <= 1) {
+            startPerformer(preparedManifest);
+        } else {
+            controller.setPhase('IDLE');
+            await lifecycle.startGatekeeper();
+            controller.setPhase('AWAITING_GATEKEEPER_GREENLIGHT');
+            startPerformer(preparedManifest);
+        }
+
     } catch (err: any) {
         const message = err instanceof Error ? err.message : 'Failed to load lesson content';
         console.error(`[HISTORY_EXPLAINER] Session setup failed: ${message}`);
         if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({
-                type: 'error',
-                code: 'CONTENT_FETCH_FAILED',
-                message
-            }));
+            ws.send(JSON.stringify({ type: 'error', code: 'CONTENT_FETCH_FAILED', message }));
         }
         await cleanupSession();
     }
