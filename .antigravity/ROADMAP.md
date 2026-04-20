@@ -28,7 +28,7 @@ The platform is pivoting from "advanced multimedia presenter" to "true pedagogic
 | **1C** | `learner_assignments` D1 table; Negotiator writes, Gatekeeper reads; parent dashboard surfacing; lesson-start gating with parent override (per `mem://principles/ai-governance`). | ⏳ Queued |
 | **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ⏳ Queued |
 
-Sandwich Lite (1A+1B) is complete; the immediate active workstream is **Phase 1C assignment persistence**. Audit-fix chronology now includes **Phase 1.5b** negotiator self-finalization (Issue #106 resolved on 2026-04-20) alongside the prior 1.5 wiring corrections. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #102–#106 (audit fixes, resolved).
+Sandwich Lite (1A+1B) is complete; the immediate active workstream is **Phase 1C assignment persistence**. Audit-fix chronology is captured in the 2026-04-20 handoff prompt used for Phase 1.5 wiring corrections. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #102–#105 (audit fixes, resolved).
 
 ---
 
