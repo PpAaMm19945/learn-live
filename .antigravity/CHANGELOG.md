@@ -5,6 +5,9 @@
 
 ---
 
+## 2026-04-20 — Phase 1.5b: Negotiator completion finalization
+- Self-finalized the negotiator slice so `startNegotiator` now emits `slice_change: complete` and `session_complete` after negotiator resolution (tool call or timeout), and made `completeNegotiator` defensive/idempotent. This closes the Bands 2–5 stuck-on-Reflecting completion deadlock surfaced during audit.
+
 ## 2026-04-20 — Phase 1 (Sandwich Lite) Shipped + Phase 1.5 Audit Fixes
 - **Sandwich Lite shipped:** Gatekeeper/Performer/Negotiator slice orchestration is now live for Bands 2–5, with frontend slice routing, top-bar slice status, and per-slice transcript handling. Bands 0–1 continue on Performer-first flow.
 - **Audit fix — performer transition signal:** Added explicit handoff to `slice_change: performer` on both fresh and resume paths before sequencer start, eliminating stuck "Getting Ready" / Welcome-cover deadlocks.
