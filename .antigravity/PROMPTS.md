@@ -133,3 +133,7 @@ Four runtime issues identified and fixed:
    - 48 band-specific image swaps total
    - Narrower band-ranges (4-5) win over wider (2-5) so e.g. Cush beats show `art_taharqa_pharaoh.jpg` to Bands 4-5 only
 3. **Lint:** `npx tsx agent/scripts/lint-manifest.ts` per file → 0 errors, 343 pre-existing band-policy warnings (filed as Issue #91)
+
+## Sandwich Lite (Phase 1) — Apr 2026
+
+Implemented the Sandwich Lite orchestration for Bands 2–5 with Gatekeeper (pre-lesson live readiness), Performer (`BeatSequencer` lesson body), and Negotiator (post-lesson live reflection), while keeping Bands 0–1 on performer-only flow; chose voice/persona continuity across slices, and explicitly deferred homework persistence and assignment storage to Phase 1C.

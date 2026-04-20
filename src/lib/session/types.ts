@@ -61,6 +61,7 @@ export type AgentMessage =
   | { type: 'slice_change'; slice: SessionSlice }
   | { type: 'gatekeeper_complete' }
   | { type: 'negotiator_complete' }
+  | { type: 'performer_complete' }
   | { type: 'session_complete' }
   | { type: 'lesson_complete' }
   | { type: 'error'; message: string; code?: string };

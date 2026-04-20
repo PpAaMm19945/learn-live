@@ -1,12 +1,12 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-04-18
+> **Last updated:** 2026-04-20
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 > **Previous roadmap archived:** `.antigravity/archive/roadmap-live-agent-approach.md`
 
 ---
 
-## ⭐ Active Direction (2026-04-18): The Sandwich Model
+## ⭐ Active Direction (2026-04-20): The Sandwich Model
 
 The platform is pivoting from "advanced multimedia presenter" to "true pedagogical instrument" by wrapping the existing rigid `BeatSequencer` ("Performer") with two short, conversational Gemini Live agents:
 
@@ -23,19 +23,12 @@ The platform is pivoting from "advanced multimedia presenter" to "true pedagogic
 | Phase | Scope | Status |
 |---|---|---|
 | **0** | Stabilize transcript / pause-play / Band 0–1 visuals | ✅ Complete (Issues #92, #93 resolved) |
-| **1A** | Gatekeeper persona + `AWAITING_GATEKEEPER_GREENLIGHT` state in `historySessionController.ts` + new frontend Gatekeeper screen. **No assignments yet.** | 🟡 Scoped, pending user answers |
-| **1B** | Negotiator persona + post-lesson synthesis + verbal homework. **No persistence yet.** | ⏳ Queued |
+| **1A** | Gatekeeper persona + `AWAITING_GATEKEEPER_GREENLIGHT` state in `historySessionController.ts` + new frontend Gatekeeper screen. **No assignments yet.** | ✅ Complete (shipped in Sandwich Lite) |
+| **1B** | Negotiator persona + post-lesson synthesis + verbal homework. **No persistence yet.** | ✅ Complete (shipped in Sandwich Lite) |
 | **1C** | `learner_assignments` D1 table; Negotiator writes, Gatekeeper reads; parent dashboard surfacing; lesson-start gating with parent override (per `mem://principles/ai-governance`). | ⏳ Queued |
 | **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ⏳ Queued |
 
-### Open user decisions (block Phase 1A start)
-
-1. **Assignment input modality** — spoken to Gatekeeper / typed in dashboard / photo via async evidence verification / hybrid by band.
-2. **Gating strictness when prior assignment isn't done** — allow + log / refuse + end / 2-min mini-recovery then proceed.
-3. **Persona & voice continuity** — same teacher across all three agents (recommended) or distinct personas.
-4. **Phase 0 done?** — confirm in-flight stabilization is closed before Gatekeeper work begins. *(Provisionally yes, per Issue #92 / #93 resolution on 2026-04-17.)*
-
-Full plan of record: `.lovable/plan.md`. Tracking issues: #94 (Gatekeeper), #95 (Negotiator), #96 (assignments table), #97 (Sandwich UI screens).
+Sandwich Lite (1A+1B) is complete; the immediate active workstream is **Phase 1C assignment persistence**. Audit-fix chronology is captured in the 2026-04-20 handoff prompt used for Phase 1.5 wiring corrections. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #102–#105 (audit fixes, resolved).
 
 ---
 

@@ -60,13 +60,6 @@ THEOLOGICAL GUARDRAILS:
     };
 
     const startPerformer = (manifest: any, fromIndex = 0, previousText = '') => {
-        if (band > 1 && !controller.canStartPerformer()) {
-            console.warn('[HISTORY_EXPLAINER] Performer start blocked: awaiting gatekeeper greenlight.');
-            return;
-        }
-        lifecycle?.beginPerformer();
-        controller.setPhase('PERFORMER');
-
         const run = fromIndex > 0
             ? sequencer.startFromIndex(manifest, fromIndex, previousText)
             : sequencer.start(manifest);
@@ -168,8 +161,10 @@ THEOLOGICAL GUARDRAILS:
                     band,
                 });
 
-        startPerformer(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText);
-        return;
+                lifecycle.beginPerformer();
+                controller.setPhase('PERFORMER');
+                startPerformer(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText);
+                return;
             }
         }
 
@@ -208,17 +203,20 @@ THEOLOGICAL GUARDRAILS:
             }
 
             controller.setPhase('NEGOTIATOR');
+            ws.send(JSON.stringify({ type: 'performer_complete' }));
             await lifecycle?.startNegotiator(sequencer.getBeatSummaries());
-            lifecycle?.completeNegotiator();
-            ws.send(JSON.stringify({ type: 'lesson_complete' }));
         };
 
         if (band <= 1) {
+            lifecycle.beginPerformer();
+            controller.setPhase('PERFORMER');
             startPerformer(preparedManifest);
         } else {
             controller.setPhase('IDLE');
             await lifecycle.startGatekeeper();
             controller.setPhase('AWAITING_GATEKEEPER_GREENLIGHT');
+            lifecycle.beginPerformer();
+            controller.setPhase('PERFORMER');
             startPerformer(preparedManifest);
         }
 
