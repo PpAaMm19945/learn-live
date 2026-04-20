@@ -98,7 +98,7 @@ export class GeminiSession {
             }));
 
             const liveConfig: any = {
-                responseModalities: ['AUDIO', 'TEXT'] as any,
+                responseModalities: ['AUDIO'] as any,
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };
@@ -107,7 +107,7 @@ export class GeminiSession {
             }
 
             const connectParams: any = {
-                model: "gemini-3.1-flash-live-preview",
+                model: "gemini-2.5-flash-native-audio-latest",
                 config: liveConfig,
                 callbacks: {
                     onopen: () => {
@@ -173,34 +173,32 @@ export class GeminiSession {
                                 }
                             }
 
-                            // Capture transcript from audio output modalities if present
-                            const outputTranscription = (e.serverContent as any).outputTranscription;
-                            if (outputTranscription?.parts) {
-                                for (const part of outputTranscription.parts) {
-                                    if (part.text) {
-                                        const thinkingRegex = /\*\*([^*]+)\*\*/g;
-                                        let match;
-                                        let lastIndex = 0;
+                            // Robustly capture transcript for native-audio models
+                            const outputTranscriptionParts = (e.serverContent as any).outputTranscription?.parts;
+                            const transcriptionSource = outputTranscriptionParts?.map((p: any) => p.text).join(' ');
 
-                                        while ((match = thinkingRegex.exec(part.text)) !== null) {
-                                            const before = part.text.slice(lastIndex, match.index).trim();
-                                            if (before) {
-                                                textContent += `${textContent ? ' ' : ''}${before}`;
-                                            }
+                            if (transcriptionSource) {
+                                const thinkingRegex = /\*\*([^*]+)\*\*/g;
+                                let match;
+                                let lastIndex = 0;
 
-                                            deliver({
-                                                type: 'thinking',
-                                                text: match[1].trim(),
-                                                isFinal: false
-                                            });
-                                            lastIndex = thinkingRegex.lastIndex;
-                                        }
-
-                                        const remainder = part.text.slice(lastIndex).trim();
-                                        if (remainder) {
-                                            textContent += `${textContent ? ' ' : ''}${remainder}`;
-                                        }
+                                while ((match = thinkingRegex.exec(transcriptionSource)) !== null) {
+                                    const before = transcriptionSource.slice(lastIndex, match.index).trim();
+                                    if (before) {
+                                        textContent += `${textContent ? ' ' : ''}${before}`;
                                     }
+
+                                    deliver({
+                                        type: 'thinking',
+                                        text: match[1].trim(),
+                                        isFinal: false
+                                    });
+                                    lastIndex = thinkingRegex.lastIndex;
+                                }
+
+                                const remainder = transcriptionSource.slice(lastIndex).trim();
+                                if (remainder) {
+                                    textContent += `${textContent ? ' ' : ''}${remainder}`;
                                 }
                             }
 
