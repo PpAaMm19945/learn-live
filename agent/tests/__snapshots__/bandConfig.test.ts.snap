@@ -1,0 +1,735 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-0-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "mode": "image",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+]
+`;
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-1-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "events": [
+        {
+          "label": "Event 1",
+          "year": -4004,
+        },
+        {
+          "label": "Event 2",
+          "year": -3904,
+        },
+      ],
+    },
+    "tool": "show_timeline",
+  },
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "location": "babel",
+    },
+    "tool": "zoom_to",
+  },
+  {
+    "args": {
+      "mode": "image",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+        "b",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+  {
+    "args": {
+      "label": "Babel",
+      "location": "babel",
+    },
+    "tool": "place_marker",
+  },
+]
+`;
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-2-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "events": [
+        {
+          "label": "Event 1",
+          "year": -4004,
+        },
+        {
+          "label": "Event 2",
+          "year": -3904,
+        },
+        {
+          "label": "Event 3",
+          "year": -3804,
+        },
+      ],
+    },
+    "tool": "show_timeline",
+  },
+  {
+    "args": {
+      "columnA": {
+        "label": "A",
+        "points": [
+          "Point A1",
+          "Point A2",
+        ],
+      },
+      "columnB": {
+        "label": "B",
+        "points": [
+          "Point B1",
+          "Point B2",
+        ],
+      },
+    },
+    "tool": "show_comparison",
+  },
+  {
+    "args": {
+      "nodes": [
+        {
+          "id": "n0",
+          "label": "Person 1",
+        },
+        {
+          "id": "n1",
+          "label": "Person 2",
+        },
+        {
+          "id": "n2",
+          "label": "Person 3",
+        },
+        {
+          "id": "n3",
+          "label": "Person 4",
+        },
+      ],
+    },
+    "tool": "show_genealogy",
+  },
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "location": "babel",
+    },
+    "tool": "zoom_to",
+  },
+  {
+    "args": {
+      "from": "babel",
+      "style": "migration",
+      "to": "egypt",
+    },
+    "tool": "draw_route",
+  },
+  {
+    "args": {
+      "mode": "map",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+        "b",
+        "c",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+  {
+    "args": {
+      "color": "#fac775",
+      "regionId": "cush",
+    },
+    "tool": "highlight_region",
+  },
+  {
+    "args": {
+      "label": "Babel",
+      "location": "babel",
+    },
+    "tool": "place_marker",
+  },
+]
+`;
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-3-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "events": [
+        {
+          "label": "Event 1",
+          "year": -4004,
+        },
+        {
+          "label": "Event 2",
+          "year": -3904,
+        },
+        {
+          "label": "Event 3",
+          "year": -3804,
+        },
+        {
+          "label": "Event 4",
+          "year": -3704,
+        },
+      ],
+    },
+    "tool": "show_timeline",
+  },
+  {
+    "args": {
+      "columnA": {
+        "label": "A",
+        "points": [
+          "Point A1",
+          "Point A2",
+          "Point A3",
+        ],
+      },
+      "columnB": {
+        "label": "B",
+        "points": [
+          "Point B1",
+          "Point B2",
+          "Point B3",
+        ],
+      },
+    },
+    "tool": "show_comparison",
+  },
+  {
+    "args": {
+      "nodes": [
+        {
+          "id": "n0",
+          "label": "Person 1",
+        },
+        {
+          "id": "n1",
+          "label": "Person 2",
+        },
+        {
+          "id": "n2",
+          "label": "Person 3",
+        },
+        {
+          "id": "n3",
+          "label": "Person 4",
+        },
+        {
+          "id": "n4",
+          "label": "Person 5",
+        },
+        {
+          "id": "n5",
+          "label": "Person 6",
+        },
+      ],
+    },
+    "tool": "show_genealogy",
+  },
+  {
+    "args": {
+      "attribution": "Author",
+      "text": "Test quote",
+    },
+    "tool": "show_quote",
+  },
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "location": "babel",
+    },
+    "tool": "zoom_to",
+  },
+  {
+    "args": {
+      "from": "babel",
+      "style": "migration",
+      "to": "egypt",
+    },
+    "tool": "draw_route",
+  },
+  {
+    "args": {
+      "mode": "map",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "etymology": "Latin providentia",
+      "pronunciation": "PROV-ih-dence",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+        "b",
+        "c",
+        "d",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+  {
+    "args": {
+      "color": "#fac775",
+      "regionId": "cush",
+    },
+    "tool": "highlight_region",
+  },
+  {
+    "args": {
+      "label": "Babel",
+      "location": "babel",
+    },
+    "tool": "place_marker",
+  },
+]
+`;
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-4-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "events": [
+        {
+          "label": "Event 1",
+          "year": -4004,
+        },
+        {
+          "label": "Event 2",
+          "year": -3904,
+        },
+        {
+          "label": "Event 3",
+          "year": -3804,
+        },
+        {
+          "label": "Event 4",
+          "year": -3704,
+        },
+        {
+          "label": "Event 5",
+          "year": -3604,
+        },
+        {
+          "label": "Event 6",
+          "year": -3504,
+        },
+      ],
+    },
+    "tool": "show_timeline",
+  },
+  {
+    "args": {
+      "columnA": {
+        "label": "A",
+        "points": [
+          "Point A1",
+          "Point A2",
+          "Point A3",
+          "Point A4",
+        ],
+      },
+      "columnB": {
+        "label": "B",
+        "points": [
+          "Point B1",
+          "Point B2",
+          "Point B3",
+          "Point B4",
+        ],
+      },
+    },
+    "tool": "show_comparison",
+  },
+  {
+    "args": {
+      "nodes": [
+        {
+          "id": "n0",
+          "label": "Person 1",
+        },
+        {
+          "id": "n1",
+          "label": "Person 2",
+        },
+        {
+          "id": "n2",
+          "label": "Person 3",
+        },
+        {
+          "id": "n3",
+          "label": "Person 4",
+        },
+        {
+          "id": "n4",
+          "label": "Person 5",
+        },
+        {
+          "id": "n5",
+          "label": "Person 6",
+        },
+        {
+          "id": "n6",
+          "label": "Person 7",
+        },
+        {
+          "id": "n7",
+          "label": "Person 8",
+        },
+      ],
+    },
+    "tool": "show_genealogy",
+  },
+  {
+    "args": {
+      "attribution": "Author",
+      "text": "Test quote",
+    },
+    "tool": "show_quote",
+  },
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "location": "babel",
+    },
+    "tool": "zoom_to",
+  },
+  {
+    "args": {
+      "from": "babel",
+      "style": "migration",
+      "to": "egypt",
+    },
+    "tool": "draw_route",
+  },
+  {
+    "args": {
+      "mode": "map",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "etymology": "Latin providentia",
+      "pronunciation": "PROV-ih-dence",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+  {
+    "args": {
+      "color": "#fac775",
+      "regionId": "cush",
+    },
+    "tool": "highlight_region",
+  },
+  {
+    "args": {
+      "label": "Babel",
+      "location": "babel",
+    },
+    "tool": "place_marker",
+  },
+]
+`;
+
+exports[`applyBandToolPolicy > snapshots all 6 bands > band-5-filtered-tools 1`] = `
+[
+  {
+    "args": {
+      "events": [
+        {
+          "label": "Event 1",
+          "year": -4004,
+        },
+        {
+          "label": "Event 2",
+          "year": -3904,
+        },
+        {
+          "label": "Event 3",
+          "year": -3804,
+        },
+        {
+          "label": "Event 4",
+          "year": -3704,
+        },
+        {
+          "label": "Event 5",
+          "year": -3604,
+        },
+        {
+          "label": "Event 6",
+          "year": -3504,
+        },
+        {
+          "label": "Event 7",
+          "year": -3404,
+        },
+        {
+          "label": "Event 8",
+          "year": -3304,
+        },
+      ],
+    },
+    "tool": "show_timeline",
+  },
+  {
+    "args": {
+      "columnA": {
+        "label": "A",
+        "points": [
+          "Point A1",
+          "Point A2",
+          "Point A3",
+          "Point A4",
+          "Point A5",
+        ],
+      },
+      "columnB": {
+        "label": "B",
+        "points": [
+          "Point B1",
+          "Point B2",
+          "Point B3",
+          "Point B4",
+          "Point B5",
+        ],
+      },
+    },
+    "tool": "show_comparison",
+  },
+  {
+    "args": {
+      "nodes": [
+        {
+          "id": "n0",
+          "label": "Person 1",
+        },
+        {
+          "id": "n1",
+          "label": "Person 2",
+        },
+        {
+          "id": "n2",
+          "label": "Person 3",
+        },
+        {
+          "id": "n3",
+          "label": "Person 4",
+        },
+        {
+          "id": "n4",
+          "label": "Person 5",
+        },
+        {
+          "id": "n5",
+          "label": "Person 6",
+        },
+        {
+          "id": "n6",
+          "label": "Person 7",
+        },
+        {
+          "id": "n7",
+          "label": "Person 8",
+        },
+        {
+          "id": "n8",
+          "label": "Person 9",
+        },
+        {
+          "id": "n9",
+          "label": "Person 10",
+        },
+        {
+          "id": "n10",
+          "label": "Person 11",
+        },
+        {
+          "id": "n11",
+          "label": "Person 12",
+        },
+      ],
+    },
+    "tool": "show_genealogy",
+  },
+  {
+    "args": {
+      "attribution": "Author",
+      "text": "Test quote",
+    },
+    "tool": "show_quote",
+  },
+  {
+    "args": {
+      "reference": "Gen 1:1",
+      "text": "In the beginning...",
+    },
+    "tool": "show_scripture",
+  },
+  {
+    "args": {
+      "location": "babel",
+    },
+    "tool": "zoom_to",
+  },
+  {
+    "args": {
+      "from": "babel",
+      "style": "migration",
+      "to": "egypt",
+    },
+    "tool": "draw_route",
+  },
+  {
+    "args": {
+      "mode": "map",
+    },
+    "tool": "set_scene",
+  },
+  {
+    "args": {
+      "definition": "God governs all things",
+      "etymology": "Latin providentia",
+      "pronunciation": "PROV-ih-dence",
+      "term": "Providence",
+    },
+    "tool": "show_key_term",
+  },
+  {
+    "args": {
+      "bullets": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e",
+        "f",
+      ],
+      "title": "Test",
+    },
+    "tool": "show_slide",
+  },
+  {
+    "args": {
+      "color": "#fac775",
+      "regionId": "cush",
+    },
+    "tool": "highlight_region",
+  },
+  {
+    "args": {
+      "label": "Babel",
+      "location": "babel",
+    },
+    "tool": "place_marker",
+  },
+]
+`;

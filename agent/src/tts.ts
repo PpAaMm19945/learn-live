@@ -18,7 +18,7 @@ export class TTSService {
   private apiKey: string;
   private endpoint: string;
   private static MAX_RETRIES = 3;
-  private static MIN_REQUEST_INTERVAL_MS = 6500;
+  private static MIN_REQUEST_INTERVAL_MS = 3000;
   private static lastRequestAt = 0;
   private static queue: Promise<void> = Promise.resolve();
 

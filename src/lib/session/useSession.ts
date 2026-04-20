@@ -321,8 +321,6 @@ export function useSession({
         setStatus('connected');
         setHasReceivedMessage(false);
         debug('connection', 'Connected to agent');
-
-        setupMicrophone();
       };
 
       ws.onmessage = async (event) => {
@@ -442,6 +440,8 @@ export function useSession({
               pendingLessonCompleteRef.current = true;
               statusRef.current = 'ended';
             }
+          } else if (msg.type === 'session_score') {
+            debug('connection', 'Session score received', JSON.stringify(msg.score));
           } else if (msg.type === 'error') {
              Logger.error('[WS]', `Agent error: ${msg.message}`);
              debug('error', `Agent error: ${msg.message}`, msg.code ? `code: ${msg.code}` : undefined);
