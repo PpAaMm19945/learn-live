@@ -46,6 +46,7 @@ export interface BeatPayload {
   text: string;
   audioData: string; // base64
   toolCalls: AgentToolCall[];
+  cooldownMs?: number;
 }
 
 /** Combined message from the agent WebSocket */
@@ -62,6 +63,7 @@ export type AgentMessage =
   | { type: 'gatekeeper_complete' }
   | { type: 'negotiator_complete' }
   | { type: 'performer_complete' }
+  | { type: 'scaffolding_change'; active: boolean; reason?: string }
   | { type: 'session_complete' }
   | { type: 'lesson_complete' }
   | { type: 'error'; message: string; code?: string };

@@ -6,7 +6,7 @@
 
 ---
 
-## ⭐ Active Direction (2026-04-20): The Sandwich Model
+## ⭐ Active Direction (2026-04-20): Phase 1D Complete, Pilot Readiness Next
 
 The platform is pivoting from "advanced multimedia presenter" to "true pedagogical instrument" by wrapping the existing rigid `BeatSequencer` ("Performer") with two short, conversational Gemini Live agents:
 
@@ -26,7 +26,7 @@ The platform is pivoting from "advanced multimedia presenter" to "true pedagogic
 | **1A** | Gatekeeper persona + `AWAITING_GATEKEEPER_GREENLIGHT` state in `historySessionController.ts` + new frontend Gatekeeper screen. **No assignments yet.** | ✅ Complete (shipped in Sandwich Lite) |
 | **1B** | Negotiator persona + post-lesson synthesis + verbal homework. **No persistence yet.** | ✅ Complete (shipped in Sandwich Lite) |
 | **1C** | `learner_assignments` D1 table; Negotiator writes, Gatekeeper reads; parent dashboard surfacing; lesson-start gating with parent override (per `mem://principles/ai-governance`). | ⏳ Queued |
-| **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ⏳ Queued |
+| **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ✅ Complete |
 
 Sandwich Lite (1A+1B) is complete; the immediate active workstream is **Phase 1C assignment persistence**. Audit-fix chronology is captured in the 2026-04-20 handoff prompt used for Phase 1.5 wiring corrections. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #102–#105 (audit fixes, resolved).
 
@@ -1064,3 +1064,11 @@ The AI narrates and the sequencer fires these tool calls via WebSocket:
 ---
 
 *This document is the single source of truth. Update it as decisions change.*
+
+## 2026-04-20 — Active Direction Update
+- Status flip: **Phase 1D** moved from queued to complete for this branch scope (adaptive scaffolding loop, telemetry write endpoint, and pilot polish pass).
+
+## Pilot Readiness
+- Auth hardening
+- Billing integration
+- Content QA backlog burn-down

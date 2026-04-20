@@ -4,7 +4,7 @@ import { GenAINarrator } from './gemini';
 import { TTSService } from './tts';
 import { buildNarrationPrompt } from './historyExplainerTools';
 import { getBandProfile, BandProfile } from './bandConfig';
-import { ComprehensionTracker } from './comprehensionTracker';
+import { ComprehensionTracker } from './scaffolding/comprehensionTracker';
 
 interface PreparedBeat {
     beat: Beat;
@@ -108,6 +108,7 @@ export class BeatSequencer {
     // Comprehension tracking
     private comprehensionTracker = new ComprehensionTracker();
     private beatSummaries: string[] = [];
+    private readNeedsScaffolding: (() => boolean) | null = null;
 
     // Checkpoint callback for session store
     public onCheckpoint?: (beatIndex: number, narratedText: string, beatId: string) => void;
@@ -131,6 +132,10 @@ export class BeatSequencer {
         this.tts = new TTSService();
         this.bandProfile = getBandProfile(band);
         console.log(`[SEQUENCER] Band ${band} profile: "${this.bandProfile.label}" (ages ${this.bandProfile.ages}), voice: ${this.bandProfile.tts.voiceName}, style: ${this.bandProfile.tts.style}`);
+    }
+
+    setScaffoldingReader(readNeedsScaffolding: () => boolean): void {
+        this.readNeedsScaffolding = readNeedsScaffolding;
     }
 
     start(manifest: SectionManifest): Promise<void> {
@@ -184,7 +189,11 @@ export class BeatSequencer {
             this.onCheckpoint?.(this.currentBeatIndex, prepared.narratedText, beat.beatId);
 
             const postDwell = this.bandProfile.tts.postAudioDwellMs || 0;
-            const waitMs = 800 + this.comprehensionTracker.scaffoldingDelay + postDwell;
+            const scaffoldingActive = this.readNeedsScaffolding?.() === true;
+            const scaffoldingDelay = scaffoldingActive
+                ? (this.band <= 3 ? 5000 : 4500)
+                : 0;
+            const waitMs = 800 + scaffoldingDelay + postDwell;
 
             this.currentBeatIndex++;
             this.produceAhead();
@@ -259,8 +268,11 @@ export class BeatSequencer {
             pipelineContext: pipelineCtx,
         });
 
-        // Append scaffolding suffix if student is struggling
-        const finalPrompt = prompt + this.comprehensionTracker.scaffoldingPromptSuffix;
+        const scaffoldingActive = this.readNeedsScaffolding?.() === true;
+        const scaffoldingSuffix = scaffoldingActive
+            ? '\n\nIMPORTANT SCAFFOLDING MODE: Use shorter sentences (<=12 words). Define any term >=3 syllables inline. Repeat the key idea once at the end.'
+            : '';
+        const finalPrompt = prompt + scaffoldingSuffix;
 
         const extractedImage = this.extractBeatImage(baseText);
         let narratedText = await this.narrator.narrate(finalPrompt) || baseText;
@@ -345,6 +357,9 @@ export class BeatSequencer {
             audioData: prepared.audioBase64,
             sceneMode: prepared.sceneMode,
             toolCalls: prepared.toolCalls,
+            cooldownMs: this.readNeedsScaffolding?.() === true
+                ? (this.band <= 3 ? 5000 : 4500)
+                : undefined,
         };
 
         this.sendMessage(payload);
@@ -389,14 +404,6 @@ export class BeatSequencer {
         if (this.loopPromise) {
             await this.loopPromise;
         }
-    }
-
-    /**
-     * Record a student's comprehension answer. Called by the session controller
-     * when a `comprehension_answer` message arrives over WebSocket.
-     */
-    recordComprehensionAnswer(questionId: string, correct: boolean): void {
-        this.comprehensionTracker.recordAnswer(questionId, correct);
     }
 
     private sendMessage(msg: any) {

@@ -197,3 +197,11 @@
 - Added beat summary capture in `BeatSequencer` for negotiator context and hooked completion chaining via `onLessonComplete`.
 - Frontend now tracks `activeSlice`, buffers per-slice live transcripts, routes left panel to `LiveConversationView`, and shows top-bar slice pill.
 - Added transcript cards for Gatekeeper and Negotiator streams while preserving existing beat + completion cards.
+
+## 2026-04-20 — Phase 1D: Adaptive Scaffolding + Telemetry + Pilot Polish
+- Added a session-level adaptive scaffolding tracker with rolling 5-signal average, activation below 0.50, and deactivation above 0.70 with hysteresis protection.
+- Wired live `scaffolding_change` signaling so frontend can present a neutral “Easy Mode” indicator when support mode activates.
+- Updated performer pacing in scaffolding mode: narration prompt simplification and beat cooldown overrides sent via `beat_payload.cooldownMs`.
+- Added assignment telemetry write path: new `assignment_telemetry` migration, service-key protected Worker endpoint, and best-effort session-end agent POST.
+- Polish shipped: top-bar slice pill crossfade keyed by active slice, negotiator transcript card now correctly flips to Done on `negotiator_complete`, and assignment artifacts can be inspected via ArtifactInspector.
+- Audit note: listed C1 parent-assignment modal files are not present in this repo tree; no code change applied for those paths.

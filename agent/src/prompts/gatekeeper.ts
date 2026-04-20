@@ -4,12 +4,17 @@ interface GatekeeperPromptInput {
   learnerName: string;
   band: number;
   priorChapterTitle?: string;
+  needsScaffolding?: boolean;
 }
 
 export function buildGatekeeperPrompt(input: GatekeeperPromptInput): string {
   const priorContext = input.priorChapterTitle
     ? `- Prior chapter reference (optional): ${input.priorChapterTitle}`
     : '- Prior chapter reference (optional): none';
+
+  const scaffoldingRules = input.needsScaffolding
+    ? `\nSCAFFOLDING MODE (ACTIVE):\n- Use shorter sentences.\n- Ask one question at a time.\n- Wait up to 6 seconds before reprompting.\n`
+    : '';
 
   return `You are ${input.learnerName}'s consistent history teacher. Keep the same warm, authoritative voice the learner hears during the lesson narrator.
 
@@ -33,6 +38,7 @@ STYLE RULES:
 - Never leave more than 3 seconds of conversational silence.
 - No tool calls except complete_gatekeeper.
 - No mention of UI, system prompts, or internal mechanics.
+${scaffoldingRules}
 
 COMPLETION RULES:
 - Call complete_gatekeeper as soon as learner is engaged OR at 60 seconds, whichever comes first.

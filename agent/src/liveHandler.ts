@@ -19,6 +19,7 @@ export class LiveConversationHandler {
     private resolvePromise: (() => void) | null = null;
     private timeoutRef: ReturnType<typeof setTimeout> | null = null;
     private isActive = false;
+    private transcriptBuffer = '';
 
     constructor(
         private ws: WebSocket,
@@ -115,6 +116,9 @@ export class LiveConversationHandler {
         }
 
         if (data.type === 'text') {
+            if (data.text) {
+                this.transcriptBuffer = `${this.transcriptBuffer}${data.text}`;
+            }
             this.ws.send(JSON.stringify({ type: 'transcript', text: data.text, isFinal: data.isFinal }));
             return;
         }
@@ -139,6 +143,10 @@ export class LiveConversationHandler {
             this.complete();
         }
     }
+
+    getTranscript(): string {
+        return this.transcriptBuffer;
+    }
 }
 
 export class LiveQAHandler {
@@ -147,6 +155,8 @@ export class LiveQAHandler {
     private maxDurationTimer: ReturnType<typeof setTimeout> | null = null;
     private resolvePromise: (() => void) | null = null;
     private isActive = false;
+    private raiseHandCount = 0;
+    private transcriptBuffer = '';
 
     constructor(
         private ws: WebSocket,
@@ -161,6 +171,7 @@ export class LiveQAHandler {
         }
 
         this.isActive = true;
+        this.raiseHandCount += 1;
 
         const qaInstruction = `${this.baseSystemInstruction}\n\nCURRENT CONTEXT:\nThe student has a question about: "${context.currentBeatTitle}".\nRecent lesson content: "${context.recentTranscript}"\nThe specific content being discussed right now is: "${context.currentBeatContent}"\n\nINSTRUCTIONS:\n- Answer briefly and clearly at a Band ${this.band} level.\n- Keep your responses under 30 seconds each.\n- When complete, say exactly: "Let's continue with the lesson."`;
 
@@ -213,6 +224,9 @@ export class LiveQAHandler {
             this.ws.send(JSON.stringify({ type: 'audio', data: data.data }));
             this.resetSilenceTimer();
         } else if (data.type === 'text') {
+            if (data.text) {
+                this.transcriptBuffer = `${this.transcriptBuffer}${data.text}`;
+            }
             this.ws.send(JSON.stringify({ type: 'transcript', text: data.text, isFinal: data.isFinal }));
             if ((data.text || '').toLowerCase().includes("let's continue with the lesson")) {
                 setTimeout(() => this.stopQA(), 1200);
@@ -225,5 +239,19 @@ export class LiveQAHandler {
     private resetSilenceTimer() {
         if (this.silenceTimer) clearTimeout(this.silenceTimer);
         this.silenceTimer = setTimeout(() => this.stopQA(), 10000);
+    }
+
+    getRaiseHandCount(): number {
+        return this.raiseHandCount;
+    }
+
+    getLastQATranscript(): string {
+        return this.transcriptBuffer;
+    }
+
+    getLastTranscript(_slice: LiveSliceType): string {
+        // Slice transcripts are emitted from LiveConversationHandler in SessionLifecycle.
+        // We keep this compatibility shim for session-level scoring calls.
+        return this.transcriptBuffer;
     }
 }

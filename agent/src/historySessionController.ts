@@ -7,6 +7,7 @@ export interface HistorySessionControlState {
   isClosed: boolean;
   lessonPausedByQA: boolean;
   phase: SessionPhase;
+  needsScaffolding: boolean;
 }
 
 export class HistorySessionController {
@@ -14,7 +15,8 @@ export class HistorySessionController {
     isQAActive: false,
     isClosed: false,
     lessonPausedByQA: false,
-    phase: 'IDLE'
+    phase: 'IDLE',
+    needsScaffolding: false,
   };
 
   constructor(private readonly band: number) {}
@@ -74,5 +76,9 @@ export class HistorySessionController {
     this.state.isQAActive = false;
     this.state.lessonPausedByQA = false;
     this.state.phase = 'COMPLETE';
+  }
+
+  setNeedsScaffolding(active: boolean): void {
+    this.state.needsScaffolding = active;
   }
 }

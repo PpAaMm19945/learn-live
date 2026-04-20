@@ -20,6 +20,7 @@ MIGRATIONS=(
     "worker/db/migrations/011_feedback.sql"
     "worker/db/migrations/012_glossary.sql"
     "worker/db/migrations/013_world_context.sql"
+    "worker/db/migrations/015_assignment_telemetry.sql"
 )
 
 # Apply migrations

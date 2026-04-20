@@ -167,7 +167,7 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const {
     status, transcriptChunks, thinkingText, sceneMode: _sceneMode, error,
-    isMuted, isQAActive, hasReceivedMessage, pipelineStatus, activeSlice, liveTranscripts,
+    isMuted, isQAActive, hasReceivedMessage, pipelineStatus, activeSlice, liveTranscripts, liveSliceStatus, scaffoldingActive,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
     beats
@@ -477,8 +477,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     }));
 
   const liveCards = !useFallback ? [
-    liveTranscripts.gatekeeper ? { id: '__gatekeeper__', kind: 'live' as const, slice: 'gatekeeper' as const, text: liveTranscripts.gatekeeper, status: 'done' as const, toolCalls: [] } : null,
-    liveTranscripts.negotiator ? { id: '__negotiator__', kind: 'live' as const, slice: 'negotiator' as const, text: liveTranscripts.negotiator, status: 'done' as const, toolCalls: [] } : null,
+    liveTranscripts.gatekeeper ? { id: '__gatekeeper__', kind: 'live' as const, slice: 'gatekeeper' as const, text: liveTranscripts.gatekeeper, status: liveSliceStatus.gatekeeper, toolCalls: [] } : null,
+    liveTranscripts.negotiator ? { id: '__negotiator__', kind: 'live' as const, slice: 'negotiator' as const, text: liveTranscripts.negotiator, status: liveSliceStatus.negotiator, toolCalls: [] } : null,
   ].filter(Boolean) as any[] : [];
 
   const transcriptBeats = isEnded
@@ -556,7 +556,14 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
           {isEnded && (
             <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-amber-500/20 text-amber-600 rounded-full">Review</span>
           )}
-          <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-primary/15 text-primary rounded-full">{sliceLabel}</span>
+          {scaffoldingActive && band >= 2 && (
+            <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-emerald-500/15 text-emerald-600 rounded-full">Easy Mode</span>
+          )}
+          <span className="px-2 py-0.5 text-[9px] font-bold tracking-wider uppercase bg-primary/15 text-primary rounded-full">
+            <motion.span key={activeSlice} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {sliceLabel}
+            </motion.span>
+          </span>
           <div className={`w-2 h-2 rounded-full ${isConnected ? 'bg-green-500' : status === 'reconnecting' ? 'bg-amber-500 animate-pulse' : 'bg-muted-foreground/30'}`} />
           <span className="text-[10px] text-muted-foreground uppercase tracking-wider">
             {useFallback ? (goldenScript.status === 'playing' ? 'Playing' : 'Paused') : (status === 'reconnecting' ? 'Reconnecting' : isConnected ? 'Live' : 'Connecting')}

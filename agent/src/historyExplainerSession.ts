@@ -10,6 +10,7 @@ import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint, expireSession } from './sessionStore';
 import { SessionLifecycle } from './sessionLifecycle';
+import { ComprehensionTracker, scoreAnswer } from './scaffolding/comprehensionTracker';
 
 export async function handleHistoryExplainerSession(
     ws: WebSocket,
@@ -37,6 +38,30 @@ THEOLOGICAL GUARDRAILS:
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
     const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
     const controller = new HistorySessionController(band);
+    const comprehensionTracker = new ComprehensionTracker();
+    const sessionStartedAt = Date.now();
+    let scaffoldingTriggered = false;
+
+    const applyScaffoldingSignal = async (source: 'raise_hand' | 'gatekeeper' | 'negotiator', text: string) => {
+        const score = await scoreAnswer('How well did the learner demonstrate understanding?', text, []);
+        const transition = comprehensionTracker.push({
+            source,
+            score,
+            reason: `${source} response scored ${score.toFixed(2)}`,
+        });
+        if (!transition) return;
+        controller.setNeedsScaffolding(transition.active);
+        lifecycle?.setNeedsScaffolding(transition.active);
+        if (transition.active) scaffoldingTriggered = true;
+        if (ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify({
+                type: 'scaffolding_change',
+                active: transition.active,
+                reason: transition.reason,
+            }));
+        }
+    };
+    sequencer.setScaffoldingReader(() => controller.snapshot().needsScaffolding);
 
     const sKey = sessionKey(canonicalLessonId, learnerId, band);
     let sessionClosing = false;
@@ -79,12 +104,14 @@ THEOLOGICAL GUARDRAILS:
 
             if (msg.type === 'gatekeeper_complete') {
                 lifecycle?.completeGatekeeper();
+                void applyScaffoldingSignal('gatekeeper', lifecycle?.getSliceTranscript('gatekeeper') || '');
                 return;
             }
 
             if (msg.type === 'negotiator_complete') {
                 lifecycle?.completeNegotiator();
                 controller.setPhase('COMPLETE');
+                void applyScaffoldingSignal('negotiator', lifecycle?.getSliceTranscript('negotiator') || '');
                 return;
             }
 
@@ -101,6 +128,7 @@ THEOLOGICAL GUARDRAILS:
                 ws.send(JSON.stringify({ type: 'qa_started' }));
                 liveHandler.startQA(sequencer.getContext())
                     .then(() => {
+                        void applyScaffoldingSignal('raise_hand', liveHandler.getLastQATranscript());
                         const { shouldResumeLesson } = controller.completeQA();
                         if (shouldResumeLesson) sequencer.resume();
                     })
@@ -159,6 +187,7 @@ THEOLOGICAL GUARDRAILS:
                     chapterTitle: cached.preparedManifest.heading || chapterId,
                     learnerName: learnerId,
                     band,
+                    needsScaffolding: controller.snapshot().needsScaffolding,
                 });
 
                 lifecycle.beginPerformer();
@@ -190,6 +219,7 @@ THEOLOGICAL GUARDRAILS:
             chapterTitle: preparedManifest.heading || chapterId,
             learnerName: learnerId,
             band,
+            needsScaffolding: controller.snapshot().needsScaffolding,
         });
 
         sendStatus('ready', 'Starting lesson…');
@@ -220,6 +250,17 @@ THEOLOGICAL GUARDRAILS:
             startPerformer(preparedManifest);
         }
 
+        ws.on('close', async () => {
+            await postTelemetry({
+                assignmentId: canonicalLessonId,
+                comprehensionAvg: comprehensionTracker.average,
+                scaffoldingTriggered,
+                raiseHandCount: liveHandler.getRaiseHandCount(),
+                sessionDurationSeconds: Math.round((Date.now() - sessionStartedAt) / 1000),
+                beatsCompleted: sequencer.getBeatSummaries().length,
+            });
+        });
+
     } catch (err: any) {
         const message = err instanceof Error ? err.message : 'Failed to load lesson content';
         console.error(`[HISTORY_EXPLAINER] Session setup failed: ${message}`);
@@ -227,5 +268,34 @@ THEOLOGICAL GUARDRAILS:
             ws.send(JSON.stringify({ type: 'error', code: 'CONTENT_FETCH_FAILED', message }));
         }
         await cleanupSession();
+    }
+
+    async function postTelemetry(payload: {
+        assignmentId: string;
+        comprehensionAvg: number;
+        scaffoldingTriggered: boolean;
+        raiseHandCount: number;
+        sessionDurationSeconds: number;
+        beatsCompleted: number;
+    }) {
+        try {
+            if (!workerUrl || workerUrl === 'local' || !serviceKey) return;
+            await fetch(`${workerUrl}/api/assignments/${encodeURIComponent(payload.assignmentId)}/telemetry`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Service-Key': serviceKey,
+                },
+                body: JSON.stringify({
+                    comprehension_avg: payload.comprehensionAvg,
+                    scaffolding_triggered: payload.scaffoldingTriggered ? 1 : 0,
+                    raise_hand_count: payload.raiseHandCount,
+                    session_duration_seconds: payload.sessionDurationSeconds,
+                    beats_completed: payload.beatsCompleted,
+                }),
+            });
+        } catch (err) {
+            console.warn('[TELEMETRY] best-effort post failed:', err);
+        }
     }
 }
