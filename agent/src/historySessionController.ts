@@ -1,16 +1,20 @@
 import { getBandProfile } from './bandConfig';
 
+export type SessionPhase = 'IDLE' | 'AWAITING_GATEKEEPER_GREENLIGHT' | 'PERFORMER' | 'NEGOTIATOR' | 'COMPLETE';
+
 export interface HistorySessionControlState {
   isQAActive: boolean;
   isClosed: boolean;
   lessonPausedByQA: boolean;
+  phase: SessionPhase;
 }
 
 export class HistorySessionController {
   private state: HistorySessionControlState = {
     isQAActive: false,
     isClosed: false,
-    lessonPausedByQA: false
+    lessonPausedByQA: false,
+    phase: 'IDLE'
   };
 
   constructor(private readonly band: number) {}
@@ -19,9 +23,23 @@ export class HistorySessionController {
     return { ...this.state };
   }
 
+  setPhase(phase: SessionPhase): void {
+    this.state.phase = phase;
+  }
+
+  canStartPerformer(): boolean {
+    if (this.state.isClosed) return false;
+    if (this.band <= 1) return true;
+    return this.state.phase === 'AWAITING_GATEKEEPER_GREENLIGHT';
+  }
+
   canAcceptRaiseHand(): { accepted: boolean; reason?: string } {
     if (this.state.isClosed) {
       return { accepted: false, reason: 'session_closed' };
+    }
+
+    if (this.state.phase !== 'PERFORMER') {
+      return { accepted: false, reason: 'not_in_performer_slice' };
     }
 
     const profile = getBandProfile(this.band);
@@ -55,5 +73,6 @@ export class HistorySessionController {
     this.state.isClosed = true;
     this.state.isQAActive = false;
     this.state.lessonPausedByQA = false;
+    this.state.phase = 'COMPLETE';
   }
 }

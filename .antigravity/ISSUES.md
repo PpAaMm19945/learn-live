@@ -170,3 +170,8 @@
 - **Status:** OPEN — tied to 1A and 1B
 - **Description:** `SessionCanvas` today has only one mode (Performer + raise-hand). Sandwich Model needs two new full-duplex Live screens with no beat queue: a "your teacher is talking to you" cover for Gatekeeper, and a "proposed assignment" card UI for Negotiator.
 
+
+### 98. Sandwich Lite (Phase 1) implementation landed
+- **Status:** RESOLVED — 2026-04-20
+- **Description:** Implemented Gatekeeper and Negotiator conversational slices around BeatSequencer for Bands 2-5, with new lifecycle transitions, per-slice transcript buffering, and completion choreography.
+- **Notes:** Bands 0-1 remain Performer-only; persistence/homework deferred to Phase 1C by design.
