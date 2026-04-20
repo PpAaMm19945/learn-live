@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import type { AgentToolCall } from '@/lib/session/types';
+import type { InspectorArtifact } from './ArtifactInspector';
+import { mergeTimeline } from '@/data/chapterTimelines';
 
 interface BeatActivityDropdownProps {
   toolCalls: AgentToolCall[];
   thinking?: string;
   blockedTools?: { tool: string; reason: string }[];
+  chapterId: string;
+  onArtifactClick?: (artifact: InspectorArtifact) => void;
 }
 
 /** Human-readable summary of a tool call for the activity log. */
@@ -50,7 +54,52 @@ function summarizeTool(t: AgentToolCall): string {
   }
 }
 
-export function BeatActivityDropdown({ toolCalls, thinking, blockedTools }: BeatActivityDropdownProps) {
+export function buildArtifact(toolCall: AgentToolCall, chapterId: string): InspectorArtifact | null {
+  const args = toolCall.args || {};
+  switch (toolCall.tool) {
+    case 'set_scene':
+      if (args.mode === 'image' && args.imageUrl) {
+        return { kind: 'image', url: args.imageUrl, caption: args.caption };
+      }
+      if (args.mode === 'map' || args.mode === 'transcript') {
+        return { kind: 'mapAction', tool: toolCall.tool, args };
+      }
+      return null;
+    case 'show_scripture':
+      return { kind: 'scripture', reference: args.reference || '', text: args.text || '', connection: args.connection };
+    case 'show_key_term':
+      return {
+        kind: 'keyTerm',
+        term: args.term || '',
+        definition: args.definition || '',
+        pronunciation: args.pronunciation,
+        etymology: args.etymology,
+      };
+    case 'show_timeline':
+      return { kind: 'timeline', events: mergeTimeline(chapterId, args.events || []) };
+    case 'show_question':
+      return { kind: 'question', question: args.question || '', context: args.context, type: args.type };
+    case 'show_quote':
+      return { kind: 'quote', text: args.text || '', attribution: args.attribution, date: args.date };
+    case 'show_figure':
+      return { kind: 'figure', name: args.name || '', title: args.title, imageUrl: args.imageUrl };
+    case 'show_genealogy':
+      return { kind: 'genealogy', rootName: args.rootName || '', nodes: args.nodes || [] };
+    case 'show_comparison':
+      return { kind: 'comparison', title: args.title || '', columnA: args.columnA, columnB: args.columnB };
+    case 'show_slide':
+      return { kind: 'slide', title: args.title || '', body: args.body, bullets: args.bullets, imageUrl: args.imageUrl };
+    case 'place_marker':
+    case 'zoom_to':
+    case 'draw_route':
+    case 'highlight_region':
+      return { kind: 'mapAction', tool: toolCall.tool, args };
+    default:
+      return null;
+  }
+}
+
+export function BeatActivityDropdown({ toolCalls, thinking, blockedTools, chapterId, onArtifactClick }: BeatActivityDropdownProps) {
   const [open, setOpen] = useState(false);
   const totalItems = (toolCalls?.length || 0) + (blockedTools?.length || 0) + (thinking ? 1 : 0);
   if (totalItems === 0) return null;
@@ -68,16 +117,27 @@ export function BeatActivityDropdown({ toolCalls, thinking, blockedTools }: Beat
 
       {open && (
         <div className="mt-2 space-y-1.5">
-          {toolCalls?.map((t, i) => (
-            <div
-              key={`t-${i}`}
-              className="text-[11px] px-2 py-1 rounded bg-muted/40 text-foreground/80 font-mono leading-snug"
-            >
-              <span className="text-primary/80 font-semibold">{t.tool}</span>
-              <span className="text-muted-foreground"> · </span>
-              <span>{summarizeTool(t)}</span>
-            </div>
-          ))}
+          {toolCalls?.map((t, i) => {
+            const artifact = buildArtifact(t, chapterId);
+            const clickable = !!artifact && !!onArtifactClick;
+            return (
+              <button
+                key={`t-${i}`}
+                type="button"
+                onClick={() => artifact && onArtifactClick?.(artifact)}
+                disabled={!clickable}
+                className={`w-full text-left text-[11px] px-2 py-1 rounded font-mono leading-snug transition-colors ${
+                  clickable
+                    ? 'bg-muted/40 hover:bg-muted/70 text-foreground/90 cursor-pointer'
+                    : 'bg-muted/25 text-foreground/70 cursor-default'
+                }`}
+              >
+                <span className="text-primary/80 font-semibold">{t.tool}</span>
+                <span className="text-muted-foreground"> · </span>
+                <span>{summarizeTool(t)}</span>
+              </button>
+            );
+          })}
 
           {blockedTools?.map((b, i) => (
             <div

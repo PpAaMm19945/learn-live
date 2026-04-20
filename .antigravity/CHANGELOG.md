@@ -1,9 +1,18 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-19
+> **Last updated:** 2026-04-20
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
+
+
+## 2026-04-20 — Phase 0.5: Session UX Polish Pass
+- **Transcript readability:** Removed faded historical cards; all beat cards now render at full opacity. Active beat keeps the left accent + stronger card styling while older beats remain secondary but readable.
+- **Lesson end UX:** Removed the left-panel full-bleed completion overlay. Added a transcript-native completion card (`kind: 'completion'`) with **Back to Dashboard** and **Save as Golden Script** actions, plus a persistent top-bar **REVIEW** pill while ended.
+- **Artifact inspection:** Added a read-only `ArtifactInspector` modal and made activity tool chips clickable when visualizable. Inspecting artifacts is display-only (no tool re-dispatch, no canvas mutation, no audio replay).
+- **Welcome flow fixed:** Restored `WelcomeCover` rendering in the left panel, removed connecting early-return spinner takeover, and added transcript empty-state copy while waiting for first beat. Welcome auto-dismisses on first beat for Bands 2+.
+- **Session controls cleanup:** Replaced misleading ended-state “End Session” affordance with “Exit” behavior/icon and removed dead replay prop chain remnants.
+- **Stability fix:** Cleared `pendingThinkingRef` on `lesson_complete` to avoid stale thought text being attached to future beats.
 
 ## 2026-04-19 — Phase 0 (Revised): Transcript Stripped to Read-Only Activity Log
 - **Decision:** Killed the pause/play/replay duality entirely. The transcript is now a passive, scrollable record — no controls, no replay, no review-mode buttons. Eliminates the two-week regression cycle around audio double-firing and silent replays.

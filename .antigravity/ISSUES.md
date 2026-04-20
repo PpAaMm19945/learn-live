@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-19
+> **Last updated:** 2026-04-20
 
 ---
 
@@ -53,6 +53,10 @@
 | 81 | Scripture/Timeline/Figure Overlays Not Visible | Extracted overlay rendering into `CanvasOverlays.tsx` at z-40 | Phase 8 |
 | 83 | Gemini Narrator Leaks JSON Into Beat Text | JSON-guard prompt + server-side regex + frontend fallback | Phase 9 |
 | 84 | Timeline Overlay Clipped by Viewport Edge | Responsive positioning with `left-4 right-4` | Phase 9 |
+| 98 | End-of-Lesson Overlay Blocks Canvas Review | Removed left-panel end overlay; moved completion affordance into transcript + top-bar REVIEW pill | Phase 0.5 |
+| 99 | WelcomeCover Not Rendered During Connecting | Deleted connecting early-return and mounted WelcomeCover in left panel with proper dismiss/auto-dismiss behavior | Phase 0.5 |
+| 100 | Transcript Activity Chips Not Clickable | Added read-only ArtifactInspector modal with clickable tool chips mapped to visual artifacts | Phase 0.5 |
+| 101 | Past Transcript Cards Permanently Faded | Removed opacity fade and replaced with non-opacity active-card styling | Phase 0.5 |
 
 ---
 
@@ -134,6 +138,7 @@
 ---
 
 ## Notes
+- **2026-04-20 — Phase 0.5 polish shipped:** Closed end-overlay trap (#98), dead WelcomeCover path (#99), non-clickable activity artifacts (#100), and transcript readability fade issue (#101). Completion UX now lives inside transcript cards with review-state affordances.
 - **2026-04-19 — Phase 0 (Revised) shipped:** All pause/replay infrastructure removed. Transcript is now read-only with collapsible per-beat Activity dropdown surfacing tool calls + agent thinking. Issues #92 and #93 confirmed RESOLVED; review-mode replay path also removed (no longer needed). Next: Sandwich Lite (Gatekeeper + Negotiator, no homework persistence).
 - Issue 85 is the current critical blocker (agent-side).
 - Issues 80 and 71 remain open for future work.

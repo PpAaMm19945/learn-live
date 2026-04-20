@@ -388,6 +388,7 @@ export function useSession({
           } else if (msg.type === 'lesson_complete') {
             Logger.info('[WS]', 'Lesson finished signal received.');
             debug('beat', 'lesson_complete received', `Queue: ${beatQueue.length} beats remaining`);
+            pendingThinkingRef.current = '';
             pendingLessonCompleteRef.current = true;
             statusRef.current = 'ended';
           } else if (msg.type === 'error') {
