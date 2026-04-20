@@ -137,3 +137,6 @@ Four runtime issues identified and fixed:
 ## Sandwich Lite (Phase 1) — Apr 2026
 
 Implemented the Sandwich Lite orchestration for Bands 2–5 with Gatekeeper (pre-lesson live readiness), Performer (`BeatSequencer` lesson body), and Negotiator (post-lesson live reflection), while keeping Bands 0–1 on performer-only flow; chose voice/persona continuity across slices, and explicitly deferred homework persistence and assignment storage to Phase 1C.
+
+## Phase 1D — Adaptive Scaffolding
+Implemented a rolling-window comprehension approach where the session tracks the latest five scored interaction signals and only evaluates scaffolding once at least three signals exist; support mode activates when average drops below 0.50 and clears only once performance rises above 0.70 (with hysteresis guard at 0.65 to reduce mode flapping). Frontend framing is intentionally neutral (“Easy Mode”) to keep the intervention pedagogically supportive rather than alarming.

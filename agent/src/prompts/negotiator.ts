@@ -4,12 +4,17 @@ interface NegotiatorPromptInput {
   learnerName: string;
   band: number;
   beatSummaries: string[];
+  needsScaffolding?: boolean;
 }
 
 export function buildNegotiatorPrompt(input: NegotiatorPromptInput): string {
   const summaries = input.beatSummaries.length
     ? input.beatSummaries.map((summary, i) => `${i + 1}. ${summary}`).join('\n')
     : '1. Lesson beats were completed (no summaries available).';
+
+  const scaffoldingRules = input.needsScaffolding
+    ? `\nSCAFFOLDING MODE (ACTIVE):\n- Use shorter sentences.\n- Ask one question at a time.\n- Wait up to 6 seconds before reprompting.\n`
+    : '';
 
   return `You are ${input.learnerName}'s consistent history teacher. Keep the same persona and voice continuity from the lesson.
 
@@ -33,6 +38,7 @@ STYLE RULES:
 - Avoid quiz-style rapid fire.
 - No tool calls except complete_negotiator.
 - No mention of persistence, dashboards, or homework systems.
+${scaffoldingRules}
 
 COMPLETION RULES:
 - Ensure at least one concrete lesson moment is mentioned.

@@ -161,3 +161,10 @@
 - **Status:** OPEN — Phase 1C scoped
 - **Description:** No assignment concept anywhere in the system today. Required schema (minimum): `learner_id`, `chapter_id`, `section_id`, `prompt`, `student_response` (nullable), `evaluated_at`, `evaluation_notes`. Negotiator writes; Gatekeeper reads most-recent-unreviewed at next session.
 - **UX dependencies:** Parent override per `mem://principles/ai-governance` (No AI Authority); first-lesson-ever bypass; not-done-assignment policy (allow / refuse / mini-recovery — pending user decision).
+
+## 2026-04-20 — Phase 1D Polish Tracking
+- **OPEN #106:** C1 audit target files (`src/pages/parent/Assignments.tsx`, `src/lib/hooks/useAssignmentGate.ts`, `src/components/session/AssignmentGateModal.tsx`) were not found in current tree; confirm branch parity before keyboard/parity fixes.
+- **RESOLVED #107:** Slice pill text flicker during transition fixed by keyed motion text crossfade in top bar.
+- **RESOLVED #108:** Negotiator transcript card now receives Done status on `negotiator_complete` path.
+- **RESOLVED #109:** Assignment artifact inspection added (`record_assignment` activity item opens inspector with dashboard deeplink).
+- **OPEN #110:** `record_assignment` backend idempotency path is not present in current Worker schema/routes; follow-up needed once assignment persistence tables are merged into this branch.

@@ -20,6 +20,7 @@ interface LifecycleConfig {
   learnerName: string;
   band: number;
   priorChapterTitle?: string;
+  needsScaffolding?: boolean;
 }
 
 export class SessionLifecycle {
@@ -28,6 +29,10 @@ export class SessionLifecycle {
   private negotiator: LiveConversationHandler | null = null;
 
   constructor(private config: LifecycleConfig) {}
+
+  setNeedsScaffolding(active: boolean): void {
+    this.config.needsScaffolding = active;
+  }
 
   getState(): LifecycleState {
     return this.state;
@@ -49,6 +54,7 @@ export class SessionLifecycle {
     this.state = 'GATEKEEPER';
     this.emitSliceChange('gatekeeper');
 
+    const needsScaffolding = this.config.needsScaffolding === true;
     this.gatekeeper = new LiveConversationHandler(
       this.config.ws,
       'gatekeeper',
@@ -58,8 +64,9 @@ export class SessionLifecycle {
         learnerName: this.config.learnerName,
         band: this.config.band,
         priorChapterTitle: this.config.priorChapterTitle,
+        needsScaffolding,
       }),
-      75_000,
+      needsScaffolding ? 150_000 : 75_000,
       `Begin the warm-up for ${this.config.chapterTitle}. Ask what ${this.config.learnerName} already knows before the lesson starts.`
     );
 
@@ -82,6 +89,7 @@ export class SessionLifecycle {
     this.state = 'NEGOTIATOR';
     this.emitSliceChange('negotiator');
 
+    const needsScaffolding = this.config.needsScaffolding === true;
     this.negotiator = new LiveConversationHandler(
       this.config.ws,
       'negotiator',
@@ -91,8 +99,9 @@ export class SessionLifecycle {
         learnerName: this.config.learnerName,
         band: this.config.band,
         beatSummaries: beatSummaries.slice(-6),
+        needsScaffolding,
       }),
-      120_000,
+      needsScaffolding ? 240_000 : 120_000,
       `Start a short reflection for ${this.config.learnerName}. Ask 1 to 2 open-ended synthesis questions based on the recent lesson moments.`
     );
 
@@ -114,6 +123,11 @@ export class SessionLifecycle {
     } else if (this.state === 'NEGOTIATOR') {
       this.negotiator?.sendAudio(data);
     }
+  }
+
+  getSliceTranscript(slice: 'gatekeeper' | 'negotiator'): string {
+    if (slice === 'gatekeeper') return this.gatekeeper?.getTranscript() || '';
+    return this.negotiator?.getTranscript() || '';
   }
 
   close(): void {

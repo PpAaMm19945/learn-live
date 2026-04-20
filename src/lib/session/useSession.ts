@@ -52,6 +52,8 @@ export function useSession({
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
   const [activeSlice, setActiveSlice] = useState<SessionSlice>('welcome');
   const [liveTranscripts, setLiveTranscripts] = useState<{ gatekeeper: string; negotiator: string }>({ gatekeeper: '', negotiator: '' });
+  const [liveSliceStatus, setLiveSliceStatus] = useState<{ gatekeeper: 'playing' | 'done'; negotiator: 'playing' | 'done' }>({ gatekeeper: 'playing', negotiator: 'playing' });
+  const [scaffoldingActive, setScaffoldingActive] = useState<boolean>(false);
   const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
   
   const [beats, setBeats] = useState<BeatRecord[]>([]);
@@ -393,6 +395,9 @@ export function useSession({
             setActiveSlice(nextSlice);
             pendingThinkingRef.current = '';
             if (nextSlice === 'gatekeeper' || nextSlice === 'negotiator') {
+              setLiveSliceStatus(prev => ({ ...prev, [nextSlice]: 'playing' }));
+            }
+            if (nextSlice === 'gatekeeper' || nextSlice === 'negotiator') {
               setIsMuted(false);
             } else if (band === 2) {
               setIsMuted(true);
@@ -400,9 +405,17 @@ export function useSession({
             setThinkingText('');
           } else if (msg.type === 'gatekeeper_complete' || msg.type === 'negotiator_complete') {
             debug('connection', `${msg.type} received`);
+            if (msg.type === 'gatekeeper_complete') {
+              setLiveSliceStatus(prev => ({ ...prev, gatekeeper: 'done' }));
+            } else {
+              setLiveSliceStatus(prev => ({ ...prev, negotiator: 'done' }));
+            }
           } else if (msg.type === 'performer_complete') {
             Logger.info('[WS]', 'Performer complete signal received.');
             debug('beat', 'performer_complete received', `Queue: ${beatQueue.length} beats remaining`);
+          } else if (msg.type === 'scaffolding_change') {
+            setScaffoldingActive(!!msg.active);
+            debug('qa', `Scaffolding ${msg.active ? 'enabled' : 'disabled'}`, msg.reason || '');
           } else if (msg.type === 'qa_complete') {
             Logger.info('[WS]', 'Q&A session complete. Resuming lesson.');
             debug('qa', 'Q&A session complete — resuming lesson');
@@ -665,7 +678,7 @@ export function useSession({
         debug('beat', `Beat complete (${reason}) — entering COOLDOWN`);
         setBeats(prev => prev.map(b => b.status === 'playing' ? { ...b, status: 'done' } : b));
         setBeatState('COOLDOWN');
-        const cooldownMs = band <= 1 ? 4500 : band <= 3 ? 3500 : 3000;
+        const cooldownMs = (currentBeat as any).cooldownMs || (band <= 1 ? 4500 : band <= 3 ? 3500 : 3000);
         setTimeout(() => {
           setBeatState('IDLE');
         }, cooldownMs);
@@ -746,6 +759,8 @@ export function useSession({
     isQAActive,
     activeSlice,
     liveTranscripts,
+    liveSliceStatus,
+    scaffoldingActive,
     hasReceivedMessage,
     pipelineStatus,
     connect,

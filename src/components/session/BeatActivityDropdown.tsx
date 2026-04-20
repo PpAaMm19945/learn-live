@@ -49,6 +49,8 @@ function summarizeTool(t: AgentToolCall): string {
       return `Highlight: ${a.regionId || ''}`;
     case 'dismiss_overlay':
       return `Dismissed: ${a.type || 'all'}`;
+    case 'record_assignment':
+      return `Assignment recorded: ${(a.prompt || '').slice(0, 60)}`;
     default:
       return t.tool;
   }
@@ -94,6 +96,8 @@ export function buildArtifact(toolCall: AgentToolCall, chapterId: string): Inspe
     case 'draw_route':
     case 'highlight_region':
       return { kind: 'mapAction', tool: toolCall.tool, args };
+    case 'record_assignment':
+      return { kind: 'assignment', prompt: args.prompt || 'Assignment recorded.' };
     default:
       return null;
   }

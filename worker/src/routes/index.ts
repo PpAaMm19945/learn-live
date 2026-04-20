@@ -29,6 +29,7 @@ import { handleTtsRoutes, handleUserTtsRoutes } from './tts';
 import { handleCreateSession } from './sessions';
 import { handleMapTransformRoutes } from './mapTransforms';
 import { handleSaveGoldenScript, handleGetGoldenScript } from './goldenScripts';
+import { handlePostAssignmentTelemetry } from './assignments';
 
 /**
  * Central Route Registry
@@ -277,6 +278,12 @@ export async function routeRequest(request: Request, env: Env, corsHeaders: Reco
         const authResult = await requireAuth(request, env);
         if (authResult instanceof Response) return authResult;
         return handleCreateSession(request, env);
+    }
+
+    // --- Assignment Telemetry (service-only) ---
+    const assignmentTelemetryMatch = path.match(/^\/api\/assignments\/([^/]+)\/telemetry$/);
+    if (assignmentTelemetryMatch && method === 'POST') {
+        return handlePostAssignmentTelemetry(request, env, assignmentTelemetryMatch[1]);
     }
 
     // --- Golden Scripts ---

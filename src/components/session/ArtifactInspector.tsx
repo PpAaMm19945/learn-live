@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/dialog';
 import { R2Image } from '@/components/ui/R2Image';
 import { resolveImageUrl } from '@/lib/r2Assets';
+import { Link } from 'react-router-dom';
 
 // Read-only inspector. Never dispatches tool calls, mutates overlays, or touches live canvas/audio state.
 export type TimelineEvent = { year: number; label: string; color?: string };
@@ -23,7 +24,8 @@ export type InspectorArtifact =
   | { kind: 'genealogy'; rootName: string; nodes: any[] }
   | { kind: 'comparison'; title: string; columnA: any; columnB: any }
   | { kind: 'slide'; title: string; body?: string; bullets?: string[]; imageUrl?: string }
-  | { kind: 'mapAction'; tool: string; args: any };
+  | { kind: 'mapAction'; tool: string; args: any }
+  | { kind: 'assignment'; prompt: string };
 
 interface ArtifactInspectorProps {
   open: boolean;
@@ -181,6 +183,20 @@ export function ArtifactInspector({ open, onClose, artifact }: ArtifactInspector
                 <p className="font-semibold">Map Action</p>
                 <p className="text-sm text-muted-foreground">{mapActionSummary(artifact.tool, artifact.args)}</p>
                 <pre className="text-xs bg-background/70 rounded p-2 overflow-auto">{JSON.stringify(artifact.args, null, 2)}</pre>
+              </div>
+            )}
+
+            {artifact.kind === 'assignment' && (
+              <div className="rounded-lg border border-border p-4 bg-card/80 space-y-3">
+                <p className="font-semibold">Assignment Prompt</p>
+                <p className="text-sm leading-relaxed">{artifact.prompt}</p>
+                <Link
+                  to="/parent/assignments"
+                  className="inline-flex text-sm text-primary underline underline-offset-2 hover:opacity-80"
+                  onClick={onClose}
+                >
+                  View in dashboard
+                </Link>
               </div>
             )}
           </>
