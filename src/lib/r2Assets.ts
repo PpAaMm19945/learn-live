@@ -17,7 +17,7 @@
 
 const WORKER_URL =
   import.meta.env.VITE_WORKER_URL ||
-  'https://learn-live.antmwes104-1.workers.dev';
+  window.location.origin.replace('learn-live-4az.pages.dev', 'learn-live.antmwes104-1.workers.dev');
 
 function unique<T>(items: T[]): T[] {
   return Array.from(new Set(items));

@@ -11,7 +11,7 @@ const ai = new GoogleGenAI({
  */
 export class GenAINarrator {
     private apiKey: string;
-    private model = "gemini-3-flash-preview";
+    private model = "gemini-1.5-flash";
     private endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${this.model}:generateContent`;
 
     constructor(private systemInstruction: string) {
@@ -98,7 +98,7 @@ export class GeminiSession {
             }));
 
             const liveConfig: any = {
-                responseModalities: ['AUDIO'] as any,
+                responseModalities: ['AUDIO', 'TEXT'] as any,
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };

@@ -243,11 +243,19 @@ THEOLOGICAL GUARDRAILS:
             startPerformer(preparedManifest);
         } else {
             controller.setPhase('IDLE');
+
+            // Pre-start the sequencer in paused mode so it can begin
+            // producing narration and TTS in the background while the
+            // student is in the gatekeeper (warm-up) phase.
+            sequencer.pause();
+            startPerformer(preparedManifest);
+
             await lifecycle.startGatekeeper();
+
             controller.setPhase('AWAITING_GATEKEEPER_GREENLIGHT');
             lifecycle.beginPerformer();
             controller.setPhase('PERFORMER');
-            startPerformer(preparedManifest);
+            sequencer.resume();
         }
 
         ws.on('close', async () => {
