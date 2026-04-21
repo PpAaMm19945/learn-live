@@ -74,10 +74,29 @@
 | 118 | Negotiator natural completion skipped scoring + finalization | RESOLVED — server-side onNegotiatorComplete hook ensures scoring | Phase 1.6 |
 | 119 | Dashboard chapter readiness hardcoded | RESOLVED — data-driven via topic data + PILOT_ALLOWLIST | Phase 1.6 |
 | 120 | Live-slice audio plays as overlapping voices ('thousand voices') | RESOLVED — serialized playback queue + flush on transitions | Hotfix |
+| 121 | Live Agent Talks but Does Not Listen or Respond | RESOLVED — fixed stale closures in `useSession` and backend key mismatch | Phase 1.7 |
 
 ---
 
 ## Open Issues
+
+### 122. Live Agent Audio Pitch/Speed Mismatch
+- **Status:** OPEN — HIGH
+- **Description:** Audio from the Live Agent (Gemini Live API) sounds "weird". Likely a sampling rate mismatch where 16kHz PCM is being played back at 24kHz (causing a 1.5x speed-up and high pitch) or vice versa.
+- **Evidence:** User report: "The audio is coming out very weirdly too."
+- **Proposed Fix:** Detect or enforce consistent sampling rates (e.g., 24kHz) between the agent's output and the frontend's `AudioContext`.
+
+### 123. Aggressive Conversation Cutoffs & Timeouts
+- **Status:** OPEN — HIGH
+- **Description:** Live sessions (Gatekeeper/Negotiator) are cut off midway. The 10s silence timeout in `LiveQAHandler` and the 75s/120s hard timeouts in `SessionLifecycle` are too restrictive for natural educational dialogue.
+- **Evidence:** User report: "Live sessions seem to be limited, and they get cut off midway."
+- **Proposed Fix:** Increase silence timeout to 20-30s and hard conversation limits to 5-10 minutes. Implement a "soft" warning before cutoff.
+
+### 124. Awkward Transition Pause Between Live Slice and Lesson
+- **Status:** OPEN — MEDIUM
+- **Description:** After a live slice (e.g., Gatekeeper) ends, there is a long silence before the narrated lesson begins. This is caused by the `BeatSequencer` taking 15-60s to produce the first beat (Gemini narration + TTS) even with background pre-warming.
+- **Evidence:** User report: "There is then an awkward pause where I am not sure if the agent is saying something... the pause is broken by the teaching session."
+- **Proposed Fix:** Optimize `produceAhead` in `BeatSequencer` to ensure the first beat is fully ready (including TTS) before the live slice signals completion.
 
 ### 69. Raise Hand / Q&A Silently Fails
 - **Status:** OPEN — MEDIUM
