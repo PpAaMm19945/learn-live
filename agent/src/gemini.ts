@@ -174,8 +174,14 @@ export class GeminiSession {
                             }
 
                             // Robustly capture transcript for native-audio models
-                            const outputTranscriptionParts = (e.serverContent as any).outputTranscription?.parts;
-                            const transcriptionSource = outputTranscriptionParts?.map((p: any) => p.text).join(' ');
+                            const outputTranscription = (e.serverContent as any).outputTranscription;
+                            let transcriptionSource = '';
+
+                            if (outputTranscription?.text) {
+                                transcriptionSource = outputTranscription.text;
+                            } else if (outputTranscription?.parts) {
+                                transcriptionSource = outputTranscription.parts.map((p: any) => p.text).join(' ');
+                            }
 
                             if (transcriptionSource) {
                                 const thinkingRegex = /\*\*([^*]+)\*\*/g;
@@ -296,7 +302,7 @@ export class GeminiSession {
         try {
             // Send Base64 encoded audio chunk
             this.session.sendRealtimeInput({
-                media: {
+                audio: {
                     mimeType: "audio/pcm;rate=16000",
                     data: chunk.toString("base64")
                 }
