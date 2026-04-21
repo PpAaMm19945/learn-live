@@ -101,6 +101,8 @@ export function useSession({
   // Audio Playback State
   const audioContextRef = useRef<AudioContext | null>(null);
   const nextPlayTimeRef = useRef<number>(0);
+  const audioQueueRef = useRef<string[]>([]);
+  const audioDrainingRef = useRef<boolean>(false);
 
   // Microphone Capture State
   const audioInputContextRef = useRef<AudioContext | null>(null);
@@ -227,6 +229,27 @@ export function useSession({
         Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
         return Promise.resolve();
     }
+  }, []);
+
+  const drainAudioQueue = useCallback(async () => {
+    if (audioDrainingRef.current) return;
+    audioDrainingRef.current = true;
+    try {
+      while (audioQueueRef.current.length > 0) {
+        const next = audioQueueRef.current.shift()!;
+        try {
+          await playAudioChunk(next);
+        } catch (err) {
+          Logger.warn('[AUDIO]', 'chunk drain error', err);
+        }
+      }
+    } finally {
+      audioDrainingRef.current = false;
+    }
+  }, [playAudioChunk]);
+
+  const flushAudioQueue = useCallback(() => {
+    audioQueueRef.current = [];
   }, []);
 
   const setupMicrophone = useCallback(async () => {
@@ -404,10 +427,15 @@ export function useSession({
             if (activeSlice !== 'performer' && beatState === 'PLAYING_AUDIO') {
               return;
             }
-            debug('audio', `Audio chunk received (${((msg.data || '').length / 1024).toFixed(1)}KB base64)`);
-            await playAudioChunk(msg.data);
+            // Don't log every 2.5KB chunk — too noisy. Log only first chunk of a burst.
+            if (audioQueueRef.current.length === 0 && !audioDrainingRef.current) {
+              debug('audio', `Live audio stream started (${activeSlice})`);
+            }
+            audioQueueRef.current.push(msg.data);
+            void drainAudioQueue();
           } else if (msg.type === 'slice_change') {
             const nextSlice = msg.slice as SessionSlice;
+            flushAudioQueue();
             setActiveSlice(nextSlice);
             pendingThinkingRef.current = '';
             if (nextSlice === 'gatekeeper' || nextSlice === 'negotiator') {
@@ -421,6 +449,7 @@ export function useSession({
             setThinkingText('');
           } else if (msg.type === 'gatekeeper_complete' || msg.type === 'negotiator_complete') {
             debug('connection', `${msg.type} received`);
+            flushAudioQueue();
             if (msg.type === 'gatekeeper_complete') {
               setLiveSliceStatus(prev => ({ ...prev, gatekeeper: 'done' }));
             } else {
@@ -433,6 +462,7 @@ export function useSession({
           } else if (msg.type === 'live_slice_fallback' || msg.type === 'live_slice_error') {
             const isError = msg.type === 'live_slice_error';
             debug(isError ? 'error' : 'connection', `Live slice ${msg.type.split('_').pop()}: ${msg.slice}`, msg.reason);
+            flushAudioQueue();
             
             setLiveSliceNotice({
               slice: msg.slice,
@@ -563,6 +593,7 @@ export function useSession({
     setStatus('ended');
     statusRef.current = 'ended';
     pendingLessonCompleteRef.current = false;
+    flushAudioQueue();
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
       reconnectTimerRef.current = null;
@@ -619,6 +650,7 @@ export function useSession({
   useEffect(() => {
       return () => {
           pendingLessonCompleteRef.current = false;
+          flushAudioQueue();
           if (reconnectTimerRef.current) {
               clearTimeout(reconnectTimerRef.current);
               reconnectTimerRef.current = null;

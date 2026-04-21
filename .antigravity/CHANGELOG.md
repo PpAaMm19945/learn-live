@@ -5,6 +5,10 @@
 
 ---
 
+## 2026-04-21 — Hotfix: serialize live-slice audio playback
+
+- **Hotfix: serialize live-slice audio playback:** Chunked native-audio from `gemini-2.5-flash-native-audio-latest` was being played in parallel because each WS audio message launched its own async `playAudioChunk` call, causing dozens of `BufferSource`s to start at the same `currentTime`. Now queued through a single sequential drain loop, with flush on slice transitions and completion. No agent or worker changes.
+
 ## 2026-04-21 — Phase 1.6: Live Failure UX + Negotiator Scoring Fix + Data-Driven Chapters
 
 - **Live failure visibility:** Fallbacks (timeouts) and errors in Gatekeeper/Negotiator now trigger student-facing Sonner toasts and muted "System" cards in the transcript activity log.
