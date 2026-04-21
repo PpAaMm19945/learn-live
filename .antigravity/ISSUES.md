@@ -73,6 +73,7 @@
 | 117 | Live slice failure events logged but not user-visible | RESOLVED — Sonner toasts + muted System cards in transcript | Phase 1.6 |
 | 118 | Negotiator natural completion skipped scoring + finalization | RESOLVED — server-side onNegotiatorComplete hook ensures scoring | Phase 1.6 |
 | 119 | Dashboard chapter readiness hardcoded | RESOLVED — data-driven via topic data + PILOT_ALLOWLIST | Phase 1.6 |
+| 120 | Live-slice audio plays as overlapping voices ('thousand voices') | RESOLVED — serialized playback queue + flush on transitions | Hotfix |
 
 ---
 
