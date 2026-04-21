@@ -10,6 +10,7 @@ export type LifecycleState =
   | 'GATEKEEPER'
   | 'AWAITING_GATEKEEPER_GREENLIGHT'
   | 'PERFORMER'
+  | 'AWAITING_NEGOTIATOR_START'
   | 'NEGOTIATOR'
   | 'COMPLETE';
 
@@ -44,7 +45,7 @@ export class SessionLifecycle {
 
   currentSlice(): SessionSlice {
     if (this.state === 'GATEKEEPER' || this.state === 'AWAITING_GATEKEEPER_GREENLIGHT') return 'gatekeeper';
-    if (this.state === 'PERFORMER') return 'performer';
+    if (this.state === 'PERFORMER' || this.state === 'AWAITING_NEGOTIATOR_START') return 'performer';
     if (this.state === 'NEGOTIATOR') return 'negotiator';
     if (this.state === 'COMPLETE') return 'complete';
     return 'welcome';
@@ -75,9 +76,14 @@ export class SessionLifecycle {
   }
 
   completeGatekeeper(): void {
+    if (this.state !== 'GATEKEEPER') return;
     this.gatekeeper?.complete();
     this.gatekeeper = null;
     this.state = 'AWAITING_GATEKEEPER_GREENLIGHT';
+  }
+
+  setAwaitingNegotiator(): void {
+    this.state = 'AWAITING_NEGOTIATOR_START';
   }
 
   beginPerformer(): void {
@@ -86,6 +92,7 @@ export class SessionLifecycle {
   }
 
   async startNegotiator(beatSummaries: string[]): Promise<void> {
+    if (this.state === 'COMPLETE') return;
     this.state = 'NEGOTIATOR';
     this.emitSliceChange('negotiator');
 
@@ -106,10 +113,12 @@ export class SessionLifecycle {
     );
 
     await this.negotiator.start();
-    this.state = 'COMPLETE';
+    // After natural completion of the slice (via Gemini tool etc)
+    this.completeNegotiator();
   }
 
   completeNegotiator(): void {
+    if (this.state === 'COMPLETE') return;
     this.negotiator?.complete();
     this.negotiator = null;
     this.state = 'COMPLETE';

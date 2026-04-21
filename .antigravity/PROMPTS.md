@@ -1,6 +1,6 @@
 # Learn Live — Prompt Execution Log
 
-> **Last updated:** 2026-04-15
+> **Last updated:** 2026-04-21
 > Consolidated record of all prompts executed across all phases.
 
 ---
@@ -139,4 +139,15 @@ Four runtime issues identified and fixed:
 Implemented the Sandwich Lite orchestration for Bands 2–5 with Gatekeeper (pre-lesson live readiness), Performer (`BeatSequencer` lesson body), and Negotiator (post-lesson live reflection), while keeping Bands 0–1 on performer-only flow; chose voice/persona continuity across slices, and explicitly deferred homework persistence and assignment storage to Phase 1C.
 
 ## Phase 1D — Adaptive Scaffolding
-Implemented a rolling-window comprehension approach where the session tracks the latest five scored interaction signals and only evaluates scaffolding once at least three signals exist; support mode activates when average drops below 0.50 and clears only once performance rises above 0.70 (with hysteresis guard at 0.65 to reduce mode flapping). Frontend framing is intentionally neutral (“Easy Mode”) to keep the intervention pedagogically supportive rather than alarming.
+Implemented a rolling-window comprehension approach where the session tracks the latest five scored interaction signals and only evaluates scaffolding once at least three signals exist; support mode activates when average drops below 0.50 and clears only once performance rises above 0.70 (with hysteresis guard at 0.65 to reduce mode flapping). Frontend framing is intentionally neutral ("Easy Mode") to keep the intervention pedagogically supportive rather than alarming.
+
+## Phase 1.5 — Lifecycle Stabilization (2026-04-21)
+
+Hardened the session lifecycle state machine to be trustworthy for user testing:
+
+- **Resume protocol**: `resumeToken` parsed from WS URL as primary session lookup key; 60-second stale override deleted; gatekeeper skipped on valid resume.
+- **Performer-drain handshake**: Server emits `performer_complete` and enters `AWAITING_NEGOTIATOR_START` phase. Client sends `performer_drain_complete` only after beat queue + audio fully drain. Only then does the negotiator start.
+- **Negotiator self-finalization**: `startNegotiator()` calls `completeNegotiator()` after the live slice ends naturally, ensuring `slice_change: complete` and `session_complete` always emit.
+- **Failure-aware slices**: `LiveConversationHandler` tracks `completionReason` (success/timeout/connect_failed/model_error) and emits `live_slice_fallback` or `live_slice_error` before the lifecycle-advancing event.
+- **Chapter 1 test harness**: TopicDetail routes to `/play/${playId}` instead of dead `/lessons/:id`. Dashboard derives next lesson URL from progress data. Chapter tiles navigate to topic detail page.
+- **Model baseline retained**: `gemini-2.5-flash-native-audio-latest` for live slices; `gemini-1.5-flash` for narration. No model changes.

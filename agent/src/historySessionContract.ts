@@ -5,6 +5,8 @@ export interface HistorySessionParams {
   learnerId: string;
   band: number;
   canonicalLessonId: string;
+  /** Opaque token sent by the client on reconnect for deterministic session resume. */
+  resumeToken?: string;
 }
 
 export class HistorySessionParamError extends Error {
@@ -49,6 +51,7 @@ export function resolveHistorySessionParams(searchParams: URLSearchParams): Hist
   const familyId = searchParams.get('familyId') || searchParams.get('family');
   const learnerId = searchParams.get('learnerId') || searchParams.get('learner');
   const band = normalizeBand(searchParams.get('band'));
+  const resumeToken = searchParams.get('resumeToken') || undefined;
 
   if (!familyId) {
     throw new HistorySessionParamError('MISSING_PARAM', 'Missing required query parameter: familyId (or family).');
@@ -77,7 +80,8 @@ export function resolveHistorySessionParams(searchParams: URLSearchParams): Hist
       familyId,
       learnerId,
       band,
-      canonicalLessonId: `${chapterId}_${sectionId}`
+      canonicalLessonId: `${chapterId}_${sectionId}`,
+      resumeToken
     };
   }
 
@@ -101,6 +105,7 @@ export function resolveHistorySessionParams(searchParams: URLSearchParams): Hist
     familyId,
     learnerId,
     band,
-    canonicalLessonId: `${chapterId}_${sectionId}`
+    canonicalLessonId: `${chapterId}_${sectionId}`,
+    resumeToken
   };
 }

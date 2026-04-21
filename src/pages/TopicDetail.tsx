@@ -169,14 +169,18 @@ export default function TopicDetail() {
                 <Card
                   key={lesson.id}
                   className="w-full hover:border-primary/30 transition-colors cursor-pointer"
-                  onClick={() => navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`)}
+                  onClick={() => {
+                    const playId = lesson.id.replace(/^lesson_/, '');
+                    navigate(`/play/${playId}${learnerId ? `?learner=${learnerId}` : ''}`);
+                  }}
                   aria-label={`Go to lesson: ${stripMarkdown(lesson.title)}`}
                   role="button"
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault();
-                      navigate(`/lessons/${lesson.id}${learnerId ? `?learner=${learnerId}` : ''}`);
+                      const playId = lesson.id.replace(/^lesson_/, '');
+                      navigate(`/play/${playId}${learnerId ? `?learner=${learnerId}` : ''}`);
                     }
                   }}
                 >

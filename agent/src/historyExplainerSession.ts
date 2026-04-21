@@ -115,6 +115,17 @@ THEOLOGICAL GUARDRAILS:
                 return;
             }
 
+            if (msg.type === 'performer_drain_complete') {
+                if (controller.snapshot().phase === 'AWAITING_NEGOTIATOR_START') {
+                    console.log(`[HISTORY_EXPLAINER] Performer drain complete, starting negotiator`);
+                    controller.setPhase('NEGOTIATOR');
+                    void lifecycle?.startNegotiator(sequencer.getBeatSummaries());
+                } else {
+                    console.warn(`[HISTORY_EXPLAINER] Unexpected performer_drain_complete in phase: ${controller.snapshot().phase}`);
+                }
+                return;
+            }
+
             if (msg.type === 'raise_hand') {
                 const decision = controller.canAcceptRaiseHand();
                 if (!decision.accepted) {
@@ -172,29 +183,35 @@ THEOLOGICAL GUARDRAILS:
     };
 
     try {
-        const cached = getSession(sKey);
+        const resumeToken = params.resumeToken;
+        const cached = resumeToken ? getSession(resumeToken) : getSession(sKey);
+        
         if (cached) {
+            const usingToken = !!resumeToken;
             const sessionAgeMs = Date.now() - cached.createdAt;
-            const isStale = cached.nextBeatIndex > 0 && sessionAgeMs > 60_000;
-            if (isStale) {
-                expireSession(sKey);
-            } else {
-                sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
+            
+            console.log(`[HISTORY_EXPLAINER] Session lookup match (via ${usingToken ? 'token' : 'key'}) — index: ${cached.nextBeatIndex}, age: ${Math.round(sessionAgeMs/1000)}s`);
 
-                lifecycle = new SessionLifecycle({
-                    ws,
-                    chapterId,
-                    chapterTitle: cached.preparedManifest.heading || chapterId,
-                    learnerName: learnerId,
-                    band,
-                    needsScaffolding: controller.snapshot().needsScaffolding,
-                });
+            sendStatus('resuming', `Resuming from beat ${cached.nextBeatIndex + 1}…`);
 
-                lifecycle.beginPerformer();
-                controller.setPhase('PERFORMER');
-                startPerformer(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText);
-                return;
-            }
+            lifecycle = new SessionLifecycle({
+                ws,
+                chapterId,
+                chapterTitle: cached.preparedManifest.heading || chapterId,
+                learnerName: learnerId,
+                band,
+                needsScaffolding: controller.snapshot().needsScaffolding,
+            });
+
+            // On resume, we skip gatekeeper and go straight to performer
+            lifecycle.beginPerformer();
+            controller.setPhase('PERFORMER');
+            startPerformer(cached.preparedManifest, cached.nextBeatIndex, cached.previousNarratedText);
+            return;
+        }
+
+        if (resumeToken) {
+            console.warn(`[HISTORY_EXPLAINER] Resume token provided but session not found/expired: ${resumeToken}`);
         }
 
         sendStatus('loading', 'Fetching lesson content…');
@@ -232,9 +249,10 @@ THEOLOGICAL GUARDRAILS:
                 return;
             }
 
-            controller.setPhase('NEGOTIATOR');
+            console.log(`[HISTORY_EXPLAINER] Performer complete, awaiting client drain acknowledgment`);
+            controller.setPhase('AWAITING_NEGOTIATOR_START');
             ws.send(JSON.stringify({ type: 'performer_complete' }));
-            await lifecycle?.startNegotiator(sequencer.getBeatSummaries());
+            // We NO LONGER call startNegotiator here. We wait for 'performer_drain_complete' message.
         };
 
         if (band <= 1) {

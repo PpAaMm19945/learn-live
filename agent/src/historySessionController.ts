@@ -1,6 +1,6 @@
 import { getBandProfile } from './bandConfig';
 
-export type SessionPhase = 'IDLE' | 'AWAITING_GATEKEEPER_GREENLIGHT' | 'PERFORMER' | 'NEGOTIATOR' | 'COMPLETE';
+export type SessionPhase = 'IDLE' | 'AWAITING_GATEKEEPER_GREENLIGHT' | 'PERFORMER' | 'AWAITING_NEGOTIATOR_START' | 'NEGOTIATOR' | 'COMPLETE';
 
 export interface HistorySessionControlState {
   isQAActive: boolean;

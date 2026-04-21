@@ -95,6 +95,7 @@ export default function Dashboard() {
   let continueTopicTitle = 'Ready to begin';
   let continueLessonTitle: string | null = null;
   let continueStatus: Lesson['status'] = 'not_started';
+  let continueLessonUrl: string = '/play/ch01';
 
   if (topics && topics.length > 0) {
     const orderedTopics = currentTopicId
@@ -107,10 +108,16 @@ export default function Dashboard() {
         continueTopicTitle = topic.title;
         continueLessonTitle = stripMarkdown(nextLesson.title);
         continueStatus = nextLesson.status;
+        const playId = nextLesson.id.replace(/^lesson_/, '');
+        continueLessonUrl = `/play/${playId}`;
         break;
       }
     }
   }
+
+  const navigateWithLearner = (path: string) => {
+    navigate(`${path}${activeLearnerId ? `?learner=${activeLearnerId}` : ''}`);
+  };
 
   return (
     <div className="h-[calc(100vh-57px)] md:h-[calc(100vh-57px)] overflow-hidden bg-background">
@@ -163,7 +170,7 @@ export default function Dashboard() {
 
               <div className="flex items-center gap-2">
                 <LessonProgress status={continueStatus} />
-                <Button onClick={() => navigate('/play/ch01')}>
+                <Button onClick={() => navigateWithLearner(continueLessonUrl)}>
                   <IconPlayerPlay className="w-4 h-4 mr-2" />
                   Continue Lesson
                 </Button>
@@ -199,7 +206,7 @@ export default function Dashboard() {
                     key={chapter.id}
                     variant="outline"
                     className="h-auto py-3 justify-between whitespace-normal text-left"
-                    onClick={() => navigate(`/play/${chapter.id}`)}
+                    onClick={() => navigateWithLearner(`/topics/topic_${chapter.id}`)}
                   >
                     <span className="text-sm">{chapter.num}. {chapter.title}</span>
                     <IconArrowRight className="w-4 h-4 shrink-0" />

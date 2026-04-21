@@ -79,6 +79,7 @@ export function useSession({
   const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const statusRef = useRef<SessionState['status']>(status);
   const pendingLessonCompleteRef = useRef<boolean>(false);
+  const performerCompleteReceivedRef = useRef<boolean>(false);
 
   const MAX_RECONNECT_RETRIES = 3;
 
@@ -367,6 +368,12 @@ export function useSession({
           } else if (msg.type === 'pipeline_status') {
             Logger.info('[WS]', `Pipeline: ${msg.step} — ${msg.detail || ''}`);
             debug('connection', `Pipeline: ${msg.step}`, msg.detail);
+            
+            // Loop brake: if we are already past performer and we see 'loading' again for same session, log it.
+            if (msg.step === 'loading' && performerCompleteReceivedRef.current) {
+               debug('error', 'Suspicious restart: lesson already completed performer phase');
+            }
+            
             setPipelineStatus({ step: msg.step, detail: msg.detail });
           } else if (msg.type === 'thinking') {
             setThinkingText((prev) => `${prev}${msg.text}`);
@@ -411,6 +418,12 @@ export function useSession({
           } else if (msg.type === 'performer_complete') {
             Logger.info('[WS]', 'Performer complete signal received.');
             debug('beat', 'performer_complete received', `Queue: ${beatQueue.length} beats remaining`);
+            performerCompleteReceivedRef.current = true;
+          } else if (msg.type === 'live_slice_fallback' || msg.type === 'live_slice_error') {
+            const isError = msg.type === 'live_slice_error';
+            debug(isError ? 'error' : 'connection', `Live slice ${msg.type.split('_').pop()}: ${msg.slice}`, msg.reason);
+            // These will be surfaced via sonner toasts in SessionCanvas component if we pass them up 
+            // but for now we log to debug stream which is visible to testers.
           } else if (msg.type === 'scaffolding_change') {
             setScaffoldingActive(!!msg.active);
             debug('qa', `Scaffolding ${msg.active ? 'enabled' : 'disabled'}`, msg.reason || '');
@@ -747,7 +760,14 @@ export function useSession({
       statusRef.current = 'ended';
       pendingLessonCompleteRef.current = false;
     }
-  }, [beatQueue.length, beatState, debug]);
+    
+    // Performer drain handshake: if performer finished but we are waiting to start negotiator
+    if (performerCompleteReceivedRef.current && beatQueue.length === 0 && beatState === 'IDLE' && status === 'connected') {
+      Logger.info('[WS]', 'Sending performer_drain_complete handshake');
+      wsRef.current?.send(JSON.stringify({ type: 'performer_drain_complete' }));
+      performerCompleteReceivedRef.current = false; // Reset so we only send once
+    }
+  }, [beatQueue.length, beatState, debug, status]);
 
   return {
     status,

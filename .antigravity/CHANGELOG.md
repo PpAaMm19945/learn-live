@@ -1,9 +1,33 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-20
+> **Last updated:** 2026-04-21
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
 
 ---
+
+## 2026-04-21 — Session Lifecycle Stabilization + Chapter 1 Test Harness
+
+### Agent-Side Lifecycle Fixes
+- **Resume token protocol:** `resumeToken` is now parsed from the WS URL and used as the primary session lookup key. Falls back to the legacy `sessionKey(lesson, learner, band)` for fresh sessions. Structured logging added for resume decisions (token present/absent, cache hit/miss, beat index).
+- **60-second stale override removed:** The `isStale = sessionAge > 60_000` check that was force-expiring sessions and causing full-lesson restarts has been deleted. The 20-minute TTL in `sessionStore.ts` is now the sole expiry mechanism.
+- **Gatekeeper skip on resume:** Valid resume sessions now skip the gatekeeper and go straight to the performer slice, avoiding redundant warm-up conversations.
+- **Performer-drain handshake:** `onLessonComplete` no longer starts the negotiator immediately. Instead it emits `performer_complete`, sets phase to `AWAITING_NEGOTIATOR_START`, and waits for a `performer_drain_complete` message from the client confirming that all queued audio has finished playing. Only then does it start the negotiator.
+- **`AWAITING_NEGOTIATOR_START` phase:** Added to both `SessionPhase` (controller) and `LifecycleState` (lifecycle) as the explicit holding state between performer and negotiator.
+- **Negotiator self-finalization:** `startNegotiator()` now calls `completeNegotiator()` after `await negotiator.start()` returns, ensuring `slice_change: complete` and `session_complete` are always emitted on the normal path.
+- **Idempotent lifecycle helpers:** `completeGatekeeper()` and `completeNegotiator()` now guard against double-fire with state checks.
+- **Failure-aware live slices:** `LiveConversationHandler.complete()` now tracks `completionReason` (success/timeout/connect_failed/model_error) and emits `live_slice_fallback` or `live_slice_error` events before the main completion event. Lifecycle still proceeds, but the client gets advance warning.
+
+### Frontend Session Fixes
+- **`performer_drain_complete` handshake:** `useSession.ts` now tracks whether `performer_complete` has been received and sends `performer_drain_complete` exactly once when the beat queue is empty and beat state is IDLE.
+- **Live slice failure visibility:** New message handlers for `live_slice_fallback` and `live_slice_error` log to the debug stream with appropriate categorization.
+- **Reconnect loop brake:** If `pipeline_status: loading` arrives after `performer_complete` was already received, a high-priority debug event is logged as a suspicious restart signal.
+- **New message types:** `AgentMessage` union includes `live_slice_fallback` and `live_slice_error`. `ClientMessage` union includes `performer_drain_complete`.
+
+### Chapter 1 Test Harness
+- **TopicDetail routing fixed:** Lesson cards now navigate to `/play/${playId}` instead of the dead `/lessons/${lesson.id}` redirect.
+- **Dashboard dynamic continue:** "Continue Lesson" button derives the actual next lesson URL from topic/lesson progress data instead of hardcoding `/play/ch01`.
+- **Dashboard chapter tiles → topic detail:** Ready chapter tiles navigate to `/topics/topic_${chapter.id}` to show all sections, instead of auto-playing section 1.
+- **Learner context propagated:** Both TopicDetail and Dashboard now include learner ID in navigation URLs.
 
 ## 2026-04-20 — Phase 1 (Sandwich Lite) Shipped + Phase 1.5 Audit Fixes
 - **Sandwich Lite shipped:** Gatekeeper/Performer/Negotiator slice orchestration is now live for Bands 2–5, with frontend slice routing, top-bar slice status, and per-slice transcript handling. Bands 0–1 continue on Performer-first flow.

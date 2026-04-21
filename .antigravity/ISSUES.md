@@ -1,6 +1,6 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-20
+> **Last updated:** 2026-04-21
 
 ---
 
@@ -64,6 +64,12 @@
 | 103 | Controller phase never enters `PERFORMER` | RESOLVED — explicit `controller.setPhase('PERFORMER')` at performer handoff | Phase 1.5 |
 | 104 | Negotiator completion double-fired / completion sequencing wrong | RESOLVED — removed redundant `completeNegotiator()`, added `performer_complete`, gated end-card on `session_complete` for Bands 2–5 | Phase 1.5 |
 | 105 | Resume path skips slice signaling | RESOLVED — resume now emits performer slice before sequencer resume | Phase 1.5 |
+| 111 | Reconnect restarts lesson from beat 1 (60s stale override) | RESOLVED — removed 60s stale check; resumeToken is primary lookup key | Lifecycle Stabilization |
+| 112 | Negotiator starts before performer audio drains | RESOLVED — performer_drain_complete handshake added between client and agent | Lifecycle Stabilization |
+| 113 | Negotiator does not emit session_complete on normal path | RESOLVED — startNegotiator() now calls completeNegotiator() after slice ends | Lifecycle Stabilization |
+| 114 | Live slice failures (timeout/connect_failed) are silent | RESOLVED — live_slice_fallback and live_slice_error events emitted before completion | Lifecycle Stabilization |
+| 115 | TopicDetail routes to dead /lessons/:id path | RESOLVED — routes to /play/${playId} with section support | Ch1 Test Harness |
+| 116 | Dashboard hardcodes /play/ch01 for Continue button | RESOLVED — derives next lesson URL from topic/lesson progress | Ch1 Test Harness |
 
 ---
 
@@ -145,6 +151,7 @@
 ---
 
 ## Notes
+- **2026-04-21 — Lifecycle Stabilization shipped:** Closed #111-#116. Resume protocol hardened with explicit token lookup. 60s stale override removed. Performer-drain handshake prevents premature negotiator start. Negotiator self-finalizes. Live slice failures are surfaced. TopicDetail and Dashboard navigation fixed for Chapter 1 testing.
 - **2026-04-20 — Phase 0.5 polish shipped:** Closed end-overlay trap (#98), dead WelcomeCover path (#99), non-clickable activity artifacts (#100), and transcript readability fade issue (#101). Completion UX now lives inside transcript cards with review-state affordances.
 - **2026-04-19 — Phase 0 (Revised) shipped:** All pause/replay infrastructure removed. Transcript is now read-only with collapsible per-beat Activity dropdown surfacing tool calls + agent thinking. Issues #92 and #93 confirmed RESOLVED; review-mode replay path also removed (no longer needed). Next: Sandwich Lite (Gatekeeper + Negotiator, no homework persistence).
 - Issue 85 is the current critical blocker (agent-side).

@@ -63,6 +63,8 @@ export type AgentMessage =
   | { type: 'gatekeeper_complete' }
   | { type: 'negotiator_complete' }
   | { type: 'performer_complete' }
+  | { type: 'live_slice_fallback'; slice: 'gatekeeper' | 'negotiator'; reason: string }
+  | { type: 'live_slice_error'; slice: 'gatekeeper' | 'negotiator'; reason: string; message?: string }
   | { type: 'scaffolding_change'; active: boolean; reason?: string }
   | { type: 'session_complete' }
   | { type: 'lesson_complete' }
@@ -74,6 +76,7 @@ export type ClientMessage =
   | { type: 'raise_hand' }
   | { type: 'pause' }
   | { type: 'resume' }
+  | { type: 'performer_drain_complete' }
   | { type: 'image'; data: string }; // base64 jpeg
 
 export interface RecordedEvent {

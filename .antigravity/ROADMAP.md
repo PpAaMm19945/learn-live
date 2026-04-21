@@ -1,18 +1,18 @@
 # Learn Live — Master Roadmap
 
-> **Last updated:** 2026-04-20
+> **Last updated:** 2026-04-21
 > **Single source of truth** for engineering direction, architecture decisions, and phase tracking.
 > **Previous roadmap archived:** `.antigravity/archive/roadmap-live-agent-approach.md`
 
 ---
 
-## ⭐ Active Direction (2026-04-20): Phase 1D Complete, Pilot Readiness Next
+## ⭐ Active Direction (2026-04-21): Lifecycle Stabilization Complete, Chapter 1 User Testing Ready
 
 The platform is pivoting from "advanced multimedia presenter" to "true pedagogical instrument" by wrapping the existing rigid `BeatSequencer` ("Performer") with two short, conversational Gemini Live agents:
 
 - **Gatekeeper (pre-lesson)** — readiness check, prior-assignment review, primes the day's objectives. Speaks first with initiative. Hands off via `begin_lesson` signal.
 - **Performer (lesson body)** — the existing `BeatSequencer` pipeline. Untouched in Phase 1.
-- **Negotiator (post-lesson)** — synthesis check, dynamic homework negotiation, warm closure. Triggered automatically on `lesson_complete`.
+- **Negotiator (post-lesson)** — synthesis check, dynamic homework negotiation, warm closure. Triggered automatically after client confirms performer audio drain.
 
 **Scope:** Bands 2–5 only. Bands 0–1 remain on the pure narrative/Performer model (abstract conversational turns are not developmentally appropriate).
 
@@ -27,8 +27,9 @@ The platform is pivoting from "advanced multimedia presenter" to "true pedagogic
 | **1B** | Negotiator persona + post-lesson synthesis + verbal homework. **No persistence yet.** | ✅ Complete (shipped in Sandwich Lite) |
 | **1C** | `learner_assignments` D1 table; Negotiator writes, Gatekeeper reads; parent dashboard surfacing; lesson-start gating with parent override (per `mem://principles/ai-governance`). | ⏳ Queued |
 | **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ✅ Complete |
+| **1.5** | Lifecycle stabilization — resume token protocol, performer-drain handshake, negotiator self-finalization, failure-aware slices, Chapter 1 test harness navigation. | ✅ Complete (Issues #111–#116 resolved) |
 
-Sandwich Lite (1A+1B) is complete; the immediate active workstream is **Phase 1C assignment persistence**. Audit-fix chronology is captured in the 2026-04-20 handoff prompt used for Phase 1.5 wiring corrections. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #102–#105 (audit fixes, resolved).
+Sandwich Lite (1A+1B) and Lifecycle Stabilization (1.5) are complete. The system is now **ready for Chapter 1 user testing**. The immediate active workstream is **Phase 1C assignment persistence**. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #111–#116 (lifecycle fixes, resolved).
 
 ---
 

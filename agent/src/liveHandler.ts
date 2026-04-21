@@ -20,6 +20,7 @@ export class LiveConversationHandler {
     private timeoutRef: ReturnType<typeof setTimeout> | null = null;
     private isActive = false;
     private transcriptBuffer = '';
+    private completionReason: 'success' | 'timeout' | 'connect_failed' | 'model_error' = 'success';
 
     constructor(
         private ws: WebSocket,
@@ -61,10 +62,12 @@ export class LiveConversationHandler {
 
                 this.timeoutRef = setTimeout(() => {
                     console.log(`[LIVE_${this.slice.toUpperCase()}] Timeout reached (${this.timeoutMs}ms). Completing slice.`);
+                    this.completionReason = 'timeout';
                     this.complete();
                 }, this.timeoutMs);
             } catch (err) {
                 console.error(`[LIVE_${this.slice.toUpperCase()}] Failed to start:`, err);
+                this.completionReason = 'connect_failed';
                 this.complete();
             }
         });
@@ -92,6 +95,21 @@ export class LiveConversationHandler {
 
         const tool = SLICE_TOOL_CONFIG[this.slice];
         if (this.ws.readyState === WebSocket.OPEN) {
+            // If it's not a normal success, send a warning/error message first
+            if (this.completionReason === 'timeout') {
+                this.ws.send(JSON.stringify({
+                    type: 'live_slice_fallback',
+                    slice: this.slice,
+                    reason: 'timeout'
+                }));
+            } else if (this.completionReason === 'connect_failed' || this.completionReason === 'model_error') {
+                this.ws.send(JSON.stringify({
+                    type: 'live_slice_error',
+                    slice: this.slice,
+                    reason: this.completionReason
+                }));
+            }
+
             this.ws.send(JSON.stringify({ type: tool.wsEvent }));
         }
 
@@ -129,6 +147,7 @@ export class LiveConversationHandler {
         }
 
         if (data.type === 'functionCall' && data.name === tool.toolName) {
+            this.completionReason = 'success';
             this.session?.sendToolResponse([{
                 id: data.id,
                 name: data.name,
@@ -140,6 +159,7 @@ export class LiveConversationHandler {
 
         if (data.type === 'error') {
             console.error(`[LIVE_${this.slice.toUpperCase()}] Gemini error:`, data.message);
+            this.completionReason = 'model_error';
             this.complete();
         }
     }
