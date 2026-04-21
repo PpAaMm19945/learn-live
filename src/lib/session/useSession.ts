@@ -1,5 +1,4 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload, SessionSlice } from './types';
+import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload, SessionSlice, LiveSliceNotice } from './types';
 
 export interface BeatRecord {
   beatId: string;
@@ -55,6 +54,7 @@ export function useSession({
   const [liveSliceStatus, setLiveSliceStatus] = useState<{ gatekeeper: 'playing' | 'done'; negotiator: 'playing' | 'done' }>({ gatekeeper: 'playing', negotiator: 'playing' });
   const [scaffoldingActive, setScaffoldingActive] = useState<boolean>(false);
   const [pipelineStatus, setPipelineStatus] = useState<{ step: string; detail?: string } | null>(null);
+  const [liveSliceNotice, setLiveSliceNotice] = useState<LiveSliceNotice | null>(null);
   
   const [beats, setBeats] = useState<BeatRecord[]>([]);
   // Buffer thinking text streamed between beats; flushed onto the next beat.
@@ -422,8 +422,29 @@ export function useSession({
           } else if (msg.type === 'live_slice_fallback' || msg.type === 'live_slice_error') {
             const isError = msg.type === 'live_slice_error';
             debug(isError ? 'error' : 'connection', `Live slice ${msg.type.split('_').pop()}: ${msg.slice}`, msg.reason);
-            // These will be surfaced via sonner toasts in SessionCanvas component if we pass them up 
-            // but for now we log to debug stream which is visible to testers.
+            
+            setLiveSliceNotice({
+              slice: msg.slice,
+              kind: isError ? 'error' : 'fallback',
+              reason: msg.reason,
+              message: msg.message
+            });
+
+            // Inject system card into transcript
+            const label = msg.slice === 'gatekeeper' ? 'Warm-up' : 'Reflection';
+            const action = isError ? "couldn't start" : "timed out";
+            const result = msg.slice === 'gatekeeper' ? 'starting your lesson now' : 'wrapping up';
+            
+            setBeats(prev => [...prev, {
+              beatId: `sys-${Date.now()}`,
+              index: prev.length,
+              kind: 'system',
+              text: `${label} ${action} — ${result}.`,
+              timestamp: Date.now(),
+              status: 'done',
+              toolCalls: []
+            } as any]);
+
           } else if (msg.type === 'scaffolding_change') {
             setScaffoldingActive(!!msg.active);
             debug('qa', `Scaffolding ${msg.active ? 'enabled' : 'disabled'}`, msg.reason || '');
@@ -768,6 +789,13 @@ export function useSession({
       performerCompleteReceivedRef.current = false; // Reset so we only send once
     }
   }, [beatQueue.length, beatState, debug, status]);
+  
+  // Auto-clear live slice notice after 8s
+  useEffect(() => {
+    if (!liveSliceNotice) return;
+    const timer = setTimeout(() => setLiveSliceNotice(null), 8000);
+    return () => clearTimeout(timer);
+  }, [liveSliceNotice]);
 
   return {
     status,
@@ -789,5 +817,6 @@ export function useSession({
     toggleMute,
     setSceneMode,
     beats,
+    liveSliceNotice,
   };
 }

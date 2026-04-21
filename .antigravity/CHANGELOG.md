@@ -5,7 +5,15 @@
 
 ---
 
+## 2026-04-21 — Phase 1.6: Live Failure UX + Negotiator Scoring Fix + Data-Driven Chapters
+
+- **Live failure visibility:** Fallbacks (timeouts) and errors in Gatekeeper/Negotiator now trigger student-facing Sonner toasts and muted "System" cards in the transcript activity log.
+- **Negotiator finalization fixed:** Moved phase finalization and scaffolding scoring to a server-side `onNegotiatorComplete` hook. This ensures that natural slice completion (which does not send a `negotiator_complete` message from client) correctly triggers phase advance and telemetry scoring.
+- **Data-driven Dashboard chapters:** Removed hardcoded chapter readiness. Tiles are now enabled based on backend topic visibility, with an optional code-level `PILOT_ALLOWLIST` for granular rollout control.
+- **Redundant completion guard:** Maintained inbound `negotiator_complete` message handler as a defensive duplicate for robustness.
+
 ## 2026-04-21 — Session Lifecycle Stabilization + Chapter 1 Test Harness
+
 
 ### Agent-Side Lifecycle Fixes
 - **Resume token protocol:** `resumeToken` is now parsed from the WS URL and used as the primary session lookup key. Falls back to the legacy `sessionKey(lesson, learner, band)` for fresh sessions. Structured logging added for resume decisions (token present/absent, cache hit/miss, beat index).

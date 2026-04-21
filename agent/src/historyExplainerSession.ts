@@ -109,9 +109,8 @@ THEOLOGICAL GUARDRAILS:
             }
 
             if (msg.type === 'negotiator_complete') {
+                // Client-initiated completion (defensive duplicate)
                 lifecycle?.completeNegotiator();
-                controller.setPhase('COMPLETE');
-                void applyScaffoldingSignal('negotiator', lifecycle?.getSliceTranscript('negotiator') || '');
                 return;
             }
 
@@ -201,6 +200,10 @@ THEOLOGICAL GUARDRAILS:
                 learnerName: learnerId,
                 band,
                 needsScaffolding: controller.snapshot().needsScaffolding,
+                onNegotiatorComplete: (transcript) => {
+                    controller.setPhase('COMPLETE');
+                    void applyScaffoldingSignal('negotiator', transcript);
+                }
             });
 
             // On resume, we skip gatekeeper and go straight to performer
@@ -237,6 +240,10 @@ THEOLOGICAL GUARDRAILS:
             learnerName: learnerId,
             band,
             needsScaffolding: controller.snapshot().needsScaffolding,
+            onNegotiatorComplete: (transcript) => {
+                controller.setPhase('COMPLETE');
+                void applyScaffoldingSignal('negotiator', transcript);
+            }
         });
 
         sendStatus('ready', 'Starting lesson…');

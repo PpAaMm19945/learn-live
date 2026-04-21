@@ -22,6 +22,7 @@ interface LifecycleConfig {
   band: number;
   priorChapterTitle?: string;
   needsScaffolding?: boolean;
+  onNegotiatorComplete?: (transcript: string) => void;
 }
 
 export class SessionLifecycle {
@@ -119,6 +120,13 @@ export class SessionLifecycle {
 
   completeNegotiator(): void {
     if (this.state === 'COMPLETE') return;
+    
+    // Capture transcript before we null out the handler
+    const transcript = this.negotiator?.getTranscript() || '';
+    if (this.config.onNegotiatorComplete) {
+      this.config.onNegotiatorComplete(transcript);
+    }
+    
     this.negotiator?.complete();
     this.negotiator = null;
     this.state = 'COMPLETE';

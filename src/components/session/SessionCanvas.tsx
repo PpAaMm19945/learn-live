@@ -170,7 +170,8 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     isMuted, isQAActive, hasReceivedMessage, pipelineStatus, activeSlice, liveTranscripts, liveSliceStatus, scaffoldingActive,
     connect, disconnect, toggleMute, sendRaiseHand,
     setSceneMode: setLiveSceneMode,
-    beats
+    beats,
+    liveSliceNotice,
   } = useSession({
     chapterId,
     familyId: familyId || '',
@@ -190,6 +191,21 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
     setOverlays(prev => ({ ...prev, [type]: null }));
   }, [flushOverlayQueue]);
 
+  // -- Handle live slice failure toasts --
+  useEffect(() => {
+    if (!liveSliceNotice) return;
+    
+    const { slice, kind } = liveSliceNotice;
+    const isError = kind === 'error';
+    
+    if (slice === 'gatekeeper') {
+      toast(isError ? "Warm-up couldn't start — going straight to the lesson." : "Warm-up timed out — starting your lesson now.");
+    } else if (slice === 'negotiator') {
+      toast(isError ? "Reflection couldn't start — finishing your session." : "Reflection timed out — wrapping up.");
+    }
+  }, [liveSliceNotice]);
+
+  // -- Scene change tool handler --
   const handleAgentToolCall = useCallback((msg: AgentToolCall) => {
     addDebug('tool_call', `${msg.tool}(${msg.args?.mode || msg.args?.location || msg.args?.regionId || msg.args?.term || ''})`, JSON.stringify(msg.args));
     

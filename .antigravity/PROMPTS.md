@@ -141,9 +141,10 @@ Implemented the Sandwich Lite orchestration for Bands 2–5 with Gatekeeper (pre
 ## Phase 1D — Adaptive Scaffolding
 Implemented a rolling-window comprehension approach where the session tracks the latest five scored interaction signals and only evaluates scaffolding once at least three signals exist; support mode activates when average drops below 0.50 and clears only once performance rises above 0.70 (with hysteresis guard at 0.65 to reduce mode flapping). Frontend framing is intentionally neutral ("Easy Mode") to keep the intervention pedagogically supportive rather than alarming.
 
-## Phase 1.5 — Lifecycle Stabilization (2026-04-21)
+## Phase 1.5 & 1.6 — Lifecycle Stabilization (2026-04-21)
 
-Hardened the session lifecycle state machine to be trustworthy for user testing:
+- **Phase 1.5 (Lifecycle Stabilization):** Hardened the resume protocol, added the performer-drain handshake, and removed the 60s stale override. Navigation updated for Chapter 1 testing.
+- **Phase 1.6 (Failure UX + Scoring Fix):** Surfaced live slice failures via toasts and system cards. Implemented server-side `onNegotiatorComplete` hook to ensure scoring on natural completion. Converted Dashboard to data-driven chapter readiness.
 
 - **Resume protocol**: `resumeToken` parsed from WS URL as primary session lookup key; 60-second stale override deleted; gatekeeper skipped on valid resume.
 - **Performer-drain handshake**: Server emits `performer_complete` and enters `AWAITING_NEGOTIATOR_START` phase. Client sends `performer_drain_complete` only after beat queue + audio fully drain. Only then does the negotiator start.

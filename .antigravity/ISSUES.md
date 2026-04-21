@@ -70,6 +70,9 @@
 | 114 | Live slice failures (timeout/connect_failed) are silent | RESOLVED — live_slice_fallback and live_slice_error events emitted before completion | Lifecycle Stabilization |
 | 115 | TopicDetail routes to dead /lessons/:id path | RESOLVED — routes to /play/${playId} with section support | Ch1 Test Harness |
 | 116 | Dashboard hardcodes /play/ch01 for Continue button | RESOLVED — derives next lesson URL from topic/lesson progress | Ch1 Test Harness |
+| 117 | Live slice failure events logged but not user-visible | RESOLVED — Sonner toasts + muted System cards in transcript | Phase 1.6 |
+| 118 | Negotiator natural completion skipped scoring + finalization | RESOLVED — server-side onNegotiatorComplete hook ensures scoring | Phase 1.6 |
+| 119 | Dashboard chapter readiness hardcoded | RESOLVED — data-driven via topic data + PILOT_ALLOWLIST | Phase 1.6 |
 
 ---
 
@@ -151,6 +154,7 @@
 ---
 
 ## Notes
+- **2026-04-21 — Phase 1.6 shipped:** Closed #117-#119. Live failure visibility (toasts/system cards) added. Negotiator server-side finalization ensures scoring. Dashboard chapters are now data-driven.
 - **2026-04-21 — Lifecycle Stabilization shipped:** Closed #111-#116. Resume protocol hardened with explicit token lookup. 60s stale override removed. Performer-drain handshake prevents premature negotiator start. Negotiator self-finalizes. Live slice failures are surfaced. TopicDetail and Dashboard navigation fixed for Chapter 1 testing.
 - **2026-04-20 — Phase 0.5 polish shipped:** Closed end-overlay trap (#98), dead WelcomeCover path (#99), non-clickable activity artifacts (#100), and transcript readability fade issue (#101). Completion UX now lives inside transcript cards with review-state affordances.
 - **2026-04-19 — Phase 0 (Revised) shipped:** All pause/replay infrastructure removed. Transcript is now read-only with collapsible per-beat Activity dropdown surfacing tool calls + agent thinking. Issues #92 and #93 confirmed RESOLVED; review-mode replay path also removed (no longer needed). Next: Sandwich Lite (Gatekeeper + Negotiator, no homework persistence).

@@ -8,7 +8,7 @@ import { Save } from 'lucide-react';
 
 export interface BeatDisplay {
   id: string | number;
-  kind?: 'beat' | 'completion' | 'live';
+  kind?: 'beat' | 'completion' | 'live' | 'system';
   slice?: 'gatekeeper' | 'negotiator';
   text: string;
   status?: 'queued' | 'playing' | 'done';
@@ -64,6 +64,14 @@ export function TranscriptView({ beats, chapterId, isEnded, onExit, onSaveGolden
                       key={beat.id}
                       onExit={onExit}
                       onSaveGoldenScript={onSaveGoldenScript}
+                    />
+                  );
+                }
+                if (beat.kind === 'system') {
+                  return (
+                    <SystemCard
+                      key={beat.id}
+                      text={beat.text}
                     />
                   );
                 }
@@ -202,6 +210,23 @@ function CompletionCard({ onExit, onSaveGoldenScript }: { onExit?: () => void; o
             Save as Golden Script
           </button>
         )}
+      </div>
+    </motion.div>
+  );
+}
+
+function SystemCard({ text }: { text: string }) {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      className="px-6 py-2 border-l-2 border-muted bg-muted/5 my-1"
+    >
+      <div className="flex items-center gap-2 text-muted-foreground italic text-xs md:text-sm">
+        <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-muted-foreground/30" />
+        {text}
       </div>
     </motion.div>
   );

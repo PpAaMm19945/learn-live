@@ -7,6 +7,13 @@
 export type SceneMode = 'transcript' | 'map' | 'image' | 'overlay';
 export type SessionSlice = 'welcome' | 'gatekeeper' | 'performer' | 'negotiator' | 'complete';
 
+export interface LiveSliceNotice {
+  slice: 'gatekeeper' | 'negotiator';
+  kind: 'fallback' | 'error';
+  reason: string;
+  message?: string;
+}
+
 /** A tool call received from the agent via WebSocket */
 export interface AgentToolCall {
   type: 'tool_call';
