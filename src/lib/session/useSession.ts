@@ -1,4 +1,20 @@
-import type { SceneMode, TranscriptChunk, AgentToolCall, AgentMessage, BeatPayload, SessionSlice, LiveSliceNotice } from './types';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
+import { Logger } from '@/lib/Logger';
+import type { DebugEvent } from '@/components/session/DebugDrawer';
+import { createDebugEvent } from '@/components/session/DebugDrawer';
+
+import { resolveLessonIdentifier } from './sessionParams';
+import { stripToolCallText } from './textFilter';
+import type {
+  AgentMessage,
+  AgentToolCall,
+  BeatPayload,
+  LiveSliceNotice,
+  SceneMode,
+  SessionSlice,
+  TranscriptChunk
+} from './types';
 
 export interface BeatRecord {
   beatId: string;
@@ -10,11 +26,6 @@ export interface BeatRecord {
   thinking?: string;
   blockedTools?: { tool: string; reason: string }[];
 }
-import { Logger } from '@/lib/Logger';
-import { stripToolCallText } from './textFilter';
-import { resolveLessonIdentifier } from './sessionParams';
-import type { DebugEvent } from '@/components/session/DebugDrawer';
-import { createDebugEvent } from '@/components/session/DebugDrawer';
 
 export interface SessionConfig {
   chapterId: string;
