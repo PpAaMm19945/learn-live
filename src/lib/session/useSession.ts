@@ -61,6 +61,16 @@ export function useSession({
   const [hasReceivedMessage, setHasReceivedMessage] = useState<boolean>(false);
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
   const [activeSlice, setActiveSlice] = useState<SessionSlice>('welcome');
+
+  // Refs to avoid stale closures in onaudioprocess
+  const isMutedRef = useRef(isMuted);
+  const isQAActiveRef = useRef(isQAActive);
+  const activeSliceRef = useRef(activeSlice);
+
+  useEffect(() => { isMutedRef.current = isMuted; }, [isMuted]);
+  useEffect(() => { isQAActiveRef.current = isQAActive; }, [isQAActive]);
+  useEffect(() => { activeSliceRef.current = activeSlice; }, [activeSlice]);
+
   const [liveTranscripts, setLiveTranscripts] = useState<{ gatekeeper: string; negotiator: string }>({ gatekeeper: '', negotiator: '' });
   const [liveSliceStatus, setLiveSliceStatus] = useState<{ gatekeeper: 'playing' | 'done'; negotiator: 'playing' | 'done' }>({ gatekeeper: 'playing', negotiator: 'playing' });
   const [scaffoldingActive, setScaffoldingActive] = useState<boolean>(false);
@@ -271,8 +281,8 @@ export function useSession({
          processorRef.current = processor;
 
          processor.onaudioprocess = (e) => {
-             const shouldStreamLiveAudio = activeSlice === 'gatekeeper' || activeSlice === 'negotiator' || isQAActive;
-             if (wsRef.current?.readyState === WebSocket.OPEN && !isMuted && shouldStreamLiveAudio) {
+             const shouldStreamLiveAudio = activeSliceRef.current === 'gatekeeper' || activeSliceRef.current === 'negotiator' || isQAActiveRef.current;
+             if (wsRef.current?.readyState === WebSocket.OPEN && !isMutedRef.current && shouldStreamLiveAudio) {
                  const inputData = e.inputBuffer.getChannelData(0);
                  const pcmData = new Int16Array(inputData.length);
                  for (let i = 0; i < inputData.length; i++) {
