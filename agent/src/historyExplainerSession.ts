@@ -6,6 +6,7 @@ import { LessonPreparer } from './lessonPreparer';
 import { buildHistoryExplainerPrompt } from './historyExplainerTools';
 import { buildMapContextForAgent } from './mapRegistry';
 import { buildImageContextForAgent } from './imageRegistry';
+import { getBandProfile } from './bandConfig';
 import type { HistorySessionParams } from './historySessionContract';
 import { HistorySessionController } from './historySessionController';
 import { sessionKey, getSession, setSession, checkpoint as storeCheckpoint, expireSession } from './sessionStore';
@@ -34,9 +35,10 @@ THEOLOGICAL GUARDRAILS:
     const mapContext = buildMapContextForAgent(chapterId);
     const imageContext = buildImageContextForAgent(chapterId, band);
     const systemInstruction = buildHistoryExplainerPrompt(curriculumGuidelines + mapContext + imageContext, { band }, band);
+    const profile = getBandProfile(band);
 
     const sequencer = new BeatSequencer(ws, band, systemInstruction);
-    const liveHandler = new LiveQAHandler(ws, band, systemInstruction);
+    const liveHandler = new LiveQAHandler(ws, band, systemInstruction, profile.tts.voiceName);
     const controller = new HistorySessionController(band);
     const comprehensionTracker = new ComprehensionTracker();
     const sessionStartedAt = Date.now();

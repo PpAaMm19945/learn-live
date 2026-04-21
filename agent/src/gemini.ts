@@ -81,7 +81,7 @@ export class GeminiSession {
     private setupTimeout: ReturnType<typeof setTimeout> | null = null;
     private isSetupComplete = false;
 
-    constructor(private systemInstruction: string, private extraTools?: any[]) {
+    constructor(private systemInstruction: string, private extraTools?: any[], private voiceName?: string) {
         this.setupPromise = new Promise((resolve) => {
             this.setupCompleteResolve = resolve;
         });
@@ -101,6 +101,13 @@ export class GeminiSession {
                 responseModalities: ['AUDIO'] as any,
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
+                speechConfig: this.voiceName ? {
+                    voiceConfig: {
+                        prebuiltVoiceConfig: {
+                            voiceName: this.voiceName
+                        }
+                    }
+                } : undefined,
             };
             if (functionDeclarations.length > 0) {
                 liveConfig.tools = [{ functionDeclarations }];
@@ -184,27 +191,28 @@ export class GeminiSession {
                             }
 
                             if (transcriptionSource) {
+                                // Extract and deliver thinking/internal reasoning first
                                 const thinkingRegex = /\*\*([^*]+)\*\*/g;
+                                let cleanText = transcriptionSource;
                                 let match;
-                                let lastIndex = 0;
 
                                 while ((match = thinkingRegex.exec(transcriptionSource)) !== null) {
-                                    const before = transcriptionSource.slice(lastIndex, match.index).trim();
-                                    if (before) {
-                                        textContent += `${textContent ? ' ' : ''}${before}`;
-                                    }
-
                                     deliver({
                                         type: 'thinking',
                                         text: match[1].trim(),
                                         isFinal: false
                                     });
-                                    lastIndex = thinkingRegex.lastIndex;
                                 }
 
-                                const remainder = transcriptionSource.slice(lastIndex).trim();
-                                if (remainder) {
-                                    textContent += `${textContent ? ' ' : ''}${remainder}`;
+                                // Robustly strip any text wrapped in double-asterisks (reasoning/thinking)
+                                // and also strip any lingering tool-call syntax just in case.
+                                cleanText = cleanText
+                                    .replace(/\*\*([^*]+)\*\*/g, '')
+                                    .replace(/\b(complete_gatekeeper|complete_negotiator)\s*\([^)]*\)\s*/g, '')
+                                    .trim();
+
+                                if (cleanText) {
+                                    textContent += `${textContent ? ' ' : ''}${cleanText}`;
                                 }
                             }
 

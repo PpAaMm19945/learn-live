@@ -27,7 +27,8 @@ export class LiveConversationHandler {
         private slice: LiveSliceType,
         private systemInstruction: string,
         private timeoutMs: number,
-        private kickoffLine: string
+        private kickoffLine: string,
+        private voiceName?: string
     ) {}
 
     async start(): Promise<void> {
@@ -46,7 +47,7 @@ export class LiveConversationHandler {
                 properties: {},
                 required: []
             }
-        }]);
+        }], this.voiceName);
 
         return new Promise(async (resolve) => {
             this.resolvePromise = resolve;
@@ -181,7 +182,8 @@ export class LiveQAHandler {
     constructor(
         private ws: WebSocket,
         private band: number,
-        private baseSystemInstruction: string
+        private baseSystemInstruction: string,
+        private voiceName?: string
     ) {}
 
     async startQA(context: QAContext): Promise<void> {
@@ -195,7 +197,7 @@ export class LiveQAHandler {
 
         const qaInstruction = `${this.baseSystemInstruction}\n\nCURRENT CONTEXT:\nThe student has a question about: "${context.currentBeatTitle}".\nRecent lesson content: "${context.recentTranscript}"\nThe specific content being discussed right now is: "${context.currentBeatContent}"\n\nINSTRUCTIONS:\n- Answer briefly and clearly at a Band ${this.band} level.\n- Keep your responses under 30 seconds each.\n- When complete, say exactly: "Let's continue with the lesson."`;
 
-        this.session = new GeminiSession(qaInstruction);
+        this.session = new GeminiSession(qaInstruction, undefined, this.voiceName);
 
         return new Promise(async (resolve) => {
             this.resolvePromise = resolve;
