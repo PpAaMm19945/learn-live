@@ -2,6 +2,7 @@ import { WebSocket } from 'ws';
 import { LiveConversationHandler } from './liveHandler';
 import { buildGatekeeperPrompt } from './prompts/gatekeeper';
 import { buildNegotiatorPrompt } from './prompts/negotiator';
+import { getBandProfile } from './bandConfig';
 
 export type SessionSlice = 'welcome' | 'gatekeeper' | 'performer' | 'negotiator' | 'complete';
 
@@ -57,6 +58,7 @@ export class SessionLifecycle {
     this.emitSliceChange('gatekeeper');
 
     const needsScaffolding = this.config.needsScaffolding === true;
+    const profile = getBandProfile(this.config.band);
     this.gatekeeper = new LiveConversationHandler(
       this.config.ws,
       'gatekeeper',
@@ -69,7 +71,8 @@ export class SessionLifecycle {
         needsScaffolding,
       }),
       needsScaffolding ? 150_000 : 75_000,
-      `Begin the warm-up for ${this.config.chapterTitle}. Ask what ${this.config.learnerName} already knows before the lesson starts.`
+      `Begin the warm-up for ${this.config.chapterTitle}. Ask what ${this.config.learnerName} already knows before the lesson starts.`,
+      profile.tts.voiceName
     );
 
     await this.gatekeeper.start();
@@ -98,6 +101,7 @@ export class SessionLifecycle {
     this.emitSliceChange('negotiator');
 
     const needsScaffolding = this.config.needsScaffolding === true;
+    const profile = getBandProfile(this.config.band);
     this.negotiator = new LiveConversationHandler(
       this.config.ws,
       'negotiator',
@@ -110,7 +114,8 @@ export class SessionLifecycle {
         needsScaffolding,
       }),
       needsScaffolding ? 240_000 : 120_000,
-      `Start a short reflection for ${this.config.learnerName}. Ask 1 to 2 open-ended synthesis questions based on the recent lesson moments.`
+      `Start a short reflection for ${this.config.learnerName}. Ask 1 to 2 open-ended synthesis questions based on the recent lesson moments.`,
+      profile.tts.voiceName
     );
 
     await this.negotiator.start();

@@ -1,5 +1,6 @@
 import { WebSocket } from 'ws';
 import { GeminiSession } from './gemini';
+import { getBandProfile } from './bandConfig';
 import { fetchAndAssembleInstruction } from './constraints';
 import { recordSession } from './rateLimit';
 
@@ -170,7 +171,8 @@ export async function handleExplainerSession(
     console.log(`[EXPLAINER] System prompt assembled (${systemPrompt.length} chars)`);
 
     // 4. Create Gemini session with canvas tools
-    const gemini = new GeminiSession(systemPrompt, EXPLAINER_TOOLS);
+    const profile = getBandProfile(learnerContext.band);
+    const gemini = new GeminiSession(systemPrompt, EXPLAINER_TOOLS, profile.tts.voiceName);
     try {
         await gemini.connect();
     } catch (e: any) {

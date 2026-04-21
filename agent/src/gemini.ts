@@ -81,7 +81,7 @@ export class GeminiSession {
     private setupTimeout: ReturnType<typeof setTimeout> | null = null;
     private isSetupComplete = false;
 
-    constructor(private systemInstruction: string, private extraTools?: any[]) {
+    constructor(private systemInstruction: string, private extraTools?: any[], private voiceName?: string) {
         this.setupPromise = new Promise((resolve) => {
             this.setupCompleteResolve = resolve;
         });
@@ -102,6 +102,17 @@ export class GeminiSession {
                 outputAudioTranscription: {},
                 systemInstruction: { parts: [{ text: this.systemInstruction }] },
             };
+
+            if (this.voiceName) {
+                liveConfig.speechConfig = {
+                    voiceConfig: {
+                        prebuiltVoiceConfig: {
+                            voiceName: this.voiceName
+                        }
+                    }
+                };
+            }
+
             if (functionDeclarations.length > 0) {
                 liveConfig.tools = [{ functionDeclarations }];
             }

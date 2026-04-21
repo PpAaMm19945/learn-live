@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import { checkRateLimit, recordSession } from './rateLimit';
 import { fetchAndAssembleInstruction } from './constraints';
 import { GeminiSession } from './gemini';
+import { getBandProfile } from './bandConfig';
 import { handleExplainerSession } from './explainerSession';
 import { handleHistoryExplainerSession } from './historyExplainerSession';
 import { resolveHistorySessionParams, HistorySessionParamError } from './historySessionContract';
@@ -94,6 +95,23 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
         return;
     }
 
+    // Fetch band context for voice continuity
+    let band = 4;
+    const workerUrl = process.env.WORKER_API_URL || 'http://127.0.0.1:8787';
+    try {
+        const profileRes = await fetch(`${workerUrl}/api/family/${familyId}/profiles`, {
+            headers: { 'X-Service-Key': process.env.AGENT_SERVICE_KEY || '' }
+        });
+        if (profileRes.ok) {
+            const profileData = await profileRes.json();
+            const learner = profileData.profiles?.find((p: any) => p.id === learnerId);
+            if (learner) band = learner.band || 4;
+        }
+    } catch (e) {
+        console.warn(`[AGENT] Failed to fetch learner profile for witness, using band ${band}`);
+    }
+
+    const profile = getBandProfile(band);
     const geminiSession = new GeminiSession(systemInstruction, [{
         name: 'evaluate_constraint',
         description: 'Evaluate if the physical work meets the required constraint.',
@@ -105,7 +123,7 @@ witnessWss.on('connection', async (ws: WebSocket, request) => {
             },
             required: ['status', 'summary']
         }
-    }]);
+    }], profile.tts.voiceName);
     try {
         await geminiSession.connect();
     } catch (e: any) {
