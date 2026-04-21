@@ -5,6 +5,12 @@
 
 ---
 
+## 2026-04-21 — Phase 1.7: Live Agent Listening & Response Hotfix
+
+- **Fixed Frontend Stale Closure:** The `onaudioprocess` handler in `useSession.ts` now uses `useRef` for `isMuted`, `isQAActive`, and `activeSlice` to ensure it always uses the latest state, allowing the agent to "listen" once the user unmutes.
+- **Fixed Backend Key Mismatch:** Updated `agent/src/gemini.ts` to use the `audio` key instead of `media` in `sendRealtimeInput` for raw PCM chunks, aligning with the Gemini Live API.
+- **Robust Transcription Parsing:** Updated agent transcription logic to support both flat `text` and `parts` array in `outputTranscription` from the Gemini Live API.
+
 ## 2026-04-21 — Hotfix: serialize live-slice audio playback
 
 - **Hotfix: serialize live-slice audio playback:** Chunked native-audio from `gemini-2.5-flash-native-audio-latest` was being played in parallel because each WS audio message launched its own async `playAudioChunk` call, causing dozens of `BufferSource`s to start at the same `currentTime`. Now queued through a single sequential drain loop, with flush on slice transitions and completion. No agent or worker changes.
