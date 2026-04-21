@@ -202,38 +202,21 @@ export function useSession({
         source.buffer = audioBuffer;
         source.connect(activeCtx.destination);
 
-        return new Promise<void>((resolve) => {
-            const currentTime = activeCtx.currentTime;
-            const startTime = Math.max(currentTime, nextPlayTimeRef.current);
-            const delay = startTime - currentTime;
-            
-            if (delay > 1) {
-              Logger.warn('[AUDIO]', `Audio scheduled ${delay.toFixed(1)}s in the future — resetting to now`);
-              nextPlayTimeRef.current = currentTime;
-            }
-            const actualStart = delay > 1 ? currentTime : startTime;
+        const currentTime = activeCtx.currentTime;
+        const startTime = Math.max(currentTime, nextPlayTimeRef.current);
+        const delay = startTime - currentTime;
 
-            let resolved = false;
-            source.onended = () => {
-              if (!resolved) {
-                resolved = true;
-                resolve();
-              }
-            };
-            
-            // Safety timeout: if onended never fires, force-resolve after expected duration + 5s buffer
-            const safetyMs = (durationSec + 5) * 1000;
-            setTimeout(() => {
-              if (!resolved) {
-                Logger.warn('[AUDIO]', `Safety timeout after ${(safetyMs / 1000).toFixed(0)}s — forcing beat advance`);
-                resolved = true;
-                resolve();
-              }
-            }, safetyMs);
-            
-            source.start(actualStart);
-            nextPlayTimeRef.current = actualStart + durationSec;
-        });
+        if (delay > 1) {
+          Logger.warn('[AUDIO]', `Audio scheduled ${delay.toFixed(1)}s in the future — resetting to now`);
+          nextPlayTimeRef.current = currentTime;
+        }
+        const actualStart = delay > 1 ? currentTime : startTime;
+
+        source.start(actualStart);
+        nextPlayTimeRef.current = actualStart + durationSec;
+
+        // Resolve immediately so the drain loop can schedule the next chunk
+        return Promise.resolve();
 
     } catch (err) {
         Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
