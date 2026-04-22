@@ -146,6 +146,14 @@ Implemented a rolling-window comprehension approach where the session tracks the
 - **Phase 1.5 (Lifecycle Stabilization):** Hardened the resume protocol, added the performer-drain handshake, and removed the 60s stale override. Navigation updated for Chapter 1 testing.
 - **Phase 1.6 (Failure UX + Scoring Fix):** Surfaced live slice failures via toasts and system cards. Implemented server-side `onNegotiatorComplete` hook to ensure scoring on natural completion. Converted Dashboard to data-driven chapter readiness.
 
+## Audio Engine Recovery (2026-04-21)
+
+Restored the core audio engine by splitting playback into two distinct contracts:
+
+- **Live Stream Scheduling**: Uses `scheduleLiveChunk` for small native-audio chunks. Resolves immediately for gapless scheduling. Managed via `liveStreamGenerationRef` and tracked in `currentLiveSourcesRef` for immediate teardown on slice transitions.
+- **Performer Playback**: Uses `playBeatAudio` for complete beat blobs. Resolves only when audio actually ends, ensuring beat synchronization and correct cooldown timing.
+- **Hard Teardown**: `flushAudioQueue` now stops all active live sources and resets the scheduler clock, preventing audio bleed across slices.
+
 - **Resume protocol**: `resumeToken` parsed from WS URL as primary session lookup key; 60-second stale override deleted; gatekeeper skipped on valid resume.
 - **Performer-drain handshake**: Server emits `performer_complete` and enters `AWAITING_NEGOTIATOR_START` phase. Client sends `performer_drain_complete` only after beat queue + audio fully drain. Only then does the negotiator start.
 - **Negotiator self-finalization**: `startNegotiator()` calls `completeNegotiator()` after the live slice ends naturally, ensuring `slice_change: complete` and `session_complete` always emit.

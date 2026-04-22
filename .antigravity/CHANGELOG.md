@@ -5,6 +5,14 @@
 
 ---
 
+## 2026-04-21 — Audio Engine Recovery Pass
+
+- **Separated Live and Performer Audio Contracts:** Split the monolithic `playAudioChunk` into `scheduleLiveChunk` (immediate resolve for gapless live streaming) and `playBeatAudio` (resolves only when beat audio truly ends).
+- **Active Live Source Tracking:** Added `currentLiveSourcesRef` to track and stop active `AudioBufferSourceNode`s during slice transitions, eliminating the "thousand voices" ghosting effect.
+- **Generation-Based Chunk Filtering:** Introduced `liveStreamGenerationRef` to ensure that stale audio chunks from previous live slices are ignored if they arrive after a transition.
+- **Restored Performer Sync:** Performer beats now await true audio completion before triggering cooldown and finalization, restoring synchronization across narration and visuals.
+- **Refined Audio Debugging:** Replaced repeated stream-start spam with lifecycle logs (`Live stream opened`, `Live stream drained`, `Live stream flushed`) including generation markers.
+
 ## 2026-04-21 — Phase 1.7: Live Agent Listening & Response Hotfix
 
 - **Fixed Frontend Stale Closure:** The `onaudioprocess` handler in `useSession.ts` now uses `useRef` for `isMuted`, `isQAActive`, and `activeSlice` to ensure it always uses the latest state, allowing the agent to "listen" once the user unmutes.
