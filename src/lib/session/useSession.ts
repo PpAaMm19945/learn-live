@@ -110,8 +110,11 @@ export function useSession({
 
   // Audio Playback State
   const audioContextRef = useRef<AudioContext | null>(null);
-  const nextPlayTimeRef = useRef<number>(0);
-  const audioQueueRef = useRef<string[]>([]);
+  const liveNextPlayTimeRef = useRef<number>(0);
+  const currentLiveSourcesRef = useRef<AudioBufferSourceNode[]>([]);
+  const currentBeatSourceRef = useRef<AudioBufferSourceNode | null>(null);
+  const liveStreamGenerationRef = useRef<number>(0);
+  const audioQueueRef = useRef<{ data: string; generation: number }[]>([]);
   const audioDrainingRef = useRef<boolean>(false);
 
   // Microphone Capture State
@@ -136,114 +139,142 @@ export function useSession({
     }
   }, []);
 
-  const playAudioChunk = useCallback(async (base64Audio: string) => {
-    if (!base64Audio || base64Audio.trim().length === 0) {
-      return Promise.resolve();
-    }
-
+  const ensureActiveAudioContext = useCallback(async () => {
     if (!audioContextRef.current) {
-        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
     }
 
     const ctx = audioContextRef.current;
-    Logger.info('[AUDIO]', `AudioContext state: ${ctx.state}, currentTime: ${ctx.currentTime.toFixed(2)}`);
-    
     if (ctx.state === 'suspended') {
-        Logger.info('[AUDIO]', 'Resuming suspended AudioContext...');
-        // Guard resume() with a timeout so we don't hang forever
-        try {
-          await Promise.race([
-            ctx.resume(),
-            new Promise<void>((_, reject) => setTimeout(() => reject(new Error('AudioContext.resume() timed out')), 3000))
-          ]);
-          Logger.info('[AUDIO]', `AudioContext after resume: ${ctx.state}`);
-        } catch (err) {
-          Logger.warn('[AUDIO]', 'AudioContext resume failed/timed out — attempting fresh context', err);
-          // Create a brand new AudioContext
-          try { ctx.close(); } catch (_) {}
-          audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
-          await audioContextRef.current.resume();
-          Logger.info('[AUDIO]', `Fresh AudioContext state: ${audioContextRef.current.state}`);
-        }
+      try {
+        await Promise.race([
+          ctx.resume(),
+          new Promise<void>((_, reject) => setTimeout(() => reject(new Error('AudioContext.resume() timed out')), 3000))
+        ]);
+      } catch (err) {
+        Logger.warn('[AUDIO]', 'AudioContext resume failed — attempting fresh context', err);
+        try { ctx.close(); } catch (_) {}
+        audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
+        await audioContextRef.current.resume();
+      }
     }
-
-    const activeCtx = audioContextRef.current;
-
-    try {
-        const binaryStr = atob(base64Audio);
-        const len = binaryStr.length;
-        const bytes = new Uint8Array(len);
-        for (let i = 0; i < len; i++) {
-            bytes[i] = binaryStr.charCodeAt(i);
-        }
-
-        if (bytes.length < 2) {
-            Logger.warn('[AUDIO]', 'Skipping empty PCM audio chunk');
-            return Promise.resolve();
-        }
-
-        const sampleCount = Math.floor(bytes.length / 2);
-        if (sampleCount <= 0) {
-            Logger.warn('[AUDIO]', 'Skipping PCM audio chunk with no decodable samples');
-            return Promise.resolve();
-        }
-        const audioBuffer = activeCtx.createBuffer(1, sampleCount, 24000);
-        const channelData = audioBuffer.getChannelData(0);
-        const dataView = new DataView(bytes.buffer);
-        for (let i = 0; i < sampleCount; i++) {
-            const int16 = dataView.getInt16(i * 2, true);
-            channelData[i] = int16 / 32768;
-        }
-
-        const durationSec = audioBuffer.duration;
-        Logger.info('[AUDIO]', `PCM decoded: ${sampleCount} samples, ${durationSec.toFixed(1)}s duration`);
-
-        const source = activeCtx.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(activeCtx.destination);
-
-        const currentTime = activeCtx.currentTime;
-        const startTime = Math.max(currentTime, nextPlayTimeRef.current);
-        const delay = startTime - currentTime;
-
-        if (delay > 1) {
-          Logger.warn('[AUDIO]', `Audio scheduled ${delay.toFixed(1)}s in the future — resetting to now`);
-          nextPlayTimeRef.current = currentTime;
-        }
-        const actualStart = delay > 1 ? currentTime : startTime;
-
-        source.start(actualStart);
-        nextPlayTimeRef.current = actualStart + durationSec;
-
-        // Resolve immediately so the drain loop can schedule the next chunk
-        return Promise.resolve();
-
-    } catch (err) {
-        Logger.error('[AUDIO]', 'Failed to decode/play PCM audio chunk', err);
-        return Promise.resolve();
-    }
+    return audioContextRef.current;
   }, []);
+
+  const decodePCM = useCallback((ctx: AudioContext, base64Audio: string) => {
+    const binaryStr = atob(base64Audio);
+    const len = binaryStr.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+        bytes[i] = binaryStr.charCodeAt(i);
+    }
+
+    if (bytes.length < 2) return null;
+
+    const sampleCount = Math.floor(bytes.length / 2);
+    if (sampleCount <= 0) return null;
+
+    const audioBuffer = ctx.createBuffer(1, sampleCount, 24000);
+    const channelData = audioBuffer.getChannelData(0);
+    const dataView = new DataView(bytes.buffer);
+    for (let i = 0; i < sampleCount; i++) {
+        const int16 = dataView.getInt16(i * 2, true);
+        channelData[i] = int16 / 32768;
+    }
+    return audioBuffer;
+  }, []);
+
+  const scheduleLiveChunk = useCallback(async (base64Audio: string, generation: number) => {
+    if (!base64Audio || generation !== liveStreamGenerationRef.current) return;
+
+    const ctx = await ensureActiveAudioContext();
+    const buffer = decodePCM(ctx, base64Audio);
+    if (!buffer) return;
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.connect(ctx.destination);
+
+    const currentTime = ctx.currentTime;
+    const startTime = Math.max(currentTime, liveNextPlayTimeRef.current);
+    const delay = startTime - currentTime;
+
+    // Guard against excessive drift
+    const actualStart = delay > 1 ? currentTime : startTime;
+
+    source.start(actualStart);
+    liveNextPlayTimeRef.current = actualStart + buffer.duration;
+
+    // Track for teardown
+    currentLiveSourcesRef.current.push(source);
+    source.onended = () => {
+      currentLiveSourcesRef.current = currentLiveSourcesRef.current.filter(s => s !== source);
+    };
+  }, [ensureActiveAudioContext, decodePCM]);
+
+  const playBeatAudio = useCallback(async (base64Audio: string) => {
+    if (!base64Audio) return;
+
+    const ctx = await ensureActiveAudioContext();
+    const buffer = decodePCM(ctx, base64Audio);
+    if (!buffer) return;
+
+    return new Promise<void>((resolve) => {
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(ctx.destination);
+
+      currentBeatSourceRef.current = source;
+      debug('audio', 'Performer beat audio started');
+
+      source.onended = () => {
+        if (currentBeatSourceRef.current === source) {
+          currentBeatSourceRef.current = null;
+        }
+        debug('audio', 'Performer beat audio ended');
+        resolve();
+      };
+
+      source.start();
+    });
+  }, [ensureActiveAudioContext, decodePCM, debug]);
 
   const drainAudioQueue = useCallback(async () => {
     if (audioDrainingRef.current) return;
     audioDrainingRef.current = true;
+
     try {
       while (audioQueueRef.current.length > 0) {
         const next = audioQueueRef.current.shift()!;
-        try {
-          await playAudioChunk(next);
-        } catch (err) {
-          Logger.warn('[AUDIO]', 'chunk drain error', err);
+        if (next.generation === liveStreamGenerationRef.current) {
+          await scheduleLiveChunk(next.data, next.generation);
         }
       }
+      debug('audio', `Live stream drained (gen ${liveStreamGenerationRef.current})`);
     } finally {
       audioDrainingRef.current = false;
     }
-  }, [playAudioChunk]);
+  }, [scheduleLiveChunk, debug]);
 
   const flushAudioQueue = useCallback(() => {
+    const gen = liveStreamGenerationRef.current;
+    debug('audio', `Live stream flushed (gen ${gen})`);
+
+    liveStreamGenerationRef.current++;
     audioQueueRef.current = [];
-  }, []);
+
+    // Stop and disconnect all active live sources
+    currentLiveSourcesRef.current.forEach(source => {
+      try {
+        source.stop();
+        source.disconnect();
+      } catch (_) {}
+    });
+    currentLiveSourcesRef.current = [];
+
+    // Reset clock
+    liveNextPlayTimeRef.current = 0;
+  }, [debug]);
 
   const setupMicrophone = useCallback(async () => {
      const canUseMic = band >= 3 || (band === 2 && (activeSlice === 'gatekeeper' || activeSlice === 'negotiator'));
@@ -422,13 +453,20 @@ export function useSession({
             }
             // Don't log every 2.5KB chunk — too noisy. Log only first chunk of a burst.
             if (audioQueueRef.current.length === 0 && !audioDrainingRef.current) {
-              debug('audio', `Live audio stream started (${activeSlice})`);
+              debug('audio', `Live stream opened (${activeSlice}) (gen ${liveStreamGenerationRef.current})`);
             }
-            audioQueueRef.current.push(msg.data);
+            audioQueueRef.current.push({ data: msg.data, generation: liveStreamGenerationRef.current });
             void drainAudioQueue();
           } else if (msg.type === 'slice_change') {
             const nextSlice = msg.slice as SessionSlice;
             flushAudioQueue();
+            if (currentBeatSourceRef.current) {
+              try {
+                currentBeatSourceRef.current.stop();
+                currentBeatSourceRef.current.disconnect();
+              } catch (_) {}
+              currentBeatSourceRef.current = null;
+            }
             setActiveSlice(nextSlice);
             pendingThinkingRef.current = '';
             if (nextSlice === 'gatekeeper' || nextSlice === 'negotiator') {
@@ -578,7 +616,7 @@ export function useSession({
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, playAudioChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext, activeSlice, beatState]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, scheduleLiveChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext, activeSlice, beatState, drainAudioQueue]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
@@ -586,7 +624,16 @@ export function useSession({
     setStatus('ended');
     statusRef.current = 'ended';
     pendingLessonCompleteRef.current = false;
+
     flushAudioQueue();
+
+    if (currentBeatSourceRef.current) {
+      try {
+        currentBeatSourceRef.current.stop();
+        currentBeatSourceRef.current.disconnect();
+      } catch (_) {}
+      currentBeatSourceRef.current = null;
+    }
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
       reconnectTimerRef.current = null;
@@ -644,6 +691,13 @@ export function useSession({
       return () => {
           pendingLessonCompleteRef.current = false;
           flushAudioQueue();
+          if (currentBeatSourceRef.current) {
+            try {
+              currentBeatSourceRef.current.stop();
+              currentBeatSourceRef.current.disconnect();
+            } catch (_) {}
+            currentBeatSourceRef.current = null;
+          }
           if (reconnectTimerRef.current) {
               clearTimeout(reconnectTimerRef.current);
               reconnectTimerRef.current = null;
@@ -763,7 +817,7 @@ export function useSession({
         ]);
         setThinkingText('');
 
-        playAudioChunk(currentBeat.audioData).then(() => {
+        playBeatAudio(currentBeat.audioData).then(() => {
           finalizeBeat('Audio playback complete');
         }).catch(err => {
           Logger.error('[WS]', 'Audio play failed in beat queue', err);
@@ -806,7 +860,7 @@ export function useSession({
         }, dwellMs);
       }
     }
-  }, [beatState, beatQueue, playAudioChunk, debug, band]);
+  }, [beatState, beatQueue, playBeatAudio, debug, band]);
   
   // Finalize lesson only after queued beats/audio have finished playing.
   useEffect(() => {

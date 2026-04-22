@@ -75,6 +75,9 @@
 | 119 | Dashboard chapter readiness hardcoded | RESOLVED — data-driven via topic data + PILOT_ALLOWLIST | Phase 1.6 |
 | 120 | Live-slice audio plays as overlapping voices ('thousand voices') | RESOLVED — serialized playback queue + flush on transitions | Hotfix |
 | 121 | Live Agent Talks but Does Not Listen or Respond | RESOLVED — fixed stale closures in `useSession` and backend key mismatch | Phase 1.7 |
+| 125 | Performer beats complete before audio ends / out of sync | RESOLVED — restored completion-aware playback contract for performer | Recovery |
+| 126 | Stale live audio leaks across slice transitions | RESOLVED — active source tracking + hard stop on transitions | Recovery |
+| 127 | Misleading "Live stream started" spam in debug logs | RESOLVED — replaced with generation-aware lifecycle logs | Recovery |
 
 ---
 

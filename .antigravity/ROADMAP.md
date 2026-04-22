@@ -29,8 +29,9 @@ The platform is pivoting from "advanced multimedia presenter" to "true pedagogic
 | **1D** | Adaptive scaffolding hooks (`mem://features/adaptive-scaffolding`), debug tooling, telemetry. | ✅ Complete |
 | **1.5** | Lifecycle stabilization — resume token protocol, performer-drain handshake, negotiator self-finalization, failure-aware slices, Chapter 1 test harness navigation. | ✅ Complete (Issues #111–#116 resolved) |
 | **1.6** | Failure UX visibility (toasts/system cards) + negotiator server-side scoring fix + data-driven chapter readiness. | ✅ Complete (Issues #117–#119 resolved) |
+| **Recovery** | Audio engine recovery: separate live/performer contracts, active source teardown, generation-aware filtering. | ✅ Complete |
 
-Phase 1.6 closes the audit pass started in Phase 1.5. The system is now **fully stabilized and unblocked for Chapter 1 user testing**. The immediate active workstream is **Phase 1C assignment persistence**. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #111–#119 (lifecycle/UX fixes, resolved).
+Phase 1.6 and the subsequent Audio Recovery pass close the stabilization audit. The system is now **fully stabilized and unblocked for Chapter 1 user testing**. The immediate active workstream is **Phase 1C assignment persistence**. Full plan of record: `.lovable/plan.md`. Tracking issues: #96 (assignments table), #111–#127 (lifecycle/UX/Audio fixes, resolved).
 
 ---
 
