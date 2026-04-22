@@ -12,6 +12,8 @@
 - **Generation-Based Chunk Filtering:** Introduced `liveStreamGenerationRef` to ensure that stale audio chunks from previous live slices are ignored if they arrive after a transition.
 - **Restored Performer Sync:** Performer beats now await true audio completion before triggering cooldown and finalization, restoring synchronization across narration and visuals.
 - **Refined Audio Debugging:** Replaced repeated stream-start spam with lifecycle logs (`Live stream opened`, `Live stream drained`, `Live stream flushed`) including generation markers.
+- **Hotfix: Closed Residual Audio Races:** Implemented generation re-checks after awaits in `scheduleLiveChunk`, ref-based slice/state guards in the WebSocket handler, and stabilized `connect` dependencies.
+- **Dashboard UI Polish:** Fixed a React warning regarding function components receiving refs in `Dashboard.tsx` by updating the `Select` component with `forwardRef`.
 
 ## 2026-04-21 — Phase 1.7: Live Agent Listening & Response Hotfix
 

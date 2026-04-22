@@ -78,6 +78,8 @@
 | 125 | Performer beats complete before audio ends / out of sync | RESOLVED — restored completion-aware playback contract for performer | Recovery |
 | 126 | Stale live audio leaks across slice transitions | RESOLVED — active source tracking + hard stop on transitions | Recovery |
 | 127 | Misleading "Live stream started" spam in debug logs | RESOLVED — replaced with generation-aware lifecycle logs | Recovery |
+| 128 | Audio races in scheduleLiveChunk after flushes | RESOLVED — added generation re-checks after awaits | Recovery |
+| 129 | WS handler uses stale activeSlice/beatState closures | RESOLVED — updated to use refs in onmessage guard | Recovery |
 
 ---
 
