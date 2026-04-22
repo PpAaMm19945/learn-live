@@ -62,7 +62,7 @@ export function useSession({
   const [isQAActive, setIsQAActive] = useState<boolean>(false);
   const [activeSlice, setActiveSlice] = useState<SessionSlice>('welcome');
 
-  // Refs to avoid stale closures in onaudioprocess
+  // Refs to avoid stale closures in onaudioprocess and ws.onmessage
   const isMutedRef = useRef(isMuted);
   const isQAActiveRef = useRef(isQAActive);
   const activeSliceRef = useRef(activeSlice);
@@ -84,6 +84,9 @@ export function useSession({
   // Beat Sequencer State Machine
   type BeatState = 'IDLE' | 'LOADING_BEAT' | 'EXECUTING_TOOLS' | 'PLAYING_AUDIO' | 'COOLDOWN';
   const [beatState, setBeatState] = useState<BeatState>('IDLE');
+  const beatStateRef = useRef<BeatState>(beatState);
+  useEffect(() => { beatStateRef.current = beatState; }, [beatState]);
+
   const [beatQueue, setBeatQueue] = useState<BeatPayload[]>([]);
   const [currentBeatText, setCurrentBeatText] = useState<string | null>(null);
   const onToolCallRef = useRef<((msg: AgentToolCall) => void) | undefined>(undefined);
@@ -188,8 +191,11 @@ export function useSession({
     if (!base64Audio || generation !== liveStreamGenerationRef.current) return;
 
     const ctx = await ensureActiveAudioContext();
+    if (generation !== liveStreamGenerationRef.current) return;
+
     const buffer = decodePCM(ctx, base64Audio);
     if (!buffer) return;
+    if (generation !== liveStreamGenerationRef.current) return;
 
     const source = ctx.createBufferSource();
     source.buffer = buffer;
@@ -448,7 +454,7 @@ export function useSession({
             }
             debug('beat', `Transcript chunk`, `"${(msg.text || '').slice(0, 80)}..."`);
           } else if (msg.type === 'audio') {
-            if (activeSlice !== 'performer' && beatState === 'PLAYING_AUDIO') {
+            if (activeSliceRef.current !== 'performer' && beatStateRef.current === 'PLAYING_AUDIO') {
               return;
             }
             // Don't log every 2.5KB chunk — too noisy. Log only first chunk of a burst.
@@ -616,7 +622,7 @@ export function useSession({
       setStatus('error');
       setError('Failed to setup connection.');
     }
-  }, [agentUrl, chapterId, familyId, learnerId, band, scheduleLiveChunk, setupMicrophone, debug, beatQueue.length, ensureAudioContext, activeSlice, beatState, drainAudioQueue]);
+  }, [agentUrl, chapterId, familyId, learnerId, band, scheduleLiveChunk, setupMicrophone, debug, ensureAudioContext, drainAudioQueue]);
 
   const disconnect = useCallback(() => {
     Logger.info('[WS]', 'Disconnecting from agent');
