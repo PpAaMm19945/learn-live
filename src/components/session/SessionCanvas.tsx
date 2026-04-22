@@ -343,6 +343,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
 
   const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
 
+  // Fire onComplete exactly once when the lesson reaches its terminal state.
+  const completionFiredRef = useRef(false);
+  useEffect(() => {
+    if (isEnded && !completionFiredRef.current) {
+      completionFiredRef.current = true;
+      onComplete?.();
+    }
+  }, [isEnded, onComplete]);
+
   useEffect(() => {
     if ((band >= 2 && activeSlice !== 'welcome') || (band < 2 && beats.length > 0)) {
       setShowWelcomeCover(false);
