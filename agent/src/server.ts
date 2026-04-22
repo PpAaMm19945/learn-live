@@ -2,6 +2,7 @@ import express from 'express';
 import { WebSocketServer, WebSocket } from 'ws';
 import { createServer } from 'http';
 import dotenv from 'dotenv';
+import './firebase'; // Initialize Firebase Admin
 import { checkRateLimit, recordSession } from './rateLimit';
 import { fetchAndAssembleInstruction } from './constraints';
 import { GeminiSession } from './gemini';
