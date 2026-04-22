@@ -28,6 +28,7 @@ interface SessionCanvasProps {
   band: number;
   learnerName: string;
   onExit: () => void;
+  onComplete?: () => void;
 }
 
 /** "Small" overlay types that share the bottom-left card slot and get queued */
@@ -39,7 +40,7 @@ interface QueuedOverlay {
   debugLabel: string;
 }
 
-export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
+export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit, onComplete }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
   const bandProfile = getClientBandProfile(band);
   const [raiseHandCooldown, setRaiseHandCooldown] = useState(false);
