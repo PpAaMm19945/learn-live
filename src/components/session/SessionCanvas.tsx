@@ -28,6 +28,7 @@ interface SessionCanvasProps {
   band: number;
   learnerName: string;
   onExit: () => void;
+  onComplete?: () => void;
 }
 
 /** "Small" overlay types that share the bottom-left card slot and get queued */
@@ -39,7 +40,7 @@ interface QueuedOverlay {
   debugLabel: string;
 }
 
-export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit }: SessionCanvasProps) {
+export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onExit, onComplete }: SessionCanvasProps) {
   const { familyId, activeLearnerId } = useLearnerStore();
   const bandProfile = getClientBandProfile(band);
   const [raiseHandCooldown, setRaiseHandCooldown] = useState(false);
@@ -341,6 +342,15 @@ export function SessionCanvas({ chapterId, band, learnerName: _learnerName, onEx
   }, [setLiveSceneMode, useFallback, goldenScript.setSceneMode, addDebug, dismissOverlay, scheduleAutoDismiss, enqueueSmallOverlay, chapterId, bandProfile, band]);
 
   const isEnded = (status === 'ended' && !useFallback) || (useFallback && goldenScript.status === 'ended');
+
+  // Fire onComplete exactly once when the lesson reaches its terminal state.
+  const completionFiredRef = useRef(false);
+  useEffect(() => {
+    if (isEnded && !completionFiredRef.current) {
+      completionFiredRef.current = true;
+      onComplete?.();
+    }
+  }, [isEnded, onComplete]);
 
   useEffect(() => {
     if ((band >= 2 && activeSlice !== 'welcome') || (band < 2 && beats.length > 0)) {

@@ -5,6 +5,11 @@ import { StorybookPlayer } from '@/components/player/StorybookPlayer';
 import { LiveStorybookPlayer } from '@/components/player/LiveStorybookPlayer';
 import { LessonModeDialog, type LessonMode } from '@/components/player/LessonModeDialog';
 import { useLearnerStore } from '@/lib/learnerStore';
+import {
+  lessonIdFromChapterParam,
+  markLessonStarted,
+  markLessonCompleted,
+} from '@/lib/lessonProgress';
 import type { StorybookScript } from '@/lib/session/types';
 
 export default function LessonPlayerPage() {
@@ -16,6 +21,7 @@ export default function LessonPlayerPage() {
   const activeLearnerId = useLearnerStore((s) => s.activeLearnerId);
 
   const isStorybook = activeLearnerBand <= 1;
+  const lessonId = lessonIdFromChapterParam(chapterId);
 
   // Mode selection for bands 0-1
   const [selectedMode, setSelectedMode] = useState<LessonMode | null>(
@@ -26,6 +32,13 @@ export default function LessonPlayerPage() {
   const [storybookScript, setStorybookScript] = useState<StorybookScript | null>(null);
   const [scriptLoading, setScriptLoading] = useState(false);
   const [scriptNotFound, setScriptNotFound] = useState(false);
+
+  // Mark lesson started on mount (once per lesson id)
+  useEffect(() => {
+    if (lessonId && activeLearnerId) {
+      markLessonStarted(lessonId);
+    }
+  }, [lessonId, activeLearnerId]);
 
   // Load storybook script when read-aloud is selected
   useEffect(() => {
@@ -49,6 +62,14 @@ export default function LessonPlayerPage() {
   }, [chapterId, activeLearnerBand, selectedMode]);
 
   const handleExit = () => navigate('/dashboard');
+
+  const handleComplete = () => {
+    if (lessonId) {
+      // Fire-and-forget; navigation must not wait on a network round-trip.
+      markLessonCompleted(lessonId);
+    }
+    navigate('/dashboard');
+  };
 
   // Ensure learner is selected
   useEffect(() => {
@@ -90,7 +111,7 @@ export default function LessonPlayerPage() {
         <StorybookPlayer
           script={storybookScript}
           onExit={handleExit}
-          onComplete={() => navigate('/dashboard')}
+          onComplete={handleComplete}
         />
       );
     }
@@ -99,7 +120,7 @@ export default function LessonPlayerPage() {
         chapterId={chapterId || 'ch01'}
         band={activeLearnerBand}
         onExit={handleExit}
-        onComplete={() => navigate('/dashboard')}
+        onComplete={handleComplete}
       />
     );
   }
@@ -111,6 +132,7 @@ export default function LessonPlayerPage() {
       band={activeLearnerBand}
       learnerName={activeLearnerName || 'Learner'}
       onExit={handleExit}
+      onComplete={handleComplete}
     />
   );
 }
