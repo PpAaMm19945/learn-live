@@ -26,10 +26,10 @@ async function postProgress(lessonId: string, status: ProgressStatus): Promise<v
       body: JSON.stringify({ lesson_id: lessonId, status }),
     });
     if (!res.ok) {
-      Logger.warn(`[lessonProgress] ${status} write failed: ${res.status}`);
+      Logger.warn('[APP]', `lessonProgress ${status} write failed: ${res.status}`);
     }
   } catch (err) {
-    Logger.warn(`[lessonProgress] ${status} write error`, err as any);
+    Logger.warn('[APP]', `lessonProgress ${status} write error`, err);
   }
 }
 
