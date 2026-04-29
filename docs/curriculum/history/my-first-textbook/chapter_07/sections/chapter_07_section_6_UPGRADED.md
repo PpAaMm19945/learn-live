@@ -1,4 +1,4 @@
-## 7.4 Aksum on the International Stage: Kaleb, Abraha, and the Red Sea Crisis (c. 520–575 AD)
+## 7.6 Aksum on the International Stage: Kaleb, Abraha, and the Red Sea Crisis (c. 520–575 AD)
 
 In this section you will learn about the peak of Aksum's power under King Kaleb. We'll explore his massive amphibious invasion of South Arabia, the "Just War" theology behind it, and the complex legacy of his general, Abraha.
 
