@@ -1,0 +1,142 @@
+{
+  "bookTitle": "THE HISTORY OF AFRICA",
+  "author": "ANTHONY JR. MWESIGWA",
+  "auditRange": "Chapters 1-9",
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "chapterTitle": "The Sovereign Hand: A Biblical Foundation for African History",
+      "totalSections": 5,
+      "sections": [
+        { "number": "1.1", "title": "In the Beginning: God, Man, and the Meaning of History" },
+        { "number": "1.2", "title": "The Charter of Nations: Africa's Biblical Roots" },
+        { "number": "1.3", "title": "The Weaponization of a Myth: Deconstructing the \"Curse of Ham\"" },
+        { "number": "1.4", "title": "The Peopling of Africa: A Biblical Model" },
+        { "number": "1.5", "title": "Portraits of Power: Mizraim, Cush, and Phut" }
+      ]
+    },
+    {
+      "chapterNumber": 2,
+      "chapterTitle": "The Story of Egypt — From the Rise of the Nile Kingdoms to Cleopatra",
+      "totalSections": 9,
+      "sections": [
+        { "number": "2.1", "title": "Foundations After Babel (c. 3200–2900 BC, conventional estimate)" },
+        { "number": "2.2", "title": "The Unification and the Old Kingdom (c. 2900–2180 BC, conventional estimate)" },
+        { "number": "2.3", "title": "The First Intermediate Period (c. 2180–2050 BC, conventional estimate)" },
+        { "number": "2.4", "title": "The Middle Kingdom: Egypt’s Classical Age (c. 2050–1650 BC, conventional estimate)" },
+        { "number": "2.5", "title": "The Second Intermediate Period and the Hyksos (c. 1650–1550 BC, conventional estimate)" },
+        { "number": "2.6", "title": "The New Kingdom: Empire and Glory (c. 1550–1070 BC, conventional estimate)" },
+        { "number": "2.7", "title": "The Late Period and Foreign Domination (c. 1070–332 BC, conventional estimate)" },
+        { "number": "2.8", "title": "The Hellenistic Period: Greeks in Egypt (332–30 BC, conventional estimate)" },
+        { "number": "2.9", "title": "Legacy of the Nile (Post-30 BC, conventional estimate)" }
+      ]
+    },
+    {
+      "chapterNumber": 3,
+      "chapterTitle": "The Lands of Phut — Carthage, Numidia, and the Desert Kingdoms",
+      "totalSections": 7,
+      "sections": [
+        { "number": "3.1", "title": "After Babel: The Migrations into a Prepared Land (c. 2200–1800 BC, YEC)" },
+        { "number": "3.2", "title": "Early Cultures: Masters of a Drying Land (The Garamantes)" },
+        { "number": "3.3", "title": "Encounters with Egypt: From Mercenaries to Pharaohs (c. 1200–700 BC, YEC)" },
+        { "number": "3.4", "title": "The Rise of Carthage: The Last Stand of Canaan (c. 814–146 BC)" },
+        { "number": "3.5", "title": "The Berber Kingdoms: Numidia and Mauretania (c. 200 BC–40 AD)" },
+        { "number": "3.6", "title": "The North African Church: Glory and Division (c. 180–533 AD)" },
+        { "number": "3.7", "title": "The End of an Era: The Islamic Conquest and the Removed Lampstand (c. 533–700 AD)" }
+      ]
+    },
+    {
+      "chapterNumber": 4,
+      "chapterTitle": "The Lands of Cush — From Babel to the Eve of Roman Africa",
+      "totalSections": 8,
+      "sections": [
+        { "number": "4.1", "title": "After Babel: Early Migrations into the Upper Nile and Horn (c. 3200–2200 BC)" },
+        { "number": "4.2", "title": "Early State Formation: Kerma and the First Nubian Kingdoms (c. 2400–1500 BC)" },
+        { "number": "4.3", "title": "Napatan Kush: The Re-emergence of a Nubian Kingdom (c. 1000–590 BC)" },
+        { "number": "4.4", "title": "The Meroitic Era: Meroe and the Southward Shift (c. 590 BC–350 AD)" },
+        { "number": "4.5", "title": "Cush and the Red Sea World: Ancient Judaic Roots (c. 1000 BC–1st Century AD)" },
+        { "number": "4.6", "title": "The Aksumite Rise: From Local Kingdom to Regional Empire (c. 1st Century BC–4th Century AD)" },
+        { "number": "4.7", "title": "The Aksumite Victory: The Fall of Meroe and Geopolitical Reordering (c. 330 AD)" },
+        { "number": "4.8", "title": "Legacy and Enduring Threads (Post-c. 330 AD)" }
+      ]
+    },
+    {
+      "chapterNumber": 5,
+      "chapterTitle": "The Church in Roman Africa (c. 30 BC – 700 AD)",
+      "totalSections": 8,
+      "sections": [
+        { "number": "5.1", "title": "Africa under Roman Dominion (c. 30 BC–100 AD)" },
+        { "number": "5.2", "title": "The Birth of the African Church (c. 50–300 AD)" },
+        { "number": "5.3", "title": "Conflict with Roman Authority (c. 150–300 AD)" },
+        { "number": "5.4", "title": "The Age of the African Fathers (c. 150–450 AD)" },
+        { "number": "5.5", "title": "Augustine of Hippo (354–430 AD)" },
+        { "number": "5.6", "title": "Rome's Shadow: Vandal Invasion & Byzantine Restoration (429–647 AD)" },
+        { "number": "5.7", "title": "Intellectual & Spiritual Decline and Islamic Advance (600s–700 AD)" },
+        { "number": "5.8", "title": "Chronological Summary & Review" }
+      ]
+    },
+    {
+      "chapterNumber": 6,
+      "chapterTitle": "Egypt under Rome and the Rise of the Alexandrian Church (30 BC – 700 AD)",
+      "totalSections": 8,
+      "sections": [
+        { "number": "6.1", "title": "The Roman Annexation of Egypt" },
+        { "number": "6.2", "title": "Alexandria, the Intellectual Crossroads" },
+        { "number": "6.3", "title": "The Great Persecutions and the Rise of the Martyrs" },
+        { "number": "6.4", "title": "The Birth of Monasticism" },
+        { "number": "6.5", "title": "The Arian Controversy and the Council of Nicaea" },
+        { "number": "6.6", "title": "Christological Debates and the Council of Chalcedon" },
+        { "number": "6.7", "title": "The Coptic Church under Byzantine and Early Arab Rule" },
+        { "number": "6.8", "title": "Chronological Summary & Review" }
+      ]
+    },
+    {
+      "chapterNumber": 7,
+      "chapterTitle": "The Churches of the Highlands: Aksum, Conversion, and Survival (c. 50–900 AD)",
+      "totalSections": 9,
+      "sections": [
+        { "number": "7.1", "title": "The Rise of the Aksumite State (c. 100 BC – 300 AD)" },
+        { "number": "7.2", "title": "Geography and the Red Sea Trade Network" },
+        { "number": "7.3", "title": "Biblical Connections: Sheba, the Eunuch, and the \"Ends of the Earth\"" },
+        { "number": "7.4", "title": "The Christian Mission: Frumentius and King Ezana (c. 320–360 AD)" },
+        { "number": "7.5", "title": "The Nine Saints: Syrian Refugees and the Golden Age of Ge'ez (c. 480–520 AD)" },
+        { "number": "7.6", "title": "Aksum on the International Stage: Kaleb, Abraha, and the Red Sea Crisis (c. 520–575 AD)" },
+        { "number": "7.7", "title": "The Decline of Aksum and the Reorientation of the Highlands (c. 615–900 AD)" },
+        { "number": "7.8", "title": "Communities at the Margins: The Beta Israel (c. 4th–9th centuries)" },
+        { "number": "7.9", "title": "Chapter Review and Chronology" }
+      ]
+    },
+    {
+      "chapterNumber": 8,
+      "chapterTitle": "The Bantu Migrations and Ironworking",
+      "totalSections": 8,
+      "sections": [
+        { "number": "8.1", "title": "After Babel: Remembering the First Dispersions (c. 2200–1500 BC)" },
+        { "number": "8.2", "title": "The Two Maps of Origin: Evolutionary vs. Biblical Epistemologies" },
+        { "number": "8.3", "title": "The Linguistic Evidence: What “Bantu” Really Means" },
+        { "number": "8.4", "title": "The Early Trailblazers (c. 700 BC – 300 AD)" },
+        { "number": "8.5", "title": "Settling the Heartlands (c. 1500 BC – 500 AD)" },
+        { "number": "8.6", "title": "The Forgotten Clans: Before the Bantu Came" },
+        { "number": "8.7", "title": "Belief, Memory, and Migration" },
+        { "number": "8.8", "title": "The Historical Horizon (c. 500 AD)" }
+      ]
+    },
+    {
+      "chapterNumber": 9,
+      "chapterTitle": "Ethiopia Alone: The Hidden Kingdom (c. 900–1500 AD)",
+      "totalSections": 6,
+      "sections": [
+        { "number": "9.1", "title": "The Twilight of Axum (c. 7th–9th Centuries AD)" },
+        { "number": "9.2", "title": "The Rise of the Zagwe Dynasty (c. 900–1270 AD)" },
+        { "number": "9.3", "title": "The Solomonic Restoration (1270 AD)" },
+        { "number": "9.4", "title": "Ethiopia's Isolation and Resilience (c. 13th–15th Centuries)" },
+        { "number": "9.5", "title": "Ethiopia and the Wider Christian World (c. 14th–15th Centuries)" },
+        { "number": "9.6", "title": "The Coming Storm (c. 15th–Early 16th Centuries)" }
+      ]
+    }
+  ],
+  "summary": {
+    "totalChapters": 9,
+    "totalSections": 68
+  }
+}
