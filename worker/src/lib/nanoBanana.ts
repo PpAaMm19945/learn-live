@@ -12,7 +12,7 @@ export async function generateDiagram(
 ): Promise<{ imageUrl: string | null; error?: string }> {
   try {
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -25,7 +25,7 @@ export async function generateDiagram(
             }]
           }],
           generationConfig: {
-            responseMimeType: 'image/png',
+            responseModalities: ['IMAGE'],
           },
         }),
       }
