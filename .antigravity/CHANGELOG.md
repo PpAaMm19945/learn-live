@@ -1,7 +1,16 @@
 # Learn Live — Changelog
 
-> **Last updated:** 2026-04-21
+> **Last updated:** 2026-05-07
 > One-line-per-decision log, consolidated from phase notes, walkthroughs, and logs.
+
+## 2026-05-07 — Gemini 3.x model alignment
+- Bumped narrator (`agent/src/gemini.ts`) from retired `gemini-1.5-flash` → `gemini-3-flash-preview` (resolves repeated 404 NOT_FOUND in Cloud Run logs).
+- Bumped Live tutor session from `gemini-2.5-flash-native-audio-latest` → `gemini-3.1-flash-live-preview` to align voice family with beat TTS and remove the "thousand voices" chorus effect.
+- Bumped all worker evaluator helpers (splitJudgment, evaluateEvidence, parentPrimer, enrichTask, examiner/artifact, content/adapt) and `agent/src/scaffolding/comprehensionTracker.ts` to `gemini-3-flash-preview`.
+- Switched `worker/src/lib/nanoBanana.ts` to `gemini-3.1-flash-image-preview` and replaced invalid `responseMimeType: 'image/png'` with `responseModalities: ['IMAGE']` (Nano Banana 2 returns inline image parts).
+- Bumped `@google/genai` to ^1.51.0 (minimum for 3.1 features) — resolves to 1.52.0.
+- TTS (`gemini-2.5-flash-preview-tts`) intentionally unchanged — no 3.x TTS variant available yet.
+- Out of scope: leaked `GEMINI_API_KEY` rotation (Jules / GCP Secret Manager) and Vertex AI Provisioned Throughput migration (deferred until post-eval traffic justifies GSU spend).
 
 ---
 
