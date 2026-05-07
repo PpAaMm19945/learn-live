@@ -1,6 +1,15 @@
 # Learn Live — Issue Tracker
 
-> **Last updated:** 2026-04-21
+> **Last updated:** 2026-05-07
+
+## Resolved 2026-05-07
+- **Narrator 404 NOT_FOUND** — caused by hardcoded retired `gemini-1.5-flash`. Fixed by moving narrator + all worker text evaluators to `gemini-3-flash-preview`.
+- **Voice mismatch / "thousand voices" chorus** — Live tutor was on `gemini-2.5-flash-native-audio-latest` while beat TTS was on a 2.5-preview voice. Live tutor moved to `gemini-3.1-flash-live-preview` so the families match.
+- **Nano Banana returning null images** — `responseMimeType: 'image/png'` is not valid on the text endpoint. Switched to `gemini-3.1-flash-image-preview` with `responseModalities: ['IMAGE']`.
+
+## Open / external
+- **Leaked `GEMINI_API_KEY`** — must be rotated in GCP Secret Manager (Jules). Code-side changes above will not take effect until the new key is live and Cloud Run revision bounced.
+- **Vertex AI Provisioned Throughput** — explicitly deferred. Current AI Studio key path (`generativelanguage.googleapis.com`) is sufficient for evaluation; revisit only if 429s appear under real concurrent load.
 
 ---
 
