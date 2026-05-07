@@ -1,103 +1,91 @@
+# Plan — Align Agent + Worker on Gemini 3.x (No Paid Throughput Yet)
 
+Two goals:
+1. Stop the `404 NOT_FOUND` from the retired `gemini-1.5-flash`.
+2. Unify the live tutor, narrator, evaluators, and image gen on the **Gemini 3.x family** so the voice and behavior match.
 
-# Plan — Rotate Leaked Gemini Key (You) + Wire Lesson Progression Persistence (Me)
+**Explicitly out of scope (per your instruction):** Vertex AI Provisioned Throughput / GSU orders / migration to the Gemini Enterprise Agent Platform. We stay on the **AI Studio API key path you already use** (`generativelanguage.googleapis.com` + `GEMINI_API_KEY`). No GCP IAM changes, no `global` endpoint config, no PT order. We can revisit PT *after* you've validated the agent end-to-end and traffic justifies the spend.
 
-Two independent issues. One requires action outside Lovable (you/Jules). One is a focused frontend fix I can implement now.
-
----
-
-## Issue 1 — Audio falling back to browser TTS
-
-### Root cause
-The Cloud Run agent is hitting `403 PERMISSION_DENIED` on every Gemini TTS call and `404 NOT_FOUND` on `gemini-1.5-flash`. Google has flagged the current `GEMINI_API_KEY` as leaked (matches Jules' deploy report exactly). The frontend correctly detects no audio bytes arrive and falls back to `window.speechSynthesis` — that branch is at `useSession.ts:833`. The frontend code is fine.
-
-### Required action — outside Lovable
-You (or Jules) must rotate the key. Lovable cannot reach Google Cloud Secret Manager.
-
-1. Generate a fresh API key in Google AI Studio (https://aistudio.google.com/apikey) under project `learn-live-488609`. Make it unrestricted, or restrict it only to `generativelanguage.googleapis.com` — never paste it into git, README, or chat.
-2. Push it into Secret Manager:
-   ```bash
-   echo -n "NEW_KEY" | gcloud secrets versions add GEMINI_API_KEY \
-     --data-file=- --project=learn-live-488609
-   ```
-3. Force the Cloud Run service to pick up the new version (no code change needed, but the running revision caches the secret on cold start):
-   ```bash
-   gcloud run services update learnlive-agent \
-     --region=us-central1 --project=learn-live-488609 \
-     --update-secrets=GEMINI_API_KEY=GEMINI_API_KEY:latest
-   ```
-4. Confirm by visiting `/health` and starting a fresh lesson. `[TTS]` and `[LIVE_GATEKEEPER]` log lines should stop emitting `PERMISSION_DENIED`.
-
-### Also worth fixing while the key is rotating
-The agent has `gemini-1.5-flash` hardcoded somewhere returning `404 NOT_FOUND` on `v1beta`. That model name was retired by Google and now requires `v1` or should be moved to `gemini-2.5-flash` / `gemini-2.0-flash`. Have Jules grep `agent/src/` for `gemini-1.5-flash` and bump it to `gemini-2.5-flash` (or `gemini-2.0-flash` if cost matters more than quality). This is unrelated to the leaked key — it would have surfaced anyway.
+The leaked `GEMINI_API_KEY` rotation is also out of scope here — that's still on you/Jules in GCP Secret Manager.
 
 ---
 
-## Issue 2 — Lesson completion doesn't unlock the next lesson on Dashboard
+## Model mapping (final, AI-Studio-compatible only)
 
-### Root cause (verified in code)
-- The worker has `POST /api/progress` (`worker/src/routes/curriculum.ts:155`) and the `Learner_Progress` table from migration `009_progress_learner.sql` is already deployed.
-- **No frontend code ever calls it.** A grep across all of `src/` for `/api/progress` returns only the read path in `ProgressOverview.tsx`.
-- `LessonPlayerPage.onComplete` (line 93/102) just calls `navigate('/dashboard')`. `SessionCanvas` never tells the player a session ended; it surfaces a completion card but no callback fires when the learner clicks "Done".
-- Dashboard's "Continue Lesson" (`Dashboard.tsx:108`) finds the next lesson via `lesson.status === 'in_progress' || 'not_started'`, and the topic-detail endpoint joins `Learner_Progress` (`curriculum.ts:88`). Since nothing ever writes there, every lesson is permanently `not_started` and the picker keeps returning the same one.
+| Role | Current (broken/legacy) | New |
+|---|---|---|
+| Live tutor (audio + tools) | `gemini-2.5-flash-native-audio-latest` | **`gemini-3.1-flash-live-preview`** |
+| Narrator (REST text) | `gemini-1.5-flash` ← 404 | **`gemini-3-flash-preview`** |
+| Comprehension tracker | `gemini-2.5-flash` | **`gemini-3-flash-preview`** |
+| Adapt / evaluateEvidence / parentPrimer / splitJudgment / enrichTask / taskGen / weeklyPlan / examiner | `gemini-2.5-flash` | **`gemini-3-flash-preview`** |
+| Image gen (Nano Banana) | `gemini-2.5-flash:generateContent` (broken — text endpoint) | **`gemini-3.1-flash-image-preview`** |
+| TTS (beat narration) | `gemini-2.5-flash-preview-tts` | **keep as-is** (no 3.x TTS exists yet) |
 
-### No new migration needed
-Tables and endpoint exist. This is purely a missing frontend write.
-
-### What I'll build
-
-**File: `src/lib/lessonProgress.ts`** (new)
-Tiny helper that POSTs to `/api/progress` with credentials. Two exports:
-- `markLessonStarted(lessonId)` → `{ status: 'in_progress' }`
-- `markLessonCompleted(lessonId)` → `{ status: 'completed' }`
-Both swallow errors quietly with a `Logger.warn` so a transient worker hiccup never blocks navigation.
-
-**File: `src/components/session/SessionCanvas.tsx`**
-- Accept new optional prop `onComplete?: () => void`.
-- Add a `useEffect` watching `status === 'ended'` (terminal state already set by `useSession` on `lesson_complete` / `session_complete` after audio drains). When it flips to `ended`, fire `onComplete()` exactly once via a ref guard.
-- Wire a "Continue" button in the existing completion card / end-of-session screen that also calls `onComplete()`. Today the user is stranded on the completion card with no way back; this fixes that too.
-
-**File: `src/pages/LessonPlayerPage.tsx`**
-- Add a `useEffect` on mount: derive the lesson id from `chapterId` (`lesson_${chapterId}` shape, matching the worker's IDs from migration 003) and call `markLessonStarted(lessonId)`. This guarantees the topic-detail page shows the correct in-progress state even if the learner exits early.
-- Define a single `handleComplete` that calls `markLessonCompleted(lessonId)` then `navigate('/dashboard')`. Pass it as `onComplete` to `SessionCanvas`, `StorybookPlayer`, and `LiveStorybookPlayer` (the last two already accept `onComplete`).
-
-**File: `src/pages/parent/Dashboard.tsx`**
-- Already does the right lookup. After progress writes start landing, "Continue Lesson" will naturally walk forward to `lesson_ch01_s02`, `s03`, etc. No change needed here beyond reusing the existing query — the React Query cache already invalidates when the user returns to `/dashboard`.
-
-**Optional small polish**
-On the topic-detail page (`TopicDetail.tsx`), the lesson cards already render status pills from the same join. Once writes land, completed lessons pick up the green pill automatically. If you'd like, I can also add a lightweight cache-bust on `/api/topics/:id` after returning from a lesson — but it's not necessary because navigating back triggers a refetch.
-
-### Acceptance
-1. Open `/play/ch01_s01`, finish the lesson → return to `/dashboard` → "Continue Lesson" now shows `Section 2`, not `Section 1`.
-2. Topic detail for Chapter 1 shows `s01` with the "Completed" pill and `s02` as "In progress" if you've opened it.
-3. Exit a lesson midway → that lesson appears as "In progress" on next visit.
-4. No new migrations required.
+Why flash everywhere instead of `gemini-3.1-pro-preview`:
+- Pro is slower and more expensive — bad fit for the live audio loop.
+- Pro is the model Google's docs push toward Provisioned Throughput. Staying on flash keeps you on the standard pay-as-you-go AI Studio key with no GSU commitment.
+- You can selectively promote the 3 evaluator calls (split judgment, evidence eval, parent primer) to `gemini-3.1-pro-preview` later if quality demands it — that's a one-line change per file.
 
 ---
 
-## Files I will change
+## Files to change
 
-| File | Change |
-|---|---|
-| `src/lib/lessonProgress.ts` | NEW — `markLessonStarted` / `markLessonCompleted` helpers |
-| `src/components/session/SessionCanvas.tsx` | Accept `onComplete`, fire once when `status === 'ended'`, add Continue button on completion card |
-| `src/pages/LessonPlayerPage.tsx` | Mark started on mount; mark completed in `handleComplete`; thread to all three player components |
+### Agent (`agent/`)
+1. **`agent/src/gemini.ts`**
+   - `GenAINarrator.model`: `gemini-1.5-flash` → `gemini-3-flash-preview`
+   - `GeminiSession` connect model: `gemini-2.5-flash-native-audio-latest` → `gemini-3.1-flash-live-preview`
+   - Keep `apiVersion: 'v1alpha'` (Live API) and the narrator's `v1beta` REST endpoint. If `v1beta` 404s on 3.x preview models, fall back to `v1` (verify with one curl post-deploy).
+2. **`agent/src/comprehensionTracker.ts`** + **`agent/src/scaffolding/comprehensionTracker.ts`** — bump model.
+3. **`agent/src/tts.ts`** — leave alone.
+4. Sweep `rg "gemini-(1\.5|2\.5)" agent/src/` and bump any stragglers.
 
-No agent changes. No worker changes. No migrations.
+### Worker (`worker/src/`)
+5. **`worker/src/lib/nanoBanana.ts`** — switch to `gemini-3.1-flash-image-preview:generateContent` and drop the `responseMimeType: 'image/png'` field (image-preview models return inline image parts directly; that field is the reason images come back null today).
+6. **`worker/src/lib/parentPrimer.ts`** — model string.
+7. **`worker/src/lib/splitJudgment.ts`** — model string.
+8. **`worker/src/lib/evaluateEvidence.ts`** — model string.
+9. Sweep `rg "gemini-2\.5-flash" worker/src/` for `enrichTask.ts`, `taskGen.ts`, `weeklyPlan.ts`, `examiner/agent.ts`, `content/adapt.ts` and bump.
 
-## What I will NOT do
+### SDK
+10. **`agent/package.json`** — bump `@google/genai` from `^1.0.0` to `^1.51.0` (Google's stated minimum for 3.1 features). Run `bun install` in `agent/` so the lockfile updates.
 
-- Touch the Gemini API key (cannot — that's Google Cloud Secret Manager).
-- Modify the agent or worker.
-- Add new tables or migrations.
-- Re-architect the audio engine — the recovery pass we just shipped is correct; the silence is purely the leaked key.
+### Docs
+11. **`.antigravity/CHANGELOG.md`** — add "Model alignment to Gemini 3.x family (AI Studio key path, no Vertex PT)" entry.
+12. **`.antigravity/ISSUES.md`** — close the `404` and "voice mismatch / chorus of voices" entries.
 
 ---
 
-## Recommended order of operations
+## What this fixes
 
-1. **First**, you (or Jules) rotate the `GEMINI_API_KEY` and bump `gemini-1.5-flash` → `gemini-2.5-flash` in the agent. That restores real TTS so you stop hearing the browser robot voice.
-2. **Then approve this plan** and I'll ship the progress-write changes so Chapter 1 actually walks forward section-by-section without manual selection.
+- **404 NOT_FOUND** in the narrator — gone.
+- **Voice disconnect** between gatekeeper/negotiator (was 2.5 native-audio) and beat TTS (2.5-preview-tts) — both now in the same Gemini 3.x voice family.
+- **Nano Banana silently returning null** — real image-preview endpoint with the right response shape.
+- **Lesson progression** (already wired last turn) — once the narrator stops 404-ing mid-lesson, `lesson_complete` actually fires and the dashboard advances.
 
-The two are independent — you can do them in either order — but doing the key first means your next lesson test will sound right *and* advance properly.
+## What this does NOT fix / NOT do
 
+- Does not rotate `GEMINI_API_KEY` (you/Jules in Secret Manager).
+- Does not migrate to Vertex AI / Gemini Enterprise Agent Platform.
+- Does not buy Provisioned Throughput / GSUs.
+- Does not change the `global` vs regional endpoint — staying on `generativelanguage.googleapis.com` (AI Studio), which is region-agnostic and works with the preview models on the free/PAYG key.
+- Does not touch the audio engine (the recovery pass you shipped is correct).
+
+## Rate-limit reality check (so you're not surprised)
+
+The AI Studio key has **lower per-minute quotas than Vertex PT**. For a single learner during evaluation testing this is fine. If you start running multiple concurrent sessions you may see `429` from Gemini — at that point we can either (a) add a small backoff to the narrator (already present), (b) tier evaluator calls down, or (c) revisit Vertex PT. We'll cross that bridge when you hit it, not now.
+
+## Acceptance
+
+After your key rotation + this deploy:
+1. `[NARRATOR]` calls return 200 — no more 404.
+2. `[GEMINI]` Live session opens against `gemini-3.1-flash-live-preview`.
+3. Beat TTS and Live tutor sound like the same family.
+4. `generate_diagram` returns a real image data URL.
+5. Finishing a lesson advances "Continue Lesson" on the dashboard.
+
+## Order of operations
+
+1. You/Jules rotate `GEMINI_API_KEY` in GCP Secret Manager and bounce the Cloud Run revision.
+2. You approve this plan → I push the model-string + SDK bump.
+3. Deploy worker (`wrangler deploy`) and agent (`gcloud builds submit --config=cloudbuild.yaml`).
+4. Run one full Chapter 1 → Section 1 lesson and verify the acceptance list.
