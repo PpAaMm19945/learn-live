@@ -97,7 +97,7 @@ Do NOT wrap the response in markdown code blocks. Return ONLY the raw JSON objec
         }
     ];
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${env.GEMINI_API_KEY}`;
 
     const res = await fetch(geminiUrl, {
         method: 'POST',

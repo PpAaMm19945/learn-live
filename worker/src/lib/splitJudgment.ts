@@ -56,7 +56,7 @@ Return JSON with:
     }
   }
 
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${geminiApiKey}`;
   const res = await fetch(geminiUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

@@ -56,7 +56,7 @@ Return your response strictly as a JSON object matching this structure:
 }
 Only include the optional fields (vocabulary, discussionQuestions, essayPrompt, thinkingPrompts) if they are explicitly requested by the band guidelines. Do not include markdown formatting like \`\`\`json around the response.`;
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${env.GEMINI_API_KEY}`;
 
     let attempt = 0;
     const maxAttempts = 2;

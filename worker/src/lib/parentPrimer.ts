@@ -57,7 +57,7 @@ Return JSON with exactly these fields:
 Keep it warm, encouraging, and accessible. Assume the parent has basic literacy but may not have studied this topic formally.`;
 
   try {
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey}`;
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${geminiApiKey}`;
     const res = await fetch(geminiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
